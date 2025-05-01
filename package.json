@@ -30,7 +30,6 @@
         "@types/react-dom": "^19.0.4",
         "babel-plugin-react-compiler": "19.1.0-rc.1",
         "tailwindcss": "^4.1.4",
-        "typescript": "~5.7.2",
-        "vite": "^6.3.1"
+        "typescript": "~5.7.2"
     }
 }
