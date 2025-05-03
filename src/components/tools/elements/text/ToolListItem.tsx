@@ -1,5 +1,5 @@
-import type { TranslateTextType } from "@voxelio/breeze/core";
 import Translate from "@/components/tools/Translate";
+import type { TranslateTextType } from "@voxelio/breeze/core";
 
 export default function ToolListItem({ content }: { content: TranslateTextType | string }) {
     return (

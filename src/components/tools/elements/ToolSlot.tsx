@@ -1,8 +1,8 @@
-import { cn } from "@/lib/utils";
-import type { ToolSlotType } from "@voxelio/breeze/core";
-import { getKey } from "@voxelio/breeze";
-import type { InteractiveComponentProps } from "./InteractiveComponent";
 import Translate from "@/components/tools/Translate";
+import { cn } from "@/lib/utils";
+import { getKey } from "@voxelio/breeze";
+import type { ToolSlotType } from "@voxelio/breeze/core";
+import type { InteractiveComponentProps } from "./InteractiveComponent";
 
 export default function ToolSlot({ component, interactiveProps }: InteractiveComponentProps<boolean, ToolSlotType>) {
     const { value, lock, handleChange } = interactiveProps;

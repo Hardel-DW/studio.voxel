@@ -1,8 +1,8 @@
-import VanillaImportButton from "@/components/tools/VanillaImportButton";
-import DatapackUploader from "@/components/tools/DatapackUploader";
-import { getDictionary, type Locale } from "@/lib/i18n/i18nSercer";
-import Footer from "@/components/layout/footer";
 import Navbar from "@/components/layout/Navbar";
+import Footer from "@/components/layout/footer";
+import DatapackUploader from "@/components/tools/DatapackUploader";
+import VanillaImportButton from "@/components/tools/VanillaImportButton";
+import { type Locale, getDictionary } from "@/lib/i18n/i18nSercer";
 
 export default async function HelpGuide({ params }: { params: Promise<{ lang: Locale }> }) {
     const { lang } = await params;

@@ -1,10 +1,10 @@
 import CompoundLayout from "@/components/layout/CompoundLayout";
-import Walkthrough from "@/components/ui/Walkthrough";
 import Button from "@/components/ui/Button";
 import { DashedPattern } from "@/components/ui/DashedPattern";
 import ShiningStars from "@/components/ui/ShiningStars";
 import Star from "@/components/ui/Star";
-import { getDictionary, type Locale } from "@/lib/i18n/i18nSercer";
+import Walkthrough from "@/components/ui/Walkthrough";
+import { type Locale, getDictionary } from "@/lib/i18n/i18nSercer";
 import MigrationTool from "./MigrationTool";
 
 export default async function MigrationPage({ params }: { params: Promise<{ lang: Locale }> }) {

@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 import type { ToolSwitchSlotType } from "@voxelio/breeze/core";
-import type { InteractiveComponentProps } from "./InteractiveComponent";
 import Translate from "../Translate";
+import type { InteractiveComponentProps } from "./InteractiveComponent";
 
 export default function ToolSwitchSlot({
     component,

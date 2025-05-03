@@ -1,7 +1,7 @@
+import Translate from "@/components/tools/Translate";
 import Tabs from "@/components/ui/Tabs";
 import type { ToolSelectorType } from "@voxelio/breeze/core";
 import type { InteractiveComponentProps } from "./InteractiveComponent";
-import Translate from "@/components/tools/Translate";
 
 export default function ToolSelector({ component, interactiveProps }: InteractiveComponentProps<string, ToolSelectorType>) {
     const { value, lock, handleChange } = interactiveProps;

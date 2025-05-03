@@ -1,7 +1,7 @@
-import ErrorPlaceholder from "./error/Card";
-import React from "react";
+import { useElementCondition, useSchema } from "@/lib/hook/useBreezeElement";
 import type { BaseComponent, FormComponent } from "@voxelio/breeze/core";
-import { useSchema, useElementCondition } from "@/lib/hook/useBreezeElement";
+import React from "react";
+import ErrorPlaceholder from "./error/Card";
 
 interface ElementBase {
     id: string;

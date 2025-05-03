@@ -2,11 +2,11 @@
 
 import { useConfiguratorStore } from "@/components/tools/Store";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/Dropdown";
-import { DatapackError, parseDatapack } from "@voxelio/breeze/core";
 import useAsyncError from "@/lib/hook/useAsyncError";
 import { useDictionary } from "@/lib/hook/useNext18n";
-import { useParams, useRouter } from "next/navigation";
 import type { Locale } from "@/lib/i18n/i18nSercer";
+import { DatapackError, parseDatapack } from "@voxelio/breeze/core";
+import { useParams, useRouter } from "next/navigation";
 
 export default function VanillaImportButton() {
     const dictionary = useDictionary();

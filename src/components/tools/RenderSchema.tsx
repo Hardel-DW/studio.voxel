@@ -1,8 +1,8 @@
 "use client";
 
 import type { FormComponent } from "@voxelio/breeze/core";
-import LoadingSkeleton from "./elements/LoadingComponent";
 import { RenderComponent } from "./RenderComponent";
+import LoadingSkeleton from "./elements/LoadingComponent";
 
 export const RenderSchemaChildren = ({ component }: { component: FormComponent[] | undefined }) => {
     if (!component) return <LoadingSkeleton />;

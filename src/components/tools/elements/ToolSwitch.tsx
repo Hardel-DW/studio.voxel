@@ -1,6 +1,6 @@
+import Translate from "@/components/tools/Translate";
 import type { ToolSwitchType } from "@voxelio/breeze/core";
 import type { InteractiveComponentProps } from "./InteractiveComponent";
-import Translate from "@/components/tools/Translate";
 
 export default function ToolSwitch({
     component,

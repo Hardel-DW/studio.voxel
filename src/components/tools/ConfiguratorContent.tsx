@@ -2,10 +2,10 @@
 
 import { getCurrentElement, useConfiguratorStore } from "@/components/tools/Store";
 import { MenuTabsContent } from "@/components/ui/MenuTabs";
-import { RenderSchemaChildren } from "./RenderSchema";
-import type { ToolTab } from "@voxelio/breeze/core";
-import Translate from "./Translate";
 import { useSchema } from "@/lib/hook/useBreezeElement";
+import type { ToolTab } from "@voxelio/breeze/core";
+import { RenderSchemaChildren } from "./RenderSchema";
+import Translate from "./Translate";
 
 export default function ConfiguratorContent(props: { tab: ToolTab }) {
     const currentNamespace = useConfiguratorStore((state) => getCurrentElement(state)?.identifier.namespace);

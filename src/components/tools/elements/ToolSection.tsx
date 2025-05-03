@@ -1,7 +1,7 @@
 import { RenderComponent } from "@/components/tools/RenderComponent";
+import Translate from "@/components/tools/Translate";
 import Button from "@/components/ui/Button";
 import type { ToolSectionType } from "@voxelio/breeze/core";
-import Translate from "@/components/tools/Translate";
 
 export default function ToolSection({
     component

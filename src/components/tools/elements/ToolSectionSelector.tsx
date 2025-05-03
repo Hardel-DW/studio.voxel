@@ -1,8 +1,8 @@
+import Translate from "@/components/tools/Translate";
 import { cn } from "@/lib/utils";
-import type { ToolSectionSelectorType, ToolSectionSelectorSection } from "@voxelio/breeze/core";
+import type { ToolSectionSelectorSection, ToolSectionSelectorType } from "@voxelio/breeze/core";
 import { RenderSchemaChildren } from "../RenderSchema";
 import type { WrappedComponentProps } from "./DynamicSchemaComponent";
-import Translate from "@/components/tools/Translate";
 export default function ToolSectionSelectorComponent({
     component,
     dynamicProps

@@ -1,14 +1,14 @@
-import type React from "react";
+import Button from "@/components/ui/Button";
+import type { DictionaryType, Locale } from "@/lib/i18n/i18nSercer";
 import Link from "next/link";
-import Internalization from "./navbar/internalization";
+import type React from "react";
 import HeroCard from "./navbar/HeroCard";
 import ListItem from "./navbar/ListItem";
+import NavbarScrollFade from "./navbar/NavbarScrollFade";
 import Navigation from "./navbar/Navigation";
 import NavigationDropdown from "./navbar/NavigationDropdown";
 import NavigationList from "./navbar/NavigationList";
-import Button from "@/components/ui/Button";
-import type { DictionaryType, Locale } from "@/lib/i18n/i18nSercer";
-import NavbarScrollFade from "./navbar/NavbarScrollFade";
+import Internalization from "./navbar/internalization";
 
 interface Props {
     dictionary: DictionaryType;

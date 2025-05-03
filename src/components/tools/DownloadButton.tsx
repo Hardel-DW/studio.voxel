@@ -3,7 +3,8 @@
 import { useConfiguratorStore } from "@/components/tools/Store";
 import Button from "@/components/ui/Button";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/Dialog";
-import { downloadArchive } from "@/lib/utils/download";
+import { saveLogs } from "@/lib/telemetry";
+import { downloadArchive } from "@/lib/utils";
 import { Datapack, voxelDatapacks } from "@voxelio/breeze/core";
 import SettingsDialog from "./SettingsDialog";
 import Translate from "./Translate";
@@ -15,6 +16,7 @@ export default function DownloadButton() {
 
         const content = store.compile();
         const compiledContent = await new Datapack(files).generate(content, { isMinified: minify, logger, include: voxelDatapacks });
+        await saveLogs({ logs: logger?.getLogs() });
         downloadArchive(compiledContent, name, isModded);
     };
 

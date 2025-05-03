@@ -1,7 +1,7 @@
+import Translate from "@/components/tools/Translate";
 import Counter from "@/components/ui/Counter";
 import type { ToolCounterType } from "@voxelio/breeze/core";
 import type { InteractiveComponentProps } from "./InteractiveComponent";
-import Translate from "@/components/tools/Translate";
 
 export default function ToolCounter({ component, interactiveProps }: InteractiveComponentProps<number, ToolCounterType>) {
     const { value, lock, handleChange } = interactiveProps;

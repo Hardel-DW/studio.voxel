@@ -1,8 +1,8 @@
 import { useConfiguratorStore } from "@/components/tools/Store";
+import Translate from "@/components/tools/Translate";
 import { useElementCondition } from "@/lib/hook/useBreezeElement";
 import type { Condition } from "@voxelio/breeze";
 import { Identifier } from "@voxelio/breeze/core";
-import Translate from "@/components/tools/Translate";
 
 interface ToolPropertyElementProps {
     name: string;

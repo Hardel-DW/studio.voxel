@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, startTransition } from "react";
+import { startTransition, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
 interface WalkthroughStep {

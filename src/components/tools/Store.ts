@@ -55,7 +55,7 @@ const createConfiguratorStore = <T extends keyof Analysers>() =>
         registry: new Map(),
         lastSchemaUpdate: null,
         setRoadmap: async (version) => {
-            const response = await fetch(`/api/tools/schema?key=schema.${version.toString()}@roadmap`);
+            const response = await fetch(`/api/schema?key=schema.${version.toString()}@roadmap`);
             const roadmap = await response.json();
             if (!roadmap) return;
 
@@ -67,7 +67,7 @@ const createConfiguratorStore = <T extends keyof Analysers>() =>
                 ?.schema.find((schema) => schema.id === id)?.content;
 
             if (typeof schemaKeyId !== "string") return;
-            const response = await fetch(`/api/tools/schema?key=${schemaKeyId}`);
+            const response = await fetch(`/api/schema?key=${schemaKeyId}`);
             const schema = await response.json();
             if (!schema) return;
             set((state) => ({ schema: new Map(state.schema).set(id, schema) }));
@@ -104,7 +104,7 @@ const createConfiguratorStore = <T extends keyof Analysers>() =>
         setSelectedConcept: (concept) => set({ selectedConcept: concept }),
         addRegistry: async (registry) => {
             if (get().registry?.has(registry)) return;
-            const registryData = await (await fetch(`/api/engine/registry/get?registry=${registry}`)).json();
+            const registryData = await (await fetch(`/api/registry?registry=${registry}`)).json();
             if (!registryData) return;
             set((state) => ({ registry: new Map(state.registry).set(registry, registryData) }));
         },

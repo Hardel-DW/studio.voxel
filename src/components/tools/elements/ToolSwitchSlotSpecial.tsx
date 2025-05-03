@@ -1,10 +1,10 @@
 import { useConfiguratorStore } from "@/components/tools/Store";
+import Translate from "@/components/tools/Translate";
+import type { InteractiveComponentProps } from "@/components/tools/elements/InteractiveComponent";
+import { cn } from "@/lib/utils";
+import { type TagType, getTagsFromRegistry } from "@voxelio/breeze";
 import type { ToolSwitchSlotSpecialType } from "@voxelio/breeze/core";
 import { Identifier, getLabeledIdentifier, isTag } from "@voxelio/breeze/core";
-import { cn } from "@/lib/utils";
-import type { InteractiveComponentProps } from "@/components/tools/elements/InteractiveComponent";
-import Translate from "@/components/tools/Translate";
-import { getTagsFromRegistry, type TagType } from "@voxelio/breeze";
 
 type TagRegistry = Record<string, TagType>;
 

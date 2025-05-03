@@ -17,10 +17,10 @@ import TextRender from "@/components/tools/elements/text/TextRender";
 import type { FormComponent } from "@voxelio/breeze/core";
 import ErrorBoundary from "../ui/ErrorBoundary";
 import { BaseComponent } from "./elements/BaseComponent";
-import ErrorPlaceholder from "./elements/error/Card";
-import ToolSectionSelector from "./elements/ToolSectionSelector";
 import { DynamicSchemaComponent } from "./elements/DynamicSchemaComponent";
+import ToolSectionSelector from "./elements/ToolSectionSelector";
 import ToolSwitchSlotSpecial from "./elements/ToolSwitchSlotSpecial";
+import ErrorPlaceholder from "./elements/error/Card";
 
 type ComponentMap = {
     [K in FormComponent["type"]]: React.ComponentType<{

@@ -1,6 +1,6 @@
+import Translate from "@/components/tools/Translate";
 import ToolUnorderedList from "@/components/tools/elements/text/ToolUnorderedList";
 import type { TextContent, TextRenderType } from "@voxelio/breeze/core";
-import Translate from "@/components/tools/Translate";
 
 export default function TextRender({ component }: { component: TextRenderType }) {
     const renderContent = (element: TextContent) => {

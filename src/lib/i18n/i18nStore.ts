@@ -127,7 +127,7 @@ async function _executeFetch() {
     console.log(`Debounced fetch: Requesting ${keysToFetchNow.length} keys:`, keysToFetchNow);
 
     try {
-        const response = await fetch("/api/tools/i18n", {
+        const response = await fetch("/api/i18n", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ keys: keysToFetchNow })

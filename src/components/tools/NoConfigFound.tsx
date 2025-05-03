@@ -1,9 +1,9 @@
 "use client";
 
 import { useConfiguratorStore } from "@/components/tools/Store";
-import Button from "../ui/Button";
-import { useParams } from "next/navigation";
 import type { Locale } from "@/lib/i18n/i18nSercer";
+import { useParams } from "next/navigation";
+import Button from "../ui/Button";
 
 export default function NoConfigFound() {
     const params = useParams<{ lang: Locale }>();

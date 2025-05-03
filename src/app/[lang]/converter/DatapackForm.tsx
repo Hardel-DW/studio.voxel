@@ -2,6 +2,7 @@
 
 import Button from "@/components/ui/Button";
 import { useDictionary } from "@/lib/hook/useNext18n";
+import { trackEvent } from "@/lib/telemetry";
 import { cn } from "@/lib/utils";
 import type { ModMetadata } from "@voxelio/breeze/converter";
 import { ModPlatforms, convertDatapack } from "@voxelio/breeze/converter";
@@ -63,6 +64,8 @@ const DatapackForm: React.FC<Props> = ({ file, initialMetadata, iconUrl }) => {
             a.click();
             window.URL.revokeObjectURL(url);
             document.body.removeChild(a);
+
+            await trackEvent("converted_datapack");
         } catch (error) {
             console.error("Conversion error:", error);
             setError(error instanceof Error ? error.message : dictionary.converter.error);

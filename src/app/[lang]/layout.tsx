@@ -1,8 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import { Rubik } from "next/font/google";
 import "../../globals.css";
-import { getDictionary, type Locale } from "@/lib/i18n/i18nSercer";
 import { DictionaryProvider } from "@/components/layout/DictionaryProvider";
+import { type Locale, getDictionary } from "@/lib/i18n/i18nSercer";
 
 const rubik = Rubik({
     variable: "--font-rubik"

@@ -2,7 +2,11 @@
 
 import Button from "@/components/ui/Button";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/Dialog";
-import { downloadArchive } from "@/lib/utils/download";
+import Dropzone from "@/components/ui/Dropzone";
+import { useConfetti } from "@/lib/hook/useConfetti";
+import { useDictionary } from "@/lib/hook/useNext18n";
+import { trackEvent } from "@/lib/telemetry";
+import { downloadArchive } from "@/lib/utils";
 import { compileDatapack } from "@voxelio/breeze/core";
 import { parseDatapack } from "@voxelio/breeze/core";
 import { applyActions } from "@voxelio/breeze/core";
@@ -13,11 +17,8 @@ import { voxelDatapacks } from "@voxelio/breeze/core";
 import { Datapack } from "@voxelio/breeze/core";
 import type React from "react";
 import { useEffect, useState } from "react";
-import { toast, Toaster } from "sonner";
+import { Toaster, toast } from "sonner";
 import { StatusBox } from "./StatusBox";
-import { useConfetti } from "@/lib/hook/useConfetti";
-import { useDictionary } from "@/lib/hook/useNext18n";
-import Dropzone from "@/components/ui/Dropzone";
 
 interface DatapackInfo {
     version: number;
@@ -80,6 +81,7 @@ export default function MigrationTool({ children }: { children?: React.ReactNode
 
             downloadArchive(modifiedDatapack, `Migrated-${target.name}`, target.isModded);
             toast.success(dictionary.migration.success_message);
+            await trackEvent("migrated_datapack");
             setIsDialogOpen(true);
             addConfetti();
 

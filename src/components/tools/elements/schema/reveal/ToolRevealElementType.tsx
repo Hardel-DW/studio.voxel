@@ -1,8 +1,8 @@
+import Translate from "@/components/tools/Translate";
 import Button from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
 import type { ToolRevealElementType as RevealElementType } from "@voxelio/breeze/core";
 import { memo } from "react";
-import Translate from "@/components/tools/Translate";
 
 interface ToolRevealElementProps {
     element: RevealElementType;

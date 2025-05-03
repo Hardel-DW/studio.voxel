@@ -1,12 +1,12 @@
-import Image from "next/image";
-import { getDictionary, type Locale } from "@/lib/i18n/i18nSercer";
-import ShiningStars from "@/components/ui/ShiningStars";
-import Star from "@/components/ui/Star";
+import CompoundLayout from "@/components/layout/CompoundLayout";
 import Button from "@/components/ui/Button";
 import { DashedPattern } from "@/components/ui/DashedPattern";
+import ShiningStars from "@/components/ui/ShiningStars";
+import Star from "@/components/ui/Star";
 import Walkthrough from "@/components/ui/Walkthrough";
+import { type Locale, getDictionary } from "@/lib/i18n/i18nSercer";
+import Image from "next/image";
 import DatapackDropzone from "./DatapackDropzone";
-import CompoundLayout from "@/components/layout/CompoundLayout";
 
 export default async function ConverterPage({ params }: { params: Promise<{ lang: Locale }> }) {
     const { lang } = await params;

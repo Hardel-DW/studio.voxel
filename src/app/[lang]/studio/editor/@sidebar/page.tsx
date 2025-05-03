@@ -1,12 +1,12 @@
 "use client";
 
 import DownloadButton from "@/components/tools/DownloadButton";
+import { useConfiguratorStore } from "@/components/tools/Store";
+import SettingsButton from "@/components/tools/sidebar/SettingsButton";
 import ConceptTab from "@/components/tools/sidebar/tab/ConceptTab";
 import DetailTab from "@/components/tools/sidebar/tab/DetailTab";
 import Tabs from "@/components/ui/Tabs";
-import SettingsButton from "@/components/tools/sidebar/SettingsButton";
-import { useState, useRef } from "react";
-import { useConfiguratorStore } from "@/components/tools/Store";
+import { useRef, useState } from "react";
 
 const tabs = [
     { label: "Concepts", value: "concepts" },

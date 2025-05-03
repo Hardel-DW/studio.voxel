@@ -1,6 +1,6 @@
+import { RenderSchemaChildren } from "@/components/tools/RenderSchema";
 import ToolRevealElement from "@/components/tools/elements/schema/reveal/ToolRevealElementType";
 import type { ToolRevealElementType, ToolRevealType } from "@voxelio/breeze/core";
-import { RenderSchemaChildren } from "@/components/tools/RenderSchema";
 import type { WrappedComponentProps } from "../../DynamicSchemaComponent";
 
 export default function ToolSectionSelectorComponent({

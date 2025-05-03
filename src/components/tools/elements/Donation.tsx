@@ -1,6 +1,6 @@
+import Translate from "@/components/tools/Translate";
 import Button from "@/components/ui/Button";
 import type { ToolDonationType } from "@voxelio/breeze/core";
-import Translate from "@/components/tools/Translate";
 
 export default function Donation({ component }: { component: ToolDonationType }) {
     return (

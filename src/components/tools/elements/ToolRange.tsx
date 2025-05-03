@@ -1,7 +1,7 @@
+import Translate from "@/components/tools/Translate";
 import type { ToolRangeType } from "@voxelio/breeze/core";
 import { getKey } from "@voxelio/breeze/core";
 import type { InteractiveComponentProps } from "./InteractiveComponent";
-import Translate from "@/components/tools/Translate";
 export default function ToolRange({ component, interactiveProps }: InteractiveComponentProps<number, ToolRangeType>) {
     const { value, lock, handleChange } = interactiveProps;
     return (

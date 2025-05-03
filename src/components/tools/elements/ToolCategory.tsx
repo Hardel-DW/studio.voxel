@@ -1,6 +1,6 @@
 import { RenderComponent } from "@/components/tools/RenderComponent";
-import type { ToolCategoryType } from "@voxelio/breeze/core";
 import Translate from "@/components/tools/Translate";
+import type { ToolCategoryType } from "@voxelio/breeze/core";
 
 export default function ToolCategory({ component }: { component: ToolCategoryType }) {
     return (

@@ -1,7 +1,7 @@
+import Translate from "@/components/tools/Translate";
 import type { InteractiveProps } from "@/components/tools/elements/InteractiveComponent";
 import { ToolPropertyElement } from "@/components/tools/elements/schema/property/ToolPropertyElement";
 import type { ToolPropertyType } from "@voxelio/breeze/core";
-import Translate from "@/components/tools/Translate";
 
 export default function ToolProperty({
     component,

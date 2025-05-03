@@ -1,9 +1,9 @@
 "use client";
 
+import { useConfiguratorStore } from "@/components/tools/Store";
 import SidebarCrafting from "@/components/tools/sidebar/crafting/SidebarCrafting";
 import SidebarEnchant from "@/components/tools/sidebar/enchant/SidebarEnchant";
 import SidebarLoot from "@/components/tools/sidebar/loot/SidebarLoot";
-import { useConfiguratorStore } from "@/components/tools/Store";
 import { withConcept } from "@/components/tools/sidebar/tab/HocConcept";
 
 export default function DetailTab() {
