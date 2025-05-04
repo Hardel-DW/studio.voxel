@@ -25,11 +25,15 @@ export default function Navbar({ dictionary, lang }: Props) {
     ];
 
     return (
-        <header id="header" aria-expanded="false" className="w-11/12 md:w-3/4 mx-auto fixed left-0 right-0 z-50 group">
+        <header id="header" aria-expanded="false" className="mt-8 fixed left-0 right-0 z-50 group">
             <NavbarScrollFade>
                 <div className="flex items-center gap-4 pl-2">
                     <Link href={`/${lang}`} className="flex items-center gap-x-4">
                         <img src="/icons/logo.svg" alt="Voxel Logo" className="w-6 h-6 brightness-90 mx-2" />
+                        <div className="flex">
+                            <span className="text-lg text-white font-bold">VOXEL</span>
+                            <span className="text-s text-zinc-300 font-semibold">Labs</span>
+                        </div>
                     </Link>
 
                     <div className="hidden md:block">

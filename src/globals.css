@@ -10,6 +10,7 @@
 
 @theme {
     --breakpoint-s: 420px;
+    --text-s: 12px;
     --grid-template-columns-items: repeat(auto-fill, minmax(120px, 1fr));
     --grid-template-columns-marketplace: repeat(auto-fill, minmax(250px, 1fr));
     --grid-template-columns-marketplace-pack: repeat(auto-fill, minmax(600px, 1fr));

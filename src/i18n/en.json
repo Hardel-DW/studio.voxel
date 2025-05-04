@@ -2,6 +2,7 @@
     "generic": {
         "section": "- VOXEL",
         "start": "Start",
+        "start_now": "Start now",
         "learn_more": "Learn more",
         "download": "Download",
         "take_a_look": "Take a look",
@@ -9,6 +10,24 @@
         "dialog": {
             "success": "Success",
             "error": "Error"
+        }
+    },
+    "home": {
+        "migration": {
+            "title": "Datapack Migration",
+            "description": "Migrate your content modified by the configurator to a different version of the same content."
+        },
+        "configurator": {
+            "title": "Voxel Studio",
+            "description": "A tool to modify DATAPACKS content with the simplest and most intuitive interface that requires no development knowledge."
+        },
+        "converter": {
+            "title": "Datapack/Mods Converter",
+            "description": "Convert your datapacks to Forge, Fabric, Quilt, and NeoForge mods easily with our online tool."
+        },
+        "copilot": {
+            "title": "Soon",
+            "description": "This feature will soon be available, it will allow you to get an automatic wiki for the content of a mods or a datapack without having to install it."
         }
     },
     "navbar": {

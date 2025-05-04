@@ -2,6 +2,7 @@
     "generic": {
         "section": "- VOXEL",
         "start": "Commencer",
+        "start_now": "Commencer maintenant",
         "learn_more": "En savoir plus",
         "download": "Télécharger",
         "take_a_look": "Jeter un coup d'oeil",
@@ -9,6 +10,24 @@
         "dialog": {
             "success": "Succès",
             "error": "Erreur"
+        }
+    },
+    "home": {
+        "migration": {
+            "title": "Migration de Datapack",
+            "description": "Migre ton contenu modifié par le configurateur vers une versions différente du même contenu."
+        },
+        "configurator": {
+            "title": "Voxel Studio",
+            "description": "Un outil pour modifier le contenu des DATAPACKS avec l'interface la plus simple et intuitive qui nécessite aucune connaissance en développement."
+        },
+        "converter": {
+            "title": "Convertisseur Datapack/Mods",
+            "description": "Convertissez vos datapacks en mods Forge, Fabric, Quilt et NeoForge facilement avec notre outil en ligne."
+        },
+        "copilot": {
+            "title": "Soon",
+            "description": "Cette fonctionnalité arrivera bientôt, elle permettra d'obtenir un wikis automatique pour le contenu d'un mods ou d'un datapack sans avoir besoin de l'installer."
         }
     },
     "navbar": {

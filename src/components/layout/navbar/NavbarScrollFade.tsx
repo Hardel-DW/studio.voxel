@@ -26,8 +26,8 @@ export default function NavbarScrollFade({
         <nav
             id="navbar"
             className={cn(
-                "flex transition-colors duration-150 ease-linear justify-between items-center max-w-full h-14 rounded-3xl px-2",
-                isScrolled && "bg-header-translucent border-t border-l border-zinc-800 backdrop-blur-md"
+                "mx-auto w-10/12 md:w-3/4 flex transition-colors duration-150 border-zinc-800 border-t-0 border-l-0 ease-linear justify-between items-center max-w-full h-14 rounded-3xl px-2",
+                isScrolled && "bg-header-translucent border-t border-l backdrop-blur-md"
             )}>
             {children}
         </nav>
