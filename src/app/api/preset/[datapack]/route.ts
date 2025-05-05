@@ -1,8 +1,8 @@
 import { type NextRequest, NextResponse } from "next/server";
 
-export async function GET(_: NextRequest, { params }: { params: { datapack: string } }) {
+export async function GET(_: NextRequest, context: { params: { datapack: string } }) {
     try {
-        const version = params.datapack;
+        const version = context.params.datapack;
         if (!version || !/^\d+$/.test(version)) {
             return NextResponse.json({ error: "Version invalide" }, { status: 400 });
         }
