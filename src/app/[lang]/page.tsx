@@ -55,17 +55,18 @@ export default async function Home({ params }: { params: Promise<{ lang: Locale 
                         </p>
 
                         <div className="mt-12 flex flex-wrap gap-x-6">
-                            <button
+                            <a
                                 type="button"
+                                href={`/${lang}/studio`}
                                 className="bg-white text-lg cursor-pointer text-zinc-800 font-semibold py-3 px-8 rounded-lg hover:bg-zinc-300 hover:text-zinc-800 transition-all">
                                 {dictionary.home.button.start}
-                            </button>
+                            </a>
 
-                            <button
-                                type="button"
+                            <a
+                                href={`https://voxel.hardel.io/${lang}/blog/enchant-configurator`}
                                 className="border border-zinc-200 text-lg cursor-pointer text-white font-semibold py-3 px-6 rounded-lg hover:bg-zinc-200 hover:text-zinc-800 transition-all">
                                 {dictionary.home.button.learn_more}
-                            </button>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -74,7 +75,7 @@ export default async function Home({ params }: { params: Promise<{ lang: Locale 
                     <ImageCard
                         className="translate-y-12 translate-x-1/3 rotate-12"
                         image="/images/background/tools/configurator.webp"
-                        href={`/${lang}/tools/studio`}
+                        href={`/${lang}/studio`}
                         title={dictionary.home.configurator.title}
                         button={dictionary.generic.start_now}
                     />
@@ -100,7 +101,7 @@ export default async function Home({ params }: { params: Promise<{ lang: Locale 
                     <h2 className="text-white text-xl md:text-2xl font-bold line-clamp-1 pt-8">{dictionary.home.configurator.title}</h2>
                     <p className="text-zinc-400 text-sm md:text-base mt-2 line-clamp-3">{dictionary.home.configurator.description}</p>
                     <div className="flex flex-wrap gap-2 mt-6">
-                        <Button className="w-full xl:w-fit" href={`/${lang}/tools/studio`} size="sm" variant="white-shimmer">
+                        <Button className="w-full xl:w-fit" href={`/${lang}/studio`} size="sm" variant="white-shimmer">
                             {dictionary.generic.start_now}
                         </Button>
                         <Button className="w-full xl:w-fit" href={`/${lang}/blog/enchant-configurator`} size="sm" variant="transparent">
@@ -114,10 +115,10 @@ export default async function Home({ params }: { params: Promise<{ lang: Locale 
                     </h2>
                     <p className="text-zinc-400 text-sm md:text-base mt-2 line-clamp-3">{dictionary.home.converter.description}</p>
                     <div className="flex flex-wrap gap-2 mt-6">
-                        <Button className="w-full xl:w-fit" href="/resources/asset" size="sm" variant="white-shimmer">
+                        <Button className="w-full xl:w-fit" href={`/${lang}/converter`} size="sm" variant="white-shimmer">
                             {dictionary.generic.start_now}
                         </Button>
-                        <Button className="w-full xl:w-fit" href="/resources/asset" size="sm" variant="transparent">
+                        <Button className="w-full xl:w-fit" href={`/${lang}/converter`} size="sm" variant="transparent">
                             {dictionary.generic.learn_more}
                         </Button>
                     </div>
@@ -128,10 +129,10 @@ export default async function Home({ params }: { params: Promise<{ lang: Locale 
                     </h2>
                     <p className="text-zinc-400 text-sm md:text-base mt-2 line-clamp-3">{dictionary.home.migration.description}</p>
                     <div className="flex flex-wrap gap-2 mt-6">
-                        <Button className="w-full xl:w-fit" href="/resources/asset" size="sm" variant="white-shimmer">
+                        <Button className="w-full xl:w-fit" href={`/${lang}/migration`} size="sm" variant="white-shimmer">
                             {dictionary.generic.start_now}
                         </Button>
-                        <Button className="w-full xl:w-fit" href="/resources/asset" size="sm" variant="transparent">
+                        <Button className="w-full xl:w-fit" href={`/${lang}/migration`} size="sm" variant="transparent">
                             {dictionary.generic.learn_more}
                         </Button>
                     </div>
@@ -142,10 +143,10 @@ export default async function Home({ params }: { params: Promise<{ lang: Locale 
                     </h2>
                     <p className="text-zinc-400 text-sm md:text-base mt-2 line-clamp-3">{dictionary.home.copilot.description}</p>
                     <div className="flex flex-wrap gap-2 mt-6">
-                        <Button className="w-full xl:w-fit" href={`/${lang}/datapacks/neoenchant`} size="sm" variant="white-shimmer">
+                        <Button className="w-full xl:w-fit" href="#" size="sm" variant="white-shimmer">
                             {dictionary.generic.start_now}
                         </Button>
-                        <Button className="w-full xl:w-fit" href={`/${lang}/datapacks/neoenchant`} size="sm" variant="transparent">
+                        <Button className="w-full xl:w-fit" href="#" size="sm" variant="transparent">
                             {dictionary.generic.learn_more}
                         </Button>
                     </div>
