@@ -28,7 +28,7 @@ export default function Footer({
                 },
                 {
                     title: dictionary.footer.content.navigation.enchantment_tool,
-                    path: `${basePath}/${lang}/tools/studio`
+                    path: `/${lang}/studio`
                 },
                 {
                     title: dictionary.footer.content.navigation.contact,
@@ -100,7 +100,10 @@ export default function Footer({
                 <div className="sm:col-span-2 md:col-span-3 lg:col-span-2">
                     <a href={`/${lang}`} className="text-lg flex items-center">
                         <img loading="lazy" src="/icons/logo.svg" alt="Voxel Logo" className="w-6 h-6 brightness-90 mr-2" />
-                        <span className="font-bold text-primary">Voxel</span>
+                        <div className="flex">
+                            <span className="text-lg text-white font-bold">VOXEL</span>
+                            <span className="text-s text-zinc-300 font-semibold">Labs</span>
+                        </div>
                     </a>
                     <p className="mt-4 text-sm text-zinc-400 tracking-tight font-light max-w-xs">{dictionary.footer.description}</p>
                     <div className="flex gap-3 mt-4 items-center">

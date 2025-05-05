@@ -16,12 +16,14 @@ interface Props {
     className?: string;
 }
 
+const baseVoxelPath = "https://voxel.hardel.io";
+
 export default function Navbar({ dictionary, lang }: Props) {
     const links = [
-        { name: dictionary.navbar.item.blog, href: `/${lang}/blog` },
-        { name: dictionary.navbar.item.data_pack, href: `/${lang}/datapacks/neoenchant` },
-        { name: dictionary.navbar.item.resources, href: `/${lang}/soon` },
-        { name: dictionary.navbar.item.contact, href: `/${lang}/contact` }
+        { name: dictionary.navbar.item.blog, href: `${baseVoxelPath}/${lang}/blog` },
+        { name: dictionary.navbar.item.data_pack, href: `${baseVoxelPath}/${lang}/datapacks/neoenchant` },
+        { name: dictionary.navbar.item.resources, href: `${baseVoxelPath}/${lang}/soon` },
+        { name: dictionary.navbar.item.contact, href: `${baseVoxelPath}/${lang}/contact` }
     ];
 
     return (
@@ -41,7 +43,7 @@ export default function Navbar({ dictionary, lang }: Props) {
                             <NavigationList>
                                 <li>
                                     <Link
-                                        href={`/${lang}/blog`}
+                                        href={`${baseVoxelPath}/${lang}/blog`}
                                         className="px-4 py-2 rounded-3xl cursor-pointer text-[16px] tracking-wide transition text-zinc-400 hover:text-white inline-flex h-10 w-max items-center justify-center bg-transparent hover:bg-zinc-900 focus:bg-zinc-700 focus:text-white focus:outline-none disabled:pointer-events-none disabled:opacity-50">
                                         {dictionary.navbar.item.blog}
                                     </Link>
@@ -59,13 +61,13 @@ export default function Navbar({ dictionary, lang }: Props) {
                                         />
                                         <ul className="grid gap-3 mt-3">
                                             <ListItem
-                                                href={`/${lang}/datapacks/neoenchant`}
+                                                href={`${baseVoxelPath}/${lang}/datapacks/neoenchant`}
                                                 title={dictionary.navbar.datapack.neoenchant.title}
                                                 image="/images/features/title/ne.png">
                                                 {dictionary.navbar.datapack.neoenchant.description}
                                             </ListItem>
                                             <ListItem
-                                                href={`/${lang}/datapacks/yggdrasil`}
+                                                href={`${baseVoxelPath}/${lang}/datapacks/yggdrasil`}
                                                 title={dictionary.navbar.datapack.yggdrasil.title}
                                                 image="/images/features/title/yg.webp">
                                                 {dictionary.navbar.datapack.yggdrasil.description}
@@ -77,24 +79,26 @@ export default function Navbar({ dictionary, lang }: Props) {
                                 <NavigationDropdown label={dictionary.navbar.item.resources}>
                                     <div className="p-6 md:w-[400px] lg:w-[500px]">
                                         <HeroCard
-                                            href={`/${lang}/tools/studio`}
+                                            href={`/${lang}/studio`}
                                             title={dictionary.navbar.resources.tool.enchant.title}
                                             description={dictionary.navbar.resources.tool.enchant.description}
                                             image="/images/background/tools/enchant-configurator.webp"
                                         />
                                         <ul className="grid gap-3 mt-3 lg:grid-cols-[.75fr_1fr]">
                                             <ListItem
-                                                href={`/${lang}/tools/harmonization`}
+                                                href={`/${lang}/harmonization`}
                                                 title={dictionary.navbar.resources.harmonization.title}>
                                                 {dictionary.navbar.resources.harmonization.description}
                                             </ListItem>
-                                            <ListItem href={`/${lang}/resources/asset`} title={dictionary.navbar.resources.asset.title}>
+                                            <ListItem
+                                                href={`${baseVoxelPath}/${lang}/resources/asset`}
+                                                title={dictionary.navbar.resources.asset.title}>
                                                 {dictionary.navbar.resources.asset.description}
                                             </ListItem>
-                                            <ListItem href={`/${lang}/tools/converter`} title={dictionary.navbar.resources.converter.title}>
+                                            <ListItem href={`/${lang}/converter`} title={dictionary.navbar.resources.converter.title}>
                                                 {dictionary.navbar.resources.converter.description}
                                             </ListItem>
-                                            <ListItem href={`/${lang}/tools/migration`} title={dictionary.navbar.resources.migration.title}>
+                                            <ListItem href={`/${lang}/migration`} title={dictionary.navbar.resources.migration.title}>
                                                 {dictionary.navbar.resources.migration.description}
                                             </ListItem>
                                         </ul>
@@ -103,7 +107,7 @@ export default function Navbar({ dictionary, lang }: Props) {
 
                                 <li>
                                     <Link
-                                        href={`/${lang}/contact`}
+                                        href={`${baseVoxelPath}/${lang}/contact`}
                                         className="px-4 py-2 rounded-3xl cursor-pointer text-[16px] tracking-wide transition text-zinc-400 hover:text-white inline-flex h-10 w-max items-center justify-center bg-transparent hover:bg-zinc-900 focus:bg-zinc-700 focus:text-white focus:outline-none disabled:pointer-events-none disabled:opacity-50">
                                         {dictionary.navbar.item.contact}
                                     </Link>
