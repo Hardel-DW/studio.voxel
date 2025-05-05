@@ -3,12 +3,10 @@ import HarmonizeClientLogic from "./HarmonizeEditor";
 import CompoundLayout from "@/components/layout/CompoundLayout";
 import { getDictionary, type Locale } from "@/lib/i18n/i18nServer";
 
-interface HarmonizePageProps {
-    params: { lang: Locale };
-}
-
-export default async function HarmonizePage({ params: { lang } }: HarmonizePageProps) {
+export default async function HarmonizationPage({ params }: { params: Promise<{ lang: Locale }> }) {
+    const { lang } = await params;
     const dictionary = await getDictionary(lang);
+
     return (
         <CompoundLayout dictionary={dictionary} lang={lang}>
             <section className="mt-32 relative w-3/4 mx-auto">
