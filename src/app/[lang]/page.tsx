@@ -1,5 +1,5 @@
-import Footer from "@/components/layout/footer";
 import Navbar from "@/components/layout/Navbar";
+import Footer from "@/components/layout/footer";
 import Box from "@/components/ui/Box";
 import Button from "@/components/ui/Button";
 import LineSetup from "@/components/ui/line/LineSetup";
