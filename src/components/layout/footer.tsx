@@ -1,4 +1,4 @@
-import type { KeyDictionary, Locale } from "@/lib/i18n/i18nSercer";
+import type { KeyDictionary, Locale } from "@/lib/i18n/i18nServer";
 import type React from "react";
 
 export default function Footer({

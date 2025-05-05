@@ -1,7 +1,7 @@
 "use client";
 
 import { DictionaryContext } from "@/lib/hook/useNext18n";
-import type { DictionaryType } from "@/lib/i18n/i18nSercer";
+import type { DictionaryType } from "@/lib/i18n/i18nServer";
 import type React from "react";
 import type { ReactNode } from "react";
 

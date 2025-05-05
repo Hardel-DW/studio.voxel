@@ -4,7 +4,7 @@ import { DashedPattern } from "@/components/ui/DashedPattern";
 import ShiningStars from "@/components/ui/ShiningStars";
 import Star from "@/components/ui/Star";
 import Walkthrough from "@/components/ui/Walkthrough";
-import { type Locale, getDictionary } from "@/lib/i18n/i18nSercer";
+import { type Locale, getDictionary } from "@/lib/i18n/i18nServer";
 import Image from "next/image";
 import DatapackDropzone from "./DatapackDropzone";
 

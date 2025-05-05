@@ -1,7 +1,7 @@
 "use client";
 
 import { useConfiguratorStore } from "@/components/tools/Store";
-import type { Locale } from "@/lib/i18n/i18nSercer";
+import type { Locale } from "@/lib/i18n/i18nServer";
 import { useParams } from "next/navigation";
 import Button from "../ui/Button";
 

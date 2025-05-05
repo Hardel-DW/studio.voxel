@@ -4,7 +4,7 @@ import { useConfiguratorStore } from "@/components/tools/Store";
 import Dropzone from "@/components/ui/Dropzone";
 import useAsyncError from "@/lib/hook/useAsyncError";
 import { useDictionary } from "@/lib/hook/useNext18n";
-import type { Locale } from "@/lib/i18n/i18nSercer";
+import type { Locale } from "@/lib/i18n/i18nServer";
 import { parseDatapack } from "@voxelio/breeze/core";
 import { DatapackError } from "@voxelio/breeze/core";
 import { useParams, useRouter } from "next/navigation";

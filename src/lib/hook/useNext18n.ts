@@ -1,4 +1,4 @@
-import type { DictionaryType } from "@/lib/i18n/i18nSercer";
+import type { DictionaryType } from "@/lib/i18n/i18nServer";
 import { createContext, useContext } from "react";
 
 export const DictionaryContext = createContext<DictionaryType | null>(null);

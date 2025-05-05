@@ -1,5 +1,5 @@
 import Button from "@/components/ui/Button";
-import type { DictionaryType, Locale } from "@/lib/i18n/i18nSercer";
+import type { DictionaryType, Locale } from "@/lib/i18n/i18nServer";
 import Link from "next/link";
 import type React from "react";
 import HeroCard from "./navbar/HeroCard";

@@ -1,5 +1,5 @@
-import type { DictionaryType } from "@/lib/i18n/i18nSercer";
-import type { Locale } from "@/lib/i18n/i18nSercer";
+import type { DictionaryType } from "@/lib/i18n/i18nServer";
+import type { Locale } from "@/lib/i18n/i18nServer";
 import Navbar from "./Navbar";
 import Footer from "./footer";
 

@@ -77,6 +77,19 @@
             }
         }
     },
+    "harmonization": {
+        "seo": {
+            "title": "Harmonisation d'image · Voxel",
+            "description": "Harmonise les couleurs d'un texture en réduisant la palette de couleurs"
+        },
+        "title": "Harmonisation",
+        "description": "Cet un outil qui permet de réduire la palette de couleurs d'une texture, en harmonisant les couleurs qui sont proches.",
+        "small": "Par exemple, vous pouvez utiliser cet outil pour améliorer le résultat d'une texture générée par un modèle génératif.",
+        "no_images": "Aucune image n'a été déposée",
+        "drop": "Dépose ton image a cet endroit ou clique pour en sélectionner une",
+        "similarity": "Seuil de similarité :",
+        "colors": "Couleurs extraites :"
+    },
     "studio": {
         "section": "- VOXEL",
         "title": "Voxel Studio",

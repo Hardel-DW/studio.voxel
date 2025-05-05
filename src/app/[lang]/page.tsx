@@ -3,7 +3,7 @@ import Footer from "@/components/layout/footer";
 import Box from "@/components/ui/Box";
 import Button from "@/components/ui/Button";
 import LineSetup from "@/components/ui/line/LineSetup";
-import { type Locale, getDictionary } from "@/lib/i18n/i18nSercer";
+import { type Locale, getDictionary } from "@/lib/i18n/i18nServer";
 export default async function Home({ params }: { params: Promise<{ lang: Locale }> }) {
     const { lang } = await params;
     const dictionary = await getDictionary(lang);
