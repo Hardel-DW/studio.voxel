@@ -5,7 +5,8 @@ import { DictionaryProvider } from "@/components/layout/DictionaryProvider";
 import { type Locale, getDictionary } from "@/lib/i18n/i18nSercer";
 
 const rubik = Rubik({
-    variable: "--font-rubik"
+    variable: "--font-rubik",
+    subsets: ["latin"]
 });
 
 const title = "Voxel";
