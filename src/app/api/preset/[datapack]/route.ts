@@ -1,13 +1,14 @@
-import { type NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
-export async function GET(_: NextRequest, context: { params: { datapack: string } }) {
+export async function GET(_: Request, { params }: { params: Promise<{ datapack: string }> }) {
     try {
-        const version = context.params.datapack;
-        if (!version || !/^\d+$/.test(version)) {
+        const { datapack } = await params;
+
+        if (!datapack || !/^\d+$/.test(datapack)) {
             return NextResponse.json({ error: "Version invalide" }, { status: 400 });
         }
 
-        const fileName = `enchantment-${version}.zip`;
+        const fileName = `enchantment-${datapack}.zip`;
         const githubUrl = `https://raw.githubusercontent.com/Hardel-DW/voxel-datapack-preset/main/${fileName}`;
 
         const response = await fetch(githubUrl);
