@@ -6,7 +6,7 @@ import Dropzone from "@/components/ui/Dropzone";
 import { useConfetti } from "@/lib/hook/useConfetti";
 import { useDictionary } from "@/lib/hook/useNext18n";
 import { trackEvent } from "@/lib/telemetry";
-import { downloadArchive } from "@/lib/utils";
+import { downloadArchive } from "@/lib/utils/download";
 import { compileDatapack } from "@voxelio/breeze/core";
 import { parseDatapack } from "@voxelio/breeze/core";
 import { applyActions } from "@voxelio/breeze/core";

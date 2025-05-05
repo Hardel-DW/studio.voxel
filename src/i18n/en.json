@@ -7,12 +7,24 @@
         "download": "Download",
         "take_a_look": "Take a look",
         "donate": "Donate",
+        "soon": "Soon",
         "dialog": {
             "success": "Success",
             "error": "Error"
         }
     },
     "home": {
+        "title": "Take control",
+        "description": "is a project that offers customization tools for Minecraft content with intuitive interfaces, for everyone.",
+        "subtitle": "is for everyone, players, creators, developers...",
+        "marketplace": {
+            "title": "Marketplace",
+            "description": "A marketplace for Minecraft content, with a simple and intuitive interface, for everyone."
+        },
+        "button": {
+            "start": "Start Now",
+            "learn_more": "Learn more"
+        },
         "migration": {
             "title": "Datapack Migration",
             "description": "Migrate your content modified by the configurator to a different version of the same content."

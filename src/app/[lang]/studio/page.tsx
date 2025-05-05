@@ -3,6 +3,17 @@ import Footer from "@/components/layout/footer";
 import DatapackUploader from "@/components/tools/DatapackUploader";
 import VanillaImportButton from "@/components/tools/VanillaImportButton";
 import { type Locale, getDictionary } from "@/lib/i18n/i18nServer";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Studio · Voxel",
+    description: "Configure datapacks and mods, with a simple interface and intuitive tools.",
+    openGraph: {
+        title: "Studio · Voxel",
+        description: "Configure datapacks and mods, with a simple interface and intuitive tools.",
+        images: "/images/background/tools/configurator.webp"
+    }
+};
 
 export default async function HelpGuide({ params }: { params: Promise<{ lang: Locale }> }) {
     const { lang } = await params;

@@ -2,8 +2,15 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/footer";
 import Box from "@/components/ui/Box";
 import Button from "@/components/ui/Button";
+import ImageCard from "@/components/ui/ImageCard";
 import LineSetup from "@/components/ui/line/LineSetup";
 import { type Locale, getDictionary } from "@/lib/i18n/i18nServer";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Home · Voxel"
+};
+
 export default async function Home({ params }: { params: Promise<{ lang: Locale }> }) {
     const { lang } = await params;
     const dictionary = await getDictionary(lang);
@@ -38,45 +45,53 @@ export default async function Home({ params }: { params: Promise<{ lang: Locale 
                     <div className="flex items-center justify-center" />
 
                     <div className="flex flex-col py-8 px-20 self-center">
-                        <h1 className="text-5xl font-bold">Prend le contrôle</h1>
+                        <h1 className="text-5xl font-bold">{dictionary.home.title}</h1>
                         <p className="text-xl mt-4 text-zinc-200">
-                            <b>Voxel Labs</b> est un projets qui offre des outils de personnalisation pour les contenus Minecraft avec des
-                            interfaces intuitives, pour le tout public.
+                            <b>Voxel Labs</b> {dictionary.home.description}
                         </p>
 
                         <p className="pt-4 text-base text-zinc-400">
-                            <b>Voxel Labs</b> est pour tous, joueurs, créateurs, développeurs...
+                            <b>Voxel Labs</b> {dictionary.home.subtitle}
                         </p>
 
                         <div className="mt-12 flex flex-wrap gap-x-6">
                             <button
                                 type="button"
                                 className="bg-white text-lg cursor-pointer text-zinc-800 font-semibold py-3 px-8 rounded-lg hover:bg-zinc-300 hover:text-zinc-800 transition-all">
-                                Commencer
+                                {dictionary.home.button.start}
                             </button>
 
                             <button
                                 type="button"
                                 className="border border-zinc-200 text-lg cursor-pointer text-white font-semibold py-3 px-6 rounded-lg hover:bg-zinc-200 hover:text-zinc-800 transition-all">
-                                En savoir plus
+                                {dictionary.home.button.learn_more}
                             </button>
                         </div>
                     </div>
                 </div>
 
                 <div className="p-12 flex flex-col justify-evenly">
-                    {[
-                        { id: "top", shadow: "shadow-red-950/15", translate: "translate-y-12 translate-x-1/3", rotate: "rotate-12" },
-                        { id: "middle", shadow: "shadow-blue-950/15", translate: "", rotate: "-rotate-6" },
-                        { id: "bottom", shadow: "shadow-pink-950/15", translate: "-translate-y-12 translate-x-3/4", rotate: "rotate-12" }
-                    ].map((style) => (
-                        <img
-                            key={style.id}
-                            className={`animate-levitate cursor-pointer hover:scale-130 transition-all duration-300 shadow-2xl ${style.shadow} w-96 scale-125 aspect-video rounded-2xl border-2 border-zinc-900 ${style.translate} ${style.rotate}`}
-                            alt="Futur"
-                            src="/images/background/tools/configurator.webp"
-                        />
-                    ))}
+                    <ImageCard
+                        className="translate-y-12 translate-x-1/3 rotate-12"
+                        image="/images/background/tools/configurator.webp"
+                        href={`/${lang}/tools/studio`}
+                        title={dictionary.home.configurator.title}
+                        button={dictionary.generic.start_now}
+                    />
+                    <ImageCard
+                        className="-rotate-6"
+                        image="/images/background/marketplace.webp"
+                        href={`https://voxel.hardel.io/${lang}/marketplace`}
+                        title={dictionary.home.marketplace.title}
+                        button={dictionary.generic.start_now}
+                    />
+                    <ImageCard
+                        className="-translate-y-12 translate-x-3/4 rotate-12"
+                        image="/images/background/copilot.webp"
+                        href="#"
+                        title={dictionary.home.copilot.title}
+                        button={dictionary.generic.soon}
+                    />
                 </div>
             </section>
 

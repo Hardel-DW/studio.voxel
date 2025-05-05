@@ -6,6 +6,12 @@ import Star from "@/components/ui/Star";
 import Walkthrough from "@/components/ui/Walkthrough";
 import { type Locale, getDictionary } from "@/lib/i18n/i18nServer";
 import MigrationTool from "./MigrationTool";
+import type { Metadata } from "next";
+export const metadata: Metadata = {
+    title: "Datapack Migration · Voxel",
+    description:
+        "Migrate your mods or datapacks, modified by the configurator, to a different version, while keeping your modifications active."
+};
 
 export default async function MigrationPage({ params }: { params: Promise<{ lang: Locale }> }) {
     const { lang } = await params;

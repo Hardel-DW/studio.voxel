@@ -7,12 +7,24 @@
         "download": "Télécharger",
         "take_a_look": "Jeter un coup d'oeil",
         "donate": "Faire un don",
+        "soon": "Bientôt",
         "dialog": {
             "success": "Succès",
             "error": "Erreur"
         }
     },
     "home": {
+        "title": "Prend le contrôle",
+        "description": "est un projet qui offre des outils de personnalisation pour le contenu Minecraft avec des interfaces intuitives, pour le tout public.",
+        "subtitle": "est pour tous, joueurs, créateurs, développeurs...",
+        "button": {
+            "start": "Commencer",
+            "learn_more": "En savoir plus"
+        },
+        "marketplace": {
+            "title": "Marketplace",
+            "description": "Un marketplace pour le contenu Minecraft, avec une interface simple et intuitive, pour le tout public."
+        },
         "migration": {
             "title": "Migration de Datapack",
             "description": "Migre ton contenu modifié par le configurateur vers une versions différente du même contenu."

@@ -1,22 +1,21 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import Dropzone from "@/components/ui/Dropzone";
-import { extractPalette, loadImage, quantizeImage, type RGB, cleanPalette } from "@/lib/utils/color";
+import { loadImage, quantizeImage, cleanPalette } from "@/lib/utils/color";
 import { useDictionary } from "@/lib/hook/useNext18n";
+import { downloadCanvas } from "@/lib/utils/download";
+import useFileManager from "./useFileManager";
+import useImageProcessor from "./useImageProcessor";
 
 export default function HarmonizeEditor() {
     const dictionary = useDictionary();
-    const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
-    const [currentFileIndex, setCurrentFileIndex] = useState<number>(-1);
-    const originalPaletteRef = useRef<RGB[]>([]);
-    const [cleanedPalette, setCleanedPalette] = useState<RGB[]>([]);
     const [similarityThreshold, setSimilarityThreshold] = useState<number>(30);
-    const [hasQuantizedData, setHasQuantizedData] = useState<boolean>(false);
-    const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [objectUrls, setObjectUrls] = useState<Record<string, string>>({});
     const outputCanvasRef = useRef<HTMLCanvasElement>(null);
-    const loadingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+    const { files, actions: fileActions } = useFileManager();
+
+    const { palette, imageState, actions: imageActions } = useImageProcessor();
 
     const drawCanvas = (imageData: ImageData | null) => {
         const canvas = outputCanvasRef.current;
@@ -33,221 +32,132 @@ export default function HarmonizeEditor() {
         }
     };
 
-    const processAndQuantizeImage = async (file: File, threshold: number) => {
-        if (!file) return;
-        setHasQuantizedData(false);
-        try {
-            const image = await loadImage(file);
-            originalPaletteRef.current = await extractPalette(image, 128);
-            const cleaned = cleanPalette(originalPaletteRef.current, threshold);
-            setCleanedPalette(cleaned);
-            const quantized = await quantizeImage(image, cleaned);
-            setHasQuantizedData(true);
-            drawCanvas(quantized);
-        } catch (error) {
-            console.error("Error processing image:", error);
-            originalPaletteRef.current = [];
-            setCleanedPalette([]);
-            setHasQuantizedData(false);
-            drawCanvas(null);
-            throw error;
-        }
-    };
-
-    const cleanAndQuantizePalette = async (paletteToClean: RGB[], threshold: number) => {
-        if (!uploadedFiles[currentFileIndex] || paletteToClean.length === 0) return;
-        setHasQuantizedData(false);
-        try {
-            const cleaned = cleanPalette(paletteToClean, threshold);
-            setCleanedPalette(cleaned);
-            const image = await loadImage(uploadedFiles[currentFileIndex]);
-            const quantized = await quantizeImage(image, cleaned);
-            setHasQuantizedData(true);
-            drawCanvas(quantized);
-        } catch (error) {
-            console.error("Error cleaning/quantizing palette:", error);
-            setCleanedPalette([]);
-            setHasQuantizedData(false);
-            drawCanvas(null);
-            throw error;
-        }
-    };
-
-    const handleFileUpload = (fileList: FileList) => {
+    const handleFileUpload = async (fileList: FileList) => {
         const acceptedFiles = Array.from(fileList);
         if (!acceptedFiles.length) return;
 
-        if (loadingTimeoutRef.current) clearTimeout(loadingTimeoutRef.current);
+        fileActions.addFiles(acceptedFiles);
 
-        const newFiles = [...uploadedFiles, ...acceptedFiles];
-        setUploadedFiles(newFiles);
-        const newIndex = newFiles.length - 1;
-        setCurrentFileIndex(newIndex);
-        const newUrls: Record<string, string> = {};
-        for (const file of acceptedFiles) {
-            const url = URL.createObjectURL(file);
-            newUrls[file.name + file.lastModified] = url;
+        imageActions.resetPalette();
+        imageActions.setHasQuantizedData(false);
+        imageActions.startLoading();
+
+        try {
+            const image = await loadImage(acceptedFiles[0]);
+            const result = await imageActions.processImage(image, similarityThreshold);
+
+            if (result.success) {
+                imageActions.setHasQuantizedData(true);
+                drawCanvas(result.quantizedData);
+            } else {
+                drawCanvas(null);
+            }
+        } finally {
+            imageActions.stopLoading();
         }
-        setObjectUrls((prev) => ({ ...prev, ...newUrls }));
-
-        loadingTimeoutRef.current = setTimeout(() => {
-            setIsLoading(true);
-        }, 150);
-
-        processAndQuantizeImage(acceptedFiles[0], similarityThreshold)
-            .catch(() => {})
-            .finally(() => {
-                if (loadingTimeoutRef.current) clearTimeout(loadingTimeoutRef.current);
-                setIsLoading(false);
-            });
     };
 
-    const handleSelectImage = (index: number) => {
-        if (index === currentFileIndex || !uploadedFiles[index]) return;
-        setCurrentFileIndex(index);
+    const handleSelectImage = async (index: number) => {
+        if (!fileActions.selectFile(index)) return;
 
-        if (loadingTimeoutRef.current) clearTimeout(loadingTimeoutRef.current);
-        loadingTimeoutRef.current = setTimeout(() => {
-            setIsLoading(true);
-        }, 150);
+        imageActions.resetPalette();
+        imageActions.setHasQuantizedData(false);
+        imageActions.startLoading();
 
-        processAndQuantizeImage(uploadedFiles[index], similarityThreshold)
-            .catch(() => {})
-            .finally(() => {
-                if (loadingTimeoutRef.current) clearTimeout(loadingTimeoutRef.current);
-                setIsLoading(false);
-            });
+        try {
+            const image = await loadImage(files.items[index]);
+            const result = await imageActions.processImage(image, similarityThreshold);
+
+            if (result.success) {
+                imageActions.setHasQuantizedData(true);
+                drawCanvas(result.quantizedData);
+            } else {
+                drawCanvas(null);
+            }
+        } finally {
+            imageActions.stopLoading();
+        }
     };
 
     const handleDeleteImage = (indexToDelete: number) => {
-        const fileToDelete = uploadedFiles[indexToDelete];
-        const keyToDelete = fileToDelete.name + fileToDelete.lastModified;
+        const { remaining, newIndex } = fileActions.deleteFile(indexToDelete);
 
-        if (objectUrls[keyToDelete]) {
-            URL.revokeObjectURL(objectUrls[keyToDelete]);
-            setObjectUrls((prev) => {
-                const next = { ...prev };
-                delete next[keyToDelete];
-                return next;
-            });
-        }
-
-        const remainingFiles = uploadedFiles.filter((_, i) => i !== indexToDelete);
-        setUploadedFiles(remainingFiles);
-
-        if (loadingTimeoutRef.current) clearTimeout(loadingTimeoutRef.current);
-        setIsLoading(false);
-
-        if (remainingFiles.length === 0) {
-            setCurrentFileIndex(-1);
-            originalPaletteRef.current = [];
-            setCleanedPalette([]);
-            setHasQuantizedData(false);
+        if (remaining.length === 0) {
+            imageActions.resetPalette();
+            imageActions.setHasQuantizedData(false);
             drawCanvas(null);
-        } else if (currentFileIndex === indexToDelete) {
-            const newIndex = 0;
-            setCurrentFileIndex(newIndex);
-            loadingTimeoutRef.current = setTimeout(() => setIsLoading(true), 150);
-            processAndQuantizeImage(remainingFiles[newIndex], similarityThreshold)
-                .catch(() => {})
-                .finally(() => {
-                    if (loadingTimeoutRef.current) clearTimeout(loadingTimeoutRef.current);
-                    setIsLoading(false);
-                });
-        } else if (currentFileIndex > indexToDelete) {
-            setCurrentFileIndex(currentFileIndex - 1);
+        } else if (newIndex !== files.currentIndex) {
+            handleSelectImage(newIndex);
         }
     };
 
-    const handleThresholdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleThresholdChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
         const newThreshold = Number.parseInt(event.target.value, 10);
         setSimilarityThreshold(newThreshold);
 
-        if (originalPaletteRef.current.length > 0 && currentFileIndex !== -1) {
-            if (loadingTimeoutRef.current) clearTimeout(loadingTimeoutRef.current);
-            loadingTimeoutRef.current = setTimeout(() => {
-                setIsLoading(true);
-            }, 150);
+        if (palette.original.length > 0 && files.current) {
+            imageActions.setHasQuantizedData(false);
+            imageActions.startLoading();
 
-            cleanAndQuantizePalette(originalPaletteRef.current, newThreshold)
-                .catch(() => {})
-                .finally(() => {
-                    if (loadingTimeoutRef.current) clearTimeout(loadingTimeoutRef.current);
-                    setIsLoading(false);
-                });
-        }
-    };
+            try {
+                const image = await loadImage(files.current);
+                const cleanedPalette = cleanPalette(palette.original, newThreshold);
+                const quantized = await quantizeImage(image, cleanedPalette);
 
-    const handleDeleteColor = (indexToDelete: number) => {
-        if (!originalPaletteRef.current || indexToDelete < 0 || indexToDelete >= originalPaletteRef.current.length) return;
-        const newOriginal = originalPaletteRef.current.filter((_, i) => i !== indexToDelete);
-        originalPaletteRef.current = newOriginal;
-
-        if (currentFileIndex !== -1 && newOriginal.length > 0) {
-            if (loadingTimeoutRef.current) clearTimeout(loadingTimeoutRef.current);
-            loadingTimeoutRef.current = setTimeout(() => setIsLoading(true), 150);
-
-            cleanAndQuantizePalette(newOriginal, similarityThreshold)
-                .catch(() => {})
-                .finally(() => {
-                    if (loadingTimeoutRef.current) clearTimeout(loadingTimeoutRef.current);
-                    setIsLoading(false);
-                });
-        } else if (currentFileIndex !== -1) {
-            setCleanedPalette([]);
-            setHasQuantizedData(false);
-            drawCanvas(null);
-            if (loadingTimeoutRef.current) clearTimeout(loadingTimeoutRef.current);
-            setIsLoading(false);
-        }
-    };
-
-    const handleDownload = () => {
-        if (!hasQuantizedData || !outputCanvasRef.current || currentFileIndex === -1 || !uploadedFiles[currentFileIndex]) return;
-        const canvas = outputCanvasRef.current;
-        const link = document.createElement("a");
-        link.download = uploadedFiles[currentFileIndex].name.replace(/(\.[^.]+)$/, "-harmonized$1") || "harmonized-image.png";
-        link.href = canvas.toDataURL("image/png");
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-    };
-
-    useEffect(() => {
-        const clearLoaderTimeout = () => {
-            if (loadingTimeoutRef.current) {
-                clearTimeout(loadingTimeoutRef.current);
+                imageActions.updateCleanedPalette(cleanedPalette);
+                imageActions.setHasQuantizedData(true);
+                drawCanvas(quantized);
+            } catch (error) {
+                console.error("Error updating threshold:", error);
+                drawCanvas(null);
+            } finally {
+                imageActions.stopLoading();
             }
-        };
-        const cleanupUrls = () => {
-            Object.values(objectUrls).forEach(URL.revokeObjectURL);
-        };
+        }
+    };
 
-        return () => {
-            clearLoaderTimeout();
-            cleanupUrls();
-        };
-    }, [objectUrls]);
+    const handleDeleteColor = async (indexToDelete: number) => {
+        const newPalette = imageActions.deleteColor(indexToDelete);
 
-    const showOutput = uploadedFiles.length > 0 && currentFileIndex !== -1;
+        if (files.current && newPalette.length > 0) {
+            imageActions.setHasQuantizedData(false);
+            imageActions.startLoading();
+
+            try {
+                const image = await loadImage(files.current);
+                const cleanedPalette = cleanPalette(newPalette, similarityThreshold);
+                const quantized = await quantizeImage(image, cleanedPalette);
+
+                imageActions.updateCleanedPalette(cleanedPalette);
+                imageActions.setHasQuantizedData(true);
+                drawCanvas(quantized);
+            } catch (error) {
+                console.error("Error after deleting color:", error);
+                drawCanvas(null);
+            } finally {
+                imageActions.stopLoading();
+            }
+        } else if (files.current) {
+            imageActions.setHasQuantizedData(false);
+            drawCanvas(null);
+        }
+    };
+
+    const showOutput = files.items.length > 0 && files.currentIndex !== -1;
 
     return (
-        <>
-            <style>{`
-                ${showOutput ? "#initial-description, #initial-gallery { display: none; }" : ""}
-            `}</style>
-
+        <div className="relative mb-24">
             <div className={`mb-8 w-full ${!showOutput ? "hidden" : ""}`}>
                 <div id="imageGallery" className="flex gap-4 overflow-x-auto pb-4 min-h-25 items-center">
-                    {uploadedFiles.map((file, index) => {
+                    {files.items.map((file, index) => {
                         const key = file.name + file.lastModified;
-                        const imageUrl = objectUrls[key] || "";
+                        const imageUrl = files.objectUrls[key] || "";
                         return (
                             <div key={key} className="relative group shrink-0" onClick={() => handleSelectImage(index)}>
                                 <img
                                     src={imageUrl}
                                     alt={`Thumbnail ${index + 1}`}
-                                    className={`w-24 h-24 p-2 object-cover rounded-lg border-2 border-zinc-700 cursor-pointer transition-all duration-200 pixelated ${index === currentFileIndex ? "border-pink-600" : ""}`}
+                                    className={`w-24 h-24 p-2 object-cover rounded-lg border-2 border-zinc-700 cursor-pointer transition-all duration-200 pixelated ${index === files.currentIndex ? "border-pink-600" : ""}`}
                                 />
                                 <button
                                     type="button"
@@ -289,13 +199,13 @@ export default function HarmonizeEditor() {
                                 value={similarityThreshold}
                                 onChange={handleThresholdChange}
                                 className="w-full"
-                                disabled={isLoading}
+                                disabled={imageState.isLoading}
                             />
 
                             <div className="w-full mt-4">
                                 <p className="text-zinc-400 font-semibold mb-2">{dictionary.harmonization.colors}</p>
                                 <div id="paletteDisplay" className="flex flex-wrap gap-2">
-                                    {cleanedPalette.map((color, index) => (
+                                    {palette.cleaned.map((color, index) => (
                                         <div
                                             key={`${color.join("-")}-${index}`}
                                             className="size-8 rounded-md border border-zinc-700 relative group cursor-pointer transition-transform duration-200 ease-in-out hover:scale-125 hover:z-10"
@@ -324,15 +234,21 @@ export default function HarmonizeEditor() {
                         <div className="absolute top-4 right-4 z-10">
                             <button
                                 type="button"
-                                onClick={handleDownload}
+                                onClick={() => {
+                                    if (imageState.hasQuantizedData && outputCanvasRef.current && files.current) {
+                                        const filename =
+                                            files.current.name.replace(/(\.[^.]+)$/, "-harmonized$1") || "harmonized-image.png";
+                                        downloadCanvas(outputCanvasRef.current, filename);
+                                    }
+                                }}
                                 className="w-12 h-12 p-2 z-20 relative hover:bg-zinc-800/50 cursor-pointer transition bg-black/10 border border-white/10 rounded-md flex justify-center items-center"
-                                disabled={isLoading || !hasQuantizedData}
+                                disabled={imageState.isLoading || !imageState.hasQuantizedData}
                                 aria-label="Download harmonized image">
                                 <img alt="" src="/icons/download.svg" width="24" height="24" className="invert" />
                             </button>
                         </div>
                         <canvas ref={outputCanvasRef} id="output" className="pixelated size-full" />
-                        {isLoading && (
+                        {imageState.isLoading && (
                             <div className="absolute inset-0 bg-black/50 flex justify-center items-center rounded-[calc(1.5rem-1px)]">
                                 <p className="text-white text-lg font-semibold animate-pulse">Processing...</p>
                             </div>
@@ -340,6 +256,6 @@ export default function HarmonizeEditor() {
                     </div>
                 )}
             </div>
-        </>
+        </div>
     );
 }

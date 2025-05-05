@@ -135,6 +135,7 @@
         }
     }
 }
+
 @layer utilities {
     .pixelated {
         image-rendering: pixelated;

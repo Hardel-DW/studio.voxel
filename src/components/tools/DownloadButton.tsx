@@ -4,7 +4,7 @@ import { useConfiguratorStore } from "@/components/tools/Store";
 import Button from "@/components/ui/Button";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/Dialog";
 import { saveLogs } from "@/lib/telemetry";
-import { downloadArchive } from "@/lib/utils";
+import { downloadArchive } from "@/lib/utils/download";
 import { Datapack, voxelDatapacks } from "@voxelio/breeze/core";
 import SettingsDialog from "./SettingsDialog";
 import Translate from "./Translate";
