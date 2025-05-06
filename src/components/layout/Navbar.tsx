@@ -1,4 +1,3 @@
-import Button from "@/components/ui/Button";
 import type { DictionaryType, Locale } from "@/lib/i18n/i18nServer";
 import Link from "next/link";
 import type React from "react";
@@ -9,6 +8,8 @@ import Navigation from "./navbar/Navigation";
 import NavigationDropdown from "./navbar/NavigationDropdown";
 import NavigationList from "./navbar/NavigationList";
 import Internalization from "./navbar/internalization";
+import MobileNavigationContainer from "./navbar/MobileNavigationContainer";
+import MobileMenuButton from "./navbar/MobileMenuButton";
 
 interface Props {
     dictionary: DictionaryType;
@@ -152,14 +153,12 @@ export default function Navbar({ dictionary, lang }: Props) {
                     </div>
 
                     <div className="lg:hidden inline-block">
-                        <Button size="icon" variant="link" rounded="full" aria-label="Menu" id="menu">
-                            <img src="/icons/menu.svg" alt="" className="w-6 h-6 invert" />
-                        </Button>
+                        <MobileMenuButton />
                     </div>
                 </div>
             </NavbarScrollFade>
 
-            <nav className="flex md:hidden mt-2 shadow-zinc-800/20 shadow-2xl border-zinc-800 border-t border-l bg-header-translucent flex-col gap-2 rounded-3xl backdrop-blur-md p-2 mx-auto w-11/12 md:w-3/4">
+            <MobileNavigationContainer>
                 <div className="size-full flex flex-col gap-y-2">
                     <div className="py-2">
                         {links.map((item) => (
@@ -207,7 +206,7 @@ export default function Navbar({ dictionary, lang }: Props) {
                         <Internalization />
                     </div>
                 </div>
-            </nav>
+            </MobileNavigationContainer>
         </header>
     );
 }

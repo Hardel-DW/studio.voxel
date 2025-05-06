@@ -2,6 +2,8 @@
 
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
+import { useMobileMenuStore } from "./mobileMenuStore";
+import type { MobileMenuState } from "./mobileMenuStore";
 
 export default function NavbarScrollFade({
     children
@@ -9,6 +11,7 @@ export default function NavbarScrollFade({
     children: React.ReactNode;
 }) {
     const [isScrolled, setIsScrolled] = useState(false);
+    const isMobileMenuOpen = useMobileMenuStore((state: MobileMenuState) => state.isOpen);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -27,7 +30,7 @@ export default function NavbarScrollFade({
             id="navbar"
             className={cn(
                 "mx-auto w-10/12 md:w-3/4 flex transition-colors duration-150 border-zinc-800 border-t-0 border-l-0 ease-linear justify-between items-center max-w-full h-14 rounded-3xl px-2",
-                isScrolled && "bg-header-translucent border-t border-l backdrop-blur-md"
+                (isMobileMenuOpen || isScrolled) && "bg-header-translucent border-t border-l backdrop-blur-md"
             )}>
             {children}
         </nav>
