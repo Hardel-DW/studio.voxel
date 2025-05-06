@@ -65,11 +65,9 @@
             }
         },
         "resources": {
-            "tool": {
-                "enchant": {
-                    "title": "Enchantment Tool",
-                    "description": "Take existing data packs and modify them with a simple and user-friendly interface"
-                }
+            "studio": {
+                "title": "Voxel Studio - Configurator",
+                "description": "Take existing packs or mods and configure them with a simple and user-friendly interface"
             },
             "harmonization": {
                 "title": "Harmonization",

@@ -80,9 +80,9 @@ export default function Navbar({ dictionary, lang }: Props) {
                                     <div className="p-6 md:w-[400px] lg:w-[500px]">
                                         <HeroCard
                                             href={`/${lang}/studio`}
-                                            title={dictionary.navbar.resources.tool.enchant.title}
-                                            description={dictionary.navbar.resources.tool.enchant.description}
-                                            image="/images/background/tools/enchant-configurator.webp"
+                                            title={dictionary.navbar.resources.studio.title}
+                                            description={dictionary.navbar.resources.studio.description}
+                                            image="/images/background/tools/configurator.webp"
                                         />
                                         <ul className="grid gap-3 mt-3 lg:grid-cols-[.75fr_1fr]">
                                             <ListItem
