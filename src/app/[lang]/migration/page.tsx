@@ -87,10 +87,10 @@ export default async function MigrationPage({ params }: { params: Promise<{ lang
                         <p className="text-gray-300 mt-4">{dictionary.suggestions.studio.description}</p>
 
                         <div className="mt-8 flex flex-col md:flex-row gap-4">
-                            <Button href={`/${lang}/tools/studio`} size="xl" variant="primary" className="w-full md:w-auto">
+                            <Button href={`/${lang}/studio`} size="xl" variant="primary" className="w-full md:w-auto">
                                 {dictionary.generic.start}
                             </Button>
-                            <Button href={`/${lang}/tools/studio`} size="xl" variant="ghost" className="w-full md:w-auto">
+                            <Button href={`/${lang}/studio`} size="xl" variant="ghost" className="w-full md:w-auto">
                                 {dictionary.generic.learn_more}
                             </Button>
                         </div>
@@ -110,10 +110,10 @@ export default async function MigrationPage({ params }: { params: Promise<{ lang
                         <p className="text-gray-300 mt-4">{dictionary.suggestions.converter.description}</p>
 
                         <div className="mt-8 flex flex-col md:flex-row gap-4">
-                            <Button href={`/${lang}/tools/studio`} size="xl" variant="white-shimmer" className="w-full md:w-auto">
+                            <Button href={`/${lang}/studio`} size="xl" variant="white-shimmer" className="w-full md:w-auto">
                                 {dictionary.generic.take_a_look}
                             </Button>
-                            <Button href={`/${lang}/tools/studio`} size="xl" variant="ghost" className="w-full md:w-auto">
+                            <Button href={`/${lang}/studio`} size="xl" variant="ghost" className="w-full md:w-auto">
                                 {dictionary.generic.learn_more}
                             </Button>
                         </div>

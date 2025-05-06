@@ -11,7 +11,7 @@ export default function ImageCard({
     return (
         <div
             className={cn(
-                "group relative animate-levitate cursor-pointer hover:scale-130 transition-all duration-300 shadow-2xl shadow-red-950/15 w-96 scale-125 aspect-video",
+                "group relative animate-levitate cursor-pointer hover:scale-105 transition-all duration-300 shadow-2xl shadow-red-950/15 w-full max-w-[20rem] sm:max-w-[22rem] md:max-w-[24rem] aspect-video",
                 className
             )}>
             <img className="w-full h-full object-cover rounded-2xl border-2 border-zinc-900" alt={title} src={image} />

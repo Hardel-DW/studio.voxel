@@ -25,11 +25,10 @@ export default async function Home({ params }: { params: Promise<{ lang: Locale 
             <Navbar dictionary={dictionary} lang={lang} />
             <LineSetup />
 
-            <section className="h-screen grid grid-cols-2 gap-12">
+            <section className="min-h-screen flex flex-col justify-center s:justify-start lg:grid lg:grid-cols-2 gap-8 lg:gap-12 relative">
                 <div className="-z-10 absolute inset-0 overflow-hidden">
                     <div className="rotate-45 w-[85vw] h-[70vh] bg-radial from-zinc-900/20 to-stone-500/20 rounded-3xl blur-[10rem]" />
                 </div>
-
                 <div className="-z-10 absolute inset-0 overflow-hidden">
                     <svg className="size-full stroke-white/10 [mask-image:radial-gradient(white,transparent_50%)] [stroke-dasharray:5_6] [stroke-dashoffset:10] lg:stroke-[4]">
                         <defs>
@@ -41,10 +40,56 @@ export default async function Home({ params }: { params: Promise<{ lang: Locale 
                     </svg>
                 </div>
 
-                <div className="grid gap-12 grid-rows-2">
-                    <div className="flex items-center justify-center" />
+                <div className="hidden lg:flex w-full flex-col items-center justify-evenly p-12 gap-8 overflow-visible">
+                    <ImageCard
+                        className="flex-shrink-0 translate-x-[25%] translate-y-1/2 rotate-6"
+                        image="/images/background/tools/configurator.webp"
+                        href={`/${lang}/studio`}
+                        title={dictionary.home.configurator.title}
+                        button={dictionary.generic.start_now}
+                    />
+                    <ImageCard
+                        className="flex-shrink-0 -rotate-3 translate-x-[-25%]"
+                        image="/images/background/marketplace.webp"
+                        href={`https://voxel.hardel.io/${lang}/marketplace`}
+                        title={dictionary.home.marketplace.title}
+                        button={dictionary.generic.start_now}
+                    />
+                    <ImageCard
+                        className="flex-shrink-0 -translate-y-1/2 rotate-6"
+                        image="/images/background/copilot.webp"
+                        href="#"
+                        title={dictionary.home.copilot.title}
+                        button={dictionary.generic.soon}
+                    />
+                </div>
 
-                    <div className="flex flex-col py-8 px-20 self-center">
+                <div className="hidden s:flex lg:hidden w-full items-center justify-center overflow-x-hidden h-full flex-1">
+                    <ImageCard
+                        className="flex-shrink-0 translate-x-2/3 translate-y-1/2 rotate-6 w-1/2"
+                        image="/images/background/tools/configurator.webp"
+                        href={`/${lang}/studio`}
+                        title={dictionary.home.configurator.title}
+                        button={dictionary.generic.start_now}
+                    />
+                    <ImageCard
+                        className="flex-shrink-0 -rotate-3 -translate-y-1/2 w-1/2"
+                        image="/images/background/marketplace.webp"
+                        href={`https://voxel.hardel.io/${lang}/marketplace`}
+                        title={dictionary.home.marketplace.title}
+                        button={dictionary.generic.start_now}
+                    />
+                    <ImageCard
+                        className="flex-shrink-0 -translate-x-2/3 rotate-6 w-1/2"
+                        image="/images/background/copilot.webp"
+                        href="#"
+                        title={dictionary.home.copilot.title}
+                        button={dictionary.generic.soon}
+                    />
+                </div>
+
+                <div className="grid gap-12 lg:order-first s:self-end">
+                    <div className="flex flex-col py-8 px-8 sm:px-12 lg:px-16 self-center">
                         <h1 className="text-5xl font-bold">{dictionary.home.title}</h1>
                         <p className="text-xl mt-4 text-zinc-200">
                             <b>Voxel Labs</b> {dictionary.home.description}
@@ -54,45 +99,21 @@ export default async function Home({ params }: { params: Promise<{ lang: Locale 
                             <b>Voxel Labs</b> {dictionary.home.subtitle}
                         </p>
 
-                        <div className="mt-12 flex flex-wrap gap-x-6">
+                        <div className="mt-12 flex flex-wrap gap-4">
                             <a
                                 type="button"
                                 href={`/${lang}/studio`}
-                                className="bg-white text-lg cursor-pointer text-zinc-800 font-semibold py-3 px-8 rounded-lg hover:bg-zinc-300 hover:text-zinc-800 transition-all">
+                                className="w-full lg:w-fit text-center bg-white text-lg cursor-pointer text-zinc-800 font-semibold py-3 px-8 rounded-lg hover:bg-zinc-300 hover:text-zinc-800 transition-all">
                                 {dictionary.home.button.start}
                             </a>
 
                             <a
                                 href={`https://voxel.hardel.io/${lang}/blog/enchant-configurator`}
-                                className="border border-zinc-200 text-lg cursor-pointer text-white font-semibold py-3 px-6 rounded-lg hover:bg-zinc-200 hover:text-zinc-800 transition-all">
+                                className="w-full lg:w-fit text-center border border-zinc-200 text-lg cursor-pointer text-white font-semibold py-3 px-6 rounded-lg hover:bg-zinc-200 hover:text-zinc-800 transition-all">
                                 {dictionary.home.button.learn_more}
                             </a>
                         </div>
                     </div>
-                </div>
-
-                <div className="p-12 flex flex-col justify-evenly">
-                    <ImageCard
-                        className="translate-y-12 translate-x-1/3 rotate-12"
-                        image="/images/background/tools/configurator.webp"
-                        href={`/${lang}/studio`}
-                        title={dictionary.home.configurator.title}
-                        button={dictionary.generic.start_now}
-                    />
-                    <ImageCard
-                        className="-rotate-6"
-                        image="/images/background/marketplace.webp"
-                        href={`https://voxel.hardel.io/${lang}/marketplace`}
-                        title={dictionary.home.marketplace.title}
-                        button={dictionary.generic.start_now}
-                    />
-                    <ImageCard
-                        className="-translate-y-12 translate-x-3/4 rotate-12"
-                        image="/images/background/copilot.webp"
-                        href="#"
-                        title={dictionary.home.copilot.title}
-                        button={dictionary.generic.soon}
-                    />
                 </div>
             </section>
 
