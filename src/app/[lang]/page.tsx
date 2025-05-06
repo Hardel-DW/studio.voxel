@@ -26,10 +26,10 @@ export default async function Home({ params }: { params: Promise<{ lang: Locale 
             <LineSetup />
 
             <section className="min-h-screen flex flex-col justify-center s:justify-start lg:grid lg:grid-cols-2 gap-8 lg:gap-12 relative">
-                <div className="-z-10 absolute inset-0 overflow-hidden">
+                <div className="-z-10 absolute inset-0 overflow-x-hidden">
                     <div className="rotate-45 w-[85vw] h-[70vh] bg-radial from-zinc-900/20 to-stone-500/20 rounded-3xl blur-[10rem]" />
                 </div>
-                <div className="-z-10 absolute inset-0 overflow-hidden">
+                <div className="-z-10 absolute inset-0 overflow-x-hidden">
                     <svg className="size-full stroke-white/10 [mask-image:radial-gradient(white,transparent_50%)] [stroke-dasharray:5_6] [stroke-dashoffset:10] lg:stroke-[4]">
                         <defs>
                             <pattern id="grid" viewBox="0 0 64 64" width="32" height="32" patternUnits="userSpaceOnUse" x="0" y="0">
@@ -40,23 +40,23 @@ export default async function Home({ params }: { params: Promise<{ lang: Locale 
                     </svg>
                 </div>
 
-                <div className="hidden lg:flex w-full flex-col items-center justify-evenly p-12 gap-8 overflow-visible">
+                <div className="hidden s:flex w-full s:items-center s:justify-center s:overflow-x-hidden s:h-full s:flex-1 lg:flex-col lg:justify-evenly lg:p-12 lg:gap-8 lg:overflow-visible lg:h-auto lg:flex-initial">
                     <ImageCard
-                        className="flex-shrink-0 translate-x-[25%] translate-y-1/2 rotate-6"
+                        className="flex-shrink-0 rotate-6 translate-y-1/2 s:translate-x-2/3 s:w-1/2 lg:translate-x-1/4 lg:w-auto"
                         image="/images/background/tools/configurator.webp"
                         href={`/${lang}/studio`}
                         title={dictionary.home.configurator.title}
                         button={dictionary.generic.start_now}
                     />
                     <ImageCard
-                        className="flex-shrink-0 -rotate-3 translate-x-[-25%]"
+                        className="flex-shrink-0 -rotate-3 s:-translate-y-1/2 s:w-1/2 lg:-translate-x-1/4 lg:translate-y-0 lg:w-auto"
                         image="/images/background/marketplace.webp"
                         href={`https://voxel.hardel.io/${lang}/marketplace`}
                         title={dictionary.home.marketplace.title}
                         button={dictionary.generic.start_now}
                     />
                     <ImageCard
-                        className="flex-shrink-0 -translate-y-1/2 rotate-6"
+                        className="flex-shrink-0 rotate-6 s:-translate-x-2/3 s:w-1/2 lg:-translate-y-1/2 lg:translate-x-0 lg:w-auto"
                         image="/images/background/copilot.webp"
                         href="#"
                         title={dictionary.home.copilot.title}
@@ -64,31 +64,7 @@ export default async function Home({ params }: { params: Promise<{ lang: Locale 
                     />
                 </div>
 
-                <div className="hidden s:flex lg:hidden w-full items-center justify-center overflow-x-hidden h-full flex-1">
-                    <ImageCard
-                        className="flex-shrink-0 translate-x-2/3 translate-y-1/2 rotate-6 w-1/2"
-                        image="/images/background/tools/configurator.webp"
-                        href={`/${lang}/studio`}
-                        title={dictionary.home.configurator.title}
-                        button={dictionary.generic.start_now}
-                    />
-                    <ImageCard
-                        className="flex-shrink-0 -rotate-3 -translate-y-1/2 w-1/2"
-                        image="/images/background/marketplace.webp"
-                        href={`https://voxel.hardel.io/${lang}/marketplace`}
-                        title={dictionary.home.marketplace.title}
-                        button={dictionary.generic.start_now}
-                    />
-                    <ImageCard
-                        className="flex-shrink-0 -translate-x-2/3 rotate-6 w-1/2"
-                        image="/images/background/copilot.webp"
-                        href="#"
-                        title={dictionary.home.copilot.title}
-                        button={dictionary.generic.soon}
-                    />
-                </div>
-
-                <div className="grid gap-12 lg:order-first s:self-end">
+                <div className="grid gap-12 lg:order-first s:self-end xl:p-12 lg:p-8">
                     <div className="flex flex-col py-8 px-8 sm:px-12 lg:px-16 self-center">
                         <h1 className="text-5xl font-bold">{dictionary.home.title}</h1>
                         <p className="text-xl mt-4 text-zinc-200">
