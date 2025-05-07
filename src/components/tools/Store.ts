@@ -20,13 +20,9 @@ export interface ConfiguratorState<T extends keyof Analysers> {
     isModded: boolean;
     overview: boolean;
     roadmap: Map<string, Roadmap> | null;
-    schema: Map<string, InterfaceConfiguration> | null;
     version: number | null;
     sortedIdentifiers: string[];
     selectedConcept: keyof Analysers | null;
-    registry: Map<string, unknown> | null;
-    lastSchemaUpdate: number | null;
-    pendingSchemas: Set<string>;
     setName: (name: string) => void;
     setMinify: (minify: boolean) => void;
     setCurrentElementId: (id: string | undefined) => void;
@@ -37,9 +33,6 @@ export interface ConfiguratorState<T extends keyof Analysers> {
     setSelectedConcept: (concept: keyof Analysers) => void;
     setRoadmap: (version: number) => void;
     getRoadmap: () => Roadmap | null;
-    addRegistry: (registry: string) => void;
-    addSchema: (id: string, registry: string) => void;
-    clearSchemaCache: () => void;
     setOverview: (overview: boolean) => void;
 }
 
@@ -49,16 +42,12 @@ const createConfiguratorStore = <T extends keyof Analysers>() =>
         minify: true,
         files: {},
         elements: new Map(),
-        schema: new Map(),
         roadmap: null,
         isModded: false,
         version: null,
         sortedIdentifiers: [],
         selectedConcept: "enchantment",
-        registry: new Map(),
-        lastSchemaUpdate: null,
         overview: false,
-        pendingSchemas: new Set(),
         setOverview: (overview) => set({ overview }),
         setRoadmap: async (version) => {
             const response = await fetch(`/api/schema?key=schema.${version.toString()}@roadmap`);
@@ -66,47 +55,6 @@ const createConfiguratorStore = <T extends keyof Analysers>() =>
             if (!roadmap) return;
 
             set({ roadmap: new Map(Object.entries(roadmap)) });
-        },
-        addSchema: async (id, registry) => {
-            const { schema, pendingSchemas, roadmap } = get();
-
-            const removeIdFromPending = (currentId: string) => {
-                set((state) => {
-                    const newPending = new Set(state.pendingSchemas);
-                    newPending.delete(currentId);
-                    return { pendingSchemas: newPending };
-                });
-            };
-
-            if (schema?.has(id) || pendingSchemas.has(id)) return;
-            const schemaKeyId = roadmap?.get(registry)?.schema.find((s) => s.id === id)?.content;
-            if (typeof schemaKeyId !== "string") return;
-            set((state) => ({ pendingSchemas: new Set(state.pendingSchemas).add(id) }));
-
-            try {
-                const response = await fetch(`/api/schema?key=${schemaKeyId}`);
-                if (!response.ok) {
-                    removeIdFromPending(id);
-                    return;
-                }
-
-                const fetchedSchema = await response.json();
-                if (!fetchedSchema) {
-                    removeIdFromPending(id);
-                    return;
-                }
-
-                set((state) => {
-                    const newPending = new Set(state.pendingSchemas);
-                    newPending.delete(id);
-                    return {
-                        schema: new Map(state.schema).set(id, fetchedSchema),
-                        pendingSchemas: newPending
-                    };
-                });
-            } catch (error) {
-                removeIdFromPending(id);
-            }
         },
         getRoadmap: () => get().roadmap?.get(get().selectedConcept ?? "") ?? null,
         setName: (name) => set({ name }),
@@ -137,22 +85,7 @@ const createConfiguratorStore = <T extends keyof Analysers>() =>
             return compileDatapack({ elements: Array.from(elements.values()), version, files, tool: selectedConcept });
         },
         getLengthByRegistry: (registry) => new Datapack(get().files).getRegistry(registry).length,
-        setSelectedConcept: (concept) => set({ selectedConcept: concept }),
-        addRegistry: async (registry) => {
-            if (get().registry?.has(registry)) return;
-            const registryData = await (await fetch(`/api/registry?registry=${registry}`)).json();
-            if (!registryData) return;
-            set((state) => ({ registry: new Map(state.registry).set(registry, registryData) }));
-        },
-        clearSchemaCache: () => {
-            const now = Date.now();
-            const lastUpdate = get().lastSchemaUpdate;
-            if (lastUpdate && now - lastUpdate < 1000 * 60 * 1) {
-                console.log("Schema cache clearing is on cooldown.");
-                return;
-            }
-            set({ schema: new Map(), lastSchemaUpdate: now });
-        }
+        setSelectedConcept: (concept) => set({ selectedConcept: concept })
     }));
 
 export const useConfiguratorStore = createConfiguratorStore();

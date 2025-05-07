@@ -2,6 +2,8 @@ import ConfiguratorPanel from "@/components/tools/ConfiguratorPanel";
 import NoConfigFound from "@/components/tools/NoConfigFound";
 import ToolInternalization from "@/components/tools/ToolInternalization";
 import type { Metadata } from "next";
+import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
+import { getQueryClient } from "@/lib/utils/query";
 
 export const metadata: Metadata = {
     title: "Voxel Studio",
@@ -16,6 +18,7 @@ export const metadata: Metadata = {
 };
 
 export default function Home() {
+    const queryClient = getQueryClient();
     return (
         <main className="contents">
             <div className="size-full pt-4 pb-8">
@@ -32,7 +35,9 @@ export default function Home() {
                     </div>
                 </div>
                 <div id="content" className="px-8 lg:px-0 pt-12 h-full transition w-full md:w-[95%] justify-self-center">
-                    <ConfiguratorPanel />
+                    <HydrationBoundary state={dehydrate(queryClient)}>
+                        <ConfiguratorPanel />
+                    </HydrationBoundary>
                     <NoConfigFound />
                 </div>
             </div>

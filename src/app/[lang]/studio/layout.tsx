@@ -1,5 +1,6 @@
+import QueryProvider from "@/components/QueryProvider";
 import ShiningStars from "@/components/ui/ShiningStars";
-
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 export default function Layout({ children }: { children: React.ReactNode }) {
     return (
         <div className="flex relative md:p-4 h-dvh">
@@ -12,7 +13,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 <ShiningStars />
             </div>
 
-            {children}
+            <QueryProvider>
+                <ReactQueryDevtools />
+                {children}
+            </QueryProvider>
         </div>
     );
 }

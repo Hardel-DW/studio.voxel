@@ -3,14 +3,24 @@
 import { useConfiguratorStore } from "@/components/tools/Store";
 import Button from "@/components/ui/Button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/Popover";
-import { useMemo } from "react";
+import { useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
 
 export default function SettingsButton() {
+    const [isSyncing, setIsSyncing] = useState(false);
     const name = useConfiguratorStore((state) => state.name);
     const setName = useConfiguratorStore((state) => state.setName);
     const minify = useConfiguratorStore((state) => state.minify);
     const setMinify = useConfiguratorStore((state) => state.setMinify);
-    const clearSchemaCache = useConfiguratorStore((state) => state.clearSchemaCache);
+    const queryClient = useQueryClient();
+    const COOLDOWN_PERIOD_MS = 30000;
+
+    const handleRefetchSchemas = () => {
+        if (isSyncing) return;
+        queryClient.invalidateQueries({ queryKey: ["schema"] });
+        setIsSyncing(true);
+        setTimeout(() => setIsSyncing(false), COOLDOWN_PERIOD_MS);
+    };
 
     const handleClick = () => {
         const store = useConfiguratorStore.getState();
@@ -26,10 +36,13 @@ export default function SettingsButton() {
         console.debug(store);
     };
 
-    const store = useConfiguratorStore();
-    const storeSizeBytes = useMemo(() => new TextEncoder().encode(JSON.stringify(store)).length, [store]);
-    const storeSizeKB = useMemo(() => (storeSizeBytes / 1024).toFixed(2), [storeSizeBytes]);
-    const storeSizeMB = useMemo(() => (storeSizeBytes / (1024 * 1024)).toFixed(2), [storeSizeBytes]);
+    const calculateStoreSize = () => {
+        const store = useConfiguratorStore.getState();
+        const storeSizeBytes = new TextEncoder().encode(JSON.stringify(store)).length;
+        const storeSizeKB = (storeSizeBytes / 1024).toFixed(2);
+        const storeSizeMB = (storeSizeBytes / (1024 * 1024)).toFixed(2);
+        return `${storeSizeKB} KB (${storeSizeMB} MB)`;
+    };
 
     return (
         <Popover>
@@ -81,13 +94,12 @@ export default function SettingsButton() {
                             </button>
                             <button
                                 type="button"
-                                onClick={clearSchemaCache}
-                                className="w-full px-3 py-2 text-sm text-white bg-zinc-950 cursor-pointer hover:bg-zinc-900 transition-colors rounded-lg border border-zinc-700">
-                                Clear Schema Cache
+                                onClick={handleRefetchSchemas}
+                                disabled={isSyncing}
+                                className="w-full px-3 py-2 text-sm text-white bg-zinc-950 cursor-pointer hover:bg-zinc-900 transition-colors rounded-lg border border-zinc-700 disabled:opacity-50 disabled:cursor-not-allowed">
+                                {isSyncing ? "30s cooldown..." : "Re-Sync"}
                             </button>
-                            <p className="text-xs text-zinc-400 mt-2 font-light ">
-                                Store size: {storeSizeKB} KB ({storeSizeMB} MB)
-                            </p>
+                            <p className="text-xs text-zinc-400 mt-2 font-light ">Store size: {calculateStoreSize()}</p>
                         </div>
                     </div>
                 </div>

@@ -5,8 +5,23 @@ import { cn } from "@/lib/utils";
 import { type TagType, getTagsFromRegistry } from "@voxelio/breeze";
 import type { ToolSwitchSlotSpecialType } from "@voxelio/breeze/core";
 import { Identifier, getLabeledIdentifier, isTag } from "@voxelio/breeze/core";
+import { useQuery } from "@tanstack/react-query";
 
 type TagRegistry = Record<string, TagType>;
+
+const fetchRegistryById = async (registryId: string): Promise<TagRegistry> => {
+    console.log(`useQuery: Fetching registry ${registryId}`);
+    const response = await fetch(`/api/registry?registry=${registryId}`);
+    if (!response.ok) {
+        throw new Error(`Network response was not ok for registry ${registryId}`);
+    }
+    const data = await response.json();
+    if (!data) {
+        console.warn(`No data returned for registry ${registryId}, returning empty object.`);
+        return {};
+    }
+    return data as TagRegistry;
+};
 
 export default function ToolSwitchSlotSpecial({
     component,
@@ -15,8 +30,16 @@ export default function ToolSwitchSlotSpecial({
 }: InteractiveComponentProps<boolean, ToolSwitchSlotSpecialType>) {
     const { value, lock, handleChange } = interactiveProps;
     const compile = useConfiguratorStore((state) => state.compile);
-    useConfiguratorStore((state) => state.addRegistry)(component.data.registry);
-    const registry = useConfiguratorStore((state) => state.registry);
+
+    const registryQueryKey = ["registry", component.data.registry];
+    const {
+        data: registryData,
+        isLoading: isRegistryLoading,
+        isError: isRegistryError
+    } = useQuery<TagRegistry, Error>({
+        queryKey: registryQueryKey,
+        queryFn: () => fetchRegistryById(component.data.registry)
+    });
 
     const assembleDatapack = compile();
     const tagIdentifier = Identifier.of(component.data.element, component.data.registry);
@@ -24,7 +47,6 @@ export default function ToolSwitchSlotSpecial({
     const rawData = tagData?.type !== "deleted" ? tagData?.element : undefined;
     const initialValues = rawData && isTag(rawData) ? rawData.data.values.map((v) => (typeof v === "string" ? v : v.id)) : [];
 
-    const registryData = registry?.get(component.data.registry) as TagRegistry | undefined;
     const identifier = Identifier.of(component.data.element, component.data.registry).resource;
     const data = registryData?.[identifier];
     const originalValues = data ? getTagsFromRegistry(data) : [];
@@ -66,6 +88,9 @@ export default function ToolSwitchSlotSpecial({
                     {lock.isLocked && <img src="/icons/tools/lock.svg" alt="checkbox" className="w-6 h-6 invert" />}
                 </div>
             </div>
+
+            {isRegistryLoading && <p>Chargement du registre...</p>}
+            {isRegistryError && <p>Erreur de chargement du registre.</p>}
 
             {Array.from(combined).length > 0 && (
                 <>
