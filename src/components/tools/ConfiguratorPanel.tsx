@@ -11,10 +11,7 @@ export default function ConfiguratorPanel() {
     const roadmap = useConfiguratorStore((state) => state.getRoadmap());
 
     if (!hasElements) return null;
-
-    if (!roadmap) {
-        return <LoadingSkeleton />;
-    }
+    if (!roadmap) return <LoadingSkeleton />;
 
     return (
         <MenuTabs defaultValue={roadmap.sections[0].id} className="h-full flex flex-col">

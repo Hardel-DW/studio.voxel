@@ -18,6 +18,7 @@ export interface ConfiguratorState<T extends keyof Analysers> {
     elements: Map<string, GetAnalyserVoxel<T>>;
     currentElementId?: string;
     isModded: boolean;
+    overview: boolean;
     roadmap: Map<string, Roadmap> | null;
     schema: Map<string, InterfaceConfiguration> | null;
     version: number | null;
@@ -25,6 +26,7 @@ export interface ConfiguratorState<T extends keyof Analysers> {
     selectedConcept: keyof Analysers | null;
     registry: Map<string, unknown> | null;
     lastSchemaUpdate: number | null;
+    pendingSchemas: Set<string>;
     setName: (name: string) => void;
     setMinify: (minify: boolean) => void;
     setCurrentElementId: (id: string | undefined) => void;
@@ -38,6 +40,7 @@ export interface ConfiguratorState<T extends keyof Analysers> {
     addRegistry: (registry: string) => void;
     addSchema: (id: string, registry: string) => void;
     clearSchemaCache: () => void;
+    setOverview: (overview: boolean) => void;
 }
 
 const createConfiguratorStore = <T extends keyof Analysers>() =>
@@ -54,6 +57,9 @@ const createConfiguratorStore = <T extends keyof Analysers>() =>
         selectedConcept: "enchantment",
         registry: new Map(),
         lastSchemaUpdate: null,
+        overview: false,
+        pendingSchemas: new Set(),
+        setOverview: (overview) => set({ overview }),
         setRoadmap: async (version) => {
             const response = await fetch(`/api/schema?key=schema.${version.toString()}@roadmap`);
             const roadmap = await response.json();
@@ -62,15 +68,45 @@ const createConfiguratorStore = <T extends keyof Analysers>() =>
             set({ roadmap: new Map(Object.entries(roadmap)) });
         },
         addSchema: async (id, registry) => {
-            const schemaKeyId = get()
-                .roadmap?.get(registry)
-                ?.schema.find((schema) => schema.id === id)?.content;
+            const { schema, pendingSchemas, roadmap } = get();
 
+            const removeIdFromPending = (currentId: string) => {
+                set((state) => {
+                    const newPending = new Set(state.pendingSchemas);
+                    newPending.delete(currentId);
+                    return { pendingSchemas: newPending };
+                });
+            };
+
+            if (schema?.has(id) || pendingSchemas.has(id)) return;
+            const schemaKeyId = roadmap?.get(registry)?.schema.find((s) => s.id === id)?.content;
             if (typeof schemaKeyId !== "string") return;
-            const response = await fetch(`/api/schema?key=${schemaKeyId}`);
-            const schema = await response.json();
-            if (!schema) return;
-            set((state) => ({ schema: new Map(state.schema).set(id, schema) }));
+            set((state) => ({ pendingSchemas: new Set(state.pendingSchemas).add(id) }));
+
+            try {
+                const response = await fetch(`/api/schema?key=${schemaKeyId}`);
+                if (!response.ok) {
+                    removeIdFromPending(id);
+                    return;
+                }
+
+                const fetchedSchema = await response.json();
+                if (!fetchedSchema) {
+                    removeIdFromPending(id);
+                    return;
+                }
+
+                set((state) => {
+                    const newPending = new Set(state.pendingSchemas);
+                    newPending.delete(id);
+                    return {
+                        schema: new Map(state.schema).set(id, fetchedSchema),
+                        pendingSchemas: newPending
+                    };
+                });
+            } catch (error) {
+                removeIdFromPending(id);
+            }
         },
         getRoadmap: () => get().roadmap?.get(get().selectedConcept ?? "") ?? null,
         setName: (name) => set({ name }),

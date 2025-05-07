@@ -1,5 +1,6 @@
 import ConfiguratorPanel from "@/components/tools/ConfiguratorPanel";
 import NoConfigFound from "@/components/tools/NoConfigFound";
+import ToolInternalization from "@/components/tools/ToolInternalization";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -23,9 +24,12 @@ export default function Home() {
                         <img src="/icons/menu.svg" alt="Menu" className="invert opacity-75" />
                     </label>
                     <h1 className="text-sm text-zinc-400 truncate">Voxel Studio</h1>
-                    <a href="/" className="select-none size-fit">
-                        <img src="/icons/logo.svg" alt="Voxel" className="w-6 h-6 opacity-75" />
-                    </a>
+                    <div className="flex items-center gap-x-6">
+                        <ToolInternalization />
+                        <a href="/" className="select-none size-fit">
+                            <img src="/icons/logo.svg" alt="Voxel" className="w-6 h-6 opacity-75" />
+                        </a>
+                    </div>
                 </div>
                 <div id="content" className="px-8 lg:px-0 pt-12 h-full transition w-full md:w-[95%] justify-self-center">
                     <ConfiguratorPanel />

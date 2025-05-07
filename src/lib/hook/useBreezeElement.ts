@@ -55,22 +55,25 @@ export const useSchema = (id: string): FormComponent[] | undefined => {
     const roadmap = useConfiguratorStore((state) => state.getRoadmap());
     if (!roadmap) return undefined;
 
-    const schemaId = roadmap.schema.find((schema) => schema.id === id);
-    if (!schemaId) return undefined;
+    const schemaIdFound = roadmap.schema.find((schema) => schema.id === id);
+    if (!schemaIdFound) return undefined;
 
     const addSchema = useConfiguratorStore((state) => state.addSchema);
     const selectedConcept = useConfiguratorStore((state) => state.selectedConcept);
-    const hasSchema = useConfiguratorStore((state) => state.schema?.has(schemaId.id) ?? false);
+    const hasSchema = useConfiguratorStore((state) => state.schema?.has(schemaIdFound.id) ?? false);
+    const pendingSchemas = useConfiguratorStore((state) => state.pendingSchemas);
 
     useEffect(() => {
-        if (!hasSchema && selectedConcept) addSchema(schemaId.id, selectedConcept);
-    }, [hasSchema, addSchema, schemaId.id, selectedConcept]);
+        if (!hasSchema && selectedConcept && !pendingSchemas.has(schemaIdFound.id)) {
+            addSchema(schemaIdFound.id, selectedConcept);
+        }
+    }, [addSchema, selectedConcept, hasSchema, pendingSchemas, schemaIdFound?.id]);
 
     const schema = useConfiguratorStore(
         useShallow((state) => {
-            const schema = state.schema?.get(schemaId.id);
-            if (!schema) return null;
-            return schema;
+            const schemaData = state.schema?.get(schemaIdFound.id);
+            if (!schemaData) return null;
+            return schemaData;
         })
     );
 
