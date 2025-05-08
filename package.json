@@ -13,7 +13,9 @@
         "biome:unsafefix": "biome check --write --unsafe  ./src"
     },
     "dependencies": {
+        "@tanstack/query-sync-storage-persister": "^5.75.5",
         "@tanstack/react-query": "^5.75.5",
+        "@tanstack/react-query-persist-client": "^5.75.5",
         "@upstash/redis": "^1.34.8",
         "@voxelio/breeze": "^0.8.12",
         "next": "15.3.1",

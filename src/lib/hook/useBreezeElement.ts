@@ -9,7 +9,6 @@ import type {
     ValueRenderer,
     VoxelElement
 } from "@voxelio/breeze/core";
-import { useEffect } from "react";
 import { useShallow } from "zustand/shallow";
 import { useQuery } from "@tanstack/react-query";
 

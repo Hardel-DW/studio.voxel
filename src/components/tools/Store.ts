@@ -1,4 +1,4 @@
-import { Datapack, type InterfaceConfiguration, type Roadmap } from "@voxelio/breeze";
+import { Datapack, type Roadmap } from "@voxelio/breeze";
 import { isVoxelElement, sortVoxelElements } from "@voxelio/breeze/core";
 import { compileDatapack } from "@voxelio/breeze/core";
 import { updateData } from "@voxelio/breeze/core";
