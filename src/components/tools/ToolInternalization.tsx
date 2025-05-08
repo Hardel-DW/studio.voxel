@@ -13,20 +13,20 @@ export default function ToolInternalization() {
 
     return (
         <div className="relative group/langage">
-            <button type="button" className="text-sm text-zinc-400 truncate uppercase flex items-center gap-1">
+            <button type="button" className="text-sm text-zinc-400 truncate uppercase flex items-center gap-1 cursor-pointer">
                 <span data-lang={language}>{language}</span>
                 <img src="/icons/chevron-down.svg" alt="" className="w-4 h-4 invert-50" />
             </button>
             <ul
                 id="langage"
-                className="group-focus-within/langage:flex hover:flex hidden absolute top-8 right-0 w-44 bg-black p-2 flex-col gap-2 rounded-xl border border-zinc-800 z-50">
+                className="group-focus-within/langage:flex hover:flex hidden bg-black border-t-2 border-l-2 border-stone-900 absolute top-8 right-0 w-44 p-2 flex-col gap-2 rounded-xl z-50 starting:translate-y-2 starting:scale-95 duration-150 ease-bounce transition-all">
                 {names.map((element) => (
                     <li key={element.lang}>
                         <button
                             type="button"
                             onClick={() => setLanguage(element.lang)}
                             className={cn(
-                                "flex items-center justify-between px-4 py-2 transition hover:bg-zinc-900 rounded-md w-full text-left",
+                                "flex items-center justify-between px-4 py-2 transition hover:bg-header-cloudy rounded-md w-full text-left cursor-pointer",
                                 element.lang === language ? "font-semibold text-rose-700" : ""
                             )}>
                             {element.name}
@@ -49,6 +49,9 @@ export default function ToolInternalization() {
                         </button>
                     </li>
                 ))}
+                <div className="absolute inset-0 -z-10 brightness-30">
+                    <img src="/images/shine.avif" alt="Shine" />
+                </div>
             </ul>
         </div>
     );

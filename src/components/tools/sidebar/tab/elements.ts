@@ -25,5 +25,14 @@ export const CONCEPTS = [
             src: "/images/features/block/crafting_table.webp",
             alt: "Recipe"
         }
+    },
+    {
+        registry: "structure",
+        title: "Structure",
+        description: "Structure",
+        image: {
+            src: "/images/features/block/jigsaw.webp",
+            alt: "Structure"
+        }
     }
 ];

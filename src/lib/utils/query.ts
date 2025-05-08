@@ -4,7 +4,7 @@ function makeQueryClient() {
     return new QueryClient({
         defaultOptions: {
             queries: {
-                staleTime: 60 * 1000
+                staleTime: Number.POSITIVE_INFINITY
             },
             dehydrate: {
                 shouldDehydrateQuery: (query) => defaultShouldDehydrateQuery(query) || query.state.status === "pending"
