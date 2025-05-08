@@ -31,7 +31,6 @@ export default function VanillaImportButton() {
             }
 
             useConfiguratorStore.getState().setup({ ...result, name: "Vanilla Enchantment - Voxel Configurator" });
-            useConfiguratorStore.getState().setRoadmap(version);
             router.push(`/${params.lang}/studio/editor`);
         } catch (e: unknown) {
             if (e instanceof DatapackError) {

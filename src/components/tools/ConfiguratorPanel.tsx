@@ -5,20 +5,23 @@ import { MenuTabs, MenuTabsList, MenuTabsTrigger } from "@/components/ui/MenuTab
 import ConfiguratorContent from "./ConfiguratorContent";
 import Translate from "./Translate";
 import LoadingSkeleton from "./elements/LoadingComponent";
+import { useRoadmap } from "@/lib/hook/useBreezeElement";
+import React from "react";
 
 export default function ConfiguratorPanel() {
     const hasElements = useConfiguratorStore((state) => state.elements.size > 0);
-    const roadmap = useConfiguratorStore((state) => state.getRoadmap());
+    const version = useConfiguratorStore((state) => state.version);
+    const { data, isLoading, isError } = useRoadmap(version);
 
     if (!hasElements) return null;
-    if (!roadmap) return <LoadingSkeleton />;
+    if (isLoading || isError || !data) return <LoadingSkeleton />;
 
     return (
-        <MenuTabs defaultValue={roadmap.sections[0].id} className="h-full flex flex-col">
+        <MenuTabs defaultValue={data.sections[0].id} className="h-full flex flex-col">
             <div className="absolute w-full -z-10 inset-0 shadow-2xl bg-linear-to-r from-[#401727] to-[#311e7696] opacity-20 rounded-full blur-[10rem]" />
             <div className="contents">
                 <MenuTabsList className="bg-inherit justify-center pt-1 overflow-x-auto border-0 mb-4 pb-4 gap-y-4 border-b-2 rounded-none border-zinc-800 flex-wrap shrink-0">
-                    {roadmap.sections.map((tab) => (
+                    {data.sections.map((tab) => (
                         <MenuTabsTrigger
                             className="data-[state=active]:bg-transparent backdrop-blur-2xl ring-1 ring-zinc-900 data-[state=active]:ring-zinc-600"
                             key={tab.id}
@@ -30,7 +33,7 @@ export default function ConfiguratorPanel() {
                     ))}
                 </MenuTabsList>
 
-                {roadmap.sections.map((tab) => (
+                {data.sections.map((tab) => (
                     <ConfiguratorContent key={tab.id} tab={tab} />
                 ))}
             </div>

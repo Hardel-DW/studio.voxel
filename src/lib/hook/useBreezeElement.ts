@@ -5,12 +5,14 @@ import type {
     FormComponent,
     InterfaceConfiguration,
     Lock,
+    Roadmap,
     TranslateTextType,
     ValueRenderer,
     VoxelElement
 } from "@voxelio/breeze/core";
 import { useShallow } from "zustand/shallow";
 import { useQuery } from "@tanstack/react-query";
+import { fetchSchemaData, fetchApiSchemaItem } from "@/lib/utils/schema";
 
 const useElementFields = (fields: string[], elementId?: string): Partial<VoxelElement> | null => {
     return useConfiguratorStore(
@@ -59,55 +61,41 @@ export const useElementLocks = (locks: Lock[] | undefined, elementId?: string): 
     return checkLocks(locks, element);
 };
 
-const fetchSchemaData = async (schemaId: string, concept: string | null | undefined): Promise<InterfaceConfiguration | null> => {
-    if (!concept) {
-        console.warn("fetchSchemaData: concept is missing, cannot fetch schema for id:", schemaId);
-        return null;
-    }
+export const useRoadmap = (version: number | null) => {
+    const selectedConcept = useConfiguratorStore((state) => state.selectedConcept);
+    if (!selectedConcept) return { data: null, isLoading: false, isError: false, error: null };
 
-    const roadmap = useConfiguratorStore.getState().getRoadmap();
-    if (!roadmap) {
-        console.warn("fetchSchemaData: roadmap is not available for concept:", concept);
-        return null;
-    }
+    const { data, isLoading, isError, error } = useQuery<Record<string, Roadmap> | null, Error>({
+        queryKey: ["roadmap", version, "schema"],
+        queryFn: async () => {
+            if (!version) return null;
+            return fetchApiSchemaItem<Record<string, Roadmap>>(`schema.${version.toString()}@roadmap`);
+        },
+        enabled: !!version
+    });
 
-    const schemaMeta = roadmap.schema.find((s) => s.id === schemaId);
-    if (!schemaMeta?.content) {
-        console.warn(`fetchSchemaData: schemaKeyId not found in roadmap for schemaId: ${schemaId} and concept: ${concept}`);
-        return null;
-    }
-    const schemaKeyId = schemaMeta.content;
-
-    console.log(`fetchSchemaData: Fetching schema for key: ${schemaKeyId}`);
-    const response = await fetch(`/api/schema?key=${schemaKeyId}`);
-    if (!response.ok) {
-        throw new Error(`Network response was not ok for schema key ${schemaKeyId}`);
-    }
-    const data = await response.json();
-    return data as InterfaceConfiguration;
+    const roadmap = data ? (data[selectedConcept] ?? null) : null;
+    return { data: roadmap, isLoading, isError, error };
 };
 
 export const useSchema = (id: string): FormComponent[] | undefined => {
     const selectedConcept = useConfiguratorStore((state) => state.selectedConcept);
+    const version = useConfiguratorStore((state) => state.version);
+    const { data: fullRoadmapData, isLoading: isRoadmapLoading, isError: isRoadmapError } = useRoadmap(version);
 
-    const queryKey = ["schema", id, selectedConcept];
-    const {
-        data: schemaData,
-        isLoading,
-        isError
-    } = useQuery<InterfaceConfiguration | null, Error>({
-        queryKey: queryKey,
-        queryFn: () => fetchSchemaData(id, selectedConcept),
-        enabled: !!id && !!selectedConcept
+    const { data, isLoading, isError } = useQuery<InterfaceConfiguration | null, Error>({
+        queryKey: ["schema", id, selectedConcept],
+        queryFn: () => fetchSchemaData(id, selectedConcept, fullRoadmapData),
+        enabled: !!id && !!selectedConcept && !!fullRoadmapData && !isRoadmapLoading && !isRoadmapError && !!version
     });
 
-    if (isLoading) {
+    if (isLoading || isRoadmapLoading) {
         return undefined;
     }
 
-    if (isError || !schemaData) {
+    if (isError || isRoadmapError || !data) {
         return undefined;
     }
 
-    return schemaData.components;
+    return data.components;
 };

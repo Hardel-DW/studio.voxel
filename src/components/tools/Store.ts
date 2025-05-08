@@ -19,7 +19,6 @@ export interface ConfiguratorState<T extends keyof Analysers> {
     currentElementId?: string;
     isModded: boolean;
     overview: boolean;
-    roadmap: Map<string, Roadmap> | null;
     version: number | null;
     sortedIdentifiers: string[];
     selectedConcept: keyof Analysers | null;
@@ -31,8 +30,6 @@ export interface ConfiguratorState<T extends keyof Analysers> {
     compile: () => Array<LabeledElement>;
     getLengthByRegistry: (registry: string) => number;
     setSelectedConcept: (concept: keyof Analysers) => void;
-    setRoadmap: (version: number) => void;
-    getRoadmap: () => Roadmap | null;
     setOverview: (overview: boolean) => void;
 }
 
@@ -42,21 +39,12 @@ const createConfiguratorStore = <T extends keyof Analysers>() =>
         minify: true,
         files: {},
         elements: new Map(),
-        roadmap: null,
         isModded: false,
         version: null,
         sortedIdentifiers: [],
         selectedConcept: "enchantment",
         overview: false,
         setOverview: (overview) => set({ overview }),
-        setRoadmap: async (version) => {
-            const response = await fetch(`/api/schema?key=schema.${version.toString()}@roadmap`);
-            const roadmap = await response.json();
-            if (!roadmap) return;
-
-            set({ roadmap: new Map(Object.entries(roadmap)) });
-        },
-        getRoadmap: () => get().roadmap?.get(get().selectedConcept ?? "") ?? null,
         setName: (name) => set({ name }),
         setMinify: (minify) => set({ minify }),
         setCurrentElementId: (currentElementId) => set({ currentElementId }),

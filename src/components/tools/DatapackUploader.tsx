@@ -22,14 +22,10 @@ export default function DatapackUploader() {
             if (!files[0].name.endsWith(".zip") && !files[0].name.endsWith(".jar"))
                 throw new DatapackError("tools.enchantments.warning.invalid_file");
 
-            // TODO: Add support for other tools
             const result = await parseDatapack("enchantment", files[0]);
-
             useConfiguratorStore.getState().setup(result);
             const version = result.version;
             if (!version) throw new DatapackError("tools.enchantments.warning.no_version");
-
-            useConfiguratorStore.getState().setRoadmap(version);
             router.push(`/${params.lang}/studio/editor`);
         } catch (e: unknown) {
             if (e instanceof DatapackError) {
