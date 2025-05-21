@@ -2,7 +2,7 @@
 
 import { useConfiguratorStore } from "@/components/tools/Store";
 import SidebarCard from "@/components/tools/sidebar/tab/SidebarCard";
-import { CONCEPTS } from "@/components/tools/sidebar/tab/elements";
+import { CONCEPTS } from "@/components/tools/elements";
 import type { Analysers } from "@voxelio/breeze/core";
 export default function ConceptTab() {
     const selectedConcept = useConfiguratorStore((state) => state.selectedConcept);

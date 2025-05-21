@@ -2,7 +2,7 @@
 
 import type { ComponentType } from "react";
 import { useConfiguratorStore } from "../../Store";
-import { CONCEPTS } from "./elements";
+import { CONCEPTS } from "../../elements";
 
 type WithConceptProps = {};
 

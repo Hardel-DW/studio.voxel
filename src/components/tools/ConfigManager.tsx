@@ -3,12 +3,13 @@
 import { useConfiguratorStore } from "@/components/tools/Store";
 import type { Locale } from "@/lib/i18n/i18nServer";
 import { useParams } from "next/navigation";
-import Button from "../ui/Button";
+import { LinkButton } from "../ui/Button";
+import type { PropsWithChildren } from "react";
 
-export default function NoConfigFound() {
+export default function ConfigManager(props: PropsWithChildren) {
     const params = useParams<{ lang: Locale }>();
     const hasElements = useConfiguratorStore((state) => state.elements.size > 0);
-    if (hasElements) return null;
+    if (hasElements) return props.children;
 
     return (
         <div className="size-full flex items-center justify-center flex-col gap-y-4">
@@ -21,9 +22,9 @@ export default function NoConfigFound() {
             <div className="w-1/2">
                 <hr />
             </div>
-            <Button variant="white-shimmer" size="sm" href={`/${params.lang}/studio`}>
+            <LinkButton variant="white-shimmer" size="sm" href={`/${params.lang}/studio`}>
                 Back to home
-            </Button>
+            </LinkButton>
         </div>
     );
 }

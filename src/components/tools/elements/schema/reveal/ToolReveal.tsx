@@ -1,29 +1,88 @@
-import { RenderSchemaChildren } from "@/components/tools/RenderSchema";
-import ToolRevealElement from "@/components/tools/elements/schema/reveal/ToolRevealElementType";
-import type { ToolRevealElementType, ToolRevealType } from "@voxelio/breeze/core";
-import type { WrappedComponentProps } from "../../DynamicSchemaComponent";
+"use client";
 
-export default function ToolSectionSelectorComponent({
-    component,
-    dynamicProps
-}: WrappedComponentProps<ToolRevealType, ToolRevealElementType>) {
-    const { composant, currentId, setCurrentId } = dynamicProps;
+import type React from "react";
+import { useState, createContext, useContext, type ReactNode, Children, isValidElement, cloneElement } from "react";
+import { cn } from "@/lib/utils";
+import OriginalToolRevealCard from "@/components/tools/elements/schema/reveal/ToolRevealElementType";
+import type { TranslateTextType } from "@/components/tools/types/component";
+
+export type ToolRevealCardData = {
+    id: string;
+    title: TranslateTextType;
+    soon?: TranslateTextType;
+    image: string;
+    logo: string;
+    href: string;
+    description: TranslateTextType;
+};
+
+type ToolRevealContextType = {
+    activeId: string;
+    setActiveId: (id: string) => void;
+};
+
+const ToolRevealContext = createContext<ToolRevealContextType | undefined>(undefined);
+
+const useToolReveal = () => {
+    const context = useContext(ToolRevealContext);
+    if (!context) {
+        throw new Error("useToolReveal must be used within a ToolReveal component");
+    }
+    return context;
+};
+
+export type ToolRevealElementProps = ToolRevealCardData & {
+    children: ReactNode;
+    className?: string;
+};
+
+export function ToolRevealElement(props: ToolRevealElementProps) {
+    const { activeId, setActiveId } = useToolReveal();
+    const { id, title, soon, image, logo, href, description } = props;
+
+    const isSelected = activeId === id;
+    const cardDataForRenderer: ToolRevealCardData = { id, title, soon, image, logo, href, description };
+
+    return <OriginalToolRevealCard element={cardDataForRenderer} isSelected={isSelected} onSelect={() => setActiveId(id)} />;
+}
+
+type ToolRevealProps = {
+    children: ReactNode;
+    defaultValue: string;
+    className?: string;
+    listClassName?: string;
+    contentClassName?: string;
+};
+
+export default function ToolReveal({ children, defaultValue, className, listClassName, contentClassName }: ToolRevealProps) {
+    const [activeId, setActiveId] = useState<string>(defaultValue);
+
+    const triggers: React.ReactElement<ToolRevealElementProps>[] = [];
+    let activeContent: ReactNode | null = null;
+
+    Children.forEach(children, (child) => {
+        if (isValidElement(child) && child.type === ToolRevealElement) {
+            const toolRevealElement = child as React.ReactElement<ToolRevealElementProps>;
+            triggers.push(toolRevealElement);
+            if (toolRevealElement.props.id === activeId) {
+                activeContent = toolRevealElement.props.children;
+            }
+        }
+    });
 
     return (
-        <div className="grid gap-4">
-            <div className="grid max-xl:grid-cols-1 gap-4" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(225px, 1fr))" }}>
-                {component.elements.map((element) => (
-                    <ToolRevealElement
-                        key={element.id}
-                        element={element}
-                        isSelected={currentId === element.id}
-                        onSelect={() => setCurrentId(element.id)}
-                    />
-                ))}
-            </div>
+        <ToolRevealContext.Provider value={{ activeId, setActiveId }}>
+            <div className={cn("grid gap-4", className)}>
+                <div
+                    className={cn("grid max-xl:grid-cols-1 gap-4", listClassName)}
+                    style={{ gridTemplateColumns: "repeat(auto-fit, minmax(225px, 1fr))" }}>
+                    {triggers.map((triggerElement) => cloneElement(triggerElement, { key: triggerElement.props.id }))}
+                </div>
 
-            <div className="h-1 my-4 rounded-full w-full bg-zinc-900" />
-            <RenderSchemaChildren component={composant} />
-        </div>
+                <div className="h-1 my-4 rounded-full w-full bg-zinc-900" />
+
+                {activeContent && <div className={cn(contentClassName)}>{activeContent}</div>}
+            </div>
+        </ToolRevealContext.Provider>
     );
 }

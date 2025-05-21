@@ -7,7 +7,7 @@ function makeQueryClient() {
         defaultOptions: {
             queries: {
                 staleTime: Number.POSITIVE_INFINITY,
-                gcTime: 1000 * 60 * 60 * 24 // 24 hours
+                gcTime: 1000 * 60 * 60 * 24
             },
             dehydrate: {
                 shouldDehydrateQuery: (query) => defaultShouldDehydrateQuery(query) || query.state.status === "pending"

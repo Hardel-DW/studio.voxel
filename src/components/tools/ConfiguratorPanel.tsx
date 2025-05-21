@@ -1,42 +1,35 @@
 "use client";
 
 import { useConfiguratorStore } from "@/components/tools/Store";
-import { MenuTabs, MenuTabsList, MenuTabsTrigger } from "@/components/ui/MenuTabs";
-import ConfiguratorContent from "./ConfiguratorContent";
 import Translate from "./Translate";
-import LoadingSkeleton from "./elements/LoadingComponent";
-import { useRoadmap } from "@/lib/hook/useBreezeElement";
-import React from "react";
+import { CONCEPTS } from "./elements";
+import React, { useMemo } from "react";
+import Link from "next/link";
+import { useParams } from "next/navigation";
+import type { Locale } from "@/lib/i18n/i18nServer";
 
 export default function ConfiguratorPanel() {
+    const params = useParams<{ lang: Locale }>();
+    const currentConcept = useConfiguratorStore((state) => state.selectedConcept);
     const hasElements = useConfiguratorStore((state) => state.elements.size > 0);
-    const version = useConfiguratorStore((state) => state.version);
-    const { data, isLoading, isError } = useRoadmap(version);
-
-    if (!hasElements) return null;
-    if (isLoading || isError || !data) return <LoadingSkeleton />;
+    const activeConcept = useMemo(() => CONCEPTS.find((concept) => concept.registry === currentConcept), [currentConcept]);
+    if (!hasElements || !activeConcept) return null;
 
     return (
-        <MenuTabs defaultValue={data.sections[0].id} className="h-full flex flex-col">
+        <div className="flex flex-col">
             <div className="absolute w-full -z-10 inset-0 shadow-2xl bg-linear-to-r from-[#401727] to-[#311e7696] opacity-20 rounded-full blur-[10rem]" />
             <div className="contents">
-                <MenuTabsList className="bg-inherit justify-center pt-1 overflow-x-auto border-0 mb-4 pb-4 gap-y-4 border-b-2 rounded-none border-zinc-800 flex-wrap shrink-0">
-                    {data.sections.map((tab) => (
-                        <MenuTabsTrigger
-                            className="data-[state=active]:bg-transparent backdrop-blur-2xl ring-1 ring-zinc-900 data-[state=active]:ring-zinc-600"
+                <div className="flex gap-x-5 bg-inherit justify-center pt-1 overflow-x-auto border-0 mb-4 pb-4 gap-y-4 border-b-2 rounded-none border-zinc-800 flex-wrap shrink-0">
+                    {activeConcept.tabs.map((tab) => (
+                        <Link
+                            className="text-zinc-500 whitespace-nowrap font-medium cursor-pointer disabled:pointer-events-none hover:text-white text-md py-2 px-4 rounded-xl bg-transparent border-0 transition-colors duration-150 ease-bounce data-[state=active]:text-white data-[state=active]:bg-transparent backdrop-blur-2xl ring-1 ring-zinc-900 data-[state=active]:ring-zinc-600"
                             key={tab.id}
-                            disabled={tab.soon}
-                            value={tab.id}>
+                            href={`/${params.lang}/studio/editor/${activeConcept.registry}/${tab.path}`}>
                             <Translate content={tab.text} schema={true} />
-                            {tab.soon && <span className="text-xs text-zinc-400 font-light ml-1">(soon)</span>}
-                        </MenuTabsTrigger>
+                        </Link>
                     ))}
-                </MenuTabsList>
-
-                {data.sections.map((tab) => (
-                    <ConfiguratorContent key={tab.id} tab={tab} />
-                ))}
+                </div>
             </div>
-        </MenuTabs>
+        </div>
     );
 }

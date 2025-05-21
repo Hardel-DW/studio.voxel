@@ -24,7 +24,7 @@ export default function VanillaImportButton() {
             const dataTransfer = new DataTransfer();
             dataTransfer.items.add(file);
             const fileList = dataTransfer.files;
-            const result = await parseDatapack("enchantment", fileList[0]);
+            const result = await parseDatapack(fileList[0]);
 
             if (typeof result === "string") {
                 throw new DatapackError("tools.error.failed_to_parse_datapack");

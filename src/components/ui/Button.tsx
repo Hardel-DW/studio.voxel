@@ -1,7 +1,8 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import React from "react";
+import Link from "next/link";
+import type React from "react";
 
 const variants = {
     variant: {
@@ -53,7 +54,7 @@ const variants = {
     }
 } as const;
 
-interface Props extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
+interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     variant?: keyof typeof variants.variant;
     size?: keyof typeof variants.size;
     rounded?: keyof typeof variants.rounded;
@@ -61,38 +62,55 @@ interface Props extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
     disabled?: boolean;
 }
 
-const Button = React.forwardRef<HTMLAnchorElement, Props>(
-    (
-        {
-            variant = variants.defaultVariant.variant,
-            size = variants.defaultVariant.size,
-            rounded = variants.defaultVariant.rounded,
-            ring = variants.defaultVariant.ring,
-            className,
-            children,
-            type = "button",
-            ...rest
-        },
-        ref
-    ) => {
-        return (
-            <a
-                ref={ref}
-                type={type}
-                className={cn([
-                    "inline-flex items-center justify-center whitespace-nowrap cursor-pointer truncate text-sm font-medium ring-offset-background transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
-                    variants.variant[variant],
-                    variants.size[size],
-                    variants.rounded[rounded],
-                    variants.ring[ring],
-                    className
-                ])}
-                {...rest}>
-                {children}
-            </a>
-        );
-    }
-);
+export function Button({
+    variant = variants.defaultVariant.variant,
+    size = variants.defaultVariant.size,
+    rounded = variants.defaultVariant.rounded,
+    ring = variants.defaultVariant.ring,
+    className,
+    children,
+    ...rest
+}: Props) {
+    return (
+        <button
+            type="button"
+            className={cn([
+                "inline-flex items-center justify-center whitespace-nowrap cursor-pointer truncate text-sm font-medium ring-offset-background transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+                variants.variant[variant],
+                variants.size[size],
+                variants.rounded[rounded],
+                variants.ring[ring],
+                className
+            ])}
+            {...rest}>
+            {children}
+        </button>
+    );
+}
 
-Button.displayName = "Button";
-export default Button;
+export function LinkButton({
+    variant = variants.defaultVariant.variant,
+    size = variants.defaultVariant.size,
+    rounded = variants.defaultVariant.rounded,
+    ring = variants.defaultVariant.ring,
+    className,
+    href,
+    children,
+    ...rest
+}: Props & React.AnchorHTMLAttributes<HTMLAnchorElement>) {
+    return (
+        <Link
+            href={href || "/"}
+            className={cn([
+                "inline-flex items-center justify-center whitespace-nowrap cursor-pointer truncate text-sm font-medium ring-offset-background transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+                variants.variant[variant],
+                variants.size[size],
+                variants.rounded[rounded],
+                variants.ring[ring],
+                className
+            ])}
+            {...rest}>
+            {children}
+        </Link>
+    );
+}

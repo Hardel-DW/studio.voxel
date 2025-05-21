@@ -1,33 +1,47 @@
-import Translate from "@/components/tools/Translate";
-import type { InteractiveProps } from "@/components/tools/elements/InteractiveComponent";
-import { ToolPropertyElement } from "@/components/tools/elements/schema/property/ToolPropertyElement";
-import type { ToolPropertyType } from "@voxelio/breeze/core";
+"use client";
 
-export default function ToolProperty({
-    component,
-    interactiveProps
-}: { component: ToolPropertyType; interactiveProps: InteractiveProps<string> }) {
-    const { value, handleChange } = interactiveProps;
+import Translate from "@/components/tools/Translate";
+import { ToolPropertyElement } from "@/components/tools/elements/schema/property/ToolPropertyElement";
+import type { ActionValue } from "@voxelio/breeze/core";
+import type { Condition } from "@voxelio/breeze";
+import type { BaseInteractiveComponent } from "@/components/tools/types/component";
+import RenderGuard from "@/components/tools/elements/RenderGuard";
+import { useInteractiveLogic } from "@/lib/hook/useInteractiveLogic";
+
+export type ToolPropertyType = BaseInteractiveComponent & {
+    condition: Condition;
+};
+
+export default function ToolProperty(props: ToolPropertyType & { index?: number }) {
+    const { value, lock, handleChange } = useInteractiveLogic<ToolPropertyType, Record<string, unknown>>({ component: props });
+
+    const handlePropertyToggle = (propertyName: string) => {
+        if (lock.isLocked) return;
+        handleChange(propertyName as ActionValue);
+    };
+
+    const properties = value ? Object.keys(value) : [];
 
     return (
-        <div className="grid gap-4">
-            {!value || Object.keys(value).length === 0 ? (
-                <h1 className="text-zinc-400 text-center py-4">
-                    <Translate content="tools.enchantments.section.effects.components.empty" />
-                </h1>
-            ) : null}
+        <RenderGuard condition={props.hide}>
+            <div className="grid gap-4">
+                {properties.length === 0 ? (
+                    <h1 className="text-zinc-400 text-center py-4">
+                        <Translate content="tools.enchantments.section.effects.components.empty" />
+                    </h1>
+                ) : null}
 
-            {value &&
-                Object.entries(value).map(([effect]) => {
+                {properties.map((effect) => {
                     return (
                         <ToolPropertyElement
                             key={effect}
                             name={effect}
-                            condition={component.condition}
-                            onChange={() => handleChange(effect)}
+                            condition={props.condition}
+                            onChange={() => handlePropertyToggle(effect)}
                         />
                     );
                 })}
-        </div>
+            </div>
+        </RenderGuard>
     );
 }

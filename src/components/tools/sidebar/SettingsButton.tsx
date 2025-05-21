@@ -1,7 +1,7 @@
 "use client";
 
 import { useConfiguratorStore } from "@/components/tools/Store";
-import Button from "@/components/ui/Button";
+import { Button } from "@/components/ui/Button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/Popover";
 import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";

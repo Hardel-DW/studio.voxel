@@ -1,6 +1,15 @@
+import ConfiguratorPanel from "@/components/tools/ConfiguratorPanel";
+import ToolInternalization from "@/components/tools/ToolInternalization";
+import { getQueryClient } from "@/lib/utils/query";
+import { dehydrate } from "@tanstack/react-query";
+import { HydrationBoundary } from "@tanstack/react-query";
+import StudioSidebar from "@/components/tools/sidebar/Sidebar";
+import ConfigManager from "@/components/tools/ConfigManager";
 import type React from "react";
 
-export default function Layout({ sidebar, children }: { sidebar: React.ReactNode; children: React.ReactNode }) {
+export default function Layout({ children }: { children: React.ReactNode }) {
+    const queryClient = getQueryClient();
+
     return (
         <>
             <input type="checkbox" id="sidebar-toggle" className="peer hidden" defaultChecked />
@@ -21,7 +30,7 @@ export default function Layout({ sidebar, children }: { sidebar: React.ReactNode
                             <img src="/icons/menu.svg" alt="menu" className="invert-[75%]" />
                         </label>
                     </div>
-                    {sidebar}
+                    <StudioSidebar />
                 </div>
             </div>
 
@@ -29,7 +38,28 @@ export default function Layout({ sidebar, children }: { sidebar: React.ReactNode
             <div
                 id="content-container"
                 className="overflow-x-hidden stack flex bg-content md:border md:border-zinc-900 md:rounded-2xl w-full relative z-20">
-                {children}
+                <main className="contents">
+                    <div className="size-full pt-4 pb-8">
+                        <div className="flex absolute inset-0 p-4 justify-between items-center select-none h-fit gap-x-4">
+                            <label htmlFor="sidebar-toggle" className="w-6 h-6 cursor-pointer">
+                                <img src="/icons/menu.svg" alt="Menu" className="invert opacity-75" />
+                            </label>
+                            <h1 className="text-sm text-zinc-400 truncate">Voxel Studio</h1>
+                            <div className="flex items-center gap-x-6">
+                                <ToolInternalization />
+                                <a href="/" className="select-none size-fit">
+                                    <img src="/icons/logo.svg" alt="Voxel" className="w-6 h-6 opacity-75" />
+                                </a>
+                            </div>
+                        </div>
+                        <div id="content" className="px-8 lg:px-0 pt-12 h-full transition w-full md:w-[95%] justify-self-center">
+                            <HydrationBoundary state={dehydrate(queryClient)}>
+                                <ConfiguratorPanel />
+                                <ConfigManager>{children}</ConfigManager>
+                            </HydrationBoundary>
+                        </div>
+                    </div>
+                </main>
             </div>
         </>
     );

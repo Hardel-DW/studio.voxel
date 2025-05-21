@@ -1,5 +1,5 @@
+import { LinkButton } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
-import Button from "./Button";
 
 export default function ImageCard({
     image,
@@ -17,9 +17,9 @@ export default function ImageCard({
             <img className="w-full h-full object-cover rounded-2xl border-2 border-zinc-900" alt={title} src={image} />
             <div className="absolute hidden group-hover:flex inset-0 bg-black/50 flex-col gap-4 items-center justify-center starting:opacity-0 transition-all duration-1000">
                 <p className="text-white text-2xl font-bold">{title}</p>
-                <Button className="w-full xl:w-fit" href={href} size="sm" variant="white-shimmer">
+                <LinkButton className="w-full xl:w-fit" href={href} size="sm" variant="white-shimmer">
                     {button}
-                </Button>
+                </LinkButton>
             </div>
         </div>
     );

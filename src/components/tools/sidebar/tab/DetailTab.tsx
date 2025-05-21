@@ -5,7 +5,7 @@ import SidebarCrafting from "@/components/tools/sidebar/crafting/SidebarCrafting
 import SidebarEnchant from "@/components/tools/sidebar/enchant/SidebarEnchant";
 import SidebarLoot from "@/components/tools/sidebar/loot/SidebarLoot";
 import { withConcept } from "@/components/tools/sidebar/tab/HocConcept";
-import Button from "@/components/ui/Button";
+import { Button } from "@/components/ui/Button";
 
 export default function DetailTab() {
     const selectedConcept = useConfiguratorStore((state) => state.selectedConcept);

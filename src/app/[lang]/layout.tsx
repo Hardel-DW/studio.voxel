@@ -3,6 +3,9 @@ import { Rubik } from "next/font/google";
 import "../../globals.css";
 import { DictionaryProvider } from "@/components/layout/DictionaryProvider";
 import { type Locale, getDictionary } from "@/lib/i18n/i18nServer";
+import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
+import { getQueryClient } from "@/lib/utils/query";
+import Providers from "@/components/QueryProvider";
 
 const rubik = Rubik({
     variable: "--font-rubik",
@@ -45,11 +48,13 @@ export async function generateStaticParams() {
 export default async function RootLayout({ children, params }: { children: React.ReactNode; params: Promise<{ lang: Locale }> }) {
     const { lang } = await params;
     const dictionary = await getDictionary(lang);
-
+    
     return (
         <html lang={lang}>
             <body className={`${rubik.variable} antialiased`}>
-                <DictionaryProvider dictionary={dictionary}>{children}</DictionaryProvider>
+                <Providers>
+                    <DictionaryProvider dictionary={dictionary}>{children}</DictionaryProvider>
+                </Providers>
             </body>
         </html>
     );

@@ -2,7 +2,6 @@
 
 import Dropzone from "@/components/ui/Dropzone";
 import { DEFAULT_MOD_METADATA, extractMetadata } from "@voxelio/breeze/converter";
-import { parseZip } from "@voxelio/breeze/core";
 import { useState } from "react";
 import DatapackForm from "./DatapackForm";
 
@@ -16,14 +15,11 @@ export default function DatapackDropzone({ children }: { children?: React.ReactN
         if (!uploadedFile) return;
 
         try {
-            const arrayBuffer = await uploadedFile.arrayBuffer();
-            const zip = new Uint8Array(arrayBuffer);
-            const zipFiles = await parseZip(zip);
             const fileName = uploadedFile.name.replace(/\.zip$/i, "");
-            const extractedMetadata = extractMetadata(zipFiles, fileName);
+            const extractedMetadata = await extractMetadata(uploadedFile, fileName);
 
-            if (extractedMetadata.icon && zipFiles[extractedMetadata.icon]) {
-                const iconBlob = new Blob([zipFiles[extractedMetadata.icon]], { type: "image/png" });
+            if (extractedMetadata.icon) {
+                const iconBlob = new Blob([uploadedFile], { type: "image/png" });
                 setIconUrl(URL.createObjectURL(iconBlob));
             }
 

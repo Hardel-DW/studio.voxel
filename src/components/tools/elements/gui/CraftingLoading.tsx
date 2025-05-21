@@ -1,4 +1,4 @@
-import LoadingSlot from "@/components/minecraft/slot/LoadingSlot";
+import LoadingSlot from "@/components/tools/elements/gui/LoadingSlot";
 
 export default function SkeletonCraftingTableGUI() {
     return (

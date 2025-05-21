@@ -1,19 +1,19 @@
+"use client";
+
+import { LinkButton } from "@/components/ui/Button";
 import Translate from "@/components/tools/Translate";
-import Button from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
-import type { ToolRevealElementType as RevealElementType } from "@voxelio/breeze/core";
 import { memo } from "react";
+import type { ToolRevealCardData } from "./ToolReveal";
 
 interface ToolRevealElementProps {
-    element: RevealElementType;
+    element: ToolRevealCardData;
     isSelected: boolean;
     onSelect: () => void;
 }
 
 const ToolRevealElement = memo(function ToolRevealElement({ element, isSelected, onSelect }: ToolRevealElementProps) {
-    const handleClick = () => {
-        onSelect();
-    };
+    const handleClick = () => onSelect();
 
     return (
         <div
@@ -21,7 +21,7 @@ const ToolRevealElement = memo(function ToolRevealElement({ element, isSelected,
             onKeyDown={handleClick}
             className="transition-all stack group cursor-pointer rounded-2xl border border-zinc-800">
             <div className="relative z-50 self-start justify-self-end p-4">
-                <Button
+                <LinkButton
                     variant="white-shimmer"
                     href={element.href}
                     target="_blank"
@@ -30,7 +30,7 @@ const ToolRevealElement = memo(function ToolRevealElement({ element, isSelected,
                         "opacity-50 hover:opacity-50": element.soon
                     })}>
                     <Translate content={element.soon ? "generic.soon" : "generic.more"} />
-                </Button>
+                </LinkButton>
             </div>
             <div className="bg-shadow-bottom rounded-2xl relative z-10" />
             <div

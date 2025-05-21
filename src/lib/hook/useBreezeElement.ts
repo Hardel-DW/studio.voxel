@@ -1,18 +1,11 @@
+"use client";
+
 import { getCurrentElement, useConfiguratorStore } from "@/components/tools/Store";
-import { checkCondition, checkLocks, getConditionFields, getLockFields, getRendererFields, getValue } from "@voxelio/breeze/core";
-import type {
-    Condition,
-    FormComponent,
-    InterfaceConfiguration,
-    Lock,
-    Roadmap,
-    TranslateTextType,
-    ValueRenderer,
-    VoxelElement
-} from "@voxelio/breeze/core";
+import { checkCondition, getConditionFields, getRendererFields, getValue } from "@voxelio/breeze/core";
+import type { Condition, ValueRenderer, VoxelElement } from "@voxelio/breeze/core";
 import { useShallow } from "zustand/shallow";
-import { useQuery } from "@tanstack/react-query";
-import { fetchSchemaData, fetchApiSchemaItem } from "@/lib/utils/schema";
+import { checkLocks } from "../utils/lock";
+import type { Lock, LockRenderer } from "@/components/tools/types/component";
 
 const useElementFields = (fields: string[], elementId?: string): Partial<VoxelElement> | null => {
     return useConfiguratorStore(
@@ -51,51 +44,12 @@ export const useElementCondition = (condition: Condition | undefined, elementId?
     return checkCondition(condition, element, value);
 };
 
-export const useElementLocks = (locks: Lock[] | undefined, elementId?: string): { isLocked: boolean; text?: TranslateTextType } => {
+export const useElementLocks = (locks: Lock[] | undefined, elementId?: string): LockRenderer => {
     if (!locks) return { isLocked: false };
 
-    const fields = getLockFields(locks);
+    const fields = locks.flatMap((lock) => getConditionFields(lock.condition));
     const element = useElementFields(fields, elementId);
 
     if (!element) return { isLocked: false };
     return checkLocks(locks, element);
-};
-
-export const useRoadmap = (version: number | null) => {
-    const selectedConcept = useConfiguratorStore((state) => state.selectedConcept);
-    if (!selectedConcept) return { data: null, isLoading: false, isError: false, error: null };
-
-    const { data, isLoading, isError, error } = useQuery<Record<string, Roadmap> | null, Error>({
-        queryKey: ["roadmap", version, "schema"],
-        queryFn: async () => {
-            if (!version) return null;
-            return fetchApiSchemaItem<Record<string, Roadmap>>(`schema.${version.toString()}@roadmap`);
-        },
-        enabled: !!version
-    });
-
-    const roadmap = data ? (data[selectedConcept] ?? null) : null;
-    return { data: roadmap, isLoading, isError, error };
-};
-
-export const useSchema = (id: string): FormComponent[] | undefined => {
-    const selectedConcept = useConfiguratorStore((state) => state.selectedConcept);
-    const version = useConfiguratorStore((state) => state.version);
-    const { data: fullRoadmapData, isLoading: isRoadmapLoading, isError: isRoadmapError } = useRoadmap(version);
-
-    const { data, isLoading, isError } = useQuery<InterfaceConfiguration | null, Error>({
-        queryKey: ["schema", id, selectedConcept],
-        queryFn: () => fetchSchemaData(id, selectedConcept, fullRoadmapData),
-        enabled: !!id && !!selectedConcept && !!fullRoadmapData && !isRoadmapLoading && !isRoadmapError && !!version
-    });
-
-    if (isLoading || isRoadmapLoading) {
-        return undefined;
-    }
-
-    if (isError || isRoadmapError || !data) {
-        return undefined;
-    }
-
-    return data.components;
 };

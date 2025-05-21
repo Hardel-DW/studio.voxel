@@ -1,4 +1,6 @@
-import { TooltipContext } from "@/components/tools/tooltip/useTooltip";
+"use client";
+
+import { TooltipContext } from "@/components/tools/elements/tooltip/useTooltip";
 import { useTooltipPosition } from "@/lib/hook/useTooltipPosition";
 import { clsx } from "@/lib/utils";
 import { useContext, useRef } from "react";

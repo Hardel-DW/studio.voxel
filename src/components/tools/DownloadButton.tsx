@@ -1,7 +1,7 @@
 "use client";
 
 import { useConfiguratorStore } from "@/components/tools/Store";
-import Button from "@/components/ui/Button";
+import { Button, LinkButton } from "@/components/ui/Button";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/Dialog";
 import { saveLogs } from "@/lib/telemetry";
 import { downloadArchive } from "@/lib/utils/download";
@@ -15,7 +15,7 @@ export default function DownloadButton() {
         const { logger, files, minify, name, isModded } = store;
 
         const content = store.compile();
-        const compiledContent = await new Datapack(files).generate(content, { isMinified: minify, logger, include: voxelDatapacks });
+        const compiledContent = new Datapack(files).generate(content, { isMinified: minify, logger, include: voxelDatapacks });
         await saveLogs({ logs: logger?.getLogs() });
         downloadArchive(compiledContent, name, isModded);
     };
@@ -54,13 +54,13 @@ export default function DownloadButton() {
                             <img src="/icons/company/discord.svg" alt="Discord" className="size-6 invert" />
                         </a>
                     </div>
-                    <Button
+                    <LinkButton
                         target="_blank"
                         rel="noopener noreferrer"
                         href="https://streamelements.com/hardoudou/tip"
                         variant="primary-shimmer">
                         <Translate content="dialog.footer.donate" />
-                    </Button>
+                    </LinkButton>
                 </DialogFooter>
             </DialogContent>
         </Dialog>

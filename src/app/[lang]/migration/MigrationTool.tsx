@@ -1,6 +1,6 @@
 "use client";
 
-import Button from "@/components/ui/Button";
+import { LinkButton } from "@/components/ui/Button";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/Dialog";
 import Dropzone from "@/components/ui/Dropzone";
 import { useConfetti } from "@/lib/hook/useConfetti";
@@ -44,8 +44,8 @@ export default function MigrationTool({ children }: { children?: React.ReactNode
     const handleMigration = async () => {
         if (!sourceFiles || !targetFiles) return;
         toast.info(dictionary.migration.processing);
-        const source = await parseDatapack("enchantment", sourceFiles[0]);
-        const target = await parseDatapack("enchantment", targetFiles[0]);
+        const source = await parseDatapack(sourceFiles[0]);
+        const target = await parseDatapack(targetFiles[0]);
         if (typeof source === "string") {
             toast.error(dictionary[source]);
             return;
@@ -68,9 +68,7 @@ export default function MigrationTool({ children }: { children?: React.ReactNode
             const modifiedTarget = applyActions(target, actions);
             const finalDatapack = compileDatapack({
                 elements: Array.from(modifiedTarget.elements.values()),
-                version: modifiedTarget.version,
-                files: modifiedTarget.files,
-                tool: "enchantment"
+                files: modifiedTarget.files
             });
 
             const modifiedDatapack = await new Datapack(modifiedTarget.files).generate(finalDatapack, {
@@ -98,7 +96,7 @@ export default function MigrationTool({ children }: { children?: React.ReactNode
     };
 
     const handleSourceUpload = async (files: FileList) => {
-        const result = await parseDatapack("enchantment", files[0]);
+        const result = await parseDatapack(files[0]);
         if (typeof result === "string") {
             toast.error(dictionary[result]);
             return;
@@ -122,7 +120,7 @@ export default function MigrationTool({ children }: { children?: React.ReactNode
     };
 
     const handleTargetUpload = async (files: FileList) => {
-        const result = await parseDatapack("enchantment", files[0]);
+        const result = await parseDatapack(files[0]);
         if (typeof result === "string") {
             toast.error(dictionary[result]);
             return;
@@ -185,13 +183,13 @@ export default function MigrationTool({ children }: { children?: React.ReactNode
                                 <img src="/icons/company/discord.svg" alt="Discord" className="size-6 invert" />
                             </a>
                         </div>
-                        <Button
+                        <LinkButton
                             target="_blank"
                             rel="noopener noreferrer"
                             href="https://streamelements.com/hardoudou/tip"
                             variant="primary-shimmer">
                             {dictionary.generic.donate}
-                        </Button>
+                        </LinkButton>
                     </DialogFooter>
                 </DialogContent>
             </Dialog>

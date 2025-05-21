@@ -1,37 +1,39 @@
-import { RenderComponent } from "@/components/tools/RenderComponent";
+import { LinkButton } from "@/components/ui/Button";
 import Translate from "@/components/tools/Translate";
-import Button from "@/components/ui/Button";
-import type { ToolSectionType } from "@voxelio/breeze/core";
+import RenderGuard from "./RenderGuard";
+import type { BaseComponent, TranslateTextType } from "../types/component";
+import type React from "react";
 
-export default function ToolSection({
-    component
-}: {
-    component: ToolSectionType;
-}) {
+export type ToolSectionType = BaseComponent & {
+    id: string;
+    title: TranslateTextType;
+    children: React.ReactNode;
+    button?: { text: TranslateTextType; url: string };
+};
+
+export default function ToolSection(props: ToolSectionType) {
     return (
-        <div className="not-first:mt-16 h-full">
-            <div className="flex flex-col ring-0 transition-all h-full">
-                <div className="py-2 px-2 gap-4 flex flex-wrap justify-between items-center cursor-pointer shrink-0">
-                    <div className="relative">
-                        <h2 className="text-2xl font-semibold">
-                            <Translate content={component.title} schema={true} />
-                        </h2>
-                        <hr className="!m-0 absolute -bottom-2 left-0 right-0" />
+        <RenderGuard condition={props.hide}>
+            <div className="not-first:mt-16 h-full">
+                <div className="flex flex-col ring-0 transition-all h-full">
+                    <div className="py-2 px-2 gap-4 flex flex-wrap justify-between items-center cursor-pointer shrink-0">
+                        <div className="relative">
+                            <h2 className="text-2xl font-semibold">
+                                <Translate content={props.title} schema={true} />
+                            </h2>
+                            <hr className="!m-0 absolute -bottom-2 left-0 right-0" />
+                        </div>
+                        {props.button && (
+                            <LinkButton href={props.button.url} variant="ghost">
+                                <Translate content={props.button.text} schema={true} />
+                            </LinkButton>
+                        )}
                     </div>
-                    {component.button && (
-                        <Button href={component.button.url} variant="ghost">
-                            <Translate content={component.button.text} schema={true} />
-                        </Button>
-                    )}
-                </div>
-                <div className="transition-height duration-100 ease-in-out h-full">
-                    <div className="pt-4 gap-4 flex items flex-col h-full">
-                        {component.children.map((child, index) => (
-                            <RenderComponent key={component.id + index.toString()} component={child} index={index} />
-                        ))}
+                    <div className="transition-height duration-100 ease-in-out h-full">
+                        <div className="pt-4 gap-4 flex items flex-col h-full">{props.children}</div>
                     </div>
                 </div>
             </div>
-        </div>
+        </RenderGuard>
     );
 }

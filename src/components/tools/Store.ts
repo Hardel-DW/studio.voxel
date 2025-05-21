@@ -1,4 +1,4 @@
-import { Datapack, type Roadmap } from "@voxelio/breeze";
+import { Datapack } from "@voxelio/breeze";
 import { isVoxelElement, sortVoxelElements } from "@voxelio/breeze/core";
 import { compileDatapack } from "@voxelio/breeze/core";
 import { updateData } from "@voxelio/breeze/core";
@@ -9,6 +9,7 @@ import type { Action } from "@voxelio/breeze/core";
 import type { Logger } from "@voxelio/breeze/core";
 import type { LabeledElement } from "@voxelio/breeze/core";
 import { create } from "zustand";
+import { CONCEPTS, type CONCEPT_KEY } from "./elements";
 
 export interface ConfiguratorState<T extends keyof Analysers> {
     name: string;
@@ -21,7 +22,7 @@ export interface ConfiguratorState<T extends keyof Analysers> {
     overview: boolean;
     version: number | null;
     sortedIdentifiers: string[];
-    selectedConcept: keyof Analysers | null;
+    selectedConcept: CONCEPT_KEY | null;
     setName: (name: string) => void;
     setMinify: (minify: boolean) => void;
     setCurrentElementId: (id: string | undefined) => void;
@@ -29,7 +30,7 @@ export interface ConfiguratorState<T extends keyof Analysers> {
     setup: (updates: ParseDatapackResult<GetAnalyserVoxel<T>>) => void;
     compile: () => Array<LabeledElement>;
     getLengthByRegistry: (registry: string) => number;
-    setSelectedConcept: (concept: keyof Analysers) => void;
+    setSelectedConcept: (concept: CONCEPT_KEY) => void;
     setOverview: (overview: boolean) => void;
 }
 
@@ -42,7 +43,7 @@ const createConfiguratorStore = <T extends keyof Analysers>() =>
         isModded: false,
         version: null,
         sortedIdentifiers: [],
-        selectedConcept: "enchantment",
+        selectedConcept: CONCEPTS[0].registry as CONCEPT_KEY,
         overview: false,
         setOverview: (overview) => set({ overview }),
         setName: (name) => set({ name }),
@@ -61,7 +62,7 @@ const createConfiguratorStore = <T extends keyof Analysers>() =>
 
             if (!isVoxelElement(updatedElement)) return;
             if (state.logger && state.version && typeof state.selectedConcept === "string") {
-                state.logger.handleActionDifference(action, element, state.selectedConcept, value, state.version);
+                state.logger.handleActionDifference(action, element, value, state.version);
             }
 
             set((state) => ({ elements: state.elements.set(elementId, updatedElement) }));
@@ -70,7 +71,7 @@ const createConfiguratorStore = <T extends keyof Analysers>() =>
         compile: () => {
             const { elements, version, files, selectedConcept } = get();
             if (!version || !files || !selectedConcept) return [];
-            return compileDatapack({ elements: Array.from(elements.values()), version, files, tool: selectedConcept });
+            return compileDatapack({ elements: Array.from(elements.values()), files });
         },
         getLengthByRegistry: (registry) => new Datapack(get().files).getRegistry(registry).length,
         setSelectedConcept: (concept) => set({ selectedConcept: concept })

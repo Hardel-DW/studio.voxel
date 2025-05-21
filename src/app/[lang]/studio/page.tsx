@@ -4,6 +4,7 @@ import DatapackUploader from "@/components/tools/DatapackUploader";
 import VanillaImportButton from "@/components/tools/VanillaImportButton";
 import { type Locale, getDictionary } from "@/lib/i18n/i18nServer";
 import type { Metadata } from "next";
+import Link from "next/link";
 
 export const metadata: Metadata = {
     title: "Studio · Voxel",
@@ -19,9 +20,9 @@ export default async function HelpGuide({ params }: { params: Promise<{ lang: Lo
     const { lang } = await params;
     const dictionary = await getDictionary(lang);
     const questions = dictionary.studio.questions;
-
     return (
         <main>
+            <Link href={`/${lang}/studio/editor`} className="hidden" aria-hidden="true" />
             <Navbar dictionary={dictionary} lang={lang} />
             <section className="w-11/12 md:w-3/4 mx-auto flex flex-col justify-evenly xl:grid grid-cols-2 items-center relative gap-8 min-h-screen">
                 <div className="h-full w-[95%] md:w-full relative">

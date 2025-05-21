@@ -2,14 +2,11 @@
 
 import { getCurrentElement, useConfiguratorStore } from "@/components/tools/Store";
 import { MenuTabsContent } from "@/components/ui/MenuTabs";
-import { useSchema } from "@/lib/hook/useBreezeElement";
-import type { ToolTab } from "@voxelio/breeze/core";
-import { RenderSchemaChildren } from "./RenderSchema";
+import type { Tab } from "./elements";
 import Translate from "./Translate";
 
-export default function ConfiguratorContent(props: { tab: ToolTab }) {
+export default function ConfiguratorContent(props: { tab: Tab }) {
     const currentNamespace = useConfiguratorStore((state) => getCurrentElement(state)?.identifier.namespace);
-    const schema = useSchema(props.tab.id);
 
     return (
         <MenuTabsContent value={props.tab.id} className="h-full">
@@ -26,8 +23,6 @@ export default function ConfiguratorContent(props: { tab: ToolTab }) {
                         <div className="text-2xl text-zinc-400 text-center font-light mb-4">Temporarily disabled - Come back soon!</div>
                     </div>
                 )}
-
-                <RenderSchemaChildren component={schema} />
             </div>
         </MenuTabsContent>
     );

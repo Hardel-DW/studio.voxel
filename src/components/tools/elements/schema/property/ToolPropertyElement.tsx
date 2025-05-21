@@ -1,3 +1,5 @@
+"use client";
+
 import { useConfiguratorStore } from "@/components/tools/Store";
 import Translate from "@/components/tools/Translate";
 import { useElementCondition } from "@/lib/hook/useBreezeElement";

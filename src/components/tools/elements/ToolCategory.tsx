@@ -1,22 +1,28 @@
-import { RenderComponent } from "@/components/tools/RenderComponent";
-import Translate from "@/components/tools/Translate";
-import type { ToolCategoryType } from "@voxelio/breeze/core";
+"use client";
 
-export default function ToolCategory({ component }: { component: ToolCategoryType }) {
+import Translate from "@/components/tools/Translate";
+import type { BaseComponent, TranslateTextType } from "../types/component";
+import RenderGuard from "./RenderGuard";
+import type React from "react";
+
+export type ToolCategoryType = BaseComponent & {
+    title: TranslateTextType;
+    children: React.ReactNode;
+};
+
+export default function ToolCategory(props: ToolCategoryType) {
     return (
-        <div className="not-first:mt-8">
-            <div className="flex items-center gap-x-4 mb-8">
-                <div className="h-1 flex-1 bg-zinc-700" />
-                <h2 className="text-2xl font-semibold px-4">
-                    <Translate content={component.title} schema={true} />
-                </h2>
-                <div className="h-1 flex-1 bg-zinc-700" />
+        <RenderGuard condition={props.hide}>
+            <div className="not-first:mt-8">
+                <div className="flex items-center gap-x-4 mb-8">
+                    <div className="h-1 flex-1 bg-zinc-700" />
+                    <h2 className="text-2xl font-semibold px-4">
+                        <Translate content={props.title} schema={true} />
+                    </h2>
+                    <div className="h-1 flex-1 bg-zinc-700" />
+                </div>
+                <div className="flex flex-col gap-4">{props.children}</div>
             </div>
-            <div className="flex flex-col gap-4">
-                {component.children.map((child, index) => (
-                    <RenderComponent key={index.toString()} component={child} index={index} />
-                ))}
-            </div>
-        </div>
+        </RenderGuard>
     );
 }

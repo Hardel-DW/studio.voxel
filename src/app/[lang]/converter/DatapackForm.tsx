@@ -1,6 +1,6 @@
 "use client";
 
-import Button from "@/components/ui/Button";
+import { Button } from "@/components/ui/Button";
 import { useDictionary } from "@/lib/hook/useNext18n";
 import { trackEvent } from "@/lib/telemetry";
 import { cn } from "@/lib/utils";
@@ -51,11 +51,11 @@ const DatapackForm: React.FC<Props> = ({ file, initialMetadata, iconUrl }) => {
             const platforms = [ModPlatforms.FORGE, ModPlatforms.FABRIC, ModPlatforms.QUILT, ModPlatforms.NEOFORGE];
             const result = await convertDatapack(file, platforms, metadata);
 
-            if (!result || result.length === 0) {
+            if (!result) {
                 throw new Error("La conversion n'a pas généré de fichier valide");
             }
 
-            const blob = new Blob([result], { type: "application/java-archive" });
+            const blob = await result.blob();
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement("a");
             a.href = url;

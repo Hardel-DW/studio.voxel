@@ -1,5 +1,5 @@
 import CompoundLayout from "@/components/layout/CompoundLayout";
-import Button from "@/components/ui/Button";
+import { LinkButton } from "@/components/ui/Button";
 import { DashedPattern } from "@/components/ui/DashedPattern";
 import ShiningStars from "@/components/ui/ShiningStars";
 import Star from "@/components/ui/Star";
@@ -87,12 +87,12 @@ export default async function MigrationPage({ params }: { params: Promise<{ lang
                         <p className="text-gray-300 mt-4">{dictionary.suggestions.studio.description}</p>
 
                         <div className="mt-8 flex flex-col md:flex-row gap-4">
-                            <Button href={`/${lang}/studio`} size="xl" variant="primary" className="w-full md:w-auto">
+                            <LinkButton href={`/${lang}/studio`} size="xl" variant="primary" className="w-full md:w-auto">
                                 {dictionary.generic.start}
-                            </Button>
-                            <Button href={`/${lang}/studio`} size="xl" variant="ghost" className="w-full md:w-auto">
+                            </LinkButton>
+                            <LinkButton href={`/${lang}/studio`} size="xl" variant="ghost" className="w-full md:w-auto">
                                 {dictionary.generic.learn_more}
-                            </Button>
+                            </LinkButton>
                         </div>
                     </div>
                 </div>
@@ -110,12 +110,12 @@ export default async function MigrationPage({ params }: { params: Promise<{ lang
                         <p className="text-gray-300 mt-4">{dictionary.suggestions.converter.description}</p>
 
                         <div className="mt-8 flex flex-col md:flex-row gap-4">
-                            <Button href={`/${lang}/studio`} size="xl" variant="white-shimmer" className="w-full md:w-auto">
+                            <LinkButton href={`/${lang}/studio`} size="xl" variant="white-shimmer" className="w-full md:w-auto">
                                 {dictionary.generic.take_a_look}
-                            </Button>
-                            <Button href={`/${lang}/studio`} size="xl" variant="ghost" className="w-full md:w-auto">
+                            </LinkButton>
+                            <LinkButton href={`/${lang}/studio`} size="xl" variant="ghost" className="w-full md:w-auto">
                                 {dictionary.generic.learn_more}
-                            </Button>
+                            </LinkButton>
                         </div>
                     </div>
                 </div>

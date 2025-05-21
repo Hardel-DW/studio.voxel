@@ -4,10 +4,10 @@
  * @param filename Le nom du fichier
  * @param type Le type MIME du fichier
  */
-export const downloadFile = (content: Uint8Array, filename: string, type: string) => {
+export const downloadFile = async (content: Response, filename: string, type: string) => {
     if (typeof window === "undefined") return;
 
-    const blob = new Blob([content], { type });
+    const blob = await content.blob();
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
@@ -22,7 +22,7 @@ export const downloadFile = (content: Uint8Array, filename: string, type: string
  * @param name Le nom du fichier sans extension
  * @param isModded Si true, utilise l'extension .jar, sinon .zip
  */
-export const downloadArchive = (content: Uint8Array, name: string, isModded = false) => {
+export const downloadArchive = (content: Response, name: string, isModded = false) => {
     const extension = isModded ? "jar" : "zip";
     downloadFile(content, `${name}.${extension}`, `application/${extension}`);
 };

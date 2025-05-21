@@ -1,5 +1,5 @@
 "use client";
-import Button from "@/components/ui/Button";
+import { Button } from "@/components/ui/Button";
 import { type MobileMenuState, useMobileMenuStore } from "./mobileMenuStore";
 
 export default function MobileMenuButton() {

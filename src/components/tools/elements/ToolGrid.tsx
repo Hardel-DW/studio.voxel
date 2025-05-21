@@ -1,16 +1,22 @@
-import { RenderComponent } from "@/components/tools/RenderComponent";
-import type { FormComponent, ToolGridType } from "@voxelio/breeze/core";
+import type React from "react";
+import type { BaseComponent } from "../types/component";
+import RenderGuard from "./RenderGuard";
 
-export default function ToolGrid({ component }: { component: ToolGridType }) {
+export type ToolGridType = BaseComponent & {
+    size?: string;
+    children: React.ReactNode;
+};
+
+export default function ToolGrid(props: ToolGridType) {
     return (
-        <div
-            className="grid max-xl:grid-cols-1 gap-4"
-            style={{
-                gridTemplateColumns: `repeat(auto-fit, minmax(${component.size ?? "255px"}, 1fr))`
-            }}>
-            {component.children.map((child: FormComponent, index: number) => (
-                <RenderComponent key={index.toString()} component={child} index={index} />
-            ))}
-        </div>
+        <RenderGuard condition={props.hide}>
+            <div
+                className="grid max-xl:grid-cols-1 gap-4"
+                style={{
+                    gridTemplateColumns: `repeat(auto-fit, minmax(${props.size ?? "255px"}, 1fr))`
+                }}>
+                {props.children}
+            </div>
+        </RenderGuard>
     );
 }

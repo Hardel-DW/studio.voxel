@@ -1,7 +1,7 @@
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/footer";
 import Box from "@/components/ui/Box";
-import Button from "@/components/ui/Button";
+import { LinkButton } from "@/components/ui/Button";
 import ImageCard from "@/components/ui/ImageCard";
 import LineSetup from "@/components/ui/line/LineSetup";
 import { type Locale, getDictionary } from "@/lib/i18n/i18nServer";
@@ -76,18 +76,17 @@ export default async function Home({ params }: { params: Promise<{ lang: Locale 
                         </p>
 
                         <div className="mt-12 flex flex-wrap gap-4">
-                            <a
-                                type="button"
+                            <LinkButton
                                 href={`/${lang}/studio`}
                                 className="w-full lg:w-fit text-center bg-white text-lg cursor-pointer text-zinc-800 font-semibold py-3 px-8 rounded-lg hover:bg-zinc-300 hover:text-zinc-800 transition-all">
                                 {dictionary.home.button.start}
-                            </a>
+                            </LinkButton>
 
-                            <a
+                            <LinkButton
                                 href={`https://voxel.hardel.io/${lang}/blog/enchant-configurator`}
                                 className="w-full lg:w-fit text-center border border-zinc-200 text-lg cursor-pointer text-white font-semibold py-3 px-6 rounded-lg hover:bg-zinc-200 hover:text-zinc-800 transition-all">
                                 {dictionary.home.button.learn_more}
-                            </a>
+                            </LinkButton>
                         </div>
                     </div>
                 </div>
@@ -98,12 +97,12 @@ export default async function Home({ params }: { params: Promise<{ lang: Locale 
                     <h2 className="text-white text-xl md:text-2xl font-bold line-clamp-1 pt-8">{dictionary.home.configurator.title}</h2>
                     <p className="text-zinc-400 text-sm md:text-base mt-2 line-clamp-3">{dictionary.home.configurator.description}</p>
                     <div className="flex flex-wrap gap-2 mt-6">
-                        <Button className="w-full xl:w-fit" href={`/${lang}/studio`} size="sm" variant="white-shimmer">
+                        <LinkButton className="w-full xl:w-fit" href={`/${lang}/studio`} size="sm" variant="white-shimmer">
                             {dictionary.generic.start_now}
-                        </Button>
-                        <Button className="w-full xl:w-fit" href={`/${lang}/blog/enchant-configurator`} size="sm" variant="transparent">
+                        </LinkButton>
+                        <LinkButton className="w-full xl:w-fit" href={`/${lang}/blog/enchant-configurator`} size="sm" variant="transparent">
                             {dictionary.generic.learn_more}
-                        </Button>
+                        </LinkButton>
                     </div>
                 </Box>
                 <Box loading="lazy" image="/images/features/title/cycle.webp">
@@ -112,12 +111,12 @@ export default async function Home({ params }: { params: Promise<{ lang: Locale 
                     </h2>
                     <p className="text-zinc-400 text-sm md:text-base mt-2 line-clamp-3">{dictionary.home.converter.description}</p>
                     <div className="flex flex-wrap gap-2 mt-6">
-                        <Button className="w-full xl:w-fit" href={`/${lang}/converter`} size="sm" variant="white-shimmer">
+                        <LinkButton className="w-full xl:w-fit" href={`/${lang}/converter`} size="sm" variant="white-shimmer">
                             {dictionary.generic.start_now}
-                        </Button>
-                        <Button className="w-full xl:w-fit" href={`/${lang}/converter`} size="sm" variant="transparent">
+                        </LinkButton>
+                        <LinkButton className="w-full xl:w-fit" href={`/${lang}/converter`} size="sm" variant="transparent">
                             {dictionary.generic.learn_more}
-                        </Button>
+                        </LinkButton>
                     </div>
                 </Box>
                 <Box loading="lazy" image="/images/branding/voxel_white.webp">
@@ -126,12 +125,12 @@ export default async function Home({ params }: { params: Promise<{ lang: Locale 
                     </h2>
                     <p className="text-zinc-400 text-sm md:text-base mt-2 line-clamp-3">{dictionary.home.migration.description}</p>
                     <div className="flex flex-wrap gap-2 mt-6">
-                        <Button className="w-full xl:w-fit" href={`/${lang}/migration`} size="sm" variant="white-shimmer">
+                        <LinkButton className="w-full xl:w-fit" href={`/${lang}/migration`} size="sm" variant="white-shimmer">
                             {dictionary.generic.start_now}
-                        </Button>
-                        <Button className="w-full xl:w-fit" href={`/${lang}/migration`} size="sm" variant="transparent">
+                        </LinkButton>
+                        <LinkButton className="w-full xl:w-fit" href={`/${lang}/migration`} size="sm" variant="transparent">
                             {dictionary.generic.learn_more}
-                        </Button>
+                        </LinkButton>
                     </div>
                 </Box>
                 <Box loading="lazy" image="/images/features/title/question_mark.webp">
@@ -140,12 +139,12 @@ export default async function Home({ params }: { params: Promise<{ lang: Locale 
                     </h2>
                     <p className="text-zinc-400 text-sm md:text-base mt-2 line-clamp-3">{dictionary.home.copilot.description}</p>
                     <div className="flex flex-wrap gap-2 mt-6">
-                        <Button className="w-full xl:w-fit" href="#" size="sm" variant="white-shimmer">
+                        <LinkButton className="w-full xl:w-fit" href="#" size="sm" variant="white-shimmer">
                             {dictionary.generic.start_now}
-                        </Button>
-                        <Button className="w-full xl:w-fit" href="#" size="sm" variant="transparent">
+                        </LinkButton>
+                        <LinkButton className="w-full xl:w-fit" href="#" size="sm" variant="transparent">
                             {dictionary.generic.learn_more}
-                        </Button>
+                        </LinkButton>
                     </div>
                 </Box>
             </section>
