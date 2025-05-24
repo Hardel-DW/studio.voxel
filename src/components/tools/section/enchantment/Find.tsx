@@ -5,10 +5,11 @@ import ToolSlot from "@/components/tools/elements/ToolSlot";
 import type { Action, ValueRenderer } from "@voxelio/breeze/core";
 import ToolReveal, { ToolRevealElement } from "@/components/tools/elements/schema/reveal/ToolReveal";
 import type { Lock } from "@/components/tools/types/component";
+import Loader from "@/components/ui/Loader";
 
 // Lazy load the addon components
-const LazyEnchantDNT = lazy(() => import("./EnchantDnt"));
-const LazyEnchantYggdrasil = lazy(() => import("./EnchantYggdrasil"));
+const LazyEnchantDNT = lazy(() => import("./FindDnt"));
+const LazyEnchantYggdrasil = lazy(() => import("./FindYggdrasil"));
 
 const iterationValues = [
     {
@@ -131,7 +132,7 @@ export default function EnchantFindBehaviourSection() {
                         href="https://modrinth.com/datapack/dungeons-and-taverns"
                         title={{ key: "tools.enchantments.section.addons.dnt.title" }}
                         description={{ key: "tools.enchantments.section.addons.dnt.description" }}>
-                        <Suspense fallback={<div>Loading DNT options...</div>}>
+                        <Suspense fallback={<Loader />}>
                             <LazyEnchantDNT />
                         </Suspense>
                     </ToolRevealElement>
@@ -142,7 +143,7 @@ export default function EnchantFindBehaviourSection() {
                         href="https://modrinth.com/datapack/yggdrasil-structure"
                         title={{ key: "tools.enchantments.section.addons.yggdrasil.title" }}
                         description={{ key: "tools.enchantments.section.addons.yggdrasil.description" }}>
-                        <Suspense fallback={<div>Loading Yggdrasil options...</div>}>
+                        <Suspense fallback={<Loader />}>
                             <LazyEnchantYggdrasil />
                         </Suspense>
                     </ToolRevealElement>

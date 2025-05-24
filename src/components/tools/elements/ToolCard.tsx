@@ -21,7 +21,7 @@ export default function ToolInlineSlot(props: ToolInlineType & { index?: number 
             <button
                 type="button"
                 className={cn(
-                    "bg-black/50 group select-none ring-0 h-48 cursor-pointer ring-zinc-700 relative transition-all hover:ring-1 rounded-xl",
+                    "bg-black/50 group text-start select-none ring-0 h-48 cursor-pointer ring-zinc-700 relative transition-all hover:ring-1 rounded-xl mask",
                     { "ring-1 ring-zinc-600": value },
                     { "opacity-50 ring-1 ring-zinc-700": lock.isLocked }
                 )}
@@ -55,7 +55,7 @@ export default function ToolInlineSlot(props: ToolInlineType & { index?: number 
                     </div>
                     <div className="rounded-2xl relative bg-shadow-bottom z-10" />
                     <div
-                        className="w-full h-full rounded-2xl bg-cover bg-center group-hover:scale-110 duration-500 ease-in-out transition"
+                        className="w-full h-full rounded-2xl bg-cover bg-center group-hover:scale-110 duration-500 ease-in-out transition mask-b-from-20%"
                         style={{ backgroundImage: `url(${props.image})` }}
                     />
                 </div>

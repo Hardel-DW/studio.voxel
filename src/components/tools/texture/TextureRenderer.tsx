@@ -13,8 +13,15 @@ const getItems = async () => {
     return response.json();
 };
 
+type Response = {
+    registry: {
+        [key: string]: [number, number, number, number];
+    };
+};
+
 export default function TextureRenderer(props: { id: string; className?: string }) {
-    const { data, isLoading, error } = useQuery({
+    const processId = props.id.includes(":") ? props.id.split(":")[1] : props.id;
+    const { data, isLoading, error } = useQuery<Response>({
         queryKey: ["items"],
         queryFn: getItems
     });
@@ -23,7 +30,7 @@ export default function TextureRenderer(props: { id: string; className?: string 
         return <div className="h-10 w-10 relative shrink-0 bg-gray-200 animate-pulse rounded-md" />;
     }
 
-    if (error || !data || !(props.id in data)) {
+    if (error || !data || !(processId in data.registry)) {
         return (
             <div className="h-10 w-10 relative shrink-0 border-2 border-red-500 rounded-md flex items-center justify-center">
                 <img src="/icons/error.svg" alt="Error" width={24} height={24} />
@@ -31,7 +38,7 @@ export default function TextureRenderer(props: { id: string; className?: string 
         );
     }
 
-    const asset = data[props.id as keyof typeof data];
+    const asset = data.registry[processId];
     return (
         <div className={cn("h-10 w-10 relative shrink-0", props.className)}>
             <div

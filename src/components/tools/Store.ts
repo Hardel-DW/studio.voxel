@@ -17,21 +17,19 @@ export interface ConfiguratorState<T extends keyof Analysers> {
     logger?: Logger;
     files: Record<string, Uint8Array>;
     elements: Map<string, GetAnalyserVoxel<T>>;
-    currentElementId?: string;
+    currentElementId?: string | null;
     isModded: boolean;
-    overview: boolean;
     version: number | null;
     sortedIdentifiers: string[];
     selectedConcept: CONCEPT_KEY | null;
     setName: (name: string) => void;
     setMinify: (minify: boolean) => void;
-    setCurrentElementId: (id: string | undefined) => void;
+    setCurrentElementId: (id: string | null) => void;
     handleChange: (action: Action, identifier?: string, value?: ActionValue) => void;
     setup: (updates: ParseDatapackResult<GetAnalyserVoxel<T>>) => void;
     compile: () => Array<LabeledElement>;
     getLengthByRegistry: (registry: string) => number;
     setSelectedConcept: (concept: CONCEPT_KEY) => void;
-    setOverview: (overview: boolean) => void;
 }
 
 const createConfiguratorStore = <T extends keyof Analysers>() =>
@@ -44,8 +42,6 @@ const createConfiguratorStore = <T extends keyof Analysers>() =>
         version: null,
         sortedIdentifiers: [],
         selectedConcept: CONCEPTS[0].registry as CONCEPT_KEY,
-        overview: false,
-        setOverview: (overview) => set({ overview }),
         setName: (name) => set({ name }),
         setMinify: (minify) => set({ minify }),
         setCurrentElementId: (currentElementId) => set({ currentElementId }),

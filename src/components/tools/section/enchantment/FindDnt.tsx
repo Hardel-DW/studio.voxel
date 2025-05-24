@@ -2,6 +2,7 @@ import React from "react";
 import ToolCategory from "@/components/tools/elements/ToolCategory";
 import ToolGrid from "@/components/tools/elements/ToolGrid";
 import ToolSlot from "@/components/tools/elements/ToolSlot";
+import ToolCard from "@/components/tools/elements/ToolCard";
 import type { Action, ValueRenderer } from "@voxelio/breeze/core";
 
 const generateToggleAction = (value: string): Action => {
@@ -134,7 +135,7 @@ export default function EnchantDNT() {
             <ToolCategory title={{ key: "tools.enchantments.section.addons.dnt.structures.title" }}>
                 <ToolGrid size="400px">
                     {specificStructures.map((structure) => (
-                        <ToolSlot
+                        <ToolCard
                             key={structure.tag}
                             title={{ key: structure.title }}
                             description={{ key: structure.description }}

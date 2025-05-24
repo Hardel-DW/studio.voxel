@@ -31,6 +31,7 @@
     --animate-rainbow: rainbow 10s linear infinite;
     --animate-shimmer: shimmer 2s linear infinite;
     --animate-progress: progress 5s linear;
+    --animate-item-pulse: item-pulse 2s linear infinite;
     --ease-bounce: cubic-bezier(0.735, 0.590, 0.660, 1.225);
 
     @keyframes shimmer {
@@ -68,6 +69,12 @@
         from { filter: hue-rotate(0deg); }
         to { filter: hue-rotate(360deg); }
     }
+
+    @keyframes item-pulse {
+        0% { opacity: 0.5; }
+        50% { opacity: 1; }
+        100% { opacity: 0.5; }
+    }
 }
 
 @layer utilities {
@@ -96,6 +103,10 @@ body {
     height: 100%;
 }
 
+:root {
+    --color-primary: #d2d2d2;
+}
+
 body {
     font-family: "Rubik", sans-serif;
     color: #e8e8e8;
@@ -120,7 +131,7 @@ body {
 
 ::-webkit-scrollbar-thumb {
     border-radius: 32px;
-    box-shadow: inset 0 0 10px 10px #959595;
+    box-shadow: inset 0 0 10px 10px var(--color-primary);
     border: solid 3px transparent;
 }
 
@@ -172,10 +183,10 @@ label {
             margin-left: 0.25rem;
             box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
             transition-duration: 200ms;
-            background-color: #D6D3D1;
+            background-color: var(--color-primary);
         }
         &:checked::after {
-            background-color: #D4D4D4;
+            background-color: var(--color-primary);
             transform: translateY(-50%) translateX(1rem);
             transition-duration: 300ms;
         }
@@ -191,7 +202,7 @@ label {
             background-color: #525252;
         }
         &:checked::before {
-            background-color: #881337;
+            background-color: var(--color-primary);
         }
         &:disabled {
             cursor: not-allowed;
@@ -227,8 +238,8 @@ select:focus {
 }
 
 select:focus-visible {
-    border-color: #881337;
-    box-shadow: 0 0 0 1px #881337;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 1px var(--color-primary);
 }
 
 option {
@@ -244,8 +255,8 @@ option {
 }
 
 option:focus-visible {
-    border-color: #881337;
-    box-shadow: 0 0 0 1px #881337;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 1px var(--color-primary);
 }
 
 input[type="range"] {
@@ -278,9 +289,9 @@ input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
     top: 50%;
     transform: translateY(-50%);
-    background-color: #fdfdfd;
-    color: rgb(136, 19, 55);
-    box-shadow: 0 0 0 3px rgb(136, 19, 55) inset, calc(100rem * -1 - .6rem) 0 0 100rem
+    background-color: var(--color-primary);
+    color: var(--color-primary);
+    box-shadow: 0 0 0 3px var(--color-primary) inset, calc(100rem * -1 - .6rem) 0 0 100rem
 }
 
 input[type="range"]:focus {
@@ -305,8 +316,8 @@ input[type="text"] {
 input[type="number"]:focus,
 input[type="text"]:focus {
     outline: none;
-    border-color: #881337;
-    box-shadow: 0 0 0 1px #881337
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 1px var(--color-primary)
 }
 
 input[type="number"]::placeholder,

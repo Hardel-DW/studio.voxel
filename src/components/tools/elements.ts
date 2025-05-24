@@ -11,7 +11,7 @@ export type Concept = {
 export type Tab = {
     id: string;
     text: { key: string };
-    path: string;
+    section: string;
     soon?: boolean;
 };
 
@@ -28,32 +28,32 @@ export const CONCEPTS: Concept[] = [
             {
                 id: "global",
                 text: { key: "tools.enchantments.section.global" },
-                path: "main"
+                section: "enchant.main"
             },
             {
                 id: "find",
                 text: { key: "tools.enchantments.section.find" },
-                path: "find"
+                section: "enchant.find"
             },
             {
                 id: "slots",
                 text: { key: "tools.enchantments.section.slots" },
-                path: "slot"
+                section: "enchant.slot"
             },
             {
                 id: "items",
                 text: { key: "tools.enchantments.section.supported" },
-                path: "item"
+                section: "enchant.item"
             },
             {
                 id: "exclusive",
                 text: { key: "tools.enchantments.section.exclusive" },
-                path: "exclusive"
+                section: "enchant.exclusive"
             },
             {
                 id: "technical",
                 text: { key: "tools.enchantments.section.technical" },
-                path: "technical"
+                section: "enchant.technical"
             }
         ]
     },

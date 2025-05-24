@@ -14,7 +14,6 @@ type WithConceptProps = {};
 export const withConcept = <P extends WithConceptProps>(WrappedComponent: ComponentType<P>) => {
     return function ConceptContainer(props: P) {
         const selectedConcept = useConfiguratorStore((state) => state.selectedConcept);
-        // Vérifie si le concept existe dans la liste des concepts
         const isValidConcept = CONCEPTS.some((concept) => concept.registry === selectedConcept);
 
         if (!isValidConcept) {

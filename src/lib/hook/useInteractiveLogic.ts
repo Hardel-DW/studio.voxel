@@ -16,21 +16,22 @@ export interface UseInteractiveLogicReturn<T> {
 }
 
 export function useInteractiveLogic<C extends BaseInteractiveComponent, T>(
-    props: UseInteractiveLogicProps<C>
+    props: UseInteractiveLogicProps<C>,
+    elementId?: string
 ): UseInteractiveLogicReturn<T> {
     const { component } = props;
 
-    const value = useElementValue<T>(component.renderer);
-    const lock = useElementLocks(component.lock);
+    const currentElementId = elementId ?? useConfiguratorStore((state) => state.currentElementId);
+    if (!currentElementId) {
+        throw new Error("currentElementId is null");
+    }
+
+    const value = useElementValue<T>(component.renderer, currentElementId);
+    const lock = useElementLocks(component.lock, currentElementId);
     const performGlobalHandleChange = useConfiguratorStore((state) => state.handleChange);
-    const currentElementId = useConfiguratorStore((state) => state.currentElementId);
 
     const handleChange = (newValue: ActionValue) => {
         if (lock.isLocked) return;
-        if (currentElementId === null) {
-            console.warn("Cannot handle change, currentElementId is null");
-            return;
-        }
         performGlobalHandleChange(component.action, currentElementId, newValue);
     };
 

@@ -53,10 +53,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                             </div>
                         </div>
                         <div id="content" className="px-8 lg:px-0 pt-12 h-full transition w-full md:w-[95%] justify-self-center">
-                            <HydrationBoundary state={dehydrate(queryClient)}>
-                                <ConfiguratorPanel />
-                                <ConfigManager>{children}</ConfigManager>
-                            </HydrationBoundary>
+                            <div className="flex flex-col h-full">
+                                <div className="absolute w-full -z-10 inset-0 shadow-2xl bg-linear-to-r from-[#401727] to-[#311e7696] opacity-20 rounded-full blur-[10rem]" />
+                                <HydrationBoundary state={dehydrate(queryClient)}>
+                                    <ConfigManager>
+                                        <ConfiguratorPanel>{children}</ConfiguratorPanel>
+                                    </ConfigManager>
+                                </HydrationBoundary>
+                            </div>
                         </div>
                     </div>
                 </main>

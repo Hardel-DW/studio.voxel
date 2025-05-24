@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/Button";
 
 export default function DetailTab() {
     const selectedConcept = useConfiguratorStore((state) => state.selectedConcept);
+    const setCurrentElementId = useConfiguratorStore((state) => state.setCurrentElementId);
     const contentMap = {
         enchantment: withConcept(SidebarEnchant),
         loot_table: withConcept(SidebarLoot),
@@ -18,7 +19,7 @@ export default function DetailTab() {
     const Component = contentMap[selectedConcept as keyof typeof contentMap];
     return (
         <div className="flex flex-col gap-4 pt-4">
-            <Button variant="transparent" size="square">
+            <Button variant="transparent" size="square" onClick={() => setCurrentElementId(null)}>
                 Overview
             </Button>
             <div className="flex flex-col gap-2">{Component && <Component />}</div>

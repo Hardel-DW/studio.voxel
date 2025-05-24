@@ -1,6 +1,6 @@
 import { useConfiguratorStore } from "@/components/tools/Store";
 import { Datapack, Identifier } from "@voxelio/breeze";
-import ToolSwitchSlot from "@/components/tools/elements/ToolSwitchSlot";
+import ToolInline from "@/components/tools/elements/ToolInline";
 import ToolGrid from "@/components/tools/elements/ToolGrid";
 import type { Action, ValueRenderer } from "@voxelio/breeze/core";
 
@@ -46,7 +46,7 @@ export default function ExclusiveSingle() {
     return (
         <ToolGrid>
             {enchantments.map((enchantment) => (
-                <ToolSwitchSlot
+                <ToolInline
                     key={enchantment.identifier.registry}
                     title={new Identifier(enchantment.identifier).toResourceName()}
                     description={enchantment.identifier.namespace}

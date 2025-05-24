@@ -1,12 +1,11 @@
 import React from "react";
-import ToolSection from "@/components/tools/elements/ToolSection";
 import ToolGrid from "@/components/tools/elements/ToolGrid";
 import ToolSlot from "@/components/tools/elements/ToolSlot";
 import ToolCategory from "@/components/tools/elements/ToolCategory";
 import { useConfiguratorStore } from "@/components/tools/Store";
-import { collectFromPath, getLabeledIdentifier, getTagsFromRegistry, Identifier, isTag } from "@voxelio/breeze";
+import { collectFromPath, getLabeledIdentifier, getTagsFromRegistry, Identifier, isTag, type TagRegistry } from "@voxelio/breeze";
 import Translate from "@/components/tools/Translate";
-import { getRegistry } from "@/lib/utils/registry";
+import useRegistry from "@/lib/hook/useRegistry";
 import ToolListOption from "@/components/tools/elements/ToolListOption";
 
 // Vanilla exclusive groups avec seulement les propriétés essentielles
@@ -24,7 +23,7 @@ export default function ExclusiveGroup() {
     const files = useConfiguratorStore((state) => state.files);
     const compile = useConfiguratorStore((state) => state.compile);
     const enchantments = collectFromPath("tags/enchantment", files, "exclusive_set", ["minecraft"]);
-    const { data: tags, isLoading: isRegistryLoading, isError: isRegistryError } = getRegistry("tags/enchantment");
+    const { data: tags, isLoading: isRegistryLoading, isError: isRegistryError } = useRegistry<TagRegistry>("tags/enchantment");
     const assembleDatapack = compile();
 
     const getValues = (identifier: Identifier) => {

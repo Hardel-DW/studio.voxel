@@ -5,21 +5,20 @@ import { cn } from "@/lib/utils";
 import type React from "react";
 import type { BaseComponent, TranslateTextType } from "../types/component";
 import RenderGuard from "./RenderGuard";
-import { useState } from "react";
 
 export type ToolSectionSelectorSection = BaseComponent & {
     id: string;
     title: TranslateTextType;
-    children: (currentId: string) => React.ReactNode;
+    children: React.ReactNode;
     elements: {
         id: string;
         title: TranslateTextType;
     }[];
+    value: string;
+    setValue: (value: string) => void;
 };
 
 export default function ToolSectionSelector(props: ToolSectionSelectorSection) {
-    const [currentId, setCurrentId] = useState<string>(props.elements?.[0].id ?? "");
-
     return (
         <RenderGuard condition={props.hide}>
             <div className="not-first:mt-16 h-full">
@@ -37,11 +36,11 @@ export default function ToolSectionSelector(props: ToolSectionSelectorSection) {
                                     <button
                                         type="button"
                                         className={cn("px-4 py-2 rounded-xl text-left", {
-                                            "bg-rose-900 text-white": currentId === element.id,
-                                            "hover:bg-zinc-700": currentId !== element.id
+                                            "bg-rose-900 text-white": props.value === element.id,
+                                            "hover:bg-zinc-700": props.value !== element.id
                                         })}
                                         key={element.id}
-                                        onClick={() => setCurrentId(element.id)}>
+                                        onClick={() => props.setValue(element.id)}>
                                         <p className="font-semibold line-clamp-1 text-xs md:text-sm">
                                             <Translate content={element.title} schema={true} />
                                         </p>
@@ -55,7 +54,7 @@ export default function ToolSectionSelector(props: ToolSectionSelectorSection) {
                         )}
                     </div>
                     <div className="transition-height duration-100 ease-in-out h-full">
-                        <div className="pt-4 gap-4 flex items flex-col h-full">{props.children(currentId)}</div>
+                        <div className="pt-4 gap-4 flex items flex-col h-full">{props.children}</div>
                     </div>
                 </div>
             </div>

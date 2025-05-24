@@ -6,14 +6,14 @@ import type { BaseInteractiveComponent, TranslateTextType } from "../types/compo
 import RenderGuard from "./RenderGuard";
 import { useInteractiveLogic } from "@/lib/hook/useInteractiveLogic";
 
-export type ToolSwitchSlotType = BaseInteractiveComponent & {
+export type ToolInlineType = BaseInteractiveComponent & {
     title: TranslateTextType;
     description: TranslateTextType;
     image?: string;
 };
 
-export default function ToolSwitchSlot(props: ToolSwitchSlotType & { index?: number }) {
-    const { value, lock, handleChange } = useInteractiveLogic<ToolSwitchSlotType, boolean>({ component: props });
+export default function ToolInline(props: ToolInlineType & { index?: number }) {
+    const { value, lock, handleChange } = useInteractiveLogic<ToolInlineType, boolean>({ component: props });
     if (value === null) return null;
     const index = props.index ?? 0;
 

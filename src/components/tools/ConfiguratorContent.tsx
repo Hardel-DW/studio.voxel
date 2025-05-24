@@ -4,8 +4,8 @@ import { getCurrentElement, useConfiguratorStore } from "@/components/tools/Stor
 import { MenuTabsContent } from "@/components/ui/MenuTabs";
 import type { Tab } from "./elements";
 import Translate from "./Translate";
-
-export default function ConfiguratorContent(props: { tab: Tab }) {
+import type { ReactNode } from "react";
+export default function ConfiguratorContent(props: { tab: Tab; children: ReactNode }) {
     const currentNamespace = useConfiguratorStore((state) => getCurrentElement(state)?.identifier.namespace);
 
     return (
@@ -23,6 +23,7 @@ export default function ConfiguratorContent(props: { tab: Tab }) {
                         <div className="text-2xl text-zinc-400 text-center font-light mb-4">Temporarily disabled - Come back soon!</div>
                     </div>
                 )}
+                {props.children}
             </div>
         </MenuTabsContent>
     );

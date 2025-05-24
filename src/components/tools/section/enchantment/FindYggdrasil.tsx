@@ -2,6 +2,7 @@ import React from "react";
 import ToolCategory from "@/components/tools/elements/ToolCategory";
 import ToolGrid from "@/components/tools/elements/ToolGrid";
 import ToolSlot from "@/components/tools/elements/ToolSlot";
+import ToolInline from "@/components/tools/elements/ToolInline";
 import type { Action, ValueRenderer } from "@voxelio/breeze/core";
 
 const generateToggleAction = (value: string): Action => {
@@ -241,7 +242,7 @@ export default function EnchantYggdrasil() {
             <ToolCategory title={{ key: "tools.enchantments.section.addons.yggdrasil.runic_labyrinth.title" }}>
                 <ToolGrid size="400px">
                     {runicLabyrinthStructures.map((structure) => (
-                        <ToolSlot
+                        <ToolInline
                             key={structure.tag}
                             title={{ key: structure.title }}
                             description={{ key: structure.description }}

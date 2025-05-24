@@ -9,6 +9,7 @@ export type BaseInteractiveComponent = BaseComponent & {
     action: Action;
     renderer: ValueRenderer;
     lock?: Lock[];
+    elementId?: string;
 };
 
 export type Lock = {
