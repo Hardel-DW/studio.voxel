@@ -1,9 +1,9 @@
-import { useMemo } from "react";
+import { useConfiguratorStore } from "@/components/tools/Store";
+import TagsComparator from "@/lib/utils/TagComparator";
 import { Datapack } from "@voxelio/breeze";
 import type { DataDrivenRegistryElement, TagType } from "@voxelio/breeze";
-import { useConfiguratorStore } from "@/components/tools/Store";
+import { useMemo } from "react";
 import useRegistry from "./useRegistry";
-import TagsComparator from "@/lib/utils/TagComparator";
 
 export default function useTagManager() {
     const files = useConfiguratorStore((state) => state.files);

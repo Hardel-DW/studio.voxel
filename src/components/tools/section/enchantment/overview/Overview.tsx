@@ -1,10 +1,10 @@
+import SquareButton from "@/components/tools/elements/SquareButton";
+import useTagManager from "@/lib/hook/useTagManager";
 import { Identifier } from "@voxelio/breeze";
-import { useConfiguratorStore } from "../../../Store";
 import type { Analysers } from "@voxelio/breeze";
 import { useState } from "react";
-import useTagManager from "@/lib/hook/useTagManager";
+import { useConfiguratorStore } from "../../../Store";
 import OverviewCard from "./OverviewCard";
-import SquareButton from "@/components/tools/elements/SquareButton";
 
 type EnchantmentProps = Analysers["enchantment"]["voxel"];
 const UNCATEGORIZED_KEY = "#minecraft:undefined";
@@ -12,7 +12,7 @@ const UNCATEGORIZED_KEY = "#minecraft:undefined";
 export default function Overview() {
     const [search, setSearch] = useState("");
     const [filter, setFilter] = useState<"exclusiveSet" | "supportedItems">("supportedItems");
-    const [display, setDisplay] = useState<"minimal" | "detailed">("detailed");
+    const [display, setDisplay] = useState<"minimal" | "detailed">("minimal");
     const elements = useConfiguratorStore((state) => state.elements);
     const elementsBySet = groupElementsByExclusiveSet(elements, filter, search);
     const { getAllItemsFromTag } = useTagManager();

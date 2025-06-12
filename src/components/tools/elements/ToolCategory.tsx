@@ -1,9 +1,9 @@
 "use client";
 
 import Translate from "@/components/tools/Translate";
+import type React from "react";
 import type { BaseComponent, TranslateTextType } from "../types/component";
 import RenderGuard from "./RenderGuard";
-import type React from "react";
 
 export type ToolCategoryType = BaseComponent & {
     title: TranslateTextType;

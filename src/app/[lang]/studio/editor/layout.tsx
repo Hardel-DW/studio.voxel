@@ -1,10 +1,10 @@
+import ConfigManager from "@/components/tools/ConfigManager";
 import ConfiguratorPanel from "@/components/tools/ConfiguratorPanel";
 import ToolInternalization from "@/components/tools/ToolInternalization";
+import StudioSidebar from "@/components/tools/sidebar/Sidebar";
 import { getQueryClient } from "@/lib/utils/query";
 import { dehydrate } from "@tanstack/react-query";
 import { HydrationBoundary } from "@tanstack/react-query";
-import StudioSidebar from "@/components/tools/sidebar/Sidebar";
-import ConfigManager from "@/components/tools/ConfigManager";
 import type React from "react";
 
 export default function Layout({ children }: { children: React.ReactNode }) {

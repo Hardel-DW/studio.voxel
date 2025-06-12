@@ -1,7 +1,7 @@
 "use client";
 
-import { LinkButton } from "@/components/ui/Button";
 import Translate from "@/components/tools/Translate";
+import { LinkButton } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
 import { memo } from "react";
 import type { ToolRevealCardData } from "./ToolReveal";

@@ -1,11 +1,11 @@
-import React from "react";
-import ToolSection from "@/components/tools/elements/ToolSection";
 import ToolGrid from "@/components/tools/elements/ToolGrid";
-import ToolSwitch from "@/components/tools/elements/ToolSwitch";
 import ToolRange from "@/components/tools/elements/ToolRange";
+import ToolSection from "@/components/tools/elements/ToolSection";
+import ToolSwitch from "@/components/tools/elements/ToolSwitch";
 import ToolProperty from "@/components/tools/elements/schema/property/ToolProperty";
-import type { Action, ValueRenderer } from "@voxelio/breeze/core";
 import type { Lock } from "@/components/tools/types/component";
+import type { Action, ValueRenderer } from "@voxelio/breeze/core";
+import React from "react";
 
 const generateToggleAction = (value: string): Action => {
     return {

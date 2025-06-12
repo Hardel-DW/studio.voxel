@@ -1,12 +1,12 @@
-import React from "react";
-import ToolGrid from "@/components/tools/elements/ToolGrid";
-import ToolSlot from "@/components/tools/elements/ToolSlot";
-import ToolCategory from "@/components/tools/elements/ToolCategory";
 import { useConfiguratorStore } from "@/components/tools/Store";
-import { collectFromPath, getLabeledIdentifier, getTagsFromRegistry, Identifier, isTag, type TagRegistry } from "@voxelio/breeze";
 import Translate from "@/components/tools/Translate";
-import useRegistry from "@/lib/hook/useRegistry";
+import ToolCategory from "@/components/tools/elements/ToolCategory";
+import ToolGrid from "@/components/tools/elements/ToolGrid";
 import ToolListOption from "@/components/tools/elements/ToolListOption";
+import ToolSlot from "@/components/tools/elements/ToolSlot";
+import useRegistry from "@/lib/hook/useRegistry";
+import { Identifier, type TagRegistry, collectFromPath, getLabeledIdentifier, getTagsFromRegistry, isTag } from "@voxelio/breeze";
+import React from "react";
 
 // Vanilla exclusive groups avec seulement les propriétés essentielles
 const vanillaGroups = [

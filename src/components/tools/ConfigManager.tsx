@@ -3,8 +3,8 @@
 import { useConfiguratorStore } from "@/components/tools/Store";
 import type { Locale } from "@/lib/i18n/i18nServer";
 import { useParams } from "next/navigation";
-import { LinkButton } from "../ui/Button";
 import type { PropsWithChildren } from "react";
+import { LinkButton } from "../ui/Button";
 
 export default function ConfigManager(props: PropsWithChildren) {
     const params = useParams<{ lang: Locale }>();

@@ -25,17 +25,6 @@ export type BaseDynamicSchema<T> = BaseComponent & {
 
 export type TranslateTextType = string | { key: string };
 
-export type FieldConfiguration = Record<
-    string,
-    {
-        name: TranslateTextType;
-        type: FieldType;
-        icon?: string;
-    }
->;
-
-export type FieldType = "string" | "number" | "boolean" | "array" | "tags" | "effects" | "deleted";
-
 export function getKey(text: TranslateTextType): string {
     if (typeof text === "string") {
         return text;

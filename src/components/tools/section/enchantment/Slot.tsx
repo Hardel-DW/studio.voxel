@@ -1,9 +1,9 @@
-import React from "react";
-import ToolSection from "@/components/tools/elements/ToolSection";
+import Translate from "@/components/tools/Translate";
 import ToolGrid from "@/components/tools/elements/ToolGrid";
+import ToolSection from "@/components/tools/elements/ToolSection";
 import ToolSlot from "@/components/tools/elements/ToolSlot";
 import type { Action, ValueRenderer } from "@voxelio/breeze/core";
-import Translate from "@/components/tools/Translate";
+import React from "react";
 
 const generateAction = (slot: string): Action => {
     return {

@@ -2,9 +2,9 @@
 
 import Translate from "@/components/tools/Translate";
 import { getKey } from "@/components/tools/types/component";
+import { useInteractiveLogic } from "@/lib/hook/useInteractiveLogic";
 import type { BaseInteractiveComponent, TranslateTextType } from "../types/component";
 import RenderGuard from "./RenderGuard";
-import { useInteractiveLogic } from "@/lib/hook/useInteractiveLogic";
 
 // Type defined locally
 export type ToolRangeType = BaseInteractiveComponent & {

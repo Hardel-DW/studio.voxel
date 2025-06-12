@@ -2,9 +2,9 @@
 
 import { getCurrentElement, useConfiguratorStore } from "@/components/tools/Store";
 import { MenuTabsContent } from "@/components/ui/MenuTabs";
-import type { Tab } from "./elements";
-import Translate from "./Translate";
 import type { ReactNode } from "react";
+import Translate from "./Translate";
+import type { Tab } from "./elements";
 export default function ConfiguratorContent(props: { tab: Tab; children: ReactNode }) {
     const currentNamespace = useConfiguratorStore((state) => getCurrentElement(state)?.identifier.namespace);
 

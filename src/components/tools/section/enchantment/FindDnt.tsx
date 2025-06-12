@@ -1,9 +1,9 @@
-import React from "react";
+import ToolCard from "@/components/tools/elements/ToolCard";
 import ToolCategory from "@/components/tools/elements/ToolCategory";
 import ToolGrid from "@/components/tools/elements/ToolGrid";
 import ToolSlot from "@/components/tools/elements/ToolSlot";
-import ToolCard from "@/components/tools/elements/ToolCard";
 import type { Action, ValueRenderer } from "@voxelio/breeze/core";
+import React from "react";
 
 const generateToggleAction = (value: string): Action => {
     return {

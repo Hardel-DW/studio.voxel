@@ -1,8 +1,8 @@
-import { LinkButton } from "@/components/ui/Button";
 import Translate from "@/components/tools/Translate";
-import RenderGuard from "./RenderGuard";
-import type { BaseComponent, TranslateTextType } from "../types/component";
+import { LinkButton } from "@/components/ui/Button";
 import type React from "react";
+import type { BaseComponent, TranslateTextType } from "../types/component";
+import RenderGuard from "./RenderGuard";
 
 export type ToolSectionType = BaseComponent & {
     id: string;

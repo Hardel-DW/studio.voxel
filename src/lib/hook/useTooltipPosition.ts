@@ -1,4 +1,4 @@
-import { useState, useEffect, type RefObject } from "react";
+import { type RefObject, useEffect, useState } from "react";
 
 export function useTooltipPosition(tooltipRef: RefObject<HTMLElement | null>) {
     const [position, setPosition] = useState({ x: 0, y: 0 });

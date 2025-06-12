@@ -5,9 +5,9 @@ import ShiningStars from "@/components/ui/ShiningStars";
 import Star from "@/components/ui/Star";
 import Walkthrough from "@/components/ui/Walkthrough";
 import { type Locale, getDictionary } from "@/lib/i18n/i18nServer";
+import type { Metadata } from "next";
 import Image from "next/image";
 import DatapackDropzone from "./DatapackDropzone";
-import type { Metadata } from "next";
 
 export const metadata: Metadata = {
     title: "Converter · Voxel",

@@ -1,10 +1,10 @@
 "use client";
 
+import { useInteractiveLogic } from "@/lib/hook/useInteractiveLogic";
 import { cn } from "@/lib/utils";
 import Translate from "../Translate";
 import type { BaseInteractiveComponent, TranslateTextType } from "../types/component";
 import RenderGuard from "./RenderGuard";
-import { useInteractiveLogic } from "@/lib/hook/useInteractiveLogic";
 
 export type ToolInlineType = BaseInteractiveComponent & {
     title: TranslateTextType;

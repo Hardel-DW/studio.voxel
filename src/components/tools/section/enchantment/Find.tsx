@@ -1,11 +1,11 @@
-import React, { lazy, Suspense } from "react";
-import ToolSection from "@/components/tools/elements/ToolSection";
 import ToolGrid from "@/components/tools/elements/ToolGrid";
+import ToolSection from "@/components/tools/elements/ToolSection";
 import ToolSlot from "@/components/tools/elements/ToolSlot";
-import type { Action, ValueRenderer } from "@voxelio/breeze/core";
 import ToolReveal, { ToolRevealElement } from "@/components/tools/elements/schema/reveal/ToolReveal";
 import type { Lock } from "@/components/tools/types/component";
 import Loader from "@/components/ui/Loader";
+import type { Action, ValueRenderer } from "@voxelio/breeze/core";
+import React, { lazy, Suspense } from "react";
 
 // Lazy load the addon components
 const LazyEnchantDNT = lazy(() => import("./FindDnt"));

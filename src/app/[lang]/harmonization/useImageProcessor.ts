@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { extractPalette, cleanPalette, quantizeImage, type RGB } from "@/lib/utils/color";
+import { type RGB, cleanPalette, extractPalette, quantizeImage } from "@/lib/utils/color";
+import { useEffect, useState } from "react";
 
 export default function useImageProcessor() {
     const [palette, setPalette] = useState({

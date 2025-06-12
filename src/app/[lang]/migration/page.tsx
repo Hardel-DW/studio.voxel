@@ -5,8 +5,8 @@ import ShiningStars from "@/components/ui/ShiningStars";
 import Star from "@/components/ui/Star";
 import Walkthrough from "@/components/ui/Walkthrough";
 import { type Locale, getDictionary } from "@/lib/i18n/i18nServer";
-import MigrationTool from "./MigrationTool";
 import type { Metadata } from "next";
+import MigrationTool from "./MigrationTool";
 export const metadata: Metadata = {
     title: "Datapack Migration · Voxel",
     description:

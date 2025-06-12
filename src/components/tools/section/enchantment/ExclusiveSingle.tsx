@@ -1,7 +1,7 @@
 import { useConfiguratorStore } from "@/components/tools/Store";
-import { Datapack, Identifier } from "@voxelio/breeze";
-import ToolInline from "@/components/tools/elements/ToolInline";
 import ToolGrid from "@/components/tools/elements/ToolGrid";
+import ToolInline from "@/components/tools/elements/ToolInline";
+import { Datapack, Identifier } from "@voxelio/breeze";
 import type { Action, ValueRenderer } from "@voxelio/breeze/core";
 
 const generateAction = (identifier: Identifier): Action => {

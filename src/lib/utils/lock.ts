@@ -1,4 +1,4 @@
-import type { LockRenderer, Lock } from "@/components/tools/types/component";
+import type { Lock, LockRenderer } from "@/components/tools/types/component";
 import { checkCondition } from "@voxelio/breeze";
 
 export function checkLocks(locks: Lock[] | undefined, element: Record<string, unknown>): LockRenderer {

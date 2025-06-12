@@ -1,13 +1,13 @@
 "use client";
 
 import { getCurrentElement, useConfiguratorStore } from "@/components/tools/Store";
+import type { Lock, LockRenderer } from "@/components/tools/types/component";
 import { checkCondition, getConditionFields, getRendererFields, getValue } from "@voxelio/breeze/core";
 import type { Condition, ValueRenderer, VoxelElement } from "@voxelio/breeze/core";
 import { useShallow } from "zustand/shallow";
 import { checkLocks } from "../utils/lock";
-import type { Lock, LockRenderer } from "@/components/tools/types/component";
 
-const useElementFields = (fields: string[], elementId?: string): Partial<VoxelElement> | null => {
+const useElementFields = (fields: string[], elementId?: string | null): Partial<VoxelElement> | null => {
     return useConfiguratorStore(
         useShallow((state): Partial<VoxelElement> | null => {
             const id = elementId ? state.elements.get(elementId) : getCurrentElement(state);
@@ -34,7 +34,7 @@ export const useElementValue = <T>(renderer: ValueRenderer, elementId?: string):
     return getValue<T>(renderer, element);
 };
 
-export const useElementCondition = (condition: Condition | undefined, elementId?: string, value?: any): boolean => {
+export const useElementCondition = (condition: Condition | undefined, elementId?: string | null, value?: any): boolean => {
     if (!condition) return false;
 
     const fields = getConditionFields(condition);

@@ -1,8 +1,8 @@
 "use client";
 
-import { useConfiguratorStore } from "../Store";
-import { Suspense, lazy } from "react";
 import Loader from "@/components/ui/Loader";
+import { Suspense, lazy } from "react";
+import { useConfiguratorStore } from "../Store";
 
 const OVERVIEW_MAP = {
     enchantment: () => import("./enchantment/overview/Overview")

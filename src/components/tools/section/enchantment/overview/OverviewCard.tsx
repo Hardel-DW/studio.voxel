@@ -1,10 +1,10 @@
-import { cn } from "@/lib/utils";
+import type { Lock } from "@/components/tools/types/component";
 import Counter from "@/components/ui/Counter";
-import TagsRenderer from "../../../texture/TagsRenderer";
+import { cn } from "@/lib/utils";
 import { Identifier } from "@voxelio/breeze";
 import type { Action, Analysers, ValueRenderer } from "@voxelio/breeze";
+import TagsRenderer from "../../../texture/TagsRenderer";
 import OverviewCase from "./OverviewCase";
-import type { Lock } from "@/components/tools/types/component";
 
 type EnchantmentProps = Analysers["enchantment"]["voxel"];
 

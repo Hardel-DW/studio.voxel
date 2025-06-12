@@ -1,9 +1,9 @@
-import Star from "@/components/ui/Star";
-import HarmonizeClientLogic from "./HarmonizeEditor";
 import CompoundLayout from "@/components/layout/CompoundLayout";
-import { getDictionary, type Locale } from "@/lib/i18n/i18nServer";
 import ShiningStars from "@/components/ui/ShiningStars";
+import Star from "@/components/ui/Star";
+import { type Locale, getDictionary } from "@/lib/i18n/i18nServer";
 import type { Metadata } from "next";
+import HarmonizeClientLogic from "./HarmonizeEditor";
 
 export const metadata: Metadata = {
     title: "Image harmonization · Voxel",

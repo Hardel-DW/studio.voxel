@@ -1,13 +1,13 @@
 "use client";
 
 import { useConfiguratorStore } from "@/components/tools/Store";
+import React, { useMemo, type PropsWithChildren, Suspense } from "react";
+import Loader from "../ui/Loader";
+import { MenuTabs, MenuTabsList, MenuTabsTrigger } from "../ui/MenuTabs";
+import ConfiguratorContent from "./ConfiguratorContent";
+import LazyTabs from "./LazyTabs";
 import Translate from "./Translate";
 import { CONCEPTS } from "./elements";
-import React, { useMemo, type PropsWithChildren, Suspense } from "react";
-import { MenuTabs, MenuTabsList, MenuTabsTrigger } from "../ui/MenuTabs";
-import LazyTabs from "./LazyTabs";
-import ConfiguratorContent from "./ConfiguratorContent";
-import Loader from "../ui/Loader";
 import OverviewManager from "./section/OverviewManager";
 
 export default function ConfiguratorPanel(props: PropsWithChildren) {

@@ -1,5 +1,5 @@
-import { useI18nStore } from "@/lib/i18n/i18nStore";
 import type { TranslateTextType } from "@/components/tools/types/component";
+import { useI18nStore } from "@/lib/i18n/i18nStore";
 
 // Hook to get a single translation key and trigger a rerender
 export function useTranslateKey(key: string): string {

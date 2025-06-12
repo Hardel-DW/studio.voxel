@@ -1,8 +1,8 @@
 "use client";
 
 import { useConfiguratorStore } from "@/components/tools/Store";
-import SidebarCard from "@/components/tools/sidebar/tab/SidebarCard";
 import { CONCEPTS } from "@/components/tools/elements";
+import SidebarCard from "@/components/tools/sidebar/tab/SidebarCard";
 import type { Analysers } from "@voxelio/breeze/core";
 export default function ConceptTab() {
     const selectedConcept = useConfiguratorStore((state) => state.selectedConcept);

@@ -1,10 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
 import ToolGrid from "@/components/tools/elements/ToolGrid";
+import ToolSectionSelector from "@/components/tools/elements/ToolSectionSelector";
 import ToolSlot from "@/components/tools/elements/ToolSlot";
 import type { Action, ValueRenderer } from "@voxelio/breeze/core";
-import ToolSectionSelector from "@/components/tools/elements/ToolSectionSelector";
+import React, { useState } from "react";
 
 const generateAction = (value: string, field: string): Action => {
     return {
