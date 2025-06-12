@@ -25,7 +25,7 @@ export interface ConfiguratorState<T extends keyof Analysers> {
     setName: (name: string) => void;
     setMinify: (minify: boolean) => void;
     setCurrentElementId: (id: string | null) => void;
-    handleChange: (action: Action, identifier?: string, value?: ActionValue) => void;
+    handleChange: (action: Action, identifier?: string, value?: ActionValue) => Promise<void>;
     setup: (updates: ParseDatapackResult<GetAnalyserVoxel<T>>) => void;
     compile: () => Array<LabeledElement>;
     getLengthByRegistry: (registry: string) => number;
@@ -45,7 +45,7 @@ const createConfiguratorStore = <T extends keyof Analysers>() =>
         setName: (name) => set({ name }),
         setMinify: (minify) => set({ minify }),
         setCurrentElementId: (currentElementId) => set({ currentElementId }),
-        handleChange: (action, identifier, value) => {
+        handleChange: async (action, identifier) => {
             const state = get();
             const elementId = identifier ?? state.currentElementId;
             if (!elementId) return;
@@ -53,14 +53,11 @@ const createConfiguratorStore = <T extends keyof Analysers>() =>
             const element = state.elements.get(elementId);
             if (!element) return;
 
-            const updatedElement = updateData(action, element, state.version ?? Number.POSITIVE_INFINITY, value);
-            if (!updatedElement) return;
+            const updatedElement = await state.logger?.trackChanges(element, (el) =>
+                updateData(action, el, state.version ?? Number.POSITIVE_INFINITY)
+            );
 
-            if (!isVoxelElement(updatedElement)) return;
-            if (state.logger && state.version && typeof state.selectedConcept === "string") {
-                state.logger.handleActionDifference(action, element, value, state.version);
-            }
-
+            if (!updatedElement || !isVoxelElement(updatedElement)) return;
             set((state) => ({ elements: state.elements.set(elementId, updatedElement) }));
         },
         setup: (updates) => set({ ...updates, sortedIdentifiers: sortVoxelElements(updates.elements) }),

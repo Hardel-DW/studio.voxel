@@ -16,7 +16,7 @@ export default function DownloadButton() {
 
         const content = store.compile();
         const compiledContent = new Datapack(files).generate(content, { isMinified: minify, logger, include: voxelDatapacks });
-        await saveLogs({ logs: logger?.getLogs() });
+        await saveLogs({ logs: logger?.exportJson() });
         downloadArchive(compiledContent, name, isModded);
     };
 

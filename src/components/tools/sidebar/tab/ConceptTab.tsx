@@ -3,7 +3,7 @@
 import { useConfiguratorStore } from "@/components/tools/Store";
 import { CONCEPTS } from "@/components/tools/elements";
 import SidebarCard from "@/components/tools/sidebar/tab/SidebarCard";
-import type { Analysers } from "@voxelio/breeze/core";
+
 export default function ConceptTab() {
     const selectedConcept = useConfiguratorStore((state) => state.selectedConcept);
     const setSelectedConcept = useConfiguratorStore((state) => state.setSelectedConcept);
@@ -18,7 +18,7 @@ export default function ConceptTab() {
                     index={index}
                     description={`${getLengthByRegistry(concept.registry)} Elements`}
                     selected={selectedConcept === concept.registry}
-                    onClick={() => setSelectedConcept(concept.registry as keyof Analysers)}
+                    onClick={() => setSelectedConcept(concept.registry)}
                 />
             ))}
         </div>

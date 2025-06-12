@@ -1,6 +1,5 @@
 import { useConfiguratorStore } from "@/components/tools/Store";
-import TagsComparator from "@/lib/utils/TagComparator";
-import { Datapack } from "@voxelio/breeze";
+import { Datapack, TagsComparator } from "@voxelio/breeze";
 import type { DataDrivenRegistryElement, TagType } from "@voxelio/breeze";
 import { useMemo } from "react";
 import useRegistry from "./useRegistry";

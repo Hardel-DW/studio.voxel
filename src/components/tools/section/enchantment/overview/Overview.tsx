@@ -83,7 +83,7 @@ function getItemFromMultipleOrOne(element: string | string[]): { isTag: boolean;
  * String[] and undefined exclusiveSets are grouped under UNCATEGORIZED_KEY
  */
 function groupElementsByExclusiveSet(
-    elements: Map<string, EnchantmentProps>,
+    elements: Map<string, Analysers[keyof Analysers]["voxel"]>,
     key: string,
     search: string
 ): Map<string, EnchantmentProps[]> {
@@ -91,6 +91,10 @@ function groupElementsByExclusiveSet(
     groups.set(UNCATEGORIZED_KEY, []);
 
     for (const element of elements.values()) {
+        if (!isEnchantment(element)) {
+            continue;
+        }
+
         const category = typeof element[key] === "string" ? element[key] : UNCATEGORIZED_KEY;
 
         if (search && !element.identifier.resource.toLowerCase().includes(search.toLowerCase())) {
@@ -103,4 +107,13 @@ function groupElementsByExclusiveSet(
     }
 
     return groups;
+}
+
+// type is EnchantmentProps if registry is enchantment
+function isEnchantment(element: Analysers[keyof Analysers]["voxel"]): element is EnchantmentProps {
+    if (element.identifier.registry === "enchantment") {
+        return true;
+    }
+
+    return false;
 }

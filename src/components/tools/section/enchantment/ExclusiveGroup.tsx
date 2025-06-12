@@ -5,7 +5,7 @@ import ToolGrid from "@/components/tools/elements/ToolGrid";
 import ToolListOption from "@/components/tools/elements/ToolListOption";
 import ToolSlot from "@/components/tools/elements/ToolSlot";
 import useRegistry from "@/lib/hook/useRegistry";
-import { Identifier, type TagRegistry, collectFromPath, getLabeledIdentifier, getTagsFromRegistry, isTag } from "@voxelio/breeze";
+import { Datapack, Identifier, type TagRegistry, getLabeledIdentifier, Tags, isTag } from "@voxelio/breeze";
 import React from "react";
 
 // Vanilla exclusive groups avec seulement les propriétés essentielles
@@ -22,17 +22,17 @@ const vanillaGroups = [
 export default function ExclusiveGroup() {
     const files = useConfiguratorStore((state) => state.files);
     const compile = useConfiguratorStore((state) => state.compile);
-    const enchantments = collectFromPath("tags/enchantment", files, "exclusive_set", ["minecraft"]);
+    const enchantments = new Datapack(files).getRegistry("tags/enchantment", "exclusive_set", ["minecraft"]);
     const { data: tags, isLoading: isRegistryLoading, isError: isRegistryError } = useRegistry<TagRegistry>("tags/enchantment");
     const assembleDatapack = compile();
 
     const getValues = (identifier: Identifier) => {
         const tagData = assembleDatapack.find((element) => new Identifier(getLabeledIdentifier(element)).equals(identifier));
         const rawData = tagData?.type !== "deleted" ? tagData?.element : undefined;
-        const initialValues = rawData && isTag(rawData) ? rawData.data.values.map((v) => (typeof v === "string" ? v : v.id)) : [];
+        const initialValues = rawData && isTag(rawData) ? new Tags(rawData).fromRegistry() : [];
 
         const data = tags?.[identifier.resource];
-        const originalValues = data ? getTagsFromRegistry(data) : [];
+        const originalValues = data ? new Tags(data).fromRegistry() : [];
         const combined = new Set([...initialValues, ...originalValues]);
         return Array.from(combined);
     };

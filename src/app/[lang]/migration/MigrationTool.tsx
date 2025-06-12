@@ -9,10 +9,7 @@ import { trackEvent } from "@/lib/telemetry";
 import { downloadArchive } from "@/lib/utils/download";
 import { compileDatapack } from "@voxelio/breeze/core";
 import { parseDatapack } from "@voxelio/breeze/core";
-import { applyActions } from "@voxelio/breeze/core";
-import { logToActions } from "@voxelio/breeze/core";
 import { Logger } from "@voxelio/breeze/core";
-import type { Log } from "@voxelio/breeze/core";
 import { voxelDatapacks } from "@voxelio/breeze/core";
 import { Datapack } from "@voxelio/breeze/core";
 import type React from "react";
@@ -63,17 +60,17 @@ export default function MigrationTool({ children }: { children?: React.ReactNode
         }
 
         try {
-            const logs: Log = JSON.parse(new TextDecoder().decode(logFile));
-            const actions = logToActions(logs);
-            const modifiedTarget = applyActions(target, actions);
+            const logger = new Logger(logFile);
+            const elements = await logger.replay(target.elements, target.version);
+
             const finalDatapack = compileDatapack({
-                elements: Array.from(modifiedTarget.elements.values()),
-                files: modifiedTarget.files
+                elements: Array.from(elements.values()),
+                files: target.files
             });
 
-            const modifiedDatapack = await new Datapack(modifiedTarget.files).generate(finalDatapack, {
-                isMinified: modifiedTarget.logger.getLogs().isMinified,
-                logger: new Logger(logs),
+            const modifiedDatapack = new Datapack(target.files).generate(finalDatapack, {
+                isMinified: logger.isMinified,
+                logger,
                 include: voxelDatapacks
             });
 
@@ -91,7 +88,8 @@ export default function MigrationTool({ children }: { children?: React.ReactNode
             }, 3000);
             setIsDialogOpen(false);
         } catch (error) {
-            toast.error("Failed to parse logs");
+            console.error("Migration failed:", error);
+            toast.error("Failed to apply migration changes");
         }
     };
 
