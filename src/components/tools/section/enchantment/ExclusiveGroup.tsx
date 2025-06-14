@@ -5,10 +5,10 @@ import ToolGrid from "@/components/tools/elements/ToolGrid";
 import ToolListOption from "@/components/tools/elements/ToolListOption";
 import ToolSlot from "@/components/tools/elements/ToolSlot";
 import useRegistry from "@/lib/hook/useRegistry";
-import { Datapack, Identifier, type TagRegistry, getLabeledIdentifier, Tags, isTag } from "@voxelio/breeze";
+import { isMinecraft } from "@/lib/utils/lock";
+import { Datapack, Identifier, type TagRegistry, getLabeledIdentifier, Tags, isTag, EnchantmentActionBuilder } from "@voxelio/breeze";
 import React from "react";
 
-// Vanilla exclusive groups avec seulement les propriétés essentielles
 const vanillaGroups = [
     { id: "armor", image: "armor", value: "#minecraft:exclusive_set/armor" },
     { id: "bow", image: "bow", value: "#minecraft:exclusive_set/bow" },
@@ -47,44 +47,9 @@ export default function ExclusiveGroup() {
                             title={{ key: `tools.enchantments.section.exclusive.set.${id}.title` }}
                             description={{ key: `tools.enchantments.section.exclusive.set.${id}.description` }}
                             image={`/images/features/item/${image}.webp`}
-                            action={{
-                                type: "sequential",
-                                actions: [
-                                    {
-                                        type: "remove_value_from_list",
-                                        field: "tags",
-                                        value: value
-                                    },
-                                    {
-                                        type: "toggle_value",
-                                        value: value,
-                                        field: "exclusiveSet"
-                                    }
-                                ]
-                            }}
-                            renderer={{
-                                type: "conditionnal",
-                                return_condition: true,
-                                term: {
-                                    condition: "compare_value_to_field_value",
-                                    field: "exclusiveSet",
-                                    value: value
-                                }
-                            }}
-                            lock={[
-                                {
-                                    text: { key: "tools.disabled_because_vanilla" },
-                                    condition: {
-                                        condition: "object",
-                                        field: "identifier",
-                                        terms: {
-                                            condition: "compare_value_to_field_value",
-                                            field: "namespace",
-                                            value: "minecraft"
-                                        }
-                                    }
-                                }
-                            ]}
+                            action={new EnchantmentActionBuilder().setExclusiveSetWithTags(value).build()}
+                            renderer={(el) => el.exclusiveSet === value}
+                            lock={[isMinecraft]}
                         />
                     ))}
                 </ToolGrid>
@@ -101,39 +66,20 @@ export default function ExclusiveGroup() {
                     {isRegistryLoading && <p className="text-xs text-zinc-400 py-2">Chargement du registre...</p>}
                     {isRegistryError && <p className="text-xs text-red-400 py-2">Erreur de chargement du registre.</p>}
 
-                    {enchantments.map((enchantment) => (
-                        <ToolListOption
-                            key={new Identifier(enchantment.identifier).toString()}
-                            title={new Identifier(enchantment.identifier).toResourceName()}
-                            description={new Identifier(enchantment.identifier).toResourcePath()}
-                            image="/icons/logo.svg"
-                            values={getValues(new Identifier(enchantment.identifier))}
-                            action={{
-                                type: "sequential",
-                                actions: [
-                                    {
-                                        type: "remove_value_from_list",
-                                        field: "tags",
-                                        value: new Identifier(enchantment.identifier).toString()
-                                    },
-                                    {
-                                        type: "toggle_value",
-                                        value: new Identifier(enchantment.identifier).toString(),
-                                        field: "exclusiveSet"
-                                    }
-                                ]
-                            }}
-                            renderer={{
-                                type: "conditionnal",
-                                return_condition: true,
-                                term: {
-                                    condition: "compare_value_to_field_value",
-                                    field: "exclusiveSet",
-                                    value: new Identifier(enchantment.identifier).toString()
-                                }
-                            }}
-                        />
-                    ))}
+                    {enchantments.map((enchantment) => {
+                        const identifierString = new Identifier(enchantment.identifier).toString();
+                        return (
+                            <ToolListOption
+                                key={identifierString}
+                                title={new Identifier(enchantment.identifier).toResourceName()}
+                                description={new Identifier(enchantment.identifier).toResourcePath()}
+                                image="/icons/logo.svg"
+                                values={getValues(new Identifier(enchantment.identifier))}
+                                action={new EnchantmentActionBuilder().toggleEnchantmentToExclusiveSet(identifierString).build()}
+                                renderer={(el) => el.exclusiveSet === identifierString}
+                            />
+                        );
+                    })}
                 </ToolGrid>
             </ToolCategory>
         </>

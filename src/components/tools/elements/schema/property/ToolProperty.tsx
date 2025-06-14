@@ -3,13 +3,13 @@
 import Translate from "@/components/tools/Translate";
 import RenderGuard from "@/components/tools/elements/RenderGuard";
 import { ToolPropertyElement } from "@/components/tools/elements/schema/property/ToolPropertyElement";
-import type { BaseInteractiveComponent } from "@/components/tools/types/component";
+import type { BaseInteractiveComponent } from "@/lib/hook/useInteractiveLogic";
 import { useInteractiveLogic } from "@/lib/hook/useInteractiveLogic";
-import type { Condition } from "@voxelio/breeze";
+import type { VoxelElement } from "@voxelio/breeze/core";
 import type { ActionValue } from "@voxelio/breeze/core";
 
 export type ToolPropertyType = BaseInteractiveComponent & {
-    condition: Condition;
+    condition: (el: any) => boolean;
 };
 
 export default function ToolProperty(props: ToolPropertyType & { index?: number }) {

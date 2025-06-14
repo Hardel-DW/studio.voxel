@@ -1,7 +1,7 @@
 import { useConfiguratorStore } from "@/components/tools/Store";
 import Translate from "@/components/tools/Translate";
 import { useElementCondition } from "@/lib/hook/useBreezeElement";
-import type { Condition } from "@voxelio/breeze";
+import type { Condition } from "@/lib/utils/lock";
 import { Identifier } from "@voxelio/breeze/core";
 
 interface ToolPropertyElementProps {
@@ -12,7 +12,7 @@ interface ToolPropertyElementProps {
 
 export function ToolPropertyElement({ name, condition, onChange }: ToolPropertyElementProps) {
     const currentElementId = useConfiguratorStore((state) => state.currentElementId);
-    const isChecked = useElementCondition(condition, currentElementId, name);
+    const isChecked = useElementCondition(condition, currentElementId ?? undefined);
 
     return (
         <div className="bg-black/50 border-t-2 border-l-2 border-stone-900 ring-0 ring-zinc-800 transition-all hover:ring-1 p-6 rounded-xl relative overflow-hidden">

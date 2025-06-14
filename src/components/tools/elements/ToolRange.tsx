@@ -1,10 +1,11 @@
 "use client";
 
 import Translate from "@/components/tools/Translate";
-import { getKey } from "@/components/tools/types/component";
 import { useInteractiveLogic } from "@/lib/hook/useInteractiveLogic";
-import type { BaseInteractiveComponent, TranslateTextType } from "../types/component";
+import type { BaseInteractiveComponent } from "@/lib/hook/useInteractiveLogic";
+import type { TranslateTextType } from "@/components/tools/Translate";
 import RenderGuard from "./RenderGuard";
+import { getKey } from "@/lib/utils/translation";
 
 // Type defined locally
 export type ToolRangeType = BaseInteractiveComponent & {

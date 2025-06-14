@@ -2,48 +2,9 @@ import ToolCategory from "@/components/tools/elements/ToolCategory";
 import ToolGrid from "@/components/tools/elements/ToolGrid";
 import ToolInline from "@/components/tools/elements/ToolInline";
 import ToolSlot from "@/components/tools/elements/ToolSlot";
-import type { Action, ValueRenderer } from "@voxelio/breeze/core";
+import { Actions } from "@voxelio/breeze/core";
+import type { EnchantmentProps } from "@voxelio/breeze/schema";
 import React from "react";
-
-const generateToggleAction = (value: string): Action => {
-    return {
-        type: "toggle_value_in_list",
-        field: "tags",
-        value: value
-    };
-};
-
-const generateToggleMultipleAction = (values: string[]): Action => {
-    return {
-        type: "toggle_multiple_values",
-        field: "tags",
-        value: values
-    };
-};
-
-const generateRenderer = (value: string): ValueRenderer => {
-    return {
-        type: "conditionnal",
-        return_condition: true,
-        term: {
-            condition: "contains",
-            field: "tags",
-            values: [value]
-        }
-    };
-};
-
-const generateMultipleRenderer = (values: string[]): ValueRenderer => {
-    return {
-        type: "conditionnal",
-        return_condition: true,
-        term: {
-            condition: "contains",
-            field: "tags",
-            values: values
-        }
-    };
-};
 
 // Structure data for Alfheim section
 const alfheimStructures = [
@@ -185,8 +146,8 @@ export default function EnchantYggdrasil() {
                         image="/images/features/title/yg.webp"
                         title={{ key: "tools.enchantments.section.yggdrasil.components.yggdrasilMobEquipment.title" }}
                         description={{ key: "tools.enchantments.section.yggdrasil.components.yggdrasilMobEquipment.description" }}
-                        action={generateToggleMultipleAction(yggdrasilEquipmentTags)}
-                        renderer={generateMultipleRenderer(yggdrasilEquipmentTags)}
+                        action={new Actions().toggleAllValuesInList("tags", yggdrasilEquipmentTags).build()}
+                        renderer={(el: EnchantmentProps) => yggdrasilEquipmentTags.some((tag) => el.tags.includes(tag))}
                     />
 
                     {alfheimStructures.map((structure) => (
@@ -195,8 +156,8 @@ export default function EnchantYggdrasil() {
                             title={{ key: structure.title }}
                             description={{ key: structure.description }}
                             image={structure.image}
-                            action={generateToggleAction(structure.tag)}
-                            renderer={generateRenderer(structure.tag)}
+                            action={new Actions().toggleValueInList("tags", structure.tag).build()}
+                            renderer={(el: EnchantmentProps) => el.tags.includes(structure.tag)}
                         />
                     ))}
                 </ToolGrid>
@@ -211,8 +172,8 @@ export default function EnchantYggdrasil() {
                             title={{ key: structure.title }}
                             description={{ key: structure.description }}
                             image={structure.image}
-                            action={generateToggleAction(structure.tag)}
-                            renderer={generateRenderer(structure.tag)}
+                            action={new Actions().toggleValue("tags", structure.tag).build()}
+                            renderer={(el: EnchantmentProps) => el.tags.includes(structure.tag)}
                         />
                     ))}
                 </ToolGrid>
@@ -225,15 +186,15 @@ export default function EnchantYggdrasil() {
                         title={{ key: "tools.enchantments.section.addons.yggdrasil.boss_trial_spawner.title" }}
                         description={{ key: "tools.enchantments.section.addons.yggdrasil.boss_trial_spawner.description" }}
                         image="/images/features/block/ominous_trial_spawner.webp"
-                        action={generateToggleAction("#yggdrasil:structure/runic_fracture/boss_trial_spawner")}
-                        renderer={generateRenderer("#yggdrasil:structure/runic_fracture/boss_trial_spawner")}
+                        action={new Actions().toggleValue("tags", "#yggdrasil:structure/runic_fracture/boss_trial_spawner").build()}
+                        renderer={(el: EnchantmentProps) => el.tags.includes("#yggdrasil:structure/runic_fracture/boss_trial_spawner")}
                     />
                     <ToolSlot
                         title={{ key: "tools.enchantments.section.addons.yggdrasil.monster_trial_spawner.title" }}
                         description={{ key: "tools.enchantments.section.addons.yggdrasil.monster_trial_spawner.description" }}
                         image="/images/features/block/ominous_trial_spawner.webp"
-                        action={generateToggleAction("#yggdrasil:structure/runic_fracture/monster_trial_spawner")}
-                        renderer={generateRenderer("#yggdrasil:structure/runic_fracture/monster_trial_spawner")}
+                        action={new Actions().toggleValue("tags", "#yggdrasil:structure/runic_fracture/monster_trial_spawner").build()}
+                        renderer={(el: EnchantmentProps) => el.tags.includes("#yggdrasil:structure/runic_fracture/monster_trial_spawner")}
                     />
                 </ToolGrid>
             </ToolCategory>
@@ -247,8 +208,8 @@ export default function EnchantYggdrasil() {
                             title={{ key: structure.title }}
                             description={{ key: structure.description }}
                             image={structure.image}
-                            action={generateToggleAction(structure.tag)}
-                            renderer={generateRenderer(structure.tag)}
+                            action={new Actions().toggleValue("tags", structure.tag).build()}
+                            renderer={(el: EnchantmentProps) => el.tags.includes(structure.tag)}
                         />
                     ))}
                 </ToolGrid>

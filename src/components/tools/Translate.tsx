@@ -1,7 +1,8 @@
 "use client";
 
 import { useTranslate } from "@/lib/hook/useTranslation";
-import type { TranslateTextType } from "./types/component";
+
+export type TranslateTextType = string | { key: string };
 
 export default function Translate({ content, schema }: { content: TranslateTextType | string | undefined; schema?: boolean }) {
     if (schema && typeof content === "string") {

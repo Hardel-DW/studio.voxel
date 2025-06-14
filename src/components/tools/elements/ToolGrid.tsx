@@ -1,5 +1,5 @@
 import type React from "react";
-import type { BaseComponent } from "../types/component";
+import type { BaseComponent } from "@/lib/hook/useBreezeElement";
 import RenderGuard from "./RenderGuard";
 
 export type ToolGridType = BaseComponent & {

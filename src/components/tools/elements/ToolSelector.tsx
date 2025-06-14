@@ -3,7 +3,8 @@
 import Translate from "@/components/tools/Translate";
 import Tabs from "@/components/ui/Tabs";
 import { useInteractiveLogic } from "@/lib/hook/useInteractiveLogic";
-import type { BaseInteractiveComponent, LockRenderer, TranslateTextType } from "../types/component";
+import type { BaseInteractiveComponent } from "@/lib/hook/useInteractiveLogic";
+import type { TranslateTextType } from "@/components/tools/Translate";
 import RenderGuard from "./RenderGuard";
 
 export type ToolSelectorType = BaseInteractiveComponent & {

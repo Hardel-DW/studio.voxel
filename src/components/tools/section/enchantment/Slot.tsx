@@ -2,28 +2,9 @@ import Translate from "@/components/tools/Translate";
 import ToolGrid from "@/components/tools/elements/ToolGrid";
 import ToolSection from "@/components/tools/elements/ToolSection";
 import ToolSlot from "@/components/tools/elements/ToolSlot";
-import type { Action, ValueRenderer } from "@voxelio/breeze/core";
+import { EnchantmentActionBuilder } from "@voxelio/breeze/core";
+import type { EnchantmentProps } from "@voxelio/breeze/schema";
 import React from "react";
-
-const generateAction = (slot: string): Action => {
-    return {
-        type: "set_computed_slot",
-        field: "slots",
-        value: slot
-    };
-};
-
-const generateRenderer = (slot: string[]): ValueRenderer => {
-    return {
-        type: "conditionnal",
-        return_condition: true,
-        term: {
-            condition: "contains",
-            field: "slots",
-            values: slot
-        }
-    };
-};
 
 export default function EnchantSlotsSection() {
     return (
@@ -32,54 +13,54 @@ export default function EnchantSlotsSection() {
                 <ToolSlot
                     title={{ key: "tools.enchantments.section.slots.mainhand.title" }}
                     image="/images/features/slots/mainhand.webp"
-                    action={generateAction("mainhand")}
-                    renderer={generateRenderer(["mainhand", "any", "hand"])}
+                    action={new EnchantmentActionBuilder().setComputedSlot("slots", "mainhand").build()}
+                    renderer={(el: EnchantmentProps) => el.slots.some((slot) => ["mainhand", "any", "hand"].includes(slot))}
                 />
                 <ToolSlot
                     title={{ key: "tools.enchantments.section.slots.offhand.title" }}
                     image="/images/features/slots/offhand.webp"
-                    action={generateAction("offhand")}
-                    renderer={generateRenderer(["offhand", "any", "hand"])}
+                    action={new EnchantmentActionBuilder().setComputedSlot("slots", "offhand").build()}
+                    renderer={(el: EnchantmentProps) => el.slots.some((slot) => ["offhand", "any", "hand"].includes(slot))}
                 />
             </ToolGrid>
             <ToolGrid>
                 <ToolSlot
                     title={{ key: "tools.enchantments.section.slots.body.title" }}
                     image="/images/features/slots/body.webp"
-                    action={generateAction("body")}
-                    renderer={generateRenderer(["body", "any"])}
+                    action={new EnchantmentActionBuilder().setComputedSlot("slots", "body").build()}
+                    renderer={(el: EnchantmentProps) => el.slots.some((slot) => ["body", "any"].includes(slot))}
                 />
                 <ToolSlot
                     title={{ key: "tools.enchantments.section.slots.saddle.title" }}
                     image="/images/features/slots/saddle.webp"
-                    action={generateAction("saddle")}
-                    renderer={generateRenderer(["saddle", "any"])}
+                    action={new EnchantmentActionBuilder().setComputedSlot("slots", "saddle").build()}
+                    renderer={(el: EnchantmentProps) => el.slots.some((slot) => ["saddle", "any"].includes(slot))}
                 />
             </ToolGrid>
             <ToolGrid>
                 <ToolSlot
                     title={{ key: "tools.enchantments.section.slots.head.title" }}
                     image="/images/features/slots/head.webp"
-                    action={generateAction("head")}
-                    renderer={generateRenderer(["head", "any", "armor"])}
+                    action={new EnchantmentActionBuilder().setComputedSlot("slots", "head").build()}
+                    renderer={(el: EnchantmentProps) => el.slots.some((slot) => ["head", "any", "armor"].includes(slot))}
                 />
                 <ToolSlot
                     title={{ key: "tools.enchantments.section.slots.chest.title" }}
                     image="/images/features/slots/chest.webp"
-                    action={generateAction("chest")}
-                    renderer={generateRenderer(["chest", "any", "armor"])}
+                    action={new EnchantmentActionBuilder().setComputedSlot("slots", "chest").build()}
+                    renderer={(el: EnchantmentProps) => el.slots.some((slot) => ["chest", "any", "armor"].includes(slot))}
                 />
                 <ToolSlot
                     title={{ key: "tools.enchantments.section.slots.legs.title" }}
                     image="/images/features/slots/legs.webp"
-                    action={generateAction("legs")}
-                    renderer={generateRenderer(["legs", "any", "armor"])}
+                    action={new EnchantmentActionBuilder().setComputedSlot("slots", "legs").build()}
+                    renderer={(el: EnchantmentProps) => el.slots.some((slot) => ["legs", "any", "armor"].includes(slot))}
                 />
                 <ToolSlot
                     title={{ key: "tools.enchantments.section.slots.feet.title" }}
                     image="/images/features/slots/feet.webp"
-                    action={generateAction("feet")}
-                    renderer={generateRenderer(["feet", "any", "armor"])}
+                    action={new EnchantmentActionBuilder().setComputedSlot("slots", "feet").build()}
+                    renderer={(el: EnchantmentProps) => el.slots.some((slot) => ["feet", "any", "armor"].includes(slot))}
                 />
             </ToolGrid>
 

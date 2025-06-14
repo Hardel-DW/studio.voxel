@@ -2,28 +2,9 @@ import ToolCard from "@/components/tools/elements/ToolCard";
 import ToolCategory from "@/components/tools/elements/ToolCategory";
 import ToolGrid from "@/components/tools/elements/ToolGrid";
 import ToolSlot from "@/components/tools/elements/ToolSlot";
-import type { Action, ValueRenderer } from "@voxelio/breeze/core";
+import { Actions } from "@voxelio/breeze/core";
+import type { EnchantmentProps } from "@voxelio/breeze/schema";
 import React from "react";
-
-const generateToggleAction = (value: string): Action => {
-    return {
-        type: "toggle_value_in_list",
-        field: "tags",
-        value: value
-    };
-};
-
-const generateRenderer = (value: string): ValueRenderer => {
-    return {
-        type: "conditionnal",
-        return_condition: true,
-        term: {
-            condition: "contains",
-            field: "tags",
-            values: [value]
-        }
-    };
-};
 
 // Structure data for global biomes section
 const biomeStructures = [
@@ -124,8 +105,8 @@ export default function EnchantDNT() {
                             description={{ key: structure.description }}
                             image={structure.image}
                             size={128}
-                            action={generateToggleAction(structure.tag)}
-                            renderer={generateRenderer(structure.tag)}
+                            action={new Actions().toggleValueInList("tags", structure.tag).build()}
+                            renderer={(el: EnchantmentProps) => el.tags.includes(structure.tag)}
                         />
                     ))}
                 </ToolGrid>
@@ -140,8 +121,8 @@ export default function EnchantDNT() {
                             title={{ key: structure.title }}
                             description={{ key: structure.description }}
                             image={structure.image}
-                            action={generateToggleAction(structure.tag)}
-                            renderer={generateRenderer(structure.tag)}
+                            action={new Actions().toggleValueInList("tags", structure.tag).build()}
+                            renderer={(el: EnchantmentProps) => el.tags.includes(structure.tag)}
                         />
                     ))}
                 </ToolGrid>

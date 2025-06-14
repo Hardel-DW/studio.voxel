@@ -3,7 +3,10 @@ import ToolCounter from "@/components/tools/elements/ToolCounter";
 import ToolGrid from "@/components/tools/elements/ToolGrid";
 import ToolSection from "@/components/tools/elements/ToolSection";
 import ToolSelector from "@/components/tools/elements/ToolSelector";
+import { Actions } from "@voxelio/breeze/core";
+import type { EnchantmentProps } from "@voxelio/breeze/schema";
 import React from "react";
+import { LockEntryBuilder } from "@/lib/utils/lock";
 
 export default function EnchantGlobalMainSection() {
     return (
@@ -18,14 +21,8 @@ export default function EnchantGlobalMainSection() {
                         min={1}
                         max={127}
                         step={1}
-                        action={{
-                            type: "set_value_from_computed_value",
-                            field: key
-                        }}
-                        renderer={{
-                            type: "from_field",
-                            field: key
-                        }}
+                        action={(value: number) => new Actions().setValue(key, value).build()}
+                        renderer={(el: EnchantmentProps) => el[key]}
                     />
                 ))}
             </ToolGrid>
@@ -34,27 +31,13 @@ export default function EnchantGlobalMainSection() {
                 title={{ key: "tools.enchantments.section.global.components.mode.title" }}
                 description={{ key: "tools.enchantments.section.global.components.mode.description" }}
                 lock={[
-                    {
-                        text: { key: "tools.disabled_because_vanilla" },
-                        condition: {
-                            condition: "object",
-                            field: "identifier",
-                            terms: {
-                                condition: "compare_value_to_field_value",
-                                field: "namespace",
-                                value: "minecraft"
-                            }
-                        }
-                    }
+                    new LockEntryBuilder()
+                        .addTextKey("tools.disabled_because_vanilla")
+                        .addCondition((el: EnchantmentProps) => el.identifier?.namespace === "minecraft")
+                        .build()
                 ]}
-                action={{
-                    type: "set_value_from_computed_value",
-                    field: "mode"
-                }}
-                renderer={{
-                    type: "from_field",
-                    field: "mode"
-                }}
+                action={(value: string) => new Actions().setValue("mode", value).build()}
+                renderer={(el: EnchantmentProps) => el.mode}
                 options={[
                     {
                         label: { key: "tools.enchantments.section.global.components.selector.normal" },

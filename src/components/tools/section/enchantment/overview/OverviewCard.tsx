@@ -1,12 +1,11 @@
-import type { Lock } from "@/components/tools/types/component";
 import Counter from "@/components/ui/Counter";
 import { cn } from "@/lib/utils";
 import { Identifier } from "@voxelio/breeze";
-import type { Action, Analysers, ValueRenderer } from "@voxelio/breeze";
-import TagsRenderer from "../../../texture/TagsRenderer";
+import { Actions } from "@voxelio/breeze/core";
+import type { EnchantmentProps } from "@voxelio/breeze/schema";
+import { LockEntryBuilder } from "@/lib/utils/lock";
+import TagsRenderer from "@/components/tools/texture/TagsRenderer";
 import OverviewCase from "./OverviewCase";
-
-type EnchantmentProps = Analysers["enchantment"]["voxel"];
 
 const findOptions = [
     {
@@ -47,55 +46,6 @@ const findOptions = [
     }
 ];
 
-const generateAction = (value: string): Action => {
-    return {
-        type: "toggle_value_in_list",
-        field: "tags",
-        value: value
-    };
-};
-
-const generateRenderer = (value: string): ValueRenderer => {
-    return {
-        type: "conditionnal",
-        return_condition: true,
-        term: {
-            condition: "contains",
-            field: "tags",
-            values: [value]
-        }
-    };
-};
-
-const generateLock = (value: string): Lock[] => {
-    return [
-        {
-            text: {
-                key: "tools.enchantments.section.technical.components.reason"
-            },
-            condition: {
-                condition: "contains",
-                field: "tags",
-                values: [value]
-            }
-        },
-        {
-            text: {
-                key: "tools.disabled_because_vanilla"
-            },
-            condition: {
-                condition: "object",
-                field: "identifier",
-                terms: {
-                    condition: "compare_value_to_field_value",
-                    field: "namespace",
-                    value: "minecraft"
-                }
-            }
-        }
-    ];
-};
-
 export default function OverviewCard(props: {
     element: EnchantmentProps;
     items: string[];
@@ -132,9 +82,18 @@ export default function OverviewCard(props: {
                                 key={option.title}
                                 title={option.title}
                                 image={option.image}
-                                action={generateAction(option.tag)}
-                                renderer={generateRenderer(option.tag)}
-                                lock={generateLock(option.lock_value)}
+                                action={new Actions().toggleValueInList("tags", option.tag).build()}
+                                renderer={(el: EnchantmentProps) => el.tags.includes(option.tag)}
+                                lock={[
+                                    new LockEntryBuilder()
+                                        .addTextKey("tools.enchantments.section.technical.components.reason")
+                                        .addCondition((el: EnchantmentProps) => el.tags.includes(option.lock_value))
+                                        .build(),
+                                    new LockEntryBuilder()
+                                        .addTextKey("tools.disabled_because_vanilla")
+                                        .addCondition((el: EnchantmentProps) => el.identifier?.namespace === "minecraft")
+                                        .build()
+                                ]}
                                 elementId={props.elementId}
                             />
                         ))}

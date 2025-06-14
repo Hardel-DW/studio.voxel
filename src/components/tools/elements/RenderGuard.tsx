@@ -1,20 +1,18 @@
 "use client";
 
 import { useElementCondition } from "@/lib/hook/useBreezeElement";
-import type { Condition } from "@voxelio/breeze";
+import type { Condition } from "@/lib/utils/lock";
 import type React from "react";
 
 interface RenderGuardProps {
-    condition?: Condition;
+    condition: Condition | undefined;
     children: React.ReactNode | (() => React.ReactNode);
+    elementId?: string;
 }
 
-export default function RenderGuard({ condition, children }: RenderGuardProps) {
-    const shouldHide = useElementCondition(condition);
-
-    if (shouldHide) {
-        return null;
-    }
+export default function RenderGuard({ condition, children, elementId }: RenderGuardProps) {
+    const shouldHide = useElementCondition(condition, elementId);
+    if (shouldHide) return null;
 
     return typeof children === "function" ? children() : children;
 }

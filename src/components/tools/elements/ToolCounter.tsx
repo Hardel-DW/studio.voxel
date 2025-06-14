@@ -1,7 +1,8 @@
 "use client";
 
 import Translate from "@/components/tools/Translate";
-import type { BaseInteractiveComponent, TranslateTextType } from "@/components/tools/types/component";
+import type { BaseInteractiveComponent } from "@/lib/hook/useInteractiveLogic";
+import type { TranslateTextType } from "@/components/tools/Translate";
 import CounterUI from "@/components/ui/Counter";
 import { useInteractiveLogic } from "@/lib/hook/useInteractiveLogic";
 import RenderGuard from "./RenderGuard";

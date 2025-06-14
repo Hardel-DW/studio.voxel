@@ -1,7 +1,7 @@
 "use client";
 
 import OriginalToolRevealCard from "@/components/tools/elements/schema/reveal/ToolRevealElementType";
-import type { TranslateTextType } from "@/components/tools/types/component";
+import type { TranslateTextType } from "@/components/tools/Translate";
 import { cn } from "@/lib/utils";
 import type React from "react";
 import { Children, type ReactNode, cloneElement, createContext, isValidElement, useContext, useState } from "react";

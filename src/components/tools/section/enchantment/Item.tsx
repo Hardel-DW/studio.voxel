@@ -3,28 +3,10 @@
 import ToolGrid from "@/components/tools/elements/ToolGrid";
 import ToolSectionSelector from "@/components/tools/elements/ToolSectionSelector";
 import ToolSlot from "@/components/tools/elements/ToolSlot";
-import type { Action, ValueRenderer } from "@voxelio/breeze/core";
+import { Actions } from "@voxelio/breeze/core";
+import type { EnchantmentProps } from "@voxelio/breeze/schema";
 import React, { useState } from "react";
 
-const generateAction = (value: string, field: string): Action => {
-    return {
-        type: "set_value",
-        field: field,
-        value: value
-    };
-};
-
-const generateRenderer = (value: string, field: string): ValueRenderer => {
-    return {
-        type: "conditionnal",
-        return_condition: true,
-        term: {
-            condition: "compare_value_to_field_value",
-            field: field,
-            value: value
-        }
-    };
-};
 const items = [
     "sword",
     "trident",
@@ -78,8 +60,8 @@ export default function EnchantSlotsSection() {
                         key={item}
                         title={{ key: `tools.enchantments.section.slots.${item}.title` }}
                         image={`/images/features/slots/${item}.webp`}
-                        action={generateAction(item, section)}
-                        renderer={generateRenderer(item, section)}
+                        action={(value: string) => new Actions().setValue(section, value).build()}
+                        renderer={(el: EnchantmentProps) => el[item] === section}
                     />
                 ))}
 
@@ -89,15 +71,8 @@ export default function EnchantSlotsSection() {
                             key: "tools.enchantments.section.supported.components.none.title"
                         }}
                         image="/images/tools/cross.webp"
-                        action={{ type: "set_undefined", field: "primaryItems" }}
-                        renderer={{
-                            type: "conditionnal",
-                            return_condition: true,
-                            term: {
-                                condition: "if_field_is_undefined",
-                                field: "primaryItems"
-                            }
-                        }}
+                        action={new Actions().setUndefined("primaryItems").build()}
+                        renderer={(el: EnchantmentProps) => el.primaryItems === undefined}
                     />
                 )}
             </ToolGrid>

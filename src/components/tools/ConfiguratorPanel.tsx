@@ -9,6 +9,7 @@ import LazyTabs from "./LazyTabs";
 import Translate from "./Translate";
 import { CONCEPTS } from "./elements";
 import OverviewManager from "./section/OverviewManager";
+import ErrorBoundary from "../ui/ErrorBoundary";
 
 export default function ConfiguratorPanel(props: PropsWithChildren) {
     const currentConcept = useConfiguratorStore((state) => state.selectedConcept);
@@ -34,17 +35,19 @@ export default function ConfiguratorPanel(props: PropsWithChildren) {
             </MenuTabsList>
 
             <div className="contents">
-                {activeConcept.tabs.map((tab) => {
-                    const TabComponent = LazyTabs(tab.section);
-                    return (
-                        <ConfiguratorContent key={tab.id} tab={tab}>
-                            <Suspense fallback={<Loader />}>
-                                <TabComponent />
-                            </Suspense>
-                        </ConfiguratorContent>
-                    );
-                })}
-                {props.children}
+                <ErrorBoundary fallback={<div>Error</div>}>
+                    {activeConcept.tabs.map((tab) => {
+                        const TabComponent = LazyTabs(tab.section);
+                        return (
+                            <ConfiguratorContent key={tab.id} tab={tab}>
+                                <Suspense fallback={<Loader />}>
+                                    <TabComponent />
+                                </Suspense>
+                            </ConfiguratorContent>
+                        );
+                    })}
+                    {props.children}
+                </ErrorBoundary>
             </div>
         </MenuTabs>
     );

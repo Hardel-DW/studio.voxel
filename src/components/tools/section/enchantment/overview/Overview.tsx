@@ -1,6 +1,6 @@
 import SquareButton from "@/components/tools/elements/SquareButton";
 import useTagManager from "@/lib/hook/useTagManager";
-import { Identifier } from "@voxelio/breeze";
+import { Identifier, isVoxel } from "@voxelio/breeze";
 import type { Analysers } from "@voxelio/breeze";
 import { useState } from "react";
 import { useConfiguratorStore } from "../../../Store";
@@ -91,7 +91,7 @@ function groupElementsByExclusiveSet(
     groups.set(UNCATEGORIZED_KEY, []);
 
     for (const element of elements.values()) {
-        if (!isEnchantment(element)) {
+        if (!isVoxel(element, "enchantment")) {
             continue;
         }
 
@@ -107,13 +107,4 @@ function groupElementsByExclusiveSet(
     }
 
     return groups;
-}
-
-// type is EnchantmentProps if registry is enchantment
-function isEnchantment(element: Analysers[keyof Analysers]["voxel"]): element is EnchantmentProps {
-    if (element.identifier.registry === "enchantment") {
-        return true;
-    }
-
-    return false;
 }

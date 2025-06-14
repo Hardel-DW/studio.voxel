@@ -1,5 +1,4 @@
-import Translate from "@/components/tools/Translate";
-import type { BaseInteractiveComponent } from "@/components/tools/types/component";
+import type { BaseInteractiveComponent } from "@/lib/hook/useInteractiveLogic";
 import { useInteractiveLogic } from "@/lib/hook/useInteractiveLogic";
 import { cn } from "@/lib/utils";
 

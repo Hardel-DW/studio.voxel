@@ -1,9 +1,14 @@
 import React from "react";
+import type { BaseComponent } from "./useBreezeElement";
 
 interface ElementWithId {
     id: string;
     [key: string]: any;
 }
+
+export type BaseDynamicSchema<T> = BaseComponent & {
+    elements: T[];
+};
 
 export function useDynamicSchemaLogic<T extends ElementWithId>(elements: T[] | undefined, initialId?: string) {
     if (!elements || elements.length === 0) {

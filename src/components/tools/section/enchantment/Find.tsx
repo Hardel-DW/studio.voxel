@@ -2,9 +2,10 @@ import ToolGrid from "@/components/tools/elements/ToolGrid";
 import ToolSection from "@/components/tools/elements/ToolSection";
 import ToolSlot from "@/components/tools/elements/ToolSlot";
 import ToolReveal, { ToolRevealElement } from "@/components/tools/elements/schema/reveal/ToolReveal";
-import type { Lock } from "@/components/tools/types/component";
 import Loader from "@/components/ui/Loader";
-import type { Action, ValueRenderer } from "@voxelio/breeze/core";
+import { Actions } from "@voxelio/breeze/core";
+import type { EnchantmentProps } from "@voxelio/breeze/schema";
+import { isMinecraft, LockEntryBuilder } from "@/lib/utils/lock";
 import React, { lazy, Suspense } from "react";
 
 // Lazy load the addon components
@@ -56,55 +57,6 @@ const iterationValues = [
     }
 ];
 
-const generateAction = (value: string): Action => {
-    return {
-        type: "toggle_value_in_list",
-        field: "tags",
-        value: value
-    };
-};
-
-const generateRenderer = (value: string): ValueRenderer => {
-    return {
-        type: "conditionnal",
-        return_condition: true,
-        term: {
-            condition: "contains",
-            field: "tags",
-            values: [value]
-        }
-    };
-};
-
-const generateLock = (value: string): Lock[] => {
-    return [
-        {
-            text: {
-                key: "tools.enchantments.section.technical.components.reason"
-            },
-            condition: {
-                condition: "contains",
-                field: "tags",
-                values: [value]
-            }
-        },
-        {
-            text: {
-                key: "tools.disabled_because_vanilla"
-            },
-            condition: {
-                condition: "object",
-                field: "identifier",
-                terms: {
-                    condition: "compare_value_to_field_value",
-                    field: "namespace",
-                    value: "minecraft"
-                }
-            }
-        }
-    ];
-};
-
 export default function EnchantFindBehaviourSection() {
     return (
         <>
@@ -113,9 +65,15 @@ export default function EnchantFindBehaviourSection() {
                     {iterationValues.map((value) => (
                         <ToolSlot
                             key={value.tag}
-                            action={generateAction(value.tag)}
-                            renderer={generateRenderer(value.tag)}
-                            lock={generateLock(value.lock_value)}
+                            action={new Actions().toggleValueInList("tags", value.tag).build()}
+                            renderer={(el: EnchantmentProps) => el.tags.includes(value.tag)}
+                            lock={[
+                                new LockEntryBuilder()
+                                    .addTextKey("tools.enchantments.section.technical.components.reason")
+                                    .addCondition((el: EnchantmentProps) => el.tags.includes(value.lock_value))
+                                    .build(),
+                                isMinecraft
+                            ]}
                             title={{ key: value.title }}
                             image={value.image}
                             description={{ key: value.description }}
