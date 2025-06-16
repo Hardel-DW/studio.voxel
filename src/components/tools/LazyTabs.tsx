@@ -1,4 +1,4 @@
-import { lazy } from "react";
+import dynamic from "next/dynamic";
 import Loader from "../ui/Loader";
 
 export default function LazyTabs(componentName: string) {
@@ -11,5 +11,13 @@ export default function LazyTabs(componentName: string) {
         "enchant.technical": () => import("./section/enchantment/Technical")
     };
 
-    return componentMap[componentName] ? lazy(componentMap[componentName]) : lazy(() => Promise.resolve({ default: () => <Loader /> }));
+    return componentMap[componentName]
+        ? dynamic(componentMap[componentName], {
+              loading: () => <Loader />,
+              ssr: false
+          })
+        : dynamic(() => Promise.resolve({ default: () => <Loader /> }), {
+              loading: () => <Loader />,
+              ssr: false
+          });
 }

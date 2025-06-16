@@ -6,6 +6,7 @@ import type { BaseInteractiveComponent } from "@/lib/hook/useInteractiveLogic";
 import type { TranslateTextType } from "@/components/tools/Translate";
 import RenderGuard from "./RenderGuard";
 import { getKey } from "@/lib/utils/translation";
+import { useState } from "react";
 
 // Type defined locally
 export type ToolRangeType = BaseInteractiveComponent & {
@@ -18,7 +19,17 @@ export type ToolRangeType = BaseInteractiveComponent & {
 
 export default function ToolRange(props: ToolRangeType & { index?: number }) {
     const { value, lock, handleChange } = useInteractiveLogic<ToolRangeType, number>({ component: props });
+    const [tempValue, setTempValue] = useState<number | null>(null);
+
     if (value === null) return null;
+    const displayValue = tempValue !== null ? tempValue : value;
+
+    const handleMouseUp = () => {
+        if (tempValue !== null) {
+            handleChange(tempValue);
+            setTempValue(null);
+        }
+    };
 
     return (
         <RenderGuard condition={props.hide}>
@@ -35,7 +46,7 @@ export default function ToolRange(props: ToolRangeType & { index?: number }) {
                             </label>
                         )
                     )}
-                    <span className="text-sm font-medium text-zinc-400">{value}</span>
+                    <span className="text-sm font-medium text-zinc-400">{displayValue}</span>
                 </div>
                 <input
                     id={getKey(props.label)}
@@ -44,8 +55,10 @@ export default function ToolRange(props: ToolRangeType & { index?: number }) {
                     min={props.min}
                     max={props.max}
                     step={props.step}
-                    value={value}
-                    onChange={(e) => handleChange(+e.target.value)}
+                    value={displayValue}
+                    onChange={(e) => setTempValue(+e.target.value)}
+                    onMouseUp={handleMouseUp}
+                    onTouchEnd={handleMouseUp}
                     className="w-full text-sm font-normal"
                 />
             </div>

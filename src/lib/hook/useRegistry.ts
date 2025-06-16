@@ -1,5 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 
+export type FetchedRegistry<T> = Record<string, T>;
+
 export default function useRegistry<T>(registryId: string) {
     const registryQueryKey = ["registry", registryId];
     const {

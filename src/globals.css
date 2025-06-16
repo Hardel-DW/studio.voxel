@@ -202,7 +202,7 @@ label {
             background-color: #525252;
         }
         &:checked::before {
-            background-color: var(--color-primary);
+            background-color: var(--color-pink-900);
         }
         &:disabled {
             cursor: not-allowed;
@@ -275,7 +275,15 @@ input[type="range"]::-webkit-slider-runnable-track {
     height: .5rem;
     width: 100%;
     border-radius: 1rem;
-    background-color: #101112
+    background-color: #8080802e;
+}
+
+input[type="range"]::-moz-range-track {
+    height: 0.5rem;
+    width: 100%;
+    border-radius: 1rem;
+    background-color: #8080802e;
+    border: none;
 }
 
 input[type="range"]::-webkit-slider-thumb {
@@ -291,8 +299,19 @@ input[type="range"]::-webkit-slider-thumb {
     transform: translateY(-50%);
     background-color: var(--color-primary);
     color: var(--color-primary);
-    box-shadow: 0 0 0 3px var(--color-primary) inset, calc(100rem * -1 - .6rem) 0 0 100rem
+    box-shadow: 0 0 0 3px var(--color-primary) inset, calc(100rem * -1 - .6rem) 0 0 100rem var(--color-primary)
 }
+
+input[type="range"]::-moz-range-thumb {
+    height: 1.5rem;
+    width: 1.5rem;
+    border-radius: 1rem;
+    border: none;
+    background-color: #454545;
+    cursor: pointer;
+    box-shadow: 0 0 0 3px var(--color-primary) inset, calc(100rem * -1 - .6rem) 0 0 100rem var(--color-primary)
+}
+
 
 input[type="range"]:focus {
     outline: none

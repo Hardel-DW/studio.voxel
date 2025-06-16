@@ -4,6 +4,7 @@ import { useConfiguratorStore } from "@/components/tools/Store";
 import SidebarCrafting from "@/components/tools/sidebar/crafting/SidebarCrafting";
 import SidebarEnchant from "@/components/tools/sidebar/enchant/SidebarEnchant";
 import SidebarLoot from "@/components/tools/sidebar/loot/SidebarLoot";
+import SidebarStructure from "@/components/tools/sidebar/structure/SidebarStructure";
 import { withConcept } from "@/components/tools/sidebar/tab/HocConcept";
 import { Button } from "@/components/ui/Button";
 
@@ -13,7 +14,8 @@ export default function DetailTab() {
     const contentMap = {
         enchantment: withConcept(SidebarEnchant),
         loot_table: withConcept(SidebarLoot),
-        recipe: withConcept(SidebarCrafting)
+        recipe: withConcept(SidebarCrafting),
+        structure: withConcept(SidebarStructure)
     };
 
     const Component = contentMap[selectedConcept as keyof typeof contentMap];

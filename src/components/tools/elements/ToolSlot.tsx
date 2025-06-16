@@ -13,6 +13,7 @@ export type ToolSlotType = BaseInteractiveComponent & {
     title: TranslateTextType;
     image: string;
     size?: number;
+    align?: "left" | "center" | "right";
 };
 
 export default function ToolSlot(props: ToolSlotType & { index?: number }) {
@@ -20,62 +21,66 @@ export default function ToolSlot(props: ToolSlotType & { index?: number }) {
     if (value === null) return null;
 
     return (
-        <RenderGuard condition={props.hide}>
-            <button
-                type="button"
-                className={cn(
-                    "bg-black/50 border-t-2 border-l-2 border-stone-900 ring-0 ring-zinc-900 select-none cursor-pointer relative transition-all hover:ring-1 p-6 rounded-xl",
-                    { "bg-zinc-950/25 ring-1 ring-zinc-600": value },
-                    { "opacity-50 ring-1 ring-zinc-700": lock.isLocked }
-                )}
-                onClick={() => handleChange(!value)}
-                onKeyDown={(e) => {
-                    if (e.key === "Enter" || e.key === " ") handleChange(!value);
-                }}
-                tabIndex={0}>
-                {value && !lock.isLocked && (
-                    <div className="absolute p-4 top-0 right-0">
-                        <img src="/icons/check.svg" alt="checkbox" className="w-6 h-6 invert" />
-                    </div>
-                )}
-
-                {lock.isLocked && (
-                    <div className="absolute p-4 top-0 right-0">
-                        <img src="/icons/tools/lock.svg" alt="checkbox" className="w-6 h-6 invert" />
-                    </div>
-                )}
-
-                {lock.isLocked && (
-                    <span className="absolute p-4 bottom-0 right-0 text-xs text-zinc-400 font-light">
-                        <Translate content={lock.text} schema={true} />
-                    </span>
-                )}
-
-                <div className="flex flex-col items-center justify-between h-full">
-                    <div className="mb-8 text-center">
-                        <h3 className="text-lg font-semibold mb-1">
-                            <Translate content={props.title} schema={true} />
-                        </h3>
-                        {props.description && (
-                            <p className="text-sm text-zinc-400">
-                                <Translate content={props.description} schema={true} />
-                            </p>
-                        )}
-                    </div>
-
-                    <img
-                        src={props.image}
-                        alt={getKey(props.title)}
-                        className="mb-8 pixelated"
-                        style={{
-                            height: props.size ? `${props.size}px` : "64px"
-                        }}
-                    />
+        <button
+            type="button"
+            className={cn(
+                "bg-black/50 border-t-2 border-l-2 border-stone-900 ring-0 ring-zinc-900 select-none cursor-pointer relative transition-all hover:ring-1 p-6 rounded-xl",
+                { "bg-zinc-950/25 ring-1 ring-zinc-600": value },
+                { "opacity-50 ring-1 ring-zinc-700": lock.isLocked }
+            )}
+            onClick={() => handleChange(!value)}
+            onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") handleChange(!value);
+            }}
+            tabIndex={0}>
+            {value && !lock.isLocked && (
+                <div className="absolute p-4 top-0 right-0">
+                    <img src="/icons/check.svg" alt="checkbox" className="w-6 h-6 invert" />
                 </div>
-                <div className="absolute inset-0 -z-10 brightness-30">
-                    <img src="/images/shine.avif" alt="Shine" />
+            )}
+
+            {lock.isLocked && (
+                <div className="absolute p-4 top-0 right-0">
+                    <img src="/icons/tools/lock.svg" alt="checkbox" className="w-6 h-6 invert" />
                 </div>
-            </button>
-        </RenderGuard>
+            )}
+
+            {lock.isLocked && (
+                <span className="absolute p-4 bottom-0 right-0 text-xs text-zinc-400 font-light">
+                    <Translate content={lock.text} schema={true} />
+                </span>
+            )}
+
+            <div className="flex flex-col items-center justify-between h-full">
+                <div
+                    className={cn(
+                        "mb-8 w-full",
+                        { "text-left px-4": props.align === "left" },
+                        { "text-center px-4": props.align === "center" },
+                        { "text-right px-4": props.align === "right" }
+                    )}>
+                    <h3 className="text-lg font-semibold mb-1">
+                        <Translate content={props.title} schema={true} />
+                    </h3>
+                    {props.description && (
+                        <p className="text-sm text-zinc-400">
+                            <Translate content={props.description} schema={true} />
+                        </p>
+                    )}
+                </div>
+
+                <img
+                    src={props.image}
+                    alt={getKey(props.title)}
+                    className="mb-8 pixelated"
+                    style={{
+                        height: props.size ? `${props.size}px` : "64px"
+                    }}
+                />
+            </div>
+            <div className="absolute inset-0 -z-10 brightness-30">
+                <img src="/images/shine.avif" alt="Shine" />
+            </div>
+        </button>
     );
 }

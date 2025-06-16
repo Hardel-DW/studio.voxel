@@ -7,6 +7,7 @@ import { Identifier } from "@voxelio/breeze";
 import type { BaseInteractiveComponent } from "@/lib/hook/useInteractiveLogic";
 import type { TranslateTextType } from "@/components/tools/Translate";
 import RenderGuard from "./RenderGuard";
+import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/Popover";
 
 export type ToolListOptionType = BaseInteractiveComponent & {
     title: TranslateTextType;
@@ -25,7 +26,7 @@ export default function ToolListOption(props: ToolListOptionType) {
             <button
                 type="button"
                 className={cn(
-                    "bg-black/50 border-t-2 border-l-2 border-stone-900 ring-0 ring-zinc-900 transition-all hover:ring-1 px-6 py-4 rounded-xl cursor-pointer relative overflow-hidden w-full text-left",
+                    "bg-black/50 border-t-2 border-l-2 border-stone-900 ring-0 ring-zinc-900 transition-all hover:ring-1 px-6 py-4 rounded-xl cursor-pointer relative overflow-hidden w-full h-full text-left flex flex-col justify-start",
                     { "bg-black/25 ring-1 ring-zinc-600": value },
                     { "opacity-50 ring-1 ring-zinc-700": lock.isLocked }
                 )}
@@ -34,7 +35,7 @@ export default function ToolListOption(props: ToolListOptionType) {
                     if (e.key === "Enter" || e.key === " ") handleChange(!value);
                 }}
                 disabled={lock.isLocked}>
-                <div className="flex items-center justify-between w-full">
+                <div className="flex w-full justify-between items-center">
                     <div className="flex items-center gap-4">
                         {props.image && (
                             <div className="shrink-0">
@@ -50,32 +51,38 @@ export default function ToolListOption(props: ToolListOptionType) {
                             </span>
                         </div>
                     </div>
-                    <div className="flex gap-4 items-center">
-                        {lock.isLocked && (
-                            <span className="text-xs text-zinc-400 font-light w-max flex items-center">
-                                <Translate content={lock.text} schema={true} />
-                            </span>
-                        )}
-                        {value && !lock.isLocked && <img src="/icons/check.svg" alt="checkbox" className="w-6 h-6 invert" />}
-                        {lock.isLocked && <img src="/icons/tools/lock.svg" alt="checkbox" className="w-6 h-6 invert" />}
-                    </div>
                 </div>
 
                 {props.values.length > 0 && (
                     <>
                         <hr className="border-zinc-700 my-2" />
                         <div className="grid gap-1">
-                            {props.values.slice(0, 3).map((val) => (
+                            {props.values.slice(0, props.values.length <= 4 ? props.values.length : 3).map((val) => (
                                 <span
                                     key={val}
-                                    className="text-zinc-300 text-xs px-2 bg-zinc-700/50 py-0.5 rounded-md border border-zinc-600">
+                                    className="text-zinc-400 tracking-tighter text-xs px-2 bg-zinc-900/20 py-0.5 rounded-md border border-zinc-900">
                                     {Identifier.of(val, "minecraft").toResourceName()}
                                 </span>
                             ))}
-                            {props.values.length > 3 && (
-                                <span className="text-zinc-400 text-xs px-2 pt-1 hover:text-zinc-200 cursor-pointer transition-colors">
-                                    Voir plus ({props.values.length - 3})
-                                </span>
+                            {props.values.length > 4 && (
+                                <Popover>
+                                    <PopoverTrigger>
+                                        <span className="text-zinc-400 text-xs px-2 pt-2 hover:text-zinc-200 cursor-pointer transition-colors">
+                                            Voir plus ({props.values.length - 3})
+                                        </span>
+                                    </PopoverTrigger>
+                                    <PopoverContent className="max-w-xs">
+                                        <div className="grid gap-1">
+                                            {props.values.slice(3).map((val) => (
+                                                <span
+                                                    key={val}
+                                                    className="text-zinc-400 tracking-tighter text-xs px-2 bg-zinc-900/20 py-0.5 rounded-md border border-zinc-900">
+                                                    {Identifier.of(val, "minecraft").toResourceName()}
+                                                </span>
+                                            ))}
+                                        </div>
+                                    </PopoverContent>
+                                </Popover>
                             )}
                         </div>
                     </>

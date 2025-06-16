@@ -7,40 +7,40 @@ import { Actions } from "@voxelio/breeze/core";
 import type { EnchantmentProps } from "@voxelio/breeze/schema";
 import React, { useState } from "react";
 
-const items = [
-    "sword",
-    "trident",
-    "mace",
-    "bow",
-    "crossbow",
-    "range",
-    "fishing",
-    "shield",
-    "weapon",
-    "melee",
-    "head_armor",
-    "chest_armor",
-    "leg_armor",
-    "foot_armor",
-    "elytra",
-    "armor",
-    "equippable",
-    "axes",
-    "shovels",
-    "hoes",
-    "pickaxes",
-    "durability",
-    "mining_loot"
-];
+const items = {
+    sword: "#minecraft:enchantable/sword",
+    trident: "#minecraft:enchantable/trident",
+    mace: "#minecraft:enchantable/mace",
+    bow: "#minecraft:enchantable/bow",
+    crossbow: "#minecraft:enchantable/crossbow",
+    range: "#voxel:enchantable/range",
+    fishing: "#minecraft:enchantable/fishing",
+    shield: "#voxel:enchantable/shield",
+    weapon: "#minecraft:enchantable/weapon",
+    melee: "#voxel:enchantable/melee",
+    head_armor: "#minecraft:enchantable/head_armor",
+    chest_armor: "#minecraft:enchantable/chest_armor",
+    leg_armor: "#minecraft:enchantable/leg_armor",
+    foot_armor: "#minecraft:enchantable/foot_armor",
+    elytra: "#voxel:enchantable/elytra",
+    armor: "#minecraft:enchantable/armor",
+    equippable: "#minecraft:enchantable/equippable",
+    axes: "#voxel:enchantable/axes",
+    shovels: "#voxel:enchantable/shovels",
+    hoes: "#voxel:enchantable/hoes",
+    pickaxes: "#voxel:enchantable/pickaxes",
+    durability: "#minecraft:enchantable/durability",
+    mining_loot: "#minecraft:enchantable/mining_loot"
+};
 
 const elements = [
     {
-        id: "primaryItems",
-        title: { key: "tools.enchantments.section.toggle.primary.title" }
-    },
-    {
         id: "supportedItems",
         title: { key: "tools.enchantments.section.toggle.supported.title" }
+    },
+    {
+        id: "primaryItems",
+        title: { key: "tools.enchantments.section.toggle.primary.title" }
     }
 ];
 
@@ -55,13 +55,13 @@ export default function EnchantSlotsSection() {
             value={section}
             setValue={setSection}>
             <ToolGrid>
-                {items.map((item) => (
+                {Object.keys(items).map((item) => (
                     <ToolSlot
                         key={item}
-                        title={{ key: `tools.enchantments.section.slots.${item}.title` }}
-                        image={`/images/features/slots/${item}.webp`}
-                        action={(value: string) => new Actions().setValue(section, value).build()}
-                        renderer={(el: EnchantmentProps) => el[item] === section}
+                        title={{ key: `tools.enchantments.section.supported.components.${item}.title` }}
+                        image={`/images/features/item/${item}.webp`}
+                        action={new Actions().setValue(section, items[item as keyof typeof items]).build()}
+                        renderer={(el: EnchantmentProps) => el[section] === items[item as keyof typeof items]}
                     />
                 ))}
 

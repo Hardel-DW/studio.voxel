@@ -64,6 +64,7 @@ export default function EnchantFindBehaviourSection() {
                 <ToolGrid size="350px">
                     {iterationValues.map((value) => (
                         <ToolSlot
+                            align="left"
                             key={value.tag}
                             action={new Actions().toggleValueInList("tags", value.tag).build()}
                             renderer={(el: EnchantmentProps) => el.tags.includes(value.tag)}

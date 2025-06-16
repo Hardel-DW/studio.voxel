@@ -4,8 +4,6 @@ import "../../globals.css";
 import Providers from "@/components/QueryProvider";
 import { DictionaryProvider } from "@/components/layout/DictionaryProvider";
 import { type Locale, getDictionary } from "@/lib/i18n/i18nServer";
-import { getQueryClient } from "@/lib/utils/query";
-import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
 
 const rubik = Rubik({
     variable: "--font-rubik",
@@ -51,6 +49,9 @@ export default async function RootLayout({ children, params }: { children: React
 
     return (
         <html lang={lang}>
+            <head>
+                <script crossOrigin="anonymous" src="//unpkg.com/react-scan/dist/auto.global.js" />
+            </head>
             <body className={`${rubik.variable} antialiased`}>
                 <Providers>
                     <DictionaryProvider dictionary={dictionary}>{children}</DictionaryProvider>

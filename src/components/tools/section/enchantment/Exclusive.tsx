@@ -2,7 +2,7 @@
 
 import ToolSectionSelector from "@/components/tools/elements/ToolSectionSelector";
 import Loader from "@/components/ui/Loader";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 const elements = [
     {
@@ -15,10 +15,12 @@ const elements = [
     }
 ];
 
+// Move lazy components outside to avoid re-creation
+const LazyGroup = React.lazy(() => import("./ExclusiveGroup"));
+const LazySingle = React.lazy(() => import("./ExclusiveSingle"));
+
 export default function EnchantSlotsSection() {
     const [section, setSection] = useState<string>(elements[0].id);
-    const LazyGroup = React.lazy(() => import("./ExclusiveGroup"));
-    const LazySingle = React.lazy(() => import("./ExclusiveSingle"));
 
     return (
         <ToolSectionSelector

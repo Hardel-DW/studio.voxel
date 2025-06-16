@@ -1,5 +1,5 @@
-import { Datapack } from "@voxelio/breeze";
-import { isVoxelElement, sortVoxelElements } from "@voxelio/breeze/core";
+import { Datapack, type VoxelElement } from "@voxelio/breeze";
+import { isVoxelElement } from "@voxelio/breeze/core";
 import { compileDatapack } from "@voxelio/breeze/core";
 import { updateData } from "@voxelio/breeze/core";
 import type { Analysers, GetAnalyserVoxel } from "@voxelio/breeze/core";
@@ -20,8 +20,9 @@ export interface ConfiguratorState<T extends keyof Analysers> {
     currentElementId?: string | null;
     isModded: boolean;
     version: number | null;
-    sortedIdentifiers: string[];
+    sortedIdentifiers: Map<string, string[]>;
     selectedConcept: CONCEPT_KEY | null;
+    getSortedIdentifiers: (registry: string) => string[];
     setName: (name: string) => void;
     setMinify: (minify: boolean) => void;
     setCurrentElementId: (id: string | null) => void;
@@ -40,8 +41,9 @@ const createConfiguratorStore = <T extends keyof Analysers>() =>
         elements: new Map(),
         isModded: false,
         version: null,
-        sortedIdentifiers: [],
+        sortedIdentifiers: new Map(),
         selectedConcept: CONCEPTS[0].registry as CONCEPT_KEY,
+        getSortedIdentifiers: (registry) => get().sortedIdentifiers.get(registry) ?? [],
         setName: (name) => set({ name }),
         setMinify: (minify) => set({ minify }),
         setCurrentElementId: (currentElementId) => set({ currentElementId }),
@@ -60,8 +62,9 @@ const createConfiguratorStore = <T extends keyof Analysers>() =>
             if (!updatedElement || !isVoxelElement(updatedElement)) return;
             set((state) => ({ elements: state.elements.set(elementId, updatedElement) }));
         },
-        setup: (updates) => set({ ...updates, sortedIdentifiers: sortVoxelElements(updates.elements) }),
+        setup: (updates) => set({ ...updates, sortedIdentifiers: sortElementsByRegistry(updates.elements) }),
         compile: () => {
+            console.log("compile");
             const { elements, version, files, selectedConcept } = get();
             if (!version || !files || !selectedConcept) return [];
             return compileDatapack({ elements: Array.from(elements.values()), files });
@@ -73,3 +76,33 @@ const createConfiguratorStore = <T extends keyof Analysers>() =>
 export const useConfiguratorStore = createConfiguratorStore();
 export const getCurrentElement = <T extends keyof Analysers>(state: ConfiguratorState<T>) =>
     state.currentElementId ? state.elements.get(state.currentElementId) : undefined;
+
+/**
+ * Sorts voxel elements by registry and then alphabetically
+ * @param elements - Map of voxel elements
+ * @returns Map of registry to sorted identifiers
+ */
+export function sortElementsByRegistry(elements: Map<string, VoxelElement>): Map<string, string[]> {
+    const grouped = new Map<string, string[]>();
+
+    for (const [id, element] of elements.entries()) {
+        const registry = element.identifier.registry;
+        if (!grouped.has(registry)) {
+            grouped.set(registry, []);
+        }
+        grouped.get(registry)?.push(id);
+    }
+
+    for (const [_, ids] of grouped.entries()) {
+        ids.sort((a, b) => {
+            const elementA = elements.get(a);
+            const elementB = elements.get(b);
+            if (!elementA || !elementB) return 0;
+            const resourceA = elementA.identifier.resource.split("/").pop() ?? "";
+            const resourceB = elementB.identifier.resource.split("/").pop() ?? "";
+            return resourceA.localeCompare(resourceB);
+        });
+    }
+
+    return grouped;
+}

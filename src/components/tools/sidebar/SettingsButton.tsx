@@ -3,11 +3,23 @@
 import { useConfiguratorStore } from "@/components/tools/Store";
 import { Button } from "@/components/ui/Button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/Popover";
+import { useDebugStore } from "@/components/tools/debug/DebugStore";
 import { useQueryClient } from "@tanstack/react-query";
+import dynamic from "next/dynamic";
 import { useState } from "react";
+
+const DebugPanel = dynamic(() => import("@/components/tools/debug/DebugPanel"), {
+    ssr: false,
+    loading: () => (
+        <div className="fixed inset-4 bg-header-cloudy rounded-2xl flex items-center justify-center z-200">
+            <p className="text-white">Loading...</p>
+        </div>
+    )
+});
 
 export default function SettingsButton() {
     const [isSyncing, setIsSyncing] = useState(false);
+    const { isDebugModalOpen, openDebugModal } = useDebugStore();
     const name = useConfiguratorStore((state) => state.name);
     const setName = useConfiguratorStore((state) => state.setName);
     const minify = useConfiguratorStore((state) => state.minify);
@@ -34,6 +46,12 @@ export default function SettingsButton() {
         console.debug(assembleDatapack);
         console.info("------------- Store ----------------");
         console.debug(store);
+    };
+
+    const handleDebugModalOpen = () => {
+        const store = useConfiguratorStore.getState();
+        const assembleDatapack = store.compile();
+        openDebugModal(assembleDatapack);
     };
 
     const calculateStoreSize = () => {
@@ -88,6 +106,12 @@ export default function SettingsButton() {
                         <div className="flex flex-col gap-2">
                             <button
                                 type="button"
+                                onClick={handleDebugModalOpen}
+                                className="w-full px-3 py-2 text-sm text-white bg-zinc-950 cursor-pointer hover:bg-zinc-900 transition-colors rounded-lg border border-zinc-700">
+                                Debug Mode
+                            </button>
+                            <button
+                                type="button"
                                 onClick={handleClick}
                                 className="w-full px-3 py-2 text-sm text-white bg-zinc-950 cursor-pointer hover:bg-zinc-900 transition-colors rounded-lg border border-zinc-700">
                                 Log Developer Data
@@ -104,6 +128,8 @@ export default function SettingsButton() {
                     </div>
                 </div>
             </PopoverContent>
+
+            {isDebugModalOpen && <DebugPanel />}
         </Popover>
     );
 }

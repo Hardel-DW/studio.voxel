@@ -1,20 +1,24 @@
 "use client";
 
 import { useConfiguratorStore } from "@/components/tools/Store";
-import React, { useMemo, type PropsWithChildren, Suspense } from "react";
-import Loader from "../ui/Loader";
+import React, { useMemo, type PropsWithChildren } from "react";
 import { MenuTabs, MenuTabsList, MenuTabsTrigger } from "../ui/MenuTabs";
 import ConfiguratorContent from "./ConfiguratorContent";
 import LazyTabs from "./LazyTabs";
 import Translate from "./Translate";
 import { CONCEPTS } from "./elements";
 import OverviewManager from "./section/OverviewManager";
-import ErrorBoundary from "../ui/ErrorBoundary";
 
 export default function ConfiguratorPanel(props: PropsWithChildren) {
     const currentConcept = useConfiguratorStore((state) => state.selectedConcept);
     const selectedElement = useConfiguratorStore((state) => state.currentElementId);
     const activeConcept = useMemo(() => CONCEPTS.find((concept) => concept.registry === currentConcept), [currentConcept]);
+
+    const lazyComponents = useMemo(() => {
+        if (!activeConcept) return {};
+        return Object.fromEntries(activeConcept.tabs.map((tab) => [tab.section, LazyTabs(tab.section)]));
+    }, [activeConcept]);
+
     if (!activeConcept) return null;
     const defaultTab = activeConcept.tabs[0]?.id || "";
 
@@ -35,19 +39,15 @@ export default function ConfiguratorPanel(props: PropsWithChildren) {
             </MenuTabsList>
 
             <div className="contents">
-                <ErrorBoundary fallback={<div>Error</div>}>
-                    {activeConcept.tabs.map((tab) => {
-                        const TabComponent = LazyTabs(tab.section);
-                        return (
-                            <ConfiguratorContent key={tab.id} tab={tab}>
-                                <Suspense fallback={<Loader />}>
-                                    <TabComponent />
-                                </Suspense>
-                            </ConfiguratorContent>
-                        );
-                    })}
-                    {props.children}
-                </ErrorBoundary>
+                {activeConcept.tabs.map((tab) => {
+                    const TabComponent = lazyComponents[tab.section];
+                    return (
+                        <ConfiguratorContent key={tab.id} tab={tab}>
+                            <TabComponent />
+                        </ConfiguratorContent>
+                    );
+                })}
+                {props.children}
             </div>
         </MenuTabs>
     );
