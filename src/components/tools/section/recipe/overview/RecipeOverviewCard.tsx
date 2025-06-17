@@ -1,49 +1,12 @@
 import { cn } from "@/lib/utils";
-import { Actions, Identifier } from "@voxelio/breeze";
-import type { EnchantmentProps } from "@voxelio/breeze/schema";
+import { Actions, Identifier, type RecipeProps } from "@voxelio/breeze";
 import ItemRenderer from "@/components/tools/texture/TextureRenderer";
 import { useConfiguratorStore } from "@/components/tools/Store";
-import OverviewCase from "./OverviewCase";
 import SimpleSwitch from "@/components/tools/elements/SimpleSwitch";
 
-const findOptions = [
-    {
-        title: "This enchantment can be found on an enchanting table",
-        image: "/images/features/block/enchanting_table.webp",
-        tag: "#minecraft:in_enchanting_table",
-        lock_value: "#minecraft:non_treasure"
-    },
-    {
-        title: "This enchantment can be found in chests",
-        image: "/images/features/block/chest.webp",
-        tag: "#minecraft:on_random_loot",
-        lock_value: "#minecraft:non_treasure"
-    },
-    {
-        title: "This enchantment can be traded by villagers like a book",
-        image: "/images/features/item/enchanted_book.webp",
-        tag: "#minecraft:on_traded_equipment",
-        lock_value: "#minecraft:non_treasure"
-    },
-    {
-        title: "This enchantment can be traded by villagers like an item",
-        image: "/images/features/item/enchanted_item.webp",
-        tag: "#minecraft:tradeable",
-        lock_value: "#minecraft:non_treasure"
-    },
-    {
-        title: "The price of the trade is doubled",
-        image: "/images/features/title/doubled.webp",
-        tag: "#minecraft:double_trade_price",
-        lock_value: "#minecraft:treasure"
-    }
-];
-
-export default function OverviewCard(props: {
-    element: EnchantmentProps;
-    items: string[];
+export default function RecipeOverviewCard(props: {
+    element: RecipeProps;
     elementId: string;
-    display: "minimal" | "detailed";
 }) {
     const setCurrentElementId = useConfiguratorStore((state) => state.setCurrentElementId);
 
@@ -56,11 +19,11 @@ export default function OverviewCard(props: {
             {/* Header avec switch */}
             <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3 flex-1 min-w-0">
-                    {props.items.length === 0 ? (
+                    {props.element.results ? (
                         <div className="w-6 h-6 bg-stone-900 rounded-full animate-pulse flex-shrink-0" />
                     ) : (
                         <div className="flex-shrink-0">
-                            <ItemRenderer id={props.items[0]} />
+                            <ItemRenderer id={props.element.result.item} />
                         </div>
                     )}
                     <div className="flex flex-col gap-1 justify-center">
@@ -69,7 +32,7 @@ export default function OverviewCard(props: {
                             <div className="bg-zinc-800/20 pr-2 pl-1 py-px rounded-full border border-zinc-800">
                                 <div className="flex items-center gap-1">
                                     <img src="/icons/tools/maxLevel.svg" alt="Max Level" className="invert-70 w-3 h-3" />
-                                    <span className="text-xs tracking-wider text-zinc-400 font-medium">Level {props.element.maxLevel}</span>
+                                    <span className="text-xs tracking-wider text-zinc-400 font-medium">Level {props.element.type}</span>
                                 </div>
                             </div>
                         </div>
@@ -87,25 +50,7 @@ export default function OverviewCard(props: {
                 />
             </div>
 
-            {/* Contenu principal */}
             <div className="flex-1 flex flex-col">
-                {props.display === "minimal" && (
-                    <div className="flex flex-wrap gap-2 py-4 flex-1">
-                        {findOptions.map((tag) => (
-                            <OverviewCase
-                                key={tag.title}
-                                title={tag.title}
-                                image={tag.image}
-                                tag={tag.tag}
-                                elementId={props.elementId}
-                                action={new Actions().toggleValueInList("tags", tag.tag).build()}
-                                renderer={(el: EnchantmentProps) => el.tags.includes(tag.lock_value) || el.tags.includes(tag.tag)}
-                            />
-                        ))}
-                    </div>
-                )}
-
-                {/* Footer - toujours en bas */}
                 <div className="pt-4 border-t border-zinc-800/50 mt-auto">
                     <button
                         onClick={() => setCurrentElementId(props.elementId)}

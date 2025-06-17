@@ -4,7 +4,7 @@ import { Identifier, isVoxel } from "@voxelio/breeze";
 import type { Analysers } from "@voxelio/breeze";
 import { useState } from "react";
 import { useConfiguratorStore } from "../../../Store";
-import OverviewCard from "./OverviewCard";
+import EnchantOverviewCard from "./EnchantOverviewCard";
 
 type EnchantmentProps = Analysers["enchantment"]["voxel"];
 const UNCATEGORIZED_KEY = "#minecraft:undefined";
@@ -41,7 +41,7 @@ export default function Overview() {
                     const { isTag, id } = getItemFromMultipleOrOne(element.supportedItems);
 
                     return (
-                        <OverviewCard
+                        <EnchantOverviewCard
                             key={new Identifier(element.identifier).toUniqueKey()}
                             element={element}
                             items={isTag ? getAllItemsFromTag(id) : [id]}
