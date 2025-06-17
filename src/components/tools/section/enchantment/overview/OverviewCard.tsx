@@ -1,45 +1,38 @@
-import Counter from "@/components/ui/Counter";
 import { cn } from "@/lib/utils";
-import { Identifier } from "@voxelio/breeze";
-import { Actions } from "@voxelio/breeze/core";
+import { Actions, Identifier } from "@voxelio/breeze";
 import type { EnchantmentProps } from "@voxelio/breeze/schema";
-import { LockEntryBuilder } from "@/lib/utils/lock";
-import TagsRenderer from "@/components/tools/texture/TagsRenderer";
+import ItemRenderer from "@/components/tools/texture/TextureRenderer";
+import { useConfiguratorStore } from "@/components/tools/Store";
 import OverviewCase from "./OverviewCase";
+import SimpleSwitch from "@/components/tools/elements/SimpleSwitch";
 
 const findOptions = [
     {
-        title: "tools.enchantments.section.find.components.enchantingTable.title",
+        title: "This enchantment can be found on an enchanting table",
         image: "/images/features/block/enchanting_table.webp",
         tag: "#minecraft:in_enchanting_table",
         lock_value: "#minecraft:non_treasure"
     },
     {
-        title: "tools.enchantments.section.find.components.mobEquipment.title",
-        image: "/images/features/entity/zombie.webp",
-        tag: "#minecraft:on_mob_spawn_equipment",
-        lock_value: "#minecraft:non_treasure"
-    },
-    {
-        title: "tools.enchantments.section.find.components.lootInChests.title",
+        title: "This enchantment can be found in chests",
         image: "/images/features/block/chest.webp",
         tag: "#minecraft:on_random_loot",
         lock_value: "#minecraft:non_treasure"
     },
     {
-        title: "tools.enchantments.section.find.components.tradeable.title",
+        title: "This enchantment can be traded by villagers like a book",
         image: "/images/features/item/enchanted_book.webp",
         tag: "#minecraft:on_traded_equipment",
         lock_value: "#minecraft:non_treasure"
     },
     {
-        title: "tools.enchantments.section.find.components.tradeableEquipment.title",
+        title: "This enchantment can be traded by villagers like an item",
         image: "/images/features/item/enchanted_item.webp",
         tag: "#minecraft:tradeable",
         lock_value: "#minecraft:non_treasure"
     },
     {
-        title: "tools.enchantments.section.find.components.priceDoubled.title",
+        title: "The price of the trade is doubled",
         image: "/images/features/title/doubled.webp",
         tag: "#minecraft:double_trade_price",
         lock_value: "#minecraft:treasure"
@@ -52,57 +45,81 @@ export default function OverviewCard(props: {
     elementId: string;
     display: "minimal" | "detailed";
 }) {
+    const setCurrentElementId = useConfiguratorStore((state) => state.setCurrentElementId);
+
     return (
         <div
             className={cn(
-                "bg-black/50 border-t-2 border-l-2 border-stone-900 select-none relative transition-all hover:ring-1 ring-zinc-900 p-6 rounded-xl"
+                "bg-black/50 border-t-2 border-l-2 border-stone-900 select-none relative transition-all hover:ring-1 ring-zinc-900 rounded-xl p-4",
+                "flex flex-col"
             )}>
-            <div className="flex justify-between items-center h-fit">
-                <div className="text-start items-center flex gap-4">
+            {/* Header avec switch */}
+            <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3 flex-1 min-w-0">
                     {props.items.length === 0 ? (
-                        <div className="w-4 h-4 bg-stone-900 rounded-full animate-pulse" />
+                        <div className="w-6 h-6 bg-stone-900 rounded-full animate-pulse flex-shrink-0" />
                     ) : (
-                        <TagsRenderer items={props.items} />
+                        <div className="flex-shrink-0">
+                            <ItemRenderer id={props.items[0]} />
+                        </div>
                     )}
-                    <h3 className="text-lg font-semibold">{new Identifier(props.element.identifier).toResourceName()}</h3>
+                    <div className="flex flex-col gap-1 justify-center">
+                        <h3 className="text-sm font-semibold truncate">{new Identifier(props.element.identifier).toResourceName()}</h3>
+                        <div className="flex items-center">
+                            <div className="bg-zinc-800/20 pr-2 pl-1 py-px rounded-full border border-zinc-800">
+                                <div className="flex items-center gap-1">
+                                    <img src="/icons/tools/maxLevel.svg" alt="Max Level" className="invert-70 w-3 h-3" />
+                                    <span className="text-xs tracking-wider text-zinc-400 font-medium">Level {props.element.maxLevel}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-                <div className="flex items-center gap-2">
-                    <Counter value={props.element.maxLevel} min={0} max={12} step={1} onChange={() => {}} disabled={false} />
-                    <img src="/icons/tools/maxLevel.svg" alt="Max Level" className="invert bg-contain" />
-                </div>
+                <SimpleSwitch
+                    elementId={props.elementId}
+                    action={new Actions()
+                        .alternative((el) => el.mode === "soft_delete")
+                        .ifTrue(new Actions().setValue("mode", "normal").build())
+                        .ifFalse(new Actions().setValue("mode", "soft_delete").build())
+                        .build()}
+                    renderer={(el) => el.mode === "normal"}
+                />
             </div>
 
-            {/* Grid of find options - 3x2 */}
-            {props.display === "detailed" && (
-                <div className="mt-8">
-                    <div className="grid gap-2 items-center" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(100px, 1fr))" }}>
-                        {findOptions.map((option) => (
+            {/* Contenu principal */}
+            <div className="flex-1 flex flex-col">
+                {props.display === "minimal" && (
+                    <div className="flex flex-wrap gap-2 py-4 flex-1">
+                        {findOptions.map((tag) => (
                             <OverviewCase
-                                key={option.title}
-                                title={option.title}
-                                image={option.image}
-                                action={new Actions().toggleValueInList("tags", option.tag).build()}
-                                renderer={(el: EnchantmentProps) => el.tags.includes(option.tag)}
-                                lock={[
-                                    new LockEntryBuilder()
-                                        .addTextKey("tools.enchantments.section.technical.components.reason")
-                                        .addCondition((el: EnchantmentProps) => el.tags.includes(option.lock_value))
-                                        .build(),
-                                    new LockEntryBuilder()
-                                        .addTextKey("tools.disabled_because_vanilla")
-                                        .addCondition((el: EnchantmentProps) => el.identifier?.namespace === "minecraft")
-                                        .build()
-                                ]}
+                                key={tag.title}
+                                title={tag.title}
+                                image={tag.image}
+                                tag={tag.tag}
                                 elementId={props.elementId}
+                                action={new Actions().toggleValueInList("tags", tag.tag).build()}
+                                renderer={(el: EnchantmentProps) => el.tags.includes(tag.lock_value) || el.tags.includes(tag.tag)}
                             />
                         ))}
                     </div>
-                </div>
-            )}
+                )}
 
-            <div className="absolute inset-0 -z-10 brightness-30">
-                <img src="/images/shine.avif" alt="Shine" />
+                {/* Footer - toujours en bas */}
+                <div className="pt-4 border-t border-zinc-800/50 mt-auto">
+                    <button
+                        onClick={() => setCurrentElementId(props.elementId)}
+                        onKeyDown={() => setCurrentElementId(props.elementId)}
+                        type="button"
+                        className="w-full cursor-pointer bg-zinc-800/30 hover:bg-zinc-700/50 border border-zinc-700/50 rounded-lg px-3 py-2 text-xs font-medium text-zinc-300 transition-colors">
+                        Configure
+                    </button>
+                </div>
+            </div>
+
+            {/* Background shine */}
+            <div className="absolute inset-0 -z-10 brightness-30 rounded-xl overflow-hidden">
+                <img src="/images/shine.avif" alt="Shine" className="w-full h-full object-cover" />
             </div>
         </div>
     );

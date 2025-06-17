@@ -1,6 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
+import { useConfiguratorStore } from "../../Store";
 
 interface Props {
     title: string;
@@ -26,6 +27,11 @@ export default function SidebarCard(props: Props) {
         props.onClick?.();
     };
 
+    const handleOverview = () => {
+        const store = useConfiguratorStore.getState();
+        store.setCurrentElementId(null);
+    };
+
     return (
         <div
             style={{ "--tw-duration": `${(props.index + 5) * 50}ms` } as React.CSSProperties}
@@ -40,19 +46,18 @@ export default function SidebarCard(props: Props) {
                 </div>
             )}
 
-            <div onClick={handleEvent} onKeyDown={handleEvent}>
+            <div onClick={handleEvent} onKeyDown={handleEvent} className="flex flex-col  rounded-2xl border-zinc-900 border-2 ">
                 <div
                     className={cn(
-                        "stack overflow-hidden rounded-2xl w-full h-24 relative cursor-pointer transition-all transition-discrete hidden:opacity-0 bg-content",
+                        "stack overflow-hiddenw-full h-24 relative cursor-pointer transition-all transition-discrete hidden:opacity-0 bg-content flex-1",
                         {
-                            "border-zinc-900 border-l-2 border-t-2": props.selected,
-                            "border-zinc-900 border-2": !props.selected
+                            "border-zinc-900": props.selected
                         }
                     )}>
                     <div className="absolute inset-0 -z-10 hue-rotate-45 brightness-20">
                         <img src="/images/shine.avif" alt="Shine" />
                     </div>
-                    <div className="grid grid-rows-[1fr_auto] p-4">
+                    <div className="p-4 h-full">
                         <div className="flex items-center gap-2 h-full w-full justify-between">
                             <div className="flex flex-col items-start">
                                 <div
@@ -98,6 +103,17 @@ export default function SidebarCard(props: Props) {
                         </>
                     )}
                 </div>
+                {props.selected && (
+                    <div className="px-4 py-2">
+                        <button
+                            onClick={handleOverview}
+                            onKeyDown={handleOverview}
+                            type="button"
+                            className="w-full rounded-2xl cursor-pointer bg-zinc-800/30 hover:bg-zinc-700/20 px-3 py-2 text-xs font-medium text-zinc-300 transition-colors">
+                            Overview
+                        </button>
+                    </div>
+                )}
             </div>
         </div>
     );

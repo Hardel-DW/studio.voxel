@@ -105,6 +105,14 @@ body {
 
 :root {
     --color-primary: #d2d2d2;
+    --color-secondary: #454545;
+    --color-tertiary: #8080802e;
+    --color-black: #000000;
+
+    --color-checked-rail: linear-gradient(15deg, #b73c3c23, #72198de0);
+    --color-checked-circle: #ffffff;
+    --color-unchecked-rail: #343434;
+    --color-unchecked-circle: #dfdfdf;
 }
 
 body {
@@ -163,7 +171,6 @@ input[type="number"]::-webkit-inner-spin-button {
 input[type="number"]::-webkit-outer-spin-button {
     display: none;
 }
-
 label {
     position: relative;
     height: 1.5rem;
@@ -181,12 +188,11 @@ label {
             width: 1rem;
             height: 1rem;
             margin-left: 0.25rem;
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
             transition-duration: 200ms;
-            background-color: var(--color-primary);
+            background-color: var(--color-unchecked-circle); /* Rond du toggle (état désactivé) */
         }
         &:checked::after {
-            background-color: var(--color-primary);
+            background-color: var(--color-checked-circle); /* Rond du toggle (état activé) */
             transform: translateY(-50%) translateX(1rem);
             transition-duration: 300ms;
         }
@@ -199,19 +205,19 @@ label {
             transition-duration: 100ms;
             width: 2.5rem;
             height: 1.5rem;
-            background-color: #525252;
+            background-color: var(--color-unchecked-rail); /* Fond/rail du toggle */
         }
         &:checked::before {
-            background-color: var(--color-pink-900);
+            background: var(--color-checked-rail); /* Fond/rail du toggle (reste identique quand activé) */
         }
         &:disabled {
             cursor: not-allowed;
         }
         &:disabled::after {
-            background-color: rgba(214, 211, 209, 0.7);
+            background-color: var(--color-tertiary); /* Rond du toggle (état désactivé/disabled) */
         }
         &:disabled:checked::after {
-             background-color: rgba(212, 212, 212, 0.7);
+             background-color: var(--color-tertiary); /* Rond du toggle (état activé mais disabled) */
         }
         &:disabled:checked::before {
             opacity: 0.5;
@@ -275,14 +281,14 @@ input[type="range"]::-webkit-slider-runnable-track {
     height: .5rem;
     width: 100%;
     border-radius: 1rem;
-    background-color: #8080802e;
+    background-color: var(--color-tertiary);
 }
 
 input[type="range"]::-moz-range-track {
     height: 0.5rem;
     width: 100%;
     border-radius: 1rem;
-    background-color: #8080802e;
+    background-color: var(--color-tertiary);
     border: none;
 }
 
@@ -307,7 +313,7 @@ input[type="range"]::-moz-range-thumb {
     width: 1.5rem;
     border-radius: 1rem;
     border: none;
-    background-color: #454545;
+    background-color: var(--color-secondary);
     cursor: pointer;
     box-shadow: 0 0 0 3px var(--color-primary) inset, calc(100rem * -1 - .6rem) 0 0 100rem var(--color-primary)
 }

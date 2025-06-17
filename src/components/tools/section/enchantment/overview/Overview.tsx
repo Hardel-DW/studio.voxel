@@ -11,20 +11,20 @@ const UNCATEGORIZED_KEY = "#minecraft:undefined";
 
 export default function Overview() {
     const [search, setSearch] = useState("");
-    const [filter, setFilter] = useState<"exclusiveSet" | "supportedItems">("supportedItems");
     const [display, setDisplay] = useState<"minimal" | "detailed">("minimal");
     const elements = useConfiguratorStore((state) => state.elements);
-    const elementsBySet = groupElementsByExclusiveSet(elements, filter, search);
+    const filteredElements = getFilteredElements(elements, search);
     const { getAllItemsFromTag } = useTagManager();
 
     return (
         <div>
             <div className="flex items-center justify-between gap-2">
-                <div className="flex flex-col gap-2">
+                <div className="flex items-center gap-8">
                     <h1 className="text-2xl font-bold uppercase">Overview</h1>
                 </div>
-                <div className="flex gap-2">
+                <div className="flex items-center gap-4">
                     <input type="text" placeholder="Search" onChange={(e) => setSearch(e.target.value)} />
+
                     <SquareButton
                         icon={`/icons/tools/overview/${display === "minimal" ? "list" : "map"}.svg`}
                         onClick={() => setDisplay(display === "minimal" ? "detailed" : "minimal")}
@@ -35,31 +35,21 @@ export default function Overview() {
 
             <hr className="my-4" />
 
-            {/* Render elements by category */}
-            <div className="flex flex-col gap-4">
-                {Array.from(elementsBySet.entries()).map(
-                    ([category, categoryElements]) =>
-                        categoryElements.length > 0 && (
-                            <div key={category} className="mb-8">
-                                <h2 className="text-xl font-bold mb-4">{Identifier.of(category, "tags/enchantments").toResourceName()}</h2>
-                                <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-                                    {categoryElements.map((element) => {
-                                        const { isTag, id } = getItemFromMultipleOrOne(element.supportedItems);
+            {/* Grille unique pour toutes les cartes */}
+            <div className="grid gap-4" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))" }}>
+                {filteredElements.map((element) => {
+                    const { isTag, id } = getItemFromMultipleOrOne(element.supportedItems);
 
-                                        return (
-                                            <OverviewCard
-                                                key={new Identifier(element.identifier).toUniqueKey()}
-                                                element={element}
-                                                items={isTag ? getAllItemsFromTag(id) : [id]}
-                                                elementId={new Identifier(element.identifier).toUniqueKey()}
-                                                display={display}
-                                            />
-                                        );
-                                    })}
-                                </div>
-                            </div>
-                        )
-                )}
+                    return (
+                        <OverviewCard
+                            key={new Identifier(element.identifier).toUniqueKey()}
+                            element={element}
+                            items={isTag ? getAllItemsFromTag(id) : [id]}
+                            elementId={new Identifier(element.identifier).toUniqueKey()}
+                            display={display}
+                        />
+                    );
+                })}
             </div>
         </div>
     );
@@ -107,4 +97,25 @@ function groupElementsByExclusiveSet(
     }
 
     return groups;
+}
+
+/**
+ * Filtre les éléments par recherche
+ */
+function getFilteredElements(elements: Map<string, Analysers[keyof Analysers]["voxel"]>, search: string): EnchantmentProps[] {
+    const filtered: EnchantmentProps[] = [];
+
+    for (const element of elements.values()) {
+        if (!isVoxel(element, "enchantment")) {
+            continue;
+        }
+
+        if (search && !element.identifier.resource.toLowerCase().includes(search.toLowerCase())) {
+            continue;
+        }
+
+        filtered.push(element);
+    }
+
+    return filtered;
 }

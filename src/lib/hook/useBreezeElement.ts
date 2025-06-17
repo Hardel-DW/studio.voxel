@@ -25,11 +25,6 @@ export const useElementLocks = (locks: Lock[] | undefined, elementId?: string): 
     return checkLocks(locks, element);
 };
 
-const useElement = (elementId?: string) => {
-    return useConfiguratorStore(
-        useShallow((state) => {
-            const id = elementId ? state.elements.get(elementId) : getCurrentElement(state);
-            return id || null;
-        })
-    );
+export const useElement = (elementId?: string) => {
+    return useConfiguratorStore(useShallow((state) => (elementId ? state.elements.get(elementId) : getCurrentElement(state))));
 };
