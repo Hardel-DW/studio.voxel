@@ -25,10 +25,10 @@ export default function DownloadButton() {
             <DialogTrigger>
                 <Button type="button" className="w-full" variant="white-shimmer" onClick={handleClick} onKeyDown={handleClick}>
                     <span className="text-sm hidden xl:block">
-                        <Translate content="tools.download" />
+                        <Translate content="download_data_pack" />
                     </span>
                     <span className="text-sm block xl:hidden">
-                        <Translate content="tools.download.small" />
+                        <Translate content="download" />
                     </span>
                 </Button>
             </DialogTrigger>
@@ -36,10 +36,10 @@ export default function DownloadButton() {
                 <DialogHeader>
                     <DialogTitle className="flex items-center gap-x-2">
                         <img src="/icons/success.svg" alt="zip" className="size-6" />
-                        <Translate content="dialog.success.title" />
+                        <Translate content="success" />
                     </DialogTitle>
                     <DialogDescription>
-                        <Translate content="dialog.success.description" />
+                        <Translate content="modification_success" />
                     </DialogDescription>
                     <SettingsDialog />
                 </DialogHeader>
@@ -59,7 +59,7 @@ export default function DownloadButton() {
                         rel="noopener noreferrer"
                         href="https://streamelements.com/hardoudou/tip"
                         variant="primary-shimmer">
-                        <Translate content="dialog.footer.donate" />
+                        <Translate content="donate" />
                     </LinkButton>
                 </DialogFooter>
             </DialogContent>

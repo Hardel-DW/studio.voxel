@@ -14,36 +14,36 @@ export default function EnchantTechnicalSection() {
 
     return (
         <>
-            <ToolSection id="technical_behaviour" title={{ key: "tools.enchantments.section.technical.description" }}>
+            <ToolSection id="technical_behaviour" title={{ key: "enchantment:section.technical.description" }}>
                 <ToolSwitch
-                    title={{ key: "tools.enchantments.section.technical.components.curse.title" }}
-                    description={{ key: "tools.enchantments.section.technical.components.curse.description" }}
+                    title={{ key: "enchantment:technical.curse.title" }}
+                    description={{ key: "enchantment:technical.curse.description" }}
                     action={new Actions().toggleValueInList("tags", "#minecraft:curse").build()}
                     renderer={(el: EnchantmentProps) => el.tags.includes("#minecraft:curse")}
                     lock={[isMinecraft]}
                 />
                 <ToolSwitch
-                    title={{ key: "tools.enchantments.section.technical.components.nonTreasure.title" }}
+                    title={{ key: "enchantment:technical.nonTreasure.title" }}
                     description={{
-                        key: "tools.enchantments.section.technical.components.nonTreasure.description"
+                        key: "enchantment:technical.nonTreasure.description"
                     }}
                     action={new Actions().toggleValueInList("tags", "#minecraft:non_treasure").build()}
                     renderer={(el: EnchantmentProps) => el.tags.includes("#minecraft:non_treasure")}
                     lock={[isMinecraft]}
                 />
                 <ToolSwitch
-                    title={{ key: "tools.enchantments.section.technical.components.treasure.title" }}
-                    description={{ key: "tools.enchantments.section.technical.components.treasure.description" }}
+                    title={{ key: "enchantment:technical.treasure.title" }}
+                    description={{ key: "enchantment:technical.treasure.description" }}
                     action={new Actions().toggleValueInList("tags", "#minecraft:treasure").build()}
                     renderer={(el: EnchantmentProps) => el.tags.includes("#minecraft:treasure")}
                     lock={[isMinecraft]}
                 />
                 <ToolSwitch
                     title={{
-                        key: "tools.enchantments.section.technical.components.smeltsLoot.title"
+                        key: "enchantment:technical.smeltsLoot.title"
                     }}
                     description={{
-                        key: "tools.enchantments.section.technical.components.smeltsLoot.description"
+                        key: "enchantment:technical.smeltsLoot.description"
                     }}
                     action={new Actions().toggleValueInList("tags", "#minecraft:smelts_loot").build()}
                     renderer={(el: EnchantmentProps) => el.tags.includes("#minecraft:smelts_loot")}
@@ -52,10 +52,10 @@ export default function EnchantTechnicalSection() {
                 <ToolGrid>
                     <ToolSwitch
                         title={{
-                            key: "tools.enchantments.section.technical.components.preventsIceMelting.title"
+                            key: "enchantment:technical.preventsIceMelting.title"
                         }}
                         description={{
-                            key: "tools.enchantments.section.technical.components.preventsIceMelting.description"
+                            key: "enchantment:technical.preventsIceMelting.description"
                         }}
                         action={new Actions().toggleValueInList("tags", "#minecraft:prevent_ice_melting").build()}
                         renderer={(el: EnchantmentProps) => el.tags.includes("#minecraft:prevent_ice_melting")}
@@ -63,10 +63,10 @@ export default function EnchantTechnicalSection() {
                     />
                     <ToolSwitch
                         title={{
-                            key: "tools.enchantments.section.technical.components.preventInfestedBlockSpawning.title"
+                            key: "enchantment:technical.preventInfestedBlockSpawning.title"
                         }}
                         description={{
-                            key: "tools.enchantments.section.technical.components.preventInfestedBlockSpawning.description"
+                            key: "enchantment:technical.preventInfestedBlockSpawning.description"
                         }}
                         action={new Actions().toggleValueInList("tags", "#minecraft:prevent_infested_block_spawning").build()}
                         renderer={(el: EnchantmentProps) => el.tags.includes("#minecraft:prevent_infested_block_spawning")}
@@ -76,10 +76,10 @@ export default function EnchantTechnicalSection() {
                 <ToolGrid>
                     <ToolSwitch
                         title={{
-                            key: "tools.enchantments.section.technical.components.preventBeeSpawning.title"
+                            key: "enchantment:technical.preventBeeSpawning.title"
                         }}
                         description={{
-                            key: "tools.enchantments.section.technical.components.preventBeeSpawning.description"
+                            key: "enchantment:technical.preventBeeSpawning.description"
                         }}
                         action={new Actions().toggleValueInList("tags", "#minecraft:prevent_bee_spawning").build()}
                         renderer={(el: EnchantmentProps) => el.tags.includes("#minecraft:prevent_bee_spawning")}
@@ -87,10 +87,10 @@ export default function EnchantTechnicalSection() {
                     />
                     <ToolSwitch
                         title={{
-                            key: "tools.enchantments.section.technical.components.preventPotShattering.title"
+                            key: "enchantment:technical.preventPotShattering.title"
                         }}
                         description={{
-                            key: "tools.enchantments.section.technical.components.preventPotShattering.description"
+                            key: "enchantment:technical.preventPotShattering.description"
                         }}
                         action={new Actions().toggleValueInList("tags", "#minecraft:prevent_pot_shattering").build()}
                         renderer={(el: EnchantmentProps) => el.tags.includes("#minecraft:prevent_pot_shattering")}
@@ -101,8 +101,8 @@ export default function EnchantTechnicalSection() {
 
             <ToolSection
                 id="costs"
-                title={{ key: "tools.enchantments.section.costs" }}
-                button={{ text: { key: "generic.documentation" }, url: "https://minecraft.wiki/w/Enchanting_mechanics" }}>
+                title={{ key: "enchantment:section.costs" }}
+                button={{ text: { key: "documentation" }, url: "https://minecraft.wiki/w/Enchanting_mechanics" }}>
                 <div className="grid grid-cols-2 gap-4">
                     {["minCostBase", "minCostPerLevelAboveFirst", "maxCostBase", "maxCostPerLevelAboveFirst"].map((field) => (
                         <div key={field}>
@@ -110,7 +110,7 @@ export default function EnchantTechnicalSection() {
                                 key={field}
                                 type="Range"
                                 label={{
-                                    key: `tools.enchantments.section.global.components.${field}.label`
+                                    key: `enchantment:global.${field}.title`
                                 }}
                                 min={0}
                                 max={100}
@@ -123,23 +123,23 @@ export default function EnchantTechnicalSection() {
                 </div>
             </ToolSection>
 
-            <ToolSection id="effects" title={{ key: "tools.enchantments.section.effects.components.title" }}>
+            <ToolSection id="effects" title={{ key: "enchantment:technical.effects.title" }}>
                 {currentElement &&
-                isVoxel(currentElement, "enchantment") &&
-                currentElement?.effects &&
-                Object.keys(currentElement.effects).length > 0 ? (
+                    isVoxel(currentElement, "enchantment") &&
+                    currentElement?.effects &&
+                    Object.keys(currentElement.effects).length > 0 ? (
                     Object.keys(currentElement.effects).map((effect) => (
                         <ToolSwitch
                             key={effect}
                             title={Identifier.toDisplay(effect)}
-                            description={{ key: `tools.effects.${effect}` }}
+                            description={{ key: `effects:${effect}` }}
                             action={new Actions().toggleValueInList("disabledEffects", effect).build()}
                             renderer={(el: EnchantmentProps) => !el.disabledEffects.includes(effect)}
                         />
                     ))
                 ) : (
                     <h1 className="text-zinc-400 text-center py-4">
-                        <Translate content="tools.enchantments.section.effects.components.empty" />
+                        <Translate content="enchantment:technical.empty_effects" />
                     </h1>
                 )}
             </ToolSection>

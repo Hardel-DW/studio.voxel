@@ -14,43 +14,43 @@ const LazyEnchantYggdrasil = lazy(() => import("./FindYggdrasil"));
 
 const iterationValues = [
     {
-        title: "tools.enchantments.section.find.components.enchantingTable.title",
-        description: "tools.enchantments.section.find.components.enchantingTable.description",
+        title: "enchantment:find.enchantingTable.title",
+        description: "enchantment:find.enchantingTable.description",
         image: "/images/features/block/enchanting_table.webp",
         tag: "#minecraft:in_enchanting_table",
         lock_value: "#minecraft:non_treasure"
     },
     {
-        title: "tools.enchantments.section.find.components.mobEquipment.title",
-        description: "tools.enchantments.section.find.components.mobEquipment.description",
+        title: "enchantment:find.mobEquipment.title",
+        description: "enchantment:find.mobEquipment.description",
         image: "/images/features/entity/zombie.webp",
         tag: "#minecraft:on_mob_spawn_equipment",
         lock_value: "#minecraft:non_treasure"
     },
     {
-        title: "tools.enchantments.section.find.components.lootInChests.title",
-        description: "tools.enchantments.section.find.components.lootInChests.description",
+        title: "enchantment:find.lootInChests.title",
+        description: "enchantment:find.lootInChests.description",
         image: "/images/features/block/chest.webp",
         tag: "#minecraft:on_random_loot",
         lock_value: "#minecraft:non_treasure"
     },
     {
-        title: "tools.enchantments.section.find.components.tradeable.title",
-        description: "tools.enchantments.section.find.components.tradeable.description",
+        title: "enchantment:find.tradeable.title",
+        description: "enchantment:find.tradeable.description",
         image: "/images/features/item/enchanted_book.webp",
         tag: "#minecraft:on_traded_equipment",
         lock_value: "#minecraft:non_treasure"
     },
     {
-        title: "tools.enchantments.section.find.components.tradeableEquipment.title",
-        description: "tools.enchantments.section.find.components.tradeableEquipment.description",
+        title: "enchantment:find.tradeableEquipment.title",
+        description: "enchantment:find.tradeableEquipment.description",
         image: "/images/features/item/enchanted_item.webp",
         tag: "#minecraft:tradeable",
         lock_value: "#minecraft:non_treasure"
     },
     {
-        title: "tools.enchantments.section.find.components.priceDoubled.title",
-        description: "tools.enchantments.section.find.components.priceDoubled.description",
+        title: "enchantment:find.priceDoubled.title",
+        description: "enchantment:find.priceDoubled.description",
         image: "/images/features/title/doubled.webp",
         tag: "#minecraft:double_trade_price",
         lock_value: "#minecraft:treasure"
@@ -60,7 +60,7 @@ const iterationValues = [
 export default function EnchantFindBehaviourSection() {
     return (
         <>
-            <ToolSection id="behaviour" title={{ key: "tools.enchantments.section.find" }}>
+            <ToolSection id="behaviour" title={{ key: "enchantment:section.find" }}>
                 <ToolGrid size="350px">
                     {iterationValues.map((value) => (
                         <ToolSlot
@@ -70,7 +70,7 @@ export default function EnchantFindBehaviourSection() {
                             renderer={(el: EnchantmentProps) => el.tags.includes(value.tag)}
                             lock={[
                                 new LockEntryBuilder()
-                                    .addTextKey("tools.enchantments.section.technical.components.reason")
+                                    .addTextKey("enchantment:technical.lock.reason")
                                     .addCondition((el: EnchantmentProps) => el.tags.includes(value.lock_value))
                                     .build(),
                                 isMinecraft
@@ -82,15 +82,15 @@ export default function EnchantFindBehaviourSection() {
                     ))}
                 </ToolGrid>
             </ToolSection>
-            <ToolSection id="addons" title={{ key: "tools.enchantments.section.addons.description" }}>
+            <ToolSection id="addons" title={{ key: "enchantment:addons.description" }}>
                 <ToolReveal defaultValue="dnt">
                     <ToolRevealElement
                         id="dnt"
                         logo="/images/addons/logo/dnt.webp"
                         image="/images/addons/hero/dnt.png"
                         href="https://modrinth.com/datapack/dungeons-and-taverns"
-                        title={{ key: "tools.enchantments.section.addons.dnt.title" }}
-                        description={{ key: "tools.enchantments.section.addons.dnt.description" }}>
+                        title={{ key: "dnt:title" }}
+                        description={{ key: "dnt:description" }}>
                         <Suspense fallback={<Loader />}>
                             <LazyEnchantDNT />
                         </Suspense>
@@ -100,8 +100,8 @@ export default function EnchantFindBehaviourSection() {
                         logo="/images/addons/logo/yggdrasil.webp"
                         image="/images/addons/hero/yggdrasil.png"
                         href="https://modrinth.com/datapack/yggdrasil-structure"
-                        title={{ key: "tools.enchantments.section.addons.yggdrasil.title" }}
-                        description={{ key: "tools.enchantments.section.addons.yggdrasil.description" }}>
+                        title={{ key: "yggdrasil:title" }}
+                        description={{ key: "yggdrasil:description" }}>
                         <Suspense fallback={<Loader />}>
                             <LazyEnchantYggdrasil />
                         </Suspense>

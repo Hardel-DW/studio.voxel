@@ -1,8 +1,8 @@
 "use client";
 
 import type { ComponentType } from "react";
-import { useConfiguratorStore } from "../../Store";
-import { CONCEPTS } from "../../elements";
+import { useConfiguratorStore } from "@/components/tools/Store";
+import { CONCEPTS } from "@/components/tools/elements";
 
 type WithConceptProps = {};
 

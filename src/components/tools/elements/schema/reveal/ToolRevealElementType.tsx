@@ -29,7 +29,7 @@ const ToolRevealElement = memo(function ToolRevealElement({ element, isSelected,
                     className={cn({
                         "opacity-50 hover:opacity-50": element.soon
                     })}>
-                    <Translate content={element.soon ? "generic.soon" : "generic.more"} />
+                    <Translate content={element.soon ? "soon" : "more"} />
                 </LinkButton>
             </div>
             <div className="bg-shadow-bottom rounded-2xl relative z-10" />

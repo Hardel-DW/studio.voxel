@@ -2,16 +2,16 @@
 
 import ToolSectionSelector from "@/components/tools/elements/ToolSectionSelector";
 import Loader from "@/components/ui/Loader";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 
 const elements = [
     {
         id: "group",
-        title: { key: "tools.enchantments.section.toggle.exclusive.group.title" }
+        title: { key: "enchantment:toggle.group.title" }
     },
     {
         id: "single",
-        title: { key: "tools.enchantments.section.toggle.exclusive.individual.title" }
+        title: { key: "enchantment:toggle.individual.title" }
     }
 ];
 
@@ -25,7 +25,7 @@ export default function EnchantSlotsSection() {
     return (
         <ToolSectionSelector
             id="exclusive"
-            title={{ key: "tools.enchantments.section.exclusive.description" }}
+            title={{ key: "enchantment:section.exclusive.description" }}
             elements={elements}
             value={section}
             setValue={setSection}>

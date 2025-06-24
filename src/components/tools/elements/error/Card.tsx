@@ -1,3 +1,5 @@
+import Translate from "@/components/tools/Translate";
+
 interface ErrorPlaceholderProps {
     error?: Error;
 }
@@ -7,13 +9,19 @@ export default function ErrorPlaceholder({ error }: ErrorPlaceholderProps) {
         <div className="bg-blue-50/5 ring-0 ring-zinc-700 relative transition-all p-6 rounded-xl">
             <div className="flex flex-col items-center justify-between gap-4 h-full">
                 <div className="text-center">
-                    <h3 className="text-lg font-semibold mb-1">Une erreur est survenue</h3>
-                    <p className="text-sm text-zinc-400">Un problème inattendu s'est produit lors du chargement de ce composant</p>
+                    <h3 className="text-lg font-semibold mb-1">
+                        <Translate content="error.title" />
+                    </h3>
+                    <p className="text-sm text-zinc-400">
+                        <Translate content="error.component" />
+                    </p>
                 </div>
 
                 <div className="h-16 w-16 flex items-center justify-center">
                     <svg className="h-12 w-12 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <title>Erreur</title>
+                        <title>
+                            <Translate content="error" />
+                        </title>
                         <path
                             strokeLinecap="round"
                             strokeLinejoin="round"
@@ -25,9 +33,11 @@ export default function ErrorPlaceholder({ error }: ErrorPlaceholderProps) {
 
                 <div className="w-full">
                     <details className="text-xs text-zinc-400 pt-4 mt-4 border-t border-zinc-700">
-                        <summary className="cursor-pointer">Détails de l'erreur</summary>
+                        <summary className="cursor-pointer">
+                            <Translate content="error.details" />
+                        </summary>
                         <pre className="mt-2 whitespace-pre-wrap">
-                            {error?.message || "Une erreur est survenue lors du chargement de ce composant"}
+                            {error?.message || <Translate content="error.component" />}
                         </pre>
                     </details>
                 </div>

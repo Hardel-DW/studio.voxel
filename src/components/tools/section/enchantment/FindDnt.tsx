@@ -9,26 +9,26 @@ import React from "react";
 // Structure data for global biomes section
 const biomeStructures = [
     {
-        title: "tools.enchantments.section.addons.dnt.overworld.title",
-        description: "tools.enchantments.section.addons.dnt.overworld.description",
+        title: "dnt:overworld.title",
+        description: "dnt:overworld.description",
         image: "/images/features/structure/overworld.webp",
         tag: "#nova_structures:structure/overworld"
     },
     {
-        title: "tools.enchantments.section.addons.dnt.underwater.title",
-        description: "tools.enchantments.section.addons.dnt.underwater.description",
+        title: "dnt:underwater.title",
+        description: "dnt:underwater.description",
         image: "/images/features/structure/underwater.webp",
         tag: "#nova_structures:structure/underwater"
     },
     {
-        title: "tools.enchantments.section.addons.dnt.nether.title",
-        description: "tools.enchantments.section.addons.dnt.nether.description",
+        title: "dnt:nether.title",
+        description: "dnt:nether.description",
         image: "/images/features/structure/nether.webp",
         tag: "#nova_structures:structure/nether"
     },
     {
-        title: "tools.enchantments.section.addons.dnt.end.title",
-        description: "tools.enchantments.section.addons.dnt.end.description",
+        title: "dnt:end.title",
+        description: "dnt:end.description",
         image: "/images/features/structure/end.webp",
         tag: "#nova_structures:structure/end"
     }
@@ -37,56 +37,56 @@ const biomeStructures = [
 // Structure data for specific structures section
 const specificStructures = [
     {
-        title: "tools.enchantments.section.addons.dnt.creeping_crypt.title",
-        description: "tools.enchantments.section.addons.dnt.creeping_crypt.description",
+        title: "dnt:creeping_crypt.title",
+        description: "dnt:creeping_crypt.description",
         image: "/images/addons/card/dnt/creeping_crypt.webp",
         tag: "#nova_structures:structure/creeping_crypt"
     },
     {
-        title: "tools.enchantments.section.addons.dnt.nether_keep.title",
-        description: "tools.enchantments.section.addons.dnt.nether_keep.description",
+        title: "dnt:nether_keep.title",
+        description: "dnt:nether_keep.description",
         image: "/images/addons/card/dnt/piglin_outstation.webp",
         tag: "#nova_structures:structure/nether_keep"
     },
     {
-        title: "tools.enchantments.section.addons.dnt.illager.title",
-        description: "tools.enchantments.section.addons.dnt.illager.description",
+        title: "dnt:illager.title",
+        description: "dnt:illager.description",
         image: "/images/addons/card/dnt/illager_manor.webp",
         tag: "#nova_structures:structure/illager"
     },
     {
-        title: "tools.enchantments.section.addons.dnt.illager_outpost.title",
-        description: "tools.enchantments.section.addons.dnt.illager_outpost.description",
+        title: "dnt:illager_outpost.title",
+        description: "dnt:illager_outpost.description",
         image: "/images/addons/card/dnt/illager_hideout.webp",
         tag: "#nova_structures:structure/illager_outpost"
     },
     {
-        title: "tools.enchantments.section.addons.dnt.pale_residence.title",
-        description: "tools.enchantments.section.addons.dnt.pale_residence.description",
+        title: "dnt:pale_residence.title",
+        description: "dnt:pale_residence.description",
         image: "/images/addons/card/dnt/pale_residence.webp",
         tag: "#nova_structures:structure/pale_residence"
     },
     {
-        title: "tools.enchantments.section.addons.dnt.shrine.title",
-        description: "tools.enchantments.section.addons.dnt.shrine.description",
+        title: "dnt:shrine.title",
+        description: "dnt:shrine.description",
         image: "/images/addons/card/dnt/shrine.webp",
         tag: "#nova_structures:structure/shrine"
     },
     {
-        title: "tools.enchantments.section.addons.dnt.shrine_ominous.title",
-        description: "tools.enchantments.section.addons.dnt.shrine_ominous.description",
+        title: "dnt:shrine_ominous.title",
+        description: "dnt:shrine_ominous.description",
         image: "/images/addons/card/dnt/shrine_ominous.webp",
         tag: "#nova_structures:structure/shrine_ominous"
     },
     {
-        title: "tools.enchantments.section.addons.dnt.snowy.title",
-        description: "tools.enchantments.section.addons.dnt.snowy.description",
+        title: "dnt:snowy.title",
+        description: "dnt:snowy.description",
         image: "/images/addons/card/dnt/stay_fort.webp",
         tag: "#nova_structures:structure/snowy"
     },
     {
-        title: "tools.enchantments.section.addons.dnt.toxic_lair.title",
-        description: "tools.enchantments.section.addons.dnt.toxic_lair.description",
+        title: "dnt:toxic_lair.title",
+        description: "dnt:toxic_lair.description",
         image: "/images/addons/card/dnt/toxic_lair.webp",
         tag: "#nova_structures:structure/toxic_lair"
     }
@@ -96,7 +96,7 @@ export default function EnchantDNT() {
     return (
         <>
             {/* Global Category */}
-            <ToolCategory title={{ key: "tools.enchantments.section.addons.dnt.global.title" }}>
+            <ToolCategory title={{ key: "dnt:globals" }}>
                 <ToolGrid size="250px">
                     {biomeStructures.map((structure) => (
                         <ToolSlot
@@ -113,7 +113,7 @@ export default function EnchantDNT() {
             </ToolCategory>
 
             {/* Structures Category */}
-            <ToolCategory title={{ key: "tools.enchantments.section.addons.dnt.structures.title" }}>
+            <ToolCategory title={{ key: "dnt:structures" }}>
                 <ToolGrid size="400px">
                     {specificStructures.map((structure) => (
                         <ToolCard

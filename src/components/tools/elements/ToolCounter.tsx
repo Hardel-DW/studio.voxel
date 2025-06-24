@@ -5,7 +5,7 @@ import type { BaseInteractiveComponent } from "@/lib/hook/useInteractiveLogic";
 import type { TranslateTextType } from "@/components/tools/Translate";
 import CounterUI from "@/components/ui/Counter";
 import { useInteractiveLogic } from "@/lib/hook/useInteractiveLogic";
-import RenderGuard from "./RenderGuard";
+import RenderGuard from "@/components/tools/elements/RenderGuard";
 
 export type ToolCounterProps = BaseInteractiveComponent & {
     title: TranslateTextType;

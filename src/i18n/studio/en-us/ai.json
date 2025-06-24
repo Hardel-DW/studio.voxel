@@ -1,0 +1,23 @@
+{
+    "confirmation.accept": "Accept",
+    "confirmation.refuse": "Refuse",
+    "confirmation.suggestedModification": "Suggested modification",
+    "confirmation.description": "Suggested modification for the property: ",
+    "island.placeholder": "Ask to the AI...",
+    "enchantment.field.description": "Description",
+    "enchantment.field.exclusiveSet": "Exclusive Set",
+    "enchantment.field.supportedItems": "Supported Items",
+    "enchantment.field.primaryItems": "Primary Items",
+    "enchantment.field.maxLevel": "Maximum Level",
+    "enchantment.field.weight": "Weight",
+    "enchantment.field.anvilCost": "Anvil Cost",
+    "enchantment.field.minCostBase": "Base Minimum Cost",
+    "enchantment.field.minCostPerLevelAboveFirst": "Minimum Cost per Level",
+    "enchantment.field.maxCostBase": "Base Maximum Cost",
+    "enchantment.field.maxCostPerLevelAboveFirst": "Maximum Cost per Level",
+    "enchantment.field.effects": "Effects",
+    "enchantment.field.slots": "Slots",
+    "enchantment.field.tags": "Tags",
+    "enchantment.field.mode": "Mode",
+    "enchantment.field.disabledEffects": "Disabled Effects"
+}

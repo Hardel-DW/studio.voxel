@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import { Identifier } from "@voxelio/breeze";
 import type { BaseInteractiveComponent } from "@/lib/hook/useInteractiveLogic";
 import type { TranslateTextType } from "@/components/tools/Translate";
-import RenderGuard from "./RenderGuard";
+import RenderGuard from "@/components/tools/elements/RenderGuard";
 import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/Popover";
 
 export type ToolListOptionType = BaseInteractiveComponent & {

@@ -4,43 +4,31 @@ import { useConfiguratorStore } from "@/components/tools/Store";
 import { Button } from "@/components/ui/Button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/Popover";
 import { useDebugStore } from "@/components/tools/debug/DebugStore";
-import { useQueryClient } from "@tanstack/react-query";
 import dynamic from "next/dynamic";
-import { useState } from "react";
+import Translate from "@/components/tools/Translate";
+import { useTranslateKey } from "@/lib/hook/useTranslation";
 
 const DebugPanel = dynamic(() => import("@/components/tools/debug/DebugPanel"), {
     ssr: false,
     loading: () => (
         <div className="fixed inset-4 bg-header-cloudy rounded-2xl flex items-center justify-center z-200">
-            <p className="text-white">Loading...</p>
+            <p className="text-white">
+                <Translate content="loading" />
+            </p>
         </div>
     )
 });
 
 export default function SettingsButton() {
-    const [isSyncing, setIsSyncing] = useState(false);
     const { isDebugModalOpen, openDebugModal } = useDebugStore();
     const name = useConfiguratorStore((state) => state.name);
     const setName = useConfiguratorStore((state) => state.setName);
     const minify = useConfiguratorStore((state) => state.minify);
     const setMinify = useConfiguratorStore((state) => state.setMinify);
-    const queryClient = useQueryClient();
-    const COOLDOWN_PERIOD_MS = 30000;
-
-    const handleRefetchSchemas = () => {
-        if (isSyncing) return;
-        queryClient.invalidateQueries({ queryKey: ["schema"] });
-        setIsSyncing(true);
-        setTimeout(() => setIsSyncing(false), COOLDOWN_PERIOD_MS);
-    };
+    const translateKey = useTranslateKey("settings.datapack_name_placeholder");
 
     const handleClick = () => {
         const store = useConfiguratorStore.getState();
-        if (!store.version) {
-            console.error("Version or configuration is missing");
-            return;
-        }
-
         const assembleDatapack = store.compile();
         console.info("------------ Datapack ---------------");
         console.debug(assembleDatapack);
@@ -71,7 +59,9 @@ export default function SettingsButton() {
             </PopoverTrigger>
             <PopoverContent>
                 <div>
-                    <p className="text-xs font-semibold border-b border-zinc-700">External Configuration</p>
+                    <p className="text-xs font-semibold border-b border-zinc-700">
+                        <Translate content="settings.external_configuration" />
+                    </p>
                     <div className="flex flex-col gap-8">
                         <div className="flex flex-col gap-1">
                             <input
@@ -81,15 +71,17 @@ export default function SettingsButton() {
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
                                 className="bg-zinc-900 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-white"
-                                placeholder="Enter datapack name..."
+                                placeholder={translateKey}
                             />
                         </div>
 
                         <label htmlFor="minify" className="flex items-center justify-between w-full h-16">
                             <div className="flex flex-col w-3/4">
-                                <span className="text-white text-sm line-clamp-1">Minify Code</span>
+                                <span className="text-white text-sm line-clamp-1">
+                                    <Translate content="settings.minify_code" />
+                                </span>
                                 <span className="text-xs text-zinc-400 font-light line-clamp-2">
-                                    Minify the generated code to reduce the size.
+                                    <Translate content="settings.minify_code.description" />
                                 </span>
                             </div>
                             <div className="flex items-center gap-4 h-full">
@@ -108,22 +100,17 @@ export default function SettingsButton() {
                                 type="button"
                                 onClick={handleDebugModalOpen}
                                 className="w-full px-3 py-2 text-sm text-white bg-zinc-950 cursor-pointer hover:bg-zinc-900 transition-colors rounded-lg border border-zinc-700">
-                                Debug Mode
+                                <Translate content="settings.debug_mode" />
                             </button>
                             <button
                                 type="button"
                                 onClick={handleClick}
                                 className="w-full px-3 py-2 text-sm text-white bg-zinc-950 cursor-pointer hover:bg-zinc-900 transition-colors rounded-lg border border-zinc-700">
-                                Log Developer Data
+                                <Translate content="settings.log_developer_data" />
                             </button>
-                            <button
-                                type="button"
-                                onClick={handleRefetchSchemas}
-                                disabled={isSyncing}
-                                className="w-full px-3 py-2 text-sm text-white bg-zinc-950 cursor-pointer hover:bg-zinc-900 transition-colors rounded-lg border border-zinc-700 disabled:opacity-50 disabled:cursor-not-allowed">
-                                {isSyncing ? "30s cooldown..." : "Re-Sync"}
-                            </button>
-                            <p className="text-xs text-zinc-400 mt-2 font-light ">Store size: {calculateStoreSize()}</p>
+                            <p className="text-xs text-zinc-400 mt-2 font-light ">
+                                <Translate content="settings.store_size" /> {calculateStoreSize()}
+                            </p>
                         </div>
                     </div>
                 </div>

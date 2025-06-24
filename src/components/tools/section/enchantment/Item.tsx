@@ -36,11 +36,11 @@ const items = {
 const elements = [
     {
         id: "supportedItems",
-        title: { key: "tools.enchantments.section.toggle.supported.title" }
+        title: { key: "enchantment:toggle.supported.title" }
     },
     {
         id: "primaryItems",
-        title: { key: "tools.enchantments.section.toggle.primary.title" }
+        title: { key: "enchantment:toggle.primary.title" }
     }
 ];
 
@@ -50,7 +50,7 @@ export default function EnchantSlotsSection() {
     return (
         <ToolSectionSelector
             id="slots"
-            title={{ key: "tools.enchantments.section.slots.description" }}
+            title={{ key: "enchantment:section.slots.description" }}
             elements={elements}
             value={section}
             setValue={setSection}>
@@ -58,7 +58,7 @@ export default function EnchantSlotsSection() {
                 {Object.keys(items).map((item) => (
                     <ToolSlot
                         key={item}
-                        title={{ key: `tools.enchantments.section.supported.components.${item}.title` }}
+                        title={{ key: `enchantment:supported.${item}.title` }}
                         image={`/images/features/item/${item}.webp`}
                         action={new Actions().setValue(section, items[item as keyof typeof items]).build()}
                         renderer={(el: EnchantmentProps) => el[section] === items[item as keyof typeof items]}
@@ -68,7 +68,7 @@ export default function EnchantSlotsSection() {
                 {section === "primaryItems" && (
                     <ToolSlot
                         title={{
-                            key: "tools.enchantments.section.supported.components.none.title"
+                            key: "enchantment:supported.none.title"
                         }}
                         image="/images/tools/cross.webp"
                         action={new Actions().setUndefined("primaryItems").build()}

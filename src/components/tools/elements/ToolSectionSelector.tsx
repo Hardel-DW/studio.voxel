@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 import type React from "react";
 import type { BaseComponent } from "@/lib/hook/useBreezeElement";
 import type { TranslateTextType } from "@/components/tools/Translate";
-import RenderGuard from "./RenderGuard";
+import RenderGuard from "@/components/tools/elements/RenderGuard";
 
 export type ToolSectionSelectorSection = BaseComponent & {
     id: string;

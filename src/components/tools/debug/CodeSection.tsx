@@ -3,8 +3,8 @@ import CodeBlock from "@/components/ui/codeblock/CodeBlock";
 import EmptyCodeBlock from "@/components/ui/codeblock/EmptyCodeBlock";
 import { Identifier, getLabeledIdentifier } from "@voxelio/breeze/core";
 import type { LabeledElement } from "@voxelio/breeze/core";
-import Translate from "../Translate";
-import { useDebugStore } from "./DebugStore";
+import Translate from "@/components/tools/Translate";
+import { useDebugStore } from "@/components/tools/debug/DebugStore";
 
 interface CodeSectionProps {
     code: LabeledElement | undefined;
@@ -31,13 +31,15 @@ export function CodeSection({ code }: CodeSectionProps) {
         <div className="h-full pt-12 relative flex flex-col">
             <div className="absolute top-0 left-0 px-2">
                 <p className="text-zinc-400">{name}</p>
-                <p className="text-xs text-zinc-500">Pack Version - {version}</p>
+                <p className="text-xs text-zinc-500">
+                    <Translate content="debug.pack_version" /> - {version}
+                </p>
             </div>
             <button
                 className="absolute cursor-pointer top-1 right-0 rounded-xl text-zinc-500 hover:text-zinc-200 transition-colors bg-zinc-950/10 px-2 py-1 border-zinc-950"
                 type="button"
                 onClick={closeDebugModal}>
-                <Translate content="tools.debug.quit" />
+                <Translate content="debug.leave" />
             </button>
             <div className="flex-1 overflow-y-auto">
                 {code.type !== "deleted" ? (
@@ -45,7 +47,9 @@ export function CodeSection({ code }: CodeSectionProps) {
                         {JSON.stringify(getCode(), null, 4)}
                     </CodeBlock>
                 ) : (
-                    <EmptyCodeBlock title={new Identifier(identifier).toFileName()}>This files is deleted.</EmptyCodeBlock>
+                    <EmptyCodeBlock title={new Identifier(identifier).toFileName()}>
+                        <Translate content="debug.code.deleted" />
+                    </EmptyCodeBlock>
                 )}
             </div>
         </div>

@@ -40,13 +40,13 @@ export default function ExclusiveGroup() {
 
     return (
         <>
-            <ToolCategory title={{ key: "tools.enchantments.section.exclusive.vanilla.title" }}>
+            <ToolCategory title={{ key: "enchantment:exclusive.vanilla.title" }}>
                 <ToolGrid>
                     {vanillaGroups.map(({ id, image, value }) => (
                         <ToolSlot
                             key={id}
-                            title={{ key: `tools.enchantments.section.exclusive.set.${id}.title` }}
-                            description={{ key: `tools.enchantments.section.exclusive.set.${id}.description` }}
+                            title={{ key: `enchantment:exclusive.set.${id}.title` }}
+                            description={{ key: `enchantment:exclusive.set.${id}.description` }}
                             image={`/images/features/item/${image}.webp`}
                             action={new EnchantmentActionBuilder().setExclusiveSetWithTags(value).build()}
                             renderer={(el) => el.exclusiveSet === value}
@@ -56,7 +56,7 @@ export default function ExclusiveGroup() {
                 </ToolGrid>
             </ToolCategory>
 
-            <ToolCategory title={{ key: "tools.enchantments.section.exclusive.custom.title" }}>
+            <ToolCategory title={{ key: "enchantment:exclusive.custom.title" }}>
                 <div
                     className="grid items-stretch gap-4"
                     style={{
@@ -64,7 +64,7 @@ export default function ExclusiveGroup() {
                     }}>
                     {enchantments.length === 0 && (
                         <p className="text-zinc-400 p-4">
-                            <Translate content={{ key: "tools.enchantments.section.exclusive.custom.fallback" }} />
+                            <Translate content={{ key: "enchantment:exclusive.custom.fallback" }} />
                         </p>
                     )}
 

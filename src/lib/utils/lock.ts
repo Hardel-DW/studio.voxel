@@ -46,6 +46,6 @@ export class LockEntryBuilder {
 }
 
 export const isMinecraft = new LockEntryBuilder()
-    .addTextKey("tools.disabled_because_vanilla")
+    .addTextKey("vanilla_disabled")
     .addCondition((el: VoxelElement) => el.identifier?.namespace === "minecraft")
     .build();

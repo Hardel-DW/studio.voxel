@@ -1,11 +1,12 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { useConfiguratorStore } from "../../Store";
+import { useConfiguratorStore } from "@/components/tools/Store";
+import Translate from "@/components/tools/Translate";
 
 interface Props {
     title: string;
-    description: string;
+    children: React.ReactNode;
     image: { src: string; alt: string };
     index: number;
     selected?: boolean;
@@ -67,7 +68,7 @@ export default function SidebarCard(props: Props) {
                                     })}>
                                     {props.title}
                                 </div>
-                                <p className="text-xs text-zinc-400">{props.description}</p>
+                                <p className="text-xs text-zinc-400">{props.children}</p>
                             </div>
                             <img
                                 src={props.image.src}
@@ -110,7 +111,7 @@ export default function SidebarCard(props: Props) {
                             onKeyDown={handleOverview}
                             type="button"
                             className="w-full rounded-2xl cursor-pointer bg-zinc-800/30 hover:bg-zinc-700/20 px-3 py-2 text-xs font-medium text-zinc-300 transition-colors">
-                            Overview
+                            <Translate content="overview" />
                         </button>
                     </div>
                 )}

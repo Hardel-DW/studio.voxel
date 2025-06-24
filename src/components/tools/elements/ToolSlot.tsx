@@ -6,7 +6,6 @@ import { useInteractiveLogic } from "@/lib/hook/useInteractiveLogic";
 import { cn } from "@/lib/utils";
 import type { BaseInteractiveComponent } from "@/lib/hook/useInteractiveLogic";
 import type { TranslateTextType } from "@/components/tools/Translate";
-import RenderGuard from "./RenderGuard";
 
 export type ToolSlotType = BaseInteractiveComponent & {
     description?: TranslateTextType;

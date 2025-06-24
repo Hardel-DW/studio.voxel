@@ -7,8 +7,9 @@ import type { Enchantment } from "@voxelio/breeze/schema";
 import ToolCategory from "../../elements/ToolCategory";
 import Loader from "@/components/ui/Loader";
 import ErrorPlaceholder from "../../elements/error/Card";
+import type { TranslateTextType } from "@/components/tools/Translate";
 
-function EnchantmentCategory({ title, identifiers }: { title: string; identifiers: Identifier[] }) {
+function EnchantmentCategory({ title, identifiers }: { title: TranslateTextType; identifiers: Identifier[] }) {
     return (
         <ToolCategory title={title}>
             <ToolGrid>
@@ -40,10 +41,10 @@ export default function ExclusiveSingle() {
 
     return (
         <>
-            <EnchantmentCategory title="Custom" identifiers={identifiers} />
+            <EnchantmentCategory title={{ key: "enchantment:exclusive.custom.title" }} identifiers={identifiers} />
             {isLoading && <Loader />}
             {isError && <ErrorPlaceholder error={new Error("Erreur de chargement du registre.")} />}
-            {vanillaIdentifiers.length > 0 && <EnchantmentCategory title="Vanilla" identifiers={vanillaIdentifiers} />}
+            {vanillaIdentifiers.length > 0 && <EnchantmentCategory title={{ key: "enchantment:exclusive.vanilla.title" }} identifiers={vanillaIdentifiers} />}
         </>
     );
 }

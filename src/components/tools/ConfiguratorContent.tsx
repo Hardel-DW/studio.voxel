@@ -12,7 +12,7 @@ export default function ConfiguratorContent(props: { tab: Tab; children: ReactNo
         <MenuTabsContent value={props.tab.id} className="h-full">
             {currentNamespace === "minecraft" && (
                 <div className="text-xs text-zinc-400 text-center font-light mb-4">
-                    <Translate content="tools.enchantments.vanilla" />
+                    <Translate content="vanilla_disabled" />
                 </div>
             )}
 
@@ -20,7 +20,9 @@ export default function ConfiguratorContent(props: { tab: Tab; children: ReactNo
                 {props.tab.soon && (
                     <div className="absolute inset-0 bg-black/10 backdrop-blur-sm flex flex-col items-center justify-center gap-4">
                         <img src="/icons/tools/lock.svg" alt="Lock" className="w-48 h-48 invert-50" />
-                        <div className="text-2xl text-zinc-400 text-center font-light mb-4">Temporarily disabled - Come back soon!</div>
+                        <div className="text-2xl text-zinc-400 text-center font-light mb-4">
+                            <Translate content="temporary_disabled" />
+                        </div>
                     </div>
                 )}
                 {props.children}

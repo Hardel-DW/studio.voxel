@@ -64,7 +64,6 @@ const createConfiguratorStore = <T extends keyof Analysers>() =>
         },
         setup: (updates) => set({ ...updates, sortedIdentifiers: sortElementsByRegistry(updates.elements) }),
         compile: () => {
-            console.log("compile");
             const { elements, version, files, selectedConcept } = get();
             if (!version || !files || !selectedConcept) return [];
             return compileDatapack({ elements: Array.from(elements.values()), files });

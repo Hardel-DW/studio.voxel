@@ -5,34 +5,35 @@ import ItemRenderer from "@/components/tools/texture/TextureRenderer";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import OverviewCase from "./OverviewCase";
 import SimpleSwitch from "@/components/tools/elements/SimpleSwitch";
+import Translate from "@/components/tools/Translate";
 
 const findOptions = [
     {
-        title: "This enchantment can be found on an enchanting table",
+        title: "enchantment:overview.enchanting_table",
         image: "/images/features/block/enchanting_table.webp",
         tag: "#minecraft:in_enchanting_table",
         lock_value: "#minecraft:non_treasure"
     },
     {
-        title: "This enchantment can be found in chests",
+        title: "enchantment:overview.chest",
         image: "/images/features/block/chest.webp",
         tag: "#minecraft:on_random_loot",
         lock_value: "#minecraft:non_treasure"
     },
     {
-        title: "This enchantment can be traded by villagers like a book",
+        title: "enchantment:overview.tradeable",
         image: "/images/features/item/enchanted_book.webp",
         tag: "#minecraft:on_traded_equipment",
         lock_value: "#minecraft:non_treasure"
     },
     {
-        title: "This enchantment can be traded by villagers like an item",
+        title: "enchantment:overview.tradeable_equipment",
         image: "/images/features/item/enchanted_item.webp",
         tag: "#minecraft:tradeable",
         lock_value: "#minecraft:non_treasure"
     },
     {
-        title: "The price of the trade is doubled",
+        title: "enchantment:overview.price_doubled",
         image: "/images/features/title/doubled.webp",
         tag: "#minecraft:double_trade_price",
         lock_value: "#minecraft:treasure"
@@ -69,7 +70,9 @@ export default function EnchantOverviewCard(props: {
                             <div className="bg-zinc-800/20 pr-2 pl-1 py-px rounded-full border border-zinc-800">
                                 <div className="flex items-center gap-1">
                                     <img src="/icons/tools/maxLevel.svg" alt="Max Level" className="invert-70 w-3 h-3" />
-                                    <span className="text-xs tracking-wider text-zinc-400 font-medium">Level {props.element.maxLevel}</span>
+                                    <span className="text-xs tracking-wider text-zinc-400 font-medium">
+                                        <Translate content="enchantment:overview.level" /> {props.element.maxLevel}
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -112,7 +115,7 @@ export default function EnchantOverviewCard(props: {
                         onKeyDown={() => setCurrentElementId(props.elementId)}
                         type="button"
                         className="w-full cursor-pointer bg-zinc-800/30 hover:bg-zinc-700/50 border border-zinc-700/50 rounded-lg px-3 py-2 text-xs font-medium text-zinc-300 transition-colors">
-                        Configure
+                        <Translate content="configure" />
                     </button>
                 </div>
             </div>

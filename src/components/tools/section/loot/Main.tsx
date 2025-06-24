@@ -4,7 +4,7 @@ import React from "react";
 
 export default function LootMainSection() {
     return (
-        <ToolSection id="main" title={{ key: "tools.enchantments.section.global.description" }}>
+        <ToolSection id="main" title={{ key: "loot_table:section.main" }}>
             <Donation
                 key="donation"
                 icon="/icons/logo.svg"

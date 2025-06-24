@@ -7,10 +7,11 @@ import ConceptTab from "@/components/tools/sidebar/tab/ConceptTab";
 import DetailTab from "@/components/tools/sidebar/tab/DetailTab";
 import Tabs from "@/components/ui/Tabs";
 import { useRef, useState } from "react";
+import Translate from "@/components/tools/Translate";
 
 const tabs = [
-    { label: "Concepts", value: "concepts" },
-    { label: "Details", value: "details" }
+    { label: <Translate content="tabs.concepts" />, value: "concepts" },
+    { label: <Translate content="tabs.details" />, value: "details" }
 ];
 
 export default function StudioSidebar() {

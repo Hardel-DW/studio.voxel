@@ -5,7 +5,7 @@ import Tabs from "@/components/ui/Tabs";
 import { useInteractiveLogic } from "@/lib/hook/useInteractiveLogic";
 import type { BaseInteractiveComponent } from "@/lib/hook/useInteractiveLogic";
 import type { TranslateTextType } from "@/components/tools/Translate";
-import RenderGuard from "./RenderGuard";
+import RenderGuard from "@/components/tools/elements/RenderGuard";
 
 export type ToolSelectorType = BaseInteractiveComponent & {
     title: TranslateTextType;

@@ -4,7 +4,7 @@ import Translate from "@/components/tools/Translate";
 import type React from "react";
 import type { BaseComponent } from "@/lib/hook/useBreezeElement";
 import type { TranslateTextType } from "@/components/tools/Translate";
-import RenderGuard from "./RenderGuard";
+import RenderGuard from "@/components/tools/elements/RenderGuard";
 
 export type ToolCategoryType = BaseComponent & {
     title: TranslateTextType;

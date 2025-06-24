@@ -1,0 +1,23 @@
+{
+    "confirmation.accept": "Accepter",
+    "confirmation.refuse": "Refuser",
+    "confirmation.suggestedModification": "Modification suggérée",
+    "confirmation.description": "Modification suggérée pour la propriété : ",
+    "island.placeholder": "Demander à l'IA...",
+    "enchantment.field.description": "Description",
+    "enchantment.field.exclusiveSet": "Ensemble exclusif",
+    "enchantment.field.supportedItems": "Objets supportés",
+    "enchantment.field.primaryItems": "Objets principaux",
+    "enchantment.field.maxLevel": "Niveau maximum",
+    "enchantment.field.weight": "Poids",
+    "enchantment.field.anvilCost": "Coût de l'enclume",
+    "enchantment.field.minCostBase": "Coût minimum de base",
+    "enchantment.field.minCostPerLevelAboveFirst": "Coût minimum par niveau",
+    "enchantment.field.maxCostBase": "Coût maximum de base",
+    "enchantment.field.maxCostPerLevelAboveFirst": "Coût maximum par niveau",
+    "enchantment.field.effects": "Effets",
+    "enchantment.field.slots": "Emplacements",
+    "enchantment.field.tags": "Tags",
+    "enchantment.field.mode": "Mode",
+    "enchantment.field.disabledEffects": "Effets désactivés"
+}

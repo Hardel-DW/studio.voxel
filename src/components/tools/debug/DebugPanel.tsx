@@ -4,6 +4,7 @@ import { RegistryElement } from "@/components/tools/debug/RegistryElement";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/Dropdown";
 import { Button } from "@/components/ui/Button";
 import { ruwsc } from "@/lib/utils";
+import Translate from "@/components/tools/Translate";
 
 export default function DebugPanel() {
     const {
@@ -33,7 +34,7 @@ export default function DebugPanel() {
                                 <DropdownMenu>
                                     <DropdownMenuTrigger className="z-10">
                                         <Button variant="ghost" className="min-w-[150px] justify-between">
-                                            {selectedRegistry || "Select Registry"}
+                                            {selectedRegistry || <Translate content="debug.registry" />}
                                             <span className="ml-2">▼</span>
                                         </Button>
                                     </DropdownMenuTrigger>
@@ -49,7 +50,7 @@ export default function DebugPanel() {
                                 <DropdownMenu>
                                     <DropdownMenuTrigger className="z-10">
                                         <Button variant="ghost" className="min-w-[150px] justify-between">
-                                            {selectedNamespace || "Select Namespace"}
+                                            {selectedNamespace || <Translate content="debug.namespace" />}
                                             <span className="ml-2">▼</span>
                                         </Button>
                                     </DropdownMenuTrigger>
@@ -63,21 +64,29 @@ export default function DebugPanel() {
                                 </DropdownMenu>
                             </div>
                             <div className="flex items-center gap-2">
-                                {/* <label className="flex items-center justify-between w-full cursor-pointer gap-2">
-                                    <span className="text-xs text-zinc-400 font-light">{format === "voxel" ? "Datapack" : "Voxel"}</span>
-                                    <input type="checkbox" id="format" checked={format === "voxel"} onChange={toggleFormat} />
-                                </label> */}
                                 <DropdownMenu>
                                     <DropdownMenuTrigger className="z-10">
                                         <Button variant="ghost" className="min-w-[150px] justify-between">
-                                            {format === "voxel" ? "Voxel" : format === "datapack" ? "Output" : "Source Input"}
+                                            {format === "voxel" ? (
+                                                <Translate content="debug.format.voxel" />
+                                            ) : format === "datapack" ? (
+                                                <Translate content="debug.format.datapack" />
+                                            ) : (
+                                                <Translate content="debug.format.original" />
+                                            )}
                                             <span className="ml-2">▼</span>
                                         </Button>
                                     </DropdownMenuTrigger>
                                     <DropdownMenuContent className="z-100">
-                                        <DropdownMenuItem onClick={() => setFormat("voxel")}>Voxel</DropdownMenuItem>
-                                        <DropdownMenuItem onClick={() => setFormat("datapack")}>Output</DropdownMenuItem>
-                                        <DropdownMenuItem onClick={() => setFormat("original")}>Source Input</DropdownMenuItem>
+                                        <DropdownMenuItem onClick={() => setFormat("voxel")}>
+                                            <Translate content="debug.format.voxel" />
+                                        </DropdownMenuItem>
+                                        <DropdownMenuItem onClick={() => setFormat("datapack")}>
+                                            <Translate content="debug.format.datapack" />
+                                        </DropdownMenuItem>
+                                        <DropdownMenuItem onClick={() => setFormat("original")}>
+                                            <Translate content="debug.format.original" />
+                                        </DropdownMenuItem>
                                     </DropdownMenuContent>
                                 </DropdownMenu>
                             </div>

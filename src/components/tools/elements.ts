@@ -3,7 +3,6 @@ export type CONCEPT_KEY = "enchantment" | "loot_table" | "recipe" | "structure";
 export type Concept = {
     registry: CONCEPT_KEY;
     title: string;
-    description: string;
     image: { src: string; alt: string };
     tabs: Tab[];
 };
@@ -19,7 +18,6 @@ export const CONCEPTS: Concept[] = [
     {
         registry: "enchantment",
         title: "Enchantment",
-        description: "Enchantment",
         image: {
             src: "/images/features/item/enchanted_book.webp",
             alt: "Enchantment"
@@ -27,32 +25,32 @@ export const CONCEPTS: Concept[] = [
         tabs: [
             {
                 id: "global",
-                text: { key: "tools.enchantments.section.global" },
+                text: { key: "enchantment:section.global" },
                 section: "enchant.main"
             },
             {
                 id: "find",
-                text: { key: "tools.enchantments.section.find" },
+                text: { key: "enchantment:section.find" },
                 section: "enchant.find"
             },
             {
                 id: "slots",
-                text: { key: "tools.enchantments.section.slots" },
+                text: { key: "enchantment:section.slots" },
                 section: "enchant.slot"
             },
             {
                 id: "items",
-                text: { key: "tools.enchantments.section.supported" },
+                text: { key: "enchantment:section.supported" },
                 section: "enchant.item"
             },
             {
                 id: "exclusive",
-                text: { key: "tools.enchantments.section.exclusive" },
+                text: { key: "enchantment:section.exclusive" },
                 section: "enchant.exclusive"
             },
             {
                 id: "technical",
-                text: { key: "tools.enchantments.section.technical" },
+                text: { key: "enchantment:section.technical" },
                 section: "enchant.technical"
             }
         ]
@@ -60,7 +58,6 @@ export const CONCEPTS: Concept[] = [
     {
         registry: "loot_table",
         title: "Loot Table",
-        description: "Loot Table",
         image: {
             src: "/images/features/item/bundle_close.webp",
             alt: "Loot Table"
@@ -70,7 +67,6 @@ export const CONCEPTS: Concept[] = [
     {
         registry: "recipe",
         title: "Recipe",
-        description: "Recipe",
         image: {
             src: "/images/features/block/crafting_table.webp",
             alt: "Recipe"
@@ -80,7 +76,6 @@ export const CONCEPTS: Concept[] = [
     {
         registry: "structure",
         title: "Structure",
-        description: "Structure",
         image: {
             src: "/images/features/block/jigsaw.webp",
             alt: "Structure"

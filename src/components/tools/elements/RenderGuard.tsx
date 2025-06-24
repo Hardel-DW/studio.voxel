@@ -4,7 +4,7 @@ import ErrorBoundary from "@/components/ui/ErrorBoundary";
 import { useElementCondition } from "@/lib/hook/useBreezeElement";
 import type { Condition } from "@/lib/utils/lock";
 import type React from "react";
-import ErrorPlaceholder from "./error/Card";
+import ErrorPlaceholder from "@/components/tools/elements/error/Card";
 
 interface RenderGuardProps {
     condition: Condition | undefined;
