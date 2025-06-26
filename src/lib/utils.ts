@@ -45,10 +45,10 @@ export function cn(...args: ClassValue[]) {
 export const getFormattedDate = (date: string | number | Date, regions = "fr-fr") =>
     date
         ? new Date(date).toLocaleDateString(regions, {
-              year: "numeric",
-              month: "short",
-              day: "numeric"
-          })
+            year: "numeric",
+            month: "short",
+            day: "numeric"
+        })
         : "";
 
 /**
@@ -121,4 +121,15 @@ export function ruwsc(str: string): string {
         .replace(/\s+/g, " ")
         .replace(/\b\w/g, (l) => l.toUpperCase())
         .trim();
+}
+
+export function throttle<T extends (...args: any[]) => void>(func: T, limit: number): T {
+    let inThrottle: boolean;
+    return ((...args: Parameters<T>) => {
+        if (!inThrottle) {
+            func(...args);
+            inThrottle = true;
+            setTimeout(() => inThrottle = false, limit);
+        }
+    }) as T;
 }

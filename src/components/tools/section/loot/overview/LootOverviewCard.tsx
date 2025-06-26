@@ -18,7 +18,7 @@ export default function LootOverviewCard(props: {
                 "flex flex-col"
             )}>
             {/* Header avec switch */}
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between pb-4">
                 <div className="flex items-center gap-3 flex-1 min-w-0">
                     {props.element.items.length === 0 ? (
                         <div className="w-6 h-6 bg-stone-900 rounded-full animate-pulse flex-shrink-0" />
@@ -32,9 +32,9 @@ export default function LootOverviewCard(props: {
                         <div className="flex items-center">
                             <div className="bg-zinc-800/20 pr-2 pl-1 py-px rounded-full border border-zinc-800">
                                 <div className="flex items-center gap-1">
-                                    <img src="/icons/tools/maxLevel.svg" alt="Max Level" className="invert-70 w-3 h-3" />
+                                    <img src="/icons/tools/maxLevel.svg" alt="Items" className="invert-70 w-3 h-3" />
                                     <span className="text-xs tracking-wider text-zinc-400 font-medium">
-                                        Test {props.element.items.length}
+                                        {props.element.items.length} items
                                     </span>
                                 </div>
                             </div>

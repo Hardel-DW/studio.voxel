@@ -8,16 +8,18 @@ export default function LazyTabs(componentName: string) {
         "enchant.slot": () => import("./section/enchantment/Slot"),
         "enchant.item": () => import("./section/enchantment/Item"),
         "enchant.exclusive": () => import("./section/enchantment/Exclusive"),
-        "enchant.technical": () => import("./section/enchantment/Technical")
+        "enchant.technical": () => import("./section/enchantment/Technical"),
+        "loot.main": () => import("./section/loot/Main"),
+        "recipe.main": () => import("./section/recipe/Main"),
     };
 
     return componentMap[componentName]
         ? dynamic(componentMap[componentName], {
-              loading: () => <Loader />,
-              ssr: false
-          })
+            loading: () => <Loader />,
+            ssr: false
+        })
         : dynamic(() => Promise.resolve({ default: () => <Loader /> }), {
-              loading: () => <Loader />,
-              ssr: false
-          });
+            loading: () => <Loader />,
+            ssr: false
+        });
 }

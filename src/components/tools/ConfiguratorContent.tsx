@@ -11,7 +11,7 @@ export default function ConfiguratorContent(props: { tab: Tab; children: ReactNo
     return (
         <MenuTabsContent value={props.tab.id} className="h-full">
             {currentNamespace === "minecraft" && (
-                <div className="text-xs text-zinc-400 text-center font-light mb-4">
+                <div className="absolute bottom-2 w-full mx-auto text-xs text-zinc-500 text-center font-light bg-black/10 rounded-tr-xl">
                     <Translate content="vanilla_disabled" />
                 </div>
             )}

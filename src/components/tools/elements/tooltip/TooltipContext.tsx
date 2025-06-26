@@ -1,10 +1,26 @@
 "use client";
 
-import React from "react";
+import React, { useRef } from "react";
 import { TooltipContext } from "./useTooltip";
 
 export default function TooltipContextProvider({ children }: { children: React.ReactNode }) {
-    const [hoveredItem, setHoveredItem] = React.useState<string>();
+    const [hoveredItem, setHoveredItemState] = React.useState<string>();
+    const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-    return <TooltipContext.Provider value={{ hoveredItem, setHoveredItem }}>{children}</TooltipContext.Provider>;
+    const setHoveredItem = (item?: string) => {
+        if (timeoutRef.current) clearTimeout(timeoutRef.current);
+        if (item) return setHoveredItemState(item);
+        timeoutRef.current = setTimeout(() => setHoveredItemState(undefined), 50);
+    };
+
+    const clearHoveredItem = () => {
+        if (timeoutRef.current) clearTimeout(timeoutRef.current);
+        setHoveredItemState(undefined);
+    };
+
+    return (
+        <TooltipContext.Provider value={{ hoveredItem, setHoveredItem, clearHoveredItem }}>
+            {children}
+        </TooltipContext.Provider>
+    );
 }

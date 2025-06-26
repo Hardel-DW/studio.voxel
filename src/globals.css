@@ -2,6 +2,24 @@
 
 @custom-variant hidden (&[hidden]);
 
+@font-face {
+    font-family: 'Minecraft';
+    src: url('/fonts/minecraft.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'MinecraftSeven';
+    src: url('/fonts/seven/minecraft.woff') format('woff'),
+         url('/fonts/seven/minecraft.ttf') format('truetype'),
+         url('/fonts/seven/minecraft.eot') format('embedded-opentype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
 @property --hue-rotation {
     syntax: "<angle>";
     initial-value: 0turn;
@@ -15,6 +33,7 @@
     --grid-template-columns-marketplace: repeat(auto-fill, minmax(250px, 1fr));
     --grid-template-columns-marketplace-pack: repeat(auto-fill, minmax(600px, 1fr));
     --background-image-shine: url("/images/shine.avif");
+    --text-shadow-tooltip: 0.1em 0.1em 0 rgb(0, 0, 0 / 0.25);
 
     --color-modrinth: #1bd96a;
     --color-header-translucent: #18181d6b;
@@ -33,6 +52,17 @@
     --animate-progress: progress 5s linear;
     --animate-item-pulse: item-pulse 2s linear infinite;
     --ease-bounce: cubic-bezier(0.735, 0.590, 0.660, 1.225);
+
+    --color-gold: #b8881d;
+    --color-primary: #161b22;
+    --color-secondary: #737373;
+    --color-tertiary: #0d1016;
+    --color-name: #fafafa;
+    --color-curse: #ff5555;
+    --color-enchant: #fcfcfc;
+    --color-durability: #fcfcfc;
+    --color-attribute: #5555ff;
+    --color-lore: #545454;
 
     @keyframes shimmer {
         from { background-position: 0 0; }
@@ -82,6 +112,13 @@
         image-rendering: pixelated;
     }
 
+    .font-minecraft {
+        font-family: 'Minecraft', monospace;
+    }
+
+    .font-seven {
+        font-family: 'MinecraftSeven', monospace;
+    }
 
     .stack {
         display: grid;
@@ -375,4 +412,9 @@ hr {
     width: 100%;
     background-color: transparent;
     background-image: linear-gradient(to right, #0075ff00, #ffffff, #ffffff00);
+}
+
+.tooltip-border::after {
+    border-image: linear-gradient(rgba(80, 0, 255, 0.31), rgba(40, 0, 127, 0.31)) 1;
+    border: 0.1em solid #2d0a63;
 }

@@ -62,7 +62,13 @@ export const CONCEPTS: Concept[] = [
             src: "/images/features/item/bundle_close.webp",
             alt: "Loot Table"
         },
-        tabs: []
+        tabs: [
+            {
+                id: "main",
+                text: { key: "loot_table:section.main" },
+                section: "loot.main"
+            }
+        ]
     },
     {
         registry: "recipe",

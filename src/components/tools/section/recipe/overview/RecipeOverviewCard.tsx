@@ -1,8 +1,9 @@
 import { cn } from "@/lib/utils";
-import { Actions, Identifier, type RecipeProps } from "@voxelio/breeze";
-import ItemRenderer from "@/components/tools/texture/TextureRenderer";
+import { type RecipeProps } from "@voxelio/breeze";
 import { useConfiguratorStore } from "@/components/tools/Store";
-import SimpleSwitch from "@/components/tools/elements/SimpleSwitch";
+import CraftingTemplate from "@/components/tools/elements/recipe/CraftingTemplate";
+
+export const CRAFTING_TYPES = ['minecraft:crafting_shaped', 'minecraft:crafting_shapeless', 'minecraft:crafting_transmute'];
 
 export default function RecipeOverviewCard(props: {
     element: RecipeProps;
@@ -16,41 +17,15 @@ export default function RecipeOverviewCard(props: {
                 "bg-black/50 border-t-2 border-l-2 border-stone-900 select-none relative transition-all hover:ring-1 ring-zinc-900 rounded-xl p-4",
                 "flex flex-col"
             )}>
-            {/* Header avec switch */}
-            <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3 flex-1 min-w-0">
-                    {props.element.results ? (
-                        <div className="w-6 h-6 bg-stone-900 rounded-full animate-pulse flex-shrink-0" />
-                    ) : (
-                        <div className="flex-shrink-0">
-                            <ItemRenderer id={props.element.result.item} />
-                        </div>
-                    )}
-                    <div className="flex flex-col gap-1 justify-center">
-                        <h3 className="text-sm font-semibold truncate">{new Identifier(props.element.identifier).toResourceName()}</h3>
-                        <div className="flex items-center">
-                            <div className="bg-zinc-800/20 pr-2 pl-1 py-px rounded-full border border-zinc-800">
-                                <div className="flex items-center gap-1">
-                                    <img src="/icons/tools/maxLevel.svg" alt="Max Level" className="invert-70 w-3 h-3" />
-                                    <span className="text-xs tracking-wider text-zinc-400 font-medium">Level {props.element.type}</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <SimpleSwitch
-                    elementId={props.elementId}
-                    action={new Actions()
-                        .alternative((el) => el.mode === "soft_delete")
-                        .ifTrue(new Actions().setValue("mode", "normal").build())
-                        .ifFalse(new Actions().setValue("mode", "soft_delete").build())
-                        .build()}
-                    renderer={(el) => el.mode === "normal"}
-                />
-            </div>
 
             <div className="flex-1 flex flex-col">
+                {CRAFTING_TYPES.includes(props.element.type) && (
+                    <CraftingTemplate
+                        items={props.element.slots}
+                        result={props.element.result}
+                    />
+                )}
+
                 <div className="pt-4 border-t border-zinc-800/50 mt-auto">
                     <button
                         onClick={() => setCurrentElementId(props.elementId)}

@@ -1,31 +1,19 @@
-import Donation from "@/components/tools/elements/Donation";
-import ToolSection from "@/components/tools/elements/ToolSection";
+
 import React from "react";
+import LootViewer from "@/components/tools/elements/loot/LootViewer";
+import { getCurrentElement, useConfiguratorStore } from "@/components/tools/Store";
+import { isVoxel, LootTableActionBuilder, type LootTableProps } from "@voxelio/breeze";
 
 export default function LootMainSection() {
+    const currentElement = useConfiguratorStore((state) => getCurrentElement(state));
+
     return (
-        <ToolSection id="main" title={{ key: "loot_table:section.main" }}>
-            <Donation
-                key="donation"
-                icon="/icons/logo.svg"
-                title={{ key: "tools.supports.title" }}
-                description={{ key: "tools.supports.description" }}
-                subTitle={{ key: "tools.supports.advantages" }}
-                extra={[
-                    { key: "tools.supports.advantages.early_access" },
-                    { key: "tools.supports.advantages.submit_ideas" },
-                    { key: "tools.supports.advantages.discord_role" },
-                    { key: "tools.supports.advantages.live_voxel" }
-                ]}
-                patreon={{
-                    text: { key: "tools.supports.become" },
-                    link: "https://www.patreon.com/hardel"
-                }}
-                tipText={{
-                    text: { key: "dialog.footer.donate" },
-                    link: "https://streamelements.com/hardoudou/tip"
-                }}
-            />
-        </ToolSection>
+        <div className="w-full h-full">
+            {currentElement && isVoxel(currentElement, "loot_table") && (<LootViewer title={{ key: "loot_table:section.main" }}
+                data={currentElement.items}
+                action={(value) => new LootTableActionBuilder().removeItem(value).build()}
+                renderer={(el: LootTableProps) => el.items.length}
+            />)}
+        </div>
     );
 }
