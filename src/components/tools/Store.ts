@@ -8,6 +8,7 @@ import type { ActionValue } from "@voxelio/breeze/core";
 import type { Action } from "@voxelio/breeze/core";
 import type { Logger } from "@voxelio/breeze/core";
 import type { LabeledElement } from "@voxelio/breeze/core";
+import type { DataDrivenElement, DataDrivenRegistryElement } from "@voxelio/breeze/core";
 import { create } from "zustand";
 import { CONCEPTS, type CONCEPT_KEY } from "./elements";
 
@@ -22,6 +23,7 @@ export interface ConfiguratorState<T extends keyof Analysers> {
     version: number | null;
     sortedIdentifiers: Map<string, string[]>;
     selectedConcept: CONCEPT_KEY | null;
+    registryCache: Map<string, DataDrivenRegistryElement<any>[]>;
     getSortedIdentifiers: (registry: string) => string[];
     setName: (name: string) => void;
     setMinify: (minify: boolean) => void;
@@ -31,6 +33,7 @@ export interface ConfiguratorState<T extends keyof Analysers> {
     compile: () => Array<LabeledElement>;
     getLengthByRegistry: (registry: string) => number;
     setSelectedConcept: (concept: CONCEPT_KEY) => void;
+    getRegistry: <R extends DataDrivenElement>(registry: string) => DataDrivenRegistryElement<R>[];
 }
 
 const createConfiguratorStore = <T extends keyof Analysers>() =>
@@ -43,6 +46,7 @@ const createConfiguratorStore = <T extends keyof Analysers>() =>
         version: null,
         sortedIdentifiers: new Map(),
         selectedConcept: CONCEPTS[0].registry as CONCEPT_KEY,
+        registryCache: new Map(),
         getSortedIdentifiers: (registry) => get().sortedIdentifiers.get(registry) ?? [],
         setName: (name) => set({ name }),
         setMinify: (minify) => set({ minify }),
@@ -62,14 +66,27 @@ const createConfiguratorStore = <T extends keyof Analysers>() =>
             if (!updatedElement || !isVoxelElement(updatedElement)) return;
             set((state) => ({ elements: state.elements.set(elementId, updatedElement) }));
         },
-        setup: (updates) => set({ ...updates, sortedIdentifiers: sortElementsByRegistry(updates.elements) }),
+        setup: (updates) => set({ ...updates, sortedIdentifiers: sortElementsByRegistry(updates.elements), registryCache: new Map() }),
         compile: () => {
             const { elements, version, files, selectedConcept } = get();
             if (!version || !files || !selectedConcept) return [];
             return compileDatapack({ elements: Array.from(elements.values()), files });
         },
-        getLengthByRegistry: (registry) => new Datapack(get().files).getRegistry(registry).length,
-        setSelectedConcept: (concept) => set({ selectedConcept: concept })
+        getLengthByRegistry: (registry) => {
+            const state = get();
+            return state.getRegistry(registry).length;
+        },
+        setSelectedConcept: (concept) => set({ selectedConcept: concept }),
+        getRegistry: <R extends DataDrivenElement>(registry: string): DataDrivenRegistryElement<R>[] => {
+            const state = get();
+            if (state.registryCache.has(registry)) {
+                return state.registryCache.get(registry) as DataDrivenRegistryElement<R>[];
+            }
+
+            const result = new Datapack(state.files).getRegistry<R>(registry);
+            set((prevState) => ({ registryCache: prevState.registryCache.set(registry, result) }));
+            return result;
+        },
     }));
 
 export const useConfiguratorStore = createConfiguratorStore();

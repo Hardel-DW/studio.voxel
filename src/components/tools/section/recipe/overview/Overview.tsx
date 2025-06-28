@@ -4,6 +4,8 @@ import { useState } from "react";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import RecipeOverviewCard from "./RecipeOverviewCard";
 import CraftHeaderBar from "@/components/tools/elements/recipe/CraftHeaderBar";
+import ErrorPlaceholder from "@/components/tools/elements/error/Card";
+import ErrorBoundary from "@/components/ui/ErrorBoundary";
 
 type RecipeProps = Analysers["recipe"]["voxel"];
 
@@ -48,7 +50,7 @@ export default function Overview() {
                         <RecipeOverviewCard
                             key={new Identifier(element.identifier).toUniqueKey() + `-${index}`}
                             element={element}
-                            elementId={new Identifier(element.identifier).toUniqueKey() + `-${index}`}
+                            elementId={new Identifier(element.identifier).toUniqueKey()}
                         />
                     );
                 })}

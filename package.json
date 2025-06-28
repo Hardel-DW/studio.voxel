@@ -16,7 +16,7 @@
         "@tanstack/query-sync-storage-persister": "^5.81.2",
         "@tanstack/react-query": "^5.81.2",
         "@tanstack/react-query-persist-client": "^5.81.2",
-        "@voxelio/breeze": "^1.2.17",
+        "@voxelio/breeze": "^1.2.18",
         "next": "15.3.4",
         "react": "^19.1.0",
         "react-dom": "^19.1.0",
