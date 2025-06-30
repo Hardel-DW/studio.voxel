@@ -1,4 +1,3 @@
-import { cn } from "@/lib/utils";
 import { type RecipeProps } from "@voxelio/breeze";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import CraftingTemplate from "@/components/tools/elements/recipe/CraftingTemplate";
@@ -22,11 +21,7 @@ export default function RecipeOverviewCard(props: {
         <ErrorBoundary fallback={(e) => <ErrorPlaceholder error={e} />}>
 
             <div
-                className={cn(
-                    "bg-black/50 border-t-2 border-l-2 border-stone-900 select-none relative transition-all hover:ring-1 ring-zinc-900 rounded-xl p-4",
-                    "flex flex-col"
-                )}>
-
+                className="bg-black/50 border-t-2 border-l-2 border-stone-900 select-none relative transition-all hover:ring-1 ring-zinc-900 rounded-xl p-4 flex flex-col">
                 <div className="flex-1 flex flex-col">
                     {props.element.type.includes("crafting_") && (
                         <CraftingTemplate

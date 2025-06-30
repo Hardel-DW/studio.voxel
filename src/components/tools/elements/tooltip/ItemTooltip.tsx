@@ -1,11 +1,11 @@
 "use client";
 
-import { TooltipContext } from "@/components/tools/elements/tooltip/useTooltip";
+import { useTooltipStore } from "@/components/tools/elements/tooltip/useTooltip";
 import { useTooltipPosition } from "@/lib/hook/useTooltipPosition";
-import { useContext, useRef } from "react";
+import { useRef } from "react";
 
 export default function ItemTooltip({ categories }: { categories?: string[] }) {
-    const { hoveredItem } = useContext(TooltipContext);
+    const hoveredItem = useTooltipStore((state) => state.hoveredItem);
     const ref = useRef<HTMLDivElement>(null);
     const position = useTooltipPosition(ref);
 

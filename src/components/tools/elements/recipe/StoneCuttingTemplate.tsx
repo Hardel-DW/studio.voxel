@@ -2,8 +2,7 @@
 
 import TextureRenderer from "@/components/tools/texture/TextureRenderer";
 import TagsRenderer from "@/components/tools/texture/TagsRenderer";
-import { useContext } from "react";
-import { TooltipContext } from "../tooltip/useTooltip";
+import { useTooltipStore } from "../tooltip/useTooltip";
 
 interface StoneCuttingTemplateProps {
     slots: Record<string, string[] | string>; // "0" -> input ingredient
@@ -14,7 +13,7 @@ interface StoneCuttingTemplateProps {
 }
 
 export default function StoneCuttingTemplate({ slots, result }: StoneCuttingTemplateProps) {
-    const { setHoveredItem } = useContext(TooltipContext);
+    const setHoveredItem = useTooltipStore((state) => state.setHoveredItem);
     const inputSlot = slots["0"];
 
     return (

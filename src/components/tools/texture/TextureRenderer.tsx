@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 
 const user = "Hardel-DW";
 const repo = "voxel.atlas";
-const path = "refs/heads/main/atlas/1.21.5/data.min.json";
+const path = "refs/heads/main/atlas/1.21.7/data.min.json";
 
 const getItems = async () => {
     const response = await fetch(`https://raw.githubusercontent.com/${user}/${repo}/${path}`);
@@ -13,11 +13,7 @@ const getItems = async () => {
     return response.json();
 };
 
-type Response = {
-    registry: {
-        [key: string]: [number, number, number, number];
-    };
-};
+type Response = Record<string, [number, number, number, number]>;
 
 export default function TextureRenderer(props: { id: string; className?: string }) {
     const processId = props.id.includes(":") ? props.id.split(":")[1] : props.id;
@@ -30,7 +26,7 @@ export default function TextureRenderer(props: { id: string; className?: string 
         return <div className="h-10 w-10 relative shrink-0 bg-gray-200 animate-pulse rounded-md" />;
     }
 
-    if (error || !data || !(processId in data.registry)) {
+    if (error || !data || !(processId in data)) {
         return (
             <div className="h-10 w-10 relative shrink-0 border-2 border-red-500 rounded-md flex items-center justify-center">
                 <img src="/icons/error.svg" alt="Error" width={24} height={24} />
@@ -38,7 +34,7 @@ export default function TextureRenderer(props: { id: string; className?: string 
         );
     }
 
-    const asset = data.registry[processId];
+    const asset = data[processId];
     return (
         <div className={cn("h-10 w-10 relative shrink-0", props.className)}>
             <div

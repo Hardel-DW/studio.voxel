@@ -1,23 +1,45 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import TextureRenderer from "./TextureRenderer";
 import useRegistry from "@/lib/hook/useRegistry";
 import { DataDrivenRegistryElement, Identifier, isTag, TagRegistry, TagsComparator, TagType } from "@voxelio/breeze";
 import Loader from "@/components/ui/Loader";
 import ErrorPlaceholder from "../elements/error/Card";
 import { useConfiguratorStore } from "../Store";
+
 interface TagsRendererProps {
     items: string[] | string;
     className?: string;
     intervalMs?: number;
 }
 
+/**
+ * This component is used to render a tag.
+ * items can be a string (Tags) or an array of strings (Items).
+ * 
+ * For Tags, we get vanilla tags with useRegistry, and we get the datapack tags with getRegistry.
+ * We then use the TagsComparator to flatten and get only list of items.
+ */
 export default function TagsRenderer({ items, className, intervalMs = 2000 }: TagsRendererProps) {
     const [currentIndex, setCurrentIndex] = useState(0);
     const { data, isLoading, isError } = useRegistry<TagRegistry>("tags/item");
     const { getRegistry } = useConfiguratorStore();
 
-    // Normalize items to always be an array for easier handling
-    const itemsArray = Array.isArray(items) ? items : [items];
+    const itemsArray = useMemo(() => {
+        if (typeof items === "string" && items.startsWith("#")) {
+            if (!data) return [];
+
+            const identifier = Identifier.of(items, "tags/item");
+            const tag = getRegistry<TagType>("tags/item");
+            const tagRegistry: DataDrivenRegistryElement<TagType>[] = Object.entries(data).map(([key, value]) => ({
+                identifier: Identifier.of(key, "tags/item"),
+                data: value
+            }));
+
+            return new TagsComparator([...tag, ...tagRegistry]).getRecursiveValues(identifier.get());
+        }
+
+        return Array.isArray(items) ? items : [items];
+    }, [items, data, getRegistry]);
 
     useEffect(() => {
         if (itemsArray.length <= 1) return;
@@ -40,22 +62,5 @@ export default function TagsRenderer({ items, className, intervalMs = 2000 }: Ta
         );
     }
 
-    // Check if it's a tag (string starting with #)
-    if (typeof items === 'string' && items.startsWith("#")) {
-        const identifier = Identifier.of(items, "tags/item");
-        const tag = getRegistry<TagType>("tags/item");
-        const tagRegistry: DataDrivenRegistryElement<TagType>[] = Object.entries(data).map(([key, value]) => ({
-            identifier: Identifier.of(key, "tags/item"),
-            data: value
-        }));
-
-        const comparator = new TagsComparator([...tag, ...tagRegistry]);
-        const result = comparator.getRecursiveValues(identifier.get());
-        console.log(result);
-
-        return <TextureRenderer id={result[currentIndex]} className={`${className} ${result.length > 1 ? "animate-item-pulse" : ""}`} />;
-    }
-
-    // Handle items array
     return <TextureRenderer id={itemsArray[currentIndex]} className={`${className} ${itemsArray.length > 1 ? "animate-item-pulse" : ""}`} />;
 }

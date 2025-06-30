@@ -6,7 +6,6 @@ import { useParams } from "next/navigation";
 import type { PropsWithChildren } from "react";
 import { LinkButton } from "../ui/Button";
 import Translate from "@/components/tools/Translate";
-import TooltipContextProvider from "./elements/tooltip/TooltipContext";
 import ItemTooltip from "./elements/tooltip/ItemTooltip";
 
 export default function ConfigManager(props: PropsWithChildren) {
@@ -14,7 +13,7 @@ export default function ConfigManager(props: PropsWithChildren) {
     const hasElements = useConfiguratorStore((state) => state.elements.size > 0);
 
     return (
-        <TooltipContextProvider>
+        <>
             {hasElements ? props.children : (
                 <div className="size-full flex items-center justify-center flex-col gap-y-4">
                     <h1 className="text-zinc-400 text-2xl font-bold">
@@ -34,6 +33,6 @@ export default function ConfigManager(props: PropsWithChildren) {
                 </div>
             )}
             <ItemTooltip />
-        </TooltipContextProvider>
+        </>
     );
 }

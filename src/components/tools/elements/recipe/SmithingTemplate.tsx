@@ -2,8 +2,7 @@
 
 import TextureRenderer from "@/components/tools/texture/TextureRenderer";
 import TagsRenderer from "@/components/tools/texture/TagsRenderer";
-import { useContext } from "react";
-import { TooltipContext } from "../tooltip/useTooltip";
+import { useTooltipStore } from "../tooltip/useTooltip";
 
 interface SmithingTemplateProps {
     slots: Record<string, string[] | string>; // "0" -> template, "1" -> base, "2" -> addition
@@ -14,7 +13,7 @@ interface SmithingTemplateProps {
 }
 
 export default function SmithingTemplate({ slots, result }: SmithingTemplateProps) {
-    const { setHoveredItem } = useContext(TooltipContext);
+    const setHoveredItem = useTooltipStore((state) => state.setHoveredItem);
 
     return (
         <div className="flex items-center justify-center gap-4 p-4 border border-zinc-700 rounded-lg bg-zinc-900/50 h-full">

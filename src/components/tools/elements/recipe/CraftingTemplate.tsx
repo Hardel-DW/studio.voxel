@@ -2,8 +2,7 @@
 
 import TextureRenderer from "@/components/tools/texture/TextureRenderer";
 import TagsRenderer from "@/components/tools/texture/TagsRenderer";
-import { useContext } from "react";
-import { TooltipContext } from "../tooltip/useTooltip";
+import { useTooltipStore } from "../tooltip/useTooltip";
 
 // Items ARE ALWAYS an array. And Tags ARE ALWAYS a string. A tags can't be in an array. !!!
 interface CraftingTemplateProps {
@@ -15,7 +14,7 @@ interface CraftingTemplateProps {
 }
 
 export default function CraftingTemplate({ slots, result }: CraftingTemplateProps) {
-    const { setHoveredItem } = useContext(TooltipContext);
+    const setHoveredItem = useTooltipStore((state) => state.setHoveredItem);
 
     return (
         <div className="flex items-center justify-center gap-4 p-4 border border-zinc-700 rounded-lg bg-zinc-900/50 h-full">

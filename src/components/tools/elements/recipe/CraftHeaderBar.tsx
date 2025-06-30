@@ -6,12 +6,18 @@ import { RECIPES } from "@/components/tools/section/recipe/overview/Overview";
 export default function CraftHeaderBar(props: {
     recipeType: string;
     setRecipeType: (recipeType: string) => void;
+    recipeCounts: { [key: string]: number };
 }) {
     return (
         <BoxHovered>
             <BoxHoveredTrigger>
-                <div className="border-2 bg-zinc-950 border-zinc-800 rounded-lg flex items-center justify-center size-16">
+                <div className="border-2 bg-zinc-950 border-zinc-800 rounded-lg flex items-center justify-center size-16 relative">
                     <TextureRenderer id={props.recipeType} />
+                    {props.recipeCounts[props.recipeType] > 0 && (
+                        <span className="absolute -bottom-1 -right-1 bg-zinc-900 border border-zinc-600 rounded text-xs px-1 text-zinc-300">
+                            {props.recipeCounts[props.recipeType]}
+                        </span>
+                    )}
                 </div>
             </BoxHoveredTrigger>
             <BoxHoveredContent className="relative -translate-y-2 -translate-x-2 w-[300x]">
@@ -32,17 +38,29 @@ export default function CraftHeaderBar(props: {
                     </div>
                     <hr />
                     <div className="grid grid-cols-3 gap-2">
-                        {RECIPES.map((recipe) => (
-                            <div
-                                onClick={() => props.setRecipeType(recipe.id)}
-                                key={recipe.id}
-                                className={cn(
-                                    "border-2 bg-zinc-950 border-zinc-900 rounded-lg flex items-center justify-center size-16 transition-colors hover:border-zinc-800 hover:bg-zinc-900 cursor-pointer",
-                                    props.recipeType === recipe.id && "border-zinc-800 bg-zinc-900"
-                                )}>
-                                <TextureRenderer id={recipe.id} />
-                            </div>
-                        ))}
+                        {RECIPES.map((recipe) => {
+                            const count = props.recipeCounts[recipe.id] || 0;
+                            const isDisabled = count === 0;
+
+                            return (
+                                <div
+                                    onClick={() => !isDisabled && props.setRecipeType(recipe.id)}
+                                    key={recipe.id}
+                                    className={cn(
+                                        "border-2 bg-zinc-950 border-zinc-900 rounded-lg flex items-center justify-center size-16 transition-colors relative",
+                                        !isDisabled && "hover:border-zinc-800 hover:bg-zinc-900 cursor-pointer",
+                                        isDisabled && "opacity-50 cursor-not-allowed",
+                                        props.recipeType === recipe.id && "border-zinc-800 bg-zinc-900"
+                                    )}>
+                                    <TextureRenderer id={recipe.id} />
+                                    {count > 0 && (
+                                        <span className="absolute -bottom-1 -right-1 bg-zinc-900 border border-zinc-600 rounded text-xs px-1 text-zinc-300">
+                                            {count}
+                                        </span>
+                                    )}
+                                </div>
+                            );
+                        })}
                     </div>
                 </div>
             </BoxHoveredContent>

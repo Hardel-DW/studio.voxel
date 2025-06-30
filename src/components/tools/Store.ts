@@ -6,7 +6,7 @@ import type { Analysers, GetAnalyserVoxel } from "@voxelio/breeze/core";
 import type { ParseDatapackResult } from "@voxelio/breeze/core";
 import type { ActionValue } from "@voxelio/breeze/core";
 import type { Action } from "@voxelio/breeze/core";
-import type { Logger } from "@voxelio/breeze/core";
+import { Logger } from "@voxelio/breeze/core";
 import type { LabeledElement } from "@voxelio/breeze/core";
 import type { DataDrivenElement, DataDrivenRegistryElement } from "@voxelio/breeze/core";
 import { create } from "zustand";
@@ -40,6 +40,7 @@ const createConfiguratorStore = <T extends keyof Analysers>() =>
     create<ConfiguratorState<T>>((set, get) => ({
         name: "",
         minify: true,
+        logger: new Logger(),
         files: {},
         elements: new Map(),
         isModded: false,
@@ -68,9 +69,9 @@ const createConfiguratorStore = <T extends keyof Analysers>() =>
         },
         setup: (updates) => set({ ...updates, sortedIdentifiers: sortElementsByRegistry(updates.elements), registryCache: new Map() }),
         compile: () => {
-            const { elements, version, files, selectedConcept } = get();
+            const { elements, version, files, selectedConcept, logger } = get();
             if (!version || !files || !selectedConcept) return [];
-            return compileDatapack({ elements: Array.from(elements.values()), files });
+            return compileDatapack({ elements: Array.from(elements.values()), files, logger });
         },
         getLengthByRegistry: (registry) => {
             const state = get();
