@@ -19,7 +19,7 @@ importers:
         version: 5.81.2(@tanstack/react-query@5.81.2(react@19.1.0))(react@19.1.0)
       '@voxelio/breeze':
         specifier: ^1.2.18
-        version: 1.2.18
+        version: 1.3.2
       next:
         specifier: 15.3.4
         version: 15.3.4(babel-plugin-react-compiler@19.1.0-rc.1)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -487,8 +487,8 @@ packages:
   '@types/unist@2.0.11':
     resolution: {integrity: sha512-CmBKiL6NNo/OqgmMn95Fk9Whlp2mtvIv+KNpQKN2F4SjvrEesubTRWGYSg+BnWZOnlCaSTU1sMpsBOzgbYhnsA==}
 
-  '@voxelio/breeze@1.2.18':
-    resolution: {integrity: sha512-le2FMt5KXi50NI+nDKZsR2nlFQ/dcScCAqdu8P50pqK4noXZ6GeZyUlv9t8WzvsRvRjTDWCDZjlktI5mhSILHQ==}
+  '@voxelio/breeze@1.3.2':
+    resolution: {integrity: sha512-dbj1Pfg4nnBzmRGB/Uf2OQnnwsq5xt3+ZjrvbSux/RN/akPp3pV8rw0DRYfRhvZ2oCD78pbrVagViv7sOSChUw==}
 
   '@voxelio/zip@3.0.4':
     resolution: {integrity: sha512-b1DpsIk+cKMQcPNVE8Kruhfhs2r1uRecFSrpd4bcIrViXL+sOpakiVbzcFZVTAxkl3E+lhTU4BrViMzqHUE4cQ==}
@@ -1158,7 +1158,7 @@ snapshots:
 
   '@types/unist@2.0.11': {}
 
-  '@voxelio/breeze@1.2.18':
+  '@voxelio/breeze@1.3.2':
     dependencies:
       '@voxelio/zip': 3.0.4
 

@@ -1,10 +1,10 @@
-import { CodeSection } from "@/components/tools/debug/CodeSection";
 import { useDebugStore } from "@/components/tools/debug/DebugStore";
 import { RegistryElement } from "@/components/tools/debug/RegistryElement";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/Dropdown";
 import { Button } from "@/components/ui/Button";
 import { ruwsc } from "@/lib/utils";
 import Translate from "@/components/tools/Translate";
+import { RightSection } from "@/components/tools/debug/RightSection";
 
 export default function DebugPanel() {
     const {
@@ -13,11 +13,11 @@ export default function DebugPanel() {
         selectedNamespace,
         registries,
         namespaces,
+        format,
         setSelectedRegistry,
         setSelectedNamespace,
         setSelectedElement,
         getFilteredElements,
-        format,
         setFormat
     } = useDebugStore();
 
@@ -25,10 +25,9 @@ export default function DebugPanel() {
 
     return (
         <>
-            <div className="fixed border-zinc-800 border-t border-l bg-header-translucent backdrop-blur-md rounded-2xl inset-4 p-8 z-200 flex flex-col starting:translate-y-2 starting:scale-95 duration-150 ease-bounce transition-[translate,scale,display,opacity]">
+            <div className="fixed border-zinc-800 border-t border-l bg-header-translucent backdrop-blur-xl rounded-2xl inset-4 p-8 z-200 flex flex-col starting:translate-y-2 starting:scale-95 duration-150 ease-bounce transition-[translate,scale,display,opacity]">
                 <div className="grid grid-cols-2 gap-8 flex-1 min-h-0">
                     <div className="flex flex-col gap-4 min-h-0">
-                        {/* Dropdowns */}
                         <div className="flex justify-between items-center">
                             <div className="flex gap-4 mb-4 flex-shrink-0">
                                 <DropdownMenu>
@@ -92,13 +91,12 @@ export default function DebugPanel() {
                             </div>
                         </div>
 
-                        {/* Elements Grid */}
                         <div className="flex-1 min-h-0 overflow-y-auto">
                             <div className="grid grid-cols-2 gap-4 auto-rows-min">
-                                {filteredElements.map((element) => (
+                                {filteredElements.map((uniqueKey) => (
                                     <RegistryElement
-                                        key={`${element.type}-${JSON.stringify(element.type === "deleted" ? element.identifier : element.element.identifier)}`}
-                                        element={element}
+                                        key={uniqueKey}
+                                        uniqueKey={uniqueKey}
                                         selectedElement={selectedElement}
                                         onElementSelect={setSelectedElement}
                                     />
@@ -107,9 +105,7 @@ export default function DebugPanel() {
                         </div>
                     </div>
 
-                    <div className="min-h-0">
-                        <CodeSection code={selectedElement} />
-                    </div>
+                    <RightSection uniqueKey={selectedElement} />
                 </div>
             </div>
         </>

@@ -1,57 +1,53 @@
 import { useConfiguratorStore } from "@/components/tools/Store";
 import CodeBlock from "@/components/ui/codeblock/CodeBlock";
 import EmptyCodeBlock from "@/components/ui/codeblock/EmptyCodeBlock";
-import { Identifier, getLabeledIdentifier } from "@voxelio/breeze/core";
-import type { LabeledElement } from "@voxelio/breeze/core";
+import { Identifier } from "@voxelio/breeze/core";
 import Translate from "@/components/tools/Translate";
 import { useDebugStore } from "@/components/tools/debug/DebugStore";
 
 interface CodeSectionProps {
-    code: LabeledElement | undefined;
+    uniqueKey: string | undefined;
 }
 
-export function CodeSection({ code }: CodeSectionProps) {
-    const { name, version, elements, files } = useConfiguratorStore.getState();
-    const { closeDebugModal, format } = useDebugStore();
+export function CodeSection({ uniqueKey }: CodeSectionProps) {
+    const { elements, files } = useConfiguratorStore.getState();
+    const { format, elements: debugElements } = useDebugStore();
 
-    if (!code) return null;
-    const identifier = getLabeledIdentifier(code);
-    const element = elements.get(new Identifier(identifier).toUniqueKey());
+    if (!uniqueKey) return null;
 
-    const getCode = () => {
-        if (code.type === "deleted") return;
+    const labeledElement = debugElements.get(uniqueKey);
+    const identifier = Identifier.fromUniqueKey(uniqueKey);
 
-        if (format === "voxel") return element;
-        if (format === "datapack") return code.element.data;
-        if (format === "original") return JSON.parse(new TextDecoder().decode(files[new Identifier(identifier).toFilePath()]));
-        return code;
-    };
+    const codeToDisplay = (() => {
+        if (format === "voxel") return elements.get(uniqueKey);
+        if (format === "original") {
+            const fileData = files[identifier.toFilePath()];
+            return fileData ? JSON.parse(new TextDecoder().decode(fileData)) : undefined;
+        }
+        if (format === "datapack") {
+            if (labeledElement?.type === "new" || labeledElement?.type === "updated") {
+                return labeledElement?.element?.data;
+            }
+            return undefined;
+        }
+        return undefined;
+    })();
 
     return (
-        <div className="h-full pt-12 relative flex flex-col">
-            <div className="absolute top-0 left-0 px-2">
-                <p className="text-zinc-400">{name}</p>
-                <p className="text-xs text-zinc-500">
-                    <Translate content="debug.pack_version" /> - {version}
-                </p>
-            </div>
-            <button
-                className="absolute cursor-pointer top-1 right-0 rounded-xl text-zinc-500 hover:text-zinc-200 transition-colors bg-zinc-950/10 px-2 py-1 border-zinc-950"
-                type="button"
-                onClick={closeDebugModal}>
-                <Translate content="debug.leave" />
-            </button>
-            <div className="flex-1 overflow-y-auto">
-                {code.type !== "deleted" ? (
-                    <CodeBlock language="json" title={new Identifier(identifier).toFileName()}>
-                        {JSON.stringify(getCode(), null, 4)}
-                    </CodeBlock>
-                ) : (
-                    <EmptyCodeBlock title={new Identifier(identifier).toFileName()}>
+        <div className="h-full flex flex-col">
+            {labeledElement?.type !== "deleted" && codeToDisplay !== undefined ? (
+                <CodeBlock language="json" title={identifier.toFileName()}>
+                    {JSON.stringify(codeToDisplay, null, 4)}
+                </CodeBlock>
+            ) : (
+                <EmptyCodeBlock title={identifier.toFileName()}>
+                    {labeledElement?.type === "deleted" ? (
                         <Translate content="debug.code.deleted" />
-                    </EmptyCodeBlock>
-                )}
-            </div>
+                    ) : (
+                        <Translate content="debug.code.unavailable" />
+                    )}
+                </EmptyCodeBlock>
+            )}
         </div>
     );
 }
