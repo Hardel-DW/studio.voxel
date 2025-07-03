@@ -77,7 +77,13 @@ export const CONCEPTS: Concept[] = [
             src: "/images/features/block/crafting_table.webp",
             alt: "Recipe"
         },
-        tabs: []
+        tabs: [
+            {
+                id: "main",
+                text: { key: "recipe:section.main" },
+                section: "recipe.main"
+            }
+        ]
     },
     {
         registry: "structure",

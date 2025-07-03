@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 
 export type FetchedRegistry<T> = Record<string, T>;
 
-export default function useRegistry<T>(registryId: string) {
+export default function useRegistry<T>(registryId: string, type: "summary" | "registry" = "summary") {
     const registryQueryKey = ["registry", registryId];
     const {
         data: registryData,
@@ -10,7 +10,7 @@ export default function useRegistry<T>(registryId: string) {
         isError: isRegistryError
     } = useQuery<T, Error>({
         queryKey: registryQueryKey,
-        queryFn: () => fetchRegistryById<T>(registryId)
+        queryFn: () => fetchRegistryById<T>(registryId, type)
     });
 
     return {
@@ -20,9 +20,9 @@ export default function useRegistry<T>(registryId: string) {
     };
 }
 
-export const fetchRegistryById = async <T>(registryId: string): Promise<T> => {
+export const fetchRegistryById = async <T>(registryId: string, type: "summary" | "registry" = "summary"): Promise<T> => {
     console.log(`useQuery: Fetching registry ${registryId}`);
-    const response = await fetch(`/api/registry?registry=${registryId}`);
+    const response = await fetch(`/api/${type}?registry=${registryId}`);
     if (!response.ok) {
         throw new Error(`Network response was not ok for registry ${registryId}`);
     }

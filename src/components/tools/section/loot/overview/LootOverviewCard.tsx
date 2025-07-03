@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 import { Actions, Identifier } from "@voxelio/breeze";
 import type { LootTableProps } from "@voxelio/breeze/schema";
-import ItemRenderer from "@/components/tools/texture/TextureRenderer";
+import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import SimpleSwitch from "@/components/tools/elements/SimpleSwitch";
 
@@ -24,7 +24,7 @@ export default function LootOverviewCard(props: {
                         <div className="w-6 h-6 bg-stone-900 rounded-full animate-pulse flex-shrink-0" />
                     ) : (
                         <div className="flex-shrink-0">
-                            <ItemRenderer id={props.element.items[0].name} />
+                            <TextureRenderer id={props.element.items[0].name} />
                         </div>
                     )}
                     <div className="flex flex-col gap-1 justify-center">

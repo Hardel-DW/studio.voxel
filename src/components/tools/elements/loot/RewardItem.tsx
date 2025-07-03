@@ -1,4 +1,4 @@
-import TextureRenderer from "@/components/tools/texture/TextureRenderer";
+import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer";
 import type { LootItem } from "@voxelio/breeze";
 
 interface RewardItemProps extends LootItem {

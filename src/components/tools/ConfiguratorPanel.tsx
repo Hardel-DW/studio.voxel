@@ -9,7 +9,7 @@ import Translate from "./Translate";
 import { CONCEPTS } from "./elements";
 import OverviewManager from "./section/OverviewManager";
 
-export default function ConfiguratorPanel(props: PropsWithChildren) {
+export default function ConfiguratorPanel() {
     const currentConcept = useConfiguratorStore((state) => state.selectedConcept);
     const selectedElement = useConfiguratorStore((state) => state.currentElementId);
     const activeConcept = useMemo(() => CONCEPTS.find((concept) => concept.registry === currentConcept), [currentConcept]);
@@ -32,7 +32,7 @@ export default function ConfiguratorPanel(props: PropsWithChildren) {
             {selectedElement && (
                 <MenuTabs defaultValue={defaultTab} className="contents">
                     <MenuTabsList className="flex gap-x-5 bg-inherit justify-center pt-1 overflow-x-auto border-0 mb-4 pb-4 gap-y-4 border-b-2 rounded-none border-zinc-800 flex-wrap shrink-0">
-                        {activeConcept.tabs.map((tab) => (
+                        {activeConcept.tabs.length > 1 && activeConcept.tabs.map((tab) => (
                             <MenuTabsTrigger
                                 key={tab.id}
                                 value={tab.id}
@@ -52,7 +52,6 @@ export default function ConfiguratorPanel(props: PropsWithChildren) {
                                 </ConfiguratorContent>
                             );
                         })}
-                        {props.children}
                     </div>
                 </MenuTabs>
             )}

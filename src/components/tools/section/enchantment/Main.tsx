@@ -7,23 +7,27 @@ import { Actions } from "@voxelio/breeze/core";
 import type { EnchantmentProps } from "@voxelio/breeze/schema";
 import React from "react";
 import { LockEntryBuilder } from "@/lib/utils/lock";
+import TemplateCard from "@/components/tools/elements/template/Card";
 
 export default function EnchantGlobalMainSection() {
     return (
         <ToolSection id="main" title={{ key: "enchantment:section.global.description" }}>
             <ToolGrid>
                 {["maxLevel", "weight", "anvilCost"].map((key, index) => (
-                    <ToolCounter
-                        key={key}
-                        title={{ key: `enchantment:global.${key}.title` }}
-                        description={{ key: `enchantment:global.explanation.list.${index + 1}` }}
+                    <TemplateCard
                         image={`/icons/tools/${key}.svg`}
-                        min={1}
-                        max={127}
-                        step={1}
-                        action={(value: number) => new Actions().setValue(key, value).build()}
-                        renderer={(el: EnchantmentProps) => el[key]}
-                    />
+                        title={`enchantment:global.${key}.title`}
+                        description={`enchantment:global.explanation.list.${index + 1}`}
+                        short={`enchantment:global.explanation.list.${index + 1}`}
+                    >
+                        <ToolCounter
+                            min={1}
+                            max={127}
+                            step={1}
+                            action={(value: number) => new Actions().setValue(key, value).build()}
+                            renderer={(el: EnchantmentProps) => el[key]}
+                        />
+                    </TemplateCard>
                 ))}
             </ToolGrid>
             <ToolSelector

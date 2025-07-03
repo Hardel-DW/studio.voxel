@@ -9,7 +9,7 @@ export async function GET(request: NextRequest) {
 
     const registryPath = registry.startsWith("tags/") ? registry.replace(/^tags\//, "tag/") : registry;
 
-    const baseUrl = "https://raw.githubusercontent.com/misode/mcmeta/registries";
+    const baseUrl = "https://raw.githubusercontent.com/misode/mcmeta/summary/data";
     const fileUrl = `${baseUrl}/${registryPath}/data.min.json`;
 
     const response = await fetch(fileUrl);

@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     }
 };
 
-export default function Home({ children }: { children: React.ReactNode }) {
+export default function Home() {
     const queryClient = getQueryClient();
     return (
         <>
@@ -69,7 +69,7 @@ export default function Home({ children }: { children: React.ReactNode }) {
                                 <div className="absolute w-full -z-10 inset-0 shadow-2xl bg-linear-to-r from-[#401727] to-[#311e7696] opacity-20 rounded-full blur-[10rem]" />
                                 <HydrationBoundary state={dehydrate(queryClient)}>
                                     <ConfigManager>
-                                        <ConfiguratorPanel>{children}</ConfiguratorPanel>
+                                        <ConfiguratorPanel />
                                     </ConfigManager>
                                 </HydrationBoundary>
                             </div>

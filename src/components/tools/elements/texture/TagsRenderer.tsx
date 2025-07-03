@@ -1,10 +1,10 @@
 import { useEffect, useState, useMemo } from "react";
 import TextureRenderer from "./TextureRenderer";
 import useRegistry from "@/lib/hook/useRegistry";
-import { DataDrivenRegistryElement, Identifier, isTag, TagRegistry, TagsComparator, TagType } from "@voxelio/breeze";
+import { DataDrivenRegistryElement, Identifier, TagRegistry, TagsComparator, TagType } from "@voxelio/breeze";
 import Loader from "@/components/ui/Loader";
-import ErrorPlaceholder from "../elements/error/Card";
-import { useConfiguratorStore } from "../Store";
+import ErrorPlaceholder from "@/components/tools/elements/error/ErrorPlaceholder";
+import { useConfiguratorStore } from "@/components/tools/Store";
 
 interface TagsRendererProps {
     items: string[] | string;
@@ -21,7 +21,7 @@ interface TagsRendererProps {
  */
 export default function TagsRenderer({ items, className, intervalMs = 2000 }: TagsRendererProps) {
     const [currentIndex, setCurrentIndex] = useState(0);
-    const { data, isLoading, isError } = useRegistry<TagRegistry>("tags/item");
+    const { data, isLoading, isError } = useRegistry<TagRegistry>("tags/item", "summary");
     const { getRegistry } = useConfiguratorStore();
 
     const itemsArray = useMemo(() => {

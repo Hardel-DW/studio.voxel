@@ -52,7 +52,7 @@ export function DropdownMenuContent(props: { children: ReactNode; className?: st
             }}
             hidden={!open}
             className={cn(
-                "z-50 min-w-[8rem] overflow-hidden rounded-2xl border border-zinc-700 bg-zinc-950 p-1 text-zinc-400 shadow-md outline-hidden",
+                "z-50 min-w-[8rem] max-h-[300px] overflow-y-auto rounded-2xl border border-zinc-700 bg-zinc-950 p-1 text-zinc-400 shadow-md outline-hidden",
                 "starting:translate-y-2 starting:scale-95 duration-150 ease-bounce transition-[translate,scale,display,opacity]",
                 "hidden:translate-y-2 hidden:scale-95 transition-discrete",
                 props.className
@@ -69,12 +69,13 @@ export function DropdownMenuItem(
         children: ReactNode;
         className?: string;
         disabled?: boolean;
+        description?: string;
     } & React.HTMLAttributes<HTMLDivElement>
 ) {
     return (
         <div
             className={cn(
-                "relative flex cursor-pointer select-none items-center gap-2 rounded-xl px-2 py-2.5 text-sm outline-hidden transition-colors hover:bg-zinc-900 hover:text-zinc-200",
+                "relative flex flex-col cursor-pointer select-none items-start justify-start gap-0.5 rounded-xl px-2 py-2.5 text-sm outline-hidden transition-colors hover:bg-zinc-900 hover:text-zinc-200",
                 "data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
                 "[&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
                 props.disabled && "pointer-events-none opacity-50",
@@ -82,6 +83,7 @@ export function DropdownMenuItem(
             )}
             {...props}>
             {props.children}
+            {props.description && <span className="text-[10px] leading-tight text-zinc-500 font-extralight tracking-tight">{props.description}</span>}
         </div>
     );
 }

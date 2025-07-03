@@ -1,15 +1,8 @@
 import { type RecipeProps } from "@voxelio/breeze";
 import { useConfiguratorStore } from "@/components/tools/Store";
-import CraftingTemplate from "@/components/tools/elements/recipe/CraftingTemplate";
-import ErrorPlaceholder from "@/components/tools/elements/error/Card";
+import ErrorPlaceholder from "@/components/tools/elements/error/ErrorPlaceholder";
 import ErrorBoundary from "@/components/ui/ErrorBoundary";
-import SmeltingTemplate from "@/components/tools/elements/recipe/SmeltingTemplate";
-import StoneCuttingTemplate from "@/components/tools/elements/recipe/StoneCuttingTemplate";
-import SmithingTemplate from "@/components/tools/elements/recipe/SmithingTemplate";
-
-export const SMELTING_TYPES = ['minecraft:smelting', 'minecraft:blasting', 'minecraft:smoking', 'minecraft:campfire_cooking'];
-export const STONECUTTING_TYPES = ['minecraft:stonecutting'];
-export const SMITHING_TYPES = ['minecraft:smithing_transform', 'minecraft:smithing_trim'];
+import RecipeRenderer from "@/components/tools/elements/recipe/RecipeRenderer";
 
 export default function RecipeOverviewCard(props: {
     element: RecipeProps;
@@ -19,34 +12,10 @@ export default function RecipeOverviewCard(props: {
 
     return (
         <ErrorBoundary fallback={(e) => <ErrorPlaceholder error={e} />}>
-
             <div
                 className="bg-black/50 border-t-2 border-l-2 border-stone-900 select-none relative transition-all hover:ring-1 ring-zinc-900 rounded-xl p-4 flex flex-col">
                 <div className="flex-1 flex flex-col">
-                    {props.element.type.includes("crafting_") && (
-                        <CraftingTemplate
-                            slots={props.element.slots}
-                            result={props.element.result}
-                        />
-                    )}
-                    {SMELTING_TYPES.includes(props.element.type) && (
-                        <SmeltingTemplate
-                            slots={props.element.slots}
-                            result={props.element.result}
-                        />
-                    )}
-                    {STONECUTTING_TYPES.includes(props.element.type) && (
-                        <StoneCuttingTemplate
-                            slots={props.element.slots}
-                            result={props.element.result}
-                        />
-                    )}
-                    {SMITHING_TYPES.includes(props.element.type) && (
-                        <SmithingTemplate
-                            slots={props.element.slots}
-                            result={props.element.result}
-                        />
-                    )}
+                    <RecipeRenderer element={props.element} />
 
                     <div className="pt-4 border-t border-zinc-800/50 mt-auto">
                         <button

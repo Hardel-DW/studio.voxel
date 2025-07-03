@@ -6,7 +6,7 @@ import { Datapack, EnchantmentActionBuilder, type EnchantmentProps, Identifier }
 import type { Enchantment } from "@voxelio/breeze/schema";
 import ToolCategory from "../../elements/ToolCategory";
 import Loader from "@/components/ui/Loader";
-import ErrorPlaceholder from "../../elements/error/Card";
+import ErrorPlaceholder from "../../elements/error/ErrorPlaceholder";
 import type { TranslateTextType } from "@/components/tools/Translate";
 
 function EnchantmentCategory({ title, identifiers }: { title: TranslateTextType; identifiers: Identifier[] }) {
@@ -34,7 +34,7 @@ function EnchantmentCategory({ title, identifiers }: { title: TranslateTextType;
 export default function ExclusiveSingle() {
     const files = useConfiguratorStore((state) => state.files);
     const enchantments = new Datapack(files).getRegistry("enchantment");
-    const { data: vanilla, isLoading, isError } = useRegistry<FetchedRegistry<Enchantment>>("enchantment");
+    const { data: vanilla, isLoading, isError } = useRegistry<FetchedRegistry<Enchantment>>("enchantment", "summary");
 
     const identifiers = enchantments.map((enchantment) => new Identifier(enchantment.identifier));
     const vanillaIdentifiers = Object.keys(vanilla ?? {}).map((key) => Identifier.of(`minecraft:${key}`, "enchantment"));

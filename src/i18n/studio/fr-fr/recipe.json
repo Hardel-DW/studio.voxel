@@ -1,3 +1,5 @@
 {
-    "section.main": "Main"
+    "section.main": "Main",
+    "main.result_counter": "Nombre d'items",
+    "main.result_counter.description": "Le nombre d'items"
 }

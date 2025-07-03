@@ -1,12 +1,12 @@
-import React from "react";
+import RecipeInventory from "@/components/tools/elements/recipe/RecipeInventory";
+import RecipeSection from "@/components/tools/elements/recipe/RecipeSection";
 
 export default function RecipeMainSection() {
     return (
-        <div>
-            <div className="flex items-center justify-between gap-2">
-                <div className="flex items-center gap-8">
-                    <h1 className="text-2xl font-bold uppercase">Fooo</h1>
-                </div>
+        <div className="w-full h-full">
+            <div className="grid grid-cols-2 gap-8 items-start">
+                <RecipeSection />
+                <RecipeInventory />
             </div>
         </div>
     );

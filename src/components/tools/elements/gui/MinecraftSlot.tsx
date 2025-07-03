@@ -1,4 +1,4 @@
-import TextureRenderer from "@/components/tools/texture/TextureRenderer";
+import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer";
 
 export default function MinecraftSlot(props: {
     id: string;

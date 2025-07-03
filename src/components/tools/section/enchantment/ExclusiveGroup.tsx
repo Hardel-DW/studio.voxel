@@ -4,7 +4,7 @@ import ToolCategory from "@/components/tools/elements/ToolCategory";
 import ToolGrid from "@/components/tools/elements/ToolGrid";
 import ToolListOption from "@/components/tools/elements/ToolListOption";
 import ToolSlot from "@/components/tools/elements/ToolSlot";
-import ErrorPlaceholder from "@/components/tools/elements/error/Card";
+import ErrorPlaceholder from "@/components/tools/elements/error/ErrorPlaceholder";
 import Loader from "@/components/ui/Loader";
 import useRegistry from "@/lib/hook/useRegistry";
 import { isMinecraft } from "@/lib/utils/lock";
@@ -24,7 +24,7 @@ export default function ExclusiveGroup() {
     const files = useConfiguratorStore((state) => state.files);
     const enchantments = new Datapack(files).getRegistry("tags/enchantment", "exclusive_set", ["minecraft"]);
     const compile = useConfiguratorStore((state) => state.compile);
-    const { data: tags, isLoading: isRegistryLoading, isError: isRegistryError } = useRegistry<TagRegistry>("tags/enchantment");
+    const { data: tags, isLoading: isRegistryLoading, isError: isRegistryError } = useRegistry<TagRegistry>("tags/enchantment", "summary");
     const assembleDatapack = compile();
 
     const getValues = (identifier: Identifier) => {
