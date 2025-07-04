@@ -100,12 +100,27 @@ export class RecipeBlockManager {
         return RECIPE_BLOCKS.some(block => block.id === selection);
     }
 
+    static getTypesFromSelection(selection: string): string[] {
+        if (selection === "minecraft:barrier") return this.getAllRecipeTypes();
+        const blockConfig = this.getBlockConfig(selection);
+        return blockConfig?.recipeTypes || [selection];
+    }
+
+    static getFirstTypeFromSelection(selection: string): string {
+        if (selection === "minecraft:barrier") return this.getAllRecipeTypes()[0];
+        const blockConfig = this.getBlockConfig(selection);
+        return blockConfig?.recipeTypes[0] || selection;
+    }
+
+    static getDisplayBlockId(selection: string): string {
+        return this.isBlockId(selection) ? selection : this.getBlockByRecipeType(selection).id;
+    }
+
     static getDisplayName(selection: string): string {
         if (this.isBlockId(selection)) {
             const config = this.getBlockConfig(selection);
             return config?.name || selection;
         }
-        // Pour un type de recette spécifique
         const cleanType = selection.replace("minecraft:", "");
         return cleanType.split("_").map(word =>
             word.charAt(0).toUpperCase() + word.slice(1)

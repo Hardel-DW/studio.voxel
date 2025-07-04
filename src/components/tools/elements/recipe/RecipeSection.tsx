@@ -1,11 +1,10 @@
 import { isVoxel, RecipeProps } from "@voxelio/breeze";
 import { getCurrentElement, useConfiguratorStore } from "@/components/tools/Store";
-import { RecipeBlockManager } from "@/components/tools/section/recipe/recipeConfig";
+import { RecipeBlockManager, RECIPE_BLOCKS } from "@/components/tools/elements/recipe/recipeConfig";
 import { useState } from "react";
 import RecipeRenderer from "./RecipeRenderer";
 import ToolCounter from "@/components/tools/elements/ToolCounter";
 import { Actions, RecipeActionBuilder } from "@voxelio/breeze/core";
-import { RECIPE_BLOCKS } from "@/components/tools/section/recipe/recipeConfig";
 import Tabs from "@/components/ui/Tabs";
 import dynamic from "next/dynamic";
 import Loader from "@/components/ui/Loader";
@@ -15,30 +14,30 @@ const RecipeSelector = dynamic(() => import("./RecipeSelector"), {
     ssr: false
 });
 
-const craftingTabs = [
-    { label: "Shaped", value: "minecraft:crafting_shaped" },
-    { label: "Shapeless", value: "minecraft:crafting_shapeless" },
-    { label: "Transmute", value: "minecraft:crafting_transmute" }
-];
-
-const smithingTabs = [
-    { label: "Smithing", value: "minecraft:smithing_transform" },
-    { label: "Smithing", value: "minecraft:smithing_trim" }
-];
+const TAB_CONFIGS = {
+    "minecraft:crafting_table": [
+        { label: "Shaped", value: "minecraft:crafting_shaped" },
+        { label: "Shapeless", value: "minecraft:crafting_shapeless" },
+        { label: "Transmute", value: "minecraft:crafting_transmute" }
+    ],
+    "minecraft:smithing_table": [
+        { label: "Transform", value: "minecraft:smithing_transform" },
+        { label: "Trim", value: "minecraft:smithing_trim" }
+    ]
+};
 
 export default function RecipeSection() {
     const currentElement = useConfiguratorStore((state) => getCurrentElement(state));
     const handleChange = useConfiguratorStore((state) => state.handleChange);
     if (!currentElement || !isVoxel(currentElement, "recipe")) return null;
+
     const currentBlock = RecipeBlockManager.getBlockByRecipeType(currentElement.type);
-    const [recipeType, setRecipeType] = useState<string>(currentBlock?.id ?? RECIPE_BLOCKS[0].id);
+    const [selection, setSelection] = useState<string>(currentBlock?.id ?? RECIPE_BLOCKS[0].id);
 
-    const handleRecipeTypeChange = (blockId: string) => {
-        const newRecipeType = RecipeBlockManager.getDefaultRecipeType(blockId);
-        if (!newRecipeType) return;
-
+    const handleSelectionChange = (newSelection: string) => {
+        const newRecipeType = RecipeBlockManager.getFirstTypeFromSelection(newSelection);
         handleChange(new RecipeActionBuilder().convertType(newRecipeType).build());
-        setRecipeType(blockId);
+        setSelection(newSelection);
     };
 
     return (
@@ -50,19 +49,24 @@ export default function RecipeSection() {
                 </div>
                 <div className="relative">
                     <RecipeSelector
-                        recipeType={recipeType}
-                        setRecipeType={handleRecipeTypeChange}
-                        recipes={RecipeBlockManager.getAllBlockIds(false)}
+                        value={selection}
+                        onChange={handleSelectionChange}
+                        recipeCounts={new Map<string, number>(RECIPE_BLOCKS.map(block => [block.id, 0]))}
+                        selectMode={true}
                     />
                 </div>
             </div>
             <hr />
             <div className="overflow-y-auto flex-1 px-6 pb-6 pt-2">
                 <RecipeRenderer element={currentElement} />
-                <hr />
-                <div className=" mt-4 border rounded-lg border-zinc-900 p-4 flex flex-col gap-8">
+                <div className=" mt-4 border rounded-lg border-zinc-900 p-4 flex flex-col gap-8 relative">
                     <div className="flex justify-between items-center">
-                        <p className="text-lg font-bold text-zinc-400">Result count</p>
+                        <div>
+                            <p className="text-base font-semibold text-zinc-400">Result count</p>
+                            <p className="text-xs text-zinc-500">
+                                The number of items which will be produced by the recipe
+                            </p>
+                        </div>
                         <ToolCounter
                             min={1}
                             max={64}
@@ -72,10 +76,23 @@ export default function RecipeSection() {
                         />
                     </div>
                     <div className="flex justify-between items-center">
-                        <p className="text-lg font-bold text-zinc-400">Recipe type</p>
-                        {currentBlock && currentBlock.id === "minecraft:crafting_table" && (
-                            <Tabs tabs={craftingTabs} defaultTab={currentElement.type} onChange={() => { }} />
+                        <div>
+                            <p className="text-base font-semibold text-zinc-400">Recipe type</p>
+                            <p className="text-xs text-zinc-500">
+                                The type of recipe which will be used to craft the item
+                            </p>
+                        </div>
+                        {currentBlock && TAB_CONFIGS[currentBlock.id as keyof typeof TAB_CONFIGS] && (
+                            <Tabs
+                                tabs={TAB_CONFIGS[currentBlock.id as keyof typeof TAB_CONFIGS]}
+                                defaultTab={currentElement.type}
+                                onChange={(newType: string) => handleChange(new RecipeActionBuilder().convertType(newType).build())}
+                            />
                         )}
+                    </div>
+
+                    <div className="absolute inset-0 -z-10 brightness-30  rotate-180 hue-rotate-45">
+                        <img src="/images/shine.avif" alt="Shine" />
                     </div>
                 </div>
             </div>

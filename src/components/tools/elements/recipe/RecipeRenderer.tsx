@@ -1,7 +1,7 @@
 import dynamic from "next/dynamic";
 import { RecipeProps } from "@voxelio/breeze";
 import Loader from "@/components/ui/Loader";
-import { RecipeBlockManager } from "../../section/recipe/recipeConfig";
+import { RecipeBlockManager } from "./recipeConfig";
 
 const CraftingTemplate = dynamic(() => import("./template/CraftingTemplate"), {
     loading: () => <Loader />,

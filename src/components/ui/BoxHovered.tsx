@@ -63,15 +63,6 @@ export function BoxHoveredContent(props: {
     const contentRef = useRef<HTMLDivElement>(null);
     const { isVisible, isLeaving } = usePopoverVisibility({ open, transitionDuration: 150 });
     const position = useBoxPosition({ triggerRef, contentRef, open });
-
-    const handleMouseEnter = useCallback(() => {
-        setOpen(true);
-    }, [setOpen]);
-
-    const handleMouseLeave = useCallback(() => {
-        setOpen(false);
-    }, [setOpen]);
-
     if (!isVisible) return null;
 
     return createPortal(
@@ -82,8 +73,8 @@ export function BoxHoveredContent(props: {
                 top: `${position.top}px`,
                 left: `${position.left}px`
             }}
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
+            onMouseEnter={() => setOpen(true)}
+            onMouseLeave={() => setOpen(false)}
             className={cn(
                 "z-40 rounded-2xl border-t border-l border-zinc-800 bg-zinc-950 p-4 text-zinc-200 shadow-2xl shadow-zinc-950",
                 "starting:translate-y-0 starting:scale-95",
