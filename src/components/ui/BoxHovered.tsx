@@ -64,6 +64,7 @@ export function BoxHoveredContent(props: {
     const { isVisible, isLeaving } = usePopoverVisibility({ open, transitionDuration: 150 });
     const position = useBoxPosition({ triggerRef, contentRef, open });
     if (!isVisible) return null;
+    const hasValidPosition = position.top > 0 && position.left > 0;
 
     return createPortal(
         <div
@@ -71,7 +72,8 @@ export function BoxHoveredContent(props: {
             style={{
                 position: "absolute",
                 top: `${position.top}px`,
-                left: `${position.left}px`
+                left: `${position.left}px`,
+                visibility: hasValidPosition ? 'visible' : 'hidden'
             }}
             onMouseEnter={() => setOpen(true)}
             onMouseLeave={() => setOpen(false)}

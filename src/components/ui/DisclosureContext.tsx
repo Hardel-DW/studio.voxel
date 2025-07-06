@@ -1,6 +1,6 @@
 "use client";
 
-import { type ReactNode, createContext, useContext, useRef, useState } from "react";
+import { type ReactNode, createContext, useContext, useEffect, useRef, useState } from "react";
 
 export interface DisclosureState<T extends HTMLElement> {
     open: boolean;

@@ -15,10 +15,10 @@ export default function EnchantGlobalMainSection() {
             <ToolGrid>
                 {["maxLevel", "weight", "anvilCost"].map((key, index) => (
                     <TemplateCard
+                        key={key}
                         image={`/icons/tools/${key}.svg`}
-                        title={`enchantment:global.${key}.title`}
-                        description={`enchantment:global.explanation.list.${index + 1}`}
-                        short={`enchantment:global.explanation.list.${index + 1}`}
+                        title={{ key: `enchantment:global.${key}.title` }}
+                        description={{ key: `enchantment:global.explanation.list.${index + 1}` }}
                     >
                         <ToolCounter
                             min={1}

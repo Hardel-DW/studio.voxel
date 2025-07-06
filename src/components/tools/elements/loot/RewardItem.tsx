@@ -1,11 +1,16 @@
 import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer";
 import type { LootItem } from "@voxelio/breeze";
+import { calculateItemCountRange } from "@/lib/utils/lootCount";
 
 interface RewardItemProps extends LootItem {
+    probability?: number;
     onDelete?: (id: string) => void;
 }
 
 export default function RewardItem(props: RewardItemProps) {
+    const countRange = calculateItemCountRange(props.functions);
+    const probabilityPercentage = props.probability ? (props.probability * 100).toFixed(1) : null;
+
     return (
         <li className="relative overflow-hidden text-zinc-400 tracking-tighter text-xs bg-zinc-900/20 rounded-md border border-zinc-900 p-4 h-fit flex items-center justify-between gap-x-8">
             <div className="flex items-center gap-x-4">
@@ -22,14 +27,28 @@ export default function RewardItem(props: RewardItemProps) {
                 </div>
             </div>
 
-            <div className="flex items-center gap-x-4">
-                {props.count ? (
-                    <p className="text-white">
-                        {typeof props.count === "number" ? props.count : `${props.count.min} - ${props.count.max}`} items
+            <div className="flex items-center gap-x-4 text-right">
+                <div className="text-right">
+                    <p className="text-white font-bold text-lg">
+                        {countRange.min === countRange.max ? `×${countRange.min}` : `×${countRange.min}-${countRange.max}`}
                     </p>
-                ) : null}
+                    {probabilityPercentage && (
+                        <p className="text-xs text-zinc-400">
+                            {probabilityPercentage}% chance
+                        </p>
+                    )}
+                </div>
+            </div>
 
-                {props.onDelete && (
+            <div className="absolute inset-0 -z-10 brightness-30 hue-rotate-15">
+                <img src="/images/shine.avif" alt="Shine" />
+            </div>
+        </li>
+    );
+}
+
+/**
+ *  {props.onDelete && (
                     <button
                         type="button"
                         onClick={() => props.onDelete?.(props.id)}
@@ -41,11 +60,4 @@ export default function RewardItem(props: RewardItemProps) {
                         </svg>
                     </button>
                 )}
-            </div>
-
-            <div className="absolute inset-0 -z-10 brightness-30 hue-rotate-15">
-                <img src="/images/shine.avif" alt="Shine" />
-            </div>
-        </li>
-    );
-}
+ */

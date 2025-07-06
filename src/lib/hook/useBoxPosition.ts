@@ -46,7 +46,12 @@ export const useBoxPosition = ({ triggerRef, contentRef, open }: UseBoxPositionP
 
     useEffect(() => {
         if (open) {
-            queueMicrotask(updatePosition);
+            const checkAndUpdate = () => {
+                if (contentRef.current) updatePosition();
+                else requestAnimationFrame(checkAndUpdate);
+            };
+
+            checkAndUpdate();
 
             window.addEventListener("resize", updatePosition);
             window.addEventListener("scroll", updatePosition);

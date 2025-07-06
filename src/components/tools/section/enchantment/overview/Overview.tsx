@@ -13,8 +13,10 @@ export default function Overview() {
     const [search, setSearch] = useState("");
     const [display, setDisplay] = useState<"minimal" | "detailed">("minimal");
     const elements = useConfiguratorStore((state) => state.elements);
-    const filteredElements = getFilteredElements(elements, search);
     const { getAllItemsFromTag } = useTagManager();
+    const filteredElements = [...elements.values()]
+        .filter(el => isVoxel(el, "enchantment"))
+        .filter(el => !search || el.identifier.resource.toLowerCase().includes(search.toLowerCase())) as EnchantmentProps[];
 
     return (
         <div>
@@ -35,7 +37,6 @@ export default function Overview() {
 
             <hr className="my-4" />
 
-            {/* Grille unique pour toutes les cartes */}
             <div className="grid gap-4" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))" }}>
                 {filteredElements.map((element) => {
                     const { isTag, id } = getItemFromMultipleOrOne(element.supportedItems);
@@ -97,25 +98,4 @@ function groupElementsByExclusiveSet(
     }
 
     return groups;
-}
-
-/**
- * Filtre les éléments par recherche
- */
-function getFilteredElements(elements: Map<string, Analysers[keyof Analysers]["voxel"]>, search: string): EnchantmentProps[] {
-    const filtered: EnchantmentProps[] = [];
-
-    for (const element of elements.values()) {
-        if (!isVoxel(element, "enchantment")) {
-            continue;
-        }
-
-        if (search && !element.identifier.resource.toLowerCase().includes(search.toLowerCase())) {
-            continue;
-        }
-
-        filtered.push(element);
-    }
-
-    return filtered;
 }

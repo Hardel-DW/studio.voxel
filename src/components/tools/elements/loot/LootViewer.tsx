@@ -1,19 +1,37 @@
 import { useInteractiveLogic, type BaseInteractiveComponent } from "@/lib/hook/useInteractiveLogic";
 import type { TranslateTextType } from "@/components/tools/Translate";
 import RewardItem from "./RewardItem"
-import type { LootItem } from "@voxelio/breeze";
+import type { LootItem, LootTableProps } from "@voxelio/breeze";
+import { LootTableProbabilityCalculator } from "@voxelio/breeze";
+import { useMemo } from "react";
 
 export type LootViewerProps = BaseInteractiveComponent & {
     title: TranslateTextType;
+    lootTable: LootTableProps;
     data: LootItem[]
 };
 
 export default function LootViewer(props: LootViewerProps) {
     const { value, handleChange } = useInteractiveLogic<LootViewerProps, boolean>({ component: props });
 
+    const itemProbabilities = useMemo(() => {
+        const calculator = new LootTableProbabilityCalculator(props.lootTable);
+        const probabilities = calculator.calculateProbabilities();
+        const probabilityMap = new Map<string, number>();
+        const totalProb = probabilities.reduce((sum, result) => sum + result.probability, 0);
+        if (totalProb > 0) {
+            for (const result of probabilities) {
+                const normalizedProbability = result.probability / totalProb;
+                probabilityMap.set(result.itemId, normalizedProbability);
+            }
+        }
+
+        return probabilityMap;
+    }, [props.lootTable]);
+
+
     return (
         <div className="relative overflow-hidden bg-black/50 border-t-2 border-l-2 border-stone-900 ring-0 ring-zinc-900 rounded-xl w-full min-h-full">
-            {/* Right Column */}
             <div className="overflow-y-auto col-span-5 flex flex-col gap-y-4 p-8">
                 <div>
                     <div className="flex justify-between items-center gap-y-2">
@@ -23,10 +41,31 @@ export default function LootViewer(props: LootViewerProps) {
                     <div className="w-full h-1 bg-zinc-700 rounded-full" />
                 </div>
 
-
                 <ul className="grid grid-cols-2 gap-4">
-                    {props.data?.map((reward) => <RewardItem key={reward.id} {...reward} onDelete={(id: string) => handleChange(id)} />)}
+                    {props.data?.map((reward) => (
+                        <RewardItem
+                            key={reward.id}
+                            {...reward}
+                            probability={itemProbabilities.get(reward.id)}
+                            onDelete={(id: string) => handleChange(id)}
+                        />
+                    ))}
                 </ul>
+
+                {/* <div className="mt-8 bg-zinc-900/30 rounded-lg p-6 border border-zinc-800">
+                    <div className="space-y-4 text-sm text-zinc-300">
+                        <div>
+                            <p className="font-medium text-white mb-2">Pourquoi le total ne fait pas 100% ?</p>
+                            <p>Ces pourcentages sont normalisés pour représenter la répartition relative des objets. Chaque pourcentage indique la probabilité d'obtenir cet objet par rapport aux autres objets de la loot table.</p>
+                        </div>
+
+                        <div className="pt-2 border-t border-zinc-700 flex justify-between">
+                            <p className="text-xs text-zinc-400">
+                                Total normalisé : {(totalProbability * 100).toFixed(1)}%
+                            </p>
+                        </div>
+                    </div>
+                </div> */}
             </div>
 
             <div className="absolute inset-0 -z-10 brightness-30">

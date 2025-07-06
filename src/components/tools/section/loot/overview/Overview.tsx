@@ -1,15 +1,16 @@
 import { Identifier, isVoxel } from "@voxelio/breeze";
-import type { Analysers } from "@voxelio/breeze";
+import type { LootTableProps } from "@voxelio/breeze/schema";
 import { useState } from "react";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import LootOverviewCard from "./LootOverviewCard";
 
-type LootProps = Analysers["loot_table"]["voxel"];
-
 export default function Overview() {
     const [search, setSearch] = useState("");
+    const [openPopoverId, setOpenPopoverId] = useState<string | null>(null);
     const elements = useConfiguratorStore((state) => state.elements);
-    const filteredElements = getFilteredElements(elements, search);
+    const filteredElements = [...elements.values()]
+        .filter(el => isVoxel(el, "loot_table"))
+        .filter(el => !search || el.identifier.resource.toLowerCase().includes(search.toLowerCase())) as LootTableProps[];
 
     return (
         <div>
@@ -24,38 +25,21 @@ export default function Overview() {
 
             <hr className="my-4" />
 
-            {/* Grille unique pour toutes les cartes */}
             <div className="grid gap-4" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))" }}>
                 {filteredElements.map((element) => {
+                    const elementId = new Identifier(element.identifier).toUniqueKey();
+                    const isBlurred = openPopoverId !== null && openPopoverId !== elementId;
                     return (
                         <LootOverviewCard
                             key={element.identifier.resource}
                             element={element}
-                            elementId={new Identifier(element.identifier).toUniqueKey()}
+                            elementId={elementId}
+                            isBlurred={isBlurred}
+                            onPopoverChange={(isOpen) => setOpenPopoverId(isOpen ? elementId : null)}
                         />
                     );
                 })}
             </div>
         </div>
     );
-}
-
-/**
- * Filtre les éléments par recherche
- */
-function getFilteredElements(elements: Map<string, Analysers[keyof Analysers]["voxel"]>, search: string): LootProps[] {
-    const filtered: LootProps[] = [];
-    for (const element of elements.values()) {
-        if (!isVoxel(element, "loot_table")) {
-            continue;
-        }
-
-        if (search && !element.identifier.resource.toLowerCase().includes(search.toLowerCase())) {
-            continue;
-        }
-
-        filtered.push(element);
-    }
-
-    return filtered;
 }

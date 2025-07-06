@@ -1,10 +1,10 @@
-import Translate from "../../Translate";
+import Translate, { type TranslateTextType } from "@/components/tools/Translate";
 
 export default function TemplateCard(props: {
     image: string;
-    title: string;
-    description: string;
-    short: string;
+    title: TranslateTextType;
+    description: TranslateTextType;
+    short?: TranslateTextType;
     children: React.ReactNode;
 }) {
     return (
