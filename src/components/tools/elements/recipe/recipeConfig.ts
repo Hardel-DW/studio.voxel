@@ -65,65 +65,63 @@ export const RECIPE_BLOCKS: RecipeBlockConfig[] = [
     }
 ];
 
-export class RecipeBlockManager {
-    static getBlockConfig(blockId: string): RecipeBlockConfig | undefined {
-        return RECIPE_BLOCKS.find((block) => block.id === blockId);
-    }
+export function getBlockConfig(blockId: string): RecipeBlockConfig | undefined {
+    return RECIPE_BLOCKS.find((block) => block.id === blockId);
+}
 
-    static getBlockByRecipeType(recipeType: string): RecipeBlockConfig {
-        return RECIPE_BLOCKS.find((block) => block.recipeTypes.includes(recipeType)) ?? RECIPE_BLOCKS[0];
-    }
+export function getBlockByRecipeType(recipeType: string): RecipeBlockConfig {
+    return RECIPE_BLOCKS.find((block) => block.recipeTypes.includes(recipeType)) ?? RECIPE_BLOCKS[0];
+}
 
-    static getDefaultRecipeType(blockId: string): string | undefined {
-        const config = RecipeBlockManager.getBlockConfig(blockId);
-        return config?.recipeTypes[0];
-    }
+export function getDefaultRecipeType(blockId: string): string | undefined {
+    const config = getBlockConfig(blockId);
+    return config?.recipeTypes[0];
+}
 
-    static canBlockHandleRecipeType(blockId: string, recipeType: string): boolean {
-        if (blockId === "minecraft:barrier") return true;
+export function canBlockHandleRecipeType(blockId: string, recipeType: string): boolean {
+    if (blockId === "minecraft:barrier") return true;
 
-        const config = RecipeBlockManager.getBlockConfig(blockId);
-        return config?.recipeTypes.some((type) => recipeType.includes(type)) ?? false;
-    }
+    const config = getBlockConfig(blockId);
+    return config?.recipeTypes.some((type) => recipeType.includes(type)) ?? false;
+}
 
-    static getAllBlockIds(includeSpecial: boolean = true): string[] {
-        return RECIPE_BLOCKS.filter((block) => includeSpecial || !block.isSpecial).map((block) => block.id);
-    }
+export function getAllBlockIds(includeSpecial: boolean = true): string[] {
+    return RECIPE_BLOCKS.filter((block) => includeSpecial || !block.isSpecial).map((block) => block.id);
+}
 
-    static getAllRecipeTypes(): string[] {
-        return RECIPE_BLOCKS.filter((block) => !block.isSpecial) // Exclus barrier
-            .flatMap((block) => block.recipeTypes);
-    }
+export function getAllRecipeTypes(): string[] {
+    return RECIPE_BLOCKS.filter((block) => !block.isSpecial) // Exclus barrier
+        .flatMap((block) => block.recipeTypes);
+}
 
-    static isBlockId(selection: string): boolean {
-        return RECIPE_BLOCKS.some((block) => block.id === selection);
-    }
+export function isBlockId(selection: string): boolean {
+    return RECIPE_BLOCKS.some((block) => block.id === selection);
+}
 
-    static getTypesFromSelection(selection: string): string[] {
-        if (selection === "minecraft:barrier") return RecipeBlockManager.getAllRecipeTypes();
-        const blockConfig = RecipeBlockManager.getBlockConfig(selection);
-        return blockConfig?.recipeTypes || [selection];
-    }
+export function getTypesFromSelection(selection: string): string[] {
+    if (selection === "minecraft:barrier") return getAllRecipeTypes();
+    const blockConfig = getBlockConfig(selection);
+    return blockConfig?.recipeTypes || [selection];
+}
 
-    static getFirstTypeFromSelection(selection: string): string {
-        if (selection === "minecraft:barrier") return RecipeBlockManager.getAllRecipeTypes()[0];
-        const blockConfig = RecipeBlockManager.getBlockConfig(selection);
-        return blockConfig?.recipeTypes[0] || selection;
-    }
+export function getFirstTypeFromSelection(selection: string): string {
+    if (selection === "minecraft:barrier") return getAllRecipeTypes()[0];
+    const blockConfig = getBlockConfig(selection);
+    return blockConfig?.recipeTypes[0] || selection;
+}
 
-    static getDisplayBlockId(selection: string): string {
-        return RecipeBlockManager.isBlockId(selection) ? selection : RecipeBlockManager.getBlockByRecipeType(selection).id;
-    }
+export function getDisplayBlockId(selection: string): string {
+    return isBlockId(selection) ? selection : getBlockByRecipeType(selection).id;
+}
 
-    static getDisplayName(selection: string): string {
-        if (RecipeBlockManager.isBlockId(selection)) {
-            const config = RecipeBlockManager.getBlockConfig(selection);
-            return config?.name || selection;
-        }
-        const cleanType = selection.replace("minecraft:", "");
-        return cleanType
-            .split("_")
-            .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-            .join(" ");
+export function getDisplayName(selection: string): string {
+    if (isBlockId(selection)) {
+        const config = getBlockConfig(selection);
+        return config?.name || selection;
     }
+    const cleanType = selection.replace("minecraft:", "");
+    return cleanType
+        .split("_")
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(" ");
 }

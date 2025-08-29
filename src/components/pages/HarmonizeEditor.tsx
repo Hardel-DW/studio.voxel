@@ -151,7 +151,7 @@ export default function HarmonizeEditor() {
                         const key = file.name + file.lastModified;
                         const imageUrl = files.objectUrls[key] || "";
                         return (
-                            <div key={key} className="relative group shrink-0" onClick={() => handleSelectImage(index)}>
+                            <button type="button" key={key} className="relative group shrink-0" onClick={() => handleSelectImage(index)}>
                                 <img
                                     src={imageUrl}
                                     alt={`Thumbnail ${index + 1}`}
@@ -167,7 +167,7 @@ export default function HarmonizeEditor() {
                                     aria-label={`Delete image ${index + 1}`}>
                                     <img alt="close button" src="/icons/close.svg" className="w-3 h-3 invert" />
                                 </button>
-                            </div>
+                            </button>
                         );
                     })}
                 </div>

@@ -8,16 +8,16 @@ export type BaseComponent = {
 };
 
 export const useElementCondition = (condition: Condition | undefined, elementId?: string): boolean => {
-    if (!condition) return false;
     const element = useElement(elementId);
+    if (!condition) return false;
 
     if (!element) return false;
     return condition(element);
 };
 
 export const useElementLocks = (locks: Lock[] | undefined, elementId?: string): LockRenderer => {
-    if (!locks) return { isLocked: false };
     const element = useElement(elementId);
+    if (!locks) return { isLocked: false };
 
     if (!element) return { isLocked: false };
     return checkLocks(locks, element);

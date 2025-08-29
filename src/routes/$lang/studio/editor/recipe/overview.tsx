@@ -4,7 +4,7 @@ import { Identifier, isVoxel } from "@voxelio/breeze";
 import { useState } from "react";
 import RecipeOverviewCard from "@/components/pages/recipe/RecipeOverviewCard";
 import RecipeSelector from "@/components/tools/elements/recipe/RecipeSelector";
-import { RECIPE_BLOCKS, RecipeBlockManager } from "@/components/tools/elements/recipe/recipeConfig";
+import { canBlockHandleRecipeType, getTypesFromSelection, RECIPE_BLOCKS } from "@/components/tools/elements/recipe/recipeConfig";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import { useInfiniteScroll } from "@/lib/hook/useInfiniteScroll";
 
@@ -19,14 +19,14 @@ function Page() {
     const filteredElements = [...elements.values()]
         .filter((el) => isVoxel(el, "recipe"))
         .filter((el) => !search || el.identifier.resource.toLowerCase().includes(search.toLowerCase()))
-        .filter((el) => RecipeBlockManager.getTypesFromSelection(selection).includes(el.type)) as RecipeProps[];
+        .filter((el) => getTypesFromSelection(selection).includes(el.type)) as RecipeProps[];
     const { visibleItems, hasMore, ref } = useInfiniteScroll(filteredElements, 16);
     const recipeCounts = new Map<string, number>(RECIPE_BLOCKS.map((block) => [block.id, 0]));
 
     for (const element of elements.values()) {
         if (!isVoxel(element, "recipe")) continue;
         for (const block of RECIPE_BLOCKS) {
-            if (RecipeBlockManager.canBlockHandleRecipeType(block.id, element.type)) {
+            if (canBlockHandleRecipeType(block.id, element.type)) {
                 recipeCounts.set(block.id, (recipeCounts.get(block.id) || 0) + 1);
             }
         }

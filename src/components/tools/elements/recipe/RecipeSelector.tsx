@@ -3,7 +3,7 @@ import { BoxHovered, BoxHoveredContent, BoxHoveredTrigger } from "@/components/u
 import { Button } from "@/components/ui/Button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/Dropdown";
 import { cn } from "@/lib/utils";
-import { RecipeBlockManager } from "./recipeConfig";
+import { getAllBlockIds, getDisplayBlockId, getDisplayName } from "./recipeConfig";
 
 const CRAFTING_TYPES = {
     crafting_shaped: { name: "Shaped", description: "Craft with a specific pattern" },
@@ -31,9 +31,9 @@ export default function RecipeSelector(props: {
     recipeCounts: Map<string, number>;
     selectMode?: boolean;
 }) {
-    const blockIds = RecipeBlockManager.getAllBlockIds(true);
-    const displayBlockId = RecipeBlockManager.getDisplayBlockId(props.value);
-    const displayName = RecipeBlockManager.getDisplayName(props.value);
+    const blockIds = getAllBlockIds(true);
+    const displayBlockId = getDisplayBlockId(props.value);
+    const displayName = getDisplayName(props.value);
 
     return (
         <BoxHovered>
@@ -64,7 +64,8 @@ export default function RecipeSelector(props: {
                             const count = props.recipeCounts.get(blockId) || 0;
                             const isEnabled = props.selectMode || count > 0;
                             return (
-                                <div
+                                <button
+                                    type="button"
                                     onClick={() => isEnabled && props.onChange(blockId)}
                                     key={blockId}
                                     className={cn(
@@ -79,7 +80,7 @@ export default function RecipeSelector(props: {
                                             {count}
                                         </span>
                                     )}
-                                </div>
+                                </button>
                             );
                         })}
                     </div>

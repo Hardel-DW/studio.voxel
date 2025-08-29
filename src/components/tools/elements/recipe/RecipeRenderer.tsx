@@ -1,7 +1,7 @@
 import type { RecipeProps } from "@voxelio/breeze";
 import Loader from "@/components/ui/Loader";
 import dynamic from "@/lib/utils/dynamic";
-import { RecipeBlockManager } from "./recipeConfig";
+import { getBlockByRecipeType } from "./recipeConfig";
 
 const CraftingTemplate = dynamic(() => import("./template/CraftingTemplate"), {
     loading: () => <Loader />,
@@ -34,7 +34,7 @@ const templateMap = {
 } as const;
 
 export default function RecipeRenderer({ element }: { element: RecipeProps }) {
-    const blockConfig = RecipeBlockManager.getBlockByRecipeType(element.type);
+    const blockConfig = getBlockByRecipeType(element.type);
     if (!blockConfig) return null;
 
     const Template = templateMap[blockConfig.id as keyof typeof templateMap];

@@ -1,6 +1,6 @@
 import { compileDatapack, Datapack, Logger, parseDatapack, voxelDatapacks } from "@voxelio/breeze/core";
 import type React from "react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Toaster, toast } from "sonner";
 import { LinkButton } from "@/components/ui/Button";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/Dialog";
@@ -81,7 +81,11 @@ export default function MigrationTool({ children }: { children?: React.ReactNode
             console.error("Migration failed:", error);
             toast.error("Failed to apply migration changes");
         }
-    };
+    }, [sourceFiles, targetFiles, dictionary, addConfetti]);
+
+    useEffect(() => {
+        if (sourceFiles && targetFiles) handleMigration();
+    }, [sourceFiles, targetFiles, handleMigration]);
 
     const handleSourceUpload = async (files: FileList) => {
         const result = await parseDatapack(files[0]);

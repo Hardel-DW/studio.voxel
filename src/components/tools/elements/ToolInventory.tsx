@@ -39,7 +39,8 @@ export default function ToolInventory({ search }: { search: string }) {
                 .map((item) => {
                     const isDragging = draggedItem === item;
                     return (
-                        <div
+                        <button
+                            type="button"
                             key={item}
                             className={`relative overflow-hidden bg-zinc-900/20 border border-zinc-800 hover:border-zinc-600 rounded-lg p-3 cursor-grab active:cursor-grabbing transition-all hover:bg-zinc-900/40 group ${isDragging ? "opacity-50" : ""}`}
                             draggable={true}
@@ -52,7 +53,7 @@ export default function ToolInventory({ search }: { search: string }) {
                             <div className="absolute inset-0 -z-10 brightness-25 opacity-0 group-hover:opacity-100 transition-opacity">
                                 <img src="/images/shine.avif" alt="Shine" />
                             </div>
-                        </div>
+                        </button>
                     );
                 })}
         </div>

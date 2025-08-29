@@ -1,7 +1,7 @@
 import { isVoxel, type RecipeProps } from "@voxelio/breeze";
 import { Actions, RecipeActionBuilder } from "@voxelio/breeze/core";
 import { useState } from "react";
-import { RECIPE_BLOCKS, RecipeBlockManager } from "@/components/tools/elements/recipe/recipeConfig";
+import { getBlockByRecipeType, getFirstTypeFromSelection, RECIPE_BLOCKS } from "@/components/tools/elements/recipe/recipeConfig";
 import ToolCounter from "@/components/tools/elements/ToolCounter";
 import { getCurrentElement, useConfiguratorStore } from "@/components/tools/Store";
 import Loader from "@/components/ui/Loader";
@@ -25,17 +25,17 @@ const TAB_CONFIGS = {
         { label: "Trim", value: "minecraft:smithing_trim" }
     ]
 };
-
 export default function RecipeSection() {
     const currentElement = useConfiguratorStore((state) => getCurrentElement(state));
     const handleChange = useConfiguratorStore((state) => state.handleChange);
-    if (!currentElement || !isVoxel(currentElement, "recipe")) return null;
+    const currentBlock = currentElement && isVoxel(currentElement, "recipe") ? getBlockByRecipeType(currentElement.type) : undefined;
 
-    const currentBlock = RecipeBlockManager.getBlockByRecipeType(currentElement.type);
     const [selection, setSelection] = useState<string>(currentBlock?.id ?? RECIPE_BLOCKS[0].id);
 
+    if (!currentElement || !isVoxel(currentElement, "recipe")) return null;
+
     const handleSelectionChange = (newSelection: string) => {
-        const newRecipeType = RecipeBlockManager.getFirstTypeFromSelection(newSelection);
+        const newRecipeType = getFirstTypeFromSelection(newSelection);
         handleChange(new RecipeActionBuilder().convertType(newRecipeType).build());
         setSelection(newSelection);
     };

@@ -3,12 +3,10 @@ import { useTranslate } from "@/lib/hook/useTranslation";
 export type TranslateTextType = string | { key: string };
 
 export default function Translate({ content, schema }: { content: TranslateTextType | string | undefined; schema?: boolean }) {
+    const translated = useTranslate(typeof content !== "string" ? content : { key: content });
     if (schema && typeof content === "string") {
         return <>{content}</>;
     }
-
-    const textObj: TranslateTextType | undefined = typeof content !== "string" ? content : { key: content };
-    const translated = useTranslate(textObj);
 
     // Show shimmer placeholder only for non-default namespaces that are still loading
     if (typeof content !== "string" && translated === content?.key && translated.includes(":")) {

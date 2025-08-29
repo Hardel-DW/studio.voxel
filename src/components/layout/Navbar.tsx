@@ -27,7 +27,7 @@ export default function Navbar({ dictionary, lang }: Props) {
     ];
 
     return (
-        <header id="header" aria-expanded="false" className="mt-8 fixed left-0 right-0 z-50 group">
+        <header id="header" className="mt-8 fixed left-0 right-0 z-50 group">
             <NavbarScrollFade>
                 <div className="flex items-center gap-4 pl-2">
                     <Link to="/$lang" params={{ lang }} className="flex items-center gap-x-4">

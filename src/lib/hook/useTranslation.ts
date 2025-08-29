@@ -12,12 +12,14 @@ export function useTranslateKey(key: string): string {
  * Hook to translate a TranslateTextType or string, use it for components
  */
 export function useTranslate(content: TranslateTextType | string | undefined, replace?: string[]): string {
+    const keyToTranslate = content && typeof content === "object" && content.key ? content.key : "";
+    const text = useTranslateKey(keyToTranslate);
+
     if (typeof content === "string" || content === undefined) {
         return content || "";
     }
 
     if (content && typeof content === "object" && content.key) {
-        const text = useTranslateKey(content.key);
         if (replace && replace.length > 0) {
             return replace.reduce((acc, rep) => acc.replace("%s", rep), text);
         }
