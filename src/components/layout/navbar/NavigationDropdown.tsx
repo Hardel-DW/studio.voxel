@@ -1,6 +1,6 @@
 import type React from "react";
-import NavigationContent from "./NavigationContent";
-import NavigationTrigger from "./NavigationTrigger";
+import NavigationContent from "@/components/layout/navbar/NavigationContent";
+import NavigationTrigger from "@/components/layout/navbar/NavigationTrigger";
 
 interface Props extends React.LiHTMLAttributes<HTMLLIElement> {
     label: string;

@@ -4,7 +4,6 @@ import ToolInline from "@/components/tools/elements/ToolInline";
 import ToolSlot from "@/components/tools/elements/ToolSlot";
 import { Actions } from "@voxelio/breeze/core";
 import type { EnchantmentProps } from "@voxelio/breeze/schema";
-import React from "react";
 
 // Structure data for Alfheim section
 const alfheimStructures = [

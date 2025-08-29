@@ -1,5 +1,3 @@
-"use client";
-
 import { cn } from "@/lib/utils";
 import type { ReactElement } from "react";
 import { cloneElement, isValidElement } from "react";

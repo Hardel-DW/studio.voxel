@@ -1,5 +1,4 @@
 import { clsx } from "@/lib/utils";
-import type React from "react";
 
 export default function Star({ className }: { className?: string }) {
     return (

@@ -4,7 +4,6 @@ import ToolSection from "@/components/tools/elements/ToolSection";
 import ToolSlot from "@/components/tools/elements/ToolSlot";
 import { EnchantmentActionBuilder } from "@voxelio/breeze/core";
 import type { EnchantmentProps } from "@voxelio/breeze/schema";
-import React from "react";
 
 export default function EnchantSlotsSection() {
     return (

@@ -1,5 +1,5 @@
-import dynamic from "next/dynamic";
-import { RecipeProps } from "@voxelio/breeze";
+import dynamic from "@/lib/utils/dynamic";
+import type { RecipeProps } from "@voxelio/breeze";
 import Loader from "@/components/ui/Loader";
 import { RecipeBlockManager } from "./recipeConfig";
 

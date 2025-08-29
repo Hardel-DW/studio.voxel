@@ -1,7 +1,5 @@
-"use client";
-
+import { type Line, animateLines, createLine } from "@/components/ui/line/LineAnimationUtils";
 import { useEffect, useRef } from "react";
-import { type Line, animateLines, createLine } from "./LineAnimationUtils";
 
 interface LineBackgroundProps {
     className?: string;

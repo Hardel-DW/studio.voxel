@@ -1,4 +1,3 @@
-"use client";
 
 import { useConfiguratorStore } from "@/components/tools/Store";
 import { CONCEPTS } from "@/components/tools/elements";

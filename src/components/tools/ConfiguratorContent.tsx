@@ -1,9 +1,7 @@
-"use client";
-
 import { MenuTabsContent } from "@/components/ui/MenuTabs";
 import type { ReactNode } from "react";
-import Translate from "./Translate";
-import type { Tab } from "./elements";
+import Translate from "@/components/tools/Translate";
+import type { Tab } from "@/components/tools/elements";
 
 export default function ConfiguratorContent(props: { tab: Tab; children: ReactNode }) {
     return (

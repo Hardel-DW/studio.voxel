@@ -1,5 +1,5 @@
-import { cn } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
+import { cn } from "@/lib/utils";
 
 const user = "Hardel-DW";
 const repo = "voxel.atlas";

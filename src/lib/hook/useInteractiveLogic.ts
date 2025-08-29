@@ -1,6 +1,4 @@
-"use client";
-
-import { useConfiguratorStore, getCurrentElement } from "@/components/tools/Store";
+import { useConfiguratorStore } from "@/components/tools/Store";
 import type { LockRenderer, Lock } from "../utils/lock";
 import { type BaseComponent, useElement, useElementLocks } from "@/lib/hook/useBreezeElement";
 import type { Action, ActionValue } from "@voxelio/breeze/core";

@@ -1,4 +1,3 @@
-"use client";
 
 import DownloadButton from "@/components/tools/DownloadButton";
 import { useConfiguratorStore } from "@/components/tools/Store";

@@ -1,13 +1,11 @@
-"use client";
-
 import { useConfiguratorStore } from "@/components/tools/Store";
-import React, { useMemo, type PropsWithChildren } from "react";
-import { MenuTabs, MenuTabsList, MenuTabsTrigger } from "../ui/MenuTabs";
-import ConfiguratorContent from "./ConfiguratorContent";
-import LazyTabs from "./LazyTabs";
-import Translate from "./Translate";
-import { CONCEPTS } from "./elements";
-import OverviewManager from "./section/OverviewManager";
+import { useMemo } from "react";
+import { MenuTabs, MenuTabsList, MenuTabsTrigger } from "@/components/ui/MenuTabs";
+import ConfiguratorContent from "@/components/tools/ConfiguratorContent";
+import LazyTabs from "@/components/tools/LazyTabs";
+import Translate from "@/components/tools/Translate";
+import { CONCEPTS } from "@/components/tools/elements";
+import OverviewManager from "@/components/tools/section/OverviewManager";
 
 export default function ConfiguratorPanel() {
     const currentConcept = useConfiguratorStore((state) => state.selectedConcept);

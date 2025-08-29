@@ -1,5 +1,3 @@
-"use client";
-
 import { createDisclosureContext } from "@/components/ui/DisclosureContext";
 import { useBoxPosition } from "@/lib/hook/useBoxPosition";
 import { usePopoverVisibility } from "@/lib/hook/usePopoverVisibility";
@@ -65,10 +63,10 @@ export function BoxHoveredContent(props: {
     const position = useBoxPosition({ triggerRef, contentRef, open });
     if (!isVisible) return null;
     const hasValidPosition = position.top > 0 && position.left > 0;
-
     return createPortal(
         <div
             ref={contentRef}
+            role="tooltip"
             style={{
                 position: "absolute",
                 top: `${position.top}px`,

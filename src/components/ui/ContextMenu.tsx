@@ -1,11 +1,8 @@
-"use client"
-
 import { createDisclosureContext } from "@/components/ui/DisclosureContext"
 import { useClickOutside } from "@/lib/hook/useClickOutside"
 import { usePopoverVisibility } from "@/lib/hook/usePopoverVisibility"
 import { cn } from "@/lib/utils"
-import * as React from "react"
-import type { ReactElement, ReactNode } from "react"
+import { cloneElement, type ReactElement, type ReactNode } from "react"
 import { createContext, useContext, useRef, useState } from "react"
 import { createPortal } from "react-dom"
 
@@ -65,7 +62,7 @@ export function ContextMenuTrigger(props: {
 
     return (
         <>
-            {React.cloneElement(props.children, {
+            {cloneElement(props.children, {
                 ref: triggerRef,
                 onContextMenu: handleContextMenu,
                 className: cn(props.children.props.className, props.className)

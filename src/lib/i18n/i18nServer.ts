@@ -1,4 +1,3 @@
-import "server-only";
 import type enDictionary from "../../i18n/en.json";
 
 export type DictionaryType = typeof enDictionary;

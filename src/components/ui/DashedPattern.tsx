@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
-import type { SVGProps } from "react";
+import { useId, type SVGProps } from "react";
 
-interface Props extends SVGProps<SVGSVGElement> {}
+interface Props extends SVGProps<SVGSVGElement> { }
 
 export function DashedPattern({ className, ...props }: Props) {
     return (
@@ -12,7 +12,7 @@ export function DashedPattern({ className, ...props }: Props) {
             )}
             {...props}>
             <defs>
-                <pattern id="grid" viewBox="0 0 64 64" width="32" height="32" patternUnits="userSpaceOnUse" x="0" y="0">
+                <pattern id={useId()} viewBox="0 0 64 64" width="32" height="32" patternUnits="userSpaceOnUse" x="0" y="0">
                     <path d="M64 0H0V64" fill="none" />
                 </pattern>
             </defs>

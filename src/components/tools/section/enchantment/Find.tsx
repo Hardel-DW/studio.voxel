@@ -6,7 +6,7 @@ import Loader from "@/components/ui/Loader";
 import { Actions } from "@voxelio/breeze/core";
 import type { EnchantmentProps } from "@voxelio/breeze/schema";
 import { isMinecraft, LockEntryBuilder } from "@/lib/utils/lock";
-import React, { lazy, Suspense } from "react";
+import { lazy, Suspense } from 'react';
 
 // Lazy load the addon components
 const LazyEnchantDNT = lazy(() => import("./FindDnt"));

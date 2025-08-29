@@ -1,10 +1,9 @@
-"use client";
 
 import Translate from "@/components/tools/Translate";
 import { LinkButton } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
 import { memo } from "react";
-import type { ToolRevealCardData } from "./ToolReveal";
+import type { ToolRevealCardData } from "@/components/tools/elements/schema/reveal/ToolReveal";
 
 interface ToolRevealElementProps {
     element: ToolRevealCardData;
@@ -16,7 +15,9 @@ const ToolRevealElement = memo(function ToolRevealElement({ element, isSelected,
     const handleClick = () => onSelect();
 
     return (
-        <div
+        <button
+            type="button"
+            tabIndex={0}
             onClick={handleClick}
             onKeyDown={handleClick}
             className="transition-all stack group cursor-pointer rounded-2xl border border-zinc-800">
@@ -56,7 +57,7 @@ const ToolRevealElement = memo(function ToolRevealElement({ element, isSelected,
                     </p>
                 </div>
             </div>
-        </div>
+        </button>
     );
 });
 

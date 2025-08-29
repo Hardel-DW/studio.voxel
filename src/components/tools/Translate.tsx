@@ -1,5 +1,3 @@
-"use client";
-
 import { useTranslate } from "@/lib/hook/useTranslation";
 
 export type TranslateTextType = string | { key: string };

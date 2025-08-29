@@ -1,4 +1,3 @@
-"use client";
 
 import { useTooltipStore } from "@/components/tools/elements/tooltip/useTooltip";
 import { useTooltipPosition } from "@/lib/hook/useTooltipPosition";

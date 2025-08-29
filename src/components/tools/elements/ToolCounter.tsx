@@ -1,4 +1,3 @@
-"use client";
 
 import type { BaseInteractiveComponent } from "@/lib/hook/useInteractiveLogic";
 import CounterUI from "@/components/ui/Counter";

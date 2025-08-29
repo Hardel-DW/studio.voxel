@@ -1,4 +1,3 @@
-"use client";
 
 import { getCurrentElement, useConfiguratorStore } from "@/components/tools/Store";
 import { useShallow } from "zustand/shallow";

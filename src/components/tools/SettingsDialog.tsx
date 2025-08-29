@@ -1,7 +1,6 @@
-"use client";
-
 import { useConfiguratorStore } from "@/components/tools/Store";
-import Translate from "./Translate";
+import Translate from "@/components/tools/Translate";
+
 export default function SettingsDialog() {
     const name = useConfiguratorStore((state) => state.name);
     const isModded = useConfiguratorStore((state) => state.isModded);

@@ -1,7 +1,5 @@
-"use client";
-
-import RecipeSlot from "../RecipeSlot";
-import RecipeTemplateBase from "../RecipeTemplateBase";
+import RecipeSlot from "@/components/tools/elements/recipe/RecipeSlot";
+import RecipeTemplateBase from "@/components/tools/elements/recipe/RecipeTemplateBase";
 
 // Items ARE ALWAYS an array. And Tags ARE ALWAYS a string. A tags can't be in an array. !!!
 interface CraftingTemplateProps {
@@ -18,7 +16,7 @@ export default function CraftingTemplate({ slots, result }: CraftingTemplateProp
             <div className="grid grid-cols-3 gap-1">
                 {Array.from({ length: 9 }, (_, index) => (
                     <RecipeSlot
-                        key={index}
+                        key={index.toString()}
                         slotIndex={index.toString()}
                         item={slots[index.toString()]}
                         interactive={true}

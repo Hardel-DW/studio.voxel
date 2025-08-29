@@ -1,4 +1,4 @@
-import LineBackground from "./LineBackground";
+import LineBackground from "@/components/ui/line/LineBackground";
 
 export default function LineSetup() {
     return (

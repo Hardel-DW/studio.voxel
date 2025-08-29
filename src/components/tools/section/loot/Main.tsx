@@ -1,4 +1,3 @@
-import React from "react";
 import LootViewer from "@/components/tools/elements/loot/LootViewer";
 import { getCurrentElement, useConfiguratorStore } from "@/components/tools/Store";
 import { isVoxel, LootTableActionBuilder, type LootTableProps } from "@voxelio/breeze";

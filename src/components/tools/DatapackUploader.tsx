@@ -1,18 +1,15 @@
-"use client";
-
 import { useConfiguratorStore } from "@/components/tools/Store";
 import Dropzone from "@/components/ui/Dropzone";
 import useAsyncError from "@/lib/hook/useAsyncError";
 import { useDictionary } from "@/lib/hook/useNext18n";
-import type { Locale } from "@/lib/i18n/i18nServer";
 import { parseDatapack } from "@voxelio/breeze/core";
 import { DatapackError } from "@voxelio/breeze/core";
-import { useParams, useRouter } from "next/navigation";
+import { useParams, useRouter } from "@tanstack/react-router";
 
 export default function DatapackUploader() {
     const dictionary = useDictionary();
     const router = useRouter();
-    const params = useParams<{ lang: Locale }>();
+    const { lang } = useParams({ from: "/$lang" });
     const throwError = useAsyncError();
 
     const handleFileUpload = async (files: FileList) => {
@@ -26,7 +23,7 @@ export default function DatapackUploader() {
             const version = result.version;
             if (!version) throw new DatapackError("tools.enchantments.warning.no_version");
             useConfiguratorStore.getState().setup(result);
-            router.push(`/${params.lang}/studio/editor`);
+            router.navigate({ to: '/$lang/studio/editor', params: { lang } });
         } catch (e: unknown) {
             if (e instanceof DatapackError) {
                 throwError(e.message);

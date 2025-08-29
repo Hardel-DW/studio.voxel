@@ -1,8 +1,6 @@
-"use client";
-
 import { cn } from "@/lib/utils";
 import type { ReactNode } from "react";
-import { createTabsContext } from "./TabsContext";
+import { createTabsContext } from "@/components/ui/TabsContext";
 
 const { Provider: TabsProvider, useTabs } = createTabsContext();
 

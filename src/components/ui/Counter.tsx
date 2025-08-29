@@ -1,5 +1,3 @@
-"use client";
-
 import { cn } from "@/lib/utils";
 import type React from "react";
 import { useRef, useState } from "react";
@@ -76,17 +74,17 @@ export default function Counter({ value, min, max, step, disabled, onChange }: C
 
     return (
         <div className="relative z-20 w-20 h-10 border-2 rounded-3xl border-solid border-zinc-700 hover:border-white border-opacity-20 transition-[width] duration-500 ease-in-out hover:w-32 hover:border-opacity-100 group">
-            <span
+            <button
+                type="button"
                 onClick={handleIncrease}
                 onKeyDown={handleSpanKeyDown}
-                role="button"
                 tabIndex={0}
                 className="group-hover:opacity-100 group-hover:right-3 absolute z-20 top-1/2 right-4 block w-3 h-3 border-t-2 border-r-2 border-white transform -translate-y-1/2 rotate-45 cursor-pointer opacity-0 transition duration-500 ease-in-out hover:opacity-100"
             />
-            <span
+            <button
+                type="button"
                 onClick={handleDecrease}
                 onKeyDown={handleSpanKeyDown}
-                role="button"
                 tabIndex={0}
                 className="group-hover:opacity-100 group-hover:left-3 absolute z-20 top-1/2 left-4 block w-3 h-3 border-t-2 border-l-2 border-white transform -translate-y-1/2 -rotate-45 cursor-pointer opacity-0 transition duration-500 ease-in-out hover:opacity-100"
             />
@@ -103,12 +101,13 @@ export default function Counter({ value, min, max, step, disabled, onChange }: C
                         className="w-16 text-center bg-transparent outline-none font-bold text-xl text-white"
                     />
                 ) : (
-                    <span
+                    <button
+                        type="button"
                         onClick={handleValueClick}
                         onKeyDown={handleSpanKeyDown}
                         className={cn("font-bold text-xl text-white cursor-text", disabled && "cursor-not-allowed")}>
                         {value}
-                    </span>
+                    </button>
                 )}
             </div>
         </div>

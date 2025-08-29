@@ -6,8 +6,7 @@ import Translate from "@/components/tools/Translate";
 import { Actions, Identifier, isVoxel } from "@voxelio/breeze/core";
 import type { EnchantmentProps } from "@voxelio/breeze/schema";
 import { isMinecraft } from "@/lib/utils/lock";
-import React from "react";
-import { getCurrentElement, useConfiguratorStore } from "../../Store";
+import { getCurrentElement, useConfiguratorStore } from "@/components/tools/Store";
 
 export default function EnchantTechnicalSection() {
     const currentElement = useConfiguratorStore((state) => getCurrentElement(state));

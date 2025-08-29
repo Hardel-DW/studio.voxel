@@ -1,5 +1,3 @@
-"use client";
-
 import OriginalToolRevealCard from "@/components/tools/elements/schema/reveal/ToolRevealElementType";
 import type { TranslateTextType } from "@/components/tools/Translate";
 import { cn } from "@/lib/utils";

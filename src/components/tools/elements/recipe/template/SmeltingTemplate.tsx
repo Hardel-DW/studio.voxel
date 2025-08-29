@@ -1,7 +1,5 @@
-"use client";
-
-import RecipeSlot from "../RecipeSlot";
-import RecipeTemplateBase from "../RecipeTemplateBase";
+import RecipeSlot from "@/components/tools/elements/recipe/RecipeSlot";
+import RecipeTemplateBase from "@/components/tools/elements/recipe/RecipeTemplateBase";
 
 interface SmeltingTemplateProps {
     slots: Record<string, string[] | string>;

@@ -1,7 +1,8 @@
 import { useEffect, useState, useMemo } from "react";
-import TextureRenderer from "./TextureRenderer";
+import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer";
 import useRegistry from "@/lib/hook/useRegistry";
-import { DataDrivenRegistryElement, Identifier, TagRegistry, TagsComparator, TagType } from "@voxelio/breeze";
+import { Identifier, TagsComparator } from "@voxelio/breeze";
+import type { DataDrivenRegistryElement, TagRegistry, TagType } from "@voxelio/breeze";
 import Loader from "@/components/ui/Loader";
 import ErrorPlaceholder from "@/components/tools/elements/error/ErrorPlaceholder";
 import { useConfiguratorStore } from "@/components/tools/Store";

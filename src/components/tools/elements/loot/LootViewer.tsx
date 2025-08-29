@@ -1,6 +1,6 @@
 import { useInteractiveLogic, type BaseInteractiveComponent } from "@/lib/hook/useInteractiveLogic";
 import type { TranslateTextType } from "@/components/tools/Translate";
-import RewardItem from "./RewardItem"
+import RewardItem from "@/components/tools/elements/loot/RewardItem"
 import type { LootItem, LootTableProps } from "@voxelio/breeze";
 import { LootTableProbabilityCalculator } from "@voxelio/breeze";
 import { useMemo } from "react";

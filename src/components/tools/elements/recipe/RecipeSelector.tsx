@@ -1,6 +1,6 @@
 import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer";
 import { BoxHovered, BoxHoveredContent, BoxHoveredTrigger } from "@/components/ui/BoxHovered";
-import { cn, ruwsc } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@/components/ui/Dropdown";
 import { Button } from "@/components/ui/Button";
 import { RecipeBlockManager } from "./recipeConfig";

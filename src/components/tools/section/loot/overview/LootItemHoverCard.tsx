@@ -1,4 +1,4 @@
-import { LootItem } from "@voxelio/breeze";
+import type { LootItem } from "@voxelio/breeze";
 import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer";
 import { ruwsc } from "@/lib/utils";
 

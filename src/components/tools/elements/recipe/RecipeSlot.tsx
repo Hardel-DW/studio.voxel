@@ -1,8 +1,6 @@
-"use client";
-
 import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer";
 import TagsRenderer from "@/components/tools/elements/texture/TagsRenderer";
-import { useTooltipStore } from "../tooltip/useTooltip";
+import { useTooltipStore } from "@/components/tools/elements/tooltip/useTooltip";
 import { useDragAndDrop } from "@/lib/hook/useDragAndDrop";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import { RecipeActionBuilder } from "@voxelio/breeze/core";
@@ -35,18 +33,19 @@ export default function RecipeSlot({ slotIndex, item, count, isEmpty = false, is
 
     return (
         <div className="relative">
-            <div
+            <button
+                type="button"
                 className="border border-zinc-600 rounded bg-zinc-800/50 size-12 flex items-center justify-center hover:border-zinc-500 transition-colors"
                 onMouseEnter={() => displayItem && setHoveredItem(displayItem)}
                 onMouseLeave={() => setHoveredItem(undefined)}
                 onDragOver={interactive ? handleDragOver : undefined}
                 onDrop={interactive && slotIndex ? (e) => handleDrop(e, slotIndex) : undefined}
-                onContextMenu={interactive && slotIndex ? (e) => handleSlotClear(slotIndex) : undefined}
+                onContextMenu={interactive && slotIndex ? () => handleSlotClear(slotIndex) : undefined}
             >
-                {!isEmpty && item && (
-                    isResult ? <TextureRenderer id={displayItem!} /> : <TagsRenderer items={item} />
+                {!isEmpty && item && displayItem && (
+                    isResult ? <TextureRenderer id={displayItem} /> : <TagsRenderer items={item} />
                 )}
-            </div>
+            </button>
             {count && count > 1 && (
                 <span className="absolute -bottom-1 -right-1 bg-zinc-900 border border-zinc-600 rounded text-xs px-1 text-zinc-300">
                     {count}

@@ -1,5 +1,3 @@
-"use client";
-
 export interface Line {
     x: number;
     y: number;

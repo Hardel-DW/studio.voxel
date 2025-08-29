@@ -1,7 +1,5 @@
-"use client";
-
 import { cn } from "@/lib/utils";
-import Link from "next/link";
+import { Link } from "@tanstack/react-router";
 import type React from "react";
 
 const variants = {
@@ -89,6 +87,16 @@ export function Button({
     );
 }
 
+interface LinkProps extends Props {
+    href: string;
+    to?: never;
+}
+
+interface RouterLinkProps extends Props {
+    to: string;
+    href?: never;
+}
+
 export function LinkButton({
     variant = variants.defaultVariant.variant,
     size = variants.defaultVariant.size,
@@ -96,20 +104,37 @@ export function LinkButton({
     ring = variants.defaultVariant.ring,
     className,
     href,
+    to,
     children,
     ...rest
-}: Props & React.AnchorHTMLAttributes<HTMLAnchorElement>) {
+}: (LinkProps | RouterLinkProps) & Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'href'>) {
+    const linkUrl = href || to || "/";
+    const isExternal = href && (href.startsWith('http') || href.startsWith('mailto:'));
+
+    const linkClassName = cn([
+        "inline-flex items-center justify-center whitespace-nowrap cursor-pointer truncate text-sm font-medium ring-offset-background transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+        variants.variant[variant],
+        variants.size[size],
+        variants.rounded[rounded],
+        variants.ring[ring],
+        className
+    ]);
+
+    if (isExternal) {
+        return (
+            <a
+                href={linkUrl}
+                className={linkClassName}
+                {...rest}>
+                {children}
+            </a>
+        );
+    }
+
     return (
         <Link
-            href={href || "/"}
-            className={cn([
-                "inline-flex items-center justify-center whitespace-nowrap cursor-pointer truncate text-sm font-medium ring-offset-background transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
-                variants.variant[variant],
-                variants.size[size],
-                variants.rounded[rounded],
-                variants.ring[ring],
-                className
-            ])}
+            to={linkUrl}
+            className={linkClassName}
             {...rest}>
             {children}
         </Link>

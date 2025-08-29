@@ -1,11 +1,10 @@
-"use client";
 
 import ToolGrid from "@/components/tools/elements/ToolGrid";
 import ToolSectionSelector from "@/components/tools/elements/ToolSectionSelector";
 import ToolSlot from "@/components/tools/elements/ToolSlot";
 import { Actions } from "@voxelio/breeze/core";
 import type { EnchantmentProps } from "@voxelio/breeze/schema";
-import React, { useState } from "react";
+import { useState } from 'react';
 
 const items = {
     sword: "#minecraft:enchantable/sword",

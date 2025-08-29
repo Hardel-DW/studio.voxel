@@ -1,4 +1,3 @@
-"use client";
 
 import { useConfiguratorStore } from "../../Store";
 import { SidebarItem } from "../SidebarItem";

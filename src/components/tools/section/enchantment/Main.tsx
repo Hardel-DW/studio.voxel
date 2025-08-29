@@ -5,7 +5,6 @@ import ToolSection from "@/components/tools/elements/ToolSection";
 import ToolSelector from "@/components/tools/elements/ToolSelector";
 import { Actions } from "@voxelio/breeze/core";
 import type { EnchantmentProps } from "@voxelio/breeze/schema";
-import React from "react";
 import { LockEntryBuilder } from "@/lib/utils/lock";
 import TemplateCard from "@/components/tools/elements/template/Card";
 

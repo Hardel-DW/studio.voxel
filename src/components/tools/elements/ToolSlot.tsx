@@ -1,4 +1,3 @@
-"use client";
 
 import Translate from "@/components/tools/Translate";
 import { getKey } from "@/lib/utils/translation";

@@ -1,4 +1,3 @@
-"use client";
 
 import ToolSectionSelector from "@/components/tools/elements/ToolSectionSelector";
 import Loader from "@/components/ui/Loader";

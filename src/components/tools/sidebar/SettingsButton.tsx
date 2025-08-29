@@ -1,10 +1,9 @@
-"use client";
 
 import { useConfiguratorStore } from "@/components/tools/Store";
 import { Button } from "@/components/ui/Button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/Popover";
 import { useDebugStore } from "@/components/tools/debug/DebugStore";
-import dynamic from "next/dynamic";
+import dynamic from "@/lib/utils/dynamic";
 import Translate from "@/components/tools/Translate";
 import { useTranslateKey } from "@/lib/hook/useTranslation";
 

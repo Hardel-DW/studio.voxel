@@ -2,7 +2,7 @@ import { Identifier, isVoxel } from "@voxelio/breeze";
 import type { LootTableProps } from "@voxelio/breeze/schema";
 import { useState } from "react";
 import { useConfiguratorStore } from "@/components/tools/Store";
-import LootOverviewCard from "./LootOverviewCard";
+import LootOverviewCard from "@/components/tools/section/loot/overview/LootOverviewCard";
 
 export default function Overview() {
     const [search, setSearch] = useState("");

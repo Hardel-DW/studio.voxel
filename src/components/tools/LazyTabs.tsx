@@ -1,4 +1,4 @@
-import dynamic from "next/dynamic";
+import dynamic from "@/lib/utils/dynamic";
 import Loader from "../ui/Loader";
 
 export default function LazyTabs(componentName: string) {

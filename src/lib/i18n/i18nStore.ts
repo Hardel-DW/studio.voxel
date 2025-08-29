@@ -1,4 +1,3 @@
-"use client";
 
 import { create } from "zustand";
 import enUsDefault from "@/i18n/studio/en-us.json";

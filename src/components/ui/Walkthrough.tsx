@@ -1,5 +1,3 @@
-"use client";
-
 import { startTransition, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
@@ -189,9 +187,9 @@ export default function Walkthrough({ steps }: { steps: WalkthroughStep[] }) {
 
             {isOpen &&
                 createPortal(
-                    <div className="fixed inset-0 z-50" aria-modal="true" aria-labelledby="walkthrough-title">
+                    <div className="fixed inset-0 z-50">
                         {/* Overlay de fond */}
-                        <div className="absolute inset-0 bg-black/50" onClick={close} />
+                        <div className="absolute inset-0 bg-black/50" />
 
                         {/* Highlight de l'élément cible */}
                         <div
@@ -215,7 +213,7 @@ export default function Walkthrough({ steps }: { steps: WalkthroughStep[] }) {
                         <div
                             ref={contentRef}
                             className="fixed bottom-0 left-1/2 -translate-x-1/2 w-[90%] max-w-2xl mb-8 p-6 bg-zinc-900/80 backdrop-blur-md rounded-2xl border border-zinc-800 transition-all duration-300">
-                            <h3 id="walkthrough-title" className="text-xl font-bold text-white mb-2">
+                            <h3 className="text-xl font-bold text-white mb-2">
                                 {steps[currentStep].title}
                             </h3>
                             <p className="text-zinc-300 mb-6">{steps[currentStep].description}</p>

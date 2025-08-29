@@ -1,5 +1,5 @@
 {
-    "$schema": "https://biomejs.dev/schemas/1.9.3/schema.json",
+    "$schema": "https://biomejs.dev/schemas/2.2.2/schema.json",
     "formatter": {
         "enabled": true,
         "formatWithErrors": false,
@@ -9,10 +9,13 @@
         "lineWidth": 140,
         "attributePosition": "auto"
     },
-    "organizeImports": { "enabled": true },
     "css": {
-        "formatter": { "enabled": false },
-        "linter": { "enabled": false }
+        "formatter": {
+            "enabled": false
+        },
+        "linter": {
+            "enabled": false
+        }
     },
     "linter": {
         "enabled": true,
@@ -23,22 +26,20 @@
             "complexity": {
                 "noBannedTypes": "off"
             },
-            "nursery": {
-                "useComponentExportOnlyModules": {
-                    "level": "warn",
-                    "options": {
-                        "allowExportNames": ["metadata", "viewport", "generateStaticParams"]
-                    }
-                }
-            },
+            "nursery": {},
             "a11y": {
                 "noSvgWithoutTitle": "off",
                 "useKeyWithClickEvents": "off"
             },
-            "recommended": true
+            "recommended": true,
+            "style": {
+                "useComponentExportOnlyModules": {
+                    "level": "off",
+                    "options": {}
+                }
+            }
         }
     },
-
     "javascript": {
         "formatter": {
             "jsxQuoteStyle": "double",

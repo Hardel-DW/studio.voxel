@@ -4,7 +4,6 @@ import ToolGrid from "@/components/tools/elements/ToolGrid";
 import ToolSlot from "@/components/tools/elements/ToolSlot";
 import { Actions } from "@voxelio/breeze/core";
 import type { EnchantmentProps } from "@voxelio/breeze/schema";
-import React from "react";
 
 // Structure data for global biomes section
 const biomeStructures = [

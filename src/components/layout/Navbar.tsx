@@ -1,6 +1,5 @@
 import type { DictionaryType, Locale } from "@/lib/i18n/i18nServer";
-import Link from "next/link";
-import type React from "react";
+import { Link } from "@tanstack/react-router";
 import HeroCard from "./navbar/HeroCard";
 import ListItem from "./navbar/ListItem";
 import MobileMenuButton from "./navbar/MobileMenuButton";
@@ -31,7 +30,7 @@ export default function Navbar({ dictionary, lang }: Props) {
         <header id="header" aria-expanded="false" className="mt-8 fixed left-0 right-0 z-50 group">
             <NavbarScrollFade>
                 <div className="flex items-center gap-4 pl-2">
-                    <Link href={`/${lang}`} className="flex items-center gap-x-4">
+                    <Link to="/$lang" params={{ lang }} className="flex items-center gap-x-4">
                         <img src="/icons/logo.svg" alt="Voxel Logo" className="w-6 h-6 brightness-90 mx-2" />
                         <div className="flex">
                             <span className="text-lg text-white font-bold">VOXEL</span>
@@ -43,11 +42,11 @@ export default function Navbar({ dictionary, lang }: Props) {
                         <Navigation>
                             <NavigationList>
                                 <li>
-                                    <Link
+                                    <a
                                         href={`${baseVoxelPath}/${lang}/blog`}
                                         className="px-4 py-2 rounded-3xl cursor-pointer text-[16px] tracking-wide transition text-zinc-400 hover:text-white inline-flex h-10 w-max items-center justify-center bg-transparent hover:bg-zinc-900 focus:bg-zinc-700 focus:text-white focus:outline-none disabled:pointer-events-none disabled:opacity-50">
                                         {dictionary.navbar.item.blog}
-                                    </Link>
+                                    </a>
                                 </li>
 
                                 <NavigationDropdown label={dictionary.navbar.item.data_pack}>
@@ -107,11 +106,11 @@ export default function Navbar({ dictionary, lang }: Props) {
                                 </NavigationDropdown>
 
                                 <li>
-                                    <Link
+                                    <a
                                         href={`${baseVoxelPath}/${lang}/contact`}
                                         className="px-4 py-2 rounded-3xl cursor-pointer text-[16px] tracking-wide transition text-zinc-400 hover:text-white inline-flex h-10 w-max items-center justify-center bg-transparent hover:bg-zinc-900 focus:bg-zinc-700 focus:text-white focus:outline-none disabled:pointer-events-none disabled:opacity-50">
                                         {dictionary.navbar.item.contact}
-                                    </Link>
+                                    </a>
                                 </li>
                             </NavigationList>
                         </Navigation>
@@ -162,13 +161,13 @@ export default function Navbar({ dictionary, lang }: Props) {
                 <div className="size-full flex flex-col gap-y-2">
                     <div className="py-2">
                         {links.map((item) => (
-                            <Link
+                            <a
                                 key={item.href}
                                 href={item.href}
                                 className="rounded-3xl px-4 py-3 leading-none flex justify-between transition-colors text-zinc-400 hover:bg-zinc-700/10 hover:text-white">
                                 <span>{item.name}</span>
                                 <img src="/icons/chevron-right.svg" alt="" className="w-4 h-4 invert" />
-                            </Link>
+                            </a>
                         ))}
                     </div>
                     <div className="mb-4 flex justify-center gap-x-4 sm:gap-x-8 pt-2 border-t border-zinc-700/50">

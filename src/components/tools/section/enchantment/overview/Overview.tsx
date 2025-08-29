@@ -7,7 +7,6 @@ import { useConfiguratorStore } from "@/components/tools/Store";
 import EnchantOverviewCard from "./EnchantOverviewCard";
 
 type EnchantmentProps = Analysers["enchantment"]["voxel"];
-const UNCATEGORIZED_KEY = "#minecraft:undefined";
 
 export default function Overview() {
     const [search, setSearch] = useState("");
@@ -73,29 +72,29 @@ function getItemFromMultipleOrOne(element: string | string[]): { isTag: boolean;
  * Groups elements by their exclusiveSet property
  * String[] and undefined exclusiveSets are grouped under UNCATEGORIZED_KEY
  */
-function groupElementsByExclusiveSet(
-    elements: Map<string, Analysers[keyof Analysers]["voxel"]>,
-    key: string,
-    search: string
-): Map<string, EnchantmentProps[]> {
-    const groups = new Map<string, EnchantmentProps[]>();
-    groups.set(UNCATEGORIZED_KEY, []);
+// function groupElementsByExclusiveSet(
+//     elements: Map<string, Analysers[keyof Analysers]["voxel"]>,
+//     key: string,
+//     search: string
+// ): Map<string, EnchantmentProps[]> {
+//     const groups = new Map<string, EnchantmentProps[]>();
+//     groups.set(UNCATEGORIZED_KEY, []);
 
-    for (const element of elements.values()) {
-        if (!isVoxel(element, "enchantment")) {
-            continue;
-        }
+//     for (const element of elements.values()) {
+//         if (!isVoxel(element, "enchantment")) {
+//             continue;
+//         }
 
-        const category = typeof element[key] === "string" ? element[key] : UNCATEGORIZED_KEY;
+//         const category = typeof element[key] === "string" ? element[key] : UNCATEGORIZED_KEY;
 
-        if (search && !element.identifier.resource.toLowerCase().includes(search.toLowerCase())) {
-            continue;
-        }
+//         if (search && !element.identifier.resource.toLowerCase().includes(search.toLowerCase())) {
+//             continue;
+//         }
 
-        const categoryElements = groups.get(category) || [];
-        categoryElements.push(element);
-        groups.set(category, categoryElements);
-    }
+//         const categoryElements = groups.get(category) || [];
+//         categoryElements.push(element);
+//         groups.set(category, categoryElements);
+//     }
 
-    return groups;
-}
+//     return groups;
+// }

@@ -1,4 +1,3 @@
-"use client";
 
 import ErrorBoundary from "@/components/ui/ErrorBoundary";
 import { useElementCondition } from "@/lib/hook/useBreezeElement";

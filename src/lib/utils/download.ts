@@ -4,7 +4,7 @@
  * @param filename Le nom du fichier
  * @param type Le type MIME du fichier
  */
-export const downloadFile = async (content: Response, filename: string, type: string) => {
+export const downloadFile = async (content: Response, filename: string) => {
     if (typeof window === "undefined") return;
 
     const blob = await content.blob();
@@ -24,7 +24,7 @@ export const downloadFile = async (content: Response, filename: string, type: st
  */
 export const downloadArchive = (content: Response, name: string, isModded = false) => {
     const extension = isModded ? "jar" : "zip";
-    downloadFile(content, `${name}.${extension}`, `application/${extension}`);
+    downloadFile(content, `${name}.${extension}`);
 };
 
 /**

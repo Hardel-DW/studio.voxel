@@ -5,7 +5,7 @@ import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer
 import { useConfiguratorStore } from "@/components/tools/Store";
 import SimpleSwitch from "@/components/tools/elements/SimpleSwitch";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/Popover";
-import LootItemHoverCard from "./LootItemHoverCard";
+import LootItemHoverCard from "@/components/tools/section/loot/overview/LootItemHoverCard";
 
 export default function LootOverviewCard(props: {
     element: LootTableProps;

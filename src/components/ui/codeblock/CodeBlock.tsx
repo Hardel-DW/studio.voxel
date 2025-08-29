@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
-import ButtonCopy from "./ButtonCopy";
-import ButtonDownload from "./ButtonDownload";
-import HighlightSection from "./HighlightSection";
+import ButtonCopy from "@/components/ui/codeblock/ButtonCopy";
+import ButtonDownload from "@/components/ui/codeblock/ButtonDownload";
+import HighlightSection from "@/components/ui/codeblock/HighlightSection";
 
 export default function CodeBlock(props: {
     children: string;

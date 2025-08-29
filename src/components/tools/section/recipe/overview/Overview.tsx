@@ -1,11 +1,11 @@
 import { Identifier, isVoxel } from "@voxelio/breeze";
-import type { Analysers, RecipeProps } from "@voxelio/breeze";
+import type { RecipeProps } from "@voxelio/breeze";
 import { useState } from "react";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import RecipeOverviewCard from "./RecipeOverviewCard";
 import { useInfiniteScroll } from "@/lib/hook/useInfiniteScroll";
-import { RecipeBlockManager, RECIPE_BLOCKS } from "../../../elements/recipe/recipeConfig";
-import dynamic from "next/dynamic";
+import { RecipeBlockManager, RECIPE_BLOCKS } from "@/components/tools/elements/recipe/recipeConfig";
+import dynamic from "@/lib/utils/dynamic";
 import Loader from "@/components/ui/Loader";
 
 const RecipeSelector = dynamic(() => import("@/components/tools/elements/recipe/RecipeSelector"), {

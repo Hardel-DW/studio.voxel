@@ -1,4 +1,4 @@
-import { isVoxel, RecipeProps } from "@voxelio/breeze";
+import { isVoxel, type RecipeProps } from "@voxelio/breeze";
 import { getCurrentElement, useConfiguratorStore } from "@/components/tools/Store";
 import { RecipeBlockManager, RECIPE_BLOCKS } from "@/components/tools/elements/recipe/recipeConfig";
 import { useState } from "react";
@@ -6,7 +6,7 @@ import RecipeRenderer from "./RecipeRenderer";
 import ToolCounter from "@/components/tools/elements/ToolCounter";
 import { Actions, RecipeActionBuilder } from "@voxelio/breeze/core";
 import Tabs from "@/components/ui/Tabs";
-import dynamic from "next/dynamic";
+import dynamic from "@/lib/utils/dynamic";
 import Loader from "@/components/ui/Loader";
 
 const RecipeSelector = dynamic(() => import("./RecipeSelector"), {

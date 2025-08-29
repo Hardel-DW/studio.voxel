@@ -1,13 +1,11 @@
-"use client";
-
 import { useClickOutside } from "@/lib/hook/useClickOutside";
 import { usePopoverVisibility } from "@/lib/hook/usePopoverVisibility";
 import { cn } from "@/lib/utils";
 import type { ReactElement, ReactNode } from "react";
 import { createContext, useContext, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { createDisclosureContext } from "./DisclosureContext";
-import { Trigger } from "./Trigger";
+import { createDisclosureContext } from "@/components/ui/DisclosureContext";
+import { Trigger } from "@/components/ui/Trigger";
 
 const { Provider: BaseDialogProvider, useDisclosure: useDialog } = createDisclosureContext<HTMLButtonElement>();
 

@@ -1,15 +1,12 @@
-"use client";
-
 import { useConfiguratorStore } from "@/components/tools/Store";
-import type { Locale } from "@/lib/i18n/i18nServer";
-import { useParams } from "next/navigation";
+import { useParams } from "@tanstack/react-router";
 import type { PropsWithChildren } from "react";
-import { LinkButton } from "../ui/Button";
+import { LinkButton } from "@/components/ui/Button";
 import Translate from "@/components/tools/Translate";
-import ItemTooltip from "./elements/tooltip/ItemTooltip";
+import ItemTooltip from "@/components/tools/elements/tooltip/ItemTooltip";
 
 export default function ConfigManager(props: PropsWithChildren) {
-    const params = useParams<{ lang: Locale }>();
+    const { lang } = useParams({ from: "/$lang" });
     const hasElements = useConfiguratorStore((state) => state.elements.size > 0);
 
     return (
@@ -27,7 +24,7 @@ export default function ConfigManager(props: PropsWithChildren) {
                     <div className="w-1/2">
                         <hr />
                     </div>
-                    <LinkButton variant="white-shimmer" size="sm" href={`/${params.lang}/studio`}>
+                    <LinkButton variant="white-shimmer" size="sm" href={`/${lang}/studio`}>
                         <Translate content="back" />
                     </LinkButton>
                 </div>

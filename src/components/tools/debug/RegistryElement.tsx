@@ -14,13 +14,20 @@ export function RegistryElement({ uniqueKey, selectedElement, onElementSelect }:
     const identifier = Identifier.fromUniqueKey(uniqueKey);
     const isSelected = selectedElement === uniqueKey;
 
+    const handleKeyDown = (event: React.KeyboardEvent) => {
+        if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            onElementSelect(uniqueKey);
+        }
+    };
+
     return (
-        <div
-            key={uniqueKey}
+        <button
+            type="button"
             onClick={() => onElementSelect(uniqueKey)}
-            onKeyDown={() => onElementSelect(uniqueKey)}
+            onKeyDown={handleKeyDown}
             className={cn(
-                "border-zinc-800 relative cursor-pointer border-t border-b rounded-lg p-2 bg-zinc-900/10 hover:bg-zinc-800/10 transition-colors w-full",
+                "border-zinc-800 relative cursor-pointer border-t border-b rounded-lg p-2 bg-zinc-900/10 hover:bg-zinc-800/10 transition-colors w-full text-left",
                 {
                     "border-red-950": labeledElement?.type === "deleted",
                     "border-green-950": labeledElement?.type === "new",
@@ -37,6 +44,6 @@ export function RegistryElement({ uniqueKey, selectedElement, onElementSelect }:
                 {identifier.toResourceName()}
             </div>
             <small className="text-xs text-gray-400">{identifier.toString()}</small>
-        </div>
+        </button>
     );
 }

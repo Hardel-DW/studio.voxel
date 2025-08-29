@@ -1,4 +1,4 @@
-import { type RecipeProps } from "@voxelio/breeze";
+import type { RecipeProps } from "@voxelio/breeze";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import ErrorPlaceholder from "@/components/tools/elements/error/ErrorPlaceholder";
 import ErrorBoundary from "@/components/ui/ErrorBoundary";
