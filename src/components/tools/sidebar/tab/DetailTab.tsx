@@ -1,4 +1,3 @@
-
 import { useConfiguratorStore } from "@/components/tools/Store";
 import SidebarCrafting from "@/components/tools/sidebar/crafting/SidebarCrafting";
 import SidebarEnchant from "@/components/tools/sidebar/enchant/SidebarEnchant";

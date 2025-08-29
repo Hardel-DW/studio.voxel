@@ -1,13 +1,9 @@
-import { cn } from "@/lib/utils";
-import { useId, useEffect, useState } from "react";
-import { useMobileMenuStore } from "@/components/layout/navbar/mobileMenuStore";
+import { useEffect, useId, useState } from "react";
 import type { MobileMenuState } from "@/components/layout/navbar/mobileMenuStore";
+import { useMobileMenuStore } from "@/components/layout/navbar/mobileMenuStore";
+import { cn } from "@/lib/utils";
 
-export default function NavbarScrollFade({
-    children
-}: {
-    children: React.ReactNode;
-}) {
+export default function NavbarScrollFade({ children }: { children: React.ReactNode }) {
     const [isScrolled, setIsScrolled] = useState(false);
     const isMobileMenuOpen = useMobileMenuStore((state: MobileMenuState) => state.isOpen);
 

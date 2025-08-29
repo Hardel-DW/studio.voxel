@@ -1,9 +1,9 @@
+import { useParams, useRouter } from "@tanstack/react-router";
+import { DatapackError, parseDatapack } from "@voxelio/breeze/core";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/Dropdown";
 import useAsyncError from "@/lib/hook/useAsyncError";
 import { useDictionary } from "@/lib/hook/useNext18n";
-import { DatapackError, parseDatapack } from "@voxelio/breeze/core";
-import { useParams, useRouter } from "@tanstack/react-router";
 
 export default function VanillaImportButton() {
     const dictionary = useDictionary();
@@ -28,7 +28,7 @@ export default function VanillaImportButton() {
             }
 
             useConfiguratorStore.getState().setup({ ...result, name: "Vanilla Enchantment - Voxel Configurator" });
-            router.navigate({ to: '/$lang/studio/editor', params: { lang } });
+            router.navigate({ to: "/$lang/studio/editor", params: { lang } });
         } catch (e: unknown) {
             if (e instanceof DatapackError) {
                 throwError(e.message);

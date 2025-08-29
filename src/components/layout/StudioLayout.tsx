@@ -1,6 +1,6 @@
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import QueryProvider from "@/components/QueryProvider";
 import ShiningStars from "@/components/ui/ShiningStars";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 interface StudioLayoutProps {
     children: React.ReactNode;

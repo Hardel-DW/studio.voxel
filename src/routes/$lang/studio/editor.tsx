@@ -1,19 +1,18 @@
-import { createFileRoute } from '@tanstack/react-router'
-import ToolInternalization from '@/components/tools/ToolInternalization'
-import { HydrationBoundary } from '@tanstack/react-query'
-import { dehydrate } from '@tanstack/react-query'
-import ConfiguratorPanel from '@/components/tools/ConfiguratorPanel'
-import ConfigManager from '@/components/tools/ConfigManager'
-import StudioSidebar from '@/components/tools/sidebar/Sidebar'
-import EditorLoading from '@/components/loading/EditorLoading'
-import { getQueryClient } from '@/lib/utils/query'
+import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
+import { createFileRoute, Outlet } from "@tanstack/react-router";
+import EditorLoading from "@/components/loading/EditorLoading";
+import ConfigManager from "@/components/tools/ConfigManager";
+import ConfiguratorPanel from "@/components/tools/ConfiguratorPanel";
+import StudioSidebar from "@/components/tools/sidebar/Sidebar";
+import ToolInternalization from "@/components/tools/ToolInternalization";
+import { getQueryClient } from "@/lib/utils/query";
 
-export const Route = createFileRoute('/$lang/studio/editor')({
-    component: EditorPage,
-    pendingComponent: EditorLoading,
-})
+export const Route = createFileRoute("/$lang/studio/editor")({
+    component: EditorLayout,
+    pendingComponent: EditorLoading
+});
 
-function EditorPage() {
+function EditorLayout() {
     const queryClient = getQueryClient();
 
     return (
@@ -64,6 +63,9 @@ function EditorPage() {
                                 <HydrationBoundary state={dehydrate(queryClient)}>
                                     <ConfigManager>
                                         <ConfiguratorPanel />
+                                        <div className="contents">
+                                            <Outlet />
+                                        </div>
                                     </ConfigManager>
                                 </HydrationBoundary>
                             </div>
@@ -72,5 +74,5 @@ function EditorPage() {
                 </main>
             </div>
         </>
-    )
+    );
 }

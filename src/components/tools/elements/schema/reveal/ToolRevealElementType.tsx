@@ -1,9 +1,8 @@
-
+import { memo } from "react";
+import type { ToolRevealCardData } from "@/components/tools/elements/schema/reveal/ToolReveal";
 import Translate from "@/components/tools/Translate";
 import { LinkButton } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
-import { memo } from "react";
-import type { ToolRevealCardData } from "@/components/tools/elements/schema/reveal/ToolReveal";
 
 interface ToolRevealElementProps {
     element: ToolRevealCardData;

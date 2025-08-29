@@ -1,16 +1,17 @@
+import { createFileRoute } from "@tanstack/react-router";
+import { Actions } from "@voxelio/breeze/core";
+import type { EnchantmentProps } from "@voxelio/breeze/schema";
+import { lazy, Suspense } from "react";
+import ToolReveal, { ToolRevealElement } from "@/components/tools/elements/schema/reveal/ToolReveal";
 import ToolGrid from "@/components/tools/elements/ToolGrid";
 import ToolSection from "@/components/tools/elements/ToolSection";
 import ToolSlot from "@/components/tools/elements/ToolSlot";
-import ToolReveal, { ToolRevealElement } from "@/components/tools/elements/schema/reveal/ToolReveal";
 import Loader from "@/components/ui/Loader";
-import { Actions } from "@voxelio/breeze/core";
-import type { EnchantmentProps } from "@voxelio/breeze/schema";
 import { isMinecraft, LockEntryBuilder } from "@/lib/utils/lock";
-import { lazy, Suspense } from 'react';
 
-// Lazy load the addon components
-const LazyEnchantDNT = lazy(() => import("./FindDnt"));
-const LazyEnchantYggdrasil = lazy(() => import("./FindYggdrasil"));
+// Lazy load page components
+const EnchantDNTSection = lazy(() => import("@/components/pages/enchantment/EnchantDNTSection"));
+const EnchantYggdrasilSection = lazy(() => import("@/components/pages/enchantment/EnchantYggdrasilSection"));
 
 const iterationValues = [
     {
@@ -57,7 +58,14 @@ const iterationValues = [
     }
 ];
 
-export default function EnchantFindBehaviourSection() {
+export const Route = createFileRoute("/$lang/studio/editor/enchantment/find/")({
+    validateSearch: (search: Record<string, unknown>) => ({
+        tab: search.tab as "dnt" | "yggdrasil" | undefined
+    }),
+    component: EnchantmentFindPage
+});
+
+function EnchantmentFindPage() {
     return (
         <>
             <ToolSection id="behaviour" title={{ key: "enchantment:section.find" }}>
@@ -83,7 +91,7 @@ export default function EnchantFindBehaviourSection() {
                 </ToolGrid>
             </ToolSection>
             <ToolSection id="addons" title={{ key: "enchantment:addons.description" }}>
-                <ToolReveal defaultValue="dnt">
+                <ToolReveal searchParam="tab" useUrlSync={true} defaultValue="dnt">
                     <ToolRevealElement
                         id="dnt"
                         logo="/images/addons/logo/dnt.webp"
@@ -92,7 +100,7 @@ export default function EnchantFindBehaviourSection() {
                         title={{ key: "dnt:title" }}
                         description={{ key: "dnt:description" }}>
                         <Suspense fallback={<Loader />}>
-                            <LazyEnchantDNT />
+                            <EnchantDNTSection />
                         </Suspense>
                     </ToolRevealElement>
                     <ToolRevealElement
@@ -103,7 +111,7 @@ export default function EnchantFindBehaviourSection() {
                         title={{ key: "yggdrasil:title" }}
                         description={{ key: "yggdrasil:description" }}>
                         <Suspense fallback={<Loader />}>
-                            <LazyEnchantYggdrasil />
+                            <EnchantYggdrasilSection />
                         </Suspense>
                     </ToolRevealElement>
                 </ToolReveal>

@@ -1,9 +1,9 @@
+import { Identifier } from "@voxelio/breeze/core";
+import { useDebugStore } from "@/components/tools/debug/DebugStore";
 import { useConfiguratorStore } from "@/components/tools/Store";
+import Translate from "@/components/tools/Translate";
 import CodeBlock from "@/components/ui/codeblock/CodeBlock";
 import EmptyCodeBlock from "@/components/ui/codeblock/EmptyCodeBlock";
-import { Identifier } from "@voxelio/breeze/core";
-import Translate from "@/components/tools/Translate";
-import { useDebugStore } from "@/components/tools/debug/DebugStore";
 
 interface CodeSectionProps {
     uniqueKey: string | undefined;

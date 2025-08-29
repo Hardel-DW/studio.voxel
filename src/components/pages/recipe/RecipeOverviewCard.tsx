@@ -1,19 +1,15 @@
 import type { RecipeProps } from "@voxelio/breeze";
-import { useConfiguratorStore } from "@/components/tools/Store";
 import ErrorPlaceholder from "@/components/tools/elements/error/ErrorPlaceholder";
-import ErrorBoundary from "@/components/ui/ErrorBoundary";
 import RecipeRenderer from "@/components/tools/elements/recipe/RecipeRenderer";
+import { useConfiguratorStore } from "@/components/tools/Store";
+import ErrorBoundary from "@/components/ui/ErrorBoundary";
 
-export default function RecipeOverviewCard(props: {
-    element: RecipeProps;
-    elementId: string;
-}) {
+export default function RecipeOverviewCard(props: { element: RecipeProps; elementId: string }) {
     const setCurrentElementId = useConfiguratorStore((state) => state.setCurrentElementId);
 
     return (
         <ErrorBoundary fallback={(e) => <ErrorPlaceholder error={e} />}>
-            <div
-                className="bg-black/50 border-t-2 border-l-2 border-stone-900 select-none relative transition-all hover:ring-1 ring-zinc-900 rounded-xl p-4 flex flex-col">
+            <div className="bg-black/50 border-t-2 border-l-2 border-stone-900 select-none relative transition-all hover:ring-1 ring-zinc-900 rounded-xl p-4 flex flex-col">
                 <div className="flex-1 flex flex-col">
                     <RecipeRenderer element={props.element} />
 

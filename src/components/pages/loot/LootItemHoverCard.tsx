@@ -11,9 +11,7 @@ export default function LootItemHoverCard({ item }: { item: LootItem }) {
             <div className="flex-1 min-w-0">
                 <div className="text-xs font-medium text-white truncate">{ruwsc(item.name)}</div>
                 <div className="text-xs text-zinc-400 truncate">{item.name}</div>
-                {item.weight && (
-                    <div className="text-xs text-zinc-500">Weight: {item.weight}</div>
-                )}
+                {item.weight && <div className="text-xs text-zinc-500">Weight: {item.weight}</div>}
             </div>
         </div>
     );

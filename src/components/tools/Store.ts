@@ -1,16 +1,17 @@
 import { Datapack, type VoxelElement } from "@voxelio/breeze";
-import { isVoxelElement } from "@voxelio/breeze/core";
-import { compileDatapack } from "@voxelio/breeze/core";
-import { updateData } from "@voxelio/breeze/core";
-import type { Analysers, GetAnalyserVoxel } from "@voxelio/breeze/core";
-import type { ParseDatapackResult } from "@voxelio/breeze/core";
-import type { ActionValue } from "@voxelio/breeze/core";
-import type { Action } from "@voxelio/breeze/core";
-import { Logger } from "@voxelio/breeze/core";
-import type { LabeledElement } from "@voxelio/breeze/core";
-import type { DataDrivenElement, DataDrivenRegistryElement } from "@voxelio/breeze/core";
+import type {
+    Action,
+    ActionValue,
+    Analysers,
+    DataDrivenElement,
+    DataDrivenRegistryElement,
+    GetAnalyserVoxel,
+    LabeledElement,
+    ParseDatapackResult
+} from "@voxelio/breeze/core";
+import { compileDatapack, isVoxelElement, Logger, updateData } from "@voxelio/breeze/core";
 import { create } from "zustand";
-import { CONCEPTS, type CONCEPT_KEY } from "./elements";
+import { type CONCEPT_KEY, CONCEPTS } from "./elements";
 
 export interface ConfiguratorState<T extends keyof Analysers> {
     name: string;
@@ -87,7 +88,7 @@ const createConfiguratorStore = <T extends keyof Analysers>() =>
             const result = new Datapack(state.files).getRegistry<R>(registry);
             set((prevState) => ({ registryCache: prevState.registryCache.set(registry, result) }));
             return result;
-        },
+        }
     }));
 
 export const useConfiguratorStore = createConfiguratorStore();

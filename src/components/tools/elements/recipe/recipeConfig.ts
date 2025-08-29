@@ -55,7 +55,7 @@ export const RECIPE_BLOCKS: RecipeBlockConfig[] = [
             "minecraft:crafting_special_repairitem",
             "minecraft:crafting_special_shielddecoration",
             "minecraft:crafting_special_tippedarrow",
-            "minecraft:crafting_transmute",
+            "minecraft:crafting_transmute"
         ]
     },
     {
@@ -67,63 +67,63 @@ export const RECIPE_BLOCKS: RecipeBlockConfig[] = [
 
 export class RecipeBlockManager {
     static getBlockConfig(blockId: string): RecipeBlockConfig | undefined {
-        return RECIPE_BLOCKS.find(block => block.id === blockId);
+        return RECIPE_BLOCKS.find((block) => block.id === blockId);
     }
 
     static getBlockByRecipeType(recipeType: string): RecipeBlockConfig {
-        return RECIPE_BLOCKS.find(block => block.recipeTypes.includes(recipeType)) ?? RECIPE_BLOCKS[0];
+        return RECIPE_BLOCKS.find((block) => block.recipeTypes.includes(recipeType)) ?? RECIPE_BLOCKS[0];
     }
 
     static getDefaultRecipeType(blockId: string): string | undefined {
-        const config = this.getBlockConfig(blockId);
+        const config = RecipeBlockManager.getBlockConfig(blockId);
         return config?.recipeTypes[0];
     }
 
     static canBlockHandleRecipeType(blockId: string, recipeType: string): boolean {
         if (blockId === "minecraft:barrier") return true;
 
-        const config = this.getBlockConfig(blockId);
-        return config?.recipeTypes.some(type => recipeType.includes(type)) ?? false;
+        const config = RecipeBlockManager.getBlockConfig(blockId);
+        return config?.recipeTypes.some((type) => recipeType.includes(type)) ?? false;
     }
 
     static getAllBlockIds(includeSpecial: boolean = true): string[] {
-        return RECIPE_BLOCKS.filter(block => includeSpecial || !block.isSpecial).map(block => block.id);
+        return RECIPE_BLOCKS.filter((block) => includeSpecial || !block.isSpecial).map((block) => block.id);
     }
 
     static getAllRecipeTypes(): string[] {
-        return RECIPE_BLOCKS
-            .filter(block => !block.isSpecial) // Exclus barrier
-            .flatMap(block => block.recipeTypes);
+        return RECIPE_BLOCKS.filter((block) => !block.isSpecial) // Exclus barrier
+            .flatMap((block) => block.recipeTypes);
     }
 
     static isBlockId(selection: string): boolean {
-        return RECIPE_BLOCKS.some(block => block.id === selection);
+        return RECIPE_BLOCKS.some((block) => block.id === selection);
     }
 
     static getTypesFromSelection(selection: string): string[] {
-        if (selection === "minecraft:barrier") return this.getAllRecipeTypes();
-        const blockConfig = this.getBlockConfig(selection);
+        if (selection === "minecraft:barrier") return RecipeBlockManager.getAllRecipeTypes();
+        const blockConfig = RecipeBlockManager.getBlockConfig(selection);
         return blockConfig?.recipeTypes || [selection];
     }
 
     static getFirstTypeFromSelection(selection: string): string {
-        if (selection === "minecraft:barrier") return this.getAllRecipeTypes()[0];
-        const blockConfig = this.getBlockConfig(selection);
+        if (selection === "minecraft:barrier") return RecipeBlockManager.getAllRecipeTypes()[0];
+        const blockConfig = RecipeBlockManager.getBlockConfig(selection);
         return blockConfig?.recipeTypes[0] || selection;
     }
 
     static getDisplayBlockId(selection: string): string {
-        return this.isBlockId(selection) ? selection : this.getBlockByRecipeType(selection).id;
+        return RecipeBlockManager.isBlockId(selection) ? selection : RecipeBlockManager.getBlockByRecipeType(selection).id;
     }
 
     static getDisplayName(selection: string): string {
-        if (this.isBlockId(selection)) {
-            const config = this.getBlockConfig(selection);
+        if (RecipeBlockManager.isBlockId(selection)) {
+            const config = RecipeBlockManager.getBlockConfig(selection);
             return config?.name || selection;
         }
         const cleanType = selection.replace("minecraft:", "");
-        return cleanType.split("_").map(word =>
-            word.charAt(0).toUpperCase() + word.slice(1)
-        ).join(" ");
+        return cleanType
+            .split("_")
+            .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(" ");
     }
-} 
+}

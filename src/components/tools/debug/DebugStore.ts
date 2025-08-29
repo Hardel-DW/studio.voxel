@@ -1,7 +1,7 @@
-import { create } from "zustand";
-import { Identifier } from "@voxelio/breeze/core";
-import type { LabeledElement } from "@voxelio/breeze/core";
 import { analyserCollection, Datapack, getLabeledIdentifier } from "@voxelio/breeze";
+import type { LabeledElement } from "@voxelio/breeze/core";
+import { Identifier } from "@voxelio/breeze/core";
+import { create } from "zustand";
 import { useConfiguratorStore } from "@/components/tools/Store";
 
 interface DebugState {
@@ -40,7 +40,7 @@ export const useDebugStore = create<DebugState>((set, get) => ({
         });
 
         const elementsMap = new Map<string, LabeledElement | undefined>(
-            Array.from(mainStore.elements.keys()).map(uniqueKey => [uniqueKey, undefined])
+            Array.from(mainStore.elements.keys()).map((uniqueKey) => [uniqueKey, undefined])
         );
 
         for (const labeledElement of labeledElements) {

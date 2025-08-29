@@ -1,14 +1,19 @@
+import { createFileRoute } from "@tanstack/react-router";
+import { Actions, Identifier, isVoxel } from "@voxelio/breeze/core";
+import type { EnchantmentProps } from "@voxelio/breeze/schema";
 import ToolGrid from "@/components/tools/elements/ToolGrid";
 import ToolRange from "@/components/tools/elements/ToolRange";
 import ToolSection from "@/components/tools/elements/ToolSection";
 import ToolSwitch from "@/components/tools/elements/ToolSwitch";
-import Translate from "@/components/tools/Translate";
-import { Actions, Identifier, isVoxel } from "@voxelio/breeze/core";
-import type { EnchantmentProps } from "@voxelio/breeze/schema";
-import { isMinecraft } from "@/lib/utils/lock";
 import { getCurrentElement, useConfiguratorStore } from "@/components/tools/Store";
+import Translate from "@/components/tools/Translate";
+import { isMinecraft } from "@/lib/utils/lock";
 
-export default function EnchantTechnicalSection() {
+export const Route = createFileRoute("/$lang/studio/editor/enchantment/technical")({
+    component: EnchantmentTechnicalPage
+});
+
+function EnchantmentTechnicalPage() {
     const currentElement = useConfiguratorStore((state) => getCurrentElement(state));
 
     return (
@@ -124,9 +129,9 @@ export default function EnchantTechnicalSection() {
 
             <ToolSection id="effects" title={{ key: "enchantment:technical.effects.title" }}>
                 {currentElement &&
-                    isVoxel(currentElement, "enchantment") &&
-                    currentElement?.effects &&
-                    Object.keys(currentElement.effects).length > 0 ? (
+                isVoxel(currentElement, "enchantment") &&
+                currentElement?.effects &&
+                Object.keys(currentElement.effects).length > 0 ? (
                     Object.keys(currentElement.effects).map((effect) => (
                         <ToolSwitch
                             key={effect}

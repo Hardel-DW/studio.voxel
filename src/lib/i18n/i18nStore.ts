@@ -1,4 +1,3 @@
-
 import { create } from "zustand";
 import enUsDefault from "@/i18n/studio/en-us.json";
 import frFrDefault from "@/i18n/studio/fr-fr.json";
@@ -6,7 +5,7 @@ import frFrDefault from "@/i18n/studio/fr-fr.json";
 interface I18nState {
     language: string;
     translations: Map<string, string>; // en-us@tools:foo.bar
-    namespaceStatus: Map<string, 'loading' | 'loaded' | 'error'>; // en-us@tools
+    namespaceStatus: Map<string, "loading" | "loaded" | "error">; // en-us@tools
     setLanguage: (lang: string) => Promise<void>;
     getTranslation: (key: string) => string;
     loadNamespace: (namespace: string) => Promise<void>;
@@ -26,10 +25,10 @@ const getInitialTranslations = (): Map<string, string> => {
     return translations;
 };
 
-const getInitialNamespaceStatus = (): Map<string, 'loading' | 'loaded' | 'error'> => {
-    const status = new Map<string, 'loading' | 'loaded' | 'error'>();
-    status.set('en-us@default', 'loaded');
-    status.set('fr-fr@default', 'loaded');
+const getInitialNamespaceStatus = (): Map<string, "loading" | "loaded" | "error"> => {
+    const status = new Map<string, "loading" | "loaded" | "error">();
+    status.set("en-us@default", "loaded");
+    status.set("fr-fr@default", "loaded");
     return status;
 };
 
@@ -43,7 +42,7 @@ export const useI18nStore = create<I18nState>((set, get) => ({
         const namespace = key.includes(":") ? key.split(":")[0] : "default";
         const nsKey = `${state.language}@${namespace}`;
 
-        if (state.namespaceStatus.get(nsKey) !== 'loaded' && state.namespaceStatus.get(nsKey) !== 'loading') {
+        if (state.namespaceStatus.get(nsKey) !== "loaded" && state.namespaceStatus.get(nsKey) !== "loading") {
             state.loadNamespace(namespace);
             return key;
         }
@@ -54,9 +53,10 @@ export const useI18nStore = create<I18nState>((set, get) => ({
         const state = get();
         const nsKey = `${state.language}@${namespace}`;
 
-        if (namespace === "default" || state.namespaceStatus.get(nsKey) === 'loaded' || state.namespaceStatus.get(nsKey) === 'loading') return;
-        set(current => ({
-            namespaceStatus: new Map(current.namespaceStatus).set(nsKey, 'loading')
+        if (namespace === "default" || state.namespaceStatus.get(nsKey) === "loaded" || state.namespaceStatus.get(nsKey) === "loading")
+            return;
+        set((current) => ({
+            namespaceStatus: new Map(current.namespaceStatus).set(nsKey, "loading")
         }));
 
         try {
@@ -72,7 +72,7 @@ export const useI18nStore = create<I18nState>((set, get) => ({
                     module = await import(`@/i18n/studio/en-us/${namespace}.json`);
             }
 
-            set(current => {
+            set((current) => {
                 const newTranslations = new Map(current.translations);
                 const newNamespaceStatus = new Map(current.namespaceStatus);
 
@@ -82,7 +82,7 @@ export const useI18nStore = create<I18nState>((set, get) => ({
                         newTranslations.set(`${state.language}@${fullKey}`, v);
                     }
                 }
-                newNamespaceStatus.set(nsKey, 'loaded');
+                newNamespaceStatus.set(nsKey, "loaded");
 
                 return {
                     translations: newTranslations,
@@ -91,8 +91,8 @@ export const useI18nStore = create<I18nState>((set, get) => ({
             });
         } catch {
             console.warn(`Namespace ${namespace} not found`);
-            set(current => ({
-                namespaceStatus: new Map(current.namespaceStatus).set(nsKey, 'error')
+            set((current) => ({
+                namespaceStatus: new Map(current.namespaceStatus).set(nsKey, "error")
             }));
         }
     }

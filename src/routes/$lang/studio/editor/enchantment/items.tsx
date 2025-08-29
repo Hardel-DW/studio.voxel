@@ -1,10 +1,10 @@
-
+import { createFileRoute } from "@tanstack/react-router";
+import { Actions } from "@voxelio/breeze/core";
+import type { EnchantmentProps } from "@voxelio/breeze/schema";
+import { useState } from "react";
 import ToolGrid from "@/components/tools/elements/ToolGrid";
 import ToolSectionSelector from "@/components/tools/elements/ToolSectionSelector";
 import ToolSlot from "@/components/tools/elements/ToolSlot";
-import { Actions } from "@voxelio/breeze/core";
-import type { EnchantmentProps } from "@voxelio/breeze/schema";
-import { useState } from 'react';
 
 const items = {
     sword: "#minecraft:enchantable/sword",
@@ -43,7 +43,11 @@ const elements = [
     }
 ];
 
-export default function EnchantSlotsSection() {
+export const Route = createFileRoute("/$lang/studio/editor/enchantment/items")({
+    component: EnchantmentItemsPage
+});
+
+function EnchantmentItemsPage() {
     const [section, setSection] = useState<string>(elements[0].id);
 
     return (

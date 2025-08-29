@@ -1,6 +1,6 @@
-import { cn } from "@/lib/utils";
 import { Link } from "@tanstack/react-router";
 import type React from "react";
+import { cn } from "@/lib/utils";
 
 const variants = {
     variant: {
@@ -9,7 +9,8 @@ const variants = {
         destructive: "bg-red-700 text-zinc-200 border-2 border-black hover:bg-red-800",
         black: "bg-black text-zinc-200 border-2 border-zinc-500 hover:bg-zinc-900",
         ghost: "bg-transparent text-zinc-200 border-2 border-zinc-500 hover:bg-zinc-200 hover:text-zinc-800",
-        ghost_border: "bg-transparent text-zinc-200 border-2 border-zinc-900 ring-zinc-900 hover:text-zinc-100 hover:border-zinc-700 hover:ring-zinc-700",
+        ghost_border:
+            "bg-transparent text-zinc-200 border-2 border-zinc-900 ring-zinc-900 hover:text-zinc-100 hover:border-zinc-700 hover:ring-zinc-700",
         transparent: "bg-transparent text-zinc-200 border-2 border-zinc-500 hover:bg-white/10",
         link: "bg-transparent hover:text-white text-zinc-400",
         "primary-shimmer":
@@ -107,9 +108,9 @@ export function LinkButton({
     to,
     children,
     ...rest
-}: (LinkProps | RouterLinkProps) & Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'href'>) {
+}: (LinkProps | RouterLinkProps) & Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, "href">) {
     const linkUrl = href || to || "/";
-    const isExternal = href && (href.startsWith('http') || href.startsWith('mailto:'));
+    const isExternal = href && (href.startsWith("http") || href.startsWith("mailto:"));
 
     const linkClassName = cn([
         "inline-flex items-center justify-center whitespace-nowrap cursor-pointer truncate text-sm font-medium ring-offset-background transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
@@ -122,20 +123,14 @@ export function LinkButton({
 
     if (isExternal) {
         return (
-            <a
-                href={linkUrl}
-                className={linkClassName}
-                {...rest}>
+            <a href={linkUrl} className={linkClassName} {...rest}>
                 {children}
             </a>
         );
     }
 
     return (
-        <Link
-            to={linkUrl}
-            className={linkClassName}
-            {...rest}>
+        <Link to={linkUrl} className={linkClassName} {...rest}>
             {children}
         </Link>
     );

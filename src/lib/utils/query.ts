@@ -1,5 +1,5 @@
 import { createSyncStoragePersister } from "@tanstack/query-sync-storage-persister";
-import { QueryClient, defaultShouldDehydrateQuery, isServer } from "@tanstack/react-query";
+import { defaultShouldDehydrateQuery, isServer, QueryClient } from "@tanstack/react-query";
 import { persistQueryClient } from "@tanstack/react-query-persist-client";
 
 function makeQueryClient() {
@@ -16,7 +16,7 @@ function makeQueryClient() {
     });
 }
 
-let browserQueryClient: QueryClient | undefined = undefined;
+let browserQueryClient: QueryClient | undefined;
 
 export function getQueryClient() {
     if (isServer) return makeQueryClient();

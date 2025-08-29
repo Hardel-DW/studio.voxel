@@ -1,7 +1,4 @@
-export default function EmptyCodeBlock(props: {
-    title?: string;
-    children: React.ReactNode;
-}) {
+export default function EmptyCodeBlock(props: { title?: string; children: React.ReactNode }) {
     return (
         <div className="relative w-full h-full py-4 pl-4 pr-px bg-zinc-950/20 rounded-2xl border-zinc-800 border">
             <div className="flex h-4 mr-16">

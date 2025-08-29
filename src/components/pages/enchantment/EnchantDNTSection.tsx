@@ -1,11 +1,10 @@
+import { Actions } from "@voxelio/breeze/core";
+import type { EnchantmentProps } from "@voxelio/breeze/schema";
 import ToolCard from "@/components/tools/elements/ToolCard";
 import ToolCategory from "@/components/tools/elements/ToolCategory";
 import ToolGrid from "@/components/tools/elements/ToolGrid";
 import ToolSlot from "@/components/tools/elements/ToolSlot";
-import { Actions } from "@voxelio/breeze/core";
-import type { EnchantmentProps } from "@voxelio/breeze/schema";
 
-// Structure data for global biomes section
 const biomeStructures = [
     {
         title: "dnt:overworld.title",
@@ -33,7 +32,6 @@ const biomeStructures = [
     }
 ];
 
-// Structure data for specific structures section
 const specificStructures = [
     {
         title: "dnt:creeping_crypt.title",
@@ -91,10 +89,9 @@ const specificStructures = [
     }
 ];
 
-export default function EnchantDNT() {
+export default function EnchantDNTSection() {
     return (
         <>
-            {/* Global Category */}
             <ToolCategory title={{ key: "dnt:globals" }}>
                 <ToolGrid size="250px">
                     {biomeStructures.map((structure) => (
@@ -111,7 +108,6 @@ export default function EnchantDNT() {
                 </ToolGrid>
             </ToolCategory>
 
-            {/* Structures Category */}
             <ToolCategory title={{ key: "dnt:structures" }}>
                 <ToolGrid size="400px">
                     {specificStructures.map((structure) => (

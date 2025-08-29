@@ -1,6 +1,5 @@
-
-import { useConfiguratorStore } from "@/components/tools/Store";
 import { CONCEPTS } from "@/components/tools/elements";
+import { useConfiguratorStore } from "@/components/tools/Store";
 import SidebarCard from "@/components/tools/sidebar/tab/SidebarCard";
 import Translate from "@/components/tools/Translate";
 
@@ -17,8 +16,7 @@ export default function ConceptTab() {
                     {...concept}
                     index={index}
                     selected={selectedConcept === concept.registry}
-                    onClick={() => setSelectedConcept(concept.registry)}
-                >
+                    onClick={() => setSelectedConcept(concept.registry)}>
                     {getLengthByRegistry(concept.registry)} <Translate content="elements" />
                 </SidebarCard>
             ))}

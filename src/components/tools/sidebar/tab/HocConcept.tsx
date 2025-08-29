@@ -1,14 +1,13 @@
-
 import type { ComponentType } from "react";
-import { useConfiguratorStore } from "@/components/tools/Store";
 import { CONCEPTS } from "@/components/tools/elements";
+import { useConfiguratorStore } from "@/components/tools/Store";
 
 type WithConceptProps = {};
 
 /**
- * HOC pour gérer le rendu conditionnel des concepts
- * @param WrappedComponent Le composant à wrapper
- * @returns Un nouveau composant avec la logique de concept
+ * HOC to handle the conditional rendering of concepts
+ * @param WrappedComponent The component to wrap
+ * @returns A new component with the concept logic
  */
 export const withConcept = <P extends WithConceptProps>(WrappedComponent: ComponentType<P>) => {
     return function ConceptContainer(props: P) {

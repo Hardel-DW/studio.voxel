@@ -1,11 +1,10 @@
-
+import type { ModMetadata } from "@voxelio/breeze/converter";
+import { convertDatapack, ModPlatforms } from "@voxelio/breeze/converter";
+import { useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { useDictionary } from "@/lib/hook/useNext18n";
 import { trackEvent } from "@/lib/telemetry";
 import { cn } from "@/lib/utils";
-import type { ModMetadata } from "@voxelio/breeze/converter";
-import { ModPlatforms, convertDatapack } from "@voxelio/breeze/converter";
-import { useState } from "react";
 
 interface Props {
     file: File | null;

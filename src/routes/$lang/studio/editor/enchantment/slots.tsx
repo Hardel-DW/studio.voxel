@@ -1,11 +1,16 @@
-import Translate from "@/components/tools/Translate";
+import { createFileRoute } from "@tanstack/react-router";
+import { EnchantmentActionBuilder } from "@voxelio/breeze/core";
+import type { EnchantmentProps } from "@voxelio/breeze/schema";
 import ToolGrid from "@/components/tools/elements/ToolGrid";
 import ToolSection from "@/components/tools/elements/ToolSection";
 import ToolSlot from "@/components/tools/elements/ToolSlot";
-import { EnchantmentActionBuilder } from "@voxelio/breeze/core";
-import type { EnchantmentProps } from "@voxelio/breeze/schema";
+import Translate from "@/components/tools/Translate";
 
-export default function EnchantSlotsSection() {
+export const Route = createFileRoute("/$lang/studio/editor/enchantment/slots")({
+    component: EnchantmentSlotsPage
+});
+
+function EnchantmentSlotsPage() {
     return (
         <ToolSection id="slots" title={{ key: "enchantment:section.slots.description" }}>
             <ToolGrid>

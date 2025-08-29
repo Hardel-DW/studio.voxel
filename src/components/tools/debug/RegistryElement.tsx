@@ -1,6 +1,6 @@
-import { cn } from "@/lib/utils";
 import { Identifier } from "@voxelio/breeze/core";
 import { useDebugStore } from "@/components/tools/debug/DebugStore";
+import { cn } from "@/lib/utils";
 
 interface RegistryElementProps {
     uniqueKey: string;

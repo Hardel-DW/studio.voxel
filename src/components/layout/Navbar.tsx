@@ -1,6 +1,7 @@
-import type { DictionaryType, Locale } from "@/lib/i18n/i18nServer";
 import { Link } from "@tanstack/react-router";
+import type { DictionaryType, Locale } from "@/lib/i18n/i18nServer";
 import HeroCard from "./navbar/HeroCard";
+import Internalization from "./navbar/internalization";
 import ListItem from "./navbar/ListItem";
 import MobileMenuButton from "./navbar/MobileMenuButton";
 import MobileNavigationContainer from "./navbar/MobileNavigationContainer";
@@ -8,7 +9,6 @@ import NavbarScrollFade from "./navbar/NavbarScrollFade";
 import Navigation from "./navbar/Navigation";
 import NavigationDropdown from "./navbar/NavigationDropdown";
 import NavigationList from "./navbar/NavigationList";
-import Internalization from "./navbar/internalization";
 
 interface Props {
     dictionary: DictionaryType;

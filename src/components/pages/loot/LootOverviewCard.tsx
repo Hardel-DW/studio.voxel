@@ -1,11 +1,11 @@
-import { cn } from "@/lib/utils";
 import { Actions, Identifier } from "@voxelio/breeze";
 import type { LootTableProps } from "@voxelio/breeze/schema";
+import LootItemHoverCard from "@/components/pages/loot/LootItemHoverCard";
+import SimpleSwitch from "@/components/tools/elements/SimpleSwitch";
 import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer";
 import { useConfiguratorStore } from "@/components/tools/Store";
-import SimpleSwitch from "@/components/tools/elements/SimpleSwitch";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/Popover";
-import LootItemHoverCard from "@/components/tools/section/loot/overview/LootItemHoverCard";
+import { cn } from "@/lib/utils";
 
 export default function LootOverviewCard(props: {
     element: LootTableProps;
@@ -15,8 +15,8 @@ export default function LootOverviewCard(props: {
 }) {
     const setCurrentElementId = useConfiguratorStore((state) => state.setCurrentElementId);
     const rollsInfo = getRollsInfo(props.element);
-    const itemsCount = props.element.items.filter(item => item.entryType !== "minecraft:empty").length;
-    const items = props.element.items.filter(item => item.entryType !== "minecraft:empty");
+    const itemsCount = props.element.items.filter((item) => item.entryType !== "minecraft:empty").length;
+    const items = props.element.items.filter((item) => item.entryType !== "minecraft:empty");
 
     return (
         <div
@@ -25,20 +25,15 @@ export default function LootOverviewCard(props: {
                 "flex flex-col",
                 props.isBlurred && "grayscale brightness-50 blur-sm transition-all duration-300 select-none pointer-events-none"
             )}>
-
             {/* Première ligne : Titre/Badge/Switch */}
             <div className="flex items-center justify-between pb-3">
                 <div className="flex flex-col gap-1 justify-center flex-1 min-w-0">
-                    <h3 className="text-sm font-semibold truncate">
-                        {new Identifier(props.element.identifier).toResourceName()}
-                    </h3>
+                    <h3 className="text-sm font-semibold truncate">{new Identifier(props.element.identifier).toResourceName()}</h3>
                     <div className="flex items-center gap-2">
                         <div className="bg-zinc-800/20 pr-2 pl-1 py-px rounded-full border border-zinc-800">
                             <div className="flex items-center gap-1">
                                 <span className="text-xs">🎲</span>
-                                <span className="text-xs tracking-wider text-zinc-400 font-medium">
-                                    {rollsInfo}
-                                </span>
+                                <span className="text-xs tracking-wider text-zinc-400 font-medium">{rollsInfo}</span>
                             </div>
                         </div>
 
@@ -46,9 +41,7 @@ export default function LootOverviewCard(props: {
                         <div className="bg-zinc-800/20 pr-2 pl-1 py-px rounded-full border border-zinc-800">
                             <div className="flex items-center gap-1">
                                 <span className="text-xs">📦</span>
-                                <span className="text-xs tracking-wider text-zinc-400 font-medium">
-                                    {itemsCount} items
-                                </span>
+                                <span className="text-xs tracking-wider text-zinc-400 font-medium">{itemsCount} items</span>
                             </div>
                         </div>
                     </div>
@@ -84,8 +77,12 @@ export default function LootOverviewCard(props: {
                                 <div className="flex items-center justify-between">
                                     <p className="font-semibold leading-2">Loot Items</p>
                                     <div className="flex gap-2 items-center">
-                                        <span className="text-xs bg-zinc-900/50 border border-zinc-800 px-2 rounded-lg">{rollsInfo} rolls</span>
-                                        <span className="text-xs bg-zinc-900/50 border border-zinc-800 px-2 rounded-lg">{itemsCount} items</span>
+                                        <span className="text-xs bg-zinc-900/50 border border-zinc-800 px-2 rounded-lg">
+                                            {rollsInfo} rolls
+                                        </span>
+                                        <span className="text-xs bg-zinc-900/50 border border-zinc-800 px-2 rounded-lg">
+                                            {itemsCount} items
+                                        </span>
                                     </div>
                                 </div>
 
@@ -109,7 +106,6 @@ export default function LootOverviewCard(props: {
                         </PopoverContent>
                     </Popover>
                 </div>
-
             </div>
 
             {/* Footer */}

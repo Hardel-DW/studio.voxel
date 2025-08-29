@@ -7,7 +7,13 @@ export default function ImageCard({
     title,
     button,
     className
-}: { image: string; href: string; title: string; button: React.ReactNode; className?: string }) {
+}: {
+    image: string;
+    href: string;
+    title: string;
+    button: React.ReactNode;
+    className?: string;
+}) {
     return (
         <div
             className={cn(

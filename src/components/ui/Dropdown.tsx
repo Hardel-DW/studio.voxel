@@ -1,12 +1,12 @@
+import type { ReactElement, ReactNode } from "react";
+import { useRef } from "react";
+import { createPortal } from "react-dom";
 import { createDisclosureContext } from "@/components/ui/DisclosureContext";
 import { Trigger } from "@/components/ui/Trigger";
 import { useClickOutside } from "@/lib/hook/useClickOutside";
 import { usePopoverPosition } from "@/lib/hook/usePopoverPosition";
 import { usePopoverVisibility } from "@/lib/hook/usePopoverVisibility";
 import { cn } from "@/lib/utils";
-import type { ReactElement, ReactNode } from "react";
-import { useRef } from "react";
-import { createPortal } from "react-dom";
 
 const { Provider: DropdownProvider, useDisclosure: useDropdown } = createDisclosureContext<HTMLButtonElement>();
 
@@ -81,7 +81,9 @@ export function DropdownMenuItem(
             )}
             {...props}>
             {props.children}
-            {props.description && <span className="text-[10px] leading-tight text-zinc-500 font-extralight tracking-tight">{props.description}</span>}
+            {props.description && (
+                <span className="text-[10px] leading-tight text-zinc-500 font-extralight tracking-tight">{props.description}</span>
+            )}
         </div>
     );
 }

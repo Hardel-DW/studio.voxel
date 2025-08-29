@@ -1,15 +1,15 @@
-import { createFileRoute } from '@tanstack/react-router'
-import Navbar from '@/components/layout/Navbar'
-import Footer from '@/components/layout/Footer'
-import Box from '@/components/ui/Box'
-import { LinkButton } from '@/components/ui/Button'
-import ImageCard from '@/components/ui/ImageCard'
-import LineSetup from '@/components/ui/line/LineSetup'
-import type { Locale } from "@/lib/i18n/i18nServer"
-import { useDictionary } from "@/lib/hook/useNext18n"
-import { useId } from 'react'
+import { createFileRoute } from "@tanstack/react-router";
+import { useId } from "react";
+import Footer from "@/components/layout/Footer";
+import Navbar from "@/components/layout/Navbar";
+import Box from "@/components/ui/Box";
+import { LinkButton } from "@/components/ui/Button";
+import ImageCard from "@/components/ui/ImageCard";
+import LineSetup from "@/components/ui/line/LineSetup";
+import { useDictionary } from "@/lib/hook/useNext18n";
+import type { Locale } from "@/lib/i18n/i18nServer";
 
-export const Route = createFileRoute('/$lang/')({
+export const Route = createFileRoute("/$lang/")({
     component: Page,
     head: () => ({
         meta: [
@@ -18,11 +18,11 @@ export const Route = createFileRoute('/$lang/')({
             }
         ]
     })
-})
+});
 
 function Page() {
-    const { lang } = Route.useParams()
-    const dictionary = useDictionary()
+    const { lang } = Route.useParams();
+    const dictionary = useDictionary();
 
     return (
         <div className="relative">
@@ -161,5 +161,5 @@ function Page() {
 
             <Footer dictionary={dictionary} lang={lang as Locale} />
         </div>
-    )
+    );
 }

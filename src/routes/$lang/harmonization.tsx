@@ -1,20 +1,20 @@
-import { createFileRoute } from '@tanstack/react-router'
-import CompoundLayout from '@/components/layout/CompoundLayout'
-import ShiningStars from '@/components/ui/ShiningStars'
-import Star from '@/components/ui/Star'
-import HarmonizeEditor from '@/components/pages/HarmonizeEditor'
-import PageLoading from '@/components/loading/PageLoading'
-import { useDictionary } from '@/lib/hook/useNext18n'
-import type { Locale } from "@/lib/i18n/i18nServer"
+import { createFileRoute } from "@tanstack/react-router";
+import CompoundLayout from "@/components/layout/CompoundLayout";
+import PageLoading from "@/components/loading/PageLoading";
+import HarmonizeEditor from "@/components/pages/HarmonizeEditor";
+import ShiningStars from "@/components/ui/ShiningStars";
+import Star from "@/components/ui/Star";
+import { useDictionary } from "@/lib/hook/useNext18n";
+import type { Locale } from "@/lib/i18n/i18nServer";
 
-export const Route = createFileRoute('/$lang/harmonization')({
+export const Route = createFileRoute("/$lang/harmonization")({
     component: HarmonizationPage,
-    pendingComponent: PageLoading,
-})
+    pendingComponent: PageLoading
+});
 
 function HarmonizationPage() {
-    const { lang } = Route.useParams()
-    const dictionary = useDictionary()
+    const { lang } = Route.useParams();
+    const dictionary = useDictionary();
 
     return (
         <CompoundLayout dictionary={dictionary} lang={lang as Locale}>
@@ -37,5 +37,5 @@ function HarmonizationPage() {
                 <HarmonizeEditor />
             </section>
         </CompoundLayout>
-    )
+    );
 }

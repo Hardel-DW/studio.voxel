@@ -1,64 +1,58 @@
-import { createDisclosureContext } from "@/components/ui/DisclosureContext"
-import { useClickOutside } from "@/lib/hook/useClickOutside"
-import { usePopoverVisibility } from "@/lib/hook/usePopoverVisibility"
-import { cn } from "@/lib/utils"
-import { cloneElement, type ReactElement, type ReactNode } from "react"
-import { createContext, useContext, useRef, useState } from "react"
-import { createPortal } from "react-dom"
+import { cloneElement, createContext, type ReactElement, type ReactNode, useContext, useRef, useState } from "react";
+import { createPortal } from "react-dom";
+import { createDisclosureContext } from "@/components/ui/DisclosureContext";
+import { useClickOutside } from "@/lib/hook/useClickOutside";
+import { usePopoverVisibility } from "@/lib/hook/usePopoverVisibility";
+import { cn } from "@/lib/utils";
 
 interface ContextMenuState {
-    position: { x: number; y: number }
-    setPosition: (position: { x: number; y: number }) => void
+    position: { x: number; y: number };
+    setPosition: (position: { x: number; y: number }) => void;
 }
 
-const { Provider: ContextMenuProvider, useDisclosure: useContextMenu } = createDisclosureContext<HTMLElement>()
-const PositionContext = createContext<ContextMenuState | null>(null)
+const { Provider: ContextMenuProvider, useDisclosure: useContextMenu } = createDisclosureContext<HTMLElement>();
+const PositionContext = createContext<ContextMenuState | null>(null);
 
-export function ContextMenu(props: {
-    children: ReactNode;
-    className?: string;
-}) {
-    const [position, setPosition] = useState({ x: 0, y: 0 })
+export function ContextMenu(props: { children: ReactNode; className?: string }) {
+    const [position, setPosition] = useState({ x: 0, y: 0 });
 
     return (
         <ContextMenuProvider>
             <PositionContext.Provider value={{ position, setPosition }}>
-                <div className={cn("inline-block", props.className)}>
-                    {props.children}
-                </div>
+                <div className={cn("inline-block", props.className)}>{props.children}</div>
             </PositionContext.Provider>
         </ContextMenuProvider>
-    )
+    );
 }
 
 export function ContextMenuTrigger(props: {
     children: ReactElement<{
-        onContextMenu?: (e: React.MouseEvent) => void
-        ref?: React.Ref<HTMLElement>
-        className?: string
-    }>
-    className?: string
+        onContextMenu?: (e: React.MouseEvent) => void;
+        ref?: React.Ref<HTMLElement>;
+        className?: string;
+    }>;
+    className?: string;
 }) {
-    const { setOpen, triggerRef } = useContextMenu()
-    const positionContext = useContext(PositionContext)
+    const { setOpen, triggerRef } = useContextMenu();
+    const positionContext = useContext(PositionContext);
 
     if (!positionContext) {
-        throw new Error("ContextMenuTrigger must be used within ContextMenu")
+        throw new Error("ContextMenuTrigger must be used within ContextMenu");
     }
 
-    const { setPosition } = positionContext
+    const { setPosition } = positionContext;
 
     const handleContextMenu = (e: React.MouseEvent) => {
-        e.preventDefault()
-        e.stopPropagation()
+        e.preventDefault();
+        e.stopPropagation();
 
         // Capture la position du curseur
-        setPosition({ x: e.clientX, y: e.clientY })
-        setOpen(true)
+        setPosition({ x: e.clientX, y: e.clientY });
+        setOpen(true);
 
         // Appel du handler original s'il existe
-        props.children.props.onContextMenu?.(e)
-    }
+        props.children.props.onContextMenu?.(e);
+    };
 
     return (
         <>
@@ -68,39 +62,36 @@ export function ContextMenuTrigger(props: {
                 className: cn(props.children.props.className, props.className)
             })}
         </>
-    )
+    );
 }
 
-export function ContextMenuContent(props: {
-    children: ReactNode;
-    className?: string;
-}) {
-    const { open, setOpen } = useContextMenu()
-    const positionContext = useContext(PositionContext)
-    const contentRef = useRef<HTMLDivElement>(null)
-    const { isVisible } = usePopoverVisibility({ open, transitionDuration: 150 })
-    const clickOutsideRef = useClickOutside(() => setOpen(false))
+export function ContextMenuContent(props: { children: ReactNode; className?: string }) {
+    const { open, setOpen } = useContextMenu();
+    const positionContext = useContext(PositionContext);
+    const contentRef = useRef<HTMLDivElement>(null);
+    const { isVisible } = usePopoverVisibility({ open, transitionDuration: 150 });
+    const clickOutsideRef = useClickOutside(() => setOpen(false));
 
     if (!positionContext) {
-        throw new Error("ContextMenuContent must be used within ContextMenu")
+        throw new Error("ContextMenuContent must be used within ContextMenu");
     }
 
-    const { position } = positionContext
+    const { position } = positionContext;
 
-    if (!isVisible && !open) return null
+    if (!isVisible && !open) return null;
 
     // Ajuster la position pour éviter de sortir de l'écran
     const adjustedPosition = {
         x: Math.min(position.x, window.innerWidth - 200), // 200px largeur estimée du menu
         y: Math.min(position.y, window.innerHeight - 300) // 300px hauteur estimée du menu
-    }
+    };
 
     return createPortal(
         <div
             ref={(node) => {
-                contentRef.current = node
+                contentRef.current = node;
                 if (clickOutsideRef) {
-                    clickOutsideRef.current = node
+                    clickOutsideRef.current = node;
                 }
             }}
             style={{
@@ -119,22 +110,17 @@ export function ContextMenuContent(props: {
             {props.children}
         </div>,
         document.body
-    )
+    );
 }
 
-export function ContextMenuItem(props: {
-    children: ReactNode
-    className?: string
-    disabled?: boolean
-    onClick?: () => void
-}) {
-    const { setOpen } = useContextMenu()
+export function ContextMenuItem(props: { children: ReactNode; className?: string; disabled?: boolean; onClick?: () => void }) {
+    const { setOpen } = useContextMenu();
 
     const handleClick = () => {
-        if (props.disabled) return
-        props.onClick?.()
-        setOpen(false)
-    }
+        if (props.disabled) return;
+        props.onClick?.();
+        setOpen(false);
+    };
 
     return (
         <button
@@ -150,38 +136,21 @@ export function ContextMenuItem(props: {
             )}>
             {props.children}
         </button>
-    )
+    );
 }
 
-export function ContextMenuLabel(props: {
-    children: ReactNode;
-    className?: string;
-}) {
-    return (
-        <div className={cn("px-2 py-1.5 text-sm font-semibold text-zinc-300", props.className)}>
-            {props.children}
-        </div>
-    )
+export function ContextMenuLabel(props: { children: ReactNode; className?: string }) {
+    return <div className={cn("px-2 py-1.5 text-sm font-semibold text-zinc-300", props.className)}>{props.children}</div>;
 }
 
 export function ContextMenuSeparator(props: { className?: string }) {
-    return <div className={cn("-mx-1 my-1 h-px bg-zinc-800", props.className)} />
+    return <div className={cn("-mx-1 my-1 h-px bg-zinc-800", props.className)} />;
 }
 
-export function ContextMenuGroup(props: {
-    children: ReactNode;
-    className?: string;
-}) {
-    return <div className={props.className}>{props.children}</div>
+export function ContextMenuGroup(props: { children: ReactNode; className?: string }) {
+    return <div className={props.className}>{props.children}</div>;
 }
 
-export function ContextMenuShortcut(props: {
-    children: ReactNode;
-    className?: string;
-}) {
-    return (
-        <span className={cn("ml-auto text-xs tracking-widest opacity-60", props.className)}>
-            {props.children}
-        </span>
-    )
+export function ContextMenuShortcut(props: { children: ReactNode; className?: string }) {
+    return <span className={cn("ml-auto text-xs tracking-widest opacity-60", props.className)}>{props.children}</span>;
 }

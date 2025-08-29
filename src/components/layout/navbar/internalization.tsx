@@ -1,6 +1,6 @@
-import { cn } from "@/lib/utils";
 import { useRouterState } from "@tanstack/react-router";
 import { useId } from "react";
+import { cn } from "@/lib/utils";
 
 export default function Internalization() {
     const routerState = useRouterState();

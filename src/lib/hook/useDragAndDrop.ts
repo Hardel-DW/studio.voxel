@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from "react";
 
 interface UseDragAndDropProps {
     onDrop?: (item: string, slotPath: string) => void;
@@ -40,6 +40,6 @@ export function useDragAndDrop({ onDrop, onSlotClear }: UseDragAndDropProps = {}
         handleDragEnd,
         handleDragOver,
         handleDrop,
-        handleSlotClear,
+        handleSlotClear
     };
-} 
+}

@@ -1,4 +1,4 @@
-import { type ReactNode, createContext, useContext, useRef, useState } from "react";
+import { createContext, type ReactNode, useContext, useRef, useState } from "react";
 
 export interface DisclosureState<T extends HTMLElement> {
     open: boolean;

@@ -1,5 +1,4 @@
-
-import { create } from 'zustand';
+import { create } from "zustand";
 
 interface TooltipStore {
     hoveredItem?: string;
@@ -19,5 +18,5 @@ export const useTooltipStore = create<TooltipStore>((set) => ({
     clearHoveredItem: () => {
         if (timeoutRef) clearTimeout(timeoutRef);
         set({ hoveredItem: undefined });
-    },
+    }
 }));

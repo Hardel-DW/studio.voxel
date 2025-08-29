@@ -1,11 +1,11 @@
-import { useEffect, useState, useMemo } from "react";
-import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer";
-import useRegistry from "@/lib/hook/useRegistry";
-import { Identifier, TagsComparator } from "@voxelio/breeze";
 import type { DataDrivenRegistryElement, TagRegistry, TagType } from "@voxelio/breeze";
-import Loader from "@/components/ui/Loader";
+import { Identifier, TagsComparator } from "@voxelio/breeze";
+import { useEffect, useMemo, useState } from "react";
 import ErrorPlaceholder from "@/components/tools/elements/error/ErrorPlaceholder";
+import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer";
 import { useConfiguratorStore } from "@/components/tools/Store";
+import Loader from "@/components/ui/Loader";
+import useRegistry from "@/lib/hook/useRegistry";
 
 interface TagsRendererProps {
     items: string[] | string;
@@ -16,7 +16,7 @@ interface TagsRendererProps {
 /**
  * This component is used to render a tag.
  * items can be a string (Tags) or an array of strings (Items).
- * 
+ *
  * For Tags, we get vanilla tags with useRegistry, and we get the datapack tags with getRegistry.
  * We then use the TagsComparator to flatten and get only list of items.
  */
@@ -63,5 +63,7 @@ export default function TagsRenderer({ items, className, intervalMs = 2000 }: Ta
         );
     }
 
-    return <TextureRenderer id={itemsArray[currentIndex]} className={`${className} ${itemsArray.length > 1 ? "animate-item-pulse" : ""}`} />;
+    return (
+        <TextureRenderer id={itemsArray[currentIndex]} className={`${className} ${itemsArray.length > 1 ? "animate-item-pulse" : ""}`} />
+    );
 }

@@ -1,28 +1,28 @@
 import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer";
 import { BoxHovered, BoxHoveredContent, BoxHoveredTrigger } from "@/components/ui/BoxHovered";
-import { cn } from "@/lib/utils";
-import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@/components/ui/Dropdown";
 import { Button } from "@/components/ui/Button";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/Dropdown";
+import { cn } from "@/lib/utils";
 import { RecipeBlockManager } from "./recipeConfig";
 
 const CRAFTING_TYPES = {
-    "crafting_shaped": { name: "Shaped", description: "Craft with a specific pattern" },
-    "crafting_shapeless": { name: "Shapeless", description: "Craft in any order" },
-    "crafting_transmute": { name: "Transmute", description: "Transfer data from one item to another" },
-    "smithing_transform": { name: "Transform", description: "Give additional properties to an item" },
-    "smithing_trim": { name: "Trim", description: "Add a trim to an item" },
-    "crafting_special_repairitem": { name: "Repair Item", description: "Repair an item with another item" },
-    "crafting_special_mapcloning": { name: "Map Cloning", description: "Clone a map" },
-    "crafting_special_mapextending": { name: "Map Extending", description: "Extend a map" },
-    "crafting_special_shielddecoration": { name: "Shield Decoration", description: "Decorate a shield with a banner" },
-    "crafting_decorated_pot": { name: "Decorated Pot", description: "Craft a decorated pot with shard" },
-    "crafting_special_firework_rocket": { name: "Firework Rocket", description: "Used for crafting fireworks" },
-    "crafting_special_firework_star": { name: "Firework Star", description: "Used for crafting fireworks Star" },
-    "crafting_special_firework_star_fade": { name: "Firework Star Fade", description: "Used for crafting fireworks Star Fade" },
-    "crafting_special_tippedarrow": { name: "Tipped Arrow", description: "Craft a tipped arrow with a potion effect" },
-    "crafting_special_armordye": { name: "Armor Dye", description: "Dye leather armor" },
-    "crafting_special_bannerduplicate": { name: "Banner Duplicate", description: "Duplicate a banner pattern" },
-    "crafting_special_bookcloning": { name: "Book Cloning", description: "Clone a written book" }
+    crafting_shaped: { name: "Shaped", description: "Craft with a specific pattern" },
+    crafting_shapeless: { name: "Shapeless", description: "Craft in any order" },
+    crafting_transmute: { name: "Transmute", description: "Transfer data from one item to another" },
+    smithing_transform: { name: "Transform", description: "Give additional properties to an item" },
+    smithing_trim: { name: "Trim", description: "Add a trim to an item" },
+    crafting_special_repairitem: { name: "Repair Item", description: "Repair an item with another item" },
+    crafting_special_mapcloning: { name: "Map Cloning", description: "Clone a map" },
+    crafting_special_mapextending: { name: "Map Extending", description: "Extend a map" },
+    crafting_special_shielddecoration: { name: "Shield Decoration", description: "Decorate a shield with a banner" },
+    crafting_decorated_pot: { name: "Decorated Pot", description: "Craft a decorated pot with shard" },
+    crafting_special_firework_rocket: { name: "Firework Rocket", description: "Used for crafting fireworks" },
+    crafting_special_firework_star: { name: "Firework Star", description: "Used for crafting fireworks Star" },
+    crafting_special_firework_star_fade: { name: "Firework Star Fade", description: "Used for crafting fireworks Star Fade" },
+    crafting_special_tippedarrow: { name: "Tipped Arrow", description: "Craft a tipped arrow with a potion effect" },
+    crafting_special_armordye: { name: "Armor Dye", description: "Dye leather armor" },
+    crafting_special_bannerduplicate: { name: "Banner Duplicate", description: "Duplicate a banner pattern" },
+    crafting_special_bookcloning: { name: "Book Cloning", description: "Clone a written book" }
 };
 
 export default function RecipeSelector(props: {
@@ -90,7 +90,19 @@ export default function RecipeSelector(props: {
                             <DropdownMenuTrigger>
                                 <Button variant="ghost_border" className="justify-between w-full">
                                     <span>Advanced</span>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-chevron-down"><path d="M6 9l6 6 6-6" /></svg>
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="24"
+                                        height="24"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        strokeWidth="2"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        className="lucide lucide-chevron-down">
+                                        <path d="M6 9l6 6 6-6" />
+                                    </svg>
                                 </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent>
@@ -98,8 +110,7 @@ export default function RecipeSelector(props: {
                                     <DropdownMenuItem
                                         key={value.name}
                                         onClick={() => props.onChange(`minecraft:${craftingType}`)}
-                                        description={value.description}
-                                    >
+                                        description={value.description}>
                                         {value.name}
                                     </DropdownMenuItem>
                                 ))}

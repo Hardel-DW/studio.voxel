@@ -1,14 +1,10 @@
-import { cn } from "@/lib/utils";
 import type { ReactNode } from "react";
 import { createTabsContext } from "@/components/ui/TabsContext";
+import { cn } from "@/lib/utils";
 
 const { Provider: TabsProvider, useTabs } = createTabsContext();
 
-export function MenuTabs(props: {
-    children: ReactNode;
-    defaultValue: string;
-    className?: string;
-}) {
+export function MenuTabs(props: { children: ReactNode; defaultValue: string; className?: string }) {
     return (
         <TabsProvider defaultValue={props.defaultValue}>
             <div className={cn("flex flex-col", props.className)}>{props.children}</div>
@@ -16,19 +12,11 @@ export function MenuTabs(props: {
     );
 }
 
-export function MenuTabsList(props: {
-    children: ReactNode;
-    className?: string;
-}) {
+export function MenuTabsList(props: { children: ReactNode; className?: string }) {
     return <div className={cn("flex justify-start gap-x-5", props.className)}>{props.children}</div>;
 }
 
-export function MenuTabsTrigger(props: {
-    children: ReactNode;
-    value: string;
-    disabled?: boolean;
-    className?: string;
-}) {
+export function MenuTabsTrigger(props: { children: ReactNode; value: string; disabled?: boolean; className?: string }) {
     const { activeTab, setActiveTab } = useTabs();
 
     return (
@@ -51,12 +39,7 @@ export function MenuTabsTrigger(props: {
     );
 }
 
-export function MenuTabsContent(props: {
-    children: ReactNode;
-    value: string;
-    className?: string;
-    style?: React.CSSProperties;
-}) {
+export function MenuTabsContent(props: { children: ReactNode; value: string; className?: string; style?: React.CSSProperties }) {
     const { activeTab } = useTabs();
     const isActive = activeTab === props.value;
 

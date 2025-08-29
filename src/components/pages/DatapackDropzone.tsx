@@ -1,7 +1,6 @@
-
-import Dropzone from "@/components/ui/Dropzone";
 import { DEFAULT_MOD_METADATA, extractMetadata } from "@voxelio/breeze/converter";
 import { useState } from "react";
+import Dropzone from "@/components/ui/Dropzone";
 import DatapackForm from "./DatapackForm";
 
 export default function DatapackDropzone({ children }: { children?: React.ReactNode }) {

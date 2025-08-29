@@ -11,10 +11,7 @@ export default function SmithingTemplate({ slots, result }: SmithingTemplateProp
         <RecipeTemplateBase result={result}>
             <div className="flex gap-1">
                 {[0, 1, 2].map((slotIndex) => (
-                    <RecipeSlot
-                        key={slotIndex}
-                        item={slots[slotIndex.toString()]}
-                    />
+                    <RecipeSlot key={slotIndex} item={slots[slotIndex.toString()]} />
                 ))}
             </div>
         </RecipeTemplateBase>

@@ -1,8 +1,7 @@
-
-import type { BaseInteractiveComponent } from "@/lib/hook/useInteractiveLogic";
-import CounterUI from "@/components/ui/Counter";
-import { useInteractiveLogic } from "@/lib/hook/useInteractiveLogic";
 import RenderGuard from "@/components/tools/elements/RenderGuard";
+import CounterUI from "@/components/ui/Counter";
+import type { BaseInteractiveComponent } from "@/lib/hook/useInteractiveLogic";
+import { useInteractiveLogic } from "@/lib/hook/useInteractiveLogic";
 
 export type ToolCounterProps = BaseInteractiveComponent & {
     min: number;

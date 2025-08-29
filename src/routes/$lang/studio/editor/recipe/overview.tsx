@@ -1,28 +1,27 @@
-import { Identifier, isVoxel } from "@voxelio/breeze";
+import { createFileRoute } from "@tanstack/react-router";
 import type { RecipeProps } from "@voxelio/breeze";
+import { Identifier, isVoxel } from "@voxelio/breeze";
 import { useState } from "react";
+import RecipeOverviewCard from "@/components/pages/recipe/RecipeOverviewCard";
+import RecipeSelector from "@/components/tools/elements/recipe/RecipeSelector";
+import { RECIPE_BLOCKS, RecipeBlockManager } from "@/components/tools/elements/recipe/recipeConfig";
 import { useConfiguratorStore } from "@/components/tools/Store";
-import RecipeOverviewCard from "./RecipeOverviewCard";
 import { useInfiniteScroll } from "@/lib/hook/useInfiniteScroll";
-import { RecipeBlockManager, RECIPE_BLOCKS } from "@/components/tools/elements/recipe/recipeConfig";
-import dynamic from "@/lib/utils/dynamic";
-import Loader from "@/components/ui/Loader";
 
-const RecipeSelector = dynamic(() => import("@/components/tools/elements/recipe/RecipeSelector"), {
-    loading: () => <Loader />,
-    ssr: false
+export const Route = createFileRoute("/$lang/studio/editor/recipe/overview")({
+    component: Page
 });
 
-export default function Overview() {
+function Page() {
     const [search, setSearch] = useState("");
     const [selection, setSelection] = useState<string>("minecraft:barrier");
     const elements = useConfiguratorStore((state) => state.elements);
     const filteredElements = [...elements.values()]
-        .filter(el => isVoxel(el, "recipe"))
-        .filter(el => !search || el.identifier.resource.toLowerCase().includes(search.toLowerCase()))
-        .filter(el => RecipeBlockManager.getTypesFromSelection(selection).includes(el.type)) as RecipeProps[];
+        .filter((el) => isVoxel(el, "recipe"))
+        .filter((el) => !search || el.identifier.resource.toLowerCase().includes(search.toLowerCase()))
+        .filter((el) => RecipeBlockManager.getTypesFromSelection(selection).includes(el.type)) as RecipeProps[];
     const { visibleItems, hasMore, ref } = useInfiniteScroll(filteredElements, 16);
-    const recipeCounts = new Map<string, number>(RECIPE_BLOCKS.map(block => [block.id, 0]));
+    const recipeCounts = new Map<string, number>(RECIPE_BLOCKS.map((block) => [block.id, 0]));
 
     for (const element of elements.values()) {
         if (!isVoxel(element, "recipe")) continue;
@@ -42,11 +41,7 @@ export default function Overview() {
                 <div className="flex items-center gap-4">
                     <input type="text" placeholder="Search" onChange={(e) => setSearch(e.target.value)} />
                     <div className="relative">
-                        <RecipeSelector
-                            value={selection}
-                            onChange={setSelection}
-                            recipeCounts={recipeCounts}
-                        />
+                        <RecipeSelector value={selection} onChange={setSelection} recipeCounts={recipeCounts} />
                     </div>
                 </div>
             </div>
@@ -55,7 +50,7 @@ export default function Overview() {
             <div className="grid gap-4" style={{ gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))" }}>
                 {visibleItems.map((element, index) => (
                     <RecipeOverviewCard
-                        key={new Identifier(element.identifier).toUniqueKey() + `-${index}`}
+                        key={`${new Identifier(element.identifier).toUniqueKey()}-${index}`}
                         element={element}
                         elementId={new Identifier(element.identifier).toUniqueKey()}
                     />

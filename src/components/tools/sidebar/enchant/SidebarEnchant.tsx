@@ -1,6 +1,5 @@
-
-import { useConfiguratorStore } from "../../Store";
-import { SidebarItem } from "../SidebarItem";
+import { useConfiguratorStore } from "@/components/tools/Store";
+import { SidebarItem } from "@/components/tools/sidebar/SidebarItem";
 
 export default function SidebarEnchant() {
     const elementIds = useConfiguratorStore((state) => state.getSortedIdentifiers("enchantment"));

@@ -61,7 +61,7 @@ export const useBoxPosition = ({ triggerRef, contentRef, open }: UseBoxPositionP
                 window.removeEventListener("scroll", updatePosition);
             };
         }
-    }, [open, updatePosition]);
+    }, [open, updatePosition, contentRef.current]);
 
     return position;
 };

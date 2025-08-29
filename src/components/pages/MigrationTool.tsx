@@ -1,4 +1,7 @@
-
+import { compileDatapack, Datapack, Logger, parseDatapack, voxelDatapacks } from "@voxelio/breeze/core";
+import type React from "react";
+import { useEffect, useState } from "react";
+import { Toaster, toast } from "sonner";
 import { LinkButton } from "@/components/ui/Button";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/Dialog";
 import Dropzone from "@/components/ui/Dropzone";
@@ -6,14 +9,6 @@ import { useConfetti } from "@/lib/hook/useConfetti";
 import { useDictionary } from "@/lib/hook/useNext18n";
 import { trackEvent } from "@/lib/telemetry";
 import { downloadArchive } from "@/lib/utils/download";
-import { compileDatapack } from "@voxelio/breeze/core";
-import { parseDatapack } from "@voxelio/breeze/core";
-import { Logger } from "@voxelio/breeze/core";
-import { voxelDatapacks } from "@voxelio/breeze/core";
-import { Datapack } from "@voxelio/breeze/core";
-import type React from "react";
-import { useEffect, useState } from "react";
-import { Toaster, toast } from "sonner";
 import { StatusBox } from "../ui/StatusBox";
 
 interface DatapackInfo {
@@ -33,11 +28,7 @@ export default function MigrationTool({ children }: { children?: React.ReactNode
     const { addConfetti, renderConfetti } = useConfetti();
     const dictionary = useDictionary();
 
-    useEffect(() => {
-        if (sourceFiles && targetFiles) handleMigration();
-    }, [sourceFiles, targetFiles]);
-
-    const handleMigration = async () => {
+    const handleMigration = useCallback(async () => {
         if (!sourceFiles || !targetFiles) return;
         toast.info(dictionary.migration.processing);
         const source = await parseDatapack(sourceFiles[0]);

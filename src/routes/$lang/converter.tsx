@@ -1,34 +1,34 @@
-import { createFileRoute } from '@tanstack/react-router'
-import CompoundLayout from '@/components/layout/CompoundLayout'
-import ShiningStars from '@/components/ui/ShiningStars'
-import Star from '@/components/ui/Star'
-import { DashedPattern } from '@/components/ui/DashedPattern'
-import { LinkButton } from '@/components/ui/Button'
-import DatapackDropzone from '@/components/pages/DatapackDropzone'
-import Walkthrough from '@/components/ui/Walkthrough'
-import PageLoading from '@/components/loading/PageLoading'
-import { useDictionary } from '@/lib/hook/useNext18n'
-import type { Locale } from "@/lib/i18n/i18nServer"
+import { createFileRoute } from "@tanstack/react-router";
+import CompoundLayout from "@/components/layout/CompoundLayout";
+import PageLoading from "@/components/loading/PageLoading";
+import DatapackDropzone from "@/components/pages/DatapackDropzone";
+import { LinkButton } from "@/components/ui/Button";
+import { DashedPattern } from "@/components/ui/DashedPattern";
+import ShiningStars from "@/components/ui/ShiningStars";
+import Star from "@/components/ui/Star";
+import Walkthrough from "@/components/ui/Walkthrough";
+import { useDictionary } from "@/lib/hook/useNext18n";
+import type { Locale } from "@/lib/i18n/i18nServer";
 
-export const Route = createFileRoute('/$lang/converter')({
+export const Route = createFileRoute("/$lang/converter")({
     component: ConverterPage,
-    pendingComponent: PageLoading,
-})
+    pendingComponent: PageLoading
+});
 
 function ConverterPage() {
-    const { lang } = Route.useParams()
-    const dictionary = useDictionary()
+    const { lang } = Route.useParams();
+    const dictionary = useDictionary();
 
     const walkthroughSteps = [
         {
             title: dictionary.converter.step1.title,
-            description: dictionary.converter.step1.description,
+            description: dictionary.converter.step1.description
         },
         {
             title: dictionary.converter.step2.title,
-            description: dictionary.converter.step2.description,
-        },
-    ]
+            description: dictionary.converter.step2.description
+        }
+    ];
 
     return (
         <CompoundLayout dictionary={dictionary} lang={lang as Locale}>
@@ -125,5 +125,5 @@ function ConverterPage() {
 
             <Walkthrough steps={walkthroughSteps} />
         </CompoundLayout>
-    )
+    );
 }

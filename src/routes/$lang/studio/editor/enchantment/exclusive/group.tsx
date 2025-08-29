@@ -1,14 +1,15 @@
-import { useConfiguratorStore } from "@/components/tools/Store";
-import Translate from "@/components/tools/Translate";
+import { createFileRoute } from "@tanstack/react-router";
+import { Datapack, EnchantmentActionBuilder, getLabeledIdentifier, Identifier, isTag, type TagRegistry, Tags } from "@voxelio/breeze";
+import ErrorPlaceholder from "@/components/tools/elements/error/ErrorPlaceholder";
 import ToolCategory from "@/components/tools/elements/ToolCategory";
 import ToolGrid from "@/components/tools/elements/ToolGrid";
 import ToolListOption from "@/components/tools/elements/ToolListOption";
 import ToolSlot from "@/components/tools/elements/ToolSlot";
-import ErrorPlaceholder from "@/components/tools/elements/error/ErrorPlaceholder";
+import { useConfiguratorStore } from "@/components/tools/Store";
+import Translate from "@/components/tools/Translate";
 import Loader from "@/components/ui/Loader";
 import useRegistry from "@/lib/hook/useRegistry";
 import { isMinecraft } from "@/lib/utils/lock";
-import { Datapack, Identifier, type TagRegistry, getLabeledIdentifier, Tags, isTag, EnchantmentActionBuilder } from "@voxelio/breeze";
 
 const vanillaGroups = [
     { id: "armor", image: "armor", value: "#minecraft:exclusive_set/armor" },
@@ -20,7 +21,11 @@ const vanillaGroups = [
     { id: "boots", image: "foot_armor", value: "#minecraft:exclusive_set/boots" }
 ];
 
-export default function ExclusiveGroup() {
+export const Route = createFileRoute("/$lang/studio/editor/enchantment/exclusive/group")({
+    component: Page
+});
+
+function Page() {
     const files = useConfiguratorStore((state) => state.files);
     const enchantments = new Datapack(files).getRegistry("tags/enchantment", "exclusive_set", ["minecraft"]);
     const compile = useConfiguratorStore((state) => state.compile);

@@ -1,9 +1,9 @@
-import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer";
-import TagsRenderer from "@/components/tools/elements/texture/TagsRenderer";
-import { useTooltipStore } from "@/components/tools/elements/tooltip/useTooltip";
-import { useDragAndDrop } from "@/lib/hook/useDragAndDrop";
-import { useConfiguratorStore } from "@/components/tools/Store";
 import { RecipeActionBuilder } from "@voxelio/breeze/core";
+import TagsRenderer from "@/components/tools/elements/texture/TagsRenderer";
+import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer";
+import { useTooltipStore } from "@/components/tools/elements/tooltip/useTooltip";
+import { useConfiguratorStore } from "@/components/tools/Store";
+import { useDragAndDrop } from "@/lib/hook/useDragAndDrop";
 
 interface RecipeSlotProps {
     slotIndex?: string;
@@ -40,11 +40,8 @@ export default function RecipeSlot({ slotIndex, item, count, isEmpty = false, is
                 onMouseLeave={() => setHoveredItem(undefined)}
                 onDragOver={interactive ? handleDragOver : undefined}
                 onDrop={interactive && slotIndex ? (e) => handleDrop(e, slotIndex) : undefined}
-                onContextMenu={interactive && slotIndex ? () => handleSlotClear(slotIndex) : undefined}
-            >
-                {!isEmpty && item && displayItem && (
-                    isResult ? <TextureRenderer id={displayItem} /> : <TagsRenderer items={item} />
-                )}
+                onContextMenu={interactive && slotIndex ? () => handleSlotClear(slotIndex) : undefined}>
+                {!isEmpty && item && displayItem && (isResult ? <TextureRenderer id={displayItem} /> : <TagsRenderer items={item} />)}
             </button>
             {count && count > 1 && (
                 <span className="absolute -bottom-1 -right-1 bg-zinc-900 border border-zinc-600 rounded text-xs px-1 text-zinc-300">
@@ -53,4 +50,4 @@ export default function RecipeSlot({ slotIndex, item, count, isEmpty = false, is
             )}
         </div>
     );
-} 
+}

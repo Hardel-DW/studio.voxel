@@ -1,10 +1,10 @@
-
-import Translate from "@/components/tools/Translate";
-import { cn } from "@/lib/utils";
+import { useSearch } from "@tanstack/react-router";
 import type React from "react";
-import type { BaseComponent } from "@/lib/hook/useBreezeElement";
-import type { TranslateTextType } from "@/components/tools/Translate";
 import RenderGuard from "@/components/tools/elements/RenderGuard";
+import type { TranslateTextType } from "@/components/tools/Translate";
+import Translate from "@/components/tools/Translate";
+import type { BaseComponent } from "@/lib/hook/useBreezeElement";
+import { cn } from "@/lib/utils";
 
 export type ToolSectionSelectorSection = BaseComponent & {
     id: string;
@@ -14,11 +14,22 @@ export type ToolSectionSelectorSection = BaseComponent & {
         id: string;
         title: TranslateTextType;
     }[];
-    value: string;
-    setValue: (value: string) => void;
+    value?: string;
+    setValue?: (value: string) => void;
+    searchParam?: string;
+    useUrlSync?: boolean;
+    defaultValue?: string;
 };
 
 export default function ToolSectionSelector(props: ToolSectionSelectorSection) {
+    const search = useSearch({ from: "/$lang/studio/editor" }) as Record<string, string | undefined>;
+    const urlValue = props.searchParam && props.useUrlSync ? search[props.searchParam] : null;
+    const currentValue = urlValue || props.value || props.defaultValue || props.elements?.[0]?.id || "";
+
+    const handleSetValue = (value: string) => {
+        props.setValue?.(value);
+    };
+
     return (
         <RenderGuard condition={props.hide}>
             <div className="not-first:mt-16 h-full">
@@ -36,11 +47,11 @@ export default function ToolSectionSelector(props: ToolSectionSelectorSection) {
                                     <button
                                         type="button"
                                         className={cn("px-4 py-2 rounded-xl text-left", {
-                                            "bg-rose-900 text-white": props.value === element.id,
-                                            "hover:bg-zinc-700": props.value !== element.id
+                                            "bg-rose-900 text-white": currentValue === element.id,
+                                            "hover:bg-zinc-700": currentValue !== element.id
                                         })}
                                         key={element.id}
-                                        onClick={() => props.setValue(element.id)}>
+                                        onClick={() => handleSetValue(element.id)}>
                                         <p className="font-semibold line-clamp-1 text-xs md:text-sm">
                                             <Translate content={element.title} schema={true} />
                                         </p>

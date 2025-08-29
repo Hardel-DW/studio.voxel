@@ -1,11 +1,10 @@
-import { MenuTabsContent } from "@/components/ui/MenuTabs";
 import type { ReactNode } from "react";
-import Translate from "@/components/tools/Translate";
 import type { Tab } from "@/components/tools/elements";
+import Translate from "@/components/tools/Translate";
 
 export default function ConfiguratorContent(props: { tab: Tab; children: ReactNode }) {
     return (
-        <MenuTabsContent value={props.tab.id} className="h-full">
+        <div className="h-full">
             <div className="flex items flex-col pt-4 h-full">
                 {props.tab.soon && (
                     <div className="absolute inset-0 bg-black/10 backdrop-blur-sm flex flex-col items-center justify-center gap-4">
@@ -17,6 +16,6 @@ export default function ConfiguratorContent(props: { tab: Tab; children: ReactNo
                 )}
                 {props.children}
             </div>
-        </MenuTabsContent>
+        </div>
     );
 }

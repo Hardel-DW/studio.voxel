@@ -21,9 +21,7 @@ export function calculateItemCountRange(functions?: any[]): CountRange {
     }
 
     // Filter only set_count functions
-    const setCountFunctions = functions.filter(
-        (func): func is SetCountFunction => func.function === "minecraft:set_count"
-    );
+    const setCountFunctions = functions.filter((func): func is SetCountFunction => func.function === "minecraft:set_count");
 
     if (setCountFunctions.length === 0) {
         return { min: 1, max: 1 };
@@ -83,7 +81,7 @@ function parseCountValue(count: any): CountRange {
                 const max = match[2] ? parseInt(match[2], 10) : min;
                 return { min, max };
             }
-        } catch (error) {
+        } catch (_error) {
             // If NumberProvider fails, try to parse manually
             return parseCountValueManual(count);
         }

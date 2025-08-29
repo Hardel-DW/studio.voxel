@@ -1,5 +1,5 @@
-import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer";
 import type { LootItem } from "@voxelio/breeze";
+import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer";
 import { calculateItemCountRange } from "@/lib/utils/lootCount";
 
 interface RewardItemProps extends LootItem {
@@ -32,11 +32,7 @@ export default function RewardItem(props: RewardItemProps) {
                     <p className="text-white font-bold text-lg">
                         {countRange.min === countRange.max ? `×${countRange.min}` : `×${countRange.min}-${countRange.max}`}
                     </p>
-                    {probabilityPercentage && (
-                        <p className="text-xs text-zinc-400">
-                            {probabilityPercentage}% chance
-                        </p>
-                    )}
+                    {probabilityPercentage && <p className="text-xs text-zinc-400">{probabilityPercentage}% chance</p>}
                 </div>
             </div>
 

@@ -1,11 +1,11 @@
-import { cn } from "@/lib/utils";
 import { Actions, Identifier } from "@voxelio/breeze";
 import type { EnchantmentProps } from "@voxelio/breeze/schema";
+import SimpleSwitch from "@/components/tools/elements/SimpleSwitch";
 import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer";
 import { useConfiguratorStore } from "@/components/tools/Store";
-import OverviewCase from "./OverviewCase";
-import SimpleSwitch from "@/components/tools/elements/SimpleSwitch";
 import Translate from "@/components/tools/Translate";
+import { cn } from "@/lib/utils";
+import OverviewCase from "./OverviewCase";
 
 const findOptions = [
     {

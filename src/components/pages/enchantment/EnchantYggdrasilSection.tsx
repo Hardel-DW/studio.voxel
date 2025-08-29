@@ -1,11 +1,10 @@
+import { Actions } from "@voxelio/breeze/core";
+import type { EnchantmentProps } from "@voxelio/breeze/schema";
 import ToolCategory from "@/components/tools/elements/ToolCategory";
 import ToolGrid from "@/components/tools/elements/ToolGrid";
 import ToolInline from "@/components/tools/elements/ToolInline";
 import ToolSlot from "@/components/tools/elements/ToolSlot";
-import { Actions } from "@voxelio/breeze/core";
-import type { EnchantmentProps } from "@voxelio/breeze/schema";
 
-// Structure data for Alfheim section
 const alfheimStructures = [
     {
         title: "yggdrasil:random_chest.title",
@@ -39,7 +38,6 @@ const alfheimStructures = [
     }
 ];
 
-// Structure data for Asflors section
 const asflorsStructures = [
     {
         title: "yggdrasil:common_chest.title",
@@ -67,7 +65,6 @@ const asflorsStructures = [
     }
 ];
 
-// Structure data for Runic Labyrinth section
 const runicLabyrinthStructures = [
     {
         title: "yggdrasil:runic_laby.dark_elven_bow.title",
@@ -125,7 +122,6 @@ const runicLabyrinthStructures = [
     }
 ];
 
-// Equipment tags for Yggdrasil
 const yggdrasilEquipmentTags = [
     "#yggdrasil:equipment/item/bow",
     "#yggdrasil:equipment/item/sword",
@@ -135,10 +131,9 @@ const yggdrasilEquipmentTags = [
     "#yggdrasil:equipment/item/boots"
 ];
 
-export default function EnchantYggdrasil() {
+export default function EnchantYggdrasilSection() {
     return (
         <>
-            {/* Alfheim Category */}
             <ToolCategory title={{ key: "yggdrasil:alfheim.title" }}>
                 <ToolGrid size="400px">
                     <ToolSlot
@@ -162,7 +157,6 @@ export default function EnchantYggdrasil() {
                 </ToolGrid>
             </ToolCategory>
 
-            {/* Asflors Category */}
             <ToolCategory title={{ key: "yggdrasil:asflors.title" }}>
                 <ToolGrid size="300px">
                     {asflorsStructures.map((structure) => (
@@ -178,7 +172,6 @@ export default function EnchantYggdrasil() {
                 </ToolGrid>
             </ToolCategory>
 
-            {/* Runic Fracture Category */}
             <ToolCategory title={{ key: "yggdrasil:runic_fracture.title" }}>
                 <ToolGrid size="400px">
                     <ToolSlot
@@ -198,7 +191,6 @@ export default function EnchantYggdrasil() {
                 </ToolGrid>
             </ToolCategory>
 
-            {/* Runic Labyrinth Category */}
             <ToolCategory title={{ key: "yggdrasil:runic_laby.title" }}>
                 <ToolGrid size="400px">
                     {runicLabyrinthStructures.map((structure) => (

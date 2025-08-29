@@ -1,4 +1,4 @@
-import React from "react";
+import { useMemo, useState } from "react";
 import type { BaseComponent } from "./useBreezeElement";
 
 interface ElementWithId {
@@ -20,8 +20,8 @@ export function useDynamicSchemaLogic<T extends ElementWithId>(elements: T[] | u
         };
     }
 
-    const [currentId, setCurrentId] = React.useState<string>(initialId || elements[0].id);
-    const currentElement = React.useMemo(() => elements.find((element) => element.id === currentId), [elements, currentId]);
+    const [currentId, setCurrentId] = useState<string>(initialId || elements[0].id);
+    const currentElement = useMemo(() => elements.find((element) => element.id === currentId), [elements, currentId]);
     const error = !currentElement ? new Error(`Current element not found for id: ${currentId}.`) : undefined;
 
     return {

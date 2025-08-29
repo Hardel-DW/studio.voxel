@@ -1,6 +1,6 @@
-import useRegistry from "@/lib/hook/useRegistry";
 import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer";
 import { useDragAndDrop } from "@/lib/hook/useDragAndDrop";
+import useRegistry from "@/lib/hook/useRegistry";
 
 export default function ToolInventory({ search }: { search: string }) {
     const { data: items, isLoading, isError } = useRegistry<string[]>("item", "registry");
@@ -28,27 +28,33 @@ export default function ToolInventory({ search }: { search: string }) {
     }
 
     return (
-        <div className="grid gap-2" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(56px, 1fr))', gridTemplateRows: 'repeat(auto-fill, minmax(56px, 1fr))' }}>
-            {items.filter((item) => item !== "air" && item.toLowerCase().includes(search.toLowerCase())).map((item) => {
-                const isDragging = draggedItem === item;
-                return (
-                    <div
-                        key={item}
-                        className={`relative overflow-hidden bg-zinc-900/20 border border-zinc-800 hover:border-zinc-600 rounded-lg p-3 cursor-grab active:cursor-grabbing transition-all hover:bg-zinc-900/40 group ${isDragging ? 'opacity-50' : ''}`}
-                        draggable={true}
-                        onDragStart={(e) => handleDragStart(e, item)}
-                        onDragEnd={handleDragEnd}
-                    >
-                        <div className="w-8 h-8 flex items-center justify-center">
-                            <TextureRenderer id={item} />
-                        </div>
+        <div
+            className="grid gap-2"
+            style={{
+                gridTemplateColumns: "repeat(auto-fill, minmax(56px, 1fr))",
+                gridTemplateRows: "repeat(auto-fill, minmax(56px, 1fr))"
+            }}>
+            {items
+                .filter((item) => item !== "air" && item.toLowerCase().includes(search.toLowerCase()))
+                .map((item) => {
+                    const isDragging = draggedItem === item;
+                    return (
+                        <div
+                            key={item}
+                            className={`relative overflow-hidden bg-zinc-900/20 border border-zinc-800 hover:border-zinc-600 rounded-lg p-3 cursor-grab active:cursor-grabbing transition-all hover:bg-zinc-900/40 group ${isDragging ? "opacity-50" : ""}`}
+                            draggable={true}
+                            onDragStart={(e) => handleDragStart(e, item)}
+                            onDragEnd={handleDragEnd}>
+                            <div className="w-8 h-8 flex items-center justify-center">
+                                <TextureRenderer id={item} />
+                            </div>
 
-                        <div className="absolute inset-0 -z-10 brightness-25 opacity-0 group-hover:opacity-100 transition-opacity">
-                            <img src="/images/shine.avif" alt="Shine" />
+                            <div className="absolute inset-0 -z-10 brightness-25 opacity-0 group-hover:opacity-100 transition-opacity">
+                                <img src="/images/shine.avif" alt="Shine" />
+                            </div>
                         </div>
-                    </div>
-                );
-            })}
+                    );
+                })}
         </div>
     );
 }

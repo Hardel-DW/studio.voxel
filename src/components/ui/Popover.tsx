@@ -1,22 +1,17 @@
+import type { ReactElement, ReactNode } from "react";
+import { createContext, useContext, useRef } from "react";
+import { createPortal } from "react-dom";
+import { createDisclosureContext } from "@/components/ui/DisclosureContext";
+import { Trigger } from "@/components/ui/Trigger";
 import { useClickOutside } from "@/lib/hook/useClickOutside";
 import { usePopoverPosition } from "@/lib/hook/usePopoverPosition";
 import { usePopoverVisibility } from "@/lib/hook/usePopoverVisibility";
 import { cn } from "@/lib/utils";
-import type { ReactElement, ReactNode } from "react";
-import { createContext, useContext, useRef } from "react";
-import { createDisclosureContext } from "@/components/ui/DisclosureContext";
-import { Trigger } from "@/components/ui/Trigger";
-import { createPortal } from "react-dom";
 
 const { Provider, useDisclosure } = createDisclosureContext<HTMLButtonElement>();
 const PopoverContext = createContext<{ onOpenChange?: (open: boolean) => void } | null>(null);
 
-export function Popover(props: {
-    children: ReactNode;
-    className?: string;
-    defaultOpen?: boolean;
-    onOpenChange?: (open: boolean) => void;
-}) {
+export function Popover(props: { children: ReactNode; className?: string; defaultOpen?: boolean; onOpenChange?: (open: boolean) => void }) {
     return (
         <PopoverContext.Provider value={{ onOpenChange: props.onOpenChange }}>
             <Provider defaultOpen={props.defaultOpen}>
@@ -49,10 +44,7 @@ export function PopoverTrigger(props: {
     );
 }
 
-export function PopoverContent(props: {
-    children: ReactNode;
-    className?: string;
-}) {
+export function PopoverContent(props: { children: ReactNode; className?: string }) {
     const { open, setOpen, triggerRef } = useDisclosure();
     const context = useContext(PopoverContext);
     const contentRef = useRef<HTMLDivElement>(null);

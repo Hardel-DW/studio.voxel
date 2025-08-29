@@ -1,5 +1,5 @@
-import { type MobileMenuState, useMobileMenuStore } from "@/components/layout/navbar/mobileMenuStore";
 import type { PropsWithChildren } from "react";
+import { type MobileMenuState, useMobileMenuStore } from "@/components/layout/navbar/mobileMenuStore";
 
 export default function MobileNavigationContainer({ children }: PropsWithChildren) {
     const isMobileMenuOpen = useMobileMenuStore((state: MobileMenuState) => state.isOpen);

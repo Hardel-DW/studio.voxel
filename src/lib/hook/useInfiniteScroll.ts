@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useEffect, useRef, useState } from "react";
 
 export function useInfiniteScroll<T>(items: T[], itemsPerPage = 50) {
     const [count, setCount] = useState(itemsPerPage);
@@ -8,20 +8,17 @@ export function useInfiniteScroll<T>(items: T[], itemsPerPage = 50) {
 
     const loadMore = () => {
         if (!hasMore) return;
-        setCount(prev => Math.min(prev + itemsPerPage, items.length));
+        setCount((prev) => Math.min(prev + itemsPerPage, items.length));
     };
 
     useEffect(() => {
         if (!ref.current) return;
 
-        const observer = new IntersectionObserver(
-            ([entry]) => entry.isIntersecting && loadMore(),
-            { rootMargin: '100px' }
-        );
+        const observer = new IntersectionObserver(([entry]) => entry.isIntersecting && loadMore(), { rootMargin: "100px" });
 
         observer.observe(ref.current);
         return () => observer.disconnect();
-    }, [hasMore]);
+    }, [loadMore]);
 
     return {
         setCount,
@@ -29,4 +26,4 @@ export function useInfiniteScroll<T>(items: T[], itemsPerPage = 50) {
         hasMore,
         ref
     };
-} 
+}

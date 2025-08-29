@@ -1,7 +1,7 @@
-import { useConfiguratorStore } from "@/components/tools/Store";
-import type { LockRenderer, Lock } from "../utils/lock";
-import { type BaseComponent, useElement, useElementLocks } from "@/lib/hook/useBreezeElement";
 import type { Action, ActionValue } from "@voxelio/breeze/core";
+import { useConfiguratorStore } from "@/components/tools/Store";
+import { type BaseComponent, useElement, useElementLocks } from "@/lib/hook/useBreezeElement";
+import type { Lock, LockRenderer } from "../utils/lock";
 
 export interface UseInteractiveLogicProps<C extends BaseInteractiveComponent> {
     component: C;

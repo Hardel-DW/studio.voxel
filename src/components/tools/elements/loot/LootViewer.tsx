@@ -1,14 +1,14 @@
-import { useInteractiveLogic, type BaseInteractiveComponent } from "@/lib/hook/useInteractiveLogic";
-import type { TranslateTextType } from "@/components/tools/Translate";
-import RewardItem from "@/components/tools/elements/loot/RewardItem"
 import type { LootItem, LootTableProps } from "@voxelio/breeze";
 import { LootTableProbabilityCalculator } from "@voxelio/breeze";
 import { useMemo } from "react";
+import RewardItem from "@/components/tools/elements/loot/RewardItem";
+import type { TranslateTextType } from "@/components/tools/Translate";
+import { type BaseInteractiveComponent, useInteractiveLogic } from "@/lib/hook/useInteractiveLogic";
 
 export type LootViewerProps = BaseInteractiveComponent & {
     title: TranslateTextType;
     lootTable: LootTableProps;
-    data: LootItem[]
+    data: LootItem[];
 };
 
 export default function LootViewer(props: LootViewerProps) {
@@ -28,7 +28,6 @@ export default function LootViewer(props: LootViewerProps) {
 
         return probabilityMap;
     }, [props.lootTable]);
-
 
     return (
         <div className="relative overflow-hidden bg-black/50 border-t-2 border-l-2 border-stone-900 ring-0 ring-zinc-900 rounded-xl w-full min-h-full">
@@ -75,5 +74,5 @@ export default function LootViewer(props: LootViewerProps) {
                 <img src="/images/shine.avif" alt="Shine" />
             </div>
         </div>
-    )
+    );
 }

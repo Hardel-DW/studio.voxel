@@ -1,6 +1,6 @@
-import { cn } from "@/lib/utils";
 import type { ReactElement } from "react";
 import { cloneElement, isValidElement } from "react";
+import { cn } from "@/lib/utils";
 
 interface TriggerProps<T extends HTMLElement> {
     children: ReactElement<{ ref?: React.Ref<T>; onClick?: (e: React.MouseEvent) => void; className?: string }>;

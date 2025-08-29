@@ -4,13 +4,14 @@ export type Concept = {
     registry: CONCEPT_KEY;
     title: string;
     image: { src: string; alt: string };
+    overview: string;
     tabs: Tab[];
 };
 
 export type Tab = {
     id: string;
-    text: { key: string };
-    section: string;
+    text: string;
+    url: string;
     soon?: boolean;
 };
 
@@ -22,36 +23,37 @@ export const CONCEPTS: Concept[] = [
             src: "/images/features/item/enchanted_book.webp",
             alt: "Enchantment"
         },
+        overview: "/$lang/studio/editor/enchantment/overview",
         tabs: [
             {
                 id: "global",
-                text: { key: "enchantment:section.global" },
-                section: "enchant.main"
+                text: "enchantment:section.global",
+                url: "/$lang/studio/editor/enchantment/main"
             },
             {
                 id: "find",
-                text: { key: "enchantment:section.find" },
-                section: "enchant.find"
+                text: "enchantment:section.find",
+                url: "/$lang/studio/editor/enchantment/find"
             },
             {
                 id: "slots",
-                text: { key: "enchantment:section.slots" },
-                section: "enchant.slot"
+                text: "enchantment:section.slots",
+                url: "/$lang/studio/editor/enchantment/slots"
             },
             {
                 id: "items",
-                text: { key: "enchantment:section.supported" },
-                section: "enchant.item"
+                text: "enchantment:section.supported",
+                url: "/$lang/studio/editor/enchantment/items"
             },
             {
                 id: "exclusive",
-                text: { key: "enchantment:section.exclusive" },
-                section: "enchant.exclusive"
+                text: "enchantment:section.exclusive",
+                url: "/$lang/studio/editor/enchantment/exclusive"
             },
             {
                 id: "technical",
-                text: { key: "enchantment:section.technical" },
-                section: "enchant.technical"
+                text: "enchantment:section.technical",
+                url: "/$lang/studio/editor/enchantment/technical"
             }
         ]
     },
@@ -62,11 +64,12 @@ export const CONCEPTS: Concept[] = [
             src: "/images/features/item/bundle_close.webp",
             alt: "Loot Table"
         },
+        overview: "/$lang/studio/editor/loot/overview",
         tabs: [
             {
                 id: "main",
-                text: { key: "loot_table:section.main" },
-                section: "loot.main"
+                text: "loot_table:section.main",
+                url: "/$lang/studio/editor/loot/main"
             }
         ]
     },
@@ -77,11 +80,12 @@ export const CONCEPTS: Concept[] = [
             src: "/images/features/block/crafting_table.webp",
             alt: "Recipe"
         },
+        overview: "/$lang/studio/editor/recipe/overview",
         tabs: [
             {
                 id: "main",
-                text: { key: "recipe:section.main" },
-                section: "recipe.main"
+                text: "recipe:section.main",
+                url: "/$lang/studio/editor/recipe/main"
             }
         ]
     },
@@ -92,6 +96,7 @@ export const CONCEPTS: Concept[] = [
             src: "/images/features/block/jigsaw.webp",
             alt: "Structure"
         },
+        overview: "/$lang/studio/editor/structure/overview",
         tabs: []
     }
 ];

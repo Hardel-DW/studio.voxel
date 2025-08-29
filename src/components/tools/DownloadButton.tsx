@@ -1,11 +1,11 @@
+import { Datapack, voxelDatapacks } from "@voxelio/breeze/core";
+import SettingsDialog from "@/components/tools/SettingsDialog";
 import { useConfiguratorStore } from "@/components/tools/Store";
+import Translate from "@/components/tools/Translate";
 import { Button, LinkButton } from "@/components/ui/Button";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/Dialog";
 import { saveLogs } from "@/lib/telemetry";
 import { downloadArchive } from "@/lib/utils/download";
-import { Datapack, voxelDatapacks } from "@voxelio/breeze/core";
-import Translate from "@/components/tools/Translate";
-import SettingsDialog from "@/components/tools/SettingsDialog";
 
 export default function DownloadButton() {
     const handleClick = async () => {

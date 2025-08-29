@@ -36,9 +36,7 @@ export default function ErrorPlaceholder({ error }: ErrorPlaceholderProps) {
                         <summary className="cursor-pointer">
                             <Translate content="error.details" />
                         </summary>
-                        <pre className="mt-2 whitespace-pre-wrap">
-                            {error?.message || <Translate content="error.component" />}
-                        </pre>
+                        <pre className="mt-2 whitespace-pre-wrap">{error?.message || <Translate content="error.component" />}</pre>
                     </details>
                 </div>
             </div>

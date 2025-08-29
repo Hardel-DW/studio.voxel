@@ -1,10 +1,10 @@
 import { useDebugStore } from "@/components/tools/debug/DebugStore";
 import { RegistryElement } from "@/components/tools/debug/RegistryElement";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/Dropdown";
-import { Button } from "@/components/ui/Button";
-import { ruwsc } from "@/lib/utils";
-import Translate from "@/components/tools/Translate";
 import { RightSection } from "@/components/tools/debug/RightSection";
+import Translate from "@/components/tools/Translate";
+import { Button } from "@/components/ui/Button";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/Dropdown";
+import { ruwsc } from "@/lib/utils";
 
 export default function DebugPanel() {
     const {

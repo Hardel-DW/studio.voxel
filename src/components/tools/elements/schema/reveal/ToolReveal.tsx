@@ -1,8 +1,9 @@
+import { useSearch } from "@tanstack/react-router";
+import type React from "react";
+import { Children, cloneElement, createContext, isValidElement, type ReactNode, useContext, useState } from "react";
 import OriginalToolRevealCard from "@/components/tools/elements/schema/reveal/ToolRevealElementType";
 import type { TranslateTextType } from "@/components/tools/Translate";
 import { cn } from "@/lib/utils";
-import type React from "react";
-import { Children, type ReactNode, cloneElement, createContext, isValidElement, useContext, useState } from "react";
 
 export type ToolRevealCardData = {
     id: string;
@@ -50,11 +51,24 @@ type ToolRevealProps = {
     className?: string;
     listClassName?: string;
     contentClassName?: string;
+    searchParam?: string;
+    useUrlSync?: boolean;
 };
 
-export default function ToolReveal({ children, defaultValue, className, listClassName, contentClassName }: ToolRevealProps) {
-    const [activeId, setActiveId] = useState<string>(defaultValue);
+export default function ToolReveal({
+    children,
+    defaultValue,
+    className,
+    listClassName,
+    contentClassName,
+    searchParam,
+    useUrlSync = false
+}: ToolRevealProps) {
+    const search = useSearch({ from: "/$lang/studio/editor" }) as Record<string, string | undefined>;
 
+    const urlValue = searchParam && useUrlSync ? search[searchParam] : null;
+    const [localActiveId, setLocalActiveId] = useState<string>(defaultValue);
+    const activeId = urlValue || localActiveId;
     const triggers: React.ReactElement<ToolRevealElementProps>[] = [];
     let activeContent: ReactNode | null = null;
 
@@ -69,7 +83,7 @@ export default function ToolReveal({ children, defaultValue, className, listClas
     });
 
     return (
-        <ToolRevealContext.Provider value={{ activeId, setActiveId }}>
+        <ToolRevealContext.Provider value={{ activeId, setActiveId: setLocalActiveId }}>
             <div className={cn("grid gap-4", className)}>
                 <div
                     className={cn("grid max-xl:grid-cols-1 gap-4", listClassName)}

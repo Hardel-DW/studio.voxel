@@ -1,6 +1,6 @@
+import { useId } from "react";
 import { useI18nStore } from "@/lib/i18n/i18nStore";
 import { cn } from "@/lib/utils";
-import { useId } from "react";
 
 export default function ToolInternalization() {
     const language = useI18nStore((state) => state.language);

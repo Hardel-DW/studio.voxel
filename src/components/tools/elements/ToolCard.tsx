@@ -1,10 +1,9 @@
-
+import RenderGuard from "@/components/tools/elements/RenderGuard";
+import type { TranslateTextType } from "@/components/tools/Translate";
 import Translate from "@/components/tools/Translate";
+import type { BaseInteractiveComponent } from "@/lib/hook/useInteractiveLogic";
 import { useInteractiveLogic } from "@/lib/hook/useInteractiveLogic";
 import { cn } from "@/lib/utils";
-import type { BaseInteractiveComponent } from "@/lib/hook/useInteractiveLogic";
-import type { TranslateTextType } from "@/components/tools/Translate";
-import RenderGuard from "@/components/tools/elements/RenderGuard";
 
 export type ToolInlineType = BaseInteractiveComponent & {
     description?: TranslateTextType;

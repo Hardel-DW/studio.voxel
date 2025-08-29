@@ -1,10 +1,9 @@
-
-import Translate from "@/components/tools/Translate";
-import Tabs from "@/components/ui/Tabs";
-import { useInteractiveLogic } from "@/lib/hook/useInteractiveLogic";
-import type { BaseInteractiveComponent } from "@/lib/hook/useInteractiveLogic";
-import type { TranslateTextType } from "@/components/tools/Translate";
 import RenderGuard from "@/components/tools/elements/RenderGuard";
+import type { TranslateTextType } from "@/components/tools/Translate";
+import Translate from "@/components/tools/Translate";
+import { Tabs, TabsTrigger } from "@/components/ui/Tabs";
+import type { BaseInteractiveComponent } from "@/lib/hook/useInteractiveLogic";
+import { useInteractiveLogic } from "@/lib/hook/useInteractiveLogic";
 
 export type ToolSelectorType = BaseInteractiveComponent & {
     title: TranslateTextType;
@@ -15,11 +14,6 @@ export type ToolSelectorType = BaseInteractiveComponent & {
 export default function ToolSelector(props: ToolSelectorType & { index?: number }) {
     const { value, lock, handleChange } = useInteractiveLogic<ToolSelectorType, string>({ component: props });
     if (value === null) return null;
-
-    const list = props.options.map((option) => ({
-        label: <Translate content={option.label} />,
-        value: option.value
-    }));
 
     return (
         <RenderGuard condition={props.hide}>
@@ -43,7 +37,16 @@ export default function ToolSelector(props: ToolSelectorType & { index?: number 
                             )}
                         </div>
 
-                        <Tabs tabs={list} defaultTab={value} onChange={handleChange} disabled={lock.isLocked} />
+                        <Tabs defaultValue={value} onValueChange={handleChange}>
+                            {props.options.map((option) => (
+                                <TabsTrigger
+                                    key={option.value}
+                                    value={option.value}
+                                    className={lock.isLocked ? "opacity-50 cursor-not-allowed" : ""}>
+                                    <Translate content={option.label} />
+                                </TabsTrigger>
+                            ))}
+                        </Tabs>
                     </div>
                 </div>
                 <div className="absolute inset-0 -z-10 brightness-15">

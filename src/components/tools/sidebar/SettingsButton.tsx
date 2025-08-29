@@ -1,11 +1,10 @@
-
+import { useDebugStore } from "@/components/tools/debug/DebugStore";
 import { useConfiguratorStore } from "@/components/tools/Store";
+import Translate from "@/components/tools/Translate";
 import { Button } from "@/components/ui/Button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/Popover";
-import { useDebugStore } from "@/components/tools/debug/DebugStore";
-import dynamic from "@/lib/utils/dynamic";
-import Translate from "@/components/tools/Translate";
 import { useTranslateKey } from "@/lib/hook/useTranslation";
+import dynamic from "@/lib/utils/dynamic";
 
 const DebugPanel = dynamic(() => import("@/components/tools/debug/DebugPanel"), {
     ssr: false,

@@ -1,12 +1,12 @@
+import type { ReactElement, ReactNode } from "react";
+import React, { useRef } from "react";
+import { createPortal } from "react-dom";
 import { createDisclosureContext } from "@/components/ui/DisclosureContext";
 import { Trigger } from "@/components/ui/Trigger";
 import { useClickOutside } from "@/lib/hook/useClickOutside";
 import { usePopoverPosition } from "@/lib/hook/usePopoverPosition";
 import { usePopoverVisibility } from "@/lib/hook/usePopoverVisibility";
 import { cn } from "@/lib/utils";
-import type { ReactElement, ReactNode } from "react";
-import React, { useRef } from "react";
-import { createPortal } from "react-dom";
 
 interface SelectContextState<T> {
     value: T | undefined;
@@ -18,12 +18,7 @@ interface SelectContextState<T> {
 const SelectContext = createDisclosureContext<HTMLButtonElement>();
 const ValueContext = React.createContext<SelectContextState<any> | null>(null);
 
-export function Select<T>(props: {
-    children: ReactNode;
-    className?: string;
-    value: T;
-    setValue: (value: T) => void;
-}) {
+export function Select<T>(props: { children: ReactNode; className?: string; value: T; setValue: (value: T) => void }) {
     const displayTextMap = React.useRef(new Map<T, ReactNode>());
     const registerOption = (value: T, text: ReactNode) => displayTextMap.current.set(value, text);
     const getDisplayText = (value: T) => displayTextMap.current.get(value);

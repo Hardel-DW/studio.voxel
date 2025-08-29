@@ -1,8 +1,7 @@
-
-import { getCurrentElement, useConfiguratorStore } from "@/components/tools/Store";
-import { useShallow } from "zustand/shallow";
-import { checkLocks, type Condition, type Lock, type LockRenderer } from "../utils/lock";
 import type { VoxelElement } from "@voxelio/breeze/core";
+import { useShallow } from "zustand/shallow";
+import { getCurrentElement, useConfiguratorStore } from "@/components/tools/Store";
+import { type Condition, checkLocks, type Lock, type LockRenderer } from "../utils/lock";
 
 export type BaseComponent = {
     hide?: (el: VoxelElement) => boolean;

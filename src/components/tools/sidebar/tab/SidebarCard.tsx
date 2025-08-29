@@ -1,7 +1,8 @@
-
-import { cn } from "@/lib/utils";
+import { Link, useParams } from "@tanstack/react-router";
+import { CONCEPTS } from "@/components/tools/elements";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import Translate from "@/components/tools/Translate";
+import { cn } from "@/lib/utils";
 
 interface Props {
     title: string;
@@ -14,22 +15,20 @@ interface Props {
 }
 
 export default function SidebarCard(props: Props) {
-    const handleEvent = (e: React.MouseEvent<HTMLDivElement> | React.KeyboardEvent<HTMLDivElement>) => {
+    const params = useParams({ from: "/$lang/studio/editor" });
+    const currentConcept = useConfiguratorStore((state) => state.selectedConcept);
+    const activeConcept = CONCEPTS.find((concept) => concept.registry === currentConcept);
+    const handleEvent = (e: React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLButtonElement>) => {
         if (props.locked) return;
 
         e.preventDefault();
         if (e.type === "keydown") {
-            const keyboardEvent = e as React.KeyboardEvent<HTMLDivElement>;
+            const keyboardEvent = e as React.KeyboardEvent<HTMLButtonElement>;
             if (keyboardEvent.key !== "Enter" && keyboardEvent.key !== " ") {
                 return;
             }
         }
         props.onClick?.();
-    };
-
-    const handleOverview = () => {
-        const store = useConfiguratorStore.getState();
-        store.setCurrentElementId(null);
     };
 
     return (
@@ -46,7 +45,11 @@ export default function SidebarCard(props: Props) {
                 </div>
             )}
 
-            <div onClick={handleEvent} onKeyDown={handleEvent} className="flex flex-col  rounded-2xl border-zinc-900 border-2 ">
+            <button
+                type="button"
+                onClick={handleEvent}
+                onKeyDown={handleEvent}
+                className="flex flex-col  rounded-2xl border-zinc-900 border-2 ">
                 <div
                     className={cn(
                         "stack overflow-hiddenw-full h-24 relative cursor-pointer transition-all transition-discrete hidden:opacity-0 bg-content flex-1",
@@ -103,18 +106,17 @@ export default function SidebarCard(props: Props) {
                         </>
                     )}
                 </div>
-                {props.selected && (
+                {props.selected && activeConcept && (
                     <div className="px-4 py-2">
-                        <button
-                            onClick={handleOverview}
-                            onKeyDown={handleOverview}
-                            type="button"
-                            className="w-full rounded-2xl cursor-pointer bg-zinc-800/30 hover:bg-zinc-700/20 px-3 py-2 text-xs font-medium text-zinc-300 transition-colors">
+                        <Link
+                            to={activeConcept.overview}
+                            params={{ lang: params.lang }}
+                            className="block w-full rounded-2xl cursor-pointer bg-zinc-800/30 hover:bg-zinc-700/20 px-3 py-2 text-xs font-medium text-zinc-300 transition-colors text-center">
                             <Translate content="overview" />
-                        </button>
+                        </Link>
                     </div>
                 )}
-            </div>
+            </button>
         </div>
     );
 }

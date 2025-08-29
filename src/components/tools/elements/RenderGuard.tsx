@@ -1,9 +1,8 @@
-
+import type React from "react";
+import ErrorPlaceholder from "@/components/tools/elements/error/ErrorPlaceholder";
 import ErrorBoundary from "@/components/ui/ErrorBoundary";
 import { useElementCondition } from "@/lib/hook/useBreezeElement";
 import type { Condition } from "@/lib/utils/lock";
-import type React from "react";
-import ErrorPlaceholder from "@/components/tools/elements/error/ErrorPlaceholder";
 
 interface RenderGuardProps {
     condition: Condition | undefined;

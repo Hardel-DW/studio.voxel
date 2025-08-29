@@ -1,6 +1,6 @@
-import { createRootRoute, Outlet } from '@tanstack/react-router'
-import { TanStackRouterDevtools } from '@tanstack/router-devtools'
-import Providers from '@/components/QueryProvider'
+import { createRootRoute, Outlet } from "@tanstack/react-router";
+import { TanStackRouterDevtools } from "@tanstack/router-devtools";
+import Providers from "@/components/QueryProvider";
 
 export const Route = createRootRoute({
     component: () => (
@@ -10,5 +10,5 @@ export const Route = createRootRoute({
             </Providers>
             <TanStackRouterDevtools />
         </>
-    ),
-})
+    )
+});

@@ -1,6 +1,6 @@
+import { useId } from "react";
 import { Button } from "@/components/ui/Button";
 import { type MobileMenuState, useMobileMenuStore } from "./mobileMenuStore";
-import { useId } from "react";
 
 export default function MobileMenuButton() {
     const toggleMobileMenu = useMobileMenuStore((state: MobileMenuState) => state.toggle);

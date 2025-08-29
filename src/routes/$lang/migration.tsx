@@ -1,38 +1,38 @@
-import { createFileRoute } from '@tanstack/react-router'
-import CompoundLayout from '@/components/layout/CompoundLayout'
-import ShiningStars from '@/components/ui/ShiningStars'
-import Star from '@/components/ui/Star'
-import { DashedPattern } from '@/components/ui/DashedPattern'
-import { LinkButton } from '@/components/ui/Button'
-import MigrationTool from '@/components/pages/MigrationTool'
-import Walkthrough from '@/components/ui/Walkthrough'
-import PageLoading from '@/components/loading/PageLoading'
-import { useDictionary } from '@/lib/hook/useNext18n'
-import type { Locale } from "@/lib/i18n/i18nServer"
+import { createFileRoute } from "@tanstack/react-router";
+import CompoundLayout from "@/components/layout/CompoundLayout";
+import PageLoading from "@/components/loading/PageLoading";
+import MigrationTool from "@/components/pages/MigrationTool";
+import { LinkButton } from "@/components/ui/Button";
+import { DashedPattern } from "@/components/ui/DashedPattern";
+import ShiningStars from "@/components/ui/ShiningStars";
+import Star from "@/components/ui/Star";
+import Walkthrough from "@/components/ui/Walkthrough";
+import { useDictionary } from "@/lib/hook/useNext18n";
+import type { Locale } from "@/lib/i18n/i18nServer";
 
-export const Route = createFileRoute('/$lang/migration')({
+export const Route = createFileRoute("/$lang/migration")({
     component: MigrationPage,
-    pendingComponent: PageLoading,
-})
+    pendingComponent: PageLoading
+});
 
 function MigrationPage() {
-    const { lang } = Route.useParams()
-    const dictionary = useDictionary()
+    const { lang } = Route.useParams();
+    const dictionary = useDictionary();
 
     const walkthroughSteps = [
         {
             title: dictionary.migration.step1.title,
-            description: dictionary.migration.step1.description,
+            description: dictionary.migration.step1.description
         },
         {
             title: dictionary.migration.step2.title,
-            description: dictionary.migration.step2.description,
+            description: dictionary.migration.step2.description
         },
         {
             title: dictionary.migration.step3.title,
-            description: dictionary.migration.step3.description,
-        },
-    ]
+            description: dictionary.migration.step3.description
+        }
+    ];
 
     return (
         <CompoundLayout dictionary={dictionary} lang={lang as Locale}>
@@ -129,5 +129,5 @@ function MigrationPage() {
 
             <Walkthrough steps={walkthroughSteps} />
         </CompoundLayout>
-    )
+    );
 }

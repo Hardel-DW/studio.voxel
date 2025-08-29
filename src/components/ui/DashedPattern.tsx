@@ -1,7 +1,7 @@
+import { type SVGProps, useId } from "react";
 import { cn } from "@/lib/utils";
-import { useId, type SVGProps } from "react";
 
-interface Props extends SVGProps<SVGSVGElement> { }
+interface Props extends SVGProps<SVGSVGElement> {}
 
 export function DashedPattern({ className, ...props }: Props) {
     return (

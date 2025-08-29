@@ -1,10 +1,6 @@
 import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer";
 
-export default function MinecraftSlot(props: {
-    id: string;
-    count: number;
-    asset: string;
-}) {
+export default function MinecraftSlot(props: { id: string; count: number; asset: string }) {
     return (
         <span className={"border border-white/20 w-14 h-14 p-[4px] relative hover:bg-zinc-800"}>
             {props.id && <TextureRenderer id={props.id} />}

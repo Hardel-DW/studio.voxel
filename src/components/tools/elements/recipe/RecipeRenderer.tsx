@@ -1,6 +1,6 @@
-import dynamic from "@/lib/utils/dynamic";
 import type { RecipeProps } from "@voxelio/breeze";
 import Loader from "@/components/ui/Loader";
+import dynamic from "@/lib/utils/dynamic";
 import { RecipeBlockManager } from "./recipeConfig";
 
 const CraftingTemplate = dynamic(() => import("./template/CraftingTemplate"), {

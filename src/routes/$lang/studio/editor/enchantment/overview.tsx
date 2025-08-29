@@ -1,21 +1,26 @@
-import SquareButton from "@/components/tools/elements/SquareButton";
-import useTagManager from "@/lib/hook/useTagManager";
-import { Identifier, isVoxel } from "@voxelio/breeze";
+import { createFileRoute } from "@tanstack/react-router";
 import type { Analysers } from "@voxelio/breeze";
+import { Identifier, isVoxel } from "@voxelio/breeze";
 import { useState } from "react";
+import EnchantOverviewCard from "@/components/pages/enchantment/EnchantOverviewCard";
+import SquareButton from "@/components/tools/elements/SquareButton";
 import { useConfiguratorStore } from "@/components/tools/Store";
-import EnchantOverviewCard from "./EnchantOverviewCard";
+import useTagManager from "@/lib/hook/useTagManager";
 
 type EnchantmentProps = Analysers["enchantment"]["voxel"];
 
-export default function Overview() {
+export const Route = createFileRoute("/$lang/studio/editor/enchantment/overview")({
+    component: Page
+});
+
+function Page() {
     const [search, setSearch] = useState("");
     const [display, setDisplay] = useState<"minimal" | "detailed">("minimal");
     const elements = useConfiguratorStore((state) => state.elements);
     const { getAllItemsFromTag } = useTagManager();
     const filteredElements = [...elements.values()]
-        .filter(el => isVoxel(el, "enchantment"))
-        .filter(el => !search || el.identifier.resource.toLowerCase().includes(search.toLowerCase())) as EnchantmentProps[];
+        .filter((el) => isVoxel(el, "enchantment"))
+        .filter((el) => !search || el.identifier.resource.toLowerCase().includes(search.toLowerCase())) as EnchantmentProps[];
 
     return (
         <div>
@@ -67,34 +72,3 @@ function getItemFromMultipleOrOne(element: string | string[]): { isTag: boolean;
     if (typeof element === "string") return getItem(element);
     return getItem(element[0]);
 }
-
-/**
- * Groups elements by their exclusiveSet property
- * String[] and undefined exclusiveSets are grouped under UNCATEGORIZED_KEY
- */
-// function groupElementsByExclusiveSet(
-//     elements: Map<string, Analysers[keyof Analysers]["voxel"]>,
-//     key: string,
-//     search: string
-// ): Map<string, EnchantmentProps[]> {
-//     const groups = new Map<string, EnchantmentProps[]>();
-//     groups.set(UNCATEGORIZED_KEY, []);
-
-//     for (const element of elements.values()) {
-//         if (!isVoxel(element, "enchantment")) {
-//             continue;
-//         }
-
-//         const category = typeof element[key] === "string" ? element[key] : UNCATEGORIZED_KEY;
-
-//         if (search && !element.identifier.resource.toLowerCase().includes(search.toLowerCase())) {
-//             continue;
-//         }
-
-//         const categoryElements = groups.get(category) || [];
-//         categoryElements.push(element);
-//         groups.set(category, categoryElements);
-//     }
-
-//     return groups;
-// }

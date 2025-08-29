@@ -1,14 +1,9 @@
-import { cn } from "@/lib/utils";
 import ButtonCopy from "@/components/ui/codeblock/ButtonCopy";
 import ButtonDownload from "@/components/ui/codeblock/ButtonDownload";
 import HighlightSection from "@/components/ui/codeblock/HighlightSection";
+import { cn } from "@/lib/utils";
 
-export default function CodeBlock(props: {
-    children: string;
-    language: string;
-    title?: string;
-    className?: string;
-}) {
+export default function CodeBlock(props: { children: string; language: string; title?: string; className?: string }) {
     return (
         <div className={cn("relative w-full h-full py-4 pl-4 pr-px bg-zinc-950/20 rounded-2xl border-zinc-800 border", props.className)}>
             <div className="absolute z-10 top-0 right-0 m-4">

@@ -1,13 +1,13 @@
 import { isVoxel, type RecipeProps } from "@voxelio/breeze";
-import { getCurrentElement, useConfiguratorStore } from "@/components/tools/Store";
-import { RecipeBlockManager, RECIPE_BLOCKS } from "@/components/tools/elements/recipe/recipeConfig";
-import { useState } from "react";
-import RecipeRenderer from "./RecipeRenderer";
-import ToolCounter from "@/components/tools/elements/ToolCounter";
 import { Actions, RecipeActionBuilder } from "@voxelio/breeze/core";
-import Tabs from "@/components/ui/Tabs";
-import dynamic from "@/lib/utils/dynamic";
+import { useState } from "react";
+import { RECIPE_BLOCKS, RecipeBlockManager } from "@/components/tools/elements/recipe/recipeConfig";
+import ToolCounter from "@/components/tools/elements/ToolCounter";
+import { getCurrentElement, useConfiguratorStore } from "@/components/tools/Store";
 import Loader from "@/components/ui/Loader";
+import { Tabs, TabsTrigger } from "@/components/ui/Tabs";
+import dynamic from "@/lib/utils/dynamic";
+import RecipeRenderer from "./RecipeRenderer";
 
 const RecipeSelector = dynamic(() => import("./RecipeSelector"), {
     loading: () => <Loader />,
@@ -51,7 +51,7 @@ export default function RecipeSection() {
                     <RecipeSelector
                         value={selection}
                         onChange={handleSelectionChange}
-                        recipeCounts={new Map<string, number>(RECIPE_BLOCKS.map(block => [block.id, 0]))}
+                        recipeCounts={new Map<string, number>(RECIPE_BLOCKS.map((block) => [block.id, 0]))}
                         selectMode={true}
                     />
                 </div>
@@ -63,9 +63,7 @@ export default function RecipeSection() {
                     <div className="flex justify-between items-center">
                         <div>
                             <p className="text-base font-semibold text-zinc-400">Result count</p>
-                            <p className="text-xs text-zinc-500">
-                                The number of items which will be produced by the recipe
-                            </p>
+                            <p className="text-xs text-zinc-500">The number of items which will be produced by the recipe</p>
                         </div>
                         <ToolCounter
                             min={1}
@@ -78,16 +76,18 @@ export default function RecipeSection() {
                     <div className="flex justify-between items-center">
                         <div>
                             <p className="text-base font-semibold text-zinc-400">Recipe type</p>
-                            <p className="text-xs text-zinc-500">
-                                The type of recipe which will be used to craft the item
-                            </p>
+                            <p className="text-xs text-zinc-500">The type of recipe which will be used to craft the item</p>
                         </div>
                         {currentBlock && TAB_CONFIGS[currentBlock.id as keyof typeof TAB_CONFIGS] && (
                             <Tabs
-                                tabs={TAB_CONFIGS[currentBlock.id as keyof typeof TAB_CONFIGS]}
-                                defaultTab={currentElement.type}
-                                onChange={(newType: string) => handleChange(new RecipeActionBuilder().convertType(newType).build())}
-                            />
+                                defaultValue={currentElement.type}
+                                onValueChange={(newType: string) => handleChange(new RecipeActionBuilder().convertType(newType).build())}>
+                                {TAB_CONFIGS[currentBlock.id as keyof typeof TAB_CONFIGS].map((tab) => (
+                                    <TabsTrigger key={tab.value} value={tab.value}>
+                                        {tab.label}
+                                    </TabsTrigger>
+                                ))}
+                            </Tabs>
                         )}
                     </div>
 

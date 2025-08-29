@@ -31,6 +31,9 @@
                 "noSvgWithoutTitle": "off",
                 "useKeyWithClickEvents": "off"
             },
+            "correctness": {
+                "useUniqueElementIds": "off"
+            },
             "recommended": true,
             "style": {
                 "useComponentExportOnlyModules": {

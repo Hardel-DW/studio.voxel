@@ -1,17 +1,13 @@
+import React, { type ReactElement, type ReactNode, useCallback, useRef } from "react";
+import { createPortal } from "react-dom";
 import { createDisclosureContext } from "@/components/ui/DisclosureContext";
 import { useBoxPosition } from "@/lib/hook/useBoxPosition";
 import { usePopoverVisibility } from "@/lib/hook/usePopoverVisibility";
 import { cn } from "@/lib/utils";
-import { type ReactElement, type ReactNode, useCallback, useRef } from "react";
-import React from "react";
-import { createPortal } from "react-dom";
 
 const { Provider: BoxHoveredProvider, useDisclosure: useBoxHovered } = createDisclosureContext<HTMLElement>();
 
-export function BoxHovered(props: {
-    children: ReactNode;
-    className?: string;
-}) {
+export function BoxHovered(props: { children: ReactNode; className?: string }) {
     return (
         <BoxHoveredProvider>
             <div className={cn("relative inline-block", props.className)}>{props.children}</div>
@@ -53,10 +49,7 @@ export function BoxHoveredTrigger(props: {
     );
 }
 
-export function BoxHoveredContent(props: {
-    children: ReactNode;
-    className?: string;
-}) {
+export function BoxHoveredContent(props: { children: ReactNode; className?: string }) {
     const { open, setOpen, triggerRef } = useBoxHovered();
     const contentRef = useRef<HTMLDivElement>(null);
     const { isVisible, isLeaving } = usePopoverVisibility({ open, transitionDuration: 150 });
@@ -71,7 +64,7 @@ export function BoxHoveredContent(props: {
                 position: "absolute",
                 top: `${position.top}px`,
                 left: `${position.left}px`,
-                visibility: hasValidPosition ? 'visible' : 'hidden'
+                visibility: hasValidPosition ? "visible" : "hidden"
             }}
             onMouseEnter={() => setOpen(true)}
             onMouseLeave={() => setOpen(false)}

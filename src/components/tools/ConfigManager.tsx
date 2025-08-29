@@ -1,9 +1,9 @@
-import { useConfiguratorStore } from "@/components/tools/Store";
 import { useParams } from "@tanstack/react-router";
 import type { PropsWithChildren } from "react";
-import { LinkButton } from "@/components/ui/Button";
-import Translate from "@/components/tools/Translate";
 import ItemTooltip from "@/components/tools/elements/tooltip/ItemTooltip";
+import { useConfiguratorStore } from "@/components/tools/Store";
+import Translate from "@/components/tools/Translate";
+import { LinkButton } from "@/components/ui/Button";
 
 export default function ConfigManager(props: PropsWithChildren) {
     const { lang } = useParams({ from: "/$lang" });
@@ -11,7 +11,9 @@ export default function ConfigManager(props: PropsWithChildren) {
 
     return (
         <>
-            {hasElements ? props.children : (
+            {hasElements ? (
+                props.children
+            ) : (
                 <div className="size-full flex items-center justify-center flex-col gap-y-4">
                     <h1 className="text-zinc-400 text-2xl font-bold">
                         <Translate content="no_config.title" />
