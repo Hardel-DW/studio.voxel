@@ -4,8 +4,8 @@ import { useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { useDictionary } from "@/lib/hook/useNext18n";
 import { trackEvent } from "@/lib/telemetry";
-import { downloadFile } from "@/lib/utils/download";
 import { cn } from "@/lib/utils";
+import { downloadFile } from "@/lib/utils/download";
 
 interface Props {
     file: File | null;

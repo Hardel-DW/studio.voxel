@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import Navbar from "@/components/layout/Navbar";
 import Box from "@/components/ui/Box";
 import { LinkButton } from "@/components/ui/Button";
 import ImageCard from "@/components/ui/ImageCard";

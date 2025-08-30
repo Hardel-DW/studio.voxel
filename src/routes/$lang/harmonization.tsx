@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import CompoundLayout from "@/components/layout/CompoundLayout";
-import PageLoading from "@/components/pages/PageLoading";
 import HarmonizeEditor from "@/components/pages/HarmonizeEditor";
+import PageLoading from "@/components/pages/PageLoading";
 import ShiningStars from "@/components/ui/ShiningStars";
 import Star from "@/components/ui/Star";
 import { useDictionary } from "@/lib/hook/useNext18n";
