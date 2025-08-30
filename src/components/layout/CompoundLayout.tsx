@@ -1,4 +1,4 @@
-import Footer from "@/components/layout/Footer.tsx";
+import Footer from "@/components/layout/footer";
 import Navbar from "@/components/layout/Navbar.tsx";
 import type { DictionaryType, Locale } from "@/lib/i18n/i18nServer";
 
