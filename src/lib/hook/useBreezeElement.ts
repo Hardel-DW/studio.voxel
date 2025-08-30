@@ -18,11 +18,15 @@ export const useElementCondition = (condition: Condition | undefined, elementId?
 
 export const useElementLocks = (locks: Lock[] | undefined, elementId?: string): LockRenderer => {
     if (!locks) return { isLocked: false };
+    
     // biome-ignore lint/correctness/useHookAtTopLevel: Is for performance  
-    const element = useElement(elementId);
+    const lockState = useConfiguratorStore(useShallow((state) => {
+        const element = elementId ? state.elements.get(elementId) : getCurrentElement(state);
+        if (!element) return { isLocked: false };
+        return checkLocks(locks, element);
+    }));
 
-    if (!element) return { isLocked: false };
-    return checkLocks(locks, element);
+    return lockState;
 };
 
 export const useElement = (elementId?: string) => {
