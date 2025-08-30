@@ -29,9 +29,7 @@ export default function DatapackDropzone({ children }: { children?: React.ReactN
     };
 
     const handleClear = () => {
-        if (iconUrl) {
-            URL.revokeObjectURL(iconUrl);
-        }
+        if (iconUrl) URL.revokeObjectURL(iconUrl);
         setFile(null);
         setIconUrl(null);
         setInitialMetadata(DEFAULT_MOD_METADATA);

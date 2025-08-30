@@ -26,19 +26,5 @@ export default defineConfig({
             "@lib/*": fileURLToPath(new URL("./src/lib/*", import.meta.url)),
             "@routes/*": fileURLToPath(new URL("./src/routes/*", import.meta.url))
         }
-    },
-    server: {
-        hmr: {
-            overlay: false
-        }
-    },
-    optimizeDeps: {
-        include: [
-            "react",
-            "react-dom",
-            "@tanstack/react-router",
-            "@tanstack/react-query",
-            "zustand"
-        ]
     }
 })

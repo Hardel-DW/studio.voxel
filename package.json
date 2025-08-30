@@ -10,8 +10,7 @@
         "lint": "tsc --noEmit",
         "biome:format": "biome format --write ./src",
         "biome:check": "biome check ./src",
-        "biome:unsafefix": "biome check --write --unsafe  ./src",
-        "deploy": "npm run build && wrangler deploy"
+        "biome:unsafefix": "biome check --write --unsafe  ./src"
     },
     "dependencies": {
         "@fontsource-variable/rubik": "^5.2.6",

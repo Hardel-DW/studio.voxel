@@ -1,18 +1,18 @@
 /**
- * Télécharge un fichier dans le navigateur
- * @param content Le contenu du fichier en Uint8Array
- * @param filename Le nom du fichier
- * @param type Le type MIME du fichier
+ * Télécharge n'importe quel contenu comme fichier
  */
-export const downloadFile = async (content: Response, filename: string) => {
+export const downloadFile = async (content: Response | Blob | string, filename: string, mimeType = "text/plain") => {
     if (typeof window === "undefined") return;
 
-    const blob = await content.blob();
+    const blob = content instanceof Response ? await content.blob() 
+        : content instanceof Blob ? content 
+        : new Blob([content], { type: mimeType });
+
     const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = filename;
-    a.click();
+    Object.assign(document.createElement("a"), { 
+        href: url, 
+        download: filename 
+    }).click();
     URL.revokeObjectURL(url);
 };
 

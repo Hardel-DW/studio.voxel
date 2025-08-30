@@ -1,6 +1,6 @@
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { createFileRoute, Outlet } from "@tanstack/react-router";
-import EditorLoading from "@/components/loading/EditorLoading";
+import EditorLoading from "@/components/pages/studio/EditorLoading";
 import ConfigManager from "@/components/tools/ConfigManager";
 import ConfiguratorPanel from "@/components/tools/ConfiguratorPanel";
 import StudioSidebar from "@/components/tools/sidebar/Sidebar";

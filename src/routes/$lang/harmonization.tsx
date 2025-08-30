@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import CompoundLayout from "@/components/layout/CompoundLayout";
-import PageLoading from "@/components/loading/PageLoading";
+import PageLoading from "@/components/pages/PageLoading";
 import HarmonizeEditor from "@/components/pages/HarmonizeEditor";
 import ShiningStars from "@/components/ui/ShiningStars";
 import Star from "@/components/ui/Star";

@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import Footer from "@/components/layout/Footer";
 import Navbar from "@/components/layout/Navbar";
-import StudioLoading from "@/components/loading/StudioLoading";
+import StudioLoading from "@/components/pages/studio/StudioLoading";
 import DatapackUploader from "@/components/tools/DatapackUploader";
 import VanillaImportButton from "@/components/tools/VanillaImportButton";
 import { useDictionary } from "@/lib/hook/useNext18n";

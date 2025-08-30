@@ -1,15 +1,11 @@
 import { useEffect, useState } from "react";
+import { downloadFile } from "@/lib/utils/download";
 
 export default function ButtonDownload(props: { snippet: string }) {
     const [pending, setPending] = useState<boolean>(false);
 
     const download = () => {
-        const element = document.createElement("a");
-        const file = new Blob([props.snippet], { type: "text/plain" });
-        element.href = URL.createObjectURL(file);
-        element.download = "snippet.json";
-        document.body.appendChild(element);
-        element.click();
+        downloadFile(props.snippet, "snippet.json");
         setPending(true);
     };
 

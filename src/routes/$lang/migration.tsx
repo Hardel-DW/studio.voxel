@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import CompoundLayout from "@/components/layout/CompoundLayout";
-import PageLoading from "@/components/loading/PageLoading";
+import PageLoading from "@/components/pages/PageLoading";
 import MigrationTool from "@/components/pages/MigrationTool";
 import { LinkButton } from "@/components/ui/Button";
 import { DashedPattern } from "@/components/ui/DashedPattern";

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { useDictionary } from "@/lib/hook/useNext18n";
 import { trackEvent } from "@/lib/telemetry";
+import { downloadFile } from "@/lib/utils/download";
 import { cn } from "@/lib/utils";
 
 interface Props {
@@ -54,14 +55,7 @@ const DatapackForm: React.FC<Props> = ({ file, initialMetadata, iconUrl }) => {
             }
 
             const blob = await result.blob();
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement("a");
-            a.href = url;
-            a.download = file.name.replace(/\.zip$/i, ".jar");
-            document.body.appendChild(a);
-            a.click();
-            window.URL.revokeObjectURL(url);
-            document.body.removeChild(a);
+            await downloadFile(blob, file.name.replace(/\.zip$/i, ".jar"));
 
             await trackEvent("converted_datapack");
         } catch (error) {
