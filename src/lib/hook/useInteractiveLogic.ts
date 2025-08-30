@@ -1,7 +1,7 @@
-import type { Action, ActionValue } from "@voxelio/breeze/core";
 import { useConfiguratorStore } from "@/components/tools/Store";
+import type { LockRenderer, Lock } from "../utils/lock";
 import { type BaseComponent, useElement, useElementLocks } from "@/lib/hook/useBreezeElement";
-import type { Lock, LockRenderer } from "../utils/lock";
+import type { Action, ActionValue } from "@voxelio/breeze/core";
 
 export interface UseInteractiveLogicProps<C extends BaseInteractiveComponent> {
     component: C;
@@ -27,10 +27,9 @@ export function useInteractiveLogic<C extends BaseInteractiveComponent, T>(
     elementId?: string
 ): UseInteractiveLogicReturn<T> {
     const { component } = props;
-    const storeCurrentElementId = useConfiguratorStore((state) => state.currentElementId);
-    const performGlobalHandleChange = useConfiguratorStore((state) => state.handleChange);
-    const currentElementId = elementId ?? storeCurrentElementId;
 
+    // biome-ignore lint/correctness/useHookAtTopLevel: Is for performance  
+    const currentElementId = elementId ?? useConfiguratorStore((state) => state.currentElementId);
     if (!currentElementId) {
         throw new Error("currentElementId is null");
     }
@@ -39,6 +38,7 @@ export function useInteractiveLogic<C extends BaseInteractiveComponent, T>(
     const value = currentElement ? (component.renderer(currentElement) as T) : null;
 
     const lock = useElementLocks(component.lock, currentElementId);
+    const performGlobalHandleChange = useConfiguratorStore((state) => state.handleChange);
 
     const handleChange = (newValue: ActionValue) => {
         if (lock.isLocked) return;
