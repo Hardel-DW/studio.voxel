@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@fontsource-variable/rubik':
+        specifier: ^5.2.6
+        version: 5.2.6
       '@fontsource/rubik':
         specifier: ^5.2.6
         version: 5.2.6
@@ -460,6 +463,9 @@ packages:
     engines: {node: '>=18'}
     cpu: [x64]
     os: [win32]
+
+  '@fontsource-variable/rubik@5.2.6':
+    resolution: {integrity: sha512-vMOZRIKXE46Q28QN+RKCq0KJW9eg8WAOrlb/W5rjBSzFeINC83ArLvWW4bH9H+bCrp5IeVovH6PqEAjdOU2+xA==}
 
   '@fontsource/rubik@5.2.6':
     resolution: {integrity: sha512-KNY87CIXAzmKMfL8gnQV0nbePn9g/kG3tF4GJoUEASSz+ECFWYoPir8TSySblYfXTInDL/kHJm6CMrrEW/U/ZA==}
@@ -1732,6 +1738,8 @@ snapshots:
 
   '@esbuild/win32-x64@0.25.9':
     optional: true
+
+  '@fontsource-variable/rubik@5.2.6': {}
 
   '@fontsource/rubik@5.2.6': {}
 

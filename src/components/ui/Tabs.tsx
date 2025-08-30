@@ -1,5 +1,4 @@
-import type React from "react";
-import { createContext, useContext, useRef, useState } from "react";
+import React, { createContext, useContext, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 
 interface TabsContextType {
@@ -41,23 +40,27 @@ export function Tabs({ defaultValue, onValueChange, className, children }: TabsP
 
     return (
         <TabsContext.Provider value={{ value, onValueChange: handleValueChange, updateIndicator, containerRef, indicatorRef }}>
-            <div
-                ref={containerRef}
-                className={cn(
-                    "h-fit relative w-fit justify-center text-sm rounded-2xl border border-zinc-800 p-1 text-zinc-400 flex bg-transparent overflow-hidden",
-                    className
-                )}>
-                <div className="absolute inset-0 -z-10 hue-rotate-45 brightness-20">
-                    <img src="/images/shine.avif" alt="Shine" />
-                </div>
-                {children}
+            <div className={cn("space-y-4", className)}>
                 <div
-                    ref={indicatorRef}
-                    className="absolute left-0 top-1 rounded-xl bg-white/10 z-0 transition-all duration-300 ease-out"
-                    style={{
-                        height: "calc(100% - 8px)"
-                    }}
-                />
+                    ref={containerRef}
+                    className="h-fit relative w-full justify-center text-sm rounded-2xl border border-zinc-800 p-1 text-zinc-400 flex bg-transparent overflow-hidden">
+                    <div className="absolute inset-0 -z-10 hue-rotate-45 brightness-20">
+                        <img src="/images/shine.avif" alt="Shine" />
+                    </div>
+                    {React.Children.toArray(children).filter((child) => 
+                        React.isValidElement(child) && child.type === TabsTrigger
+                    )}
+                    <div
+                        ref={indicatorRef}
+                        className="absolute left-0 top-1 rounded-xl bg-white/10 z-0 transition-all duration-300 ease-out"
+                        style={{
+                            height: "calc(100% - 8px)"
+                        }}
+                    />
+                </div>
+                {React.Children.toArray(children).filter((child) => 
+                    React.isValidElement(child) && child.type === TabsContent
+                )}
             </div>
         </TabsContext.Provider>
     );

@@ -1,12 +1,13 @@
+import { createFileRoute, Outlet } from "@tanstack/react-router";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import QueryProvider from "@/components/QueryProvider";
 import ShiningStars from "@/components/ui/ShiningStars";
 
-interface StudioLayoutProps {
-    children: React.ReactNode;
-}
+export const Route = createFileRoute("/$lang/studio")({
+    component: StudioLayout
+});
 
-export default function StudioLayout({ children }: StudioLayoutProps) {
+function StudioLayout() {
     return (
         <div className="flex relative md:p-4 h-dvh">
             <div className="fixed -z-50 -top-16 -right-16 size-72 rounded-full blur-[10rem] bg-gradient-to-br from-red-900/20 to-blue-900/20" />
@@ -20,7 +21,7 @@ export default function StudioLayout({ children }: StudioLayoutProps) {
 
             <QueryProvider>
                 <ReactQueryDevtools />
-                {children}
+                <Outlet />
             </QueryProvider>
         </div>
     );

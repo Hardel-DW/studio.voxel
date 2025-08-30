@@ -15,6 +15,7 @@ import { Route as LangIndexRouteImport } from './routes/$lang/index'
 import { Route as LangMigrationRouteImport } from './routes/$lang/migration'
 import { Route as LangHarmonizationRouteImport } from './routes/$lang/harmonization'
 import { Route as LangConverterRouteImport } from './routes/$lang/converter'
+import { Route as LangStudioRouteRouteImport } from './routes/$lang/studio/route'
 import { Route as LangStudioIndexRouteImport } from './routes/$lang/studio/index'
 import { Route as LangStudioEditorRouteImport } from './routes/$lang/studio/editor'
 import { Route as LangStudioEditorRecipeOverviewRouteImport } from './routes/$lang/studio/editor/recipe/overview'
@@ -63,15 +64,20 @@ const LangConverterRoute = LangConverterRouteImport.update({
   path: '/converter',
   getParentRoute: () => LangRoute,
 } as any)
-const LangStudioIndexRoute = LangStudioIndexRouteImport.update({
-  id: '/studio/',
-  path: '/studio/',
+const LangStudioRouteRoute = LangStudioRouteRouteImport.update({
+  id: '/studio',
+  path: '/studio',
   getParentRoute: () => LangRoute,
 } as any)
+const LangStudioIndexRoute = LangStudioIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => LangStudioRouteRoute,
+} as any)
 const LangStudioEditorRoute = LangStudioEditorRouteImport.update({
-  id: '/studio/editor',
-  path: '/studio/editor',
-  getParentRoute: () => LangRoute,
+  id: '/editor',
+  path: '/editor',
+  getParentRoute: () => LangStudioRouteRoute,
 } as any)
 const LangStudioEditorRecipeOverviewRoute =
   LangStudioEditorRecipeOverviewRouteImport.update({
@@ -167,12 +173,13 @@ const LangStudioEditorEnchantmentExclusiveGroupRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/$lang': typeof LangRouteWithChildren
+  '/$lang/studio': typeof LangStudioRouteRouteWithChildren
   '/$lang/converter': typeof LangConverterRoute
   '/$lang/harmonization': typeof LangHarmonizationRoute
   '/$lang/migration': typeof LangMigrationRoute
   '/$lang/': typeof LangIndexRoute
   '/$lang/studio/editor': typeof LangStudioEditorRouteWithChildren
-  '/$lang/studio': typeof LangStudioIndexRoute
+  '/$lang/studio/': typeof LangStudioIndexRoute
   '/$lang/studio/editor/enchantment/items': typeof LangStudioEditorEnchantmentItemsRoute
   '/$lang/studio/editor/enchantment/main': typeof LangStudioEditorEnchantmentMainRoute
   '/$lang/studio/editor/enchantment/overview': typeof LangStudioEditorEnchantmentOverviewRoute
@@ -217,6 +224,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/$lang': typeof LangRouteWithChildren
+  '/$lang/studio': typeof LangStudioRouteRouteWithChildren
   '/$lang/converter': typeof LangConverterRoute
   '/$lang/harmonization': typeof LangHarmonizationRoute
   '/$lang/migration': typeof LangMigrationRoute
@@ -244,12 +252,13 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/$lang'
+    | '/$lang/studio'
     | '/$lang/converter'
     | '/$lang/harmonization'
     | '/$lang/migration'
     | '/$lang/'
     | '/$lang/studio/editor'
-    | '/$lang/studio'
+    | '/$lang/studio/'
     | '/$lang/studio/editor/enchantment/items'
     | '/$lang/studio/editor/enchantment/main'
     | '/$lang/studio/editor/enchantment/overview'
@@ -293,6 +302,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/$lang'
+    | '/$lang/studio'
     | '/$lang/converter'
     | '/$lang/harmonization'
     | '/$lang/migration'
@@ -365,19 +375,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LangConverterRouteImport
       parentRoute: typeof LangRoute
     }
-    '/$lang/studio/': {
-      id: '/$lang/studio/'
+    '/$lang/studio': {
+      id: '/$lang/studio'
       path: '/studio'
       fullPath: '/$lang/studio'
-      preLoaderRoute: typeof LangStudioIndexRouteImport
+      preLoaderRoute: typeof LangStudioRouteRouteImport
       parentRoute: typeof LangRoute
+    }
+    '/$lang/studio/': {
+      id: '/$lang/studio/'
+      path: '/'
+      fullPath: '/$lang/studio/'
+      preLoaderRoute: typeof LangStudioIndexRouteImport
+      parentRoute: typeof LangStudioRouteRoute
     }
     '/$lang/studio/editor': {
       id: '/$lang/studio/editor'
-      path: '/studio/editor'
+      path: '/editor'
       fullPath: '/$lang/studio/editor'
       preLoaderRoute: typeof LangStudioEditorRouteImport
-      parentRoute: typeof LangRoute
+      parentRoute: typeof LangStudioRouteRoute
     }
     '/$lang/studio/editor/recipe/overview': {
       id: '/$lang/studio/editor/recipe/overview'
@@ -534,22 +551,34 @@ const LangStudioEditorRouteChildren: LangStudioEditorRouteChildren = {
 const LangStudioEditorRouteWithChildren =
   LangStudioEditorRoute._addFileChildren(LangStudioEditorRouteChildren)
 
-interface LangRouteChildren {
-  LangConverterRoute: typeof LangConverterRoute
-  LangHarmonizationRoute: typeof LangHarmonizationRoute
-  LangMigrationRoute: typeof LangMigrationRoute
-  LangIndexRoute: typeof LangIndexRoute
+interface LangStudioRouteRouteChildren {
   LangStudioEditorRoute: typeof LangStudioEditorRouteWithChildren
   LangStudioIndexRoute: typeof LangStudioIndexRoute
 }
 
+const LangStudioRouteRouteChildren: LangStudioRouteRouteChildren = {
+  LangStudioEditorRoute: LangStudioEditorRouteWithChildren,
+  LangStudioIndexRoute: LangStudioIndexRoute,
+}
+
+const LangStudioRouteRouteWithChildren = LangStudioRouteRoute._addFileChildren(
+  LangStudioRouteRouteChildren,
+)
+
+interface LangRouteChildren {
+  LangStudioRouteRoute: typeof LangStudioRouteRouteWithChildren
+  LangConverterRoute: typeof LangConverterRoute
+  LangHarmonizationRoute: typeof LangHarmonizationRoute
+  LangMigrationRoute: typeof LangMigrationRoute
+  LangIndexRoute: typeof LangIndexRoute
+}
+
 const LangRouteChildren: LangRouteChildren = {
+  LangStudioRouteRoute: LangStudioRouteRouteWithChildren,
   LangConverterRoute: LangConverterRoute,
   LangHarmonizationRoute: LangHarmonizationRoute,
   LangMigrationRoute: LangMigrationRoute,
   LangIndexRoute: LangIndexRoute,
-  LangStudioEditorRoute: LangStudioEditorRouteWithChildren,
-  LangStudioIndexRoute: LangStudioIndexRoute,
 }
 
 const LangRouteWithChildren = LangRoute._addFileChildren(LangRouteChildren)

@@ -49,7 +49,7 @@ export default function SidebarCard(props: Props) {
                 type="button"
                 onClick={handleEvent}
                 onKeyDown={handleEvent}
-                className="flex flex-col  rounded-2xl border-zinc-900 border-2 ">
+                className="flex flex-col rounded-2xl border-zinc-900 border-2 w-full">
                 <div
                     className={cn(
                         "stack overflow-hiddenw-full h-24 relative cursor-pointer transition-all transition-discrete hidden:opacity-0 bg-content flex-1",

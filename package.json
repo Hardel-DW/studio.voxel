@@ -13,7 +13,7 @@
         "biome:unsafefix": "biome check --write --unsafe  ./src"
     },
     "dependencies": {
-        "@fontsource/rubik": "^5.2.6",
+        "@fontsource-variable/rubik": "^5.2.6",
         "@tanstack/query-sync-storage-persister": "^5.85.5",
         "@tanstack/react-query": "^5.85.5",
         "@tanstack/react-query-persist-client": "^5.85.5",

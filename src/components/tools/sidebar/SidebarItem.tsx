@@ -11,7 +11,7 @@ export function SidebarItem({ elementId }: { elementId: string }) {
             type="button"
             onClick={() => setCurrentElementId(elementId)}
             onKeyDown={() => setCurrentElementId(elementId)}
-            className={cn("odd:bg-black/50 even:bg-zinc-900/50 pl-4 pr-2 py-2 rounded-xl select-none text-zinc-200 tracking-tight", {
+            className={cn("odd:bg-black/50 even:bg-zinc-900/50 pl-4 pr-2 py-2 rounded-xl select-none text-zinc-200 tracking-tight text-left", {
                 "ring-1 ring-zinc-600": isSelected
             })}>
             <SidebarItemContent elementId={elementId} />

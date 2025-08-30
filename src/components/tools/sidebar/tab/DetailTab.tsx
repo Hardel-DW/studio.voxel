@@ -18,7 +18,7 @@ export default function DetailTab() {
 
     const Component = contentMap[selectedConcept as keyof typeof contentMap];
     return (
-        <div className="flex flex-col gap-4 pt-4">
+        <div className="flex flex-col gap-4">
             <Button variant="transparent" size="square" onClick={() => setCurrentElementId(null)}>
                 Overview
             </Button>
