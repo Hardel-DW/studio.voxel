@@ -2,9 +2,9 @@ import { useParams, useRouter } from "@tanstack/react-router";
 import { DatapackError, parseDatapack } from "@voxelio/breeze/core";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/Dropdown";
+import { fetchDatapackPreset } from "@/lib/github";
 import useAsyncError from "@/lib/hook/useAsyncError";
 import { useDictionary } from "@/lib/hook/useNext18n";
-import { fetchDatapackPreset } from "@/lib/github";
 
 export default function VanillaImportButton() {
     const dictionary = useDictionary();

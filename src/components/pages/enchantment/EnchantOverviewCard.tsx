@@ -1,6 +1,6 @@
+import { useParams, useRouter } from "@tanstack/react-router";
 import { Actions, Identifier } from "@voxelio/breeze";
 import type { EnchantmentProps } from "@voxelio/breeze/schema";
-import { useParams, useRouter } from "@tanstack/react-router";
 import SimpleSwitch from "@/components/tools/elements/SimpleSwitch";
 import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer";
 import { useConfiguratorStore } from "@/components/tools/Store";

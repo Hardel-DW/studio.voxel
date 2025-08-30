@@ -23,9 +23,7 @@ export default function useRegistry<T>(registryId: string, type: "summary" | "re
 
 export const fetchRegistryById = async <T>(registryId: string, type: "summary" | "registry" = "summary"): Promise<T> => {
     console.log(`useQuery: Fetching registry ${registryId}`);
-    const data = type === "summary"
-        ? await fetchMinecraftSummary(registryId)
-        : await fetchMinecraftRegistry(registryId);
+    const data = type === "summary" ? await fetchMinecraftSummary(registryId) : await fetchMinecraftRegistry(registryId);
 
     if (!data) {
         console.warn(`No data returned for registry ${registryId}, returning empty object.`);

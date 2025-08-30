@@ -47,9 +47,7 @@ export function Tabs({ defaultValue, onValueChange, className, children }: TabsP
                     <div className="absolute inset-0 -z-10 hue-rotate-45 brightness-20">
                         <img src="/images/shine.avif" alt="Shine" />
                     </div>
-                    {React.Children.toArray(children).filter((child) => 
-                        React.isValidElement(child) && child.type === TabsTrigger
-                    )}
+                    {React.Children.toArray(children).filter((child) => React.isValidElement(child) && child.type === TabsTrigger)}
                     <div
                         ref={indicatorRef}
                         className="absolute left-0 top-1 rounded-xl bg-white/10 z-0 transition-all duration-300 ease-out"
@@ -58,9 +56,7 @@ export function Tabs({ defaultValue, onValueChange, className, children }: TabsP
                         }}
                     />
                 </div>
-                {React.Children.toArray(children).filter((child) => 
-                    React.isValidElement(child) && child.type === TabsContent
-                )}
+                {React.Children.toArray(children).filter((child) => React.isValidElement(child) && child.type === TabsContent)}
             </div>
         </TabsContext.Provider>
     );
