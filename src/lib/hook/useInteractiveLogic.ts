@@ -1,6 +1,6 @@
 import { useConfiguratorStore } from "@/components/tools/Store";
 import type { LockRenderer, Lock } from "../utils/lock";
-import { type BaseComponent, useElement, useElementLocks } from "@/lib/hook/useBreezeElement";
+import { type BaseComponent, useElementLocks, useElementProperty } from "@/lib/hook/useBreezeElement";
 import type { Action, ActionValue } from "@voxelio/breeze/core";
 
 export interface UseInteractiveLogicProps<C extends BaseInteractiveComponent> {
@@ -34,8 +34,7 @@ export function useInteractiveLogic<C extends BaseInteractiveComponent, T>(
         throw new Error("currentElementId is null");
     }
 
-    const currentElement = useElement(currentElementId);
-    const value = currentElement ? (component.renderer(currentElement) as T) : null;
+    const value = useElementProperty(component.renderer, currentElementId) as T;
 
     const lock = useElementLocks(component.lock, currentElementId);
     const performGlobalHandleChange = useConfiguratorStore((state) => state.handleChange);

@@ -29,3 +29,13 @@ export const useElement = (elementId?: string) => {
     // biome-ignore lint/correctness/useHookAtTopLevel: Is for performance  
     return useConfiguratorStore(useShallow((state) => (elementId ? state.elements.get(elementId) : getCurrentElement(state))));
 };
+
+export const useElementProperty = <T>(
+    propertySelector: (element: VoxelElement) => T,
+    elementId?: string
+) => {
+    return useConfiguratorStore(useShallow((state) => {
+        const element = elementId ? state.elements.get(elementId) : getCurrentElement(state);
+        return element ? propertySelector(element) : null;
+    }));
+};
