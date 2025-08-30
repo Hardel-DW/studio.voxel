@@ -1,5 +1,4 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useId } from "react";
 import Footer from "@/components/layout/Footer";
 import Navbar from "@/components/layout/Navbar";
 import Box from "@/components/ui/Box";
@@ -35,14 +34,14 @@ function Page() {
             <LineSetup />
 
             <section className="min-h-screen flex flex-col justify-center s:justify-start lg:grid lg:grid-cols-2 gap-8 lg:gap-12 relative">
-                <div className="-z-10 absolute inset-0 overflow-x-hidden">
+                <div className="-z-10 absolute inset-0">
                     <div className="rotate-45 w-[85vw] h-[70vh] bg-radial from-zinc-900/20 to-stone-500/20 rounded-3xl blur-[10rem]" />
                 </div>
-                <div className="-z-10 absolute inset-0 overflow-x-hidden">
+                <div className="-z-10 absolute inset-0">
                     <svg className="size-full stroke-white/10 [mask-image:radial-gradient(white,transparent_50%)] [stroke-dasharray:5_6] [stroke-dashoffset:10] lg:stroke-[4]">
                         <title>Grid</title>
                         <defs>
-                            <pattern id={useId()} viewBox="0 0 64 64" width="32" height="32" patternUnits="userSpaceOnUse" x="0" y="0">
+                            <pattern id="grid" viewBox="0 0 64 64" width="32" height="32" patternUnits="userSpaceOnUse" x="0" y="0">
                                 <path d="M64 0H0V64" fill="none" />
                             </pattern>
                         </defs>
@@ -86,17 +85,17 @@ function Page() {
                         </p>
 
                         <div className="mt-12 flex flex-wrap gap-4">
-                            <LinkButton
+                            <a
                                 href={`/${lang}/studio`}
-                                className="w-full lg:w-fit text-center bg-white text-lg cursor-pointer text-zinc-800 font-semibold py-3 px-8 rounded-lg hover:bg-zinc-300 hover:text-zinc-800 transition-all">
+                                className="bg-white text-lg cursor-pointer text-zinc-800 font-semibold py-3 px-8 rounded-lg hover:bg-zinc-300 hover:text-zinc-800 transition-all">
                                 {dictionary.home.button.start}
-                            </LinkButton>
+                            </a>
 
-                            <LinkButton
+                            <a
                                 href={`https://voxel.hardel.io/${lang}/blog/enchant-configurator`}
                                 className="w-full lg:w-fit text-center border border-zinc-200 text-lg cursor-pointer text-white font-semibold py-3 px-6 rounded-lg hover:bg-zinc-200 hover:text-zinc-800 transition-all">
                                 {dictionary.home.button.learn_more}
-                            </LinkButton>
+                            </a>
                         </div>
                     </div>
                 </div>

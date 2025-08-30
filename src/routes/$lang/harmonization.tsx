@@ -23,18 +23,17 @@ function HarmonizationPage() {
             </div>
             <div className="absolute rounded-full w-3/4 h-1/2 bg-linear-to-r from-[#830335] to-[#311e7696] opacity-20 blur-[10rem] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
 
-            <section className="mt-32 relative w-3/4 mx-auto">
-                <div className="w-full text-center mt-12 mb-12">
-                    <h2 className="text-5xl font-bold mb-4">{dictionary.harmonization.title}</h2>
-                    <Star />
-                </div>
+            <section className="pt-36 md:pt-60 relative flex flex-col items-center justify-center pb-72">
+                <div className="w-3/4 mx-auto">
+                    <div className="mb-16">
+                        <h1 className="text-3xl md:text-5xl mb-4 font-semibold">{dictionary.harmonization.title}</h1>
+                        <p className="text-sm text-zinc-400 md:w-3/4 w-full mb-4">{dictionary.harmonization.description}</p>
+                        <p className="text-sm text-zinc-400 md:w-3/4 w-full mb-4">{dictionary.harmonization.small}</p>
+                        <Star />
+                    </div>
 
-                <div className="mb-12 px-12">
-                    <p className="text-zinc-300 tracking-wide">{dictionary.harmonization.description}</p>
-                    <p className="text-zinc-400 text-xs mt-2 tracking-wide">{dictionary.harmonization.small}</p>
+                    <HarmonizeEditor />
                 </div>
-
-                <HarmonizeEditor />
             </section>
         </CompoundLayout>
     );

@@ -1,5 +1,6 @@
 import { Actions, Identifier } from "@voxelio/breeze";
 import type { EnchantmentProps } from "@voxelio/breeze/schema";
+import { useParams, useRouter } from "@tanstack/react-router";
 import SimpleSwitch from "@/components/tools/elements/SimpleSwitch";
 import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer";
 import { useConfiguratorStore } from "@/components/tools/Store";
@@ -47,6 +48,13 @@ export default function EnchantOverviewCard(props: {
     display: "minimal" | "detailed";
 }) {
     const setCurrentElementId = useConfiguratorStore((state) => state.setCurrentElementId);
+    const router = useRouter();
+    const { lang } = useParams({ from: "/$lang" });
+
+    const handleConfigure = () => {
+        setCurrentElementId(props.elementId);
+        router.navigate({ to: "/$lang/studio/editor/enchantment/main", params: { lang } });
+    };
 
     return (
         <div
@@ -111,8 +119,8 @@ export default function EnchantOverviewCard(props: {
                 {/* Footer - toujours en bas */}
                 <div className="pt-4 border-t border-zinc-800/50 mt-auto">
                     <button
-                        onClick={() => setCurrentElementId(props.elementId)}
-                        onKeyDown={() => setCurrentElementId(props.elementId)}
+                        onClick={handleConfigure}
+                        onKeyDown={handleConfigure}
                         type="button"
                         className="w-full cursor-pointer bg-zinc-800/30 hover:bg-zinc-700/50 border border-zinc-700/50 rounded-lg px-3 py-2 text-xs font-medium text-zinc-300 transition-colors">
                         <Translate content="configure" />

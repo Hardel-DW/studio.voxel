@@ -20,26 +20,46 @@ const LineBackground: React.FC<LineBackgroundProps> = ({ className }) => {
             canvas.width = canvas.offsetWidth;
             canvas.height = canvas.offsetHeight;
         };
+
         resizeCanvas();
         window.addEventListener("resize", resizeCanvas);
 
         let animationFrameId: number;
+        let timeoutId: NodeJS.Timeout;
+        let isVisible = true;
+
+        const handleVisibilityChange = () => {
+            isVisible = !document.hidden;
+            if (!isVisible) {
+                clearTimeout(timeoutId);
+                cancelAnimationFrame(animationFrameId);
+                linesRef.current = [];
+            } else {
+                animate();
+                createNewLine();
+            }
+        };
+
         const animate = () => {
+            if (!isVisible) return;
             animateLines(ctx, canvas, linesRef.current);
             animationFrameId = requestAnimationFrame(animate);
         };
-        animate();
 
-        let timeoutId: NodeJS.Timeout;
         const createNewLine = () => {
+            if (!isVisible) return;
             const delay = Math.random() * 2000 + 500;
             const newLine = createLine(canvas.width, canvas.height);
             linesRef.current.push(newLine);
             timeoutId = setTimeout(createNewLine, delay);
         };
+
+        document.addEventListener("visibilitychange", handleVisibilityChange);
+        animate();
         createNewLine();
 
         return () => {
+            document.removeEventListener("visibilitychange", handleVisibilityChange);
             window.removeEventListener("resize", resizeCanvas);
             cancelAnimationFrame(animationFrameId);
             clearTimeout(timeoutId);

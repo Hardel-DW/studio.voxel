@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { fetchMinecraftRegistry, fetchMinecraftSummary } from "@/lib/github";
 
 export type FetchedRegistry<T> = Record<string, T>;
 
@@ -22,11 +23,10 @@ export default function useRegistry<T>(registryId: string, type: "summary" | "re
 
 export const fetchRegistryById = async <T>(registryId: string, type: "summary" | "registry" = "summary"): Promise<T> => {
     console.log(`useQuery: Fetching registry ${registryId}`);
-    const response = await fetch(`/api/${type}?registry=${registryId}`);
-    if (!response.ok) {
-        throw new Error(`Network response was not ok for registry ${registryId}`);
-    }
-    const data = await response.json();
+    const data = type === "summary"
+        ? await fetchMinecraftSummary(registryId)
+        : await fetchMinecraftRegistry(registryId);
+
     if (!data) {
         console.warn(`No data returned for registry ${registryId}, returning empty object.`);
         return {} as T;

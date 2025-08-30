@@ -4,6 +4,7 @@ import { useConfiguratorStore } from "@/components/tools/Store";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/Dropdown";
 import useAsyncError from "@/lib/hook/useAsyncError";
 import { useDictionary } from "@/lib/hook/useNext18n";
+import { fetchDatapackPreset } from "@/lib/github";
 
 export default function VanillaImportButton() {
     const dictionary = useDictionary();
@@ -12,10 +13,7 @@ export default function VanillaImportButton() {
     const throwError = useAsyncError();
     const handleVanillaImport = async (version: number) => {
         try {
-            const response = await fetch(`/api/preset/${version}`);
-            if (!response.ok) throw new DatapackError("tools.error.failed_to_fetch_datapack");
-
-            const blob = await response.blob();
+            const blob = await fetchDatapackPreset(version);
             const file = new File([blob], `Enchantment-${version}.zip`, { type: "application/zip" });
 
             const dataTransfer = new DataTransfer();
