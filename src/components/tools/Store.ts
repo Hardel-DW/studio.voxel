@@ -100,7 +100,7 @@ const createConfiguratorStore = <T extends keyof Analysers>() =>
                 lastVisitedRoutes: new Map(state.lastVisitedRoutes).set(concept, { route, elementId })
             }));
         },
-        getLastVisitedRoute: (concept: CONCEPT_KEY): LastVisitedRoute | null => get().lastVisitedRoutes.get(concept) || null,
+        getLastVisitedRoute: (concept: CONCEPT_KEY): LastVisitedRoute | null => get().lastVisitedRoutes.get(concept) || null
     }));
 
 export const useConfiguratorStore = createConfiguratorStore();

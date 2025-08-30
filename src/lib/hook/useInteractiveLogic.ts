@@ -31,13 +31,17 @@ export function useInteractiveLogic<C extends BaseInteractiveComponent, T>(
     const performGlobalHandleChange = useConfiguratorStore((state) => state.handleChange);
     const currentElementId = elementId ?? storeCurrentElementId;
 
-    const currentElement = currentElementId ? useElement(currentElementId) : null;
+    if (!currentElementId) {
+        throw new Error("currentElementId is null");
+    }
+
+    const currentElement = useElement(currentElementId);
     const value = currentElement ? (component.renderer(currentElement) as T) : null;
 
-    const lock = useElementLocks(component.lock, currentElementId || "");
+    const lock = useElementLocks(component.lock, currentElementId);
 
     const handleChange = (newValue: ActionValue) => {
-        if (!currentElementId || lock.isLocked) return;
+        if (lock.isLocked) return;
 
         const actionToPerform = typeof component.action === "function" ? component.action(newValue) : component.action;
 

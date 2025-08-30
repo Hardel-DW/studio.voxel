@@ -106,13 +106,14 @@ export default function SettingsButton() {
             </PopoverContent>
 
             {isDebugModalOpen && (
-                <Suspense fallback={
-                    <div className="fixed inset-4 bg-header-cloudy rounded-2xl flex items-center justify-center z-200">
-                        <p className="text-white">
-                            <Translate content="loading" />
-                        </p>
-                    </div>
-                }>
+                <Suspense
+                    fallback={
+                        <div className="fixed inset-4 bg-header-cloudy rounded-2xl flex items-center justify-center z-200">
+                            <p className="text-white">
+                                <Translate content="loading" />
+                            </p>
+                        </div>
+                    }>
                     <DebugPanel />
                 </Suspense>
             )}

@@ -62,12 +62,7 @@ export function Tabs({ defaultValue, onValueChange, className, children }: TabsP
     );
 }
 
-export function TabsTrigger(props: {
-    value: string;
-    children: React.ReactNode;
-    className?: string;
-    disabled?: boolean;
-}) {
+export function TabsTrigger(props: { value: string; children: React.ReactNode; className?: string; disabled?: boolean }) {
     const context = useContext(TabsContext);
     if (!context) throw new Error("TabsTrigger must be used within Tabs");
 

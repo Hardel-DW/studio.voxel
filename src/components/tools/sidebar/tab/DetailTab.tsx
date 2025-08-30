@@ -12,7 +12,7 @@ export default function DetailTab() {
     const setCurrentElementId = useConfiguratorStore((state) => state.setCurrentElementId);
     const router = useRouter();
     const { lang } = useParams({ from: "/$lang" });
-    
+
     const contentMap = {
         enchantment: withConcept(SidebarEnchant),
         loot_table: withConcept(SidebarLoot),
