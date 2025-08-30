@@ -2,7 +2,6 @@ import type { KeyDictionary, Locale } from "@/lib/i18n/i18nServer";
 
 export default function Footer({ dictionary, lang }: { dictionary: KeyDictionary; lang: Locale }) {
     const basePath = "https://voxel.hardel.io";
-
     const footerContent = [
         {
             name: dictionary.footer.content.navigation.self,

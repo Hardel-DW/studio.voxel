@@ -1,5 +1,5 @@
-import Footer from "@/components/layout/footer";
-import Navbar from "@/components/layout/Navbar.tsx";
+import Footer from "@/components/layout/Footer";
+import Navbar from "@/components/layout/Navbar";
 import type { DictionaryType, Locale } from "@/lib/i18n/i18nServer";
 
 export default function CompoundLayout({

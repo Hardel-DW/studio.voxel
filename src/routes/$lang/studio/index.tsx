@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import Footer from "@/components/layout/footer";
+import Footer from "@/components/layout/Footer";
 import Navbar from "@/components/layout/Navbar";
 import StudioLoading from "@/components/loading/StudioLoading";
 import DatapackUploader from "@/components/tools/DatapackUploader";
