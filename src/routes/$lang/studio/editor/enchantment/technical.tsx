@@ -1,11 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Actions, Identifier, isVoxel } from "@voxelio/breeze/core";
+import { Actions, Identifier } from "@voxelio/breeze/core";
 import type { EnchantmentProps } from "@voxelio/breeze/schema";
 import ToolGrid from "@/components/tools/elements/ToolGrid";
 import ToolRange from "@/components/tools/elements/ToolRange";
 import ToolSection from "@/components/tools/elements/ToolSection";
 import ToolSwitch from "@/components/tools/elements/ToolSwitch";
-import { getCurrentElement, useConfiguratorStore } from "@/components/tools/Store";
+import { useConfiguratorStore } from "@/components/tools/Store";
+import { useElementProperty } from "@/lib/hook/useBreezeElement";
 import Translate from "@/components/tools/Translate";
 import { isMinecraft } from "@/lib/utils/lock";
 
@@ -14,7 +15,11 @@ export const Route = createFileRoute("/$lang/studio/editor/enchantment/technical
 });
 
 function EnchantmentTechnicalPage() {
-    const currentElement = useConfiguratorStore((state) => getCurrentElement(state));
+    const currentElementId = useConfiguratorStore((state) => state.currentElementId);
+    if (!currentElementId) return null;
+
+    // biome-ignore lint/correctness/useHookAtTopLevel: Is for performance  
+    const effects = useElementProperty((el) => (el as EnchantmentProps).effects, currentElementId);
 
     return (
         <>
@@ -128,11 +133,8 @@ function EnchantmentTechnicalPage() {
             </ToolSection>
 
             <ToolSection id="effects" title={{ key: "enchantment:technical.effects.title" }}>
-                {currentElement &&
-                isVoxel(currentElement, "enchantment") &&
-                currentElement?.effects &&
-                Object.keys(currentElement.effects).length > 0 ? (
-                    Object.keys(currentElement.effects).map((effect) => (
+                {effects && Object.keys(effects).length > 0 ? (
+                    Object.keys(effects).map((effect) => (
                         <ToolSwitch
                             key={effect}
                             title={Identifier.toDisplay(effect)}
