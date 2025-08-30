@@ -18,6 +18,7 @@ import { Route as LangConverterRouteImport } from './routes/$lang/converter'
 import { Route as LangStudioRouteRouteImport } from './routes/$lang/studio/route'
 import { Route as LangStudioIndexRouteImport } from './routes/$lang/studio/index'
 import { Route as LangStudioEditorRouteImport } from './routes/$lang/studio/editor'
+import { Route as LangStudioEditorIndexRouteImport } from './routes/$lang/studio/editor/index'
 import { Route as LangStudioEditorRecipeOverviewRouteImport } from './routes/$lang/studio/editor/recipe/overview'
 import { Route as LangStudioEditorRecipeMainRouteImport } from './routes/$lang/studio/editor/recipe/main'
 import { Route as LangStudioEditorLootOverviewRouteImport } from './routes/$lang/studio/editor/loot/overview'
@@ -78,6 +79,11 @@ const LangStudioEditorRoute = LangStudioEditorRouteImport.update({
   id: '/editor',
   path: '/editor',
   getParentRoute: () => LangStudioRouteRoute,
+} as any)
+const LangStudioEditorIndexRoute = LangStudioEditorIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => LangStudioEditorRoute,
 } as any)
 const LangStudioEditorRecipeOverviewRoute =
   LangStudioEditorRecipeOverviewRouteImport.update({
@@ -180,6 +186,7 @@ export interface FileRoutesByFullPath {
   '/$lang/': typeof LangIndexRoute
   '/$lang/studio/editor': typeof LangStudioEditorRouteWithChildren
   '/$lang/studio/': typeof LangStudioIndexRoute
+  '/$lang/studio/editor/': typeof LangStudioEditorIndexRoute
   '/$lang/studio/editor/enchantment/items': typeof LangStudioEditorEnchantmentItemsRoute
   '/$lang/studio/editor/enchantment/main': typeof LangStudioEditorEnchantmentMainRoute
   '/$lang/studio/editor/enchantment/overview': typeof LangStudioEditorEnchantmentOverviewRoute
@@ -202,8 +209,8 @@ export interface FileRoutesByTo {
   '/$lang/harmonization': typeof LangHarmonizationRoute
   '/$lang/migration': typeof LangMigrationRoute
   '/$lang': typeof LangIndexRoute
-  '/$lang/studio/editor': typeof LangStudioEditorRouteWithChildren
   '/$lang/studio': typeof LangStudioIndexRoute
+  '/$lang/studio/editor': typeof LangStudioEditorIndexRoute
   '/$lang/studio/editor/enchantment/items': typeof LangStudioEditorEnchantmentItemsRoute
   '/$lang/studio/editor/enchantment/main': typeof LangStudioEditorEnchantmentMainRoute
   '/$lang/studio/editor/enchantment/overview': typeof LangStudioEditorEnchantmentOverviewRoute
@@ -231,6 +238,7 @@ export interface FileRoutesById {
   '/$lang/': typeof LangIndexRoute
   '/$lang/studio/editor': typeof LangStudioEditorRouteWithChildren
   '/$lang/studio/': typeof LangStudioIndexRoute
+  '/$lang/studio/editor/': typeof LangStudioEditorIndexRoute
   '/$lang/studio/editor/enchantment/items': typeof LangStudioEditorEnchantmentItemsRoute
   '/$lang/studio/editor/enchantment/main': typeof LangStudioEditorEnchantmentMainRoute
   '/$lang/studio/editor/enchantment/overview': typeof LangStudioEditorEnchantmentOverviewRoute
@@ -259,6 +267,7 @@ export interface FileRouteTypes {
     | '/$lang/'
     | '/$lang/studio/editor'
     | '/$lang/studio/'
+    | '/$lang/studio/editor/'
     | '/$lang/studio/editor/enchantment/items'
     | '/$lang/studio/editor/enchantment/main'
     | '/$lang/studio/editor/enchantment/overview'
@@ -281,8 +290,8 @@ export interface FileRouteTypes {
     | '/$lang/harmonization'
     | '/$lang/migration'
     | '/$lang'
-    | '/$lang/studio/editor'
     | '/$lang/studio'
+    | '/$lang/studio/editor'
     | '/$lang/studio/editor/enchantment/items'
     | '/$lang/studio/editor/enchantment/main'
     | '/$lang/studio/editor/enchantment/overview'
@@ -309,6 +318,7 @@ export interface FileRouteTypes {
     | '/$lang/'
     | '/$lang/studio/editor'
     | '/$lang/studio/'
+    | '/$lang/studio/editor/'
     | '/$lang/studio/editor/enchantment/items'
     | '/$lang/studio/editor/enchantment/main'
     | '/$lang/studio/editor/enchantment/overview'
@@ -395,6 +405,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/$lang/studio/editor'
       preLoaderRoute: typeof LangStudioEditorRouteImport
       parentRoute: typeof LangStudioRouteRoute
+    }
+    '/$lang/studio/editor/': {
+      id: '/$lang/studio/editor/'
+      path: '/'
+      fullPath: '/$lang/studio/editor/'
+      preLoaderRoute: typeof LangStudioEditorIndexRouteImport
+      parentRoute: typeof LangStudioEditorRoute
     }
     '/$lang/studio/editor/recipe/overview': {
       id: '/$lang/studio/editor/recipe/overview'
@@ -505,6 +522,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface LangStudioEditorRouteChildren {
+  LangStudioEditorIndexRoute: typeof LangStudioEditorIndexRoute
   LangStudioEditorEnchantmentItemsRoute: typeof LangStudioEditorEnchantmentItemsRoute
   LangStudioEditorEnchantmentMainRoute: typeof LangStudioEditorEnchantmentMainRoute
   LangStudioEditorEnchantmentOverviewRoute: typeof LangStudioEditorEnchantmentOverviewRoute
@@ -523,6 +541,7 @@ interface LangStudioEditorRouteChildren {
 }
 
 const LangStudioEditorRouteChildren: LangStudioEditorRouteChildren = {
+  LangStudioEditorIndexRoute: LangStudioEditorIndexRoute,
   LangStudioEditorEnchantmentItemsRoute: LangStudioEditorEnchantmentItemsRoute,
   LangStudioEditorEnchantmentMainRoute: LangStudioEditorEnchantmentMainRoute,
   LangStudioEditorEnchantmentOverviewRoute:

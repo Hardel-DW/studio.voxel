@@ -8,6 +8,7 @@ import { Tabs, TabsContent, TabsTrigger } from "@/components/ui/Tabs";
 
 export default function StudioSidebar() {
     const elements = useConfiguratorStore((state) => state.elements);
+    const selectedConcept = useConfiguratorStore((state) => state.selectedConcept);
     if (elements.size === 0) return null;
 
     return (
@@ -15,10 +16,10 @@ export default function StudioSidebar() {
             <div className="overflow-hidden flex-1">
                 <div className="overflow-y-auto overflow-x-hidden h-full pb-16 mt-4">
                     <Tabs defaultValue="concepts" className="w-auto mb-4">
-                        <TabsTrigger value="concepts">
+                        <TabsTrigger value="concepts" disabled={!selectedConcept}>
                             <Translate content="tabs.concepts" />
                         </TabsTrigger>
-                        <TabsTrigger value="details">
+                        <TabsTrigger value="details" disabled={!selectedConcept}>
                             <Translate content="tabs.details" />
                         </TabsTrigger>
 

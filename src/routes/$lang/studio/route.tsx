@@ -1,4 +1,3 @@
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { createFileRoute, Outlet } from "@tanstack/react-router";
 import QueryProvider from "@/components/QueryProvider";
 import ShiningStars from "@/components/ui/ShiningStars";
@@ -20,7 +19,6 @@ function StudioLayout() {
             </div>
 
             <QueryProvider>
-                <ReactQueryDevtools />
                 <Outlet />
             </QueryProvider>
         </div>

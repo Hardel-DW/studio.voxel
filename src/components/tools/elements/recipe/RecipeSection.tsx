@@ -1,18 +1,14 @@
 import { isVoxel, type RecipeProps } from "@voxelio/breeze";
 import { Actions, RecipeActionBuilder } from "@voxelio/breeze/core";
-import { useState } from "react";
+import { lazy, Suspense, useState } from "react";
 import { getBlockByRecipeType, getFirstTypeFromSelection, RECIPE_BLOCKS } from "@/components/tools/elements/recipe/recipeConfig";
 import ToolCounter from "@/components/tools/elements/ToolCounter";
 import { getCurrentElement, useConfiguratorStore } from "@/components/tools/Store";
 import Loader from "@/components/ui/Loader";
 import { Tabs, TabsTrigger } from "@/components/ui/Tabs";
-import dynamic from "@/lib/utils/dynamic";
 import RecipeRenderer from "./RecipeRenderer";
 
-const RecipeSelector = dynamic(() => import("./RecipeSelector"), {
-    loading: () => <Loader />,
-    ssr: false
-});
+const RecipeSelector = lazy(() => import("./RecipeSelector"));
 
 const TAB_CONFIGS = {
     "minecraft:crafting_table": [
@@ -48,12 +44,14 @@ export default function RecipeSection() {
                     <p className="text-sm text-zinc-400">Configure your recipe</p>
                 </div>
                 <div className="relative">
-                    <RecipeSelector
-                        value={selection}
-                        onChange={handleSelectionChange}
-                        recipeCounts={new Map<string, number>(RECIPE_BLOCKS.map((block) => [block.id, 0]))}
-                        selectMode={true}
-                    />
+                    <Suspense fallback={<Loader />}>
+                        <RecipeSelector
+                            value={selection}
+                            onChange={handleSelectionChange}
+                            recipeCounts={new Map<string, number>(RECIPE_BLOCKS.map((block) => [block.id, 0]))}
+                            selectMode={true}
+                        />
+                    </Suspense>
                 </div>
             </div>
             <hr />

@@ -11,7 +11,12 @@ import type {
 } from "@voxelio/breeze/core";
 import { compileDatapack, isVoxelElement, Logger, updateData } from "@voxelio/breeze/core";
 import { create } from "zustand";
-import { type CONCEPT_KEY, CONCEPTS } from "./elements";
+import type { CONCEPT_KEY } from "./elements";
+
+export type LastVisitedRoute = {
+    route: string;
+    elementId: string | null;
+};
 
 export interface ConfiguratorState<T extends keyof Analysers> {
     name: string;
@@ -25,6 +30,7 @@ export interface ConfiguratorState<T extends keyof Analysers> {
     sortedIdentifiers: Map<string, string[]>;
     selectedConcept: CONCEPT_KEY | null;
     registryCache: Map<string, DataDrivenRegistryElement<any>[]>;
+    lastVisitedRoutes: Map<CONCEPT_KEY, LastVisitedRoute>;
     getSortedIdentifiers: (registry: string) => string[];
     setName: (name: string) => void;
     setMinify: (minify: boolean) => void;
@@ -35,6 +41,8 @@ export interface ConfiguratorState<T extends keyof Analysers> {
     getLengthByRegistry: (registry: string) => number;
     setSelectedConcept: (concept: CONCEPT_KEY) => void;
     getRegistry: <R extends DataDrivenElement>(registry: string) => DataDrivenRegistryElement<R>[];
+    setLastVisitedRoute: (concept: CONCEPT_KEY, route: string, elementId: string | null) => void;
+    getLastVisitedRoute: (concept: CONCEPT_KEY) => LastVisitedRoute | null;
 }
 
 const createConfiguratorStore = <T extends keyof Analysers>() =>
@@ -47,8 +55,9 @@ const createConfiguratorStore = <T extends keyof Analysers>() =>
         isModded: false,
         version: null,
         sortedIdentifiers: new Map(),
-        selectedConcept: CONCEPTS[0].registry as CONCEPT_KEY,
+        selectedConcept: null,
         registryCache: new Map(),
+        lastVisitedRoutes: new Map(),
         getSortedIdentifiers: (registry) => get().sortedIdentifiers.get(registry) ?? [],
         setName: (name) => set({ name }),
         setMinify: (minify) => set({ minify }),
@@ -74,10 +83,7 @@ const createConfiguratorStore = <T extends keyof Analysers>() =>
             if (!version || !files || !selectedConcept) return [];
             return compileDatapack({ elements: Array.from(elements.values()), files, logger });
         },
-        getLengthByRegistry: (registry) => {
-            const state = get();
-            return state.getRegistry(registry).length;
-        },
+        getLengthByRegistry: (registry) => get().getRegistry(registry).length,
         setSelectedConcept: (concept) => set({ selectedConcept: concept }),
         getRegistry: <R extends DataDrivenElement>(registry: string): DataDrivenRegistryElement<R>[] => {
             const state = get();
@@ -88,7 +94,13 @@ const createConfiguratorStore = <T extends keyof Analysers>() =>
             const result = new Datapack(state.files).getRegistry<R>(registry);
             set((prevState) => ({ registryCache: prevState.registryCache.set(registry, result) }));
             return result;
-        }
+        },
+        setLastVisitedRoute: (concept: CONCEPT_KEY, route: string, elementId: string | null) => {
+            set((state) => ({
+                lastVisitedRoutes: new Map(state.lastVisitedRoutes).set(concept, { route, elementId })
+            }));
+        },
+        getLastVisitedRoute: (concept: CONCEPT_KEY): LastVisitedRoute | null => get().lastVisitedRoutes.get(concept) || null,
     }));
 
 export const useConfiguratorStore = createConfiguratorStore();

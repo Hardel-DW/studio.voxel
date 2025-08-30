@@ -62,21 +62,20 @@ export function Tabs({ defaultValue, onValueChange, className, children }: TabsP
     );
 }
 
-interface TabsTriggerProps {
+export function TabsTrigger(props: {
     value: string;
     children: React.ReactNode;
     className?: string;
-}
-
-export function TabsTrigger({ value, children, className }: TabsTriggerProps) {
+    disabled?: boolean;
+}) {
     const context = useContext(TabsContext);
     if (!context) throw new Error("TabsTrigger must be used within Tabs");
 
-    const isActive = value === context.value;
+    const isActive = props.value === context.value;
 
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         const button = event.currentTarget;
-        context.onValueChange(value);
+        context.onValueChange(props.value);
         context.updateIndicator(button);
     };
 
@@ -84,6 +83,7 @@ export function TabsTrigger({ value, children, className }: TabsTriggerProps) {
         <button
             type="button"
             onClick={handleClick}
+            disabled={props.disabled}
             ref={(node) => {
                 if (isActive && node) {
                     requestAnimationFrame(() => context.updateIndicator(node));
@@ -92,9 +92,10 @@ export function TabsTrigger({ value, children, className }: TabsTriggerProps) {
             className={cn(
                 "text-zinc-500 flex-1 whitespace-nowrap rounded-xl px-3 py-1.5 font-medium transition-all cursor-pointer hover:text-white",
                 isActive ? "text-white" : "text-muted-foreground hover:text-foreground/80",
-                className
+                props.disabled && "pointer-events-none opacity-50",
+                props.className
             )}>
-            {children}
+            {props.children}
         </button>
     );
 }

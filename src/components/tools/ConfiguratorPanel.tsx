@@ -8,8 +8,9 @@ export default function ConfiguratorPanel() {
     const params = useParams({ from: "/$lang/studio/editor" });
     const location = useLocation();
     const currentConcept = useConfiguratorStore((state) => state.selectedConcept);
+    const selectedElement = useConfiguratorStore((state) => state.currentElementId);
     const activeConcept = CONCEPTS.find((concept) => concept.registry === currentConcept);
-    if (!activeConcept) return null;
+    if (!activeConcept || !selectedElement) return null;
 
     return (
         <div className="flex gap-x-5 bg-inherit justify-center pt-1 overflow-x-auto border-0 mb-4 pb-4 gap-y-4 border-b-2 rounded-none border-zinc-800 flex-wrap shrink-0">

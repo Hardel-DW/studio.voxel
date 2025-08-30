@@ -1,21 +1,12 @@
+import { lazy, Suspense } from "react";
 import { useDebugStore } from "@/components/tools/debug/DebugStore";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import Translate from "@/components/tools/Translate";
 import { Button } from "@/components/ui/Button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/Popover";
 import { useTranslateKey } from "@/lib/hook/useTranslation";
-import dynamic from "@/lib/utils/dynamic";
 
-const DebugPanel = dynamic(() => import("@/components/tools/debug/DebugPanel"), {
-    ssr: false,
-    loading: () => (
-        <div className="fixed inset-4 bg-header-cloudy rounded-2xl flex items-center justify-center z-200">
-            <p className="text-white">
-                <Translate content="loading" />
-            </p>
-        </div>
-    )
-});
+const DebugPanel = lazy(() => import("@/components/tools/debug/DebugPanel"));
 
 export default function SettingsButton() {
     const { isDebugModalOpen, openDebugModal } = useDebugStore();
@@ -60,7 +51,7 @@ export default function SettingsButton() {
                     <p className="text-xs font-semibold border-b border-zinc-700">
                         <Translate content="settings.external_configuration" />
                     </p>
-                    <div className="flex flex-col gap-8">
+                    <div className="flex flex-col gap-2">
                         <div className="flex flex-col gap-1">
                             <input
                                 type="text"
@@ -114,7 +105,17 @@ export default function SettingsButton() {
                 </div>
             </PopoverContent>
 
-            {isDebugModalOpen && <DebugPanel />}
+            {isDebugModalOpen && (
+                <Suspense fallback={
+                    <div className="fixed inset-4 bg-header-cloudy rounded-2xl flex items-center justify-center z-200">
+                        <p className="text-white">
+                            <Translate content="loading" />
+                        </p>
+                    </div>
+                }>
+                    <DebugPanel />
+                </Suspense>
+            )}
         </Popover>
     );
 }

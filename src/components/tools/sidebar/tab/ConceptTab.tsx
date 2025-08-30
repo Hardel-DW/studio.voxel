@@ -4,8 +4,6 @@ import SidebarCard from "@/components/tools/sidebar/tab/SidebarCard";
 import Translate from "@/components/tools/Translate";
 
 export default function ConceptTab() {
-    const selectedConcept = useConfiguratorStore((state) => state.selectedConcept);
-    const setSelectedConcept = useConfiguratorStore((state) => state.setSelectedConcept);
     const getLengthByRegistry = useConfiguratorStore((state) => state.getLengthByRegistry);
 
     return (
@@ -13,10 +11,11 @@ export default function ConceptTab() {
             {CONCEPTS.map((concept, index) => (
                 <SidebarCard
                     key={concept.title}
-                    {...concept}
+                    title={concept.title}
+                    image={concept.image}
                     index={index}
-                    selected={selectedConcept === concept.registry}
-                    onClick={() => setSelectedConcept(concept.registry)}>
+                    registry={concept.registry}
+                    overview={concept.overview}>
                     {getLengthByRegistry(concept.registry)} <Translate content="elements" />
                 </SidebarCard>
             ))}

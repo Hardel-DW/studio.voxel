@@ -1,27 +1,12 @@
 import type { RecipeProps } from "@voxelio/breeze";
+import { lazy, Suspense } from "react";
 import Loader from "@/components/ui/Loader";
-import dynamic from "@/lib/utils/dynamic";
 import { getBlockByRecipeType } from "./recipeConfig";
 
-const CraftingTemplate = dynamic(() => import("./template/CraftingTemplate"), {
-    loading: () => <Loader />,
-    ssr: false
-});
-
-const SmeltingTemplate = dynamic(() => import("./template/SmeltingTemplate"), {
-    loading: () => <Loader />,
-    ssr: false
-});
-
-const StoneCuttingTemplate = dynamic(() => import("./template/StoneCuttingTemplate"), {
-    loading: () => <Loader />,
-    ssr: false
-});
-
-const SmithingTemplate = dynamic(() => import("./template/SmithingTemplate"), {
-    loading: () => <Loader />,
-    ssr: false
-});
+const CraftingTemplate = lazy(() => import("./template/CraftingTemplate"));
+const SmeltingTemplate = lazy(() => import("./template/SmeltingTemplate"));
+const StoneCuttingTemplate = lazy(() => import("./template/StoneCuttingTemplate"));
+const SmithingTemplate = lazy(() => import("./template/SmithingTemplate"));
 
 const templateMap = {
     "minecraft:crafting_table": CraftingTemplate,
@@ -38,5 +23,9 @@ export default function RecipeRenderer({ element }: { element: RecipeProps }) {
     if (!blockConfig) return null;
 
     const Template = templateMap[blockConfig.id as keyof typeof templateMap];
-    return Template ? <Template slots={element.slots} result={element.result} /> : null;
+    return Template ? (
+        <Suspense fallback={<Loader />}>
+            <Template slots={element.slots} result={element.result} />
+        </Suspense>
+    ) : null;
 }
