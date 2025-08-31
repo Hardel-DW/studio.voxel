@@ -131,6 +131,10 @@
         }
     }
 
+    .font-code {
+        font-family: 'Consolas', 'Monaco', 'Ubuntu Mono', monospace;
+    }
+
     .atlas {
         background: url("/images/features/item/atlas.webp") no-repeat top left;
         width: 32px;
