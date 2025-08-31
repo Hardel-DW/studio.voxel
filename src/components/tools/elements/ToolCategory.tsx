@@ -16,7 +16,7 @@ export default function ToolCategory(props: ToolCategoryType) {
                 <div className="flex items-center gap-x-4 mb-8">
                     <div className="h-1 flex-1 bg-zinc-700" />
                     <h2 className="text-2xl font-semibold px-4">
-                        <Translate content={props.title} schema={true} />
+                        <Translate content={props.title} />
                     </h2>
                     <div className="h-1 flex-1 bg-zinc-700" />
                 </div>

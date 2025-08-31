@@ -37,18 +37,18 @@ export default function ToolInlineSlot(props: ToolInlineType & { index?: number 
 
                 {lock.isLocked && (
                     <span className="absolute top-0 p-4 text-xs text-zinc-400 font-light">
-                        <Translate content={lock.text} schema={true} />
+                        <Translate content={lock.text} />
                     </span>
                 )}
 
                 <div className="stack h-full rounded-2xl overflow-hidden">
                     <div className="pb-2 self-end px-4 relative z-20">
                         <h3 className="text-xl font-semibold text-white">
-                            <Translate content={props.title} schema={true} />
+                            <Translate content={props.title} />
                         </h3>
                         {props.description && (
                             <p className="text-sm text-zinc-400">
-                                <Translate content={props.description} schema={true} />
+                                <Translate content={props.description} />
                             </p>
                         )}
                     </div>

@@ -27,7 +27,7 @@ export class LockEntryBuilder {
     }
 
     public addTextKey(key: string): this {
-        this.text = { key };
+        this.text = key;
         return this;
     }
 

@@ -44,7 +44,7 @@ export default function ToolRange(props: ToolRangeType & { index?: number }) {
                     ) : (
                         props.label && (
                             <label htmlFor={getKey(props.label)} className="block line-clamp-1 text-sm font-medium text-zinc-400 mb-1">
-                                <Translate content={props.label} schema={true} />
+                                <Translate content={props.label} />
                             </label>
                         )
                     )}

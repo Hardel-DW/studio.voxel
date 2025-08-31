@@ -68,7 +68,7 @@ export const Route = createFileRoute("/$lang/studio/editor/enchantment/find/")({
 function EnchantmentFindPage() {
     return (
         <>
-            <ToolSection id="behaviour" title={{ key: "enchantment:section.find" }}>
+            <ToolSection id="behaviour" title="enchantment:section.find">
                 <ToolGrid size="350px">
                     {iterationValues.map((value) => (
                         <ToolSlot
@@ -83,22 +83,22 @@ function EnchantmentFindPage() {
                                     .build(),
                                 isMinecraft
                             ]}
-                            title={{ key: value.title }}
+                            title={value.title}
                             image={value.image}
-                            description={{ key: value.description }}
+                            description={value.description}
                         />
                     ))}
                 </ToolGrid>
             </ToolSection>
-            <ToolSection id="addons" title={{ key: "enchantment:addons.description" }}>
+            <ToolSection id="addons" title="enchantment:addons.description">
                 <ToolReveal searchParam="tab" useUrlSync={true} defaultValue="dnt">
                     <ToolRevealElement
                         id="dnt"
                         logo="/images/addons/logo/dnt.webp"
                         image="/images/addons/hero/dnt.png"
                         href="https://modrinth.com/datapack/dungeons-and-taverns"
-                        title={{ key: "dnt:title" }}
-                        description={{ key: "dnt:description" }}>
+                        title="dnt:title"
+                        description="dnt:description">
                         <Suspense fallback={<Loader />}>
                             <EnchantDNTSection />
                         </Suspense>
@@ -108,8 +108,8 @@ function EnchantmentFindPage() {
                         logo="/images/addons/logo/yggdrasil.webp"
                         image="/images/addons/hero/yggdrasil.png"
                         href="https://modrinth.com/datapack/yggdrasil-structure"
-                        title={{ key: "yggdrasil:title" }}
-                        description={{ key: "yggdrasil:description" }}>
+                        title="yggdrasil:title"
+                        description="yggdrasil:description">
                         <Suspense fallback={<Loader />}>
                             <EnchantYggdrasilSection />
                         </Suspense>

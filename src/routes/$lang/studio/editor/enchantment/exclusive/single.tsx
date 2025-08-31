@@ -18,17 +18,16 @@ function Page() {
     const files = useConfiguratorStore((state) => state.files);
     const enchantments = new Datapack(files).getRegistry("enchantment");
     const { data: vanilla, isLoading, isError } = useRegistry<FetchedRegistry<Enchantment>>("enchantment", "summary");
-
     const identifiers = enchantments.map((enchantment) => new Identifier(enchantment.identifier));
     const vanillaIdentifiers = Object.keys(vanilla ?? {}).map((key) => Identifier.of(`minecraft:${key}`, "enchantment"));
 
     return (
         <>
-            <EnchantmentCategory title={{ key: "enchantment:exclusive.custom.title" }} identifiers={identifiers} />
+            <EnchantmentCategory title="enchantment:exclusive.custom.title" identifiers={identifiers} />
             {isLoading && <Loader />}
             {isError && <ErrorPlaceholder error={new Error("Erreur de chargement du registre.")} />}
             {vanillaIdentifiers.length > 0 && (
-                <EnchantmentCategory title={{ key: "enchantment:exclusive.vanilla.title" }} identifiers={vanillaIdentifiers} />
+                <EnchantmentCategory title="enchantment:exclusive.vanilla.title" identifiers={vanillaIdentifiers} />
             )}
         </>
     );

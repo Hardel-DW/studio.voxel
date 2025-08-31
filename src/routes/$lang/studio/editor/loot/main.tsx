@@ -17,7 +17,7 @@ function LootMainPage() {
         <div className="w-full h-full">
             {items.length > 0 && (
                 <LootViewer
-                    title={{ key: "loot_table:section.main" }}
+                    title="loot_table:section.main"
                     lootTable={currentElement}
                     data={items}
                     action={(value) => new LootTableActionBuilder().removeItem(value).build()}

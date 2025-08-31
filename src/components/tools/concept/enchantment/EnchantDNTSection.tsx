@@ -92,13 +92,13 @@ const specificStructures = [
 export default function EnchantDNTSection() {
     return (
         <>
-            <ToolCategory title={{ key: "dnt:globals" }}>
+            <ToolCategory title="dnt:globals">
                 <ToolGrid size="250px">
                     {biomeStructures.map((structure) => (
                         <ToolSlot
                             key={structure.tag}
-                            title={{ key: structure.title }}
-                            description={{ key: structure.description }}
+                            title={structure.title}
+                            description={structure.description}
                             image={structure.image}
                             size={128}
                             action={new Actions().toggleValueInList("tags", structure.tag).build()}
@@ -108,13 +108,13 @@ export default function EnchantDNTSection() {
                 </ToolGrid>
             </ToolCategory>
 
-            <ToolCategory title={{ key: "dnt:structures" }}>
+            <ToolCategory title="dnt:structures">
                 <ToolGrid size="400px">
                     {specificStructures.map((structure) => (
                         <ToolCard
                             key={structure.tag}
-                            title={{ key: structure.title }}
-                            description={{ key: structure.description }}
+                            title={structure.title}
+                            description={structure.description}
                             image={structure.image}
                             action={new Actions().toggleValueInList("tags", structure.tag).build()}
                             renderer={(el: EnchantmentProps) => el.tags.includes(structure.tag)}

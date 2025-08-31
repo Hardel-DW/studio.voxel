@@ -43,11 +43,11 @@ const vanillaGroups = [
 const elements = [
     {
         id: "group",
-        title: { key: "enchantment:toggle.group.title" }
+        title: "enchantment:toggle.group.title"
     },
     {
         id: "single",
-        title: { key: "enchantment:toggle.individual.title" }
+        title: "enchantment:toggle.individual.title"
     }
 ];
 
@@ -93,13 +93,13 @@ function ExclusiveGroupSection() {
 
     return (
         <>
-            <ToolCategory title={{ key: "enchantment:exclusive.vanilla.title" }}>
+            <ToolCategory title="enchantment:exclusive.vanilla.title">
                 <ToolGrid>
                     {vanillaGroups.map(({ id, image, value }) => (
                         <ToolSlot
                             key={id}
-                            title={{ key: `enchantment:exclusive.set.${id}.title` }}
-                            description={{ key: `enchantment:exclusive.set.${id}.description` }}
+                            title={`enchantment:exclusive.set.${id}.title`}
+                            description={`enchantment:exclusive.set.${id}.description`}
                             image={`/images/features/item/${image}.webp`}
                             action={new EnchantmentActionBuilder().setExclusiveSetWithTags(value).build()}
                             renderer={(el) => el.exclusiveSet === value}
@@ -109,7 +109,7 @@ function ExclusiveGroupSection() {
                 </ToolGrid>
             </ToolCategory>
 
-            <ToolCategory title={{ key: "enchantment:exclusive.custom.title" }}>
+            <ToolCategory title="enchantment:exclusive.custom.title">
                 <div
                     className="grid items-stretch gap-4"
                     style={{
@@ -117,7 +117,7 @@ function ExclusiveGroupSection() {
                     }}>
                     {enchantments.length === 0 && (
                         <p className="text-zinc-400 p-4">
-                            <Translate content={{ key: "enchantment:exclusive.custom.fallback" }} />
+                            <Translate content="enchantment:exclusive.custom.fallback" />
                         </p>
                     )}
 
@@ -154,11 +154,11 @@ function ExclusiveSingleSection() {
 
     return (
         <>
-            <EnchantmentCategory title={{ key: "enchantment:exclusive.custom.title" }} identifiers={identifiers} />
+            <EnchantmentCategory title="enchantment:exclusive.custom.title" identifiers={identifiers} />
             {isLoading && <Loader />}
             {isError && <ErrorPlaceholder error={new Error("Erreur de chargement du registre.")} />}
             {vanillaIdentifiers.length > 0 && (
-                <EnchantmentCategory title={{ key: "enchantment:exclusive.vanilla.title" }} identifiers={vanillaIdentifiers} />
+                <EnchantmentCategory title="enchantment:exclusive.vanilla.title" identifiers={vanillaIdentifiers} />
             )}
         </>
     );
@@ -173,7 +173,7 @@ function EnchantmentExclusivePage() {
             <div className="flex items flex-col pt-4 h-full">
                 <ToolSectionSelector
                     id="exclusive"
-                    title={{ key: "enchantment:section.exclusive.description" }}
+                    title="enchantment:section.exclusive.description"
                     elements={elements}
                     searchParam="mode"
                     useUrlSync={true}

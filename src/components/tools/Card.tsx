@@ -16,18 +16,18 @@ export default function TemplateCard(props: {
                 </div>
                 <div>
                     <h3 className="text-lg font-semibold mb-1">
-                        <Translate content={props.title} schema={true} />
+                        <Translate content={props.title} />
                     </h3>
                     {props.description && (
                         <p className="text-sm text-zinc-400">
-                            <Translate content={props.description} schema={true} />
+                            <Translate content={props.description} />
                         </p>
                     )}
                 </div>
 
                 {props.short && (
                     <p className="text-xs text-zinc-400 pt-4 mt-4 border-t border-zinc-700">
-                        <Translate content={props.short} schema={true} />
+                        <Translate content={props.short} />
                     </p>
                 )}
             </div>

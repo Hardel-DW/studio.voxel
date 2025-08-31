@@ -30,23 +30,23 @@ export default function Donation(props: ToolDonationType) {
                 <div className="flex flex-col justify-between h-full p-8 pl-12">
                     <div>
                         <h1 className="text-white text-3xl tracking-wide font-semibold">
-                            <Translate content={props.title} schema={true} />
+                            <Translate content={props.title} />
                         </h1>
                         <p className="text-zinc-400 text-sm pt-2 w-full lg:w-3/4">
-                            <Translate content={props.description} schema={true} />
+                            <Translate content={props.description} />
                         </p>
                     </div>
                     <div className="xl:flex justify-between gap-4 mt-4">
                         <div>
                             <h3 className="text-white font-bold text-xl pb-4 pt-6">
-                                <Translate content={props.subTitle} schema={true} />
+                                <Translate content={props.subTitle} />
                             </h3>
                             <ul className="grid grid-cols-2 gap-x-8 items-center *:flex *:items-center *:gap-2 gap-y-4">
                                 {props.extra.map((item, index) => (
                                     <li key={index.toString()}>
                                         <img src="/icons/check.svg" alt="check" className="w-4 h-4 invert" />
                                         <span className="text-zinc-300 text-sm font-semibold">
-                                            <Translate content={item} schema={true} />
+                                            <Translate content={item} />
                                         </span>
                                     </li>
                                 ))}
@@ -59,7 +59,7 @@ export default function Donation(props: ToolDonationType) {
                                 rel="noreferrer"
                                 href={props.tipText.link}
                                 variant="white-shimmer">
-                                <Translate content={props.tipText.text} schema={true} />
+                                <Translate content={props.tipText.text} />
                             </LinkButton>
                             <LinkButton
                                 className="w-full flex-1 px-8"
@@ -68,7 +68,7 @@ export default function Donation(props: ToolDonationType) {
                                 target="_blank"
                                 rel="noreferrer">
                                 <img src="/icons/company/patreon.svg" alt="Patreon" className="w-4 h-4" />
-                                <Translate content={props.patreon.text} schema={true} />
+                                <Translate content={props.patreon.text} />
                             </LinkButton>
                         </div>
                     </div>

@@ -45,13 +45,13 @@ function Page() {
 
     return (
         <>
-            <ToolCategory title={{ key: "enchantment:exclusive.vanilla.title" }}>
+            <ToolCategory title="enchantment:exclusive.vanilla.title">
                 <ToolGrid>
                     {vanillaGroups.map(({ id, image, value }) => (
                         <ToolSlot
                             key={id}
-                            title={{ key: `enchantment:exclusive.set.${id}.title` }}
-                            description={{ key: `enchantment:exclusive.set.${id}.description` }}
+                            title={`enchantment:exclusive.set.${id}.title`}
+                            description={`enchantment:exclusive.set.${id}.description`}
                             image={`/images/features/item/${image}.webp`}
                             action={new EnchantmentActionBuilder().setExclusiveSetWithTags(value).build()}
                             renderer={(el) => el.exclusiveSet === value}
@@ -61,7 +61,7 @@ function Page() {
                 </ToolGrid>
             </ToolCategory>
 
-            <ToolCategory title={{ key: "enchantment:exclusive.custom.title" }}>
+            <ToolCategory title="enchantment:exclusive.custom.title">
                 <div
                     className="grid items-stretch gap-4"
                     style={{
@@ -69,7 +69,7 @@ function Page() {
                     }}>
                     {enchantments.length === 0 && (
                         <p className="text-zinc-400 p-4">
-                            <Translate content={{ key: "enchantment:exclusive.custom.fallback" }} />
+                            <Translate content="enchantment:exclusive.custom.fallback" />
                         </p>
                     )}
 

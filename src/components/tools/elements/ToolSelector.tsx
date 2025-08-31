@@ -23,16 +23,16 @@ export default function ToolSelector(props: ToolSelectorType & { index?: number 
                         <div className="flex flex-col flex-1">
                             <div className="flex items-center gap-2">
                                 <span className="text-white line-clamp-1">
-                                    <Translate content={props.title} schema={true} />
+                                    <Translate content={props.title} />
                                 </span>
                             </div>
                             {lock.isLocked ? (
                                 <span className="text-xs text-zinc-400 font-light line-clamp-2">
-                                    <Translate content={lock.text} schema={true} />
+                                    <Translate content={lock.text} />
                                 </span>
                             ) : (
                                 <span className="text-xs text-zinc-400 font-light line-clamp-2">
-                                    <Translate content={props.description} schema={true} />
+                                    <Translate content={props.description} />
                                 </span>
                             )}
                         </div>

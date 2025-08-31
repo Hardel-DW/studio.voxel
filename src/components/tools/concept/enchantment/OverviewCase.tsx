@@ -22,7 +22,7 @@ export default function OverviewCase(props: OverviewCaseProps) {
             <PopoverContent>
                 <div className="flex flex-col gap-2">
                     <p className="text-sm text-zinc-400">
-                        <Translate content={props.title} schema={true} />
+                        <Translate content={props.title} />
                     </p>
                 </div>
             </PopoverContent>

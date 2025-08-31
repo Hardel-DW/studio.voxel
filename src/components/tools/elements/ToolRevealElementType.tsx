@@ -48,10 +48,10 @@ const ToolRevealElement = function ToolRevealElement({ element, isSelected, onSe
                 })}>
                 <div className="flex flex-col gap-2">
                     <h1 className="text-3xl font-semibold uppercase tracking-wider">
-                        <Translate content={element.title} schema={true} />
+                        <Translate content={element.title} />
                     </h1>
                     <p className="text-zinc-400 font-semibold text-xs">
-                        <Translate content={element.description} schema={true} />
+                        <Translate content={element.description} />
                     </p>
                 </div>
             </div>

@@ -17,14 +17,14 @@ function EnchantmentMainPage() {
     return (
         <div className="h-full">
             <div className="flex items flex-col pt-4 h-full">
-                <ToolSection id="main" title={{ key: "enchantment:section.global.description" }}>
+                <ToolSection id="main" title="enchantment:section.global.description">
                     <ToolGrid>
                         {["maxLevel", "weight", "anvilCost"].map((key, index) => (
                             <TemplateCard
                                 key={key}
                                 image={`/icons/tools/${key}.svg`}
-                                title={{ key: `enchantment:global.${key}.title` }}
-                                description={{ key: `enchantment:global.explanation.list.${index + 1}` }}>
+                                title={`enchantment:global.${key}.title`}
+                                description={`enchantment:global.explanation.list.${index + 1}`}>
                                 <ToolCounter
                                     min={1}
                                     max={127}
@@ -37,8 +37,8 @@ function EnchantmentMainPage() {
                     </ToolGrid>
                     <ToolSelector
                         key="mode-selector"
-                        title={{ key: "enchantment:global.mode.title" }}
-                        description={{ key: "enchantment:global.mode.description" }}
+                        title="enchantment:global.mode.title"
+                        description="enchantment:global.mode.description"
                         lock={[
                             new LockEntryBuilder()
                                 .addTextKey("vanilla_disabled")
@@ -49,15 +49,15 @@ function EnchantmentMainPage() {
                         renderer={(el: EnchantmentProps) => el.mode}
                         options={[
                             {
-                                label: { key: "enchantment:global.mode.enum.normal" },
+                                label: "enchantment:global.mode.enum.normal",
                                 value: "normal"
                             },
                             {
-                                label: { key: "enchantment:global.mode.enum.soft_delete" },
+                                label: "enchantment:global.mode.enum.soft_delete",
                                 value: "soft_delete"
                             },
                             {
-                                label: { key: "enchantment:global.mode.enum.only_creative" },
+                                label: "enchantment:global.mode.enum.only_creative",
                                 value: "only_creative"
                             }
                         ]}
@@ -65,21 +65,21 @@ function EnchantmentMainPage() {
                     <Donation
                         key="donation"
                         icon="/icons/logo.svg"
-                        title={{ key: "supports.title" }}
-                        description={{ key: "supports.description" }}
-                        subTitle={{ key: "supports.advantages" }}
+                        title="supports.title"
+                        description="supports.description"
+                        subTitle="supports.advantages"
                         extra={[
-                            { key: "supports.advantages.early_access" },
-                            { key: "supports.advantages.submit_ideas" },
-                            { key: "supports.advantages.discord_role" },
-                            { key: "supports.advantages.live_voxel" }
+                            "supports.advantages.early_access",
+                            "supports.advantages.submit_ideas",
+                            "supports.advantages.discord_role",
+                            "supports.advantages.live_voxel"
                         ]}
                         patreon={{
-                            text: { key: "supports.become" },
+                            text: "supports.become",
                             link: "https://www.patreon.com/hardel"
                         }}
                         tipText={{
-                            text: { key: "donate" },
+                            text: "donate",
                             link: "https://streamelements.com/hardoudou/tip"
                         }}
                     />

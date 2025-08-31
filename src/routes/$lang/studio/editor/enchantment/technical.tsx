@@ -21,60 +21,46 @@ function EnchantmentTechnicalPage() {
 
     return (
         <>
-            <ToolSection id="technical_behaviour" title={{ key: "enchantment:section.technical.description" }}>
+            <ToolSection id="technical_behaviour" title="enchantment:section.technical.description">
                 <ToolSwitch
-                    title={{ key: "enchantment:technical.curse.title" }}
-                    description={{ key: "enchantment:technical.curse.description" }}
+                    title="enchantment:technical.curse.title"
+                    description="enchantment:technical.curse.description"
                     action={new Actions().toggleValueInList("tags", "#minecraft:curse").build()}
                     renderer={(el: EnchantmentProps) => el.tags.includes("#minecraft:curse")}
                     lock={[isMinecraft]}
                 />
                 <ToolSwitch
-                    title={{ key: "enchantment:technical.nonTreasure.title" }}
-                    description={{
-                        key: "enchantment:technical.nonTreasure.description"
-                    }}
+                    title="enchantment:technical.nonTreasure.title"
+                    description="enchantment:technical.nonTreasure.description"
                     action={new Actions().toggleValueInList("tags", "#minecraft:non_treasure").build()}
                     renderer={(el: EnchantmentProps) => el.tags.includes("#minecraft:non_treasure")}
                     lock={[isMinecraft]}
                 />
                 <ToolSwitch
-                    title={{ key: "enchantment:technical.treasure.title" }}
-                    description={{ key: "enchantment:technical.treasure.description" }}
+                    title="enchantment:technical.treasure.title"
+                    description="enchantment:technical.treasure.description"
                     action={new Actions().toggleValueInList("tags", "#minecraft:treasure").build()}
                     renderer={(el: EnchantmentProps) => el.tags.includes("#minecraft:treasure")}
                     lock={[isMinecraft]}
                 />
                 <ToolSwitch
-                    title={{
-                        key: "enchantment:technical.smeltsLoot.title"
-                    }}
-                    description={{
-                        key: "enchantment:technical.smeltsLoot.description"
-                    }}
+                    title="enchantment:technical.smeltsLoot.title"
+                    description="enchantment:technical.smeltsLoot.description"
                     action={new Actions().toggleValueInList("tags", "#minecraft:smelts_loot").build()}
                     renderer={(el: EnchantmentProps) => el.tags.includes("#minecraft:smelts_loot")}
                     lock={[isMinecraft]}
                 />
                 <ToolGrid>
                     <ToolSwitch
-                        title={{
-                            key: "enchantment:technical.preventsIceMelting.title"
-                        }}
-                        description={{
-                            key: "enchantment:technical.preventsIceMelting.description"
-                        }}
+                        title="enchantment:technical.preventsIceMelting.title"
+                        description="enchantment:technical.preventsIceMelting.description"
                         action={new Actions().toggleValueInList("tags", "#minecraft:prevent_ice_melting").build()}
                         renderer={(el: EnchantmentProps) => el.tags.includes("#minecraft:prevent_ice_melting")}
                         lock={[isMinecraft]}
                     />
                     <ToolSwitch
-                        title={{
-                            key: "enchantment:technical.preventInfestedBlockSpawning.title"
-                        }}
-                        description={{
-                            key: "enchantment:technical.preventInfestedBlockSpawning.description"
-                        }}
+                        title="enchantment:technical.preventInfestedBlockSpawning.title"
+                        description="enchantment:technical.preventInfestedBlockSpawning.description"
                         action={new Actions().toggleValueInList("tags", "#minecraft:prevent_infested_block_spawning").build()}
                         renderer={(el: EnchantmentProps) => el.tags.includes("#minecraft:prevent_infested_block_spawning")}
                         lock={[isMinecraft]}
@@ -82,23 +68,15 @@ function EnchantmentTechnicalPage() {
                 </ToolGrid>
                 <ToolGrid>
                     <ToolSwitch
-                        title={{
-                            key: "enchantment:technical.preventBeeSpawning.title"
-                        }}
-                        description={{
-                            key: "enchantment:technical.preventBeeSpawning.description"
-                        }}
+                        title="enchantment:technical.preventBeeSpawning.title"
+                        description="enchantment:technical.preventBeeSpawning.description"
                         action={new Actions().toggleValueInList("tags", "#minecraft:prevent_bee_spawning").build()}
                         renderer={(el: EnchantmentProps) => el.tags.includes("#minecraft:prevent_bee_spawning")}
                         lock={[isMinecraft]}
                     />
                     <ToolSwitch
-                        title={{
-                            key: "enchantment:technical.preventPotShattering.title"
-                        }}
-                        description={{
-                            key: "enchantment:technical.preventPotShattering.description"
-                        }}
+                        title="enchantment:technical.preventPotShattering.title"
+                        description="enchantment:technical.preventPotShattering.description"
                         action={new Actions().toggleValueInList("tags", "#minecraft:prevent_pot_shattering").build()}
                         renderer={(el: EnchantmentProps) => el.tags.includes("#minecraft:prevent_pot_shattering")}
                         lock={[isMinecraft]}
@@ -108,17 +86,15 @@ function EnchantmentTechnicalPage() {
 
             <ToolSection
                 id="costs"
-                title={{ key: "enchantment:section.costs" }}
-                button={{ text: { key: "documentation" }, url: "https://minecraft.wiki/w/Enchanting_mechanics" }}>
+                title="enchantment:section.costs"
+                button={{ text: "documentation", url: "https://minecraft.wiki/w/Enchanting_mechanics" }}>
                 <div className="grid grid-cols-2 gap-4">
                     {["minCostBase", "minCostPerLevelAboveFirst", "maxCostBase", "maxCostPerLevelAboveFirst"].map((field) => (
                         <div key={field}>
                             <ToolRange
                                 key={field}
                                 type="Range"
-                                label={{
-                                    key: `enchantment:global.${field}.title`
-                                }}
+                                label={`enchantment:global.${field}.title`}
                                 min={0}
                                 max={100}
                                 step={1}
@@ -130,13 +106,13 @@ function EnchantmentTechnicalPage() {
                 </div>
             </ToolSection>
 
-            <ToolSection id="effects" title={{ key: "enchantment:technical.effects.title" }}>
+            <ToolSection id="effects" title="enchantment:technical.effects.title">
                 {effects && Object.keys(effects).length > 0 ? (
                     Object.keys(effects).map((effect) => (
                         <ToolSwitch
                             key={effect}
                             title={Identifier.toDisplay(effect)}
-                            description={{ key: `effects:${effect}` }}
+                            description={`effects:${effect}`}
                             action={new Actions().toggleValueInList("disabledEffects", effect).build()}
                             renderer={(el: EnchantmentProps) => !el.disabledEffects.includes(effect)}
                         />

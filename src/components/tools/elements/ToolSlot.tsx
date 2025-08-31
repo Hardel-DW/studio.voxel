@@ -44,7 +44,7 @@ export default function ToolSlot(props: ToolSlotType & { index?: number }) {
 
             {lock.isLocked && (
                 <span className="absolute p-4 bottom-0 right-0 text-xs text-zinc-400 font-light">
-                    <Translate content={lock.text} schema={true} />
+                    <Translate content={lock.text} />
                 </span>
             )}
 
@@ -57,11 +57,11 @@ export default function ToolSlot(props: ToolSlotType & { index?: number }) {
                         { "text-right px-4": props.align === "right" }
                     )}>
                     <h3 className="text-lg font-semibold mb-1">
-                        <Translate content={props.title} schema={true} />
+                        <Translate content={props.title} />
                     </h3>
                     {props.description && (
                         <p className="text-sm text-zinc-400">
-                            <Translate content={props.description} schema={true} />
+                            <Translate content={props.description} />
                         </p>
                     )}
                 </div>

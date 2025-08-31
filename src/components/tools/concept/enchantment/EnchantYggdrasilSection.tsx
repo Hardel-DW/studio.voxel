@@ -134,12 +134,12 @@ const yggdrasilEquipmentTags = [
 export default function EnchantYggdrasilSection() {
     return (
         <>
-            <ToolCategory title={{ key: "yggdrasil:alfheim.title" }}>
+            <ToolCategory title="yggdrasil:alfheim.title">
                 <ToolGrid size="400px">
                     <ToolSlot
                         image="/images/features/title/yg.webp"
-                        title={{ key: "yggdrasil:yggdrasil_mob_equipment.title" }}
-                        description={{ key: "yggdrasil:yggdrasil_mob_equipment.description" }}
+                        title="yggdrasil:yggdrasil_mob_equipment.title"
+                        description="yggdrasil:yggdrasil_mob_equipment.description"
                         action={new Actions().toggleAllValuesInList("tags", yggdrasilEquipmentTags).build()}
                         renderer={(el: EnchantmentProps) => yggdrasilEquipmentTags.some((tag) => el.tags.includes(tag))}
                     />
@@ -147,8 +147,8 @@ export default function EnchantYggdrasilSection() {
                     {alfheimStructures.map((structure) => (
                         <ToolSlot
                             key={structure.tag}
-                            title={{ key: structure.title }}
-                            description={{ key: structure.description }}
+                            title={structure.title}
+                            description={structure.description}
                             image={structure.image}
                             action={new Actions().toggleValueInList("tags", structure.tag).build()}
                             renderer={(el: EnchantmentProps) => el.tags.includes(structure.tag)}
@@ -157,13 +157,13 @@ export default function EnchantYggdrasilSection() {
                 </ToolGrid>
             </ToolCategory>
 
-            <ToolCategory title={{ key: "yggdrasil:asflors.title" }}>
+            <ToolCategory title="yggdrasil:asflors.title">
                 <ToolGrid size="300px">
                     {asflorsStructures.map((structure) => (
                         <ToolSlot
                             key={structure.tag}
-                            title={{ key: structure.title }}
-                            description={{ key: structure.description }}
+                            title={structure.title}
+                            description={structure.description}
                             image={structure.image}
                             action={new Actions().toggleValue("tags", structure.tag).build()}
                             renderer={(el: EnchantmentProps) => el.tags.includes(structure.tag)}
@@ -172,18 +172,18 @@ export default function EnchantYggdrasilSection() {
                 </ToolGrid>
             </ToolCategory>
 
-            <ToolCategory title={{ key: "yggdrasil:runic_fracture.title" }}>
+            <ToolCategory title="yggdrasil:runic_fracture.title">
                 <ToolGrid size="400px">
                     <ToolSlot
-                        title={{ key: "yggdrasil:boss_trial_spawner.title" }}
-                        description={{ key: "yggdrasil:boss_trial_spawner.description" }}
+                        title="yggdrasil:boss_trial_spawner.title"
+                        description="yggdrasil:boss_trial_spawner.description"
                         image="/images/features/block/ominous_trial_spawner.webp"
                         action={new Actions().toggleValue("tags", "#yggdrasil:structure/runic_fracture/boss_trial_spawner").build()}
                         renderer={(el: EnchantmentProps) => el.tags.includes("#yggdrasil:structure/runic_fracture/boss_trial_spawner")}
                     />
                     <ToolSlot
-                        title={{ key: "yggdrasil:monster_trial_spawner.title" }}
-                        description={{ key: "yggdrasil:monster_trial_spawner.description" }}
+                        title="yggdrasil:monster_trial_spawner.title"
+                        description="yggdrasil:monster_trial_spawner.description"
                         image="/images/features/block/ominous_trial_spawner.webp"
                         action={new Actions().toggleValue("tags", "#yggdrasil:structure/runic_fracture/monster_trial_spawner").build()}
                         renderer={(el: EnchantmentProps) => el.tags.includes("#yggdrasil:structure/runic_fracture/monster_trial_spawner")}
@@ -191,13 +191,13 @@ export default function EnchantYggdrasilSection() {
                 </ToolGrid>
             </ToolCategory>
 
-            <ToolCategory title={{ key: "yggdrasil:runic_laby.title" }}>
+            <ToolCategory title="yggdrasil:runic_laby.title">
                 <ToolGrid size="400px">
                     {runicLabyrinthStructures.map((structure) => (
                         <ToolInline
                             key={structure.tag}
-                            title={{ key: structure.title }}
-                            description={{ key: structure.description }}
+                            title={structure.title}
+                            description={structure.description}
                             image={structure.image}
                             action={new Actions().toggleValue("tags", structure.tag).build()}
                             renderer={(el: EnchantmentProps) => el.tags.includes(structure.tag)}

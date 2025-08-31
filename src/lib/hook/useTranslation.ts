@@ -12,18 +12,26 @@ export function useTranslateKey(key: string): string {
  * Hook to translate a TranslateTextType or string, use it for components
  */
 export function useTranslate(content: TranslateTextType | string | undefined, replace?: string[]): string {
-    const keyToTranslate = content && typeof content === "object" && content.key ? content.key : "";
-    const text = useTranslateKey(keyToTranslate);
+    // Always call the hook to respect React's rules of hooks
+    const translationKey = typeof content === "string" ? content : "";
+    const translatedText = useTranslateKey(translationKey);
 
-    if (typeof content === "string" || content === undefined) {
-        return content || "";
+    // If content is undefined, return empty string
+    if (content === undefined) {
+        return "";
     }
 
-    if (content && typeof content === "object" && content.key) {
+    // If content is an object with text property, return the text directly
+    if (content && typeof content === "object" && content.text) {
+        return content.text;
+    }
+
+    // If content is a string, return the translated text
+    if (typeof content === "string") {
         if (replace && replace.length > 0) {
-            return replace.reduce((acc, rep) => acc.replace("%s", rep), text);
+            return replace.reduce((acc, rep) => acc.replace("%s", rep), translatedText);
         }
-        return text;
+        return translatedText;
     }
 
     return "";
