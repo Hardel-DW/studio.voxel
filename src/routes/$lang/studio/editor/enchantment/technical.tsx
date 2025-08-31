@@ -6,8 +6,8 @@ import ToolRange from "@/components/tools/elements/ToolRange";
 import ToolSection from "@/components/tools/elements/ToolSection";
 import ToolSwitch from "@/components/tools/elements/ToolSwitch";
 import { useConfiguratorStore } from "@/components/tools/Store";
-import { useElementProperty } from "@/lib/hook/useBreezeElement";
 import Translate from "@/components/tools/Translate";
+import { useElementProperty } from "@/lib/hook/useBreezeElement";
 import { isMinecraft } from "@/lib/utils/lock";
 
 export const Route = createFileRoute("/$lang/studio/editor/enchantment/technical")({
@@ -16,10 +16,8 @@ export const Route = createFileRoute("/$lang/studio/editor/enchantment/technical
 
 function EnchantmentTechnicalPage() {
     const currentElementId = useConfiguratorStore((state) => state.currentElementId);
+    const effects = useElementProperty((el) => (el as EnchantmentProps).effects, currentElementId, !!currentElementId);
     if (!currentElementId) return null;
-
-    // biome-ignore lint/correctness/useHookAtTopLevel: Is for performance  
-    const effects = useElementProperty((el) => (el as EnchantmentProps).effects, currentElementId);
 
     return (
         <>

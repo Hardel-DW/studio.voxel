@@ -48,7 +48,9 @@ export default function ToolRange(props: ToolRangeType & { index?: number }) {
                             </label>
                         )
                     )}
-                    <span ref={displayElementRef} className="text-sm font-medium text-zinc-400">{value}</span>
+                    <span ref={displayElementRef} className="text-sm font-medium text-zinc-400">
+                        {value}
+                    </span>
                 </div>
                 <input
                     ref={inputRef}
