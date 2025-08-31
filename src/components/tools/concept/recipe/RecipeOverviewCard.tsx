@@ -1,9 +1,9 @@
+import { useParams, useRouter } from "@tanstack/react-router";
 import type { RecipeProps } from "@voxelio/breeze";
 import RecipeRenderer from "@/components/tools/concept/recipe/RecipeRenderer";
 import ErrorPlaceholder from "@/components/tools/elements/error/ErrorPlaceholder";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import ErrorBoundary from "@/components/ui/ErrorBoundary";
-import { useParams, useRouter } from "@tanstack/react-router";
 
 export default function RecipeOverviewCard(props: { element: RecipeProps; elementId: string }) {
     const router = useRouter();

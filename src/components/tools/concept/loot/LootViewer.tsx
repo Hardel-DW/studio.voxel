@@ -15,7 +15,7 @@ export default function LootViewer(props: LootViewerProps) {
     const calculator = new LootTableProbabilityCalculator(props.lootTable);
     const probabilities = calculator.calculateProbabilities();
     const totalProb = probabilities.reduce((sum, result) => sum + result.probability, 0);
-    const probabilityMap = new Map(totalProb > 0 ? probabilities.map(result => [result.itemId, result.probability / totalProb]) : []);
+    const probabilityMap = new Map(totalProb > 0 ? probabilities.map((result) => [result.itemId, result.probability / totalProb]) : []);
 
     return (
         <div className="relative overflow-hidden bg-black/50 border-t-2 border-l-2 border-stone-900 ring-0 ring-zinc-900 rounded-xl w-full min-h-full">

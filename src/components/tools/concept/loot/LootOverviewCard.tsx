@@ -1,3 +1,4 @@
+import { useParams, useRouter } from "@tanstack/react-router";
 import { Actions, Identifier } from "@voxelio/breeze";
 import type { LootTableProps } from "@voxelio/breeze/schema";
 import LootItemHoverCard from "@/components/tools/concept/loot/LootItemHoverCard";
@@ -6,7 +7,6 @@ import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer
 import { useConfiguratorStore } from "@/components/tools/Store";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/Popover";
 import { cn } from "@/lib/utils";
-import { useParams, useRouter } from "@tanstack/react-router";
 
 export default function LootOverviewCard(props: {
     element: LootTableProps;

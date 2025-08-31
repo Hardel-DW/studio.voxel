@@ -1,4 +1,4 @@
-import { useRouter, type NavigateOptions } from "@tanstack/react-router";
+import { type NavigateOptions, useRouter } from "@tanstack/react-router";
 import { useEffect } from "react";
 
 /**
@@ -19,6 +19,6 @@ export function usePreloadRoutes(routes: NavigateOptions[]) {
     const router = useRouter();
 
     useEffect(() => {
-        Promise.all(routes.map(route => router.preloadRoute(route)));
+        Promise.all(routes.map((route) => router.preloadRoute(route)));
     }, [router, routes]);
 }
