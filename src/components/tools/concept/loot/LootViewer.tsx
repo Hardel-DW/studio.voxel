@@ -15,7 +15,7 @@ export default function LootViewer(props: LootViewerProps) {
     const calculator = new LootTableProbabilityCalculator(props.lootTable);
     const probabilities = calculator.calculateProbabilities();
     const totalProb = probabilities.reduce((sum, result) => sum + result.probability, 0);
-    const probabilityMap = new Map(totalProb > 0 ? probabilities.map((result) => [result.itemId, result.probability / totalProb]) : []);
+    const probabilityMap = new Map(totalProb > 0 ? probabilities.map(result => [result.itemId, result.probability / totalProb]) : []);
 
     return (
         <div className="relative overflow-hidden bg-black/50 border-t-2 border-l-2 border-stone-900 ring-0 ring-zinc-900 rounded-xl w-full min-h-full">
@@ -38,21 +38,6 @@ export default function LootViewer(props: LootViewerProps) {
                         />
                     ))}
                 </ul>
-
-                {/* <div className="mt-8 bg-zinc-900/30 rounded-lg p-6 border border-zinc-800">
-                    <div className="space-y-4 text-sm text-zinc-300">
-                        <div>
-                            <p className="font-medium text-white mb-2">Pourquoi le total ne fait pas 100% ?</p>
-                            <p>Ces pourcentages sont normalisés pour représenter la répartition relative des objets. Chaque pourcentage indique la probabilité d'obtenir cet objet par rapport aux autres objets de la loot table.</p>
-                        </div>
-
-                        <div className="pt-2 border-t border-zinc-700 flex justify-between">
-                            <p className="text-xs text-zinc-400">
-                                Total normalisé : {(totalProbability * 100).toFixed(1)}%
-                            </p>
-                        </div>
-                    </div>
-                </div> */}
             </div>
 
             <div className="absolute inset-0 -z-10 brightness-30">

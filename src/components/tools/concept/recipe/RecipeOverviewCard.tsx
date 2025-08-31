@@ -3,9 +3,16 @@ import RecipeRenderer from "@/components/tools/concept/recipe/RecipeRenderer";
 import ErrorPlaceholder from "@/components/tools/elements/error/ErrorPlaceholder";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import ErrorBoundary from "@/components/ui/ErrorBoundary";
+import { useParams, useRouter } from "@tanstack/react-router";
 
 export default function RecipeOverviewCard(props: { element: RecipeProps; elementId: string }) {
-    const setCurrentElementId = useConfiguratorStore((state) => state.setCurrentElementId);
+    const router = useRouter();
+    const { lang } = useParams({ from: "/$lang" });
+
+    const handleConfigure = () => {
+        useConfiguratorStore.getState().setCurrentElementId(props.elementId);
+        router.navigate({ to: "/$lang/studio/editor/recipe/main", params: { lang } });
+    };
 
     return (
         <ErrorBoundary fallback={(e) => <ErrorPlaceholder error={e} />}>
@@ -15,8 +22,8 @@ export default function RecipeOverviewCard(props: { element: RecipeProps; elemen
 
                     <div className="pt-4 border-t border-zinc-800/50 mt-auto">
                         <button
-                            onClick={() => setCurrentElementId(props.elementId)}
-                            onKeyDown={() => setCurrentElementId(props.elementId)}
+                            onClick={handleConfigure}
+                            onKeyDown={handleConfigure}
                             type="button"
                             className="w-full cursor-pointer bg-zinc-800/30 hover:bg-zinc-700/50 border border-zinc-700/50 rounded-lg px-3 py-2 text-xs font-medium text-zinc-300 transition-colors">
                             Configure

@@ -4,7 +4,11 @@ import { createRoot } from "react-dom/client";
 import { routeTree } from "./routeTree.gen";
 import "./globals.css";
 
-const router = createRouter({ routeTree });
+const router = createRouter({
+    routeTree,
+    defaultPreload: "viewport",
+    defaultStaleTime: 1000 * 60 * 3, // 3 minutes
+});
 
 declare module "@tanstack/react-router" {
     interface Register {

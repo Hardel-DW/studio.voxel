@@ -6,7 +6,7 @@ import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer
 import { useConfiguratorStore } from "@/components/tools/Store";
 import Translate from "@/components/tools/Translate";
 import { cn } from "@/lib/utils";
-import OverviewCase from "./OverviewCase";
+import OverviewCase from "@/components/tools/concept/enchantment/EnchantmentOverviewCase";
 
 const findOptions = [
     {
@@ -47,12 +47,11 @@ export default function EnchantOverviewCard(props: {
     elementId: string;
     display: "minimal" | "detailed";
 }) {
-    const setCurrentElementId = useConfiguratorStore((state) => state.setCurrentElementId);
     const router = useRouter();
     const { lang } = useParams({ from: "/$lang" });
 
     const handleConfigure = () => {
-        setCurrentElementId(props.elementId);
+        useConfiguratorStore.getState().setCurrentElementId(props.elementId);
         router.navigate({ to: "/$lang/studio/editor/enchantment/main", params: { lang } });
     };
 
