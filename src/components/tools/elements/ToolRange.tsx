@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef } from "react";
 import RenderGuard from "@/components/tools/elements/RenderGuard";
 import type { TranslateTextType } from "@/components/tools/Translate";
 import Translate from "@/components/tools/Translate";
@@ -17,15 +17,19 @@ export type ToolRangeType = BaseInteractiveComponent & {
 
 export default function ToolRange(props: ToolRangeType & { index?: number }) {
     const { value, lock, handleChange } = useInteractiveLogic<ToolRangeType, number>({ component: props });
-    const [tempValue, setTempValue] = useState<number | null>(null);
+    const tempValueRef = useRef<number | null>(null);
+    const displayElementRef = useRef<HTMLSpanElement>(null);
+    const inputRef = useRef<HTMLInputElement>(null);
 
     if (value === null) return null;
-    const displayValue = tempValue !== null ? tempValue : value;
+    if (inputRef.current && tempValueRef.current === null) {
+        inputRef.current.value = value.toString();
+    }
 
     const handleMouseUp = () => {
-        if (tempValue !== null) {
-            handleChange(tempValue);
-            setTempValue(null);
+        if (tempValueRef.current !== null) {
+            handleChange(tempValueRef.current);
+            tempValueRef.current = null;
         }
     };
 
@@ -44,17 +48,24 @@ export default function ToolRange(props: ToolRangeType & { index?: number }) {
                             </label>
                         )
                     )}
-                    <span className="text-sm font-medium text-zinc-400">{displayValue}</span>
+                    <span ref={displayElementRef} className="text-sm font-medium text-zinc-400">{value}</span>
                 </div>
                 <input
+                    ref={inputRef}
                     id={getKey(props.label)}
                     type="range"
                     disabled={lock.isLocked}
                     min={props.min}
                     max={props.max}
                     step={props.step}
-                    value={displayValue}
-                    onChange={(e) => setTempValue(+e.target.value)}
+                    defaultValue={value}
+                    onChange={(e) => {
+                        const newValue = +e.target.value;
+                        tempValueRef.current = newValue;
+                        if (displayElementRef.current) {
+                            displayElementRef.current.textContent = newValue.toString();
+                        }
+                    }}
                     onMouseUp={handleMouseUp}
                     onTouchEnd={handleMouseUp}
                     className="w-full text-sm font-normal"
