@@ -1,6 +1,5 @@
 import type { DataDrivenRegistryElement, TagType } from "@voxelio/breeze";
 import { Datapack, TagsComparator } from "@voxelio/breeze";
-import { useMemo } from "react";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import useRegistry from "./useRegistry";
 
@@ -8,7 +7,7 @@ export default function useTagManager() {
     const files = useConfiguratorStore((state) => state.files);
     const { data: vanillaTags, isLoading } = useRegistry<Record<string, TagType>>("tags/item", "summary");
 
-    const combinedTags = useMemo(() => {
+    const combinedTags = (() => {
         if (!vanillaTags || isLoading) return [];
 
         const datapackTags: DataDrivenRegistryElement<TagType>[] = [];
@@ -49,7 +48,7 @@ export default function useTagManager() {
         }
 
         return allTags;
-    }, [vanillaTags, files, isLoading]);
+    })();
 
     const getRandomItemFromTag = (tagId: string): string | null => {
         if (combinedTags.length === 0) return null;

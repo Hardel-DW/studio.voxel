@@ -1,4 +1,4 @@
-import RecipeSlot from "@/components/tools/elements/recipe/RecipeSlot";
+import RecipeSlot from "@/components/tools/concept/recipe/RecipeSlot";
 
 interface RecipeTemplateBaseProps {
     result: { item: string; count?: number };

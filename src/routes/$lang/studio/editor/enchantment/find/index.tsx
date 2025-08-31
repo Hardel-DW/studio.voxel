@@ -2,16 +2,16 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Actions } from "@voxelio/breeze/core";
 import type { EnchantmentProps } from "@voxelio/breeze/schema";
 import { lazy, Suspense } from "react";
-import ToolReveal, { ToolRevealElement } from "@/components/tools/elements/schema/reveal/ToolReveal";
 import ToolGrid from "@/components/tools/elements/ToolGrid";
+import ToolReveal, { ToolRevealElement } from "@/components/tools/elements/ToolReveal";
 import ToolSection from "@/components/tools/elements/ToolSection";
 import ToolSlot from "@/components/tools/elements/ToolSlot";
 import Loader from "@/components/ui/Loader";
 import { isMinecraft, LockEntryBuilder } from "@/lib/utils/lock";
 
 // Lazy load page components
-const EnchantDNTSection = lazy(() => import("@/components/pages/enchantment/EnchantDNTSection"));
-const EnchantYggdrasilSection = lazy(() => import("@/components/pages/enchantment/EnchantYggdrasilSection"));
+const EnchantDNTSection = lazy(() => import("@/components/tools/concept/enchantment/EnchantDNTSection"));
+const EnchantYggdrasilSection = lazy(() => import("@/components/tools/concept/enchantment/EnchantYggdrasilSection"));
 
 const iterationValues = [
     {

@@ -1,6 +1,6 @@
 import { useParams } from "@tanstack/react-router";
 import type { PropsWithChildren } from "react";
-import ItemTooltip from "@/components/tools/elements/tooltip/ItemTooltip";
+import ItemTooltip from "@/components/tools/elements/gui/ItemTooltip";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import Translate from "@/components/tools/Translate";
 import { LinkButton } from "@/components/ui/Button";

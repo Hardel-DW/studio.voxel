@@ -1,7 +1,7 @@
 import { useSearch } from "@tanstack/react-router";
 import type React from "react";
 import { Children, cloneElement, createContext, isValidElement, type ReactNode, useContext, useState } from "react";
-import OriginalToolRevealCard from "@/components/tools/elements/schema/reveal/ToolRevealElementType";
+import OriginalToolRevealCard from "@/components/tools/elements/ToolRevealElementType";
 import type { TranslateTextType } from "@/components/tools/Translate";
 import { cn } from "@/lib/utils";
 

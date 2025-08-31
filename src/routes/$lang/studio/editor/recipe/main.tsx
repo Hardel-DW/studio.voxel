@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import RecipeInventory from "@/components/tools/elements/recipe/RecipeInventory";
-import RecipeSection from "@/components/tools/elements/recipe/RecipeSection";
+import RecipeInventory from "@/components/tools/concept/recipe/RecipeInventory";
+import RecipeSection from "@/components/tools/concept/recipe/RecipeSection";
 
 export const Route = createFileRoute("/$lang/studio/editor/recipe/main")({
     component: RecipeMainPage

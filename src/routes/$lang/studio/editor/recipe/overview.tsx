@@ -2,9 +2,9 @@ import { createFileRoute } from "@tanstack/react-router";
 import type { RecipeProps } from "@voxelio/breeze";
 import { Identifier, isVoxel } from "@voxelio/breeze";
 import { useState } from "react";
-import RecipeOverviewCard from "@/components/pages/recipe/RecipeOverviewCard";
-import RecipeSelector from "@/components/tools/elements/recipe/RecipeSelector";
-import { canBlockHandleRecipeType, getTypesFromSelection, RECIPE_BLOCKS } from "@/components/tools/elements/recipe/recipeConfig";
+import RecipeOverviewCard from "@/components/tools/concept/recipe/RecipeOverviewCard";
+import RecipeSelector from "@/components/tools/concept/recipe/RecipeSelector";
+import { canBlockHandleRecipeType, getTypesFromSelection, RECIPE_BLOCKS } from "@/components/tools/concept/recipe/recipeConfig";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import { useInfiniteScroll } from "@/lib/hook/useInfiniteScroll";
 

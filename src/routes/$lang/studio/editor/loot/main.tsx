@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { isVoxel, LootTableActionBuilder } from "@voxelio/breeze";
 import type { LootTableProps } from "@voxelio/breeze/schema";
-import LootViewer from "@/components/tools/elements/loot/LootViewer";
+import LootViewer from "@/components/tools/concept/loot/LootViewer";
 import { getCurrentElement, useConfiguratorStore } from "@/components/tools/Store";
 
 export const Route = createFileRoute("/$lang/studio/editor/loot/main")({

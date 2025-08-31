@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { useTooltipStore } from "@/components/tools/elements/tooltip/useTooltip";
+import { useTooltipStore } from "@/lib/hook/useTooltip";
 import { useTooltipPosition } from "@/lib/hook/useTooltipPosition";
 
 export default function ItemTooltip({ categories }: { categories?: string[] }) {

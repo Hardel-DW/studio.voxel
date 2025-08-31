@@ -1,9 +1,9 @@
 import { RecipeActionBuilder } from "@voxelio/breeze/core";
 import TagsRenderer from "@/components/tools/elements/texture/TagsRenderer";
 import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer";
-import { useTooltipStore } from "@/components/tools/elements/tooltip/useTooltip";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import { useDragAndDrop } from "@/lib/hook/useDragAndDrop";
+import { useTooltipStore } from "@/lib/hook/useTooltip";
 
 interface RecipeSlotProps {
     slotIndex?: string;

@@ -1,7 +1,6 @@
 import type { LootItem, LootTableProps } from "@voxelio/breeze";
 import { LootTableProbabilityCalculator } from "@voxelio/breeze";
-import { useMemo } from "react";
-import RewardItem from "@/components/tools/elements/loot/RewardItem";
+import RewardItem from "@/components/tools/concept/loot/RewardItem";
 import type { TranslateTextType } from "@/components/tools/Translate";
 import { type BaseInteractiveComponent, useInteractiveLogic } from "@/lib/hook/useInteractiveLogic";
 
@@ -13,21 +12,10 @@ export type LootViewerProps = BaseInteractiveComponent & {
 
 export default function LootViewer(props: LootViewerProps) {
     const { value, handleChange } = useInteractiveLogic<LootViewerProps, boolean>({ component: props });
-
-    const itemProbabilities = useMemo(() => {
-        const calculator = new LootTableProbabilityCalculator(props.lootTable);
-        const probabilities = calculator.calculateProbabilities();
-        const probabilityMap = new Map<string, number>();
-        const totalProb = probabilities.reduce((sum, result) => sum + result.probability, 0);
-        if (totalProb > 0) {
-            for (const result of probabilities) {
-                const normalizedProbability = result.probability / totalProb;
-                probabilityMap.set(result.itemId, normalizedProbability);
-            }
-        }
-
-        return probabilityMap;
-    }, [props.lootTable]);
+    const calculator = new LootTableProbabilityCalculator(props.lootTable);
+    const probabilities = calculator.calculateProbabilities();
+    const totalProb = probabilities.reduce((sum, result) => sum + result.probability, 0);
+    const probabilityMap = new Map(totalProb > 0 ? probabilities.map((result) => [result.itemId, result.probability / totalProb]) : []);
 
     return (
         <div className="relative overflow-hidden bg-black/50 border-t-2 border-l-2 border-stone-900 ring-0 ring-zinc-900 rounded-xl w-full min-h-full">
@@ -45,7 +33,7 @@ export default function LootViewer(props: LootViewerProps) {
                         <RewardItem
                             key={reward.id}
                             {...reward}
-                            probability={itemProbabilities.get(reward.id)}
+                            probability={probabilityMap.get(reward.id)}
                             onDelete={(id: string) => handleChange(id)}
                         />
                     ))}

@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import type { Analysers } from "@voxelio/breeze";
 import { Identifier, isVoxel } from "@voxelio/breeze";
 import { useState } from "react";
-import EnchantOverviewCard from "@/components/pages/enchantment/EnchantOverviewCard";
+import EnchantOverviewCard from "@/components/tools/concept/enchantment/EnchantOverviewCard";
 import SquareButton from "@/components/tools/elements/SquareButton";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import useTagManager from "@/lib/hook/useTagManager";

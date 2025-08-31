@@ -42,7 +42,7 @@ export default function SidebarCard(props: Props) {
     };
 
     const handleEvent = (e: React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLButtonElement>) => {
-        if (props.locked) return;
+        if (props.locked || isSelected) return;
 
         e.preventDefault();
         if (e.type === "keydown") {

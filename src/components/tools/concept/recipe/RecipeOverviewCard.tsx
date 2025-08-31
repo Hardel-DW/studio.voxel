@@ -1,6 +1,6 @@
 import type { RecipeProps } from "@voxelio/breeze";
+import RecipeRenderer from "@/components/tools/concept/recipe/RecipeRenderer";
 import ErrorPlaceholder from "@/components/tools/elements/error/ErrorPlaceholder";
-import RecipeRenderer from "@/components/tools/elements/recipe/RecipeRenderer";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import ErrorBoundary from "@/components/ui/ErrorBoundary";
 
