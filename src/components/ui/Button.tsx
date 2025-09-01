@@ -9,6 +9,7 @@ const variants = {
         destructive: "bg-red-700 text-zinc-200 border-2 border-black hover:bg-red-800",
         black: "bg-black text-zinc-200 border-2 border-zinc-500 hover:bg-zinc-900",
         ghost: "bg-transparent text-zinc-200 border-2 border-zinc-500 hover:bg-zinc-200 hover:text-zinc-800",
+        ghostlite: "bg-transparent text-zinc-200 border-2 border-zinc-900 ring-zinc-900 hover:text-zinc-100 hover:bg-zinc-900/20 hover:border-zinc-800 hover:ring-zinc-800",
         ghost_border:
             "bg-transparent text-zinc-200 border-2 border-zinc-900 ring-zinc-900 hover:text-zinc-100 hover:border-zinc-700 hover:ring-zinc-700",
         transparent: "bg-transparent text-zinc-200 border-2 border-zinc-500 hover:bg-white/10",
