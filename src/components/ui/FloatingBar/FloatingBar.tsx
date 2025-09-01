@@ -85,10 +85,10 @@ export function FloatingBar() {
 
     const style = position
         ? {
-            left: `${position.x}px`,
-            top: `${position.y}px`,
-            transform: "none"
-        }
+              left: `${position.x}px`,
+              top: `${position.y}px`,
+              transform: "none"
+          }
         : {};
 
     return (
