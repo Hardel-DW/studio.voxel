@@ -1,17 +1,15 @@
-import Translate from "@/components/tools/Translate";
-import { LinkButton } from "@/components/ui/Button";
+import { useParams } from "@tanstack/react-router";
 import { ToolNavItem } from "@/components/tools/concept/home/ToolNavItem";
 import { CONCEPTS } from "@/components/tools/elements";
 import { useConfiguratorStore } from "@/components/tools/Store";
-import { useParams } from "@tanstack/react-router";
-
+import Translate from "@/components/tools/Translate";
+import { LinkButton } from "@/components/ui/Button";
 
 export function HomePage() {
     const { lang } = useParams({ from: "/$lang" });
     const getLengthByRegistry = useConfiguratorStore((state) => state.getLengthByRegistry);
 
     return (
-
         <div className="container mx-auto relative z-10 flex flex-col h-full justify-between pt-12">
             {/* Welcome Section */}
             <div className="text-left mx-auto flex items-center gap-8">
@@ -69,27 +67,18 @@ export function HomePage() {
                         <p className="text-zinc-500 max-w-xl">
                             <Translate content="welcome.help.description" />
                         </p>
-
                     </div>
 
                     <div className="flex flex-col gap-2">
-                        <LinkButton
-                            href={`/${lang}/guides`}
-                            variant="ghost_border"
-                            size="md"
-                            className="px-8">
+                        <LinkButton href={`/${lang}/guides`} variant="ghost_border" size="md" className="px-8">
                             <Translate content="welcome.help.guides" />
                         </LinkButton>
-                        <LinkButton
-                            href={`/${lang}/guides`}
-                            variant="white-shimmer"
-                            size="md"
-                            className="px-8">
+                        <LinkButton href={`/${lang}/guides`} variant="white-shimmer" size="md" className="px-8">
                             <Translate content="welcome.help.discord" />
                         </LinkButton>
                     </div>
                 </div>
             </div>
         </div>
-    )
+    );
 }

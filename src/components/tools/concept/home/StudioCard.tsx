@@ -1,8 +1,13 @@
-import { LinkButton, Button } from "@/components/ui/Button";
 import Translate from "@/components/tools/Translate";
+import { Button, LinkButton } from "@/components/ui/Button";
 
-
-export function StudioCard({ title, description, image, href, comingSoon }: {
+export function StudioCard({
+    title,
+    description,
+    image,
+    href,
+    comingSoon
+}: {
     title: string;
     description: string;
     image: string;
@@ -20,11 +25,7 @@ export function StudioCard({ title, description, image, href, comingSoon }: {
 
                 <div className="flex flex-col h-full">
                     <div className="flex items-start gap-4 mb-6">
-                        <img
-                            src={image}
-                            alt="Tool"
-                            className="w-12 h-12  pixelated"
-                        />
+                        <img src={image} alt="Tool" className="w-12 h-12  pixelated" />
                         <div className="flex-1 min-w-0">
                             <h3 className="text-lg font-semibold text-white mb-2">
                                 <Translate content={title} />
@@ -35,13 +36,9 @@ export function StudioCard({ title, description, image, href, comingSoon }: {
                         </div>
                     </div>
 
-
                     {!comingSoon && (
                         <div className="pt-6 mt-auto">
-                            <Button
-                                variant="ghostlite"
-                                className="w-full"
-                                onClick={() => { }}>
+                            <Button variant="ghostlite" className="w-full" onClick={() => {}}>
                                 <Translate content="tools.open" />
                             </Button>
                         </div>

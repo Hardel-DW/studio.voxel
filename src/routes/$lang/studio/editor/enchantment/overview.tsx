@@ -3,8 +3,9 @@ import type { Analysers } from "@voxelio/breeze";
 import { Identifier, isVoxel } from "@voxelio/breeze";
 import { useState } from "react";
 import EnchantOverviewCard from "@/components/tools/concept/enchantment/EnchantOverviewCard";
-import SquareButton from "@/components/tools/elements/SquareButton";
 import { useConfiguratorStore } from "@/components/tools/Store";
+import { useFloatingBarStore } from "@/components/ui/FloatingBar/FloatingBarStore";
+import { useFloatingBar } from "@/components/ui/FloatingBar/useFloatingBar";
 import useTagManager from "@/lib/hook/useTagManager";
 
 type EnchantmentProps = Analysers["enchantment"]["voxel"];
@@ -14,28 +15,36 @@ export const Route = createFileRoute("/$lang/studio/editor/enchantment/overview"
 });
 
 function Page() {
-    const [search, setSearch] = useState("");
     const [display, setDisplay] = useState<"minimal" | "detailed">("minimal");
     const elements = useConfiguratorStore((state) => state.elements);
     const { getAllItemsFromTag } = useTagManager();
+    const { init } = useFloatingBar();
+    const searchValue = useFloatingBarStore((state) => state.searchValue);
+
     const filteredElements = [...elements.values()]
         .filter((el) => isVoxel(el, "enchantment"))
-        .filter((el) => !search || el.identifier.resource.toLowerCase().includes(search.toLowerCase())) as EnchantmentProps[];
+        .filter((el) => !searchValue || el.identifier.resource.toLowerCase().includes(searchValue.toLowerCase())) as EnchantmentProps[];
+
+    init({
+        searchConfig: {
+            placeholder: "Search enchantments...",
+            onChange: () => {}
+        },
+        buttons: [
+            {
+                id: "display-toggle",
+                icon: `/icons/tools/overview/${display === "minimal" ? "list" : "map"}.svg`,
+                tooltip: display === "minimal" ? "Detailed view" : "Minimal view",
+                onClick: () => setDisplay(display === "minimal" ? "detailed" : "minimal")
+            }
+        ]
+    });
 
     return (
         <div>
             <div className="flex items-center justify-between gap-2">
                 <div className="flex items-center gap-8">
                     <h1 className="text-2xl font-bold uppercase">Overview</h1>
-                </div>
-                <div className="flex items-center gap-4">
-                    <input type="text" placeholder="Search" onChange={(e) => setSearch(e.target.value)} />
-
-                    <SquareButton
-                        icon={`/icons/tools/overview/${display === "minimal" ? "list" : "map"}.svg`}
-                        onClick={() => setDisplay(display === "minimal" ? "detailed" : "minimal")}
-                        size="md"
-                    />
                 </div>
             </div>
 

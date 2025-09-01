@@ -5,6 +5,7 @@ import ConfigManager from "@/components/tools/ConfigManager";
 import ConfiguratorPanel from "@/components/tools/ConfiguratorPanel";
 import StudioSidebar from "@/components/tools/sidebar/Sidebar";
 import ToolInternalization from "@/components/tools/ToolInternalization";
+import { FloatingBar } from "@/components/ui/FloatingBar/FloatingBar";
 import { getQueryClient } from "@/lib/utils/query";
 
 export const Route = createFileRoute("/$lang/studio/editor")({
@@ -73,6 +74,8 @@ function EditorLayout() {
                     </div>
                 </main>
             </div>
+
+            <FloatingBar />
         </>
     );
 }

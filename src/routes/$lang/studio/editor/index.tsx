@@ -6,7 +6,5 @@ export const Route = createFileRoute("/$lang/studio/editor/")({
 });
 
 function EditorHomepage() {
-    return (
-        <HomePage />
-    );
+    return <HomePage />;
 }

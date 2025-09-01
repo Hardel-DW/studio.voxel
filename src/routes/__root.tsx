@@ -10,5 +10,5 @@ function RootComponent() {
         <Providers>
             <Outlet />
         </Providers>
-    )
+    );
 }

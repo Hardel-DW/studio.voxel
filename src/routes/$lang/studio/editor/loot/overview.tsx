@@ -4,6 +4,7 @@ import type { LootTableProps } from "@voxelio/breeze/schema";
 import { useState } from "react";
 import LootOverviewCard from "@/components/tools/concept/loot/LootOverviewCard";
 import { useConfiguratorStore } from "@/components/tools/Store";
+import { useFloatingBar } from "@/components/ui/FloatingBar/useFloatingBar";
 
 export const Route = createFileRoute("/$lang/studio/editor/loot/overview")({
     component: RouteComponent
@@ -13,9 +14,17 @@ function RouteComponent() {
     const [search, setSearch] = useState("");
     const [openPopoverId, setOpenPopoverId] = useState<string | null>(null);
     const elements = useConfiguratorStore((state) => state.elements);
+    const { init } = useFloatingBar();
     const filteredElements = [...elements.values()]
         .filter((el) => isVoxel(el, "loot_table"))
         .filter((el) => !search || el.identifier.resource.toLowerCase().includes(search.toLowerCase())) as LootTableProps[];
+
+    init({
+        searchConfig: {
+            placeholder: "Search loot tables...",
+            onChange: (value) => setSearch(value)
+        }
+    });
 
     return (
         <div>
