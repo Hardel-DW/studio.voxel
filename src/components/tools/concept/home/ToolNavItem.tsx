@@ -1,4 +1,6 @@
-import { useParams, useRouter } from "@tanstack/react-router";
+import { useLocation, useParams, useRouter } from "@tanstack/react-router";
+import type { CONCEPT_KEY } from "@/components/tools/elements";
+import { useConfiguratorStore } from "@/components/tools/Store";
 import Translate from "@/components/tools/Translate";
 import { cn } from "@/lib/utils";
 
@@ -15,11 +17,13 @@ interface ToolNavItemProps {
 
 export function ToolNavItem({ title, description, image, href, alignRight, comingSoon, elementsCount, index }: ToolNavItemProps) {
     const router = useRouter();
+    const location = useLocation();
     const { lang } = useParams({ from: "/$lang" });
-
     const handleClick = () => {
-        router.navigate({ to: `/$lang/studio/editor/${href}/overview`, params: { lang } });
+        const targetRoute = useConfiguratorStore.getState().setConcept(href as CONCEPT_KEY, location.pathname);
+        router.navigate({ to: targetRoute, params: { lang } });
     };
+
     return (
         <button
             type="button"

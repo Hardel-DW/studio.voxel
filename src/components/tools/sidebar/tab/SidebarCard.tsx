@@ -17,29 +17,8 @@ interface Props {
 export default function SidebarCard(props: Props) {
     const params = useParams({ from: "/$lang/studio/editor" });
     const isSelected = useConfiguratorStore((state) => state.selectedConcept === props.registry);
-    const setSelectedConcept = useConfiguratorStore((state) => state.setSelectedConcept);
-    const getLastVisitedRoute = useConfiguratorStore((state) => state.getLastVisitedRoute);
-    const setLastVisitedRoute = useConfiguratorStore((state) => state.setLastVisitedRoute);
-    const setCurrentElementId = useConfiguratorStore((state) => state.setCurrentElementId);
     const router = useRouter();
     const location = useLocation();
-
-    const handleConceptClick = () => {
-        const currentSelected = useConfiguratorStore.getState().selectedConcept;
-        const currentElementId = useConfiguratorStore.getState().currentElementId;
-        if (currentSelected && currentSelected !== props.registry) {
-            setLastVisitedRoute(currentSelected as CONCEPT_KEY, location.pathname, currentElementId ?? null);
-        }
-
-        setSelectedConcept(props.registry);
-
-        const lastVisited = getLastVisitedRoute(props.registry);
-        const targetRoute = lastVisited?.route ?? props.overview;
-        const targetElementId = lastVisited?.elementId ?? null;
-
-        setCurrentElementId(targetElementId);
-        router.navigate({ to: targetRoute, params: { lang: params.lang } });
-    };
 
     const handleEvent = (e: React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLButtonElement>) => {
         if (props.locked || isSelected) return;
@@ -51,7 +30,9 @@ export default function SidebarCard(props: Props) {
                 return;
             }
         }
-        handleConceptClick();
+
+        const targetRoute = useConfiguratorStore.getState().setConcept(props.registry, location.pathname);
+        router.navigate({ to: targetRoute, params: { lang: params.lang } });
     };
 
     return (

@@ -23,7 +23,7 @@ import Loader from "@/components/ui/Loader";
 import useRegistry, { type FetchedRegistry } from "@/lib/hook/useRegistry";
 import { isMinecraft } from "@/lib/utils/lock";
 
-export const Route = createFileRoute("/$lang/studio/editor/enchantment/exclusive/")({
+export const Route = createFileRoute("/$lang/studio/editor/enchantment/exclusive")({
     validateSearch: (search: Record<string, unknown>) => ({
         mode: search.mode as "group" | "single" | undefined
     }),
@@ -150,7 +150,7 @@ function ExclusiveSingleSection() {
     const { data: vanilla, isLoading, isError } = useRegistry<FetchedRegistry<Enchantment>>("enchantment", "summary");
 
     const identifiers = enchantments.map((enchantment) => new Identifier(enchantment.identifier));
-    const vanillaIdentifiers = Object.keys(vanilla ?? {}).map((key) => Identifier.of(`minecraft:${key}`, "enchantment"));
+    const vanillaIdentifiers = Object.keys(vanilla ?? {}).map((key) => Identifier.of(`minecraft:${key}`, `enchantment`));
 
     return (
         <>

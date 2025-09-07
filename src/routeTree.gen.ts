@@ -28,12 +28,8 @@ import { Route as LangStudioEditorEnchantmentSlotsRouteImport } from './routes/$
 import { Route as LangStudioEditorEnchantmentOverviewRouteImport } from './routes/$lang/studio/editor/enchantment/overview'
 import { Route as LangStudioEditorEnchantmentMainRouteImport } from './routes/$lang/studio/editor/enchantment/main'
 import { Route as LangStudioEditorEnchantmentItemsRouteImport } from './routes/$lang/studio/editor/enchantment/items'
-import { Route as LangStudioEditorEnchantmentFindIndexRouteImport } from './routes/$lang/studio/editor/enchantment/find/index'
-import { Route as LangStudioEditorEnchantmentExclusiveIndexRouteImport } from './routes/$lang/studio/editor/enchantment/exclusive/index'
-import { Route as LangStudioEditorEnchantmentFindYggdrasilRouteImport } from './routes/$lang/studio/editor/enchantment/find/yggdrasil'
-import { Route as LangStudioEditorEnchantmentFindDntRouteImport } from './routes/$lang/studio/editor/enchantment/find/dnt'
-import { Route as LangStudioEditorEnchantmentExclusiveSingleRouteImport } from './routes/$lang/studio/editor/enchantment/exclusive/single'
-import { Route as LangStudioEditorEnchantmentExclusiveGroupRouteImport } from './routes/$lang/studio/editor/enchantment/exclusive/group'
+import { Route as LangStudioEditorEnchantmentFindRouteImport } from './routes/$lang/studio/editor/enchantment/find'
+import { Route as LangStudioEditorEnchantmentExclusiveRouteImport } from './routes/$lang/studio/editor/enchantment/exclusive'
 
 const LangRoute = LangRouteImport.update({
   id: '/$lang',
@@ -139,40 +135,16 @@ const LangStudioEditorEnchantmentItemsRoute =
     path: '/enchantment/items',
     getParentRoute: () => LangStudioEditorRoute,
   } as any)
-const LangStudioEditorEnchantmentFindIndexRoute =
-  LangStudioEditorEnchantmentFindIndexRouteImport.update({
-    id: '/enchantment/find/',
-    path: '/enchantment/find/',
+const LangStudioEditorEnchantmentFindRoute =
+  LangStudioEditorEnchantmentFindRouteImport.update({
+    id: '/enchantment/find',
+    path: '/enchantment/find',
     getParentRoute: () => LangStudioEditorRoute,
   } as any)
-const LangStudioEditorEnchantmentExclusiveIndexRoute =
-  LangStudioEditorEnchantmentExclusiveIndexRouteImport.update({
-    id: '/enchantment/exclusive/',
-    path: '/enchantment/exclusive/',
-    getParentRoute: () => LangStudioEditorRoute,
-  } as any)
-const LangStudioEditorEnchantmentFindYggdrasilRoute =
-  LangStudioEditorEnchantmentFindYggdrasilRouteImport.update({
-    id: '/enchantment/find/yggdrasil',
-    path: '/enchantment/find/yggdrasil',
-    getParentRoute: () => LangStudioEditorRoute,
-  } as any)
-const LangStudioEditorEnchantmentFindDntRoute =
-  LangStudioEditorEnchantmentFindDntRouteImport.update({
-    id: '/enchantment/find/dnt',
-    path: '/enchantment/find/dnt',
-    getParentRoute: () => LangStudioEditorRoute,
-  } as any)
-const LangStudioEditorEnchantmentExclusiveSingleRoute =
-  LangStudioEditorEnchantmentExclusiveSingleRouteImport.update({
-    id: '/enchantment/exclusive/single',
-    path: '/enchantment/exclusive/single',
-    getParentRoute: () => LangStudioEditorRoute,
-  } as any)
-const LangStudioEditorEnchantmentExclusiveGroupRoute =
-  LangStudioEditorEnchantmentExclusiveGroupRouteImport.update({
-    id: '/enchantment/exclusive/group',
-    path: '/enchantment/exclusive/group',
+const LangStudioEditorEnchantmentExclusiveRoute =
+  LangStudioEditorEnchantmentExclusiveRouteImport.update({
+    id: '/enchantment/exclusive',
+    path: '/enchantment/exclusive',
     getParentRoute: () => LangStudioEditorRoute,
   } as any)
 
@@ -187,6 +159,8 @@ export interface FileRoutesByFullPath {
   '/$lang/studio/editor': typeof LangStudioEditorRouteWithChildren
   '/$lang/studio/': typeof LangStudioIndexRoute
   '/$lang/studio/editor/': typeof LangStudioEditorIndexRoute
+  '/$lang/studio/editor/enchantment/exclusive': typeof LangStudioEditorEnchantmentExclusiveRoute
+  '/$lang/studio/editor/enchantment/find': typeof LangStudioEditorEnchantmentFindRoute
   '/$lang/studio/editor/enchantment/items': typeof LangStudioEditorEnchantmentItemsRoute
   '/$lang/studio/editor/enchantment/main': typeof LangStudioEditorEnchantmentMainRoute
   '/$lang/studio/editor/enchantment/overview': typeof LangStudioEditorEnchantmentOverviewRoute
@@ -196,12 +170,6 @@ export interface FileRoutesByFullPath {
   '/$lang/studio/editor/loot/overview': typeof LangStudioEditorLootOverviewRoute
   '/$lang/studio/editor/recipe/main': typeof LangStudioEditorRecipeMainRoute
   '/$lang/studio/editor/recipe/overview': typeof LangStudioEditorRecipeOverviewRoute
-  '/$lang/studio/editor/enchantment/exclusive/group': typeof LangStudioEditorEnchantmentExclusiveGroupRoute
-  '/$lang/studio/editor/enchantment/exclusive/single': typeof LangStudioEditorEnchantmentExclusiveSingleRoute
-  '/$lang/studio/editor/enchantment/find/dnt': typeof LangStudioEditorEnchantmentFindDntRoute
-  '/$lang/studio/editor/enchantment/find/yggdrasil': typeof LangStudioEditorEnchantmentFindYggdrasilRoute
-  '/$lang/studio/editor/enchantment/exclusive': typeof LangStudioEditorEnchantmentExclusiveIndexRoute
-  '/$lang/studio/editor/enchantment/find': typeof LangStudioEditorEnchantmentFindIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -211,6 +179,8 @@ export interface FileRoutesByTo {
   '/$lang': typeof LangIndexRoute
   '/$lang/studio': typeof LangStudioIndexRoute
   '/$lang/studio/editor': typeof LangStudioEditorIndexRoute
+  '/$lang/studio/editor/enchantment/exclusive': typeof LangStudioEditorEnchantmentExclusiveRoute
+  '/$lang/studio/editor/enchantment/find': typeof LangStudioEditorEnchantmentFindRoute
   '/$lang/studio/editor/enchantment/items': typeof LangStudioEditorEnchantmentItemsRoute
   '/$lang/studio/editor/enchantment/main': typeof LangStudioEditorEnchantmentMainRoute
   '/$lang/studio/editor/enchantment/overview': typeof LangStudioEditorEnchantmentOverviewRoute
@@ -220,12 +190,6 @@ export interface FileRoutesByTo {
   '/$lang/studio/editor/loot/overview': typeof LangStudioEditorLootOverviewRoute
   '/$lang/studio/editor/recipe/main': typeof LangStudioEditorRecipeMainRoute
   '/$lang/studio/editor/recipe/overview': typeof LangStudioEditorRecipeOverviewRoute
-  '/$lang/studio/editor/enchantment/exclusive/group': typeof LangStudioEditorEnchantmentExclusiveGroupRoute
-  '/$lang/studio/editor/enchantment/exclusive/single': typeof LangStudioEditorEnchantmentExclusiveSingleRoute
-  '/$lang/studio/editor/enchantment/find/dnt': typeof LangStudioEditorEnchantmentFindDntRoute
-  '/$lang/studio/editor/enchantment/find/yggdrasil': typeof LangStudioEditorEnchantmentFindYggdrasilRoute
-  '/$lang/studio/editor/enchantment/exclusive': typeof LangStudioEditorEnchantmentExclusiveIndexRoute
-  '/$lang/studio/editor/enchantment/find': typeof LangStudioEditorEnchantmentFindIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -239,6 +203,8 @@ export interface FileRoutesById {
   '/$lang/studio/editor': typeof LangStudioEditorRouteWithChildren
   '/$lang/studio/': typeof LangStudioIndexRoute
   '/$lang/studio/editor/': typeof LangStudioEditorIndexRoute
+  '/$lang/studio/editor/enchantment/exclusive': typeof LangStudioEditorEnchantmentExclusiveRoute
+  '/$lang/studio/editor/enchantment/find': typeof LangStudioEditorEnchantmentFindRoute
   '/$lang/studio/editor/enchantment/items': typeof LangStudioEditorEnchantmentItemsRoute
   '/$lang/studio/editor/enchantment/main': typeof LangStudioEditorEnchantmentMainRoute
   '/$lang/studio/editor/enchantment/overview': typeof LangStudioEditorEnchantmentOverviewRoute
@@ -248,12 +214,6 @@ export interface FileRoutesById {
   '/$lang/studio/editor/loot/overview': typeof LangStudioEditorLootOverviewRoute
   '/$lang/studio/editor/recipe/main': typeof LangStudioEditorRecipeMainRoute
   '/$lang/studio/editor/recipe/overview': typeof LangStudioEditorRecipeOverviewRoute
-  '/$lang/studio/editor/enchantment/exclusive/group': typeof LangStudioEditorEnchantmentExclusiveGroupRoute
-  '/$lang/studio/editor/enchantment/exclusive/single': typeof LangStudioEditorEnchantmentExclusiveSingleRoute
-  '/$lang/studio/editor/enchantment/find/dnt': typeof LangStudioEditorEnchantmentFindDntRoute
-  '/$lang/studio/editor/enchantment/find/yggdrasil': typeof LangStudioEditorEnchantmentFindYggdrasilRoute
-  '/$lang/studio/editor/enchantment/exclusive/': typeof LangStudioEditorEnchantmentExclusiveIndexRoute
-  '/$lang/studio/editor/enchantment/find/': typeof LangStudioEditorEnchantmentFindIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -268,6 +228,8 @@ export interface FileRouteTypes {
     | '/$lang/studio/editor'
     | '/$lang/studio/'
     | '/$lang/studio/editor/'
+    | '/$lang/studio/editor/enchantment/exclusive'
+    | '/$lang/studio/editor/enchantment/find'
     | '/$lang/studio/editor/enchantment/items'
     | '/$lang/studio/editor/enchantment/main'
     | '/$lang/studio/editor/enchantment/overview'
@@ -277,12 +239,6 @@ export interface FileRouteTypes {
     | '/$lang/studio/editor/loot/overview'
     | '/$lang/studio/editor/recipe/main'
     | '/$lang/studio/editor/recipe/overview'
-    | '/$lang/studio/editor/enchantment/exclusive/group'
-    | '/$lang/studio/editor/enchantment/exclusive/single'
-    | '/$lang/studio/editor/enchantment/find/dnt'
-    | '/$lang/studio/editor/enchantment/find/yggdrasil'
-    | '/$lang/studio/editor/enchantment/exclusive'
-    | '/$lang/studio/editor/enchantment/find'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -292,6 +248,8 @@ export interface FileRouteTypes {
     | '/$lang'
     | '/$lang/studio'
     | '/$lang/studio/editor'
+    | '/$lang/studio/editor/enchantment/exclusive'
+    | '/$lang/studio/editor/enchantment/find'
     | '/$lang/studio/editor/enchantment/items'
     | '/$lang/studio/editor/enchantment/main'
     | '/$lang/studio/editor/enchantment/overview'
@@ -301,12 +259,6 @@ export interface FileRouteTypes {
     | '/$lang/studio/editor/loot/overview'
     | '/$lang/studio/editor/recipe/main'
     | '/$lang/studio/editor/recipe/overview'
-    | '/$lang/studio/editor/enchantment/exclusive/group'
-    | '/$lang/studio/editor/enchantment/exclusive/single'
-    | '/$lang/studio/editor/enchantment/find/dnt'
-    | '/$lang/studio/editor/enchantment/find/yggdrasil'
-    | '/$lang/studio/editor/enchantment/exclusive'
-    | '/$lang/studio/editor/enchantment/find'
   id:
     | '__root__'
     | '/'
@@ -319,6 +271,8 @@ export interface FileRouteTypes {
     | '/$lang/studio/editor'
     | '/$lang/studio/'
     | '/$lang/studio/editor/'
+    | '/$lang/studio/editor/enchantment/exclusive'
+    | '/$lang/studio/editor/enchantment/find'
     | '/$lang/studio/editor/enchantment/items'
     | '/$lang/studio/editor/enchantment/main'
     | '/$lang/studio/editor/enchantment/overview'
@@ -328,12 +282,6 @@ export interface FileRouteTypes {
     | '/$lang/studio/editor/loot/overview'
     | '/$lang/studio/editor/recipe/main'
     | '/$lang/studio/editor/recipe/overview'
-    | '/$lang/studio/editor/enchantment/exclusive/group'
-    | '/$lang/studio/editor/enchantment/exclusive/single'
-    | '/$lang/studio/editor/enchantment/find/dnt'
-    | '/$lang/studio/editor/enchantment/find/yggdrasil'
-    | '/$lang/studio/editor/enchantment/exclusive/'
-    | '/$lang/studio/editor/enchantment/find/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -476,46 +424,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LangStudioEditorEnchantmentItemsRouteImport
       parentRoute: typeof LangStudioEditorRoute
     }
-    '/$lang/studio/editor/enchantment/find/': {
-      id: '/$lang/studio/editor/enchantment/find/'
+    '/$lang/studio/editor/enchantment/find': {
+      id: '/$lang/studio/editor/enchantment/find'
       path: '/enchantment/find'
       fullPath: '/$lang/studio/editor/enchantment/find'
-      preLoaderRoute: typeof LangStudioEditorEnchantmentFindIndexRouteImport
+      preLoaderRoute: typeof LangStudioEditorEnchantmentFindRouteImport
       parentRoute: typeof LangStudioEditorRoute
     }
-    '/$lang/studio/editor/enchantment/exclusive/': {
-      id: '/$lang/studio/editor/enchantment/exclusive/'
+    '/$lang/studio/editor/enchantment/exclusive': {
+      id: '/$lang/studio/editor/enchantment/exclusive'
       path: '/enchantment/exclusive'
       fullPath: '/$lang/studio/editor/enchantment/exclusive'
-      preLoaderRoute: typeof LangStudioEditorEnchantmentExclusiveIndexRouteImport
-      parentRoute: typeof LangStudioEditorRoute
-    }
-    '/$lang/studio/editor/enchantment/find/yggdrasil': {
-      id: '/$lang/studio/editor/enchantment/find/yggdrasil'
-      path: '/enchantment/find/yggdrasil'
-      fullPath: '/$lang/studio/editor/enchantment/find/yggdrasil'
-      preLoaderRoute: typeof LangStudioEditorEnchantmentFindYggdrasilRouteImport
-      parentRoute: typeof LangStudioEditorRoute
-    }
-    '/$lang/studio/editor/enchantment/find/dnt': {
-      id: '/$lang/studio/editor/enchantment/find/dnt'
-      path: '/enchantment/find/dnt'
-      fullPath: '/$lang/studio/editor/enchantment/find/dnt'
-      preLoaderRoute: typeof LangStudioEditorEnchantmentFindDntRouteImport
-      parentRoute: typeof LangStudioEditorRoute
-    }
-    '/$lang/studio/editor/enchantment/exclusive/single': {
-      id: '/$lang/studio/editor/enchantment/exclusive/single'
-      path: '/enchantment/exclusive/single'
-      fullPath: '/$lang/studio/editor/enchantment/exclusive/single'
-      preLoaderRoute: typeof LangStudioEditorEnchantmentExclusiveSingleRouteImport
-      parentRoute: typeof LangStudioEditorRoute
-    }
-    '/$lang/studio/editor/enchantment/exclusive/group': {
-      id: '/$lang/studio/editor/enchantment/exclusive/group'
-      path: '/enchantment/exclusive/group'
-      fullPath: '/$lang/studio/editor/enchantment/exclusive/group'
-      preLoaderRoute: typeof LangStudioEditorEnchantmentExclusiveGroupRouteImport
+      preLoaderRoute: typeof LangStudioEditorEnchantmentExclusiveRouteImport
       parentRoute: typeof LangStudioEditorRoute
     }
   }
@@ -523,6 +443,8 @@ declare module '@tanstack/react-router' {
 
 interface LangStudioEditorRouteChildren {
   LangStudioEditorIndexRoute: typeof LangStudioEditorIndexRoute
+  LangStudioEditorEnchantmentExclusiveRoute: typeof LangStudioEditorEnchantmentExclusiveRoute
+  LangStudioEditorEnchantmentFindRoute: typeof LangStudioEditorEnchantmentFindRoute
   LangStudioEditorEnchantmentItemsRoute: typeof LangStudioEditorEnchantmentItemsRoute
   LangStudioEditorEnchantmentMainRoute: typeof LangStudioEditorEnchantmentMainRoute
   LangStudioEditorEnchantmentOverviewRoute: typeof LangStudioEditorEnchantmentOverviewRoute
@@ -532,16 +454,13 @@ interface LangStudioEditorRouteChildren {
   LangStudioEditorLootOverviewRoute: typeof LangStudioEditorLootOverviewRoute
   LangStudioEditorRecipeMainRoute: typeof LangStudioEditorRecipeMainRoute
   LangStudioEditorRecipeOverviewRoute: typeof LangStudioEditorRecipeOverviewRoute
-  LangStudioEditorEnchantmentExclusiveGroupRoute: typeof LangStudioEditorEnchantmentExclusiveGroupRoute
-  LangStudioEditorEnchantmentExclusiveSingleRoute: typeof LangStudioEditorEnchantmentExclusiveSingleRoute
-  LangStudioEditorEnchantmentFindDntRoute: typeof LangStudioEditorEnchantmentFindDntRoute
-  LangStudioEditorEnchantmentFindYggdrasilRoute: typeof LangStudioEditorEnchantmentFindYggdrasilRoute
-  LangStudioEditorEnchantmentExclusiveIndexRoute: typeof LangStudioEditorEnchantmentExclusiveIndexRoute
-  LangStudioEditorEnchantmentFindIndexRoute: typeof LangStudioEditorEnchantmentFindIndexRoute
 }
 
 const LangStudioEditorRouteChildren: LangStudioEditorRouteChildren = {
   LangStudioEditorIndexRoute: LangStudioEditorIndexRoute,
+  LangStudioEditorEnchantmentExclusiveRoute:
+    LangStudioEditorEnchantmentExclusiveRoute,
+  LangStudioEditorEnchantmentFindRoute: LangStudioEditorEnchantmentFindRoute,
   LangStudioEditorEnchantmentItemsRoute: LangStudioEditorEnchantmentItemsRoute,
   LangStudioEditorEnchantmentMainRoute: LangStudioEditorEnchantmentMainRoute,
   LangStudioEditorEnchantmentOverviewRoute:
@@ -553,18 +472,6 @@ const LangStudioEditorRouteChildren: LangStudioEditorRouteChildren = {
   LangStudioEditorLootOverviewRoute: LangStudioEditorLootOverviewRoute,
   LangStudioEditorRecipeMainRoute: LangStudioEditorRecipeMainRoute,
   LangStudioEditorRecipeOverviewRoute: LangStudioEditorRecipeOverviewRoute,
-  LangStudioEditorEnchantmentExclusiveGroupRoute:
-    LangStudioEditorEnchantmentExclusiveGroupRoute,
-  LangStudioEditorEnchantmentExclusiveSingleRoute:
-    LangStudioEditorEnchantmentExclusiveSingleRoute,
-  LangStudioEditorEnchantmentFindDntRoute:
-    LangStudioEditorEnchantmentFindDntRoute,
-  LangStudioEditorEnchantmentFindYggdrasilRoute:
-    LangStudioEditorEnchantmentFindYggdrasilRoute,
-  LangStudioEditorEnchantmentExclusiveIndexRoute:
-    LangStudioEditorEnchantmentExclusiveIndexRoute,
-  LangStudioEditorEnchantmentFindIndexRoute:
-    LangStudioEditorEnchantmentFindIndexRoute,
 }
 
 const LangStudioEditorRouteWithChildren =

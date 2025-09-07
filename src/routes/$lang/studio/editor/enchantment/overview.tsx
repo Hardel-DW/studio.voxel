@@ -4,8 +4,9 @@ import { Identifier, isVoxel } from "@voxelio/breeze";
 import { useState } from "react";
 import EnchantOverviewCard from "@/components/tools/concept/enchantment/EnchantOverviewCard";
 import { useConfiguratorStore } from "@/components/tools/Store";
-import { useFloatingBarStore } from "@/components/ui/FloatingBar/FloatingBarStore";
-import { useFloatingBar } from "@/components/ui/FloatingBar/useFloatingBar";
+import { Toolbar } from "@/components/ui/FloatingBar/Toolbar";
+import { ToolbarButton } from "@/components/ui/FloatingBar/ToolbarButton";
+import { ToolbarSearch } from "@/components/ui/FloatingBar/ToolbarSearch";
 import useTagManager from "@/lib/hook/useTagManager";
 
 type EnchantmentProps = Analysers["enchantment"]["voxel"];
@@ -15,33 +16,26 @@ export const Route = createFileRoute("/$lang/studio/editor/enchantment/overview"
 });
 
 function Page() {
-    const [display, setDisplay] = useState<"minimal" | "detailed">("minimal");
+    const [isDetailed, setIsDetailed] = useState(false);
+    const [searchValue, setSearchValue] = useState("");
     const elements = useConfiguratorStore((state) => state.elements);
     const { getAllItemsFromTag } = useTagManager();
-    const { init } = useFloatingBar();
-    const searchValue = useFloatingBarStore((state) => state.searchValue);
 
     const filteredElements = [...elements.values()]
         .filter((el) => isVoxel(el, "enchantment"))
         .filter((el) => !searchValue || el.identifier.resource.toLowerCase().includes(searchValue.toLowerCase())) as EnchantmentProps[];
 
-    init({
-        searchConfig: {
-            placeholder: "Search enchantments...",
-            onChange: () => {}
-        },
-        buttons: [
-            {
-                id: "display-toggle",
-                icon: `/icons/tools/overview/${display === "minimal" ? "list" : "map"}.svg`,
-                tooltip: display === "minimal" ? "Detailed view" : "Minimal view",
-                onClick: () => setDisplay(display === "minimal" ? "detailed" : "minimal")
-            }
-        ]
-    });
-
     return (
         <div>
+            <Toolbar>
+                <ToolbarSearch placeholder="Search enchantments..." value={searchValue} onChange={setSearchValue} />
+                <ToolbarButton
+                    icon={`/icons/tools/overview/${isDetailed ? "map" : "list"}.svg`}
+                    tooltip={isDetailed ? "Minimal view" : "Detailed view"}
+                    onClick={() => setIsDetailed(!isDetailed)}
+                />
+            </Toolbar>
+
             <div className="flex items-center justify-between gap-2">
                 <div className="flex items-center gap-8">
                     <h1 className="text-2xl font-bold uppercase">Overview</h1>
@@ -60,7 +54,7 @@ function Page() {
                             element={element}
                             items={isTag ? getAllItemsFromTag(id) : [id]}
                             elementId={new Identifier(element.identifier).toUniqueKey()}
-                            display={display}
+                            display={isDetailed}
                         />
                     );
                 })}

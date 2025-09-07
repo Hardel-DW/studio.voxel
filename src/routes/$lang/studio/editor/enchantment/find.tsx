@@ -58,7 +58,7 @@ const iterationValues = [
     }
 ];
 
-export const Route = createFileRoute("/$lang/studio/editor/enchantment/find/")({
+export const Route = createFileRoute("/$lang/studio/editor/enchantment/find")({
     validateSearch: (search: Record<string, unknown>) => ({
         tab: search.tab as "dnt" | "yggdrasil" | undefined
     }),

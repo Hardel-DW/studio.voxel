@@ -41,12 +41,7 @@ const findOptions = [
     }
 ];
 
-export default function EnchantOverviewCard(props: {
-    element: EnchantmentProps;
-    items: string[];
-    elementId: string;
-    display: "minimal" | "detailed";
-}) {
+export default function EnchantOverviewCard(props: { element: EnchantmentProps; items: string[]; elementId: string; display: boolean }) {
     const router = useRouter();
     const { lang } = useParams({ from: "/$lang" });
 
@@ -62,7 +57,7 @@ export default function EnchantOverviewCard(props: {
                 "flex flex-col"
             )}>
             {/* Header avec switch */}
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between pb-4">
                 <div className="flex items-center gap-3 flex-1 min-w-0">
                     {props.items.length === 0 ? (
                         <div className="w-6 h-6 bg-stone-900 rounded-full animate-pulse flex-shrink-0" />
@@ -99,8 +94,8 @@ export default function EnchantOverviewCard(props: {
 
             {/* Contenu principal */}
             <div className="flex-1 flex flex-col">
-                {props.display === "minimal" && (
-                    <div className="flex flex-wrap gap-2 py-4 flex-1">
+                {!props.display && (
+                    <div className="flex flex-wrap gap-2 pb-4 flex-1">
                         {findOptions.map((tag) => (
                             <OverviewCase
                                 key={tag.title}

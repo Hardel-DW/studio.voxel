@@ -3,9 +3,12 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { routeTree } from "./routeTree.gen";
 import "./globals.css";
+import Loader from "@/components/ui/Loader";
 
 const router = createRouter({
     routeTree,
+    defaultPendingMinMs: 0,
+    defaultPendingComponent: Loader,
     defaultPreload: "viewport",
     defaultStaleTime: 1000 * 60 * 3 // 3 minutes
 });

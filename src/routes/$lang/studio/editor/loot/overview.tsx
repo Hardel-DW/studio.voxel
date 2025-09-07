@@ -4,36 +4,31 @@ import type { LootTableProps } from "@voxelio/breeze/schema";
 import { useState } from "react";
 import LootOverviewCard from "@/components/tools/concept/loot/LootOverviewCard";
 import { useConfiguratorStore } from "@/components/tools/Store";
-import { useFloatingBar } from "@/components/ui/FloatingBar/useFloatingBar";
+import { Toolbar } from "@/components/ui/FloatingBar/Toolbar";
+import { ToolbarSearch } from "@/components/ui/FloatingBar/ToolbarSearch";
 
 export const Route = createFileRoute("/$lang/studio/editor/loot/overview")({
     component: RouteComponent
 });
 
 function RouteComponent() {
-    const [search, setSearch] = useState("");
     const [openPopoverId, setOpenPopoverId] = useState<string | null>(null);
+    const [searchValue, setSearchValue] = useState("");
     const elements = useConfiguratorStore((state) => state.elements);
-    const { init } = useFloatingBar();
+
     const filteredElements = [...elements.values()]
         .filter((el) => isVoxel(el, "loot_table"))
-        .filter((el) => !search || el.identifier.resource.toLowerCase().includes(search.toLowerCase())) as LootTableProps[];
-
-    init({
-        searchConfig: {
-            placeholder: "Search loot tables...",
-            onChange: (value) => setSearch(value)
-        }
-    });
+        .filter((el) => !searchValue || el.identifier.resource.toLowerCase().includes(searchValue.toLowerCase())) as LootTableProps[];
 
     return (
         <div>
+            <Toolbar>
+                <ToolbarSearch placeholder="Search loot tables..." value={searchValue} onChange={setSearchValue} />
+            </Toolbar>
+
             <div className="flex items-center justify-between gap-2">
                 <div className="flex items-center gap-8">
                     <h1 className="text-2xl font-bold uppercase">Overview</h1>
-                </div>
-                <div className="flex items-center gap-4">
-                    <input type="text" placeholder="Search" onChange={(e) => setSearch(e.target.value)} />
                 </div>
             </div>
 
