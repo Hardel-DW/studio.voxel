@@ -4,8 +4,9 @@ import { Identifier, isVoxel } from "@voxelio/breeze";
 import { useState } from "react";
 import LootOverviewCard from "@/components/tools/concept/loot/LootOverviewCard";
 import { useConfiguratorStore } from "@/components/tools/Store";
-import { Toolbar } from "@/components/ui/FloatingBar/Toolbar";
-import { ToolbarSearch } from "@/components/ui/FloatingBar/ToolbarSearch";
+import { Toolbar } from "@/components/tools/floatingbar/Toolbar";
+import { ToolbarSearch } from "@/components/tools/floatingbar/ToolbarSearch";
+import Translate from "@/components/tools/Translate";
 
 export const Route = createFileRoute("/$lang/studio/editor/loot/overview")({
     component: RouteComponent
@@ -23,12 +24,14 @@ function RouteComponent() {
     return (
         <div>
             <Toolbar>
-                <ToolbarSearch placeholder="Search loot tables..." value={searchValue} onChange={setSearchValue} />
+                <ToolbarSearch placeholder="loot:overview.search.placeholder" value={searchValue} onChange={setSearchValue} />
             </Toolbar>
 
             <div className="flex items-center justify-between gap-2">
                 <div className="flex items-center gap-8">
-                    <h1 className="text-2xl font-bold uppercase">Overview</h1>
+                    <h1 className="text-2xl font-bold uppercase">
+                        <Translate content="loot:overview.title" />
+                    </h1>
                 </div>
             </div>
 

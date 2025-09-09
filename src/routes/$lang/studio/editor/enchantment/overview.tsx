@@ -5,19 +5,43 @@ import { useState } from "react";
 import EnchantOverviewCard from "@/components/tools/concept/enchantment/EnchantOverviewCard";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import Translate from "@/components/tools/Translate";
-import { Toolbar } from "@/components/ui/FloatingBar/Toolbar";
-import { ToolbarButton } from "@/components/ui/FloatingBar/ToolbarButton";
-import { ToolbarDropdown } from "@/components/ui/FloatingBar/ToolbarDropdown";
-import { ToolbarSearch } from "@/components/ui/FloatingBar/ToolbarSearch";
+import { Toolbar } from "@/components/tools/floatingbar/Toolbar";
+import { ToolbarButton } from "@/components/tools/floatingbar/ToolbarButton";
+import { ToolbarDropdown } from "@/components/tools/floatingbar/ToolbarDropdown";
+import { ToolbarSearch } from "@/components/tools/floatingbar/ToolbarSearch";
 import useTagManager from "@/lib/hook/useTagManager";
 import { exclusiveSetGroups } from "@/lib/data/exclusive";
 import { enchantableItems } from "@/lib/data/tags";
+import { useTranslateKey } from "@/lib/hook/useTranslation";
 
 type EnchantmentProps = Analysers["enchantment"]["voxel"];
 
 export const Route = createFileRoute("/$lang/studio/editor/enchantment/overview")({
     component: Page
 });
+
+const GROUP_MAPS = {
+    slots: (key: string) => [`enchantment:slots.${key}.title`, `enchantment:slots.${key}.description`],
+    exclusiveSet: (key: string) => {
+        const group = exclusiveSetGroups.find(g => g.value === key);
+        return group
+            ? [`enchantment:exclusive.set.${group.id}.title`, null]
+            : [Identifier.of(key, "exclusive_set").toResourceName(), null];
+    },
+    supportedItems: (key: string) => {
+        const entry = Object.entries(enchantableItems).find(([_, v]) => v === key);
+        return entry
+            ? [`enchantment:supported.${entry[0]}.title`, null]
+            : [Identifier.of(key, "enchantable").toResourceName(), null];
+    }
+};
+
+const sortOptions = [
+    { key: "supported", value: "supportedItems", label: "enchantment:overview.sort.supported.label", description: "enchantment:overview.sort.supported.description" },
+    { key: "exclusive", value: "exclusiveSet", label: "enchantment:overview.sort.exclusive.label", description: "enchantment:overview.sort.exclusive.description" },
+    { key: "slots", value: "slots", label: "enchantment:overview.sort.slots.label", description: "enchantment:overview.sort.slots.description" },
+    { value: "none", label: "enchantment:overview.sort.none.label", description: "enchantment:overview.sort.none.description" }
+];
 
 function Page() {
     const [isDetailed, setIsDetailed] = useState(false);
@@ -33,36 +57,40 @@ function Page() {
         ? new EnchantmentSorter(baseElements).groupBy(sortCriteria).sort((a, b) => b.enchantments.length - a.enchantments.length)
         : baseElements;
 
-    const sortOptions = [
-        { value: "supportedItems", label: "Supported Items", description: "Sort by supported items" },
-        { value: "exclusiveSet", label: "Exclusive Set", description: "Sort by exclusive set" },
-        { value: "slots", label: "Slots", description: "Sort by equipment slots" },
-        { value: "none", label: "Sans Filtre", description: "No grouping" }
-    ];
+    const sortOption = sortOptions.find((opt) => opt.value === sortCriteria);
+    const translatedSortOption = useTranslateKey(sortOption?.label || "enchantment:overview.sort.none.label");
+    const translatedSortBy = useTranslateKey("enchantment:overview.sort.by");
 
     return (
         <div>
             <Toolbar>
-                <ToolbarSearch placeholder="Search enchantments..." value={searchValue} onChange={setSearchValue} />
+                <ToolbarSearch placeholder="enchantment:overview.search.placeholder" value={searchValue} onChange={setSearchValue} />
                 <div className="flex items-center">
                     <ToolbarDropdown
                         icon="/icons/tools/overview/filter.svg"
-                        tooltip={`Sort by: ${sortOptions.find((opt) => opt.value === sortCriteria)?.label}`}
+                        tooltip={`${translatedSortBy} ${translatedSortOption}`}
                         value={sortCriteria}
                         options={sortOptions}
-                        onChange={(value: string) => setSortCriteria(value as EnchantmentSortCriteria | "none")}
+                        onChange={(value: string) => setSortCriteria(value as EnchantmentSortCriteria)}
                     />
                     <ToolbarButton
                         icon={`/icons/tools/overview/${isDetailed ? "map" : "list"}.svg`}
-                        tooltip={isDetailed ? "Minimal view" : "Detailed view"}
+                        tooltip={isDetailed ? "enchantment:overview.view.minimal" : "enchantment:overview.view.detailed"}
                         onClick={() => setIsDetailed(!isDetailed)}
                     />
                 </div>
             </Toolbar>
 
             <div className="flex items-center justify-between gap-2">
-                <div className="flex items-center gap-8">
-                    <h1 className="text-2xl font-bold uppercase">Overview</h1>
+                <div>
+                    <h1 className="text-2xl font-bold uppercase">
+                        <Translate content="enchantment:overview.title" />
+                    </h1>
+                    <p className="text-sm text-zinc-500">
+                        {sortCriteria !== "none" && (
+                            <Translate content={`enchantment:overview.sort.${sortOption?.key}.section`} />
+                        )}
+                    </p>
                 </div>
             </div>
 
@@ -116,52 +144,7 @@ function EnchantmentCard({ element, isDetailed }: { element: EnchantmentProps, i
 
 function SlotGroup({ group, sortCriteria, children }: { group: EnchantmentGroup, sortCriteria: string, children: React.ReactNode }) {
     const [isCollapsed, setIsCollapsed] = useState(false);
-
-    const getGroupTranslation = (type: string, groupKey: string) => {
-        const firstKey = groupKey.split(',')[0];
-
-        switch (type) {
-            case "slots":
-                return <Translate content={`enchantment:slots.${firstKey}.title`} />;
-            case "exclusiveSet": {
-                const exclusiveGroup = exclusiveSetGroups.find(group => group.value === firstKey);
-                if (exclusiveGroup) {
-                    return <Translate content={`enchantment:exclusive.set.${exclusiveGroup.id}.title`} />;
-                }
-                return Identifier.of(firstKey, "exclusive_set").toResourceName();
-            }
-            case "supportedItems": {
-                const supportedEntry = Object.entries(enchantableItems).find(([_, value]) => value === firstKey);
-                if (supportedEntry) {
-                    return <Translate content={`enchantment:supported.${supportedEntry[0]}.title`} />;
-                }
-                return Identifier.of(firstKey, "enchantable").toResourceName();
-            }
-            default:
-                return firstKey;
-        }
-    };
-
-    const getGroupDescription = (type: string, groupKey: string) => {
-        const firstKey = groupKey.split(',')[0];
-
-        switch (type) {
-            case "slots":
-                return <Translate content={`enchantment:slots.${firstKey}.description`} />;
-            case "exclusiveSet": {
-                const exclusiveGroup = exclusiveSetGroups.find(group => group.value === firstKey);
-                if (exclusiveGroup) {
-                    return <Translate content={`enchantment:exclusive.set.${exclusiveGroup.id}.description`} />;
-                }
-                return null;
-            }
-            case "supportedItems": {
-                return null; // Pas de description pour supportedItems
-            }
-            default:
-                return null;
-        }
-    };
+    const [title, description] = GROUP_MAPS[sortCriteria as keyof typeof GROUP_MAPS]?.(group.key) || [group.key, null];
 
     return (
         <div key={group.key} className="border border-zinc-800 rounded-2xl p-6 bg-zinc-950/50">
@@ -169,15 +152,20 @@ function SlotGroup({ group, sortCriteria, children }: { group: EnchantmentGroup,
                 <div className="flex-1">
                     <div className="flex items-center gap-3">
                         <h2 className="text-lg font-semibold text-zinc-200">
-                            {getGroupTranslation(sortCriteria, group.key)}
+                            {title && <Translate content={title} />}
                         </h2>
                         <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-zinc-900 border border-zinc-800 text-zinc-300">
                             {group.enchantments.length} <Translate content="elements" />
                         </span>
                     </div>
-                    {getGroupDescription(sortCriteria, group.key) && (
+                    {group.key === "none" && (
                         <p className="text-sm text-zinc-500">
-                            {getGroupDescription(sortCriteria, group.key)}
+                            <Translate content={"enchantment:overview.sort.none.section"} />
+                        </p>
+                    )}
+                    {description && (
+                        <p className="text-sm text-zinc-500">
+                            <Translate content={description} />
                         </p>
                     )}
                 </div>

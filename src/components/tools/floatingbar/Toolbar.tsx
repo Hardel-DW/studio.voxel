@@ -36,8 +36,8 @@ export function Toolbar({ children }: ToolbarProps) {
             let y = e.clientY - offsetY;
 
             // Clamp coordinates to stay within viewport
-            x = Math.max(padding, Math.min(x, window.innerWidth - 300 - padding)); // 300px estimated toolbar width
-            y = Math.max(padding, Math.min(y, window.innerHeight - 60 - padding)); // 60px estimated toolbar height
+            x = Math.max(padding, Math.min(x, window.innerWidth - 300 - padding));
+            y = Math.max(padding, Math.min(y, window.innerHeight - 60 - padding));
 
             const currentPos = { x, y };
             const nearDefault = isNearDefaultPosition(currentPos);
@@ -76,10 +76,10 @@ export function Toolbar({ children }: ToolbarProps) {
 
     const style = position
         ? {
-              left: `${position.x}px`,
-              top: `${position.y}px`,
-              transform: "none"
-          }
+            left: `${position.x}px`,
+            top: `${position.y}px`,
+            transform: "none"
+        }
         : {};
 
     if (!portalRef.current) return null;

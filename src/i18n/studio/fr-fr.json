@@ -37,6 +37,8 @@
     "overview": "Aperçu",
     "tabs.concepts": "Concepts",
     "tabs.details": "Détails",
+    "select.label": "Sélectionner",
+    "search.placeholder": "Rechercher...",
     "debug.leave": "Quitter le mode débogage",
     "debug.format": "Format",
     "debug.format.voxel": "Voxel",

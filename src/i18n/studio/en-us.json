@@ -31,6 +31,8 @@
     "overview": "Overview",
     "tabs.concepts": "Concepts",
     "tabs.details": "Details",
+    "select.label": "Select",
+    "search.placeholder": "Search...",
     "concepts.enchantment": "Enchantment",
     "concepts.loot_table": "Loot Table",
     "concepts.recipe": "Recipe",

@@ -1,11 +1,17 @@
+import { useTranslateKey } from "@/lib/hook/useTranslation";
+import type { TranslateTextType } from "@/components/tools/Translate";
+
+
 interface ToolbarSearchProps {
-    placeholder?: string;
+    placeholder?: TranslateTextType;
     value?: string;
     onChange: (value: string) => void;
     onSubmit?: (value: string) => void;
 }
 
 export function ToolbarSearch({ placeholder, value, onChange, onSubmit }: ToolbarSearchProps) {
+    const translatedPlaceholder = useTranslateKey(typeof placeholder === "string" ? placeholder : "search.placeholder");
+
     return (
         <div className="flex-1 relative">
             <div className="absolute left-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
@@ -16,7 +22,7 @@ export function ToolbarSearch({ placeholder, value, onChange, onSubmit }: Toolba
             </div>
             <input
                 type="custom"
-                placeholder={placeholder || "Search..."}
+                placeholder={translatedPlaceholder}
                 defaultValue={value}
                 onChange={(e) => onChange(e.target.value)}
                 onKeyDown={(e) => {

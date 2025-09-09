@@ -1,5 +1,10 @@
 {
     "section.main": "Main",
     "main.result_counter": "Result count",
-    "main.result_counter.description": "The number of items you want to get"
+    "main.result_counter.description": "The number of items you want to get",
+    "overview.title": "Overview",
+    "overview.search.placeholder": "Search recipes...",
+    "overview.scroll.more": "Scroll for more",
+    "overview.no.recipes.found": "No recipes found",
+    "overview.try.adjusting.search.or.filter": "Try adjusting your search or filter"
 }

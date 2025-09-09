@@ -7,6 +7,7 @@ import RecipeSelector from "@/components/tools/concept/recipe/RecipeSelector";
 import { canBlockHandleRecipeType, getTypesFromSelection, RECIPE_BLOCKS } from "@/components/tools/concept/recipe/recipeConfig";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import { useInfiniteScroll } from "@/lib/hook/useInfiniteScroll";
+import Translate from "@/components/tools/Translate";
 
 export const Route = createFileRoute("/$lang/studio/editor/recipe/overview")({
     component: Page
@@ -36,10 +37,12 @@ function Page() {
         <div>
             <div className="flex items-center justify-between gap-2">
                 <div className="flex items-center gap-8">
-                    <h1 className="text-2xl font-bold uppercase">Overview</h1>
+                    <h1 className="text-2xl font-bold uppercase">
+                        <Translate content="recipe:overview.title" />
+                    </h1>
                 </div>
                 <div className="flex items-center gap-4">
-                    <input type="text" placeholder="Search" onChange={(e) => setSearch(e.target.value)} />
+                    <input type="text" placeholder="recipe:overview.search.placeholder" onChange={(e) => setSearch(e.target.value)} />
                     <div className="relative">
                         <RecipeSelector value={selection} onChange={setSelection} recipeCounts={recipeCounts} />
                     </div>
@@ -61,7 +64,9 @@ function Page() {
             {hasMore && (
                 <div ref={ref} className="flex justify-center items-center mt-8 py-4">
                     <div className="bg-black/50 border-t-2 border-l-2 border-stone-900 rounded-xl p-2 opacity-60">
-                        <span className="text-zinc-500 text-xs">Scroll for more</span>
+                        <span className="text-zinc-500 text-xs">
+                            <Translate content="recipe:overview.scroll.more" />
+                        </span>
                     </div>
                 </div>
             )}
@@ -69,8 +74,12 @@ function Page() {
             {/* Empty state */}
             {filteredElements.length === 0 && (
                 <div className="text-center py-12 text-zinc-400">
-                    <div className="text-lg font-medium mb-2">No recipes found</div>
-                    <div className="text-sm">Try adjusting your search or filter</div>
+                    <div className="text-lg font-medium mb-2">
+                        <Translate content="recipe:overview.no.recipes.found" />
+                    </div>
+                    <div className="text-sm">
+                        <Translate content="recipe:overview.try.adjusting.search.or.filter" />
+                    </div>
                 </div>
             )}
         </div>

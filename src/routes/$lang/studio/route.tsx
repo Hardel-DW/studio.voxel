@@ -1,6 +1,6 @@
 import { createFileRoute, Outlet } from "@tanstack/react-router";
 import QueryProvider from "@/components/QueryProvider";
-import { FloatingBarProvider } from "@/components/ui/FloatingBar/FloatingBarContext";
+import { FloatingBarProvider } from "@/components/tools/floatingbar/FloatingBarContext";
 import ShiningStars from "@/components/ui/ShiningStars";
 
 export const Route = createFileRoute("/$lang/studio")({
