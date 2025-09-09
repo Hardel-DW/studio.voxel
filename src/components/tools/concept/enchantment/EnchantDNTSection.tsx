@@ -1,5 +1,5 @@
-import { Actions } from "@voxelio/breeze/core";
-import type { EnchantmentProps } from "@voxelio/breeze/schema";
+import type { EnchantmentProps } from "@voxelio/breeze";
+import { Actions } from "@voxelio/breeze";
 import ToolCard from "@/components/tools/elements/ToolCard";
 import ToolCategory from "@/components/tools/elements/ToolCategory";
 import ToolGrid from "@/components/tools/elements/ToolGrid";

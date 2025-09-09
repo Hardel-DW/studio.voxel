@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import type { Enchantment } from "@voxelio/breeze";
 import {
     Datapack,
     EnchantmentActionBuilder,
@@ -9,7 +10,6 @@ import {
     type TagRegistry,
     Tags
 } from "@voxelio/breeze";
-import type { Enchantment } from "@voxelio/breeze/schema";
 import ErrorPlaceholder from "@/components/tools/elements/error/ErrorPlaceholder";
 import ToolCategory from "@/components/tools/elements/ToolCategory";
 import ToolGrid from "@/components/tools/elements/ToolGrid";
@@ -22,6 +22,7 @@ import Translate, { type TranslateTextType } from "@/components/tools/Translate"
 import Loader from "@/components/ui/Loader";
 import useRegistry, { type FetchedRegistry } from "@/lib/hook/useRegistry";
 import { isMinecraft } from "@/lib/utils/lock";
+import { exclusiveSetGroups } from "@/lib/data/exclusive";
 
 export const Route = createFileRoute("/$lang/studio/editor/enchantment/exclusive")({
     validateSearch: (search: Record<string, unknown>) => ({
@@ -29,16 +30,6 @@ export const Route = createFileRoute("/$lang/studio/editor/enchantment/exclusive
     }),
     component: EnchantmentExclusivePage
 });
-
-const vanillaGroups = [
-    { id: "armor", image: "armor", value: "#minecraft:exclusive_set/armor" },
-    { id: "bow", image: "bow", value: "#minecraft:exclusive_set/bow" },
-    { id: "crossbow", image: "crossbow", value: "#minecraft:exclusive_set/crossbow" },
-    { id: "damage", image: "sword", value: "#minecraft:exclusive_set/damage" },
-    { id: "riptide", image: "trident", value: "#minecraft:exclusive_set/riptide" },
-    { id: "mining", image: "mining_loot", value: "#minecraft:exclusive_set/mining" },
-    { id: "boots", image: "foot_armor", value: "#minecraft:exclusive_set/boots" }
-];
 
 const elements = [
     {
@@ -95,7 +86,7 @@ function ExclusiveGroupSection() {
         <>
             <ToolCategory title="enchantment:exclusive.vanilla.title">
                 <ToolGrid>
-                    {vanillaGroups.map(({ id, image, value }) => (
+                    {exclusiveSetGroups.map(({ id, image, value }) => (
                         <ToolSlot
                             key={id}
                             title={`enchantment:exclusive.set.${id}.title`}

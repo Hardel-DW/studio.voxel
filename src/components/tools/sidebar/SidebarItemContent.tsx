@@ -1,4 +1,4 @@
-import { Identifier } from "@voxelio/breeze/core";
+import { Identifier } from "@voxelio/breeze";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import Translate from "@/components/tools/Translate";
 

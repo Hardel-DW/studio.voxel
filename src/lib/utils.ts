@@ -73,25 +73,6 @@ export function snakeToTitleCase(str: string): string {
         .join(" ");
 }
 
-export const PACK_VERSION = {
-    "1": "1.12",
-    "4": "1.13 - 1.14.4",
-    "5": "1.15 - 1.16.1",
-    "6": "1.16.2 - 1.16.5",
-    "7": "1.17 - 1.17.1",
-    "8": "1.18",
-    "9": "1.18.2",
-    "10": "1.19",
-    "12": "1.19.4",
-    "15": "1.20",
-    "18": "1.20.2",
-    "26": "1.20.3",
-    "41": "1.20.5",
-    "48": "1.21 - 1.21.1",
-    "57": "1.21.2 - 1.21.3",
-    "61": "1.21.4"
-};
-
 /**
  * Calculate the median of an array of numbers
  * @param values - array of numbers

@@ -1,4 +1,4 @@
-import { DEFAULT_MOD_METADATA, extractMetadata } from "@voxelio/breeze/converter";
+import { DEFAULT_MOD_METADATA, extractMetadata } from "@voxelio/breeze";
 import { useState } from "react";
 import Dropzone from "@/components/ui/Dropzone";
 import DatapackForm from "./DatapackForm";

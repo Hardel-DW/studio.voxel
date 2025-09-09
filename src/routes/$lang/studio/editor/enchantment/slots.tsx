@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { EnchantmentActionBuilder } from "@voxelio/breeze/core";
-import type { EnchantmentProps } from "@voxelio/breeze/schema";
+import type { EnchantmentProps } from "@voxelio/breeze";
+import { EnchantmentActionBuilder } from "@voxelio/breeze";
 import ToolGrid from "@/components/tools/elements/ToolGrid";
 import ToolSection from "@/components/tools/elements/ToolSection";
 import ToolSlot from "@/components/tools/elements/ToolSlot";

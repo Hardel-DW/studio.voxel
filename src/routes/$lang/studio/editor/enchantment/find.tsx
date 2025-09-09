@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Actions } from "@voxelio/breeze/core";
-import type { EnchantmentProps } from "@voxelio/breeze/schema";
+import type { EnchantmentProps } from "@voxelio/breeze";
+import { Actions } from "@voxelio/breeze";
 import { lazy, Suspense } from "react";
 import ToolGrid from "@/components/tools/elements/ToolGrid";
 import ToolReveal, { ToolRevealElement } from "@/components/tools/elements/ToolReveal";

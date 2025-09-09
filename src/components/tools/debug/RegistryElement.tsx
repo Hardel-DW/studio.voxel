@@ -1,4 +1,4 @@
-import { Identifier } from "@voxelio/breeze/core";
+import { Identifier } from "@voxelio/breeze";
 import { useDebugStore } from "@/components/tools/debug/DebugStore";
 import { cn } from "@/lib/utils";
 

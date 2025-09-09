@@ -1,4 +1,4 @@
-import { compileDatapack, Datapack, Logger, parseDatapack, voxelDatapacks } from "@voxelio/breeze/core";
+import { compileDatapack, Datapack, Logger, parseDatapack, voxelDatapacks } from "@voxelio/breeze";
 import type React from "react";
 import { useCallback, useEffect, useState } from "react";
 import { Toaster, toast } from "sonner";

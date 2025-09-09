@@ -1,4 +1,4 @@
-import type { VoxelElement } from "@voxelio/breeze/core";
+import type { VoxelElement } from "@voxelio/breeze";
 import { useShallow } from "zustand/shallow";
 import { getCurrentElement, useConfiguratorStore } from "@/components/tools/Store";
 import { type Condition, checkLocks, type Lock, type LockRenderer } from "../utils/lock";

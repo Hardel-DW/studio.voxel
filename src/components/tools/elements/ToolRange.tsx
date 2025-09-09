@@ -1,10 +1,9 @@
-import { useRef } from "react";
+import { useId, useRef } from "react";
 import RenderGuard from "@/components/tools/elements/RenderGuard";
 import type { TranslateTextType } from "@/components/tools/Translate";
 import Translate from "@/components/tools/Translate";
 import type { BaseInteractiveComponent } from "@/lib/hook/useInteractiveLogic";
 import { useInteractiveLogic } from "@/lib/hook/useInteractiveLogic";
-import { getKey } from "@/lib/utils/translation";
 
 // Type defined locally
 export type ToolRangeType = BaseInteractiveComponent & {
@@ -20,6 +19,7 @@ export default function ToolRange(props: ToolRangeType & { index?: number }) {
     const tempValueRef = useRef<number | null>(null);
     const displayElementRef = useRef<HTMLSpanElement>(null);
     const inputRef = useRef<HTMLInputElement>(null);
+    const id = useId();
 
     if (value === null) return null;
     if (inputRef.current && tempValueRef.current === null) {
@@ -43,7 +43,7 @@ export default function ToolRange(props: ToolRangeType & { index?: number }) {
                         </span>
                     ) : (
                         props.label && (
-                            <label htmlFor={getKey(props.label)} className="block line-clamp-1 text-sm font-medium text-zinc-400 mb-1">
+                            <label htmlFor={id} className="block line-clamp-1 text-sm font-medium text-zinc-400 mb-1">
                                 <Translate content={props.label} />
                             </label>
                         )
@@ -54,7 +54,7 @@ export default function ToolRange(props: ToolRangeType & { index?: number }) {
                 </div>
                 <input
                     ref={inputRef}
-                    id={getKey(props.label)}
+                    id={id}
                     type="range"
                     disabled={lock.isLocked}
                     min={props.min}

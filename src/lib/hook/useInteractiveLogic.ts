@@ -1,4 +1,4 @@
-import type { Action, ActionValue } from "@voxelio/breeze/core";
+import type { Action, ActionValue } from "@voxelio/breeze";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import { type BaseComponent, useElementLocks, useElementProperty } from "@/lib/hook/useBreezeElement";
 import type { Lock, LockRenderer } from "../utils/lock";

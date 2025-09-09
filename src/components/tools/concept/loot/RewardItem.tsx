@@ -1,6 +1,5 @@
-import type { LootItem } from "@voxelio/breeze";
+import { calculateItemCountRange, type LootItem } from "@voxelio/breeze";
 import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer";
-import { calculateItemCountRange } from "@/lib/utils/lootCount";
 
 interface RewardItemProps extends LootItem {
     probability?: number;

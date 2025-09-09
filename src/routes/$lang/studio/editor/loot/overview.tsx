@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Identifier, isVoxel } from "@voxelio/breeze/core";
-import type { LootTableProps } from "@voxelio/breeze/schema";
+import type { LootTableProps } from "@voxelio/breeze";
+import { Identifier, isVoxel } from "@voxelio/breeze";
 import { useState } from "react";
 import LootOverviewCard from "@/components/tools/concept/loot/LootOverviewCard";
 import { useConfiguratorStore } from "@/components/tools/Store";

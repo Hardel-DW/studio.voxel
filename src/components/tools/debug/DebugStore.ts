@@ -1,6 +1,5 @@
-import { analyserCollection, Datapack, getLabeledIdentifier } from "@voxelio/breeze";
-import type { LabeledElement } from "@voxelio/breeze/core";
-import { Identifier } from "@voxelio/breeze/core";
+import type { LabeledElement } from "@voxelio/breeze";
+import { analyserCollection, Datapack, getLabeledIdentifier, Identifier } from "@voxelio/breeze";
 import { create } from "zustand";
 import { useConfiguratorStore } from "@/components/tools/Store";
 

@@ -1,4 +1,4 @@
-import { Datapack, voxelDatapacks } from "@voxelio/breeze/core";
+import { Datapack, voxelDatapacks } from "@voxelio/breeze";
 import SettingsDialog from "@/components/tools/SettingsDialog";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import Translate from "@/components/tools/Translate";

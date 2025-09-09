@@ -1,6 +1,6 @@
 import { useParams, useRouter } from "@tanstack/react-router";
+import type { LootTableProps } from "@voxelio/breeze";
 import { Actions, Identifier } from "@voxelio/breeze";
-import type { LootTableProps } from "@voxelio/breeze/schema";
 import LootItemHoverCard from "@/components/tools/concept/loot/LootItemHoverCard";
 import SimpleSwitch from "@/components/tools/elements/SimpleSwitch";
 import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer";

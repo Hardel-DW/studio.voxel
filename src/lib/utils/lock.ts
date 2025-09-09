@@ -1,4 +1,4 @@
-import type { VoxelElement } from "@voxelio/breeze/core";
+import type { VoxelElement } from "@voxelio/breeze";
 import type { TranslateTextType } from "@/components/tools/Translate";
 
 export type Condition = (el: any) => boolean;

@@ -72,6 +72,7 @@ export function DropdownMenuItem(
 ) {
     return (
         <div
+            {...props}
             className={cn(
                 "relative flex flex-col cursor-pointer select-none items-start justify-start gap-0.5 rounded-xl px-2 py-2.5 text-sm outline-hidden transition-colors hover:bg-zinc-900 hover:text-zinc-200",
                 "data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
@@ -79,7 +80,7 @@ export function DropdownMenuItem(
                 props.disabled && "pointer-events-none opacity-50",
                 props.className
             )}
-            {...props}>
+        >
             {props.children}
             {props.description && (
                 <span className="text-[10px] leading-tight text-zinc-500 font-extralight tracking-tight">{props.description}</span>

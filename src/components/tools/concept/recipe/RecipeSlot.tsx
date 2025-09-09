@@ -1,4 +1,4 @@
-import { RecipeActionBuilder } from "@voxelio/breeze/core";
+import { RecipeActionBuilder } from "@voxelio/breeze";
 import TagsRenderer from "@/components/tools/elements/texture/TagsRenderer";
 import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer";
 import { useConfiguratorStore } from "@/components/tools/Store";

@@ -3,7 +3,6 @@ import Translate from "@/components/tools/Translate";
 import type { BaseInteractiveComponent } from "@/lib/hook/useInteractiveLogic";
 import { useInteractiveLogic } from "@/lib/hook/useInteractiveLogic";
 import { cn } from "@/lib/utils";
-import { getKey } from "@/lib/utils/translation";
 
 export type ToolSlotType = BaseInteractiveComponent & {
     description?: TranslateTextType;
@@ -68,7 +67,7 @@ export default function ToolSlot(props: ToolSlotType & { index?: number }) {
 
                 <img
                     src={props.image}
-                    alt={getKey(props.title)}
+                    alt={props.title.toString()}
                     className="mb-8 pixelated"
                     style={{
                         height: props.size ? `${props.size}px` : "64px"

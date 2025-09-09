@@ -1,5 +1,5 @@
 import type { LootItem, LootTableProps } from "@voxelio/breeze";
-import { LootTableProbabilityCalculator } from "@voxelio/breeze";
+import { LootTableAppearanceProbability } from "@voxelio/breeze";
 import RewardItem from "@/components/tools/concept/loot/RewardItem";
 import type { TranslateTextType } from "@/components/tools/Translate";
 import { type BaseInteractiveComponent, useInteractiveLogic } from "@/lib/hook/useInteractiveLogic";
@@ -12,7 +12,7 @@ export type LootViewerProps = BaseInteractiveComponent & {
 
 export default function LootViewer(props: LootViewerProps) {
     const { value, handleChange } = useInteractiveLogic<LootViewerProps, boolean>({ component: props });
-    const calculator = new LootTableProbabilityCalculator(props.lootTable);
+    const calculator = new LootTableAppearanceProbability(props.lootTable);
     const probabilities = calculator.calculateProbabilities();
     const totalProb = probabilities.reduce((sum, result) => sum + result.probability, 0);
     const probabilityMap = new Map(totalProb > 0 ? probabilities.map((result) => [result.itemId, result.probability / totalProb]) : []);

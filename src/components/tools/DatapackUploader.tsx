@@ -1,5 +1,5 @@
 import { useParams, useRouter } from "@tanstack/react-router";
-import { DatapackError, parseDatapack } from "@voxelio/breeze/core";
+import { DatapackError, parseDatapack } from "@voxelio/breeze";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import Dropzone from "@/components/ui/Dropzone";
 import useAsyncError from "@/lib/hook/useAsyncError";

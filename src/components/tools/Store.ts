@@ -1,4 +1,3 @@
-import { Datapack, type VoxelElement } from "@voxelio/breeze";
 import type {
     Action,
     ActionValue,
@@ -8,8 +7,8 @@ import type {
     GetAnalyserVoxel,
     LabeledElement,
     ParseDatapackResult
-} from "@voxelio/breeze/core";
-import { compileDatapack, isVoxelElement, Logger, updateData } from "@voxelio/breeze/core";
+} from "@voxelio/breeze";
+import { compileDatapack, Datapack, isVoxelElement, Logger, updateData, type VoxelElement } from "@voxelio/breeze";
 import { create } from "zustand";
 import type { CONCEPT_KEY } from "./elements";
 import { CONCEPTS } from "./elements";

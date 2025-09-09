@@ -1,5 +1,4 @@
-import { isVoxel, type RecipeProps } from "@voxelio/breeze";
-import { Actions, RecipeActionBuilder } from "@voxelio/breeze/core";
+import { Actions, isVoxel, RecipeActionBuilder, type RecipeProps } from "@voxelio/breeze";
 import { lazy, Suspense, useState } from "react";
 import { getBlockByRecipeType, getFirstTypeFromSelection, RECIPE_BLOCKS } from "@/components/tools/concept/recipe/recipeConfig";
 import ToolCounter from "@/components/tools/elements/ToolCounter";

@@ -1,4 +1,4 @@
-import { getMinecraftVersion } from "@voxelio/breeze/core";
+import { getMinecraftVersion } from "@voxelio/breeze";
 import { Button } from "@/components/ui/Button";
 import { useDictionary } from "@/lib/hook/useNext18n";
 import { cn } from "@/lib/utils";

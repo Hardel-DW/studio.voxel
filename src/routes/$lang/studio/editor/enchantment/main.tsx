@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Actions } from "@voxelio/breeze/core";
-import type { EnchantmentProps } from "@voxelio/breeze/schema";
+import type { EnchantmentProps } from "@voxelio/breeze";
+import { Actions } from "@voxelio/breeze";
 import TemplateCard from "@/components/tools/Card";
 import Donation from "@/components/tools/elements/Donation";
 import ToolCounter from "@/components/tools/elements/ToolCounter";

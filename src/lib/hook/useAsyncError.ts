@@ -1,4 +1,4 @@
-import { DatapackError } from "@voxelio/breeze/core";
+import { DatapackError } from "@voxelio/breeze";
 import React from "react";
 
 export default function useAsyncError() {

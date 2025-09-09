@@ -1,36 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Actions } from "@voxelio/breeze/core";
-import type { EnchantmentProps } from "@voxelio/breeze/schema";
+import type { EnchantmentProps } from "@voxelio/breeze";
+import { Actions } from "@voxelio/breeze";
 import { useState } from "react";
 import ToolGrid from "@/components/tools/elements/ToolGrid";
 import ToolSectionSelector from "@/components/tools/elements/ToolSectionSelector";
 import ToolSlot from "@/components/tools/elements/ToolSlot";
-
-const items = {
-    sword: "#minecraft:enchantable/sword",
-    trident: "#minecraft:enchantable/trident",
-    mace: "#minecraft:enchantable/mace",
-    bow: "#minecraft:enchantable/bow",
-    crossbow: "#minecraft:enchantable/crossbow",
-    range: "#voxel:enchantable/range",
-    fishing: "#minecraft:enchantable/fishing",
-    shield: "#voxel:enchantable/shield",
-    weapon: "#minecraft:enchantable/weapon",
-    melee: "#voxel:enchantable/melee",
-    head_armor: "#minecraft:enchantable/head_armor",
-    chest_armor: "#minecraft:enchantable/chest_armor",
-    leg_armor: "#minecraft:enchantable/leg_armor",
-    foot_armor: "#minecraft:enchantable/foot_armor",
-    elytra: "#voxel:enchantable/elytra",
-    armor: "#minecraft:enchantable/armor",
-    equippable: "#minecraft:enchantable/equippable",
-    axes: "#voxel:enchantable/axes",
-    shovels: "#voxel:enchantable/shovels",
-    hoes: "#voxel:enchantable/hoes",
-    pickaxes: "#voxel:enchantable/pickaxes",
-    durability: "#minecraft:enchantable/durability",
-    mining_loot: "#minecraft:enchantable/mining_loot"
-};
+import { enchantableItems } from "@/lib/data/tags";
 
 const elements = [
     {
@@ -58,13 +33,13 @@ function EnchantmentItemsPage() {
             value={section}
             setValue={setSection}>
             <ToolGrid>
-                {Object.keys(items).map((item) => (
+                {Object.keys(enchantableItems).map((item) => (
                     <ToolSlot
                         key={item}
                         title={`enchantment:supported.${item}.title`}
                         image={`/images/features/item/${item}.webp`}
-                        action={new Actions().setValue(section, items[item as keyof typeof items]).build()}
-                        renderer={(el: EnchantmentProps) => el[section] === items[item as keyof typeof items]}
+                        action={new Actions().setValue(section, enchantableItems[item as keyof typeof enchantableItems]).build()}
+                        renderer={(el: EnchantmentProps) => el[section] === enchantableItems[item as keyof typeof enchantableItems]}
                     />
                 ))}
 
