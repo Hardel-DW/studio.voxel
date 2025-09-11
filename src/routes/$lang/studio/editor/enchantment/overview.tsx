@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type { Analysers } from "@voxelio/breeze";
-import { type EnchantmentSortCriteria, EnchantmentSorter, type EnchantmentGroup, getItemFromMultipleOrOne, Identifier, isVoxel } from "@voxelio/breeze";
+import { type EnchantmentSortCriteria, EnchantmentSorter, type EnchantmentGroup, getItemFromMultipleOrOne, Identifier, isVoxel, EnchantmentActionBuilder } from "@voxelio/breeze";
 import { useState } from "react";
 import EnchantOverviewCard from "@/components/tools/concept/enchantment/EnchantOverviewCard";
 import { useConfiguratorStore } from "@/components/tools/Store";
@@ -13,6 +13,7 @@ import useTagManager from "@/lib/hook/useTagManager";
 import { exclusiveSetGroups } from "@/lib/data/exclusive";
 import { enchantableItems } from "@/lib/data/tags";
 import { useTranslateKey } from "@/lib/hook/useTranslation";
+import { DragDropProvider, Draggable, DropZone } from "@/components/ui/DragDrop";
 
 type EnchantmentProps = Analysers["enchantment"]["voxel"];
 
@@ -61,84 +62,98 @@ function Page() {
     const translatedSortOption = useTranslateKey(sortOption?.label || "enchantment:overview.sort.none.label");
     const translatedSortBy = useTranslateKey("enchantment:overview.sort.by");
 
+    const handleDrop = (dragData: { id: string; category: string }, dropZone: string) => {
+        if (sortCriteria === "exclusiveSet") {
+            console.log("Id", dragData.id);
+            console.log("category", dragData.category);
+            console.log("dropZone", dropZone);
+            useConfiguratorStore.getState().handleChange(new EnchantmentActionBuilder().setExclusiveSetWithTags(dropZone).build(), dragData.id);
+        }
+    };
+
     return (
-        <div>
-            <Toolbar>
-                <ToolbarSearch placeholder="enchantment:overview.search.placeholder" value={searchValue} onChange={setSearchValue} />
-                <div className="flex items-center">
-                    <ToolbarDropdown
-                        icon="/icons/tools/overview/filter.svg"
-                        tooltip={`${translatedSortBy} ${translatedSortOption}`}
-                        value={sortCriteria}
-                        options={sortOptions}
-                        onChange={(value: string) => setSortCriteria(value as EnchantmentSortCriteria)}
-                    />
-                    <ToolbarButton
-                        icon={`/icons/tools/overview/${isDetailed ? "map" : "list"}.svg`}
-                        tooltip={isDetailed ? "enchantment:overview.view.minimal" : "enchantment:overview.view.detailed"}
-                        onClick={() => setIsDetailed(!isDetailed)}
-                    />
-                </div>
-            </Toolbar>
+        <DragDropProvider onDrop={handleDrop}>
+            <div>
+                <Toolbar>
+                    <ToolbarSearch placeholder="enchantment:overview.search.placeholder" value={searchValue} onChange={setSearchValue} />
+                    <div className="flex items-center">
+                        <ToolbarDropdown
+                            icon="/icons/tools/overview/filter.svg"
+                            tooltip={`${translatedSortBy} ${translatedSortOption}`}
+                            value={sortCriteria}
+                            options={sortOptions}
+                            onChange={(value: string) => setSortCriteria(value as EnchantmentSortCriteria)}
+                        />
+                        <ToolbarButton
+                            icon={`/icons/tools/overview/${isDetailed ? "map" : "list"}.svg`}
+                            tooltip={isDetailed ? "enchantment:overview.view.minimal" : "enchantment:overview.view.detailed"}
+                            onClick={() => setIsDetailed(!isDetailed)}
+                        />
+                    </div>
+                </Toolbar>
 
-            <div className="flex items-center justify-between gap-2">
-                <div>
-                    <h1 className="text-2xl font-bold uppercase">
-                        <Translate content="enchantment:overview.title" />
-                    </h1>
-                    <p className="text-sm text-zinc-500">
-                        {sortCriteria !== "none" && (
-                            <Translate content={`enchantment:overview.sort.${sortOption?.key}.section`} />
-                        )}
-                    </p>
+                <div className="flex items-center justify-between gap-2">
+                    <div>
+                        <h1 className="text-2xl font-bold uppercase">
+                            <Translate content="enchantment:overview.title" />
+                        </h1>
+                        <p className="text-sm text-zinc-500">
+                            {sortCriteria !== "none" && (
+                                <Translate content={`enchantment:overview.sort.${sortOption?.key}.section`} />
+                            )}
+                        </p>
+                    </div>
                 </div>
+
+                <hr className="my-4" />
+
+                {isGroupView ? (
+                    <div
+                        className="grid gap-6"
+                        style={{
+                            gridTemplateColumns: "repeat(auto-fit, minmax(max(280px, calc((100% - 1.5rem) / 2)), 1fr))",
+                            containerType: "inline-size"
+                        }}>
+                        {(filteredElements as EnchantmentGroup[]).map((group) => (
+                            <div
+                                key={group.key}
+                                className="slot-group-container"
+                                style={{ gridColumn: group.enchantments.length > 8 ? "1 / -1" : "auto" }}>
+                                <SlotGroup group={group} sortCriteria={sortCriteria}>
+                                    {group.enchantments.map((element) => (
+                                        <EnchantmentCard key={element.identifier.resource} element={element} isDetailed={isDetailed} />
+                                    ))}
+                                </SlotGroup>
+                            </div>
+                        ))}
+                    </div>
+                ) : (
+                    <div className="grid gap-4" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))" }}>
+                        {(filteredElements as EnchantmentProps[]).map((element) => (
+                            <EnchantmentCard key={element.identifier.resource} element={element} isDetailed={isDetailed} />
+                        ))}
+                    </div>
+                )}
             </div>
-
-            <hr className="my-4" />
-
-            {isGroupView ? (
-                <div
-                    className="grid gap-6"
-                    style={{
-                        gridTemplateColumns: "repeat(auto-fit, minmax(max(280px, calc((100% - 1.5rem) / 2)), 1fr))",
-                        containerType: "inline-size"
-                    }}>
-                    {(filteredElements as EnchantmentGroup[]).map((group) => (
-                        <div
-                            key={group.key}
-                            className="slot-group-container"
-                            style={{ gridColumn: group.enchantments.length > 8 ? "1 / -1" : "auto" }}>
-                            <SlotGroup group={group} sortCriteria={sortCriteria}>
-                                {group.enchantments.map((element) => (
-                                    <EnchantmentCard key={element.identifier.resource} element={element} isDetailed={isDetailed} />
-                                ))}
-                            </SlotGroup>
-                        </div>
-                    ))}
-                </div>
-            ) : (
-                <div className="grid gap-4" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))" }}>
-                    {(filteredElements as EnchantmentProps[]).map((element) => (
-                        <EnchantmentCard key={element.identifier.resource} element={element} isDetailed={isDetailed} />
-                    ))}
-                </div>
-            )}
-        </div>
+        </DragDropProvider>
     );
 }
 
 function EnchantmentCard({ element, isDetailed }: { element: EnchantmentProps, isDetailed: boolean }) {
     const { getAllItemsFromTag } = useTagManager();
     const { isTag, id } = getItemFromMultipleOrOne(element.supportedItems);
+    const elementId = new Identifier(element.identifier).toUniqueKey();
 
     return (
-        <EnchantOverviewCard
-            key={new Identifier(element.identifier).toUniqueKey()}
-            element={element}
-            items={isTag ? getAllItemsFromTag(id) : [id]}
-            elementId={new Identifier(element.identifier).toUniqueKey()}
-            display={isDetailed}
-        />
+        <Draggable id={elementId} category="enchantment">
+            <EnchantOverviewCard
+                key={elementId}
+                element={element}
+                items={isTag ? getAllItemsFromTag(id) : [id]}
+                elementId={elementId}
+                display={isDetailed}
+            />
+        </Draggable>
     );
 }
 
@@ -147,7 +162,7 @@ function SlotGroup({ group, sortCriteria, children }: { group: EnchantmentGroup,
     const [title, description] = GROUP_MAPS[sortCriteria as keyof typeof GROUP_MAPS]?.(group.key) || [group.key, null];
 
     return (
-        <div key={group.key} className="border border-zinc-800 rounded-2xl p-6 bg-zinc-950/50">
+        <DropZone key={group.key} zone={group.key} className="border border-zinc-800 rounded-2xl p-6 bg-zinc-950/50">
             <div className="flex items-center justify-between">
                 <div className="flex-1">
                     <div className="flex items-center gap-3">
@@ -192,6 +207,6 @@ function SlotGroup({ group, sortCriteria, children }: { group: EnchantmentGroup,
                     {children}
                 </div>
             )}
-        </div>
+        </DropZone>
     );
 }
