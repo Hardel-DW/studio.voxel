@@ -1,5 +1,5 @@
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/Dropdown";
 import Translate, { type TranslateTextType } from "@/components/tools/Translate";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/Dropdown";
 
 interface ToolbarDropdownOption {
     value: string;
@@ -17,7 +17,7 @@ interface ToolbarDropdownProps {
 }
 
 export function ToolbarDropdown({ icon, tooltip, value, options, onChange, disabled }: ToolbarDropdownProps) {
-    const selectedOption = options.find(opt => opt.value === value);
+    const selectedOption = options.find((opt) => opt.value === value);
 
     return (
         <DropdownMenu>
@@ -41,13 +41,7 @@ export function ToolbarDropdown({ icon, tooltip, value, options, onChange, disab
                         onClick={() => onChange(option.value)}
                         className={value === option.value ? "bg-zinc-900/50 text-zinc-100" : ""}>
                         <div className="flex items-center w-full gap-3">
-                            {value === option.value && (
-                                <img
-                                    src="/icons/valid.svg"
-                                    alt="Selected"
-                                    className="h-4 w-4 flex-shrink-0"
-                                />
-                            )}
+                            {value === option.value && <img src="/icons/valid.svg" alt="Selected" className="h-4 w-4 flex-shrink-0" />}
                             {value !== option.value && <div className="h-4 w-4 flex-shrink-0" />}
                             <div className="flex flex-col">
                                 <span className="font-medium">

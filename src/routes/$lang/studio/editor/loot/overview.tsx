@@ -1,12 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
-import type { LootTableProps } from "@voxelio/breeze";
-import { Identifier, isVoxel } from "@voxelio/breeze";
+import { Identifier } from "@voxelio/breeze";
 import { useState } from "react";
 import LootOverviewCard from "@/components/tools/concept/loot/LootOverviewCard";
-import { useConfiguratorStore } from "@/components/tools/Store";
 import { Toolbar } from "@/components/tools/floatingbar/Toolbar";
 import { ToolbarSearch } from "@/components/tools/floatingbar/ToolbarSearch";
 import Translate from "@/components/tools/Translate";
+import { useElementsByType } from "@/lib/hook/useElementsByType";
 
 export const Route = createFileRoute("/$lang/studio/editor/loot/overview")({
     component: RouteComponent
@@ -15,11 +14,10 @@ export const Route = createFileRoute("/$lang/studio/editor/loot/overview")({
 function RouteComponent() {
     const [openPopoverId, setOpenPopoverId] = useState<string | null>(null);
     const [searchValue, setSearchValue] = useState("");
-    const elements = useConfiguratorStore((state) => state.elements);
-
-    const filteredElements = [...elements.values()]
-        .filter((el) => isVoxel(el, "loot_table"))
-        .filter((el) => !searchValue || el.identifier.resource.toLowerCase().includes(searchValue.toLowerCase())) as LootTableProps[];
+    const lootElements = useElementsByType("loot_table");
+    const filteredElements = lootElements.filter(
+        (el) => !searchValue || el.identifier.resource.toLowerCase().includes(searchValue.toLowerCase())
+    );
 
     return (
         <div>

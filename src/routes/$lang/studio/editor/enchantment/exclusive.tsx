@@ -20,9 +20,9 @@ import ToolSlot from "@/components/tools/elements/ToolSlot";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import Translate, { type TranslateTextType } from "@/components/tools/Translate";
 import Loader from "@/components/ui/Loader";
+import { exclusiveSetGroups } from "@/lib/data/exclusive";
 import useRegistry, { type FetchedRegistry } from "@/lib/hook/useRegistry";
 import { isMinecraft } from "@/lib/utils/lock";
-import { exclusiveSetGroups } from "@/lib/data/exclusive";
 
 export const Route = createFileRoute("/$lang/studio/editor/enchantment/exclusive")({
     validateSearch: (search: Record<string, unknown>) => ({

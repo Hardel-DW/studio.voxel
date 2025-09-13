@@ -53,7 +53,7 @@ export default function EnchantOverviewCard(props: { element: EnchantmentProps; 
     return (
         <div
             className={cn(
-                "bg-black/50 border-t-2 border-l-2 border-stone-900 select-none relative transition-all hover:ring-1 ring-zinc-900 rounded-xl p-4",
+                "bg-black/50 border-t-2 border-l-2 border-stone-900 select-none relative transition-all hover:ring-1 ring-zinc-900 rounded-xl p-4 h-full",
                 "flex flex-col"
             )}>
             {/* Header avec switch */}

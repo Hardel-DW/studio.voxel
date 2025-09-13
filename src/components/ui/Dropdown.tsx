@@ -79,8 +79,7 @@ export function DropdownMenuItem(
                 "[&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
                 props.disabled && "pointer-events-none opacity-50",
                 props.className
-            )}
-        >
+            )}>
             {props.children}
             {props.description && (
                 <span className="text-[10px] leading-tight text-zinc-500 font-extralight tracking-tight">{props.description}</span>

@@ -1,13 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
-import type { RecipeProps } from "@voxelio/breeze";
-import { Identifier, isVoxel } from "@voxelio/breeze";
+import { Identifier } from "@voxelio/breeze";
 import { useState } from "react";
 import RecipeOverviewCard from "@/components/tools/concept/recipe/RecipeOverviewCard";
 import RecipeSelector from "@/components/tools/concept/recipe/RecipeSelector";
 import { canBlockHandleRecipeType, getTypesFromSelection, RECIPE_BLOCKS } from "@/components/tools/concept/recipe/recipeConfig";
-import { useConfiguratorStore } from "@/components/tools/Store";
-import { useInfiniteScroll } from "@/lib/hook/useInfiniteScroll";
 import Translate from "@/components/tools/Translate";
+import { useElementsByType } from "@/lib/hook/useElementsByType";
+import { useInfiniteScroll } from "@/lib/hook/useInfiniteScroll";
 
 export const Route = createFileRoute("/$lang/studio/editor/recipe/overview")({
     component: Page
@@ -16,16 +15,14 @@ export const Route = createFileRoute("/$lang/studio/editor/recipe/overview")({
 function Page() {
     const [search, setSearch] = useState("");
     const [selection, setSelection] = useState<string>("minecraft:barrier");
-    const elements = useConfiguratorStore((state) => state.elements);
-    const filteredElements = [...elements.values()]
-        .filter((el) => isVoxel(el, "recipe"))
+    const recipeElements = useElementsByType("recipe");
+    const filteredElements = recipeElements
         .filter((el) => !search || el.identifier.resource.toLowerCase().includes(search.toLowerCase()))
-        .filter((el) => getTypesFromSelection(selection).includes(el.type)) as RecipeProps[];
+        .filter((el) => getTypesFromSelection(selection).includes(el.type));
     const { visibleItems, hasMore, ref } = useInfiniteScroll(filteredElements, 16);
     const recipeCounts = new Map<string, number>(RECIPE_BLOCKS.map((block) => [block.id, 0]));
 
-    for (const element of elements.values()) {
-        if (!isVoxel(element, "recipe")) continue;
+    for (const element of recipeElements) {
         for (const block of RECIPE_BLOCKS) {
             if (canBlockHandleRecipeType(block.id, element.type)) {
                 recipeCounts.set(block.id, (recipeCounts.get(block.id) || 0) + 1);
