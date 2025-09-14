@@ -1,4 +1,4 @@
-import { useParams, useRouter } from "@tanstack/react-router";
+import { Link, useParams } from "@tanstack/react-router";
 import type { LootTableProps } from "@voxelio/breeze";
 import { Actions, Identifier } from "@voxelio/breeze";
 import LootItemHoverCard from "@/components/tools/concept/loot/LootItemHoverCard";
@@ -14,7 +14,6 @@ export default function LootOverviewCard(props: {
     isBlurred: boolean;
     onPopoverChange: (isOpen: boolean) => void;
 }) {
-    const router = useRouter();
     const { lang } = useParams({ from: "/$lang" });
     const rollsInfo = getRollsInfo(props.element);
     const itemsCount = props.element.items.filter((item) => item.entryType !== "minecraft:empty").length;
@@ -22,7 +21,6 @@ export default function LootOverviewCard(props: {
 
     const handleConfigure = () => {
         useConfiguratorStore.getState().setCurrentElementId(props.elementId);
-        router.navigate({ to: "/$lang/studio/editor/loot/main", params: { lang } });
     };
 
     return (
@@ -117,13 +115,13 @@ export default function LootOverviewCard(props: {
 
             {/* Footer */}
             <div className="pt-4 border-t border-zinc-800/50 mt-auto">
-                <button
+                <Link
+                    to="/$lang/studio/editor/loot/main"
+                    params={{ lang }}
                     onClick={handleConfigure}
-                    onKeyDown={handleConfigure}
-                    type="button"
-                    className="w-full cursor-pointer bg-zinc-800/30 hover:bg-zinc-700/50 border border-zinc-700/50 rounded-lg px-3 py-2 text-xs font-medium text-zinc-300 transition-colors">
+                    className="w-full cursor-pointer bg-zinc-800/30 hover:bg-zinc-700/50 border border-zinc-700/50 rounded-lg px-3 py-2 text-xs font-medium text-zinc-300 transition-colors block text-center">
                     Configure
-                </button>
+                </Link>
             </div>
 
             {/* Background shine */}

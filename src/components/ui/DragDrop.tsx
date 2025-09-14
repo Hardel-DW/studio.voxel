@@ -3,7 +3,7 @@ import {
     cloneElement,
     createContext,
     isValidElement,
-    type MouseEvent,
+    type MouseEvent as ReactMouseEvent,
     type ReactNode,
     useContext,
     useEffect,
@@ -74,8 +74,8 @@ function DragPreview({ dragData }: { dragData: DragData }) {
             });
         };
 
-        document.addEventListener("mousemove", handleMouseMove as any);
-        return () => document.removeEventListener("mousemove", handleMouseMove as any);
+        document.addEventListener("mousemove", handleMouseMove);
+        return () => document.removeEventListener("mousemove", handleMouseMove);
     }, [dragData.offset.x, dragData.offset.y]);
 
     return createPortal(
@@ -96,7 +96,7 @@ export function Draggable({ children, id, category, asChild = false, ...props }:
     const context = useContext(DragDropContext);
     if (!context) throw new Error("Draggable must be used within DragDropProvider");
 
-    const handleMouseDown = (e: MouseEvent<HTMLElement>) => {
+    const handleMouseDown = (e: ReactMouseEvent<HTMLElement>) => {
         const element = e.currentTarget;
         const rect = element.getBoundingClientRect();
 

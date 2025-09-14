@@ -11,7 +11,6 @@ import type {
 import { compileDatapack, Datapack, isVoxelElement, Logger, updateData, type VoxelElement } from "@voxelio/breeze";
 import { create } from "zustand";
 import type { CONCEPT_KEY } from "./elements";
-import { CONCEPTS } from "./elements";
 
 export type LastVisitedRoute = {
     route: string;
@@ -28,7 +27,6 @@ export interface ConfiguratorState<T extends keyof Analysers> {
     isModded: boolean;
     version: number | null;
     sortedIdentifiers: Map<string, string[]>;
-    selectedConcept: CONCEPT_KEY | null;
     registryCache: Map<string, DataDrivenRegistryElement<any>[]>;
     lastVisitedRoutes: Map<CONCEPT_KEY, LastVisitedRoute>;
     getSortedIdentifiers: (registry: string) => string[];
@@ -39,7 +37,7 @@ export interface ConfiguratorState<T extends keyof Analysers> {
     setup: (updates: ParseDatapackResult<GetAnalyserVoxel<T>>) => void;
     compile: () => Array<LabeledElement>;
     getLengthByRegistry: (registry: string) => number;
-    setConcept: (selectedConcept: CONCEPT_KEY, pathname: string) => string;
+    getConcept: (pathname: string) => CONCEPT_KEY | null;
     getRegistry: <R extends DataDrivenElement>(registry: string) => DataDrivenRegistryElement<R>[];
 }
 
@@ -53,7 +51,6 @@ const createConfiguratorStore = <T extends keyof Analysers>() =>
         isModded: false,
         version: null,
         sortedIdentifiers: new Map(),
-        selectedConcept: null,
         registryCache: new Map(),
         lastVisitedRoutes: new Map(),
         getSortedIdentifiers: (registry) => get().sortedIdentifiers.get(registry) ?? [],
@@ -77,30 +74,17 @@ const createConfiguratorStore = <T extends keyof Analysers>() =>
         },
         setup: (updates) => set({ ...updates, sortedIdentifiers: sortElementsByRegistry(updates.elements), registryCache: new Map() }),
         compile: () => {
-            const { elements, version, files, selectedConcept, logger } = get();
-            if (!version || !files || !selectedConcept) return [];
+            const { elements, version, files, logger } = get();
+            if (!version || !files) return [];
             return compileDatapack({ elements: Array.from(elements.values()), files, logger });
         },
         getLengthByRegistry: (registry) => get().getRegistry(registry).length,
-        setConcept: (selectedConcept, pathname) => {
-            const currentSelected = get().selectedConcept;
-            const currentElementId = get().currentElementId;
-            if (currentSelected && currentSelected !== selectedConcept) {
-                set((state) => ({
-                    lastVisitedRoutes: state.lastVisitedRoutes.set(currentSelected, {
-                        route: pathname,
-                        elementId: currentElementId ?? null
-                    })
-                }));
+        getConcept: (pathname) => {
+            const pathParts = pathname.split("/").filter(Boolean);
+            if (pathParts.length >= 4 && pathParts[1] === "studio" && pathParts[2] === "editor") {
+                return pathParts[3] as CONCEPT_KEY;
             }
-
-            set({ selectedConcept });
-            const lastVisited = get().lastVisitedRoutes.get(selectedConcept);
-            const targetRoute = CONCEPTS.find((concept) => concept.registry === selectedConcept)?.overview;
-            if (!targetRoute) throw new Error(`Target route not found for concept ${selectedConcept}`);
-            const targetElementId = lastVisited?.elementId ?? null;
-            set({ currentElementId: targetElementId });
-            return targetRoute;
+            return null;
         },
         getRegistry: <R extends DataDrivenElement>(registry: string): DataDrivenRegistryElement<R>[] => {
             const state = get();

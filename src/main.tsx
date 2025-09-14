@@ -10,7 +10,7 @@ const router = createRouter({
     defaultPendingMinMs: 0,
     defaultPendingComponent: Loader,
     defaultPreload: "viewport",
-    defaultStaleTime: 1000 * 60 * 3 // 3 minutes
+    defaultStaleTime: 1000 * 60 * 5 // 3 minutes
 });
 
 declare module "@tanstack/react-router" {

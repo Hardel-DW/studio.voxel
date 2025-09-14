@@ -1,6 +1,6 @@
-import { useLocation, useParams, useRouter } from "@tanstack/react-router";
+import { Link, useLocation, useParams } from "@tanstack/react-router";
 import type { CONCEPT_KEY } from "@/components/tools/elements";
-import { useConfiguratorStore } from "@/components/tools/Store";
+import { CONCEPTS } from "@/components/tools/elements";
 import Translate from "@/components/tools/Translate";
 import { cn } from "@/lib/utils";
 
@@ -16,24 +16,21 @@ interface ToolNavItemProps {
 }
 
 export function ToolNavItem({ title, description, image, href, alignRight, comingSoon, elementsCount, index }: ToolNavItemProps) {
-    const router = useRouter();
     const location = useLocation();
     const { lang } = useParams({ from: "/$lang" });
-    const handleClick = () => {
-        const targetRoute = useConfiguratorStore.getState().setConcept(href as CONCEPT_KEY, location.pathname);
-        router.navigate({ to: targetRoute, params: { lang } });
-    };
+
+    const targetConcept = CONCEPTS.find((concept) => concept.registry === (href as CONCEPT_KEY));
+    const targetRoute = targetConcept?.overview || location.pathname;
 
     return (
-        <button
-            type="button"
+        <Link
+            to={comingSoon ? location.pathname : targetRoute}
+            params={{ lang }}
             className={cn(
                 "overflow-hidden bg-black/25 backdrop-blur-sm flex items-center relative justify-between w-full group rounded-xl p-4 transition-all duration-300 cursor-pointer ring-2 ring-zinc-900",
-                comingSoon ? "opacity-60 relative" : "hover:ring-stone-900 hover:bg-black/45",
+                comingSoon ? "opacity-60 relative pointer-events-none" : "hover:ring-stone-900 hover:bg-black/45",
                 alignRight && "ml-auto flex-row-reverse"
-            )}
-            onClick={handleClick}
-            disabled={comingSoon}>
+            )}>
             <div
                 className="absolute inset-0 -z-10 brightness-20 hue-rotate-90 blur-lg"
                 style={{ transform: `translateX(${-200 + index * 100}px)` }}>
@@ -87,6 +84,6 @@ export function ToolNavItem({ title, description, image, href, alignRight, comin
                     </svg>
                 </div>
             )}
-        </button>
+        </Link>
     );
 }

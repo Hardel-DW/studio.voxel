@@ -7,8 +7,9 @@ import { cn } from "@/lib/utils";
 export default function ConfiguratorPanel() {
     const params = useParams({ from: "/$lang/studio/editor" });
     const location = useLocation();
-    const currentConcept = useConfiguratorStore((state) => state.selectedConcept);
+    const getConcept = useConfiguratorStore((state) => state.getConcept);
     const selectedElement = useConfiguratorStore((state) => state.currentElementId);
+    const currentConcept = getConcept(location.pathname);
     const activeConcept = CONCEPTS.find((concept) => concept.registry === currentConcept);
     const isOnOverview = activeConcept && location.pathname === activeConcept.overview.replace("$lang", params.lang);
     if (!activeConcept || !selectedElement || isOnOverview) return null;

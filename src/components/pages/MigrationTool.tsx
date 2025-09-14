@@ -1,9 +1,9 @@
 import { compileDatapack, Datapack, Logger, parseDatapack, voxelDatapacks } from "@voxelio/breeze";
 import type React from "react";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Toaster, toast } from "sonner";
 import { LinkButton } from "@/components/ui/Button";
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/Dialog";
+import { DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/Dialog";
 import Dropzone from "@/components/ui/Dropzone";
 import { useConfetti } from "@/lib/hook/useConfetti";
 import { useDictionary } from "@/lib/hook/useNext18n";
@@ -24,7 +24,7 @@ export default function MigrationTool({ children }: { children?: React.ReactNode
     const [targetFiles, setTargetFiles] = useState<FileList | null>(null);
     const [sourceData, setSourceData] = useState<DatapackInfo>();
     const [targetData, setTargetData] = useState<DatapackInfo>();
-    const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const dialogRef = useRef<HTMLDivElement>(null);
     const { addConfetti, renderConfetti } = useConfetti();
     const dictionary = useDictionary();
 
@@ -67,7 +67,7 @@ export default function MigrationTool({ children }: { children?: React.ReactNode
             downloadArchive(modifiedDatapack, `Migrated-${target.name}`, target.isModded);
             toast.success(dictionary.migration.success_message);
             await trackEvent("migrated_datapack");
-            setIsDialogOpen(true);
+            dialogRef.current?.showPopover();
             addConfetti();
 
             setTimeout(() => {
@@ -76,7 +76,6 @@ export default function MigrationTool({ children }: { children?: React.ReactNode
                 setSourceData(undefined);
                 setTargetData(undefined);
             }, 3000);
-            setIsDialogOpen(false);
         } catch (error) {
             console.error("Migration failed:", error);
             toast.error("Failed to apply migration changes");
@@ -141,14 +140,14 @@ export default function MigrationTool({ children }: { children?: React.ReactNode
             {children}
             <Toaster richColors />
 
-            <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-                <DialogContent className="sm:max-w-[525px]">
-                    <DialogHeader>
-                        <DialogTitle className="flex items-center gap-x-2">
-                            <img src="/icons/success.svg" alt="zip" className="size-6" />
-                            {dictionary.generic.dialog.success}
-                        </DialogTitle>
-                        <DialogDescription>{dictionary.migration.success_message}</DialogDescription>
+            <DialogContent ref={dialogRef} id="migration-success-modal" className="sm:max-w-[525px]">
+                <DialogHeader>
+                    <DialogTitle className="flex items-center gap-x-2">
+                        <img src="/icons/success.svg" alt="zip" className="size-6" />
+                        {dictionary.generic.dialog.success}
+                    </DialogTitle>
+                    <DialogDescription>
+                        {dictionary.migration.success_message}
                         <div className="py-2">
                             <span className="font-semibold text-zinc-400">
                                 {targetData && `${targetData.name}.${targetData.isModded ? "jar" : "zip"}`}
@@ -163,28 +162,28 @@ export default function MigrationTool({ children }: { children?: React.ReactNode
                                 </li>
                             </ul>
                         </div>
-                    </DialogHeader>
-                    <DialogFooter className="pt-4 flex items-end justify-between">
-                        <div>
-                            <a
-                                href="https://discord.gg/TAmVFvkHep"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                aria-label="discord"
-                                className="hover:opacity-50 transition">
-                                <img src="/icons/company/discord.svg" alt="Discord" className="size-6 invert" />
-                            </a>
-                        </div>
-                        <LinkButton
+                    </DialogDescription>
+                </DialogHeader>
+                <DialogFooter popoverTarget="migration-success-modal" className="pt-4 flex items-end justify-between">
+                    <div>
+                        <a
+                            href="https://discord.gg/TAmVFvkHep"
                             target="_blank"
                             rel="noopener noreferrer"
-                            href="https://streamelements.com/hardoudou/tip"
-                            variant="primary-shimmer">
-                            {dictionary.generic.donate}
-                        </LinkButton>
-                    </DialogFooter>
-                </DialogContent>
-            </Dialog>
+                            aria-label="discord"
+                            className="hover:opacity-50 transition">
+                            <img src="/icons/company/discord.svg" alt="Discord" className="size-6 invert" />
+                        </a>
+                    </div>
+                    <LinkButton
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        href="https://streamelements.com/hardoudou/tip"
+                        variant="primary-shimmer">
+                        {dictionary.generic.donate}
+                    </LinkButton>
+                </DialogFooter>
+            </DialogContent>
 
             <div className="flex flex-col md:grid md:grid-cols-5 items-center justify-center mt-8">
                 <div className="col-span-2 h-full">

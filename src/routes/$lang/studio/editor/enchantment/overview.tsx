@@ -15,6 +15,7 @@ import { ToolbarDropdown } from "@/components/tools/floatingbar/ToolbarDropdown"
 import { ToolbarSearch } from "@/components/tools/floatingbar/ToolbarSearch";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import Translate from "@/components/tools/Translate";
+import { DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/Dialog";
 import { DragDropProvider } from "@/components/ui/DragDrop";
 import { useElementsByType } from "@/lib/hook/useElementsByType";
 import { useTranslateKey } from "@/lib/hook/useTranslation";
@@ -53,10 +54,8 @@ function Page() {
     const baseElements = enchantmentElements.filter(
         (el) => !searchValue || el.identifier.resource.toLowerCase().includes(searchValue.toLowerCase())
     );
-
     const isGroupView = sortCriteria !== "none";
     const filteredElements = isGroupView ? new EnchantmentSorter(baseElements).groupBy(sortCriteria) : baseElements;
-
     const sortOption = sortOptions.find((opt) => opt.value === sortCriteria);
     const translatedSortOption = useTranslateKey(sortOption?.label || "enchantment:overview.sort.none.label");
     const translatedSortBy = useTranslateKey("enchantment:overview.sort.by");
@@ -71,6 +70,13 @@ function Page() {
 
     return (
         <DragDropProvider onDrop={handleDrop}>
+            <DialogContent id="enchantment-welcome" reminder="enchantment-overview-welcome" defaultOpen={true} className="sm:max-w-[525px]">
+                <DialogHeader>
+                    <DialogTitle>Welcome to Enchantments!</DialogTitle>
+                    <DialogDescription>This is your enchantment overview page...</DialogDescription>
+                </DialogHeader>
+            </DialogContent>
+
             <div>
                 <Toolbar>
                     <ToolbarSearch placeholder="enchantment:overview.search.placeholder" value={searchValue} onChange={setSearchValue} />

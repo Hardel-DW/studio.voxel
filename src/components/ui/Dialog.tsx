@@ -1,148 +1,80 @@
-import type { ReactElement, ReactNode } from "react";
-import { createContext, useContext, useRef, useState } from "react";
-import { createPortal } from "react-dom";
-import { createDisclosureContext } from "@/components/ui/DisclosureContext";
-import { Trigger } from "@/components/ui/Trigger";
-import { useClickOutside } from "@/lib/hook/useClickOutside";
-import { usePopoverVisibility } from "@/lib/hook/usePopoverVisibility";
+import type { ReactNode } from "react";
+import { useRef } from "react";
+import { useLocalStorage } from "@/lib/hook/useLocalStorage";
 import { cn } from "@/lib/utils";
-
-const { Provider: BaseDialogProvider, useDisclosure: useDialog } = createDisclosureContext<HTMLButtonElement>();
-
-const DialogContext = createContext<{
-    onOpenChange?: (open: boolean) => void;
-    isControlled: boolean;
-}>({ isControlled: false });
-
-function DialogProvider({
-    children,
-    defaultOpen = false,
-    open: controlledOpen,
-    onOpenChange
-}: {
-    children: ReactNode;
-    defaultOpen?: boolean;
-    open?: boolean;
-    onOpenChange?: (open: boolean) => void;
-}) {
-    const [uncontrolledOpen] = useState(defaultOpen);
-    const isControlled = controlledOpen !== undefined;
-    const open = isControlled ? controlledOpen : uncontrolledOpen;
-
-    return (
-        <BaseDialogProvider defaultOpen={open}>
-            <DialogContext.Provider value={{ onOpenChange, isControlled }}>{children}</DialogContext.Provider>
-        </BaseDialogProvider>
-    );
-}
-
-export function Dialog(props: {
-    children: ReactNode;
-    className?: string;
-    defaultOpen?: boolean;
-    onOpenChange?: (open: boolean) => void;
-    open?: boolean;
-}) {
-    return (
-        <DialogProvider defaultOpen={props.defaultOpen} open={props.open} onOpenChange={props.onOpenChange}>
-            {props.children}
-        </DialogProvider>
-    );
-}
-
-export function DialogTrigger(props: {
-    children: ReactElement<{ ref?: React.Ref<HTMLElement>; onClick?: (e: React.MouseEvent) => void; className?: string }>;
-    className?: string;
-}) {
-    const { open, setOpen, triggerRef } = useDialog();
-    const { onOpenChange, isControlled } = useContext(DialogContext);
-
-    const handleToggle = () => {
-        const nextOpen = !open;
-        if (!isControlled) {
-            setOpen(nextOpen);
-        }
-        onOpenChange?.(nextOpen);
-    };
-
-    return (
-        <Trigger elementRef={triggerRef} onToggle={handleToggle} className={props.className}>
-            {props.children}
-        </Trigger>
-    );
-}
-
-export function DialogContent(props: { children: ReactNode; className?: string }) {
-    const { open, setOpen } = useDialog();
-    const contentRef = useRef<HTMLDivElement>(null);
-    const { isVisible } = usePopoverVisibility({ open, transitionDuration: 150 });
-    const clickOutsideRef = useClickOutside(() => setOpen(false));
-
-    if (!isVisible && !open) return null;
-
-    return createPortal(
-        <div className="fixed inset-0 z-50 bg-black/50">
-            <div className="fixed inset-0 overflow-y-auto">
-                <div className="flex min-h-full items-center justify-center p-4">
-                    <div
-                        ref={(node) => {
-                            contentRef.current = node;
-                            if (clickOutsideRef) {
-                                clickOutsideRef.current = node;
-                            }
-                        }}
-                        hidden={!open}
-                        className={cn(
-                            "w-full max-w-md rounded-2xl border border-zinc-800 bg-zinc-950 p-6 text-zinc-200 shadow-lg outline-hidden starting:translate-y-4 starting:scale-95 duration-150 ease-bounce transition-[translate,scale,display,opacity] hidden:translate-y-4 hidden:scale-95 transition-discrete",
-                            props.className
-                        )}>
-                        {props.children}
-                    </div>
-                </div>
-            </div>
-        </div>,
-        document.body
-    );
-}
 
 interface BaseDialogProps {
     className?: string;
     children: ReactNode;
 }
 
-export function DialogHeader(props: BaseDialogProps) {
+export function DialogContent(props: {
+    children: ReactNode;
+    id: string;
+    className?: string;
+    ref?: React.Ref<HTMLDivElement>;
+    reminder?: string;
+    defaultOpen?: boolean;
+}) {
+    const internalRef = useRef<HTMLDivElement>(null);
+    const dialogRef = props.ref || internalRef;
+    const [hasSeenDialog, setHasSeenDialog] = useLocalStorage(props.reminder || `dialog-${props.id}`, false);
+
+    // Auto-open logic
+    if (props.defaultOpen && props.reminder && !hasSeenDialog) {
+        setTimeout(() => {
+            if (dialogRef && "current" in dialogRef && dialogRef.current) {
+                dialogRef.current.showPopover();
+                setHasSeenDialog(true);
+            }
+        }, 100);
+    }
+
     return (
-        <div className={cn("flex flex-col space-y-1.5", props.className)} {...props}>
+        <div
+            ref={dialogRef}
+            id={props.id}
+            popover="auto"
+            className={cn(
+                "fixed inset-0 m-auto w-2/5 min-w-[40%] max-w-[40%] h-fit rounded-lg bg-zinc-950 shadow-sm p-6 border border-zinc-800 backdrop:bg-black/50 backdrop:backdrop-blur-sm opacity-0 translate-y-4 scale-95 transition-all duration-200 ease-out transition-discrete starting:open:translate-y-4 starting:open:opacity-0 starting:open:scale-95 open:translate-y-0 open:opacity-100 open:scale-100",
+                props.className
+            )}>
             {props.children}
         </div>
     );
 }
 
+export function DialogHeader(props: BaseDialogProps) {
+    return <div className={cn("flex flex-col space-y-1.5 pb-4", props.className)}>{props.children}</div>;
+}
+
 export function DialogTitle(props: BaseDialogProps) {
     return (
-        <div className="mb-4">
-            <h2 className={cn("text-lg font-semibold leading-none", props.className)} {...props}>
-                {props.children}
-            </h2>
+        <div className="flex shrink-0 items-center text-xl font-medium text-zinc-200">
+            <h2 className={props.className}>{props.children}</h2>
         </div>
     );
 }
 
 export function DialogDescription(props: BaseDialogProps) {
     return (
-        <p className={cn("text-sm text-zinc-400", props.className)} {...props}>
-            {props.children}
-        </p>
+        <div className="relative border-t border-zinc-800 py-4 leading-normal text-zinc-400 font-light">
+            <p className={props.className}>{props.children}</p>
+        </div>
     );
 }
 
-export function DialogFooter(props: BaseDialogProps) {
+export function DialogFooter({ children, popoverTarget, className }: { children: ReactNode; popoverTarget: string; className?: string }) {
     return (
-        <>
-            <hr className="w-full block" />
-            <div className={cn("flex justify-end gap-3 mt-6", props.className)} {...props}>
-                {props.children}
-            </div>
-        </>
+        <div className={cn("flex shrink-0 flex-wrap items-center pt-4 justify-end gap-3", className)}>
+            <button
+                popoverTarget={popoverTarget}
+                popoverTargetAction="hide"
+                className="rounded-md border border-transparent py-2 px-4 text-center text-sm transition-all text-zinc-400 hover:bg-zinc-800 focus:bg-zinc-800 active:bg-zinc-800 disabled:pointer-events-none disabled:opacity-50"
+                type="button">
+                Cancel
+            </button>
+            {children}
+        </div>
     );
 }

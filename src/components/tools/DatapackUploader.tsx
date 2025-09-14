@@ -1,4 +1,4 @@
-import { useParams, useRouter } from "@tanstack/react-router";
+import { useNavigate, useParams } from "@tanstack/react-router";
 import { DatapackError, parseDatapack } from "@voxelio/breeze";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import Dropzone from "@/components/ui/Dropzone";
@@ -7,7 +7,7 @@ import { useDictionary } from "@/lib/hook/useNext18n";
 
 export default function DatapackUploader() {
     const dictionary = useDictionary();
-    const router = useRouter();
+    const navigate = useNavigate();
     const { lang } = useParams({ from: "/$lang" });
     const throwError = useAsyncError();
 
@@ -22,7 +22,7 @@ export default function DatapackUploader() {
             const version = result.version;
             if (!version) throw new DatapackError("tools.enchantments.warning.no_version");
             useConfiguratorStore.getState().setup(result);
-            router.navigate({ to: "/$lang/studio/editor", params: { lang } });
+            navigate({ to: "/$lang/studio/editor", params: { lang } });
         } catch (e: unknown) {
             if (e instanceof DatapackError) {
                 throwError(e.message);

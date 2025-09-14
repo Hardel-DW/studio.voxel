@@ -1,3 +1,4 @@
+import { useLocation } from "@tanstack/react-router";
 import type { ComponentType } from "react";
 import { CONCEPTS } from "@/components/tools/elements";
 import { useConfiguratorStore } from "@/components/tools/Store";
@@ -11,7 +12,9 @@ type WithConceptProps = {};
  */
 export const withConcept = <P extends WithConceptProps>(WrappedComponent: ComponentType<P>) => {
     return function ConceptContainer(props: P) {
-        const selectedConcept = useConfiguratorStore((state) => state.selectedConcept);
+        const location = useLocation();
+        const getConcept = useConfiguratorStore((state) => state.getConcept);
+        const selectedConcept = getConcept(location.pathname);
         const isValidConcept = CONCEPTS.some((concept) => concept.registry === selectedConcept);
 
         if (!isValidConcept) {

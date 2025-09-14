@@ -1,4 +1,4 @@
-import { Link, useLocation, useParams, useRouter } from "@tanstack/react-router";
+import { Link, useLocation, useParams } from "@tanstack/react-router";
 import type { CONCEPT_KEY } from "@/components/tools/elements";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import Translate from "@/components/tools/Translate";
@@ -16,24 +16,10 @@ interface Props {
 
 export default function SidebarCard(props: Props) {
     const params = useParams({ from: "/$lang/studio/editor" });
-    const isSelected = useConfiguratorStore((state) => state.selectedConcept === props.registry);
-    const router = useRouter();
     const location = useLocation();
-
-    const handleEvent = (e: React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLButtonElement>) => {
-        if (props.locked || isSelected) return;
-
-        e.preventDefault();
-        if (e.type === "keydown") {
-            const keyboardEvent = e as React.KeyboardEvent<HTMLButtonElement>;
-            if (keyboardEvent.key !== "Enter" && keyboardEvent.key !== " ") {
-                return;
-            }
-        }
-
-        const targetRoute = useConfiguratorStore.getState().setConcept(props.registry, location.pathname);
-        router.navigate({ to: targetRoute, params: { lang: params.lang } });
-    };
+    const getConcept = useConfiguratorStore((state) => state.getConcept);
+    const currentConcept = getConcept(location.pathname);
+    const isSelected = currentConcept === props.registry;
 
     return (
         <div
@@ -49,11 +35,11 @@ export default function SidebarCard(props: Props) {
                 </div>
             )}
 
-            <button
-                type="button"
-                onClick={handleEvent}
-                onKeyDown={handleEvent}
-                className="flex flex-col rounded-2xl border-zinc-900 border-2 w-full">
+            <Link
+                to={props.locked || isSelected ? location.pathname : props.overview}
+                params={{ lang: params.lang }}
+                className="flex flex-col rounded-2xl border-zinc-900 border-2 w-full"
+                disabled={props.locked || isSelected}>
                 <div
                     className={cn(
                         "stack overflow-hiddenw-full h-24 relative cursor-pointer transition-all transition-discrete hidden:opacity-0 bg-content flex-1",
@@ -121,7 +107,7 @@ export default function SidebarCard(props: Props) {
                         </Link>
                     </div>
                 )}
-            </button>
+            </Link>
         </div>
     );
 }

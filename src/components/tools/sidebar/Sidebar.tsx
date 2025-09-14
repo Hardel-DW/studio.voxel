@@ -1,3 +1,4 @@
+import { useLocation } from "@tanstack/react-router";
 import DownloadButton from "@/components/tools/DownloadButton";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import SettingsButton from "@/components/tools/sidebar/SettingsButton";
@@ -7,8 +8,10 @@ import Translate from "@/components/tools/Translate";
 import { Tabs, TabsContent, TabsTrigger } from "@/components/ui/Tabs";
 
 export default function StudioSidebar() {
+    const location = useLocation();
     const elements = useConfiguratorStore((state) => state.elements);
-    const selectedConcept = useConfiguratorStore((state) => state.selectedConcept);
+    const getConcept = useConfiguratorStore((state) => state.getConcept);
+    const selectedConcept = getConcept(location.pathname);
     if (elements.size === 0) return null;
 
     return (

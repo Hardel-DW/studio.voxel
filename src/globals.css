@@ -115,6 +115,29 @@
         image-rendering: pixelated;
     }
 
+    [popover] {
+        transition: 
+            translate 200ms ease-out,
+            scale 200ms ease-out,
+            opacity 200ms ease-out,
+            overlay 200ms ease-out allow-discrete,
+            display 200ms ease-out allow-discrete;
+    }
+
+    [popover]:popover-open {
+        translate: 0 0;
+        scale: 1;
+        opacity: 1;
+    }
+
+    @starting-style {
+        [popover]:popover-open {
+            translate: 0 1rem;
+            scale: 0.95;
+            opacity: 0;
+        }
+    }
+
     .font-minecraft {
         font-family: 'Minecraft', monospace;
     }
