@@ -1,4 +1,4 @@
-import { Link, useLocation, useParams } from "@tanstack/react-router";
+import { Link, useLocation, useParams, useNavigate } from "@tanstack/react-router";
 import type { CONCEPT_KEY } from "@/components/tools/elements";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import Translate from "@/components/tools/Translate";
@@ -17,6 +17,7 @@ interface Props {
 export default function SidebarCard(props: Props) {
     const params = useParams({ from: "/$lang/studio/editor" });
     const location = useLocation();
+    const navigate = useNavigate();
     const getConcept = useConfiguratorStore((state) => state.getConcept);
     const currentConcept = getConcept(location.pathname);
     const isSelected = currentConcept === props.registry;
@@ -98,13 +99,15 @@ export default function SidebarCard(props: Props) {
                 </div>
                 {isSelected && (
                     <div className="px-4 py-2">
-                        <Link
-                            to={props.overview}
-                            params={{ lang: params.lang }}
-                            onClick={(e) => e.stopPropagation()}
+                        <button
+                            type="button"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                navigate({ to: props.overview, params: { lang: params.lang } });
+                            }}
                             className="block w-full rounded-2xl cursor-pointer bg-zinc-800/30 hover:bg-zinc-700/20 px-3 py-2 text-xs font-medium text-zinc-300 transition-colors text-center">
                             <Translate content="overview" />
-                        </Link>
+                        </button>
                     </div>
                 )}
             </Link>

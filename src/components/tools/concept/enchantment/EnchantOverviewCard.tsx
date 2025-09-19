@@ -51,7 +51,7 @@ export default function EnchantOverviewCard(props: { element: EnchantmentProps; 
     return (
         <div
             className={cn(
-                "bg-black/50 border-t-2 border-l-2 border-stone-900 select-none relative transition-all hover:ring-1 ring-zinc-900 rounded-xl p-4 h-full",
+                "bg-black/50 border-t-2 border-l-2 shadow-xl shadow-black/30 border-stone-900 select-none relative transition-all hover:ring-2 ring-zinc-900 rounded-xl p-4 h-full group",
                 "flex flex-col"
             )}>
             {/* Header avec switch */}
@@ -121,7 +121,7 @@ export default function EnchantOverviewCard(props: { element: EnchantmentProps; 
             </div>
 
             {/* Background shine */}
-            <div className="absolute inset-0 -z-10 brightness-30 rounded-xl overflow-hidden">
+            <div className="absolute inset-0 -z-10 brightness-30 group-hover:brightness-70 transition rounded-xl overflow-hidden">
                 <img src="/images/shine.avif" alt="Shine" className="w-full h-full object-cover" />
             </div>
         </div>

@@ -64,12 +64,12 @@ export const CONCEPTS: Concept[] = [
             src: "/images/features/item/bundle_close.webp",
             alt: "Loot Table"
         },
-        overview: "/$lang/studio/editor/loot/overview",
+        overview: "/$lang/studio/editor/loot_table/overview",
         tabs: [
             {
                 id: "main",
                 text: "loot_table:section.main",
-                url: "/$lang/studio/editor/loot/main"
+                url: "/$lang/studio/editor/loot_table/main"
             }
         ]
     },

@@ -4,7 +4,7 @@ import SettingsDialog from "@/components/tools/SettingsDialog";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import Translate from "@/components/tools/Translate";
 import { Button, LinkButton } from "@/components/ui/Button";
-import { DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/Dialog";
+import { Dialog, DialogCloseButton, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/Dialog";
 import { saveLogs } from "@/lib/telemetry";
 import { downloadArchive } from "@/lib/utils/download";
 
@@ -33,7 +33,7 @@ export default function DownloadButton() {
                 </span>
             </Button>
 
-            <DialogContent ref={dialogRef} id="download-success-modal" className="sm:max-w-[525px]">
+            <Dialog ref={dialogRef} id="download-success-modal" className="sm:max-w-[525px]">
                 <DialogHeader>
                     <DialogTitle className="flex items-center gap-x-2">
                         <img src="/icons/success.svg" alt="zip" className="size-6" />
@@ -44,7 +44,7 @@ export default function DownloadButton() {
                         <SettingsDialog />
                     </DialogDescription>
                 </DialogHeader>
-                <DialogFooter popoverTarget="download-success-modal" className="pt-4 flex items-end justify-between">
+                <DialogFooter className="pt-4 flex items-end justify-between">
                     <div>
                         <a
                             href="https://discord.gg/TAmVFvkHep"
@@ -55,15 +55,20 @@ export default function DownloadButton() {
                             <img src="/icons/company/discord.svg" alt="Discord" className="size-6 invert" />
                         </a>
                     </div>
-                    <LinkButton
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        href="https://streamelements.com/hardoudou/tip"
-                        variant="primary-shimmer">
-                        <Translate content="donate" />
-                    </LinkButton>
+                    <div className="flex items-end justify-between gap-4">
+                        <DialogCloseButton variant="ghost">
+                            Close
+                        </DialogCloseButton>
+                        <LinkButton
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            href="https://streamelements.com/hardoudou/tip"
+                            variant="patreon-shimmer">
+                            <Translate content="donate" />
+                        </LinkButton>
+                    </div>
                 </DialogFooter>
-            </DialogContent>
+            </Dialog>
         </>
     );
 }

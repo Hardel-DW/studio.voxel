@@ -16,7 +16,8 @@ interface DragData {
     id: string;
     category: string;
     children: ReactNode;
-    offset: { x: number; y: number };
+    offset: { x: number; y: number; initialX: number; initialY: number };
+    dimensions: { width: number; height: number };
 }
 
 interface DropZoneProps extends Omit<ComponentPropsWithoutRef<"div">, "onDrop"> {
@@ -38,6 +39,7 @@ interface DragDropContextValue {
     startDrag: (data: DragData) => void;
     endDrag: () => void;
     onDrop?: (dragData: DragData, dropZone: string) => void;
+    isDragging: (id: string) => boolean;
 }
 
 const DragDropContext = createContext<DragDropContextValue | null>(null);
@@ -55,8 +57,10 @@ export function DragDropProvider({ children, onDrop }: { children: ReactNode; on
         document.body.style.cursor = "";
     };
 
+    const isDragging = (id: string) => dragData?.id === id;
+
     return (
-        <DragDropContext.Provider value={{ dragData, startDrag, endDrag, onDrop }}>
+        <DragDropContext.Provider value={{ dragData, startDrag, endDrag, onDrop, isDragging }}>
             {children}
             {dragData && <DragPreview dragData={dragData} />}
         </DragDropContext.Provider>
@@ -64,7 +68,10 @@ export function DragDropProvider({ children, onDrop }: { children: ReactNode; on
 }
 
 function DragPreview({ dragData }: { dragData: DragData }) {
-    const [position, setPosition] = useState({ x: 0, y: 0 });
+    const [position, setPosition] = useState({
+        x: dragData.offset.initialX - dragData.offset.x,
+        y: dragData.offset.initialY - dragData.offset.y
+    });
 
     useEffect(() => {
         const handleMouseMove = (e: MouseEvent) => {
@@ -84,6 +91,8 @@ function DragPreview({ dragData }: { dragData: DragData }) {
             style={{
                 left: position.x,
                 top: position.y,
+                width: dragData.dimensions.width,
+                height: dragData.dimensions.height,
                 transform: "scale(0.9)"
             }}>
             {dragData.children}
@@ -105,8 +114,14 @@ export function Draggable({ children, id, category, asChild = false, ...props }:
             category,
             children,
             offset: {
-                x: e.clientX - rect.left,
-                y: e.clientY - rect.top
+                x: rect.width / 2,
+                y: rect.height / 2,
+                initialX: e.clientX,
+                initialY: e.clientY
+            },
+            dimensions: {
+                width: rect.width,
+                height: rect.height
             }
         });
 
@@ -121,7 +136,7 @@ export function Draggable({ children, id, category, asChild = false, ...props }:
     const dragProps = {
         ...props,
         onMouseDown: handleMouseDown,
-        className: cn("cursor-grab active:cursor-grabbing", props.className)
+        className: cn("cursor-grab active:cursor-grabbing", context.isDragging(id) && "opacity-0", props.className)
     };
 
     if (asChild && isValidElement(children)) {

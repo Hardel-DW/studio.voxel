@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type { EnchantmentProps } from "@voxelio/breeze";
 import { Actions } from "@voxelio/breeze";
-import TemplateCard from "@/components/tools/Card";
+import TemplateCard from "@/components/tools/elements/TemplateCard";
 import Donation from "@/components/tools/elements/Donation";
 import ToolCounter from "@/components/tools/elements/ToolCounter";
 import ToolGrid from "@/components/tools/elements/ToolGrid";

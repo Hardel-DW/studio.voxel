@@ -7,7 +7,7 @@ import { ToolbarSearch } from "@/components/tools/floatingbar/ToolbarSearch";
 import Translate from "@/components/tools/Translate";
 import { useElementsByType } from "@/lib/hook/useElementsByType";
 
-export const Route = createFileRoute("/$lang/studio/editor/loot/overview")({
+export const Route = createFileRoute("/$lang/studio/editor/loot_table/overview")({
     component: RouteComponent
 });
 

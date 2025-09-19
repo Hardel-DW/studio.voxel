@@ -116,7 +116,7 @@ export default function LootOverviewCard(props: {
             {/* Footer */}
             <div className="pt-4 border-t border-zinc-800/50 mt-auto">
                 <Link
-                    to="/$lang/studio/editor/loot/main"
+                    to="/$lang/studio/editor/loot_table/main"
                     params={{ lang }}
                     onClick={handleConfigure}
                     className="w-full cursor-pointer bg-zinc-800/30 hover:bg-zinc-700/50 border border-zinc-700/50 rounded-lg px-3 py-2 text-xs font-medium text-zinc-300 transition-colors block text-center">

@@ -4,7 +4,7 @@ import { isVoxel, LootTableActionBuilder } from "@voxelio/breeze";
 import LootViewer from "@/components/tools/concept/loot/LootViewer";
 import { getCurrentElement, useConfiguratorStore } from "@/components/tools/Store";
 
-export const Route = createFileRoute("/$lang/studio/editor/loot/main")({
+export const Route = createFileRoute("/$lang/studio/editor/loot_table/main")({
     component: LootMainPage
 });
 

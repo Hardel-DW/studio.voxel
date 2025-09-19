@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import {
     EnchantmentActionBuilder,
     type EnchantmentGroup,
@@ -15,10 +15,12 @@ import { ToolbarDropdown } from "@/components/tools/floatingbar/ToolbarDropdown"
 import { ToolbarSearch } from "@/components/tools/floatingbar/ToolbarSearch";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import Translate from "@/components/tools/Translate";
-import { DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/Dialog";
+import { Dialog, DialogCloseButton, DialogFooter, DialogHeader, DialogHero } from "@/components/ui/Dialog";
 import { DragDropProvider } from "@/components/ui/DragDrop";
 import { useElementsByType } from "@/lib/hook/useElementsByType";
 import { useTranslateKey } from "@/lib/hook/useTranslation";
+import { MultiStep, MultiStepControl, MultiStepItem } from "@/components/ui/MultiStep";
+import { Button } from "@/components/ui/Button";
 
 export const Route = createFileRoute("/$lang/studio/editor/enchantment/overview")({
     component: Page
@@ -47,6 +49,7 @@ const sortOptions = [
 ];
 
 function Page() {
+    const { lang } = Route.useParams();
     const [isDetailed, setIsDetailed] = useState(false);
     const [searchValue, setSearchValue] = useState("");
     const [sortCriteria, setSortCriteria] = useState<EnchantmentSortCriteria | "none">("none");
@@ -70,46 +73,142 @@ function Page() {
 
     return (
         <DragDropProvider onDrop={handleDrop}>
-            <DialogContent id="enchantment-welcome" reminder="enchantment-overview-welcome" defaultOpen={true} className="sm:max-w-[525px]">
-                <DialogHeader>
-                    <DialogTitle>Welcome to Enchantments!</DialogTitle>
-                    <DialogDescription>This is your enchantment overview page...</DialogDescription>
-                </DialogHeader>
-            </DialogContent>
+            <Dialog id="enchantment-welcome" reminder defaultOpen className="sm:max-w-[800px]">
+                <MultiStep>
+                    <MultiStepItem>
+                        <DialogHeader>
+                            <DialogHero image="/images/background/dialog/enchantment/overview_1.webp" />
+                        </DialogHeader>
+                        <hr className="!my-1" />
+                        <div className="p-4">
+                            <h2 className="flex shrink-0 items-center justify-between text-xl font-medium text-zinc-200 mb-2">
+                                <Translate content="enchantment:overview.dialog.welcome.title" />
+                            </h2>
+                            <div className="relative leading-normal text-zinc-400 font-light">
+                                <p>
+                                    <Translate content="enchantment:overview.dialog.welcome.body" />
+                                </p>
+                                <ul className="list-disc list-inside ml-4 mt-4 text-zinc-500 text-sm">
+                                    <li>
+                                        <Translate content="enchantment:overview.dialog.welcome.list.1" />
+                                    </li>
+                                    <li>
+                                        <Translate content="enchantment:overview.dialog.welcome.list.2" />
+                                    </li>
+                                    <li>
+                                        <Translate content="enchantment:overview.dialog.welcome.list.3" />
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </MultiStepItem>
+                    <MultiStepItem>
+                        <DialogHeader>
+                            <DialogHero image="/images/background/dialog/enchantment/overview_2.webp" />
+                        </DialogHeader>
+                        <hr className="!my-1" />
+                        <div className="p-4">
+                            <h2 className="flex shrink-0 items-center justify-between text-xl font-medium text-zinc-200 mb-2">
+                                <Translate content="enchantment:overview.dialog.toolbar.title" />
+                            </h2>
+                            <div className="relative leading-normal text-zinc-400 font-light">
+                                <p>
+                                    <Translate content="enchantment:overview.dialog.toolbar.body" />
+                                </p>
+                                <ul className="list-disc list-inside ml-4 mt-4 text-zinc-500 text-sm">
+                                    <li>
+                                        <Translate content="enchantment:overview.dialog.toolbar.list.1" />
+                                    </li>
+                                    <li>
+                                        <Translate content="enchantment:overview.dialog.toolbar.list.2" />
+                                    </li>
+                                    <li>
+                                        <Translate content="enchantment:overview.dialog.toolbar.list.3" />
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </MultiStepItem>
+                    <MultiStepItem>
+                        <DialogHeader>
+                            <DialogHero image="/images/background/dialog/enchantment/overview_3.webp" />
+                        </DialogHeader>
+                        <hr className="!my-1" />
+                        <div className="p-4">
+                            <h2 className="flex shrink-0 items-center justify-between text-xl font-medium text-zinc-200 mb-2">
+                                <Translate content="enchantment:overview.dialog.advanced.title" />
+                            </h2>
+                            <div className="relative leading-normal text-zinc-400 font-light">
+                                <p>
+                                    <Translate content="enchantment:overview.dialog.advanced.body" />
+                                </p>
+                                <ul className="list-disc list-inside ml-4 mt-4 text-zinc-500 text-sm">
+                                    <li>
+                                        <Translate content="enchantment:overview.dialog.advanced.list.before" /> <b><Translate content="enchantment:overview.dialog.advanced.list.1.bold" /></b>, <Translate content="enchantment:overview.dialog.advanced.list.1.after" />
+                                    </li>
+                                    <li>
+                                        <Translate content="enchantment:overview.dialog.advanced.list.before" /> <b><Translate content="enchantment:overview.dialog.advanced.list.2.bold" /></b>, <Translate content="enchantment:overview.dialog.advanced.list.2.after" />
+                                    </li>
+                                    <li>
+                                        <Translate content="enchantment:overview.dialog.advanced.list.before" /> <b><Translate content="enchantment:overview.dialog.advanced.list.3.bold" /></b>, <Translate content="enchantment:overview.dialog.advanced.list.3.after" />
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </MultiStepItem>
 
-            <div>
-                <Toolbar>
-                    <ToolbarSearch placeholder="enchantment:overview.search.placeholder" value={searchValue} onChange={setSearchValue} />
-                    <div className="flex items-center">
-                        <ToolbarDropdown
-                            icon="/icons/tools/overview/filter.svg"
-                            tooltip={`${translatedSortBy} ${translatedSortOption}`}
-                            value={sortCriteria}
-                            options={sortOptions}
-                            onChange={(value: string) => setSortCriteria(value as EnchantmentSortCriteria)}
-                        />
-                        <ToolbarButton
-                            icon={`/icons/tools/overview/${isDetailed ? "map" : "list"}.svg`}
-                            tooltip={isDetailed ? "enchantment:overview.view.minimal" : "enchantment:overview.view.detailed"}
-                            onClick={() => setIsDetailed(!isDetailed)}
-                        />
-                    </div>
-                </Toolbar>
+                    <DialogFooter className="flex items-end justify-between">
+                        <DialogCloseButton variant="ghost_border">
+                            <Translate content="close" />
+                        </DialogCloseButton>
+                        <MultiStepControl />
+                    </DialogFooter>
+                </MultiStep>
+            </Dialog>
 
-                <div className="flex items-center justify-between gap-2">
-                    <div>
-                        <h1 className="text-2xl font-bold uppercase">
-                            <Translate content="enchantment:overview.title" />
-                        </h1>
-                        <p className="text-sm text-zinc-500">
-                            {sortCriteria !== "none" && <Translate content={`enchantment:overview.sort.${sortOption?.key}.section`} />}
-                        </p>
-                    </div>
+            <Toolbar>
+                <ToolbarSearch placeholder="enchantment:overview.search.placeholder" value={searchValue} onChange={setSearchValue} />
+                <div className="flex items-center gap-1">
+                    <ToolbarDropdown
+                        icon="/icons/tools/overview/grid.svg"
+                        tooltip={`${translatedSortBy} ${translatedSortOption}`}
+                        value={sortCriteria}
+                        options={sortOptions}
+                        onChange={(value: string) => setSortCriteria(value as EnchantmentSortCriteria)}
+                    />
+                    <ToolbarButton
+                        icon={`/icons/tools/overview/${isDetailed ? "map" : "list"}.svg`}
+                        tooltip={isDetailed ? "enchantment:overview.view.minimal" : "enchantment:overview.view.detailed"}
+                        onClick={() => setIsDetailed(!isDetailed)}
+                    />
+                    <ToolbarButton
+                        icon="/icons/tools/overview/help.svg"
+                        tooltip="Réouvrir l'aide"
+                        onClick={() => document.getElementById("enchantment-welcome")?.showPopover()}
+                    />
                 </div>
+            </Toolbar>
 
-                <hr className="my-4" />
+            <div className="flex items-center justify-between gap-2">
+                <div>
+                    <h1 className="text-2xl font-bold uppercase">
+                        <Translate content="enchantment:overview.title" />
+                    </h1>
+                    <p className="text-sm text-zinc-500">
+                        {sortCriteria !== "none" && <Translate content={`enchantment:overview.sort.${sortOption?.key}.section`} />}
+                    </p>
+                </div>
+                <Link to="/$lang/studio/editor/enchantment/simulation" params={{ lang }}>
+                    <Button variant="ghost">
+                        Simulation
+                    </Button>
+                </Link>
+            </div>
 
-                {isGroupView ? (
+            <hr className="my-4" />
+
+            {
+                isGroupView ? (
                     <div
                         className="grid gap-6"
                         style={{
@@ -135,8 +234,8 @@ function Page() {
                             <EnchantmentCard key={element.identifier.resource} element={element} isDetailed={isDetailed} />
                         ))}
                     </div>
-                )}
-            </div>
-        </DragDropProvider>
+                )
+            }
+        </DragDropProvider >
     );
 }

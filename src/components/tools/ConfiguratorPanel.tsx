@@ -11,8 +11,8 @@ export default function ConfiguratorPanel() {
     const selectedElement = useConfiguratorStore((state) => state.currentElementId);
     const currentConcept = getConcept(location.pathname);
     const activeConcept = CONCEPTS.find((concept) => concept.registry === currentConcept);
-    const isOnOverview = activeConcept && location.pathname === activeConcept.overview.replace("$lang", params.lang);
-    if (!activeConcept || !selectedElement || isOnOverview) return null;
+    const isOnValidTab = activeConcept?.tabs.some((tab) => location.pathname === tab.url.replace("$lang", params.lang));
+    if (!activeConcept || !selectedElement || !isOnValidTab) return null;
 
     return (
         <div className="flex gap-x-5 bg-inherit justify-center pt-1 overflow-x-auto border-0 mb-4 pb-4 gap-y-4 border-b-2 rounded-none border-zinc-800 flex-wrap shrink-0">

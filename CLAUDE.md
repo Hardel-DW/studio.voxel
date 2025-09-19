@@ -85,16 +85,15 @@ src/
 Rules:
 
 - No code redundancy.
-- No "as any". For type "unknown", it is preferable to request authorization.
+- No "any" type. For type "unknown", it is preferable to request authorization.
 - Avoid globalthis.
 - Prefer modern and standards logic 2024 abb 2025.
 - Do not implement more features than requested.
 - After the third time with the same problem, try to think of a simple solution and a complete solution, which may require redoing a large part of the work.
 - Methods must be less than 10 lines of code and must do one thing correctly.
 - No Legacy or Deprecated support.
-- At the end of each sessions, check with `npm run lint` and
-  `npm run biome:check` to ensure the code is clean make unsafe before.
+- At the end of each sessions, check with `npm run lint`
 - Avoid unnecessary re-renders with zustand or React.
-- useEffect is completely prohibited; you must ask for permission to use it.
+- useEffect and useLayoutEffect is completely prohibited; you must ask for permission to use it. https://react.dev/learn/you-might-not-need-an-effect
 - useMemo, useCallback are deprecated and are automacly done by React 19.
 - useForwardRef is deprecated, use ref as props.

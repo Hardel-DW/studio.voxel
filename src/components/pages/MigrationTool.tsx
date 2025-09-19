@@ -3,7 +3,7 @@ import type React from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Toaster, toast } from "sonner";
 import { LinkButton } from "@/components/ui/Button";
-import { DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/Dialog";
+import { Dialog, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/Dialog";
 import Dropzone from "@/components/ui/Dropzone";
 import { useConfetti } from "@/lib/hook/useConfetti";
 import { useDictionary } from "@/lib/hook/useNext18n";
@@ -140,7 +140,7 @@ export default function MigrationTool({ children }: { children?: React.ReactNode
             {children}
             <Toaster richColors />
 
-            <DialogContent ref={dialogRef} id="migration-success-modal" className="sm:max-w-[525px]">
+            <Dialog ref={dialogRef} id="migration-success-modal" className="sm:max-w-[525px]">
                 <DialogHeader>
                     <DialogTitle className="flex items-center gap-x-2">
                         <img src="/icons/success.svg" alt="zip" className="size-6" />
@@ -164,7 +164,7 @@ export default function MigrationTool({ children }: { children?: React.ReactNode
                         </div>
                     </DialogDescription>
                 </DialogHeader>
-                <DialogFooter popoverTarget="migration-success-modal" className="pt-4 flex items-end justify-between">
+                <DialogFooter className="pt-4 flex items-end justify-between">
                     <div>
                         <a
                             href="https://discord.gg/TAmVFvkHep"
@@ -183,7 +183,7 @@ export default function MigrationTool({ children }: { children?: React.ReactNode
                         {dictionary.generic.donate}
                     </LinkButton>
                 </DialogFooter>
-            </DialogContent>
+            </Dialog>
 
             <div className="flex flex-col md:grid md:grid-cols-5 items-center justify-center mt-8">
                 <div className="col-span-2 h-full">

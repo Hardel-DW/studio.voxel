@@ -66,6 +66,8 @@
     --color-durability: #fcfcfc;
     --color-attribute: #5555ff;
     --color-lore: #545454;
+    --color-experience: #80FF20;
+    --color-experience-shadow: #203F08;
 
     @keyframes shimmer {
         from { background-position: 0 0; }
@@ -107,6 +109,12 @@
         0% { opacity: 0.5; }
         50% { opacity: 1; }
         100% { opacity: 0.5; }
+    }
+
+    @keyframes fall {
+        to {
+            transform: translate3d(var(--x), var(--y), var(--z));
+        }
     }
 }
 
@@ -162,6 +170,39 @@
         background: url("/images/features/item/atlas.webp") no-repeat top left;
         width: 32px;
         height: 32px;
+    }
+
+    .slot {
+        background: #8B8B8B;
+        border-left: 4px solid #222222;
+        border-top: 4px solid #222222;
+        border-bottom: 4px solid #ffffff;
+        border-right: 4px solid #ffffff;
+        position: relative;
+
+        &:hover {
+            background: #737373;
+        }
+
+        &::before {
+            content: '';
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            width: 4px;
+            height: 4px;
+            background: #8B8B8B;
+        }
+
+        &::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: -4px;
+            width: 4px;
+            height: 4px;
+            background: #8B8B8B;
+        }
     }
 }
 
@@ -246,6 +287,12 @@ label {
         all: unset;
         width: 2.75rem;
         cursor: pointer;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        background: none;
+        border: none;
+        outline: none;
         &::after {
             content: "";
             position: absolute;
@@ -363,14 +410,14 @@ input[type="range"]::-webkit-slider-thumb {
     position: relative;
     height: 1.5rem;
     width: 1.5rem;
-    border-radius: 1rem;
+    border-radius: 1rem; 
     border-style: none;
     -moz-appearance: none;
     appearance: none;
     -webkit-appearance: none;
     top: 50%;
     transform: translateY(-50%);
-    background-color: var(--color-primary);
+    background-color: var(--color-tertiary);
     color: var(--color-primary);
     box-shadow: 0 0 0 3px var(--color-primary) inset, calc(100rem * -1 - .6rem) 0 0 100rem var(--color-primary)
 }
