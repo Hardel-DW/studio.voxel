@@ -14,7 +14,6 @@ import Range from '@/components/ui/Range'
 import { Toolbar } from '@/components/tools/floatingbar/Toolbar'
 import { ToolbarTextButton } from '@/components/tools/floatingbar/ToolbarTextButton'
 import { Button } from '@/components/ui/Button'
-import { ToolbarLink } from '@/components/tools/floatingbar/ToolbarLink'
 import { ToolbarTextLink } from '@/components/tools/floatingbar/ToolbarTextLink'
 
 export const Route = createFileRoute(
@@ -111,7 +110,7 @@ function RouteComponent() {
                         <div className="flex flex-col justify-center items-center h-full flex-2">
                             <p className="font-seven text-zinc-800 text-xl">Enchant</p>
                             <img src="/images/features/gui/book.webp" alt="Enchanting Table" className="pixelated w-24 mt-4 mb-8" />
-                            <MinecraftSlot id={itemInput} count={1} />
+                            <MinecraftSlot id={itemInput} count={1} onItemChange={setItemInput} />
                         </div>
                         <div className="flex flex-col justify-center h-full flex-3">
                             {Array(3).fill(null).map((_, index) => (
