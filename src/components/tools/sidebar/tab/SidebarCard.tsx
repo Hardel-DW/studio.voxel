@@ -1,4 +1,4 @@
-import { Link, useLocation, useParams, useNavigate } from "@tanstack/react-router";
+import { Link, useLocation, useNavigate, useParams } from "@tanstack/react-router";
 import type { CONCEPT_KEY } from "@/components/tools/elements";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import Translate from "@/components/tools/Translate";

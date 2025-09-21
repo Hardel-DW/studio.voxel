@@ -1,16 +1,15 @@
 import { useState } from "react";
-import { useDynamicIsland } from "@/components/tools/floatingbar/FloatingBarContext";
 import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer";
+import { useDynamicIsland } from "@/components/tools/floatingbar/FloatingBarContext";
 import { Button } from "@/components/ui/Button";
-import { clsx } from "@/lib/utils";
 import { useClickOutside } from "@/lib/hook/useClickOutside";
+import { clsx } from "@/lib/utils";
 
 interface ItemSelectorProps {
     currentItem: string;
     onItemSelect: (itemId: string) => void;
     items?: () => string[];
 }
-
 
 export default function ItemSelector({ currentItem, onItemSelect, items }: ItemSelectorProps) {
     const [selectedItem, setSelectedItem] = useState(currentItem);
@@ -19,9 +18,7 @@ export default function ItemSelector({ currentItem, onItemSelect, items }: ItemS
     const ref = useClickOutside(collapse);
 
     const availableItems = items ? items() : [];
-    const filteredItems = availableItems.filter(item =>
-        item.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    const filteredItems = availableItems.filter((item) => item.toLowerCase().includes(searchTerm.toLowerCase()));
 
     const handleValidate = () => {
         onItemSelect(selectedItem);
@@ -55,8 +52,7 @@ export default function ItemSelector({ currentItem, onItemSelect, items }: ItemS
                         className={clsx(
                             "w-14 h-14 relative flex items-center justify-center cursor-pointer border-2 rounded transition-colors",
                             selectedItem === itemId ? "border-zinc-600 bg-white/5" : "border-zinc-800 hover:border-zinc-600"
-                        )}
-                    >
+                        )}>
                         <TextureRenderer id={itemId} />
                     </button>
                 ))}

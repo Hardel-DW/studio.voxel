@@ -1,11 +1,11 @@
-import { gunzipSync } from 'fflate';
+import { gunzipSync } from "fflate";
 
 export const BASE_URL = "https://raw.githubusercontent.com/misode/mcmeta";
 export const MCMETA_PATH = {
-    "component": "/summary/item_components",
-    "registry": "/registries",
-    "summary": "/summary/data"
-}
+    component: "/summary/item_components",
+    registry: "/registries",
+    summary: "/summary/data"
+};
 
 export async function fetchDatapackPreset(version: number): Promise<Blob> {
     const fileName = `enchantment-${version}.zip`;
@@ -23,11 +23,11 @@ export async function fetchDatapackPreset(version: number): Promise<Blob> {
 export async function fetchGzippedData(type: keyof typeof MCMETA_PATH, registry?: string): Promise<any> {
     const basePath = MCMETA_PATH[type];
     const registryPath = registry?.startsWith("tags/") ? registry.replace(/^tags\//, "tag/") : registry;
-    const suffix = registry ? `/${registryPath}/data.json.gz` : '/data.json.gz';
+    const suffix = registry ? `/${registryPath}/data.json.gz` : "/data.json.gz";
     const fileUrl = `${BASE_URL}${basePath}${suffix}`;
 
     const response = await fetch(fileUrl, {
-        headers: { 'Accept-Encoding': 'gzip' }
+        headers: { "Accept-Encoding": "gzip" }
     });
 
     if (!response.ok) {

@@ -56,9 +56,7 @@ export default function DownloadButton() {
                         </a>
                     </div>
                     <div className="flex items-end justify-between gap-4">
-                        <DialogCloseButton variant="ghost">
-                            Close
-                        </DialogCloseButton>
+                        <DialogCloseButton variant="ghost">Close</DialogCloseButton>
                         <LinkButton
                             target="_blank"
                             rel="noopener noreferrer"

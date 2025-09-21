@@ -1,9 +1,9 @@
 import RenderGuard from "@/components/tools/elements/RenderGuard";
 import type { TranslateTextType } from "@/components/tools/Translate";
+import Range from "@/components/ui/Range";
 import type { BaseInteractiveComponent } from "@/lib/hook/useInteractiveLogic";
 import { useInteractiveLogic } from "@/lib/hook/useInteractiveLogic";
 import { useTranslate } from "@/lib/hook/useTranslation";
-import Range from "@/components/ui/Range";
 
 // Type defined locally
 export type ToolRangeType = BaseInteractiveComponent & {

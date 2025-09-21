@@ -1,5 +1,5 @@
-import Translate, { type TranslateTextType } from "@/components/tools/Translate";
 import SimpleCard from "@/components/tools/elements/SimpleCard";
+import Translate, { type TranslateTextType } from "@/components/tools/Translate";
 
 export default function TemplateCard(props: {
     image: string;

@@ -32,7 +32,7 @@ export function Dialog(props: {
 
     const refCallback = (element: HTMLDivElement | null) => {
         if (props.ref) {
-            if (typeof props.ref === 'function') props.ref(element);
+            if (typeof props.ref === "function") props.ref(element);
             else props.ref.current = element;
         }
 
@@ -80,9 +80,7 @@ export function DialogTitle(props: BaseDialogProps) {
 }
 
 export function DialogHero(props: { image: string; className?: string }) {
-    return (
-        <img src={props.image} alt="Hero" className={cn("w-full aspect-[16/6] object-cover rounded-lg", props.className)} />
-    );
+    return <img src={props.image} alt="Hero" className={cn("w-full aspect-[16/6] object-cover rounded-lg", props.className)} />;
 }
 
 export function DialogDescription(props: BaseDialogProps) {

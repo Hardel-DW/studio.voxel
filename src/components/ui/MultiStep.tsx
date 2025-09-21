@@ -14,32 +14,37 @@ export function MultiStep({ children }: { children: ReactNode }) {
     const [currentStep, setCurrentStep] = useState(0);
 
     const childrenArray = Array.isArray(children) ? children : [children];
-    const stepItems = childrenArray.filter(child => child?.type?.displayName === 'MultiStepItem');
-    const otherChildren = childrenArray.filter(child => child?.type?.displayName !== 'MultiStepItem');
+    const stepItems = childrenArray.filter((child) => child?.type?.displayName === "MultiStepItem");
+    const otherChildren = childrenArray.filter((child) => child?.type?.displayName !== "MultiStepItem");
     const totalSteps = stepItems.length;
 
     const value = {
         currentStep,
         totalSteps,
         setStep: setCurrentStep,
-        next: () => setCurrentStep(s => Math.min(s + 1, totalSteps - 1)),
-        prev: () => setCurrentStep(s => Math.max(s - 1, 0))
+        next: () => setCurrentStep((s) => Math.min(s + 1, totalSteps - 1)),
+        prev: () => setCurrentStep((s) => Math.max(s - 1, 0))
     };
 
     return (
         <MultiStepContext.Provider value={value}>
-            <div key={currentStep}>
-                {stepItems[currentStep]}
-            </div>
+            <div key={currentStep}>{stepItems[currentStep]}</div>
             {otherChildren}
         </MultiStepContext.Provider>
     );
 }
 
 export function MultiStepItem({ children, ariaLabel }: { children: ReactNode; ariaLabel?: string }) {
-    return <div className="starting:opacity-50 transition-all duration-500 transition-discrete hidden:opacity-50" role="tabpanel" aria-label={ariaLabel}>{children}</div>;
+    return (
+        <div
+            className="starting:opacity-50 transition-all duration-500 transition-discrete hidden:opacity-50"
+            role="tabpanel"
+            aria-label={ariaLabel}>
+            {children}
+        </div>
+    );
 }
-MultiStepItem.displayName = 'MultiStepItem';
+MultiStepItem.displayName = "MultiStepItem";
 
 export function MultiStepControl() {
     const ctx = useContext(MultiStepContext);

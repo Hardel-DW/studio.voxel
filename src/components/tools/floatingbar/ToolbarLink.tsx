@@ -8,7 +8,7 @@ interface ToolbarLinkProps {
     lang: string;
 }
 
-export function ToolbarLink({ icon, tooltip, onClick = () => { }, to, lang }: ToolbarLinkProps) {
+export function ToolbarLink({ icon, tooltip, onClick = () => {}, to, lang }: ToolbarLinkProps) {
     return (
         <Link
             to={to}

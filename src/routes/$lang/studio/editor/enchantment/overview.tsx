@@ -15,12 +15,12 @@ import { ToolbarDropdown } from "@/components/tools/floatingbar/ToolbarDropdown"
 import { ToolbarSearch } from "@/components/tools/floatingbar/ToolbarSearch";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import Translate from "@/components/tools/Translate";
+import { Button } from "@/components/ui/Button";
 import { Dialog, DialogCloseButton, DialogFooter, DialogHeader, DialogHero } from "@/components/ui/Dialog";
 import { DragDropProvider } from "@/components/ui/DragDrop";
+import { MultiStep, MultiStepControl, MultiStepItem } from "@/components/ui/MultiStep";
 import { useElementsByType } from "@/lib/hook/useElementsByType";
 import { useTranslateKey } from "@/lib/hook/useTranslation";
-import { MultiStep, MultiStepControl, MultiStepItem } from "@/components/ui/MultiStep";
-import { Button } from "@/components/ui/Button";
 
 export const Route = createFileRoute("/$lang/studio/editor/enchantment/overview")({
     component: Page
@@ -144,13 +144,25 @@ function Page() {
                                 </p>
                                 <ul className="list-disc list-inside ml-4 mt-4 text-zinc-500 text-sm">
                                     <li>
-                                        <Translate content="enchantment:overview.dialog.advanced.list.before" /> <b><Translate content="enchantment:overview.dialog.advanced.list.1.bold" /></b>, <Translate content="enchantment:overview.dialog.advanced.list.1.after" />
+                                        <Translate content="enchantment:overview.dialog.advanced.list.before" />{" "}
+                                        <b>
+                                            <Translate content="enchantment:overview.dialog.advanced.list.1.bold" />
+                                        </b>
+                                        , <Translate content="enchantment:overview.dialog.advanced.list.1.after" />
                                     </li>
                                     <li>
-                                        <Translate content="enchantment:overview.dialog.advanced.list.before" /> <b><Translate content="enchantment:overview.dialog.advanced.list.2.bold" /></b>, <Translate content="enchantment:overview.dialog.advanced.list.2.after" />
+                                        <Translate content="enchantment:overview.dialog.advanced.list.before" />{" "}
+                                        <b>
+                                            <Translate content="enchantment:overview.dialog.advanced.list.2.bold" />
+                                        </b>
+                                        , <Translate content="enchantment:overview.dialog.advanced.list.2.after" />
                                     </li>
                                     <li>
-                                        <Translate content="enchantment:overview.dialog.advanced.list.before" /> <b><Translate content="enchantment:overview.dialog.advanced.list.3.bold" /></b>, <Translate content="enchantment:overview.dialog.advanced.list.3.after" />
+                                        <Translate content="enchantment:overview.dialog.advanced.list.before" />{" "}
+                                        <b>
+                                            <Translate content="enchantment:overview.dialog.advanced.list.3.bold" />
+                                        </b>
+                                        , <Translate content="enchantment:overview.dialog.advanced.list.3.after" />
                                     </li>
                                 </ul>
                             </div>
@@ -199,43 +211,39 @@ function Page() {
                     </p>
                 </div>
                 <Link to="/$lang/studio/editor/enchantment/simulation" params={{ lang }}>
-                    <Button variant="ghost">
-                        Simulation
-                    </Button>
+                    <Button variant="ghost">Simulation</Button>
                 </Link>
             </div>
 
             <hr className="my-4" />
 
-            {
-                isGroupView ? (
-                    <div
-                        className="grid gap-6"
-                        style={{
-                            gridTemplateColumns: "repeat(auto-fit, minmax(max(280px, calc((100% - 1.5rem) / 2)), 1fr))",
-                            containerType: "inline-size"
-                        }}>
-                        {(filteredElements as EnchantmentGroup[]).map((group) => (
-                            <div
-                                key={group.key}
-                                className="slot-group-container"
-                                style={{ gridColumn: group.enchantments.length > 8 ? "1 / -1" : "auto" }}>
-                                <OverviewGroupCard group={group} sortCriteria={sortCriteria}>
-                                    {group.enchantments.map((element) => (
-                                        <EnchantmentCard key={element.identifier.resource} element={element} isDetailed={isDetailed} />
-                                    ))}
-                                </OverviewGroupCard>
-                            </div>
-                        ))}
-                    </div>
-                ) : (
-                    <div className="grid gap-4" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))" }}>
-                        {(filteredElements as EnchantmentProps[]).map((element) => (
-                            <EnchantmentCard key={element.identifier.resource} element={element} isDetailed={isDetailed} />
-                        ))}
-                    </div>
-                )
-            }
-        </DragDropProvider >
+            {isGroupView ? (
+                <div
+                    className="grid gap-6"
+                    style={{
+                        gridTemplateColumns: "repeat(auto-fit, minmax(max(280px, calc((100% - 1.5rem) / 2)), 1fr))",
+                        containerType: "inline-size"
+                    }}>
+                    {(filteredElements as EnchantmentGroup[]).map((group) => (
+                        <div
+                            key={group.key}
+                            className="slot-group-container"
+                            style={{ gridColumn: group.enchantments.length > 8 ? "1 / -1" : "auto" }}>
+                            <OverviewGroupCard group={group} sortCriteria={sortCriteria}>
+                                {group.enchantments.map((element) => (
+                                    <EnchantmentCard key={element.identifier.resource} element={element} isDetailed={isDetailed} />
+                                ))}
+                            </OverviewGroupCard>
+                        </div>
+                    ))}
+                </div>
+            ) : (
+                <div className="grid gap-4" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))" }}>
+                    {(filteredElements as EnchantmentProps[]).map((element) => (
+                        <EnchantmentCard key={element.identifier.resource} element={element} isDetailed={isDetailed} />
+                    ))}
+                </div>
+            )}
+        </DragDropProvider>
     );
 }

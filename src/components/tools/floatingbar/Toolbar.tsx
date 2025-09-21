@@ -1,8 +1,8 @@
 import type { ReactNode } from "react";
 import { useState } from "react";
 import { createPortal } from "react-dom";
-import { useFloatingBarPortal } from "./FloatingBarContext";
 import { clsx } from "@/lib/utils";
+import { useFloatingBarPortal } from "./FloatingBarContext";
 
 interface ToolbarProps {
     children: ReactNode;
@@ -32,7 +32,6 @@ export function Toolbar({ children }: ToolbarProps) {
         const rect = e.currentTarget.getBoundingClientRect();
         const offsetX = startX - rect.left;
         const offsetY = startY - rect.top;
-
 
         const handleMouseMove = (e: MouseEvent) => {
             const padding = 16;
@@ -84,15 +83,15 @@ export function Toolbar({ children }: ToolbarProps) {
                 className={clsx(
                     "fixed z-1000 transition-[width,height,opacity,border-radius,padding] duration-700 ease-[cubic-bezier(0.15,1.25,0.65,1)] bg-zinc-950/50 backdrop-blur-lg border border-zinc-800 shadow-2xl flex flex-col",
                     !position && "bottom-8 left-1/2 -translate-x-1/2",
-                    (state.type === "EXPANDED" || state.type === "EXPANDING") ? "w-[30vw] h-[35vh] rounded-3xl cursor-default p-6" : "w-fit h-15 rounded-4xl cursor-move p-2 justify-end",
-                    (state.type === "EXPANDING" || state.type === "COLLAPSING") ? "opacity-75" : "opacity-100"
+                    state.type === "EXPANDED" || state.type === "EXPANDING"
+                        ? "w-[30vw] h-[35vh] rounded-3xl cursor-default p-6"
+                        : "w-fit h-15 rounded-4xl cursor-move p-2 justify-end",
+                    state.type === "EXPANDING" || state.type === "COLLAPSING" ? "opacity-75" : "opacity-100"
                 )}
                 style={position ? { left: `${position.x}px`, top: `${position.y}px`, transform: "none" } : {}}
                 onMouseDown={handleMouseDown}>
-                {(state.type === "EXPANDED" || state.type === "EXPANDING") ? (
-                    <div className="w-full h-full">
-                        {state.content}
-                    </div>
+                {state.type === "EXPANDED" || state.type === "EXPANDING" ? (
+                    <div className="w-full h-full">{state.content}</div>
                 ) : (
                     <div className="flex items-center gap-4 h-full">{children}</div>
                 )}

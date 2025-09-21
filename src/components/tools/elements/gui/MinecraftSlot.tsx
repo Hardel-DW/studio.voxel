@@ -14,22 +14,12 @@ export default function MinecraftSlot({ id, count, onItemChange, items }: Minecr
 
     const handleSlotClick = () => {
         if (onItemChange) {
-            expand(
-                <ItemSelector
-                    currentItem={id}
-                    onItemSelect={onItemChange}
-                    items={items}
-                />
-            );
+            expand(<ItemSelector currentItem={id} onItemSelect={onItemChange} items={items} />);
         }
     };
 
     return (
-        <button
-            type="button"
-            className="slot w-16 h-16 relative flex items-center justify-center cursor-pointer"
-            onClick={handleSlotClick}
-        >
+        <button type="button" className="slot w-16 h-16 relative flex items-center justify-center cursor-pointer" onClick={handleSlotClick}>
             {id && <TextureRenderer id={id} className="scale-125" />}
             {count > 1 && <span className="absolute bottom-0 right-0 text-xl text-white font-seven">{count}</span>}
         </button>

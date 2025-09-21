@@ -1,4 +1,3 @@
-
 interface ToolbarButtonProps {
     icon: string;
     tooltip?: string;

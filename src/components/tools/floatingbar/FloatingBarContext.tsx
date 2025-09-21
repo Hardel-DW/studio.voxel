@@ -32,7 +32,7 @@ export function FloatingBarProvider({ children }: { children: ReactNode }) {
     const collapse = () => {
         if (state.type !== "EXPANDED") return;
 
-        setState(prev => ({ type: "COLLAPSING", content: prev.type === "EXPANDED" ? prev.content : null }));
+        setState((prev) => ({ type: "COLLAPSING", content: prev.type === "EXPANDED" ? prev.content : null }));
 
         setTimeout(() => {
             setState({ type: "COLLAPSED" });
@@ -40,12 +40,13 @@ export function FloatingBarProvider({ children }: { children: ReactNode }) {
     };
 
     return (
-        <FloatingBarContext.Provider value={{
-            portalRef,
-            state,
-            expand,
-            collapse
-        }}>
+        <FloatingBarContext.Provider
+            value={{
+                portalRef,
+                state,
+                expand,
+                collapse
+            }}>
             {children}
             <div ref={portalRef} id="floating-bar-portal" />
         </FloatingBarContext.Provider>

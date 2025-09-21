@@ -40,7 +40,7 @@ export function Tabs({ defaultValue, onValueChange, className, children }: TabsP
 
     return (
         <TabsContext.Provider value={{ value, onValueChange: handleValueChange, updateIndicator, containerRef, indicatorRef }}>
-            <div className={cn("space-y-4", className)}>
+            <div className={className}>
                 <div
                     ref={containerRef}
                     className="h-fit relative w-full justify-center text-sm rounded-2xl border border-zinc-800 p-1 text-zinc-400 flex bg-transparent overflow-hidden">

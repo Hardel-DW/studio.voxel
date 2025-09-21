@@ -21,7 +21,7 @@ export default function ItemTooltip({ categories }: { categories?: string[] }) {
             className="fixed left-0 top-0 mx-1 my-[0.1rem] p-1.5 pointer-events-none z-10 bg-[#100010f0] after:absolute after:top-[0.1rem] after:-right-[0.1rem] after:bottom-[0.1rem] after:-left-[0.1rem] after:border-[0.1rem] after:border-[#100010f0] border-none-solid before:right-0 before:left-0 before:top-[0.1rem] before:bottom-[0.1rem] tooltip-border"
             style={{ transform: `translate(${position.x}px, ${position.y}px)` }}>
             <div className="font-seven text-base text-white whitespace-nowrap text-left word-spacing">
-                <div className="text-name text-shadow-gray-[#3e3e3e] text-shadow-tooltip">{itemName}</div>
+                <div className="text-name text-shadow-tooltip text-shadow-[#3e3e3e] ">{itemName}</div>
                 <div className="text-base mt-[0.2em] text-lore text-shadow-tooltip text-shadow-[#151415]">{hoveredItem}</div>
                 {categories && categories.length > 0 && (
                     <div className="mt-2">
