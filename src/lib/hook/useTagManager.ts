@@ -5,7 +5,7 @@ import useRegistry from "./useRegistry";
 
 export default function useTagManager() {
     const files = useConfiguratorStore((state) => state.files);
-    const { data: vanillaTags, isLoading } = useRegistry<Record<string, TagType>>("tags/item", "summary");
+    const { data: vanillaTags, isLoading } = useRegistry<Record<string, TagType>>("summary", "tags/item");
 
     const combinedTags = (() => {
         if (!vanillaTags || isLoading) return [];

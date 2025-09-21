@@ -6,9 +6,10 @@ interface MinecraftSlotProps {
     id: string;
     count: number;
     onItemChange?: (itemId: string) => void;
+    items?: () => string[];
 }
 
-export default function MinecraftSlot({ id, count, onItemChange }: MinecraftSlotProps) {
+export default function MinecraftSlot({ id, count, onItemChange, items }: MinecraftSlotProps) {
     const { expand } = useDynamicIsland();
 
     const handleSlotClick = () => {
@@ -17,6 +18,7 @@ export default function MinecraftSlot({ id, count, onItemChange }: MinecraftSlot
                 <ItemSelector
                     currentItem={id}
                     onItemSelect={onItemChange}
+                    items={items}
                 />
             );
         }

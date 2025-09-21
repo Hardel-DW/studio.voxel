@@ -1,45 +1,50 @@
 import { createContext, type ReactNode, useContext, useRef, useState } from "react";
 
-interface DynamicIslandState {
-    isExpanded: boolean;
-    content: ReactNode | null;
-    isAnimating: boolean;
-}
+type FloatingBarState =
+    | { type: "COLLAPSED" }
+    | { type: "EXPANDING"; content: ReactNode }
+    | { type: "EXPANDED"; content: ReactNode }
+    | { type: "COLLAPSING"; content: ReactNode };
 
 interface FloatingBarContextValue {
     portalRef: React.RefObject<HTMLDivElement | null>;
-    dynamicIsland: DynamicIslandState;
-    expandDynamicIsland: (content: ReactNode) => void;
-    collapseDynamicIsland: () => void;
+    state: FloatingBarState;
+    expand: (content: ReactNode) => void;
+    collapse: () => void;
 }
 
 const FloatingBarContext = createContext<FloatingBarContextValue | null>(null);
 
 export function FloatingBarProvider({ children }: { children: ReactNode }) {
     const portalRef = useRef<HTMLDivElement>(null);
-    const [dynamicIsland, setDynamicIsland] = useState<DynamicIslandState>({
-        isExpanded: false,
-        content: null,
-        isAnimating: false
-    });
+    const [state, setState] = useState<FloatingBarState>({ type: "COLLAPSED" });
 
-    const expandDynamicIsland = (content: ReactNode) => {
-        setDynamicIsland({ isExpanded: true, content, isAnimating: false });
+    const expand = (content: ReactNode) => {
+        if (state.type !== "COLLAPSED") return;
+
+        setState({ type: "EXPANDING", content });
+
+        requestAnimationFrame(() => {
+            setState({ type: "EXPANDED", content });
+        });
     };
 
-    const collapseDynamicIsland = () => {
-        setDynamicIsland(prev => ({ ...prev, isExpanded: false }));
+    const collapse = () => {
+        if (state.type !== "EXPANDED") return;
+
+        setState(prev => ({ type: "COLLAPSING", content: prev.type === "EXPANDED" ? prev.content : null }));
+
         setTimeout(() => {
-            setDynamicIsland(prev => ({ ...prev, content: null }));
+            setState({ type: "COLLAPSED" });
         }, 700);
     };
 
     return (
         <FloatingBarContext.Provider value={{
             portalRef,
-            dynamicIsland,
-            expandDynamicIsland,
-            collapseDynamicIsland
+            state,
+            expand,
+            collapse
         }}>
             {children}
             <div ref={portalRef} id="floating-bar-portal" />
@@ -61,8 +66,8 @@ export function useDynamicIsland() {
         throw new Error("useDynamicIsland must be used within FloatingBarProvider");
     }
     return {
-        isExpanded: context.dynamicIsland.isExpanded,
-        expand: context.expandDynamicIsland,
-        collapse: context.collapseDynamicIsland
+        isExpanded: context.state.type === "EXPANDED" || context.state.type === "EXPANDING",
+        expand: context.expand,
+        collapse: context.collapse
     };
 }

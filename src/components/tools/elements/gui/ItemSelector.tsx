@@ -8,37 +8,18 @@ import { useClickOutside } from "@/lib/hook/useClickOutside";
 interface ItemSelectorProps {
     currentItem: string;
     onItemSelect: (itemId: string) => void;
+    items?: () => string[];
 }
 
-const commonItems = [
-    "minecraft:diamond_sword",
-    "minecraft:iron_sword",
-    "minecraft:netherite_sword",
-    "minecraft:golden_sword",
-    "minecraft:stone_sword",
-    "minecraft:wooden_sword",
-    "minecraft:diamond_pickaxe",
-    "minecraft:iron_pickaxe",
-    "minecraft:netherite_pickaxe",
-    "minecraft:diamond_axe",
-    "minecraft:iron_axe",
-    "minecraft:netherite_axe",
-    "minecraft:bow",
-    "minecraft:crossbow",
-    "minecraft:trident",
-    "minecraft:diamond_helmet",
-    "minecraft:diamond_chestplate",
-    "minecraft:diamond_leggings",
-    "minecraft:diamond_boots",
-];
 
-export default function ItemSelector({ currentItem, onItemSelect }: ItemSelectorProps) {
+export default function ItemSelector({ currentItem, onItemSelect, items }: ItemSelectorProps) {
     const [selectedItem, setSelectedItem] = useState(currentItem);
     const [searchTerm, setSearchTerm] = useState("");
     const { collapse } = useDynamicIsland();
     const ref = useClickOutside(collapse);
 
-    const filteredItems = commonItems.filter(item =>
+    const availableItems = items ? items() : [];
+    const filteredItems = availableItems.filter(item =>
         item.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
@@ -65,7 +46,7 @@ export default function ItemSelector({ currentItem, onItemSelect }: ItemSelector
                 />
             </div>
 
-            <div className="grid grid-cols-items grid-rows-items gap-2 overflow-hidden max-h-48 mt-4 flex-1">
+            <div className="grid grid-cols-items grid-rows-items gap-2 overflow-y-auto overflow-x-hidden max-h-64 mt-4 flex-1 -mr-1 pr-1">
                 {filteredItems.map((itemId) => (
                     <button
                         key={itemId}

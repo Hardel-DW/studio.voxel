@@ -4,7 +4,7 @@ import Counter from '@/components/ui/Counter'
 import { Datapack, Enchantment, EnchantmentSimulator, Identifier, TagCompiler, TagsComparator, toRoman } from '@voxelio/breeze'
 import type { EnchantmentOption, EnchantmentStats, SlotLevelRange, TagType } from '@voxelio/breeze'
 import { createFileRoute, useParams } from '@tanstack/react-router'
-import { useState } from 'react'
+import { Component, useState } from 'react'
 import useRegistry, { type FetchedRegistry } from '@/lib/hook/useRegistry'
 import { mergeRegistries } from '@/lib/registry'
 import SimpleCard from '@/components/tools/elements/SimpleCard'
@@ -33,9 +33,10 @@ function RouteComponent() {
     const [stats, setStats] = useState<EnchantmentStats[]>([])
     const [output, setOutput] = useState<EnchantmentOption>();
     const [slotRanges, setSlotRanges] = useState<SlotLevelRange[]>(new EnchantmentSimulator(new Map()).getSlotLevelRanges(defaultCount))
-    const { data: vanillaEnchantment } = useRegistry<FetchedRegistry<Enchantment>>("enchantment", "summary");
-    const { data: vanillaTagsItem } = useRegistry<FetchedRegistry<TagType>>("tag/item", "summary");
-    const { data: vanillaTagsEnchantment } = useRegistry<FetchedRegistry<TagType>>("tag/enchantment", "summary");
+    const { data: vanillaEnchantment } = useRegistry<FetchedRegistry<Enchantment>>("summary", "enchantment");
+    const { data: vanillaTagsItem } = useRegistry<FetchedRegistry<TagType>>("summary", "tag/item");
+    const { data: vanillaTagsEnchantment } = useRegistry<FetchedRegistry<TagType>>("summary", "tag/enchantment");
+    const { data: components } = useRegistry<FetchedRegistry<Component>>("component");
 
     const runSimulation = (index: number) => {
         const files = useConfiguratorStore.getState().files
@@ -65,10 +66,39 @@ function RouteComponent() {
         setStats(simulator.calculateEnchantmentProbabilities(blockCount, enchantability, itemTags, iteration, index))
     }
 
+    const getAvailableItems = () => {
+        const files = useConfiguratorStore.getState().files
+        const datapack = new Datapack(files)
+        const enchantments = datapack.getRegistry("enchantment")
+        const itemTagsRegistry = datapack.getRegistry<TagType>("tags/item")
+
+        const allEnchantments = mergeRegistries(vanillaEnchantment, enchantments, "enchantment")
+        const allItemTags = mergeRegistries(vanillaTagsItem, itemTagsRegistry, "tags/item")
+
+        const enchantmentMap = new Map()
+        for (const element of allEnchantments) {
+            enchantmentMap.set(new Identifier(element.identifier).toString(), element.data)
+        }
+
+        const simulator = new EnchantmentSimulator(enchantmentMap)
+        return simulator.getFlattenedPrimaryItems(allItemTags)
+    }
+
     const calculateSlotRanges = (count: number) => {
         setSlotRanges(new EnchantmentSimulator(new Map()).getSlotLevelRanges(count))
         setBlockCount(count)
     }
+
+    const setItemInputHandler = (item: string) => {
+        setItemInput(item);
+
+        const identifier = Identifier.of(item, "item");
+        const component = components?.[identifier.resource] as { "minecraft:enchantable"?: { value?: number } };
+        const enchantability = component?.["minecraft:enchantable"]?.value;
+        if (typeof enchantability !== 'number') return;
+
+        setEnchantability(enchantability);
+    };
 
     return (
         <div className="h-full">
@@ -110,7 +140,7 @@ function RouteComponent() {
                         <div className="flex flex-col justify-center items-center h-full flex-2">
                             <p className="font-seven text-zinc-800 text-xl">Enchant</p>
                             <img src="/images/features/gui/book.webp" alt="Enchanting Table" className="pixelated w-24 mt-4 mb-8" />
-                            <MinecraftSlot id={itemInput} count={1} onItemChange={setItemInput} />
+                            <MinecraftSlot id={itemInput} count={1} onItemChange={setItemInputHandler} items={getAvailableItems} />
                         </div>
                         <div className="flex flex-col justify-center h-full flex-3">
                             {Array(3).fill(null).map((_, index) => (
@@ -166,37 +196,46 @@ function RouteComponent() {
                     </SimpleCard>
                 </div>
 
-                {stats.length > 0 && (
-                    <div className="mt-16">
-                        <div className="relative mb-8">
-                            <h2 className="text-2xl font-semibold mb-1">Probability Results</h2>
-                            <ul className="text-zinc-400 text-sm list-disc list-inside space-y-1">
-                                <li>Calculated based on the number of iterations, one iteration is one attempt to enchant the item</li>
-                                <li>The total probability does not add up to 100%, as multiple enchantments can be applied to a single item</li>
-                            </ul>
-                            <hr className="!m-0 absolute -bottom-2 left-0 right-0" />
-                        </div>
-                        <div className="backdrop-blur-2xl border-2 border-stone-900 rounded-xl overflow-hidden">
-                            <div className="overflow-x-auto">
-                                <table className="min-w-full">
-                                    <thead className="bg-black/50">
-                                        <tr>
-                                            <th className="px-6 py-4 text-left text-sm font-semibold text-zinc-200">
-                                                Enchantment
-                                            </th>
-                                            <th className="px-6 py-4 text-left text-sm font-semibold text-zinc-200">
-                                                Probability (%)
-                                            </th>
-                                            <th className="px-6 py-4 text-left text-sm font-semibold text-zinc-200">
-                                                Average Level
-                                            </th>
-                                            <th className="px-6 py-4 text-left text-sm font-semibold text-zinc-200">
-                                                Level Range
-                                            </th>
+                <div className="mt-16">
+                    <div className="relative mb-8">
+                        <h2 className="text-2xl font-semibold mb-1">Probability Results</h2>
+                        <ul className="text-zinc-400 text-sm list-disc list-inside space-y-1">
+                            <li>Calculated based on the number of iterations, one iteration is one attempt to enchant the item</li>
+                            <li>The total probability does not add up to 100%, as multiple enchantments can be applied to a single item</li>
+                        </ul>
+                        <hr className="!m-0 absolute -bottom-2 left-0 right-0" />
+                    </div>
+                    <div className="backdrop-blur-2xl border-2 border-stone-900 rounded-xl overflow-hidden">
+                        <div className="overflow-x-auto">
+                            <table className="min-w-full">
+                                <thead className="bg-black/50">
+                                    <tr>
+                                        <th className="px-6 py-4 text-left text-sm font-semibold text-zinc-200">
+                                            Enchantment
+                                        </th>
+                                        <th className="px-6 py-4 text-left text-sm font-semibold text-zinc-200">
+                                            Probability (%)
+                                        </th>
+                                        <th className="px-6 py-4 text-left text-sm font-semibold text-zinc-200">
+                                            Average Level
+                                        </th>
+                                        <th className="px-6 py-4 text-left text-sm font-semibold text-zinc-200">
+                                            Level Range
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody className="divide-y divide-zinc-800">
+                                    {stats.length === 0 ? (
+                                        <tr className="bg-black/30 h-96">
+                                            <td colSpan={4} className="px-6 py-12 text-center text-zinc-400">
+                                                <div className="flex flex-col items-center gap-2">
+                                                    <span className="text-sm">No simulation results yet</span>
+                                                    <span className="text-xs text-zinc-500">Click on one of the three slots to see probability results</span>
+                                                </div>
+                                            </td>
                                         </tr>
-                                    </thead>
-                                    <tbody className="divide-y divide-zinc-800">
-                                        {stats.map((stat) => (
+                                    ) : (
+                                        stats.map((stat) => (
                                             <tr key={stat.enchantmentId} className="hover:bg-zinc-900/50 transition-colors odd:bg-black/30 even:bg-black/50">
                                                 <td className="px-6 py-4 text-white font-medium">
                                                     {Identifier.of(stat.enchantmentId, "enchantment").toResourceName()}
@@ -219,13 +258,13 @@ function RouteComponent() {
                                                     )}
                                                 </td>
                                             </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                            </div>
+                                        ))
+                                    )}
+                                </tbody>
+                            </table>
                         </div>
                     </div>
-                )}
+                </div>
             </div>
         </div>
     )

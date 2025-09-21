@@ -9,7 +9,7 @@ interface ToolbarProps {
 }
 
 export function Toolbar({ children }: ToolbarProps) {
-    const { portalRef, dynamicIsland } = useFloatingBarPortal();
+    const { portalRef, state } = useFloatingBarPortal();
     const [position, setPosition] = useState<{ x: number; y: number } | null>(null);
     const [showSnapZone, setShowSnapZone] = useState(false);
 
@@ -25,7 +25,7 @@ export function Toolbar({ children }: ToolbarProps) {
     };
 
     const handleMouseDown = (e: React.MouseEvent) => {
-        if (dynamicIsland.isExpanded || dynamicIsland.isAnimating) return;
+        if (state.type !== "COLLAPSED") return;
 
         const startX = e.clientX;
         const startY = e.clientY;
@@ -84,14 +84,14 @@ export function Toolbar({ children }: ToolbarProps) {
                 className={clsx(
                     "fixed z-1000 transition-[width,height,opacity,border-radius,padding] duration-700 ease-[cubic-bezier(0.15,1.25,0.65,1)] bg-zinc-950/50 backdrop-blur-lg border border-zinc-800 shadow-2xl flex flex-col",
                     !position && "bottom-8 left-1/2 -translate-x-1/2",
-                    dynamicIsland.isExpanded ? "w-[30vw] h-[35vh] rounded-3xl cursor-default p-6" : "w-fit h-15 rounded-4xl cursor-move p-2 justify-end",
-                    dynamicIsland.isAnimating ? "opacity-75" : "opacity-100"
+                    (state.type === "EXPANDED" || state.type === "EXPANDING") ? "w-[30vw] h-[35vh] rounded-3xl cursor-default p-6" : "w-fit h-15 rounded-4xl cursor-move p-2 justify-end",
+                    (state.type === "EXPANDING" || state.type === "COLLAPSING") ? "opacity-75" : "opacity-100"
                 )}
                 style={position ? { left: `${position.x}px`, top: `${position.y}px`, transform: "none" } : {}}
                 onMouseDown={handleMouseDown}>
-                {dynamicIsland.isExpanded ? (
+                {(state.type === "EXPANDED" || state.type === "EXPANDING") ? (
                     <div className="w-full h-full">
-                        {dynamicIsland.content}
+                        {state.content}
                     </div>
                 ) : (
                     <div className="flex items-center gap-4 h-full">{children}</div>

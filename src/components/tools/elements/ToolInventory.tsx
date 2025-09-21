@@ -1,10 +1,16 @@
 import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer";
 import { useDragAndDrop } from "@/lib/hook/useDragAndDrop";
 import useRegistry from "@/lib/hook/useRegistry";
+import { useMemo } from "react";
 
 export default function ToolInventory({ search }: { search: string }) {
-    const { data: items, isLoading, isError } = useRegistry<string[]>("item", "registry");
+    const { data: allItems, isLoading, isError } = useRegistry<string[]>("registry", "item");
     const { handleDragStart, handleDragEnd, draggedItem } = useDragAndDrop();
+
+    const filteredItems = useMemo(() => {
+        if (!allItems) return [];
+        return allItems.filter((item) => item !== "air" && item.toLowerCase().includes(search.toLowerCase())).slice(0, 50);
+    }, [allItems, search]);
 
     if (isLoading) {
         return (
@@ -23,10 +29,6 @@ export default function ToolInventory({ search }: { search: string }) {
         );
     }
 
-    if (!items) {
-        return null;
-    }
-
     return (
         <div
             className="grid gap-2"
@@ -34,28 +36,32 @@ export default function ToolInventory({ search }: { search: string }) {
                 gridTemplateColumns: "repeat(auto-fill, minmax(56px, 1fr))",
                 gridTemplateRows: "repeat(auto-fill, minmax(56px, 1fr))"
             }}>
-            {items
-                .filter((item) => item !== "air" && item.toLowerCase().includes(search.toLowerCase()))
-                .map((item) => {
-                    const isDragging = draggedItem === item;
-                    return (
-                        <button
-                            type="button"
-                            key={item}
-                            className={`relative overflow-hidden bg-zinc-900/20 border border-zinc-800 hover:border-zinc-600 rounded-lg p-3 cursor-grab active:cursor-grabbing transition-all hover:bg-zinc-900/40 group ${isDragging ? "opacity-50" : ""}`}
-                            draggable={true}
-                            onDragStart={(e) => handleDragStart(e, item)}
-                            onDragEnd={handleDragEnd}>
-                            <div className="w-8 h-8 flex items-center justify-center">
-                                <TextureRenderer id={item} />
-                            </div>
+            {filteredItems.map((item) => {
+                const isDragging = draggedItem === item;
+                return (
+                    <button
+                        type="button"
+                        key={item}
+                        className={`relative overflow-hidden bg-zinc-900/20 border border-zinc-800 hover:border-zinc-600 rounded-lg p-3 cursor-grab active:cursor-grabbing transition-all hover:bg-zinc-900/40 group ${isDragging ? "opacity-50" : ""}`}
+                        draggable={true}
+                        onDragStart={(e) => handleDragStart(e, item)}
+                        onDragEnd={handleDragEnd}>
+                        <div className="w-8 h-8 flex items-center justify-center">
+                            <TextureRenderer id={item} />
+                        </div>
 
-                            <div className="absolute inset-0 -z-10 brightness-25 opacity-0 group-hover:opacity-100 transition-opacity">
-                                <img src="/images/shine.avif" alt="Shine" />
-                            </div>
-                        </button>
-                    );
-                })}
+                        <div className="absolute inset-0 -z-10 brightness-25 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <img src="/images/shine.avif" alt="Shine" />
+                        </div>
+                    </button>
+                );
+            })}
+
+            {filteredItems.length === 0 && search.length === 0 && (
+                <div className="col-span-full flex flex-col items-center justify-center text-zinc-400 p-8">
+                    <p className="text-sm">Start typing to search items...</p>
+                </div>
+            )}
         </div>
     );
 }

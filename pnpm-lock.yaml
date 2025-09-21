@@ -24,8 +24,11 @@ importers:
         specifier: ^1.131.31
         version: 1.131.31(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
       '@voxelio/breeze':
-        specifier: ^1.8.1
-        version: 1.8.1
+        specifier: ^1.8.2
+        version: 1.8.2
+      fflate:
+        specifier: ^0.8.2
+        version: 0.8.2
       react:
         specifier: ^19.1.1
         version: 19.1.1
@@ -766,8 +769,8 @@ packages:
     peerDependencies:
       vite: ^4.2.0 || ^5.0.0 || ^6.0.0 || ^7.0.0
 
-  '@voxelio/breeze@1.8.1':
-    resolution: {integrity: sha512-141i89FkcmaaN2xxjZWAC1dAQRXAYYr06kPKw9drUVnaTgmk49WFVjbn54WmHFD6eFC5DSP/wAfIckQbalRy0w==}
+  '@voxelio/breeze@1.8.2':
+    resolution: {integrity: sha512-XlOmQ7WWyyPnO+MiAqnYLpWe0fArCa7LA3+lmhoZ4hdt/ygdPxJ2juiNgwj8clg08MrTpt8WezhFXyJUJg/BnA==}
 
   '@voxelio/zip@3.2.0':
     resolution: {integrity: sha512-HBSjd8I2WQr+E4G/PfivnMC/pJNv58iBr4Yt4OT8/sPnhlXzztVUZBmxLZajI8KGwYWsai79YCmKK0NM1VZE0g==}
@@ -874,6 +877,9 @@ packages:
     peerDependenciesMeta:
       picomatch:
         optional: true
+
+  fflate@0.8.2:
+    resolution: {integrity: sha512-cPJU47OaAoCbg0pBvzsgpTPhmhqI5eJjh/JIu8tPj5q+T7iLvW/JAYUqmE7KOB4R1ZyEhzBaIQpQpardBF5z8A==}
 
   fill-range@7.1.1:
     resolution: {integrity: sha512-YsGpe3WHLK8ZYi4tWDg2Jy3ebRz2rXowDxnld4bkQB00cc/1Zw9AWnC0i9ztDJitivtQvaI9KaLyKrc+hBW0yg==}
@@ -1878,7 +1884,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@voxelio/breeze@1.8.1':
+  '@voxelio/breeze@1.8.2':
     dependencies:
       '@voxelio/zip': 3.2.0
 
@@ -1996,6 +2002,8 @@ snapshots:
   fdir@6.5.0(picomatch@4.0.3):
     optionalDependencies:
       picomatch: 4.0.3
+
+  fflate@0.8.2: {}
 
   fill-range@7.1.1:
     dependencies:

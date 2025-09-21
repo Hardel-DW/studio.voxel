@@ -1,3 +1,12 @@
+import { gunzipSync } from 'fflate';
+
+export const BASE_URL = "https://raw.githubusercontent.com/misode/mcmeta";
+export const MCMETA_PATH = {
+    "component": "/summary/item_components",
+    "registry": "/registries",
+    "summary": "/summary/data"
+}
+
 export async function fetchDatapackPreset(version: number): Promise<Blob> {
     const fileName = `enchantment-${version}.zip`;
     const githubUrl = `https://raw.githubusercontent.com/Hardel-DW/voxel-datapack-preset/main/${fileName}`;
@@ -10,28 +19,23 @@ export async function fetchDatapackPreset(version: number): Promise<Blob> {
     return response.blob();
 }
 
-export async function fetchMinecraftRegistry(registry: string): Promise<any> {
-    const registryPath = registry.startsWith("tags/") ? registry.replace(/^tags\//, "tag/") : registry;
-    const baseUrl = "https://raw.githubusercontent.com/misode/mcmeta/registries";
-    const fileUrl = `${baseUrl}/${registryPath}/data.min.json`;
+// Fonction helper pour fetcher les données gzippées
+export async function fetchGzippedData(type: keyof typeof MCMETA_PATH, registry?: string): Promise<any> {
+    const basePath = MCMETA_PATH[type];
+    const registryPath = registry?.startsWith("tags/") ? registry.replace(/^tags\//, "tag/") : registry;
+    const suffix = registry ? `/${registryPath}/data.json.gz` : '/data.json.gz';
+    const fileUrl = `${BASE_URL}${basePath}${suffix}`;
 
-    const response = await fetch(fileUrl);
+    const response = await fetch(fileUrl, {
+        headers: { 'Accept-Encoding': 'gzip' }
+    });
+
     if (!response.ok) {
         throw new Error(`Registry not found: ${response.status}`);
     }
 
-    return response.json();
-}
+    const compressedData = await response.arrayBuffer();
+    const decompressed = gunzipSync(new Uint8Array(compressedData));
 
-export async function fetchMinecraftSummary(registry: string): Promise<any> {
-    const registryPath = registry.startsWith("tags/") ? registry.replace(/^tags\//, "tag/") : registry;
-    const baseUrl = "https://raw.githubusercontent.com/misode/mcmeta/summary/data";
-    const fileUrl = `${baseUrl}/${registryPath}/data.min.json`;
-
-    const response = await fetch(fileUrl);
-    if (!response.ok) {
-        throw new Error(`Registry not found: ${response.status}`);
-    }
-
-    return response.json();
+    return JSON.parse(new TextDecoder().decode(decompressed));
 }

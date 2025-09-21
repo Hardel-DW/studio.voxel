@@ -22,7 +22,7 @@ interface TagsRendererProps {
  */
 export default function TagsRenderer({ items, className, intervalMs = 2000 }: TagsRendererProps) {
     const [currentIndex, setCurrentIndex] = useState(0);
-    const { data, isLoading, isError } = useRegistry<TagRegistry>("tags/item", "summary");
+    const { data, isLoading, isError } = useRegistry<TagRegistry>("summary", "tags/item");
     const { getRegistry } = useConfiguratorStore();
 
     const itemsArray = useMemo(() => {

@@ -68,7 +68,7 @@ function ExclusiveGroupSection() {
     const files = useConfiguratorStore((state) => state.files);
     const enchantments = new Datapack(files).getRegistry("tags/enchantment", "exclusive_set", ["minecraft"]);
     const compile = useConfiguratorStore((state) => state.compile);
-    const { data: tags, isLoading: isRegistryLoading, isError: isRegistryError } = useRegistry<TagRegistry>("tags/enchantment", "summary");
+    const { data: tags, isLoading: isRegistryLoading, isError: isRegistryError } = useRegistry<TagRegistry>("summary", "tags/enchantment");
     const assembleDatapack = compile();
 
     const getValues = (identifier: Identifier) => {
