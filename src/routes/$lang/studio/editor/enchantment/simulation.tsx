@@ -10,10 +10,14 @@ import { Toolbar } from "@/components/tools/floatingbar/Toolbar";
 import { ToolbarTextButton } from "@/components/tools/floatingbar/ToolbarTextButton";
 import { ToolbarTextLink } from "@/components/tools/floatingbar/ToolbarTextLink";
 import { useConfiguratorStore } from "@/components/tools/Store";
+import Translate from "@/components/tools/Translate";
 import { Button } from "@/components/ui/Button";
 import Counter from "@/components/ui/Counter";
+import { Dialog, DialogCloseButton, DialogFooter, DialogHeader, DialogHero } from "@/components/ui/Dialog";
+import { MultiStep, MultiStepControl, MultiStepItem } from "@/components/ui/MultiStep";
 import Range from "@/components/ui/Range";
 import useRegistry, { type FetchedRegistry } from "@/lib/hook/useRegistry";
+import { useTranslateKey } from "@/lib/hook/useTranslation";
 import { mergeRegistries } from "@/lib/registry";
 import { clsx, cn } from "@/lib/utils";
 
@@ -33,6 +37,7 @@ function RouteComponent() {
     const [output, setOutput] = useState<EnchantmentOption>();
     const [showTooltip, setShowTooltip] = useState(false);
     const [slotRanges, setSlotRanges] = useState<SlotLevelRange[]>(new EnchantmentSimulator(new Map()).getSlotLevelRanges(defaultCount));
+    const translatedIterationsLabel = useTranslateKey("enchantment:simulation.iterations.label");
     const { data: vanillaEnchantment } = useRegistry<FetchedRegistry<Enchantment>>("summary", "enchantment");
     const { data: vanillaTagsItem } = useRegistry<FetchedRegistry<TagType>>("summary", "tag/item");
     const { data: vanillaTagsEnchantment } = useRegistry<FetchedRegistry<TagType>>("summary", "tag/enchantment");
@@ -106,31 +111,151 @@ function RouteComponent() {
 
     return (
         <div className="h-full">
+            <Dialog id="enchantment-simulation-welcome" reminder defaultOpen className="sm:max-w-[800px]">
+                <MultiStep>
+                    <MultiStepItem>
+                        <DialogHeader>
+                            <DialogHero image="/images/background/dialog/enchantment/simulation_1.webp" />
+                        </DialogHeader>
+                        <hr className="!my-1" />
+                        <div className="p-4">
+                            <h2 className="flex shrink-0 items-center justify-between text-xl font-medium text-zinc-200 mb-2">
+                                <Translate content="enchantment:simulation.dialog.usage.title" />
+                            </h2>
+                            <div className="relative leading-normal text-zinc-400 font-light">
+                                <p>
+                                    <Translate content="enchantment:simulation.dialog.usage.body" />
+                                </p>
+                                <ul className="list-disc list-inside ml-4 mt-4 text-zinc-500 text-sm">
+                                    <li>
+                                        <Translate content="enchantment:simulation.dialog.usage.list.1" />
+                                    </li>
+                                    <li>
+                                        <Translate content="enchantment:simulation.dialog.usage.list.2" />
+                                    </li>
+                                    <li>
+                                        <Translate content="enchantment:simulation.dialog.usage.list.3" />
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </MultiStepItem>
+                    <MultiStepItem>
+                        <DialogHeader>
+                            <DialogHero image="/images/background/dialog/enchantment/simulation_2.webp" />
+                        </DialogHeader>
+                        <hr className="!my-1" />
+                        <div className="p-4">
+                            <h2 className="flex shrink-0 items-center justify-between text-xl font-medium text-zinc-200 mb-2">
+                                <Translate content="enchantment:simulation.dialog.stats.title" />
+                            </h2>
+                            <div className="relative leading-normal text-zinc-400 font-light">
+                                <p>
+                                    <Translate content="enchantment:simulation.dialog.stats.body" />
+                                </p>
+                                <ul className="list-disc list-inside ml-4 mt-4 text-zinc-500 text-sm">
+                                    <li>
+                                        <Translate content="enchantment:simulation.dialog.stats.list.1" />
+                                    </li>
+                                    <li>
+                                        <Translate content="enchantment:simulation.dialog.stats.list.2" />
+                                    </li>
+                                    <li>
+                                        <Translate content="enchantment:simulation.dialog.stats.list.3" />
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </MultiStepItem>
+                    <MultiStepItem>
+                        <DialogHeader>
+                            <DialogHero image="/images/background/dialog/enchantment/simulation_3.webp" />
+                        </DialogHeader>
+                        <hr className="!my-1" />
+                        <div className="p-4">
+                            <h2 className="flex shrink-0 items-center justify-between text-xl font-medium text-zinc-200 mb-2">
+                                <Translate content="enchantment:simulation.dialog.results.title" />
+                            </h2>
+                            <div className="relative leading-normal text-zinc-400 font-light">
+                                <p>
+                                    <Translate content="enchantment:simulation.dialog.results.body" />
+                                </p>
+                                <ul className="list-disc list-inside ml-4 mt-4 text-zinc-500 text-sm">
+                                    <li>
+                                        <Translate content="enchantment:simulation.dialog.results.list.1" />
+                                    </li>
+                                    <li>
+                                        <Translate content="enchantment:simulation.dialog.results.list.2" />
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </MultiStepItem>
+                    <MultiStepItem>
+                        <DialogHeader>
+                            <DialogHero image="/images/background/dialog/enchantment/simulation_4.webp" />
+                        </DialogHeader>
+                        <hr className="!my-1" />
+                        <div className="p-4">
+                            <h2 className="flex shrink-0 items-center justify-between text-xl font-medium text-zinc-200 mb-2">
+                                <Translate content="enchantment:simulation.dialog.item_selection.title" />
+                            </h2>
+                            <div className="relative leading-normal text-zinc-400 font-light">
+                                <p>
+                                    <Translate content="enchantment:simulation.dialog.item_selection.body" />
+                                </p>
+                                <ul className="list-disc list-inside ml-4 mt-4 text-zinc-500 text-sm">
+                                    <li>
+                                        <Translate content="enchantment:simulation.dialog.item_selection.list.1" />
+                                    </li>
+                                    <li>
+                                        <Translate content="enchantment:simulation.dialog.item_selection.list.2" />
+                                    </li>
+                                    <li>
+                                        <Translate content="enchantment:simulation.dialog.item_selection.list.3" />
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </MultiStepItem>
+
+                    <DialogFooter className="flex items-end justify-between">
+                        <DialogCloseButton variant="ghost_border">
+                            <Translate content="close" />
+                        </DialogCloseButton>
+                        <MultiStepControl />
+                    </DialogFooter>
+                </MultiStep>
+            </Dialog>
             <Toolbar>
                 <div className="flex items-center gap-1">
                     <ToolbarTextLink
                         icon="/icons/tools/overview/home.svg"
-                        tooltip="Retour à l'accueil"
-                        labelText="Retour à l'accueil"
+                        tooltip="enchantment:simulation.toolbar.back"
+                        labelText="enchantment:simulation.toolbar.back"
                         lang={params.lang}
                         to="/$lang/studio/editor/enchantment/overview"
                     />
                     <ToolbarTextButton
                         icon="/icons/tools/overview/help.svg"
-                        tooltip="Réouvrir l'aide"
-                        onClick={() => {}}
-                        labelText="Réouvrir l'aide"
+                        tooltip="enchantment:simulation.toolbar.help"
+                        onClick={() => document.getElementById("enchantment-simulation-welcome")?.showPopover()}
+                        labelText="enchantment:simulation.toolbar.help"
                     />
                 </div>
                 <Button onClick={() => runSimulation(0)} rounded="full">
-                    Lancer la simulation
+                    <Translate content="enchantment:simulation.toolbar.run" />
                 </Button>
             </Toolbar>
 
             <div className="flex flex-col p-4 h-full space-y-4">
                 <div className="relative">
-                    <h1 className="text-2xl font-semibold">Enchantment Table Simulation</h1>
-                    <p className="text-zinc-400 text-sm">Simulate enchanting mechanics and probability outcomes</p>
+                    <h1 className="text-2xl font-semibold">
+                        <Translate content="enchantment:simulation.title" />
+                    </h1>
+                    <p className="text-zinc-400 text-sm">
+                        <Translate content="enchantment:simulation.description" />
+                    </p>
                 </div>
                 <div className="grid grid-cols-2 gap-8" style={{ gridTemplateColumns: `repeat(auto-fit, minmax("255px", 1fr))` }}>
                     <div
@@ -141,7 +266,9 @@ function RouteComponent() {
                             borderImageRepeat: "stretch"
                         }}>
                         <div className="flex flex-col justify-center items-center h-full flex-2">
-                            <p className="font-seven text-zinc-800 text-xl">Enchant</p>
+                            <p className="font-seven text-zinc-800 text-xl">
+                                <Translate content="enchantment:simulation.enchant_label" />
+                            </p>
                             <img
                                 onClick={() => setShowTooltip(!showTooltip)}
                                 src={showTooltip ? "/images/features/gui/book_open.webp" : "/images/features/gui/book_closed.webp"}
@@ -194,17 +321,23 @@ function RouteComponent() {
                         <div className="flex flex-col justify-between items-center gap-4 border-l-2 border-zinc-900 px-6 flex-1">
                             <div className="flex items-center justify-between w-full">
                                 <div className="flex flex-col w-3/4">
-                                    <span className="text-lg font-medium text-zinc-200 tracking-wide">Enchantability</span>
+                                    <span className="text-lg font-medium text-zinc-200 tracking-wide">
+                                        <Translate content="enchantment:simulation.enchantability.title" />
+                                    </span>
                                     <span className="text-sm text-zinc-500">
-                                        Automatically set based on the item, used in the simulation.
+                                        <Translate content="enchantment:simulation.enchantability.description" />
                                     </span>
                                 </div>
                                 <Counter max={15} min={0} step={1} value={enchantability} onChange={setEnchantability} />
                             </div>
                             <div className="flex items-center justify-between w-full">
                                 <div className="flex flex-col w-3/4">
-                                    <span className="text-lg font-medium text-zinc-200 tracking-wide">Vanilla Enchantments</span>
-                                    <span className="text-sm text-zinc-500">Include default Minecraft enchantments in simulation</span>
+                                    <span className="text-lg font-medium text-zinc-200 tracking-wide">
+                                        <Translate content="enchantment:simulation.vanilla.title" />
+                                    </span>
+                                    <span className="text-sm text-zinc-500">
+                                        <Translate content="enchantment:simulation.vanilla.description" />
+                                    </span>
                                 </div>
                                 <label className="cursor-pointer flex">
                                     <input type="checkbox" checked={includeVanilla} onChange={(e) => setIncludeVanilla(e.target.checked)} />
@@ -217,11 +350,11 @@ function RouteComponent() {
                                     max={10000}
                                     step={100}
                                     onChangeEnd={(value) => setIteration(value)}
-                                    label="Iterations"
+                                    label={translatedIterationsLabel}
                                 />
                                 <div className="flex justify-between items-center text-xs text-zinc-500 font-light">
-                                    <p>Speed</p>
-                                    <p>Accuracy</p>
+                                    <p><Translate content="enchantment:simulation.iterations.speed" /></p>
+                                    <p><Translate content="enchantment:simulation.iterations.accuracy" /></p>
                                 </div>
                             </div>
                         </div>
@@ -230,10 +363,12 @@ function RouteComponent() {
 
                 <div className="mt-16">
                     <div className="relative mb-8">
-                        <h2 className="text-2xl font-semibold mb-1">Probability Results</h2>
+                        <h2 className="text-2xl font-semibold mb-1">
+                            <Translate content="enchantment:simulation.results.title" />
+                        </h2>
                         <ul className="text-zinc-400 text-sm list-disc list-inside space-y-1">
-                            <li>Calculated based on the number of iterations, one iteration is one attempt to enchant the item</li>
-                            <li>The total probability does not add up to 100%, as multiple enchantments can be applied to a single item</li>
+                            <li><Translate content="enchantment:simulation.results.description.1" /></li>
+                            <li><Translate content="enchantment:simulation.results.description.2" /></li>
                         </ul>
                         <hr className="!m-0 absolute -bottom-2 left-0 right-0" />
                     </div>
@@ -242,10 +377,18 @@ function RouteComponent() {
                             <table className="min-w-full">
                                 <thead className="bg-black/50">
                                     <tr>
-                                        <th className="px-6 py-4 text-left text-sm font-semibold text-zinc-200">Enchantment</th>
-                                        <th className="px-6 py-4 text-left text-sm font-semibold text-zinc-200">Probability (%)</th>
-                                        <th className="px-6 py-4 text-left text-sm font-semibold text-zinc-200">Average Level</th>
-                                        <th className="px-6 py-4 text-left text-sm font-semibold text-zinc-200">Level Range</th>
+                                        <th className="px-6 py-4 text-left text-sm font-semibold text-zinc-200">
+                                            <Translate content="enchantment:simulation.results.table.enchantment" />
+                                        </th>
+                                        <th className="px-6 py-4 text-left text-sm font-semibold text-zinc-200">
+                                            <Translate content="enchantment:simulation.results.table.probability" />
+                                        </th>
+                                        <th className="px-6 py-4 text-left text-sm font-semibold text-zinc-200">
+                                            <Translate content="enchantment:simulation.results.table.average_level" />
+                                        </th>
+                                        <th className="px-6 py-4 text-left text-sm font-semibold text-zinc-200">
+                                            <Translate content="enchantment:simulation.results.table.level_range" />
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-zinc-800">
@@ -253,9 +396,11 @@ function RouteComponent() {
                                         <tr className="bg-black/30 h-96">
                                             <td colSpan={4} className="px-6 py-12 text-center text-zinc-400">
                                                 <div className="flex flex-col items-center gap-2">
-                                                    <span className="text-sm">No simulation results yet</span>
+                                                    <span className="text-sm">
+                                                        <Translate content="enchantment:simulation.results.empty.title" />
+                                                    </span>
                                                     <span className="text-xs text-zinc-500">
-                                                        Click on one of the three slots to see probability results
+                                                        <Translate content="enchantment:simulation.results.empty.description" />
                                                     </span>
                                                 </div>
                                             </td>
@@ -276,7 +421,9 @@ function RouteComponent() {
                                                     ) : (
                                                         <>
                                                             <span className="font-medium text-zinc-300">{toRoman(stat.minLevel)}</span>
-                                                            <span className="font-light text-sm text-zinc-400 px-1.5">to</span>
+                                                            <span className="font-light text-sm text-zinc-400 px-1.5">
+                                                                <Translate content="enchantment:simulation.results.level_range.to" />
+                                                            </span>
                                                             <span className="font-medium text-zinc-300">{toRoman(stat.maxLevel)}</span>
                                                         </>
                                                     )}

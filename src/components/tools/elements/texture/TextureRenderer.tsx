@@ -1,9 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import { cn } from "@/lib/utils";
+import { Identifier } from "@voxelio/breeze";
 
 const user = "Hardel-DW";
 const repo = "voxel.atlas";
-const path = "refs/heads/main/atlas/1.21.7/data.min.json";
+const path = "refs/heads/main/atlas/1.21.9/data.min.json";
 
 const getItems = async () => {
     const response = await fetch(`https://raw.githubusercontent.com/${user}/${repo}/${path}`);
@@ -16,9 +17,9 @@ const getItems = async () => {
 type Response = Record<string, [number, number, number, number]>;
 
 export default function TextureRenderer(props: { id: string; className?: string }) {
-    const processId = props.id.includes(":") ? props.id.split(":")[1] : props.id;
+    const processId = Identifier.of(props.id, "item").toString();
     const { data, isLoading, error } = useQuery<Response>({
-        queryKey: ["items"],
+        queryKey: ["items", "1.21.9"],
         queryFn: getItems
     });
 

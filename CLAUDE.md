@@ -68,6 +68,12 @@ src/
 - Parameterized routes like `/$lang/studio` for internationalization
 - Nested layouts with `Outlet` components
 
+#### Translation System
+- For Voxel Studio, we need to use <Translate> component. Take a string props "content". Put a translation key like: "registry:key_name".
+- Registry is json file at `src/i18n/studio/<lang>/<registry>.json`.
+- If you don't provider a registry, i will use `src/i18n/studio/<lang>.json`.
+- For some special cases, you can use a hook like `useTranslate("registry:key_name");`.
+
 #### Element System
 
 - Powered by `@voxelio/breeze` library for Minecraft datapack operations

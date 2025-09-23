@@ -14,6 +14,7 @@ export function ToolbarTextButton({ icon, tooltip, onClick, disabled, labelText,
         <button
             type="button"
             {...props}
+            onClick={onClick}
             onMouseDown={(e) => e.stopPropagation()}
             disabled={disabled}
             title={tooltip}
