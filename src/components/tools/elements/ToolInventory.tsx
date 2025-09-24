@@ -1,13 +1,12 @@
 import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer";
 import { useDragAndDrop } from "@/lib/hook/useDragAndDrop";
-import useRegistry from "@/lib/hook/useRegistry";
 import { useInfiniteScroll } from "@/lib/hook/useInfiniteScroll";
+import useRegistry from "@/lib/hook/useRegistry";
 
 export default function ToolInventory({ search }: { search: string }) {
     const { data: allItems, isLoading, isError } = useRegistry<string[]>("registry", "item");
     const { handleDragStart, handleDragEnd, draggedItem } = useDragAndDrop();
-    const filteredItems =
-        allItems?.filter((item) => item !== "air" && item.toLowerCase().includes(search.toLowerCase())) ?? [];
+    const filteredItems = allItems?.filter((item) => item !== "air" && item.toLowerCase().includes(search.toLowerCase())) ?? [];
     const { visibleItems, hasMore, ref } = useInfiniteScroll(filteredItems, 60);
 
     if (isLoading) {
