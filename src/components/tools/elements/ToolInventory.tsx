@@ -1,16 +1,14 @@
-import { useMemo } from "react";
 import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer";
 import { useDragAndDrop } from "@/lib/hook/useDragAndDrop";
 import useRegistry from "@/lib/hook/useRegistry";
+import { useInfiniteScroll } from "@/lib/hook/useInfiniteScroll";
 
 export default function ToolInventory({ search }: { search: string }) {
     const { data: allItems, isLoading, isError } = useRegistry<string[]>("registry", "item");
     const { handleDragStart, handleDragEnd, draggedItem } = useDragAndDrop();
-
-    const filteredItems = useMemo(() => {
-        if (!allItems) return [];
-        return allItems.filter((item) => item !== "air" && item.toLowerCase().includes(search.toLowerCase())).slice(0, 50);
-    }, [allItems, search]);
+    const filteredItems =
+        allItems?.filter((item) => item !== "air" && item.toLowerCase().includes(search.toLowerCase())) ?? [];
+    const { visibleItems, hasMore, ref } = useInfiniteScroll(filteredItems, 60);
 
     if (isLoading) {
         return (
@@ -30,36 +28,41 @@ export default function ToolInventory({ search }: { search: string }) {
     }
 
     return (
-        <div
-            className="grid gap-2"
-            style={{
-                gridTemplateColumns: "repeat(auto-fill, minmax(56px, 1fr))",
-                gridTemplateRows: "repeat(auto-fill, minmax(56px, 1fr))"
-            }}>
-            {filteredItems.map((item) => {
-                const isDragging = draggedItem === item;
-                return (
-                    <button
-                        type="button"
-                        key={item}
-                        className={`relative overflow-hidden bg-zinc-900/20 border border-zinc-800 hover:border-zinc-600 rounded-lg p-3 cursor-grab active:cursor-grabbing transition-all hover:bg-zinc-900/40 group ${isDragging ? "opacity-50" : ""}`}
-                        draggable={true}
-                        onDragStart={(e) => handleDragStart(e, item)}
-                        onDragEnd={handleDragEnd}>
-                        <div className="w-8 h-8 flex items-center justify-center">
-                            <TextureRenderer id={item} />
-                        </div>
+        <div className="flex h-full flex-col overflow-y-auto pr-1">
+            <div
+                className="grid gap-2"
+                style={{
+                    gridTemplateColumns: "repeat(auto-fill, 56px)",
+                    gridAutoRows: "56px",
+                    justifyContent: "center"
+                }}>
+                {visibleItems.map((item) => {
+                    const isDragging = draggedItem === item;
+                    return (
+                        <button
+                            type="button"
+                            key={item}
+                            className={`relative overflow-hidden bg-zinc-900/20 border border-zinc-800 hover:border-zinc-600 rounded-lg p-3 cursor-grab active:cursor-grabbing transition-colors hover:bg-zinc-900/40 group ${isDragging ? "opacity-50" : ""}`}
+                            draggable={true}
+                            onDragStart={(e) => handleDragStart(e, item)}
+                            onDragEnd={handleDragEnd}>
+                            <div className="w-8 h-8 flex items-center justify-center">
+                                <TextureRenderer id={item} />
+                            </div>
+                        </button>
+                    );
+                })}
 
-                        <div className="absolute inset-0 -z-10 brightness-25 opacity-0 group-hover:opacity-100 transition-opacity">
-                            <img src="/images/shine.avif" alt="Shine" />
-                        </div>
-                    </button>
-                );
-            })}
+                {visibleItems.length === 0 && search.length === 0 && (
+                    <div className="col-span-full flex flex-col items-center justify-center text-zinc-400 p-8">
+                        <p className="text-sm">Start typing to search items...</p>
+                    </div>
+                )}
+            </div>
 
-            {filteredItems.length === 0 && search.length === 0 && (
-                <div className="col-span-full flex flex-col items-center justify-center text-zinc-400 p-8">
-                    <p className="text-sm">Start typing to search items...</p>
+            {hasMore && (
+                <div ref={ref} className="flex justify-center items-center py-4 text-xs text-zinc-500">
+                    Loading more items…
                 </div>
             )}
         </div>

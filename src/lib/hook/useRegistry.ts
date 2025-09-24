@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import type { MCMETA_PATH } from "@/lib/github";
-import { fetchGzippedData } from "@/lib/github";
+import { fetchMcmetaData } from "@/lib/github";
 
 export type FetchedRegistry<T> = Record<string, T>;
 export type Component<T> = Record<string, T>;
@@ -13,7 +13,7 @@ export default function useRegistry<T>(type: keyof typeof MCMETA_PATH, registryI
         isError: isRegistryError
     } = useQuery<T, Error>({
         queryKey: registryQueryKey,
-        queryFn: () => fetchGzippedData(type, registryId) as T
+        queryFn: () => fetchMcmetaData(type, registryId) as T
     });
 
     return {

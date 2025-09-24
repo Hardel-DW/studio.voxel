@@ -28,15 +28,16 @@ export default function LootOverviewCard(props: { element: LootTableProps; eleme
             ref={cardRef}
             data-element-id={props.elementId}
             className={cn(
-                "loot-overview-card bg-black/50 border-t-2 border-l-2 border-stone-900 select-none relative transition-all hover:ring-1 ring-zinc-900 rounded-xl p-4",
+                "loot-overview-card bg-zinc-950/70 border border-zinc-900 select-none relative rounded-xl p-4 shadow-sm",
                 "flex flex-col",
-                "outline-hidden"
+                "outline-hidden",
+                "transition-[box-shadow,transform] duration-150 ease-out hover:shadow-lg hover:-translate-y-0.5"
             )}>
             {/* Première ligne : Titre/Badge/Switch */}
             <div className="flex items-center justify-between pb-3">
                 <div className="flex flex-col gap-1 justify-center flex-1 min-w-0">
                     <h3 className="text-sm font-semibold truncate">{new Identifier(props.element.identifier).toResourceName()}</h3>
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 text-zinc-400">
                         <div className="bg-zinc-800/20 pr-2 pl-1 py-px rounded-full border border-zinc-800">
                             <div className="flex items-center gap-1">
                                 <span className="text-xs">🎲</span>
@@ -64,23 +65,19 @@ export default function LootOverviewCard(props: { element: LootTableProps; eleme
             {/* Deuxième ligne : Items empilés */}
             <div className="pb-4">
                 <div className="relative w-full flex justify-between items-center cursor-pointer">
-                    <div className="flex -space-x-4">
+                    <div className="flex -space-x-3">
                         {items.slice(0, 5).map((item, index) => (
-                            <TextureRenderer key={`${item.name}-${index}`} id={item.name} className="scale-75" />
+                            <TextureRenderer key={`${item.name}-${index}`} id={item.name} className="scale-75 drop-shadow-sm" />
                         ))}
                     </div>
                     <Popover className="loot-popover" onOpenChange={handlePopoverChange}>
                         <PopoverTrigger>
-                            <span className="text-xs bg-zinc-900/50 border border-zinc-800 px-2 py-2 rounded-lg cursor-pointer hover:bg-zinc-800/50 transition-colors">
+                            <span className="text-xs bg-zinc-900/60 border border-zinc-800 px-2 py-2 rounded-lg cursor-pointer hover:bg-zinc-800/60 transition-colors">
                                 {itemsCount > 5 ? `+${itemsCount - 5} more` : "See Details"}
                             </span>
                         </PopoverTrigger>
                         <PopoverContent className="max-w-100 max-h-120">
-                            <div className="absolute inset-0 z-0 hue-rotate-45 starting:opacity-0 transition-all duration-500 brightness-20">
-                                <img src="/images/shine.avif" alt="Shine" />
-                            </div>
-
-                            <div className="flex flex-col gap-2 relative z-20">
+                            <div className="flex flex-col gap-2">
                                 <div className="flex items-center justify-between">
                                     <p className="font-semibold leading-2">Loot Items</p>
                                     <div className="flex gap-2 items-center">
@@ -123,14 +120,9 @@ export default function LootOverviewCard(props: { element: LootTableProps; eleme
                     to="/$lang/studio/editor/loot_table/main"
                     params={{ lang }}
                     onClick={handleConfigure}
-                    className="w-full cursor-pointer bg-zinc-800/30 hover:bg-zinc-700/50 border border-zinc-700/50 rounded-lg px-3 py-2 text-xs font-medium text-zinc-300 transition-colors block text-center">
+                    className="w-full cursor-pointer bg-zinc-900/40 hover:bg-zinc-800/50 border border-zinc-800/40 rounded-lg px-3 py-2 text-xs font-medium text-zinc-300 transition-[background-color] duration-150 block text-center">
                     Configure
                 </Link>
-            </div>
-
-            {/* Background shine */}
-            <div className="absolute inset-0 -z-10 brightness-30 rounded-xl overflow-hidden">
-                <img src="/images/shine.avif" alt="Shine" className="w-full h-full object-cover" />
             </div>
         </div>
     );

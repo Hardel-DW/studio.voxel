@@ -24,9 +24,7 @@ export default function RecipeSection() {
     const currentElement = useConfiguratorStore((state) => getCurrentElement(state));
     const handleChange = useConfiguratorStore((state) => state.handleChange);
     const currentBlock = currentElement && isVoxel(currentElement, "recipe") ? getBlockByRecipeType(currentElement.type) : undefined;
-
     const [selection, setSelection] = useState<string>(currentBlock?.id ?? RECIPE_BLOCKS[0].id);
-
     if (!currentElement || !isVoxel(currentElement, "recipe")) return null;
 
     const handleSelectionChange = (newSelection: string) => {
@@ -53,7 +51,6 @@ export default function RecipeSection() {
                     </Suspense>
                 </div>
             </div>
-            <hr />
             <div className="overflow-y-auto flex-1 px-6 pb-6 pt-2">
                 <RecipeRenderer element={currentElement} />
                 <div className=" mt-4 border rounded-lg border-zinc-900 p-4 flex flex-col gap-8 relative">
@@ -73,7 +70,7 @@ export default function RecipeSection() {
                     <div className="flex justify-between items-center">
                         <div>
                             <p className="text-base font-semibold text-zinc-400">Recipe type</p>
-                            <p className="text-xs text-zinc-500">The type of recipe which will be used to craft the item</p>
+                            <p className="text-xs text-zinc-500 pr-4">The type of recipe which will be used to craft the item</p>
                         </div>
                         {currentBlock && TAB_CONFIGS[currentBlock.id as keyof typeof TAB_CONFIGS] && (
                             <Tabs
@@ -88,7 +85,7 @@ export default function RecipeSection() {
                         )}
                     </div>
 
-                    <div className="absolute inset-0 -z-10 brightness-30  rotate-180 hue-rotate-45">
+                    <div className="absolute inset-0 -z-10 brightness-25">
                         <img src="/images/shine.avif" alt="Shine" />
                     </div>
                 </div>

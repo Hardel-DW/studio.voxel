@@ -6,6 +6,7 @@ import { Toolbar } from "@/components/tools/floatingbar/Toolbar";
 import { ToolbarSearch } from "@/components/tools/floatingbar/ToolbarSearch";
 import Translate from "@/components/tools/Translate";
 import { useElementsByType } from "@/lib/hook/useElementsByType";
+import { useInfiniteScroll } from "@/lib/hook/useInfiniteScroll";
 
 export const Route = createFileRoute("/$lang/studio/editor/loot_table/overview")({
     component: RouteComponent
@@ -17,6 +18,7 @@ function RouteComponent() {
     const filteredElements = lootElements.filter(
         (el) => !searchValue || el.identifier.resource.toLowerCase().includes(searchValue.toLowerCase())
     );
+    const { visibleItems, hasMore, ref } = useInfiniteScroll(filteredElements, 16);
 
     return (
         <div>
@@ -35,11 +37,32 @@ function RouteComponent() {
             <hr className="my-4" />
 
             <div className="grid gap-4 loot-overview-grid" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))" }}>
-                {filteredElements.map((element) => {
+                {visibleItems.map((element) => {
                     const elementId = new Identifier(element.identifier).toUniqueKey();
                     return <LootOverviewCard key={element.identifier.resource} element={element} elementId={elementId} />;
                 })}
             </div>
+
+            {hasMore && (
+                <div ref={ref} className="flex justify-center items-center mt-8 py-4">
+                    <div className="bg-black/50 border-t-2 border-l-2 border-stone-900 rounded-xl p-2 opacity-60">
+                        <span className="text-zinc-500 text-xs">
+                            <Translate content="loot:overview.scroll.more" />
+                        </span>
+                    </div>
+                </div>
+            )}
+
+            {filteredElements.length === 0 && (
+                <div className="text-center py-12 text-zinc-400">
+                    <div className="text-lg font-medium mb-2">
+                        <Translate content="loot:overview.empty.title" />
+                    </div>
+                    <div className="text-sm">
+                        <Translate content="loot:overview.empty.description" />
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

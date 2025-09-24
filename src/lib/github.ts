@@ -2,10 +2,19 @@ import { gunzipSync } from "fflate";
 
 export const BASE_URL = "https://raw.githubusercontent.com/misode/mcmeta";
 export const MCMETA_PATH = {
-    component: "/summary/item_components",
-    registry: "/registries",
-    summary: "/summary/data"
-};
+    component: {
+        path: "/summary/item_components",
+        gzip: true
+    },
+    registry: {
+        path: "/registries",
+        gzip: false
+    },
+    summary: {
+        path: "/summary/data",
+        gzip: true
+    }
+} as const;
 
 export async function fetchDatapackPreset(version: number): Promise<Blob> {
     const fileName = `enchantment-${version}.zip`;
@@ -19,23 +28,20 @@ export async function fetchDatapackPreset(version: number): Promise<Blob> {
     return response.blob();
 }
 
-// Fonction helper pour fetcher les données gzippées
-export async function fetchGzippedData(type: keyof typeof MCMETA_PATH, registry?: string): Promise<any> {
-    const basePath = MCMETA_PATH[type];
+export async function fetchMcmetaData(type: keyof typeof MCMETA_PATH, registry?: string): Promise<any> {
+    const { path, gzip } = MCMETA_PATH[type];
     const registryPath = registry?.startsWith("tags/") ? registry.replace(/^tags\//, "tag/") : registry;
-    const suffix = registry ? `/${registryPath}/data.json.gz` : "/data.json.gz";
-    const fileUrl = `${BASE_URL}${basePath}${suffix}`;
+    const base = registry ? `${BASE_URL}${path}/${registryPath}` : `${BASE_URL}${path}`;
+    const suffix = gzip ? "/data.json.gz" : "/data.min.json";
+    const url = `${base}${suffix}`;
 
-    const response = await fetch(fileUrl, {
-        headers: { "Accept-Encoding": "gzip" }
-    });
-
+    const response = await fetch(url, gzip ? { headers: { "Accept-Encoding": "gzip" } } : undefined);
     if (!response.ok) {
         throw new Error(`Registry not found: ${response.status}`);
     }
 
-    const compressedData = await response.arrayBuffer();
-    const decompressed = gunzipSync(new Uint8Array(compressedData));
-
-    return JSON.parse(new TextDecoder().decode(decompressed));
+    const buffer = await response.arrayBuffer();
+    const data = new Uint8Array(buffer);
+    const text = gzip ? new TextDecoder().decode(gunzipSync(data)) : new TextDecoder().decode(data);
+    return JSON.parse(text);
 }

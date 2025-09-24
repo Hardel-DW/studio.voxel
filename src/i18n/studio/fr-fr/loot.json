@@ -1,5 +1,8 @@
 {
     "section.main": "Main",
     "overview.title": "Aperçu",
-    "overview.search.placeholder": "Rechercher un loot table..."
+    "overview.search.placeholder": "Rechercher un loot table...",
+    "overview.scroll.more": "Faites défiler pour charger plus de tables de butin",
+    "overview.empty.title": "Aucune table de butin trouvée",
+    "overview.empty.description": "Essayez d'ajuster votre recherche ou vos filtres."
 }

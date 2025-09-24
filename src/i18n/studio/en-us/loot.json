@@ -1,5 +1,8 @@
 {
     "section.main": "Main",
     "overview.title": "Overview",
-    "overview.search.placeholder": "Search loot tables..."
+    "overview.search.placeholder": "Search loot tables...",
+    "overview.scroll.more": "Scroll to load more loot tables",
+    "overview.empty.title": "No loot tables found",
+    "overview.empty.description": "Try adjusting your search or filters."
 }
