@@ -353,8 +353,12 @@ function RouteComponent() {
                                     label={translatedIterationsLabel}
                                 />
                                 <div className="flex justify-between items-center text-xs text-zinc-500 font-light">
-                                    <p><Translate content="enchantment:simulation.iterations.speed" /></p>
-                                    <p><Translate content="enchantment:simulation.iterations.accuracy" /></p>
+                                    <p>
+                                        <Translate content="enchantment:simulation.iterations.speed" />
+                                    </p>
+                                    <p>
+                                        <Translate content="enchantment:simulation.iterations.accuracy" />
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -367,8 +371,12 @@ function RouteComponent() {
                             <Translate content="enchantment:simulation.results.title" />
                         </h2>
                         <ul className="text-zinc-400 text-sm list-disc list-inside space-y-1">
-                            <li><Translate content="enchantment:simulation.results.description.1" /></li>
-                            <li><Translate content="enchantment:simulation.results.description.2" /></li>
+                            <li>
+                                <Translate content="enchantment:simulation.results.description.1" />
+                            </li>
+                            <li>
+                                <Translate content="enchantment:simulation.results.description.2" />
+                            </li>
                         </ul>
                         <hr className="!m-0 absolute -bottom-2 left-0 right-0" />
                     </div>

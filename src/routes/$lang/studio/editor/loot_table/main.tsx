@@ -3,6 +3,7 @@ import type { LootTableProps } from "@voxelio/breeze";
 import { isVoxel, LootTableActionBuilder } from "@voxelio/breeze";
 import LootViewer from "@/components/tools/concept/loot/LootViewer";
 import { getCurrentElement, useConfiguratorStore } from "@/components/tools/Store";
+import { useFlattenedLootItems } from "@/lib/hook/useFlattenedLootItems";
 
 export const Route = createFileRoute("/$lang/studio/editor/loot_table/main")({
     component: LootMainPage
@@ -10,15 +11,17 @@ export const Route = createFileRoute("/$lang/studio/editor/loot_table/main")({
 
 function LootMainPage() {
     const currentElement = useConfiguratorStore((state) => getCurrentElement(state));
-    if (!currentElement || !isVoxel(currentElement, "loot_table")) return null;
-    const items = currentElement.items.filter((item) => item.entryType !== "minecraft:empty");
+    const lootTable = currentElement && isVoxel(currentElement, "loot_table") ? currentElement : undefined;
+    const { items, isLoading } = useFlattenedLootItems(lootTable);
+    if (!lootTable) return null;
 
     return (
         <div className="w-full h-full">
-            {items.length > 0 && (
+            {isLoading && <div className="p-8 text-sm text-zinc-400">Loading loot table data…</div>}
+            {!isLoading && items.length > 0 && (
                 <LootViewer
                     title="loot_table:section.main"
-                    lootTable={currentElement}
+                    lootTable={lootTable}
                     data={items}
                     action={(value) => new LootTableActionBuilder().removeItem(value).build()}
                     renderer={(el: LootTableProps) => el.items.length}

@@ -138,7 +138,7 @@ function ExclusiveGroupSection() {
 function ExclusiveSingleSection() {
     const files = useConfiguratorStore((state) => state.files);
     const enchantments = new Datapack(files).getRegistry("enchantment");
-    const { data: vanilla, isLoading, isError } = useRegistry<FetchedRegistry<Enchantment>>("enchantment", "summary");
+    const { data: vanilla, isLoading, isError } = useRegistry<FetchedRegistry<Enchantment>>("summary", "enchantment");
 
     const identifiers = enchantments.map((enchantment) => new Identifier(enchantment.identifier));
     const vanillaIdentifiers = Object.keys(vanilla ?? {}).map((key) => Identifier.of(`minecraft:${key}`, `enchantment`));

@@ -1,5 +1,4 @@
-import type { LootItem, LootTableProps } from "@voxelio/breeze";
-import { LootTableAppearanceProbability } from "@voxelio/breeze";
+import type { FlattenedLootItem, LootTableProps } from "@voxelio/breeze";
 import RewardItem from "@/components/tools/concept/loot/RewardItem";
 import type { TranslateTextType } from "@/components/tools/Translate";
 import { type BaseInteractiveComponent, useInteractiveLogic } from "@/lib/hook/useInteractiveLogic";
@@ -7,15 +6,12 @@ import { type BaseInteractiveComponent, useInteractiveLogic } from "@/lib/hook/u
 export type LootViewerProps = BaseInteractiveComponent & {
     title: TranslateTextType;
     lootTable: LootTableProps;
-    data: LootItem[];
+    data: FlattenedLootItem[];
 };
 
 export default function LootViewer(props: LootViewerProps) {
-    const { value, handleChange } = useInteractiveLogic<LootViewerProps, boolean>({ component: props });
-    const calculator = new LootTableAppearanceProbability(props.lootTable);
-    const probabilities = calculator.calculateProbabilities();
-    const totalProb = probabilities.reduce((sum, result) => sum + result.probability, 0);
-    const probabilityMap = new Map(totalProb > 0 ? probabilities.map((result) => [result.itemId, result.probability / totalProb]) : []);
+    const { handleChange } = useInteractiveLogic<LootViewerProps, boolean>({ component: props });
+    const totalProbability = props.data.reduce((sum, reward) => sum + reward.probability, 0);
 
     return (
         <div className="relative overflow-hidden bg-black/50 border-t-2 border-l-2 border-stone-900 ring-0 ring-zinc-900 rounded-xl w-full min-h-full">
@@ -23,18 +19,18 @@ export default function LootViewer(props: LootViewerProps) {
                 <div>
                     <div className="flex justify-between items-center gap-y-2">
                         <h1 className="text-2xl font-bold text-white">Chance d'obtention</h1>
-                        <p className="text-sm text-zinc-400">This loot table has {value} items</p>
+                        <p className="text-sm text-zinc-400">Probability mass: {totalProbability.toFixed(2)}</p>
                     </div>
                     <div className="w-full h-1 bg-zinc-700 rounded-full" />
                 </div>
 
                 <ul className="grid grid-cols-2 gap-4">
-                    {props.data?.map((reward) => (
+                    {props.data.map((reward, index) => (
                         <RewardItem
-                            key={reward.id}
+                            key={`${reward.name}-${reward.id ?? index}`}
                             {...reward}
-                            probability={probabilityMap.get(reward.id)}
-                            onDelete={(id: string) => handleChange(id)}
+                            normalizedProbability={totalProbability > 0 ? reward.probability / totalProbability : undefined}
+                            onDelete={reward.id ? (id: string) => handleChange(id) : undefined}
                         />
                     ))}
                 </ul>

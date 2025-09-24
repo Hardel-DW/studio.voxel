@@ -1,34 +1,36 @@
 import { Link, useParams } from "@tanstack/react-router";
 import type { LootTableProps } from "@voxelio/breeze";
 import { Actions, Identifier } from "@voxelio/breeze";
+import { useRef } from "react";
 import LootItemHoverCard from "@/components/tools/concept/loot/LootItemHoverCard";
 import SimpleSwitch from "@/components/tools/elements/SimpleSwitch";
 import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/Popover";
+import { useFlattenedLootItems } from "@/lib/hook/useFlattenedLootItems";
 import { cn } from "@/lib/utils";
 
-export default function LootOverviewCard(props: {
-    element: LootTableProps;
-    elementId: string;
-    isBlurred: boolean;
-    onPopoverChange: (isOpen: boolean) => void;
-}) {
+export default function LootOverviewCard(props: { element: LootTableProps; elementId: string }) {
+    const cardRef = useRef<HTMLDivElement | null>(null);
     const { lang } = useParams({ from: "/$lang" });
     const rollsInfo = getRollsInfo(props.element);
-    const itemsCount = props.element.items.filter((item) => item.entryType !== "minecraft:empty").length;
-    const items = props.element.items.filter((item) => item.entryType !== "minecraft:empty");
+    const { items, isLoading } = useFlattenedLootItems(props.element);
+    const itemsCount = items.length;
 
-    const handleConfigure = () => {
-        useConfiguratorStore.getState().setCurrentElementId(props.elementId);
+    const handleConfigure = () => useConfiguratorStore.getState().setCurrentElementId(props.elementId);
+    const handlePopoverChange = (isOpen: boolean) => {
+        if (!cardRef.current) return;
+        cardRef.current.toggleAttribute("data-popover-open", isOpen);
     };
 
     return (
         <div
+            ref={cardRef}
+            data-element-id={props.elementId}
             className={cn(
-                "bg-black/50 border-t-2 border-l-2 border-stone-900 select-none relative transition-all hover:ring-1 ring-zinc-900 rounded-xl p-4",
+                "loot-overview-card bg-black/50 border-t-2 border-l-2 border-stone-900 select-none relative transition-all hover:ring-1 ring-zinc-900 rounded-xl p-4",
                 "flex flex-col",
-                props.isBlurred && "grayscale brightness-50 blur-sm transition-all duration-300 select-none pointer-events-none"
+                "outline-hidden"
             )}>
             {/* Première ligne : Titre/Badge/Switch */}
             <div className="flex items-center justify-between pb-3">
@@ -63,14 +65,14 @@ export default function LootOverviewCard(props: {
             <div className="pb-4">
                 <div className="relative w-full flex justify-between items-center cursor-pointer">
                     <div className="flex -space-x-4">
-                        {items.slice(0, 5).map((item) => (
-                            <TextureRenderer key={item.id} id={item.name} className="scale-75" />
+                        {items.slice(0, 5).map((item, index) => (
+                            <TextureRenderer key={`${item.name}-${index}`} id={item.name} className="scale-75" />
                         ))}
                     </div>
-                    <Popover onOpenChange={props.onPopoverChange}>
+                    <Popover className="loot-popover" onOpenChange={handlePopoverChange}>
                         <PopoverTrigger>
                             <span className="text-xs bg-zinc-900/50 border border-zinc-800 px-2 py-2 rounded-lg cursor-pointer hover:bg-zinc-800/50 transition-colors">
-                                {items.length > 5 ? `+${items.length - 5} more` : "See Details"}
+                                {itemsCount > 5 ? `+${itemsCount - 5} more` : "See Details"}
                             </span>
                         </PopoverTrigger>
                         <PopoverContent className="max-w-100 max-h-120">
@@ -95,13 +97,15 @@ export default function LootOverviewCard(props: {
 
                                 {/* Grid des items */}
                                 <div className="overflow-y-auto max-h-96">
-                                    <div className="grid grid-cols-2 gap-2">
-                                        {items.map((item) => (
-                                            <LootItemHoverCard key={item.id} item={item} />
-                                        ))}
-                                    </div>
-
-                                    {items.length === 0 && (
+                                    {isLoading ? (
+                                        <div className="py-8 text-center text-xs text-zinc-400">Loading loot data…</div>
+                                    ) : items.length > 0 ? (
+                                        <div className="grid grid-cols-2 gap-2">
+                                            {items.map((item, index) => (
+                                                <LootItemHoverCard key={`${item.name}-${index}-${item.path.join("-")}`} item={item} />
+                                            ))}
+                                        </div>
+                                    ) : (
                                         <div className="text-center py-4 text-zinc-400">
                                             <div className="text-sm">No items in this loot table</div>
                                         </div>

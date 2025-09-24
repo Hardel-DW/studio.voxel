@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { cn } from "@/lib/utils";
 import { Identifier } from "@voxelio/breeze";
+import { cn } from "@/lib/utils";
 
 const user = "Hardel-DW";
 const repo = "voxel.atlas";

@@ -12,7 +12,6 @@ export const Route = createFileRoute("/$lang/studio/editor/loot_table/overview")
 });
 
 function RouteComponent() {
-    const [openPopoverId, setOpenPopoverId] = useState<string | null>(null);
     const [searchValue, setSearchValue] = useState("");
     const lootElements = useElementsByType("loot_table");
     const filteredElements = lootElements.filter(
@@ -35,19 +34,10 @@ function RouteComponent() {
 
             <hr className="my-4" />
 
-            <div className="grid gap-4" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))" }}>
+            <div className="grid gap-4 loot-overview-grid" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))" }}>
                 {filteredElements.map((element) => {
                     const elementId = new Identifier(element.identifier).toUniqueKey();
-                    const isBlurred = openPopoverId !== null && openPopoverId !== elementId;
-                    return (
-                        <LootOverviewCard
-                            key={element.identifier.resource}
-                            element={element}
-                            elementId={elementId}
-                            isBlurred={isBlurred}
-                            onPopoverChange={(isOpen) => setOpenPopoverId(isOpen ? elementId : null)}
-                        />
-                    );
+                    return <LootOverviewCard key={element.identifier.resource} element={element} elementId={elementId} />;
                 })}
             </div>
         </div>
