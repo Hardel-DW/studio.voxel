@@ -8,14 +8,8 @@ import ToolSlot from "@/components/tools/elements/ToolSlot";
 import { enchantableItems } from "@/lib/data/tags";
 
 const elements = [
-    {
-        id: "supportedItems",
-        title: "enchantment:toggle.supported.title"
-    },
-    {
-        id: "primaryItems",
-        title: "enchantment:toggle.primary.title"
-    }
+    { id: "supportedItems", title: "enchantment:toggle.supported.title" },
+    { id: "primaryItems", title: "enchantment:toggle.primary.title" }
 ];
 
 export const Route = createFileRoute("/$lang/studio/editor/enchantment/items")({
@@ -28,7 +22,7 @@ function EnchantmentItemsPage() {
     return (
         <ToolSectionSelector
             id="slots"
-            title="enchantment:section.slots.description"
+            title="enchantment:section.items.description"
             elements={elements}
             value={section}
             setValue={setSection}>

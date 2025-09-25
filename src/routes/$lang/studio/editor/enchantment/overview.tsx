@@ -1,23 +1,15 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import {
-    EnchantmentActionBuilder,
-    type EnchantmentGroup,
-    type EnchantmentProps,
-    type EnchantmentSortCriteria,
-    EnchantmentSorter
-} from "@voxelio/breeze";
+import type { EnchantmentProps, EnchantmentSortCriteria } from "@voxelio/breeze";
+import { EnchantmentSorter } from "@voxelio/breeze";
 import { useState } from "react";
 import EnchantmentCard from "@/components/tools/concept/enchantment/EnchantmentCard";
-import OverviewGroupCard from "@/components/tools/concept/enchantment/OverviewGroupCard";
 import { Toolbar } from "@/components/tools/floatingbar/Toolbar";
 import { ToolbarButton } from "@/components/tools/floatingbar/ToolbarButton";
 import { ToolbarDropdown } from "@/components/tools/floatingbar/ToolbarDropdown";
 import { ToolbarSearch } from "@/components/tools/floatingbar/ToolbarSearch";
-import { useConfiguratorStore } from "@/components/tools/Store";
 import Translate from "@/components/tools/Translate";
 import { Button } from "@/components/ui/Button";
 import { Dialog, DialogCloseButton, DialogFooter, DialogHeader, DialogHero } from "@/components/ui/Dialog";
-import { DragDropProvider } from "@/components/ui/DragDrop";
 import { MultiStep, MultiStepControl, MultiStepItem } from "@/components/ui/MultiStep";
 import { useElementsByType } from "@/lib/hook/useElementsByType";
 import { useTranslateKey } from "@/lib/hook/useTranslation";
@@ -42,6 +34,7 @@ const sortOptions = [
     {
         key: "slots",
         value: "slots",
+        to: "/$lang/studio/editor/enchantment/slots-overview",
         label: "enchantment:overview.sort.slots.label",
         description: "enchantment:overview.sort.slots.description"
     },
@@ -63,16 +56,8 @@ function Page() {
     const translatedSortOption = useTranslateKey(sortOption?.label || "enchantment:overview.sort.none.label");
     const translatedSortBy = useTranslateKey("enchantment:overview.sort.by");
 
-    const handleDrop = (dragData: { id: string; category: string }, dropZone: string) => {
-        if (sortCriteria === "exclusiveSet") {
-            useConfiguratorStore
-                .getState()
-                .handleChange(new EnchantmentActionBuilder().setExclusiveSetWithTags(dropZone).build(), dragData.id);
-        }
-    };
-
     return (
-        <DragDropProvider onDrop={handleDrop}>
+        <>
             <Dialog id="enchantment-welcome" reminder defaultOpen className="sm:max-w-[800px]">
                 <MultiStep>
                     <MultiStepItem>
@@ -187,6 +172,7 @@ function Page() {
                         value={sortCriteria}
                         options={sortOptions}
                         onChange={(value: string) => setSortCriteria(value as EnchantmentSortCriteria)}
+                        params={{ lang }}
                     />
                     <ToolbarButton
                         icon={`/icons/tools/overview/${isDetailed ? "map" : "list"}.svg`}
@@ -217,33 +203,11 @@ function Page() {
 
             <hr className="my-4" />
 
-            {isGroupView ? (
-                <div
-                    className="grid gap-6"
-                    style={{
-                        gridTemplateColumns: "repeat(auto-fit, minmax(max(280px, calc((100% - 1.5rem) / 2)), 1fr))",
-                        containerType: "inline-size"
-                    }}>
-                    {(filteredElements as EnchantmentGroup[]).map((group) => (
-                        <div
-                            key={group.key}
-                            className="slot-group-container"
-                            style={{ gridColumn: group.enchantments.length > 8 ? "1 / -1" : "auto" }}>
-                            <OverviewGroupCard group={group} sortCriteria={sortCriteria}>
-                                {group.enchantments.map((element) => (
-                                    <EnchantmentCard key={element.identifier.resource} element={element} isDetailed={isDetailed} />
-                                ))}
-                            </OverviewGroupCard>
-                        </div>
-                    ))}
-                </div>
-            ) : (
-                <div className="grid gap-4" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))" }}>
-                    {(filteredElements as EnchantmentProps[]).map((element) => (
-                        <EnchantmentCard key={element.identifier.resource} element={element} isDetailed={isDetailed} />
-                    ))}
-                </div>
-            )}
-        </DragDropProvider>
+            <div className="grid gap-4 overview-grid" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))" }}>
+                {(filteredElements as EnchantmentProps[]).map((element) => (
+                    <EnchantmentCard key={element.identifier.resource} element={element} display={isDetailed} />
+                ))}
+            </div>
+        </>
     );
 }

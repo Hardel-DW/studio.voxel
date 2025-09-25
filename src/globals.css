@@ -161,21 +161,21 @@
         font-family: 'MinecraftSeven', monospace;
     }
 
-    .loot-overview-grid:has(.loot-overview-card[data-popover-open]) {
-        --loot-card-blur: 6px;
-        --loot-card-brightness: 0.5;
+    .overview-grid:has([data-popover-open]) {
+        --card-blur: 6px;
+        --card-brightness: 0.5;
     }
 
-    .loot-overview-grid .loot-overview-card {
+    .overview-grid .overview-card {
         transition: filter 200ms ease, opacity 200ms ease;
     }
 
-    .loot-overview-grid:has(.loot-overview-card[data-popover-open]) .loot-overview-card {
-        filter: grayscale(0.85) brightness(var(--loot-card-brightness, 0.5)) blur(var(--loot-card-blur, 6px));
+    .overview-grid:has([data-popover-open]) .overview-card {
+        filter: grayscale(0.85) brightness(var(--card-brightness, 0.5)) blur(var(--card-blur, 6px));
         pointer-events: none;
     }
 
-    .loot-overview-grid:has(.loot-overview-card[data-popover-open]) .loot-overview-card[data-popover-open] {
+    .overview-grid:has([data-popover-open]) .overview-card[data-popover-open] {
         filter: none;
         pointer-events: auto;
     }

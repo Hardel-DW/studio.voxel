@@ -46,9 +46,9 @@ export default function ToolSectionSelector(props: ToolSectionSelectorSection) {
                                 {props.elements.map((element) => (
                                     <button
                                         type="button"
-                                        className={cn("px-4 py-2 rounded-xl text-left", {
-                                            "bg-rose-900 text-white": currentValue === element.id,
-                                            "hover:bg-zinc-700": currentValue !== element.id
+                                        className={cn("px-4 py-2 rounded-xl text-left cursor-pointer", {
+                                            "bg-zinc-300 text-zinc-900": currentValue === element.id,
+                                            "hover:bg-zinc-900": currentValue !== element.id
                                         })}
                                         key={element.id}
                                         onClick={() => handleSetValue(element.id)}>

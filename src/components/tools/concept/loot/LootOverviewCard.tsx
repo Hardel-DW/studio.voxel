@@ -28,7 +28,7 @@ export default function LootOverviewCard(props: { element: LootTableProps; eleme
             ref={cardRef}
             data-element-id={props.elementId}
             className={cn(
-                "loot-overview-card bg-zinc-950/70 border border-zinc-900 select-none relative rounded-xl p-4 shadow-sm",
+                "overview-card bg-zinc-950/70 border border-zinc-900 select-none relative rounded-xl p-4 shadow-sm",
                 "flex flex-col",
                 "outline-hidden",
                 "transition-[box-shadow,transform] duration-150 ease-out hover:shadow-lg hover:-translate-y-0.5"

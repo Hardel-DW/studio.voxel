@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router";
 import Translate, { type TranslateTextType } from "@/components/tools/Translate";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/Dropdown";
 import { cn } from "@/lib/utils";
@@ -6,6 +7,7 @@ interface ToolbarDropdownOption {
     value: string;
     label: TranslateTextType;
     description?: TranslateTextType;
+    to?: string;
 }
 
 interface ToolbarDropdownProps {
@@ -16,9 +18,10 @@ interface ToolbarDropdownProps {
     onChange: (value: string) => void;
     disabled?: boolean;
     className?: string;
+    params?: Record<string, string>;
 }
 
-export function ToolbarDropdown({ icon, tooltip, value, options, onChange, disabled, className }: ToolbarDropdownProps) {
+export function ToolbarDropdown({ icon, tooltip, value, options, onChange, disabled, className, params }: ToolbarDropdownProps) {
     const selectedOption = options.find((opt) => opt.value === value);
 
     return (
@@ -40,11 +43,8 @@ export function ToolbarDropdown({ icon, tooltip, value, options, onChange, disab
                 </button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="min-w-[150px] -translate-y-8 gap-y-1 flex flex-col">
-                {options.map((option) => (
-                    <DropdownMenuItem
-                        key={option.value}
-                        onClick={() => onChange(option.value)}
-                        className={value === option.value ? "bg-zinc-900/50 text-zinc-100" : ""}>
+                {options.map((option) => {
+                    const content = (
                         <div className="flex items-center w-full gap-3">
                             {value === option.value && <img src="/icons/valid.svg" alt="Selected" className="h-4 w-4 flex-shrink-0" />}
                             {value !== option.value && <div className="h-4 w-4 flex-shrink-0" />}
@@ -59,8 +59,27 @@ export function ToolbarDropdown({ icon, tooltip, value, options, onChange, disab
                                 )}
                             </div>
                         </div>
-                    </DropdownMenuItem>
-                ))}
+                    );
+
+                    if (option.to) {
+                        return (
+                            <Link key={option.value} to={option.to} params={params}>
+                                <DropdownMenuItem className={value === option.value ? "bg-zinc-900/50 text-zinc-100" : ""}>
+                                    {content}
+                                </DropdownMenuItem>
+                            </Link>
+                        );
+                    }
+
+                    return (
+                        <DropdownMenuItem
+                            key={option.value}
+                            onClick={() => onChange(option.value)}
+                            className={value === option.value ? "bg-zinc-900/50 text-zinc-100" : ""}>
+                            {content}
+                        </DropdownMenuItem>
+                    );
+                })}
             </DropdownMenuContent>
         </DropdownMenu>
     );
