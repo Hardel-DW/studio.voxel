@@ -1,0 +1,18 @@
+{
+    "home": "Voxel Studio",
+    "enchantment.overview": "Aper�u des Enchantements",
+    "enchantment.simulation": "Simulation d'Enchantements",
+    "enchantment.slots-overview": "Aper�u des Slots",
+    "enchantment.items-overview": "Aper�u des Objets",
+    "enchantment.main": "Param�tres d'Enchantement",
+    "enchantment.find": "D�couverte d'Enchantement",
+    "enchantment.slots": "Slots d'Enchantement",
+    "enchantment.items": "Objets Support�s",
+    "enchantment.exclusive": "Non Combinable",
+    "enchantment.technical": "Param�tres Techniques",
+    "loot_table.overview": "Aper�u des Tables de Butin",
+    "loot_table.main": "Param�tres de Table de Butin",
+    "recipe.overview": "Aper�u des Recettes",
+    "recipe.main": "Param�tres de Recette",
+    "structure.overview": "Aper�u des Structures"
+}

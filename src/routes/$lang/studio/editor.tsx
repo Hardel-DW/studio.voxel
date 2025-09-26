@@ -3,6 +3,7 @@ import { createFileRoute, Outlet } from "@tanstack/react-router";
 import EditorLoading from "@/components/pages/studio/EditorLoading";
 import ConfigManager from "@/components/tools/ConfigManager";
 import ConfiguratorPanel from "@/components/tools/ConfiguratorPanel";
+import PageTitle from "@/components/tools/PageTitle";
 import StudioSidebar from "@/components/tools/sidebar/Sidebar";
 import ToolInternalization from "@/components/tools/ToolInternalization";
 import { getQueryClient } from "@/lib/utils/query";
@@ -49,7 +50,7 @@ function EditorLayout() {
                             <label htmlFor="sidebar-toggle" className="w-6 h-6 cursor-pointer">
                                 <img src="/icons/menu.svg" alt="Menu" className="invert opacity-75" />
                             </label>
-                            <h1 className="text-sm text-zinc-400 truncate">Voxel Studio</h1>
+                            <PageTitle />
                             <div className="flex items-center gap-x-6">
                                 <ToolInternalization />
                                 <a href="/" className="select-none size-fit">

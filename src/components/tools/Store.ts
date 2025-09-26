@@ -51,6 +51,7 @@ const createConfiguratorStore = <T extends keyof Analysers>() =>
         setMinify: (minify) => set({ minify }),
         setCurrentElementId: (currentElementId) => set({ currentElementId }),
         handleChange: async (action, identifier) => {
+            console.log("handleChange", action, identifier);
             const state = get();
             const elementId = identifier ?? state.currentElementId;
             if (!elementId) return;
@@ -82,11 +83,9 @@ const createConfiguratorStore = <T extends keyof Analysers>() =>
         },
         getRegistry: <R extends DataDrivenElement>(registry: string): DataDrivenRegistryElement<R>[] => {
             const state = get();
-            if (state.registryCache.has(registry)) {
-                return state.registryCache.get(registry) as DataDrivenRegistryElement<R>[];
-            }
 
-            const compiled = state.compile();
+            const compiled = state.compile()
+            console.log(compiled, registry);
             const result = new Datapack(state.files).with(compiled).getRegistry<R>(registry);
             set((prevState) => ({ registryCache: prevState.registryCache.set(registry, result) }));
             return result;
