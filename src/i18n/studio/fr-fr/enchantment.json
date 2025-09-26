@@ -241,5 +241,13 @@
     "slots.tooltip.active": "actifs",
     "slots.tooltip.description": "Cliquez pour activer/désactiver les emplacements où cet enchantement s'active",
     "slots.tooltip.loading": "Chargement des emplacements...",
-    "slots.toolbar.back": "Retour à l'aperçu"
+    "slots.toolbar.back": "Retour à l'aperçu",
+    "items.toolbar.back": "Retour à l'aperçu",
+    "items.filter.title": "Filtrer par groupes d'objets",
+    "items.filter.description": "Active des groupes d'objets pour cibler les enchantements compatibles",
+    "items.filter.active_count": "Filtres actifs",
+    "items.filter.clear": "Tout effacer",
+    "items.filter.filtered": "filtrés",
+    "items.no_results.title": "Aucun enchantement ne correspond",
+    "items.no_results.description": "Essaie d'autres groupes pour élargir les résultats"
 }

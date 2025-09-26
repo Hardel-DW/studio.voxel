@@ -22,6 +22,7 @@ const sortOptions = [
     {
         key: "supported",
         value: "supportedItems",
+        to: "/$lang/studio/editor/enchantment/items-overview",
         label: "enchantment:overview.sort.supported.label",
         description: "enchantment:overview.sort.supported.description"
     },
