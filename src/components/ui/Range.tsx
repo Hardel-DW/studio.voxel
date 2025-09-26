@@ -13,18 +13,13 @@ export type RangeProps = Omit<ComponentProps<"input">, "onChange" | "value" | "m
 };
 
 export default function Range(props: RangeProps) {
-    const tempValueRef = useRef<number | null>(null);
     const inputRef = useRef<HTMLInputElement>(null);
     const displayRef = useRef<HTMLSpanElement>(null);
 
-    if (inputRef.current && tempValueRef.current === null) {
-        inputRef.current.value = props.value.toString();
-    }
-
     const handleMouseUp = () => {
-        if (tempValueRef.current !== null && props.onChangeEnd) {
-            props.onChangeEnd(tempValueRef.current);
-            tempValueRef.current = null;
+        if (inputRef.current && props.onChangeEnd) {
+            const finalValue = +inputRef.current.value;
+            props.onChangeEnd(finalValue);
         }
     };
 
@@ -39,7 +34,6 @@ export default function Range(props: RangeProps) {
                 </div>
             )}
             <input
-                {...props}
                 ref={inputRef}
                 type="range"
                 disabled={props.disabled}
@@ -47,13 +41,11 @@ export default function Range(props: RangeProps) {
                 max={props.max}
                 step={props.step}
                 defaultValue={props.value}
-                onChange={(e) => {
-                    const newValue = +e.target.value;
-                    tempValueRef.current = newValue;
+                onInput={(e) => {
+                    const newValue = +e.currentTarget.value;
                     if (displayRef.current) {
                         displayRef.current.textContent = newValue.toString();
                     }
-                    props.onChange?.(newValue);
                 }}
                 onMouseUp={handleMouseUp}
                 onTouchEnd={handleMouseUp}

@@ -1,4 +1,4 @@
-import { Datapack, voxelDatapacks } from "@voxelio/breeze";
+import { Datapack, VOXEL_TAGS } from "@voxelio/breeze";
 import { useRef } from "react";
 import SettingsDialog from "@/components/tools/SettingsDialog";
 import { useConfiguratorStore } from "@/components/tools/Store";
@@ -16,7 +16,7 @@ export default function DownloadButton() {
         const { logger, files, minify, name, isModded } = store;
 
         const content = store.compile();
-        const compiledContent = new Datapack(files).generate(content, { isMinified: minify, logger, include: voxelDatapacks });
+        const compiledContent = new Datapack(files).generate(content, { isMinified: minify, logger, include: VOXEL_TAGS });
         await saveLogs({ logs: logger?.exportJson() });
         downloadArchive(compiledContent, name, isModded);
         dialogRef.current?.showPopover();

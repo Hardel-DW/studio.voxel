@@ -1,5 +1,5 @@
-import type { ModMetadata } from "@voxelio/breeze";
-import { convertDatapack, ModPlatforms } from "@voxelio/breeze";
+import type { ModMetadata } from "@voxelio/converter";
+import { convertDatapack, ModPlatforms } from "@voxelio/converter";
 import { useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { useDictionary } from "@/lib/hook/useNext18n";

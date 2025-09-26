@@ -1,7 +1,7 @@
-import { DEFAULT_MOD_METADATA, extractMetadata } from "@voxelio/breeze";
+import { DEFAULT_MOD_METADATA, extractMetadata } from "@voxelio/converter";
 import { useState } from "react";
+import DatapackForm from "@/components/pages/DatapackForm";
 import Dropzone from "@/components/ui/Dropzone";
-import DatapackForm from "./DatapackForm";
 
 export default function DatapackDropzone({ children }: { children?: React.ReactNode }) {
     const [file, setFile] = useState<File | null>(null);

@@ -12,11 +12,6 @@ import { compileDatapack, Datapack, isVoxelElement, Logger, updateData, type Vox
 import { create } from "zustand";
 import type { CONCEPT_KEY } from "./elements";
 
-export type LastVisitedRoute = {
-    route: string;
-    elementId: string | null;
-};
-
 export interface ConfiguratorState<T extends keyof Analysers> {
     name: string;
     minify: boolean;
@@ -28,7 +23,6 @@ export interface ConfiguratorState<T extends keyof Analysers> {
     version: number | null;
     sortedIdentifiers: Map<string, string[]>;
     registryCache: Map<string, DataDrivenRegistryElement<any>[]>;
-    lastVisitedRoutes: Map<CONCEPT_KEY, LastVisitedRoute>;
     getSortedIdentifiers: (registry: string) => string[];
     setName: (name: string) => void;
     setMinify: (minify: boolean) => void;
@@ -52,7 +46,6 @@ const createConfiguratorStore = <T extends keyof Analysers>() =>
         version: null,
         sortedIdentifiers: new Map(),
         registryCache: new Map(),
-        lastVisitedRoutes: new Map(),
         getSortedIdentifiers: (registry) => get().sortedIdentifiers.get(registry) ?? [],
         setName: (name) => set({ name }),
         setMinify: (minify) => set({ minify }),
@@ -69,6 +62,7 @@ const createConfiguratorStore = <T extends keyof Analysers>() =>
                 updateData(action, el, state.version ?? Number.POSITIVE_INFINITY)
             );
 
+            state.registryCache.clear();
             if (!updatedElement || !isVoxelElement(updatedElement)) return;
             set((state) => ({ elements: state.elements.set(elementId, updatedElement) }));
         },
@@ -92,7 +86,8 @@ const createConfiguratorStore = <T extends keyof Analysers>() =>
                 return state.registryCache.get(registry) as DataDrivenRegistryElement<R>[];
             }
 
-            const result = new Datapack(state.files).getRegistry<R>(registry);
+            const compiled = state.compile();
+            const result = new Datapack(state.files).with(compiled).getRegistry<R>(registry);
             set((prevState) => ({ registryCache: prevState.registryCache.set(registry, result) }));
             return result;
         }

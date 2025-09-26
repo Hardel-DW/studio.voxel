@@ -54,14 +54,11 @@ function RouteComponent() {
         const itemTagsRegistry = datapack.getRegistry<TagType>("tags/item");
         const enchantmentTagsRegistry = datapack.getRegistry<TagType>("tags/enchantment");
 
-        const allEnchantments = mergeRegistries(vanillaEnchantment, enchantments, "enchantment");
+        const allEnchantments = mergeRegistries(includeVanilla ? vanillaEnchantment : {}, enchantments, "enchantment");
         const allItemTags = mergeRegistries(vanillaTagsItem, itemTagsRegistry, "tags/item");
         const allVanillaTagsEnchantments = mergeRegistries(vanillaTagsEnchantment, [], "tags/enchantment");
 
-        const enchantmentMap = new Map();
-        for (const element of allEnchantments) {
-            enchantmentMap.set(new Identifier(element.identifier).toString(), element.data);
-        }
+        const enchantmentMap = new Map(allEnchantments.map((element) => [new Identifier(element.identifier).toString(), element.data]));
 
         const tagCompiler = new TagCompiler(true);
         const compiledEnchTags = tagCompiler.compile([
@@ -69,7 +66,7 @@ function RouteComponent() {
             { id: "datapack", tags: enchantmentTagsRegistry }
         ]);
 
-        const simulator = new EnchantmentSimulator(enchantmentMap, compiledEnchTags);
+        const simulator = new EnchantmentSimulator(enchantmentMap as Map<string, Enchantment>, compiledEnchTags);
         const itemTags = new TagsComparator(allItemTags).findItemTags(itemInput).map((tag) => tag.toString());
         setOutput(simulator.simulateEnchantmentTable(blockCount, enchantability, itemTags)[index]);
         setStats(simulator.calculateEnchantmentProbabilities(blockCount, enchantability, itemTags, iteration, index));
