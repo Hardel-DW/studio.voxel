@@ -8,7 +8,8 @@ import { useTranslateKey } from "@/lib/hook/useTranslation";
  */
 export function usePageTitle(): string {
     const { pathname } = useLocation();
-    const { currentElementId, elements, getConcept } = useConfiguratorStore();
+    const currentElementId = useConfiguratorStore((state) => state.currentElementId);
+    const getConcept = useConfiguratorStore((state) => state.getConcept); 
     const concept = getConcept(pathname);
     const pathParts = pathname.split("/").filter(Boolean);
     const pageName = pathParts[pathParts.length - 1];
@@ -18,12 +19,9 @@ export function usePageTitle(): string {
 
     if (!concept) return homeTitle;
 
-    if (currentElementId && elements.has(currentElementId)) {
-        const element = elements.get(currentElementId);
-        if (element) {
-            const elementName = new Identifier(element.identifier).toResourceName();
-            return `${conceptTitle} - ${elementName}`;
-        }
+    if (currentElementId) {
+        const elementName = Identifier.fromUniqueKey(currentElementId).toResourceName();
+        return `${conceptTitle} - ${elementName}`;
     }
 
     return pageTitle;

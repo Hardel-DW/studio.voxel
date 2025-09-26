@@ -5,7 +5,6 @@ import { useConfiguratorStore } from "@/components/tools/Store";
 import Translate from "@/components/tools/Translate";
 import { Button, LinkButton } from "@/components/ui/Button";
 import { Dialog, DialogCloseButton, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/Dialog";
-import { saveLogs } from "@/lib/telemetry";
 import { downloadArchive } from "@/lib/utils/download";
 
 export default function DownloadButton() {
@@ -17,14 +16,13 @@ export default function DownloadButton() {
 
         const content = store.compile();
         const compiledContent = new Datapack(files).generate(content, { isMinified: minify, logger, include: VOXEL_TAGS });
-        await saveLogs({ logs: logger?.exportJson() });
         downloadArchive(compiledContent, name, isModded);
         dialogRef.current?.showPopover();
     };
 
     return (
         <>
-            <Button type="button" className="w-full" variant="white-shimmer" onClick={handleClick} onKeyDown={handleClick}>
+            <Button type="button" className="w-full" variant="white-shimmer" onClick={handleClick}>
                 <span className="text-sm hidden xl:block">
                     <Translate content="download_data_pack" />
                 </span>
@@ -33,7 +31,7 @@ export default function DownloadButton() {
                 </span>
             </Button>
 
-            <Dialog ref={dialogRef} id="download-success-modal" className="sm:max-w-[525px]">
+            <Dialog ref={dialogRef} id="download-success-modal" className="sm:max-w-[525px] p-4">
                 <DialogHeader>
                     <DialogTitle className="flex items-center gap-x-2">
                         <img src="/icons/success.svg" alt="zip" className="size-6" />
