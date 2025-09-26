@@ -243,5 +243,13 @@
     "slots.tooltip.active": "active",
     "slots.tooltip.description": "Click to toggle slots where this enchantment activates",
     "slots.tooltip.loading": "Loading slots...",
-    "slots.toolbar.back": "Back to Overview"
+    "slots.toolbar.back": "Back to Overview",
+    "items.toolbar.back": "Back to Overview",
+    "items.filter.title": "Filter by Item Groups",
+    "items.filter.description": "Toggle item groups to focus on compatible enchantments",
+    "items.filter.active_count": "Active filters",
+    "items.filter.clear": "Clear all",
+    "items.filter.filtered": "filtered",
+    "items.no_results.title": "No enchantments match your filters",
+    "items.no_results.description": "Try enabling different groups"
 }

@@ -29,6 +29,7 @@ import { Route as LangStudioEditorEnchantmentSlotsRouteImport } from './routes/$
 import { Route as LangStudioEditorEnchantmentSimulationRouteImport } from './routes/$lang/studio/editor/enchantment/simulation'
 import { Route as LangStudioEditorEnchantmentOverviewRouteImport } from './routes/$lang/studio/editor/enchantment/overview'
 import { Route as LangStudioEditorEnchantmentMainRouteImport } from './routes/$lang/studio/editor/enchantment/main'
+import { Route as LangStudioEditorEnchantmentItemsOverviewRouteImport } from './routes/$lang/studio/editor/enchantment/items-overview'
 import { Route as LangStudioEditorEnchantmentItemsRouteImport } from './routes/$lang/studio/editor/enchantment/items'
 import { Route as LangStudioEditorEnchantmentFindRouteImport } from './routes/$lang/studio/editor/enchantment/find'
 import { Route as LangStudioEditorEnchantmentExclusiveRouteImport } from './routes/$lang/studio/editor/enchantment/exclusive'
@@ -143,6 +144,12 @@ const LangStudioEditorEnchantmentMainRoute =
     path: '/enchantment/main',
     getParentRoute: () => LangStudioEditorRoute,
   } as any)
+const LangStudioEditorEnchantmentItemsOverviewRoute =
+  LangStudioEditorEnchantmentItemsOverviewRouteImport.update({
+    id: '/enchantment/items-overview',
+    path: '/enchantment/items-overview',
+    getParentRoute: () => LangStudioEditorRoute,
+  } as any)
 const LangStudioEditorEnchantmentItemsRoute =
   LangStudioEditorEnchantmentItemsRouteImport.update({
     id: '/enchantment/items',
@@ -176,6 +183,7 @@ export interface FileRoutesByFullPath {
   '/$lang/studio/editor/enchantment/exclusive': typeof LangStudioEditorEnchantmentExclusiveRoute
   '/$lang/studio/editor/enchantment/find': typeof LangStudioEditorEnchantmentFindRoute
   '/$lang/studio/editor/enchantment/items': typeof LangStudioEditorEnchantmentItemsRoute
+  '/$lang/studio/editor/enchantment/items-overview': typeof LangStudioEditorEnchantmentItemsOverviewRoute
   '/$lang/studio/editor/enchantment/main': typeof LangStudioEditorEnchantmentMainRoute
   '/$lang/studio/editor/enchantment/overview': typeof LangStudioEditorEnchantmentOverviewRoute
   '/$lang/studio/editor/enchantment/simulation': typeof LangStudioEditorEnchantmentSimulationRoute
@@ -198,6 +206,7 @@ export interface FileRoutesByTo {
   '/$lang/studio/editor/enchantment/exclusive': typeof LangStudioEditorEnchantmentExclusiveRoute
   '/$lang/studio/editor/enchantment/find': typeof LangStudioEditorEnchantmentFindRoute
   '/$lang/studio/editor/enchantment/items': typeof LangStudioEditorEnchantmentItemsRoute
+  '/$lang/studio/editor/enchantment/items-overview': typeof LangStudioEditorEnchantmentItemsOverviewRoute
   '/$lang/studio/editor/enchantment/main': typeof LangStudioEditorEnchantmentMainRoute
   '/$lang/studio/editor/enchantment/overview': typeof LangStudioEditorEnchantmentOverviewRoute
   '/$lang/studio/editor/enchantment/simulation': typeof LangStudioEditorEnchantmentSimulationRoute
@@ -224,6 +233,7 @@ export interface FileRoutesById {
   '/$lang/studio/editor/enchantment/exclusive': typeof LangStudioEditorEnchantmentExclusiveRoute
   '/$lang/studio/editor/enchantment/find': typeof LangStudioEditorEnchantmentFindRoute
   '/$lang/studio/editor/enchantment/items': typeof LangStudioEditorEnchantmentItemsRoute
+  '/$lang/studio/editor/enchantment/items-overview': typeof LangStudioEditorEnchantmentItemsOverviewRoute
   '/$lang/studio/editor/enchantment/main': typeof LangStudioEditorEnchantmentMainRoute
   '/$lang/studio/editor/enchantment/overview': typeof LangStudioEditorEnchantmentOverviewRoute
   '/$lang/studio/editor/enchantment/simulation': typeof LangStudioEditorEnchantmentSimulationRoute
@@ -251,6 +261,7 @@ export interface FileRouteTypes {
     | '/$lang/studio/editor/enchantment/exclusive'
     | '/$lang/studio/editor/enchantment/find'
     | '/$lang/studio/editor/enchantment/items'
+    | '/$lang/studio/editor/enchantment/items-overview'
     | '/$lang/studio/editor/enchantment/main'
     | '/$lang/studio/editor/enchantment/overview'
     | '/$lang/studio/editor/enchantment/simulation'
@@ -273,6 +284,7 @@ export interface FileRouteTypes {
     | '/$lang/studio/editor/enchantment/exclusive'
     | '/$lang/studio/editor/enchantment/find'
     | '/$lang/studio/editor/enchantment/items'
+    | '/$lang/studio/editor/enchantment/items-overview'
     | '/$lang/studio/editor/enchantment/main'
     | '/$lang/studio/editor/enchantment/overview'
     | '/$lang/studio/editor/enchantment/simulation'
@@ -298,6 +310,7 @@ export interface FileRouteTypes {
     | '/$lang/studio/editor/enchantment/exclusive'
     | '/$lang/studio/editor/enchantment/find'
     | '/$lang/studio/editor/enchantment/items'
+    | '/$lang/studio/editor/enchantment/items-overview'
     | '/$lang/studio/editor/enchantment/main'
     | '/$lang/studio/editor/enchantment/overview'
     | '/$lang/studio/editor/enchantment/simulation'
@@ -457,6 +470,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LangStudioEditorEnchantmentMainRouteImport
       parentRoute: typeof LangStudioEditorRoute
     }
+    '/$lang/studio/editor/enchantment/items-overview': {
+      id: '/$lang/studio/editor/enchantment/items-overview'
+      path: '/enchantment/items-overview'
+      fullPath: '/$lang/studio/editor/enchantment/items-overview'
+      preLoaderRoute: typeof LangStudioEditorEnchantmentItemsOverviewRouteImport
+      parentRoute: typeof LangStudioEditorRoute
+    }
     '/$lang/studio/editor/enchantment/items': {
       id: '/$lang/studio/editor/enchantment/items'
       path: '/enchantment/items'
@@ -486,6 +506,7 @@ interface LangStudioEditorRouteChildren {
   LangStudioEditorEnchantmentExclusiveRoute: typeof LangStudioEditorEnchantmentExclusiveRoute
   LangStudioEditorEnchantmentFindRoute: typeof LangStudioEditorEnchantmentFindRoute
   LangStudioEditorEnchantmentItemsRoute: typeof LangStudioEditorEnchantmentItemsRoute
+  LangStudioEditorEnchantmentItemsOverviewRoute: typeof LangStudioEditorEnchantmentItemsOverviewRoute
   LangStudioEditorEnchantmentMainRoute: typeof LangStudioEditorEnchantmentMainRoute
   LangStudioEditorEnchantmentOverviewRoute: typeof LangStudioEditorEnchantmentOverviewRoute
   LangStudioEditorEnchantmentSimulationRoute: typeof LangStudioEditorEnchantmentSimulationRoute
@@ -504,6 +525,8 @@ const LangStudioEditorRouteChildren: LangStudioEditorRouteChildren = {
     LangStudioEditorEnchantmentExclusiveRoute,
   LangStudioEditorEnchantmentFindRoute: LangStudioEditorEnchantmentFindRoute,
   LangStudioEditorEnchantmentItemsRoute: LangStudioEditorEnchantmentItemsRoute,
+  LangStudioEditorEnchantmentItemsOverviewRoute:
+    LangStudioEditorEnchantmentItemsOverviewRoute,
   LangStudioEditorEnchantmentMainRoute: LangStudioEditorEnchantmentMainRoute,
   LangStudioEditorEnchantmentOverviewRoute:
     LangStudioEditorEnchantmentOverviewRoute,
