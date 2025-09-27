@@ -13,11 +13,24 @@ export type ToolListOptionType = BaseInteractiveComponent & {
     image?: string;
     values: string[];
     index?: number;
+    highlight?: boolean;
+    disableToggle?: boolean;
+    onSelect?: () => void;
 };
 
 export default function ToolListOption(props: ToolListOptionType) {
     const { value, lock, handleChange } = useInteractiveLogic<ToolListOptionType, boolean>({ component: props });
     if (value === null) return null;
+
+    const handleSelection = () => {
+        if (lock.isLocked) return;
+        if (props.disableToggle) {
+            props.onSelect?.();
+            return;
+        }
+
+        handleChange(!value);
+    };
 
     return (
         <RenderGuard condition={props.hide}>
@@ -28,11 +41,19 @@ export default function ToolListOption(props: ToolListOptionType) {
                     { "bg-black/25 ring-1 ring-zinc-600": value },
                     { "opacity-50 ring-1 ring-zinc-700": lock.isLocked }
                 )}
-                onClick={() => handleChange(!value)}
+                onClick={handleSelection}
                 onKeyDown={(e) => {
-                    if (e.key === "Enter" || e.key === " ") handleChange(!value);
+                    if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        handleSelection();
+                    }
                 }}
                 disabled={lock.isLocked}>
+                {props.highlight && (
+                    <span className="absolute top-2 right-2">
+                        <img src="/icons/star.svg" alt="Highlight" className="w-4 h-4 invert" />
+                    </span>
+                )}
                 <div className="flex w-full justify-between items-center">
                     <div className="flex items-center gap-4">
                         {props.image && (

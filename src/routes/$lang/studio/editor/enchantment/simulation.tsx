@@ -48,11 +48,10 @@ function RouteComponent() {
     }));
 
     const runSimulation = (index: number) => {
-        const files = useConfiguratorStore.getState().files;
-        const datapack = new Datapack(files);
-        const enchantments = datapack.getRegistry("enchantment");
-        const itemTagsRegistry = datapack.getRegistry<TagType>("tags/item");
-        const enchantmentTagsRegistry = datapack.getRegistry<TagType>("tags/enchantment");
+        const getRegistry = useConfiguratorStore.getState().getRegistry;
+        const enchantments = getRegistry("enchantment");
+        const itemTagsRegistry = getRegistry<TagType>("tags/item");
+        const enchantmentTagsRegistry = getRegistry<TagType>("tags/enchantment");
 
         const allEnchantments = mergeRegistries(includeVanilla ? vanillaEnchantment : {}, enchantments, "enchantment");
         const allItemTags = mergeRegistries(vanillaTagsItem, itemTagsRegistry, "tags/item");
@@ -73,10 +72,9 @@ function RouteComponent() {
     };
 
     const getAvailableItems = () => {
-        const files = useConfiguratorStore.getState().files;
-        const datapack = new Datapack(files);
-        const enchantments = datapack.getRegistry("enchantment");
-        const itemTagsRegistry = datapack.getRegistry<TagType>("tags/item");
+        const getRegistry = useConfiguratorStore.getState().getRegistry;
+        const enchantments = getRegistry<Enchantment>("enchantment");
+        const itemTagsRegistry = getRegistry<TagType>("tags/item");
 
         const allEnchantments = mergeRegistries(vanillaEnchantment, enchantments, "enchantment");
         const allItemTags = mergeRegistries(vanillaTagsItem, itemTagsRegistry, "tags/item");

@@ -32,7 +32,10 @@ export interface ConfiguratorState<T extends keyof Analysers> {
     compile: () => Array<LabeledElement>;
     getLengthByRegistry: (registry: string) => number;
     getConcept: (pathname: string) => CONCEPT_KEY | null;
-    getRegistry: <R extends DataDrivenElement>(registry: string) => DataDrivenRegistryElement<R>[];
+    getRegistry: <R extends DataDrivenElement>(
+        registry: string,
+        options?: { path?: string; excludeNamespaces?: string[] }
+    ) => DataDrivenRegistryElement<R>[];
 }
 
 const createConfiguratorStore = <T extends keyof Analysers>() =>
@@ -51,7 +54,6 @@ const createConfiguratorStore = <T extends keyof Analysers>() =>
         setMinify: (minify) => set({ minify }),
         setCurrentElementId: (currentElementId) => set({ currentElementId }),
         handleChange: async (action, identifier) => {
-            console.log("handleChange", action, identifier);
             const state = get();
             const elementId = identifier ?? state.currentElementId;
             if (!elementId) return;
@@ -81,13 +83,21 @@ const createConfiguratorStore = <T extends keyof Analysers>() =>
             }
             return null;
         },
-        getRegistry: <R extends DataDrivenElement>(registry: string): DataDrivenRegistryElement<R>[] => {
+        getRegistry: <R extends DataDrivenElement>(
+            registry: string,
+            options?: { path?: string; excludeNamespaces?: string[] }
+        ): DataDrivenRegistryElement<R>[] => {
             const state = get();
+            const cacheKey = buildCacheKey(registry, options);
+            const cached = state.registryCache.get(cacheKey) as DataDrivenRegistryElement<R>[] | undefined;
+            if (cached) return cached;
 
-            const compiled = state.compile()
-            console.log(compiled, registry);
-            const result = new Datapack(state.files).with(compiled).getRegistry<R>(registry);
-            set((prevState) => ({ registryCache: prevState.registryCache.set(registry, result) }));
+            const compiled = state.compile();
+            const result = new Datapack(state.files)
+                .with(compiled)
+                .getRegistry<R>(registry, options?.path, options?.excludeNamespaces);
+
+            set((prevState) => ({ registryCache: new Map(prevState.registryCache).set(cacheKey, result) }));
             return result;
         }
     }));
@@ -125,3 +135,10 @@ export function sortElementsByRegistry(elements: Map<string, VoxelElement>): Map
 
     return grouped;
 }
+
+const buildCacheKey = (registry: string, options?: { path?: string; excludeNamespaces?: string[] }) => {
+    if (!options) return registry;
+    const pathKey = options.path ?? "";
+    const excludeKey = options.excludeNamespaces?.length ? [...options.excludeNamespaces].sort().join(",") : "";
+    return `${registry}|${pathKey}|${excludeKey}`;
+};
