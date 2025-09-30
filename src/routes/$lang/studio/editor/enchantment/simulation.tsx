@@ -1,6 +1,6 @@
 import { createFileRoute, useParams } from "@tanstack/react-router";
 import type { EnchantmentOption, EnchantmentStats, SlotLevelRange, TagType } from "@voxelio/breeze";
-import { Datapack, type Enchantment, EnchantmentSimulator, Identifier, TagCompiler, TagsComparator, toRoman } from "@voxelio/breeze";
+import { type Enchantment, EnchantmentSimulator, Identifier, TagCompiler, TagsComparator, toRoman } from "@voxelio/breeze";
 import { type Component, useState } from "react";
 import EnchantingTable from "@/components/tools/elements/EnchantingTable";
 import MinecraftSlot from "@/components/tools/elements/gui/MinecraftSlot";

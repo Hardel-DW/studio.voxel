@@ -1,4 +1,4 @@
-import { RecipeActionBuilder } from "@voxelio/breeze";
+import { RecipeAction } from "@voxelio/breeze";
 import TagsRenderer from "@/components/tools/elements/texture/TagsRenderer";
 import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer";
 import { useConfiguratorStore } from "@/components/tools/Store";
@@ -21,11 +21,11 @@ export default function RecipeSlot({ slotIndex, item, count, isEmpty = false, is
     const { handleDragOver, handleDrop, handleSlotClear } = useDragAndDrop({
         onDrop: (droppedItem, slot) => {
             if (!interactive || !slot) return;
-            handleChange(new RecipeActionBuilder().addIngredient(slot).items(droppedItem).build());
+            handleChange(RecipeAction.addIngredient(slot, [droppedItem]));
         },
         onSlotClear: (slot) => {
             if (!interactive || !slot) return;
-            handleChange(new RecipeActionBuilder().clearSlot(slot).build());
+            handleChange(RecipeAction.clearSlot(slot));
         }
     });
 

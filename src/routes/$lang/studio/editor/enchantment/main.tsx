@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type { EnchantmentProps } from "@voxelio/breeze";
-import { Actions } from "@voxelio/breeze";
+import { CoreAction } from "@voxelio/breeze";
 import Donation from "@/components/tools/elements/Donation";
 import TemplateCard from "@/components/tools/elements/TemplateCard";
 import ToolCounter from "@/components/tools/elements/ToolCounter";
@@ -29,7 +29,7 @@ function EnchantmentMainPage() {
                                     min={1}
                                     max={127}
                                     step={1}
-                                    action={(value: number) => new Actions().setValue(key, value).build()}
+                                    action={(value: number) => CoreAction.setValue(key, value)}
                                     renderer={(el: EnchantmentProps) => el[key]}
                                 />
                             </TemplateCard>
@@ -45,7 +45,7 @@ function EnchantmentMainPage() {
                                 .addCondition((el: EnchantmentProps) => el.identifier?.namespace === "minecraft")
                                 .build()
                         ]}
-                        action={(value: string) => new Actions().setValue("mode", value).build()}
+                        action={(value: string) => CoreAction.setValue("mode", value)}
                         renderer={(el: EnchantmentProps) => el.mode}
                         options={[
                             {

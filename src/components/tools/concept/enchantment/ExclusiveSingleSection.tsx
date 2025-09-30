@@ -1,16 +1,16 @@
-import { Identifier, type Enchantment } from "@voxelio/breeze";
-import Loader from "@/components/ui/Loader";
+import { type Enchantment, Identifier } from "@voxelio/breeze";
+import { EnchantmentCategory } from "@/components/tools/concept/enchantment/EnchantmentCategory";
 import ErrorPlaceholder from "@/components/tools/elements/error/ErrorPlaceholder";
 import { useConfiguratorStore } from "@/components/tools/Store";
+import Loader from "@/components/ui/Loader";
 import useRegistry, { type FetchedRegistry } from "@/lib/hook/useRegistry";
-import { EnchantmentCategory } from "@/components/tools/concept/enchantment/EnchantmentCategory";
 
 export function ExclusiveSingleSection() {
     const enchantments = useConfiguratorStore((state) => state.getRegistry<Enchantment>("enchantment"));
     const { data, isLoading, isError } = useRegistry<FetchedRegistry<Enchantment>>("summary", "enchantment");
 
     const identifiers = enchantments.map((enchantment) => new Identifier(enchantment.identifier));
-    const vanillaIdentifiers = Object.keys(data ?? {}).map((key) => Identifier.of("minecraft:" + key, "enchantment"));
+    const vanillaIdentifiers = Object.keys(data ?? {}).map((key) => Identifier.of(`minecraft:${key}`, "enchantment"));
 
     return (
         <>

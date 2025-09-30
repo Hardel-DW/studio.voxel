@@ -1,5 +1,5 @@
 import type { EnchantmentProps } from "@voxelio/breeze";
-import { Actions } from "@voxelio/breeze";
+import { CoreAction } from "@voxelio/breeze";
 import ToolCard from "@/components/tools/elements/ToolCard";
 import ToolCategory from "@/components/tools/elements/ToolCategory";
 import ToolGrid from "@/components/tools/elements/ToolGrid";
@@ -101,7 +101,7 @@ export default function EnchantDNTSection() {
                             description={structure.description}
                             image={structure.image}
                             size={128}
-                            action={new Actions().toggleValueInList("tags", structure.tag).build()}
+                            action={CoreAction.toggleValueInList("tags", structure.tag)}
                             renderer={(el: EnchantmentProps) => el.tags.includes(structure.tag)}
                         />
                     ))}
@@ -116,7 +116,7 @@ export default function EnchantDNTSection() {
                             title={structure.title}
                             description={structure.description}
                             image={structure.image}
-                            action={new Actions().toggleValueInList("tags", structure.tag).build()}
+                            action={CoreAction.toggleValueInList("tags", structure.tag)}
                             renderer={(el: EnchantmentProps) => el.tags.includes(structure.tag)}
                         />
                     ))}

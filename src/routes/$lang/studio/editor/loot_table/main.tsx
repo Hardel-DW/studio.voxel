@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type { LootTableProps } from "@voxelio/breeze";
-import { isVoxel, LootTableActionBuilder } from "@voxelio/breeze";
+import { isVoxel, LootTableAction } from "@voxelio/breeze";
 import LootViewer from "@/components/tools/concept/loot/LootViewer";
 import { getCurrentElement, useConfiguratorStore } from "@/components/tools/Store";
 import { useFlattenedLootItems } from "@/lib/hook/useFlattenedLootItems";
@@ -23,7 +23,7 @@ function LootMainPage() {
                     title="loot_table:section.main"
                     lootTable={lootTable}
                     data={items}
-                    action={(value) => new LootTableActionBuilder().removeItem(value).build()}
+                    action={(value) => LootTableAction.removeLootItem(value)}
                     renderer={(el: LootTableProps) => el.items.length}
                 />
             )}

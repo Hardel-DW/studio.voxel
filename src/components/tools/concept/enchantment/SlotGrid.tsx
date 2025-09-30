@@ -1,14 +1,12 @@
 import type { EnchantmentProps, SlotRegistryType } from "@voxelio/breeze";
-import { EnchantmentActionBuilder } from "@voxelio/breeze";
+import { EnchantmentAction } from "@voxelio/breeze";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import { SlotButton } from "./SlotButton";
 import { SLOT_CONFIGS } from "./slots";
 
 export default function SlotGrid(props: { element: EnchantmentProps; elementId: string }) {
     const handleSlotToggle = (slotId: SlotRegistryType) => {
-        useConfiguratorStore
-            .getState()
-            .handleChange(new EnchantmentActionBuilder().setComputedSlot("slots", slotId).build(), props.elementId);
+        useConfiguratorStore.getState().handleChange(EnchantmentAction.setComputedSlot("slots", slotId), props.elementId);
     };
 
     const isActive = (slot: (typeof SLOT_CONFIGS)[0]) => props.element.slots.some((elementSlot) => slot.slots.includes(elementSlot));

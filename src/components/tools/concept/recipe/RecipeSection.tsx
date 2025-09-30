@@ -1,4 +1,4 @@
-import { Actions, isVoxel, RecipeActionBuilder, type RecipeProps } from "@voxelio/breeze";
+import { CoreAction, isVoxel, RecipeAction, type RecipeProps } from "@voxelio/breeze";
 import { lazy, Suspense, useState } from "react";
 import { getBlockByRecipeType, getFirstTypeFromSelection, RECIPE_BLOCKS } from "@/components/tools/concept/recipe/recipeConfig";
 import ToolCounter from "@/components/tools/elements/ToolCounter";
@@ -29,7 +29,7 @@ export default function RecipeSection() {
 
     const handleSelectionChange = (newSelection: string) => {
         const newRecipeType = getFirstTypeFromSelection(newSelection);
-        handleChange(new RecipeActionBuilder().convertType(newRecipeType).build());
+        handleChange(RecipeAction.convertRecipeType(newRecipeType));
         setSelection(newSelection);
     };
 
@@ -63,7 +63,7 @@ export default function RecipeSection() {
                             min={1}
                             max={64}
                             step={1}
-                            action={(value: number) => new Actions().setValue("result.count", value).build()}
+                            action={(value: number) => CoreAction.setValue("result.count", value)}
                             renderer={(el: RecipeProps) => el.result.count}
                         />
                     </div>
@@ -75,7 +75,7 @@ export default function RecipeSection() {
                         {currentBlock && TAB_CONFIGS[currentBlock.id as keyof typeof TAB_CONFIGS] && (
                             <Tabs
                                 defaultValue={currentElement.type}
-                                onValueChange={(newType: string) => handleChange(new RecipeActionBuilder().convertType(newType).build())}>
+                                onValueChange={(newType: string) => handleChange(RecipeAction.convertRecipeType(newType))}>
                                 {TAB_CONFIGS[currentBlock.id as keyof typeof TAB_CONFIGS].map((tab) => (
                                     <TabsTrigger key={tab.value} value={tab.value}>
                                         {tab.label}

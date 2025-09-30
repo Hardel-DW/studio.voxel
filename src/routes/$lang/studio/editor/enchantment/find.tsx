@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type { EnchantmentProps } from "@voxelio/breeze";
-import { Actions } from "@voxelio/breeze";
+import { CoreAction } from "@voxelio/breeze";
 import { lazy, Suspense } from "react";
 import ToolGrid from "@/components/tools/elements/ToolGrid";
 import ToolReveal, { ToolRevealElement } from "@/components/tools/elements/ToolReveal";
@@ -74,7 +74,7 @@ function EnchantmentFindPage() {
                         <ToolSlot
                             align="left"
                             key={value.tag}
-                            action={new Actions().toggleValueInList("tags", value.tag).build()}
+                            action={CoreAction.toggleValueInList("tags", value.tag)}
                             renderer={(el: EnchantmentProps) => el.tags.includes(value.tag)}
                             lock={[
                                 new LockEntryBuilder()

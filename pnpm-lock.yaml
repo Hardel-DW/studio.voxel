@@ -24,8 +24,8 @@ importers:
         specifier: ^1.131.31
         version: 1.131.31(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
       '@voxelio/breeze':
-        specifier: ^1.8.11
-        version: 1.8.11
+        specifier: ^1.9.2
+        version: 1.9.2
       '@voxelio/converter':
         specifier: ^1.0.4
         version: 1.0.4
@@ -772,11 +772,11 @@ packages:
     peerDependencies:
       vite: ^4.2.0 || ^5.0.0 || ^6.0.0 || ^7.0.0
 
-  '@voxelio/breeze@1.8.11':
-    resolution: {integrity: sha512-Hd6EWaBn6ELm0+dhEVXPC4ZAqzUe7KqV4W/L96WTkfz9nxHmLA52Jn7as7jtb/OZlBSZDkgZ8SkkPGTXbgP/Lg==}
-
   '@voxelio/breeze@1.8.8':
     resolution: {integrity: sha512-PGYJUORuRccsV+RJazDXFJdR7O8jINg4Q0/SxXNA9Y42Zs7slR557VzYuZk8eJlFyy7OEG28KNn/rKqOvFvZJQ==}
+
+  '@voxelio/breeze@1.9.2':
+    resolution: {integrity: sha512-sXTzbfvenlWYY4ni3Bb2LO+T1uhul3F3n8hbJQUBxFBuV2GTn80grQ1MjUQn1N8ty2JO95fYCEUn++CfDg7skw==}
 
   '@voxelio/converter@1.0.4':
     resolution: {integrity: sha512-k14Nk+iUOVSvWviTI92A6XcnhSO3svyzVKN9xOf97MLq0i2fr54kwYPJ6UDhzn1PjChsZ8DcMvzwrtaxVaFd+A==}
@@ -1893,11 +1893,11 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@voxelio/breeze@1.8.11':
+  '@voxelio/breeze@1.8.8':
     dependencies:
       '@voxelio/zip': 3.2.0
 
-  '@voxelio/breeze@1.8.8':
+  '@voxelio/breeze@1.9.2':
     dependencies:
       '@voxelio/zip': 3.2.0
 

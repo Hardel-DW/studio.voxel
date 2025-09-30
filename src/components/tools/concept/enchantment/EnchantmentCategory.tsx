@@ -1,4 +1,4 @@
-import { EnchantmentActionBuilder, type EnchantmentProps, Identifier } from "@voxelio/breeze";
+import { EnchantmentAction, type EnchantmentProps, type Identifier } from "@voxelio/breeze";
 import ToolCategory from "@/components/tools/elements/ToolCategory";
 import ToolGrid from "@/components/tools/elements/ToolGrid";
 import ToolInline from "@/components/tools/elements/ToolInline";
@@ -18,7 +18,7 @@ export function EnchantmentCategory({ title, identifiers }: EnchantmentCategoryP
                         key={identifier.toUniqueKey()}
                         title={identifier.toResourceName()}
                         description={identifier.namespace}
-                        action={new EnchantmentActionBuilder().toggleEnchantmentToExclusiveSet(identifier.toString()).build()}
+                        action={EnchantmentAction.toggleEnchantmentToExclusiveSet(identifier.toString())}
                         renderer={(el: EnchantmentProps) =>
                             Array.isArray(el.exclusiveSet)
                                 ? el.exclusiveSet.includes(identifier.toString())

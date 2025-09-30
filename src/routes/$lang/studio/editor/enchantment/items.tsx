@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type { EnchantmentProps } from "@voxelio/breeze";
-import { Actions } from "@voxelio/breeze";
+import { CoreAction } from "@voxelio/breeze";
 import { useState } from "react";
 import ToolGrid from "@/components/tools/elements/ToolGrid";
 import ToolSectionSelector from "@/components/tools/elements/ToolSectionSelector";
@@ -32,7 +32,7 @@ function EnchantmentItemsPage() {
                         key={item}
                         title={`enchantment:supported.${item}.title`}
                         image={`/images/features/item/${item}.webp`}
-                        action={new Actions().setValue(section, enchantableItems[item as keyof typeof enchantableItems]).build()}
+                        action={CoreAction.setValue(section, enchantableItems[item as keyof typeof enchantableItems])}
                         renderer={(el: EnchantmentProps) => el[section] === enchantableItems[item as keyof typeof enchantableItems]}
                     />
                 ))}
@@ -41,7 +41,7 @@ function EnchantmentItemsPage() {
                     <ToolSlot
                         title="enchantment:supported.none.title"
                         image="/images/tools/cross.webp"
-                        action={new Actions().setUndefined("primaryItems").build()}
+                        action={CoreAction.setUndefined("primaryItems")}
                         renderer={(el: EnchantmentProps) => el.primaryItems === undefined}
                     />
                 )}

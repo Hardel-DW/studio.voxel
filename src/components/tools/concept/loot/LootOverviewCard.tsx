@@ -1,6 +1,6 @@
 import { Link, useParams } from "@tanstack/react-router";
 import type { LootTableProps } from "@voxelio/breeze";
-import { Actions, Identifier } from "@voxelio/breeze";
+import { CoreAction, Identifier } from "@voxelio/breeze";
 import { useRef } from "react";
 import LootItemHoverCard from "@/components/tools/concept/loot/LootItemHoverCard";
 import SimpleSwitch from "@/components/tools/elements/SimpleSwitch";
@@ -55,11 +55,7 @@ export default function LootOverviewCard(props: { element: LootTableProps; eleme
                     </div>
                 </div>
 
-                <SimpleSwitch
-                    elementId={props.elementId}
-                    action={new Actions().invertBoolean("disabled").build()}
-                    renderer={(el) => !el.disabled}
-                />
+                <SimpleSwitch elementId={props.elementId} action={CoreAction.invertBoolean("disabled")} renderer={(el) => !el.disabled} />
             </div>
 
             {/* Deuxième ligne : Items empilés */}

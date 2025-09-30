@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type { EnchantmentProps, SlotRegistryType } from "@voxelio/breeze";
-import { EnchantmentActionBuilder } from "@voxelio/breeze";
+import { EnchantmentAction } from "@voxelio/breeze";
 import { SLOT_CONFIGS } from "@/components/tools/concept/enchantment/slots";
 import ToolGrid from "@/components/tools/elements/ToolGrid";
 import ToolSection from "@/components/tools/elements/ToolSection";
@@ -27,7 +27,7 @@ function EnchantmentSlotsPage() {
                             key={config.id}
                             title={config.name}
                             image={config.image}
-                            action={new EnchantmentActionBuilder().setComputedSlot("slots", config.id as SlotRegistryType).build()}
+                            action={EnchantmentAction.setComputedSlot("slots", config.id as SlotRegistryType)}
                             renderer={(el: EnchantmentProps) => el.slots.some((slot) => config.slots.includes(slot))}
                         />
                     ))}

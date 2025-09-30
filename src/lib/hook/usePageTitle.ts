@@ -9,7 +9,7 @@ import { useTranslateKey } from "@/lib/hook/useTranslation";
 export function usePageTitle(): string {
     const { pathname } = useLocation();
     const currentElementId = useConfiguratorStore((state) => state.currentElementId);
-    const getConcept = useConfiguratorStore((state) => state.getConcept); 
+    const getConcept = useConfiguratorStore((state) => state.getConcept);
     const concept = getConcept(pathname);
     const pathParts = pathname.split("/").filter(Boolean);
     const pageName = pathParts[pathParts.length - 1];

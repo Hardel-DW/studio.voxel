@@ -93,9 +93,7 @@ const createConfiguratorStore = <T extends keyof Analysers>() =>
             if (cached) return cached;
 
             const compiled = state.compile();
-            const result = new Datapack(state.files)
-                .with(compiled)
-                .getRegistry<R>(registry, options?.path, options?.excludeNamespaces);
+            const result = new Datapack(state.files).with(compiled).getRegistry<R>(registry, options?.path, options?.excludeNamespaces);
 
             set((prevState) => ({ registryCache: new Map(prevState.registryCache).set(cacheKey, result) }));
             return result;

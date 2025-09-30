@@ -1,6 +1,6 @@
 import { Link, useParams } from "@tanstack/react-router";
 import type { EnchantmentProps } from "@voxelio/breeze";
-import { Actions, getItemFromMultipleOrOne, Identifier } from "@voxelio/breeze";
+import { CoreAction, getItemFromMultipleOrOne, Identifier } from "@voxelio/breeze";
 import OverviewCase from "@/components/tools/concept/enchantment/EnchantmentOverviewCase";
 import SimpleSwitch from "@/components/tools/elements/SimpleSwitch";
 import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer";
@@ -86,11 +86,7 @@ export default function EnchantOverviewCard(props: { element: EnchantmentProps; 
 
                 <SimpleSwitch
                     elementId={elementId}
-                    action={new Actions()
-                        .alternative((el) => el.mode === "soft_delete")
-                        .ifTrue(new Actions().setValue("mode", "normal").build())
-                        .ifFalse(new Actions().setValue("mode", "soft_delete").build())
-                        .build()}
+                    action={CoreAction.setValue("mode", props.element.mode === "soft_delete" ? "normal" : "soft_delete")}
                     renderer={(el) => el.mode === "normal"}
                 />
             </div>
@@ -106,7 +102,7 @@ export default function EnchantOverviewCard(props: { element: EnchantmentProps; 
                                 image={tag.image}
                                 tag={tag.tag}
                                 elementId={elementId}
-                                action={new Actions().toggleValueInList("tags", tag.tag).build()}
+                                action={CoreAction.toggleValueInList("tags", tag.tag)}
                                 renderer={(el: EnchantmentProps) => el.tags.includes(tag.lock_value) || el.tags.includes(tag.tag)}
                             />
                         ))}

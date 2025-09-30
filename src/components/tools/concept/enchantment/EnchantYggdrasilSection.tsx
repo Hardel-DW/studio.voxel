@@ -1,5 +1,5 @@
 import type { EnchantmentProps } from "@voxelio/breeze";
-import { Actions } from "@voxelio/breeze";
+import { CoreAction } from "@voxelio/breeze";
 import ToolCategory from "@/components/tools/elements/ToolCategory";
 import ToolGrid from "@/components/tools/elements/ToolGrid";
 import ToolInline from "@/components/tools/elements/ToolInline";
@@ -140,7 +140,7 @@ export default function EnchantYggdrasilSection() {
                         image="/images/features/title/yg.webp"
                         title="yggdrasil:yggdrasil_mob_equipment.title"
                         description="yggdrasil:yggdrasil_mob_equipment.description"
-                        action={new Actions().toggleAllValuesInList("tags", yggdrasilEquipmentTags).build()}
+                        action={CoreAction.toggleAllValuesInList("tags", yggdrasilEquipmentTags)}
                         renderer={(el: EnchantmentProps) => yggdrasilEquipmentTags.some((tag) => el.tags.includes(tag))}
                     />
 
@@ -150,7 +150,7 @@ export default function EnchantYggdrasilSection() {
                             title={structure.title}
                             description={structure.description}
                             image={structure.image}
-                            action={new Actions().toggleValueInList("tags", structure.tag).build()}
+                            action={CoreAction.toggleValueInList("tags", structure.tag)}
                             renderer={(el: EnchantmentProps) => el.tags.includes(structure.tag)}
                         />
                     ))}
@@ -165,7 +165,7 @@ export default function EnchantYggdrasilSection() {
                             title={structure.title}
                             description={structure.description}
                             image={structure.image}
-                            action={new Actions().toggleValue("tags", structure.tag).build()}
+                            action={CoreAction.toggleValue("tags", structure.tag)}
                             renderer={(el: EnchantmentProps) => el.tags.includes(structure.tag)}
                         />
                     ))}
@@ -178,14 +178,14 @@ export default function EnchantYggdrasilSection() {
                         title="yggdrasil:boss_trial_spawner.title"
                         description="yggdrasil:boss_trial_spawner.description"
                         image="/images/features/block/ominous_trial_spawner.webp"
-                        action={new Actions().toggleValue("tags", "#yggdrasil:structure/runic_fracture/boss_trial_spawner").build()}
+                        action={CoreAction.toggleValue("tags", "#yggdrasil:structure/runic_fracture/boss_trial_spawner")}
                         renderer={(el: EnchantmentProps) => el.tags.includes("#yggdrasil:structure/runic_fracture/boss_trial_spawner")}
                     />
                     <ToolSlot
                         title="yggdrasil:monster_trial_spawner.title"
                         description="yggdrasil:monster_trial_spawner.description"
                         image="/images/features/block/ominous_trial_spawner.webp"
-                        action={new Actions().toggleValue("tags", "#yggdrasil:structure/runic_fracture/monster_trial_spawner").build()}
+                        action={CoreAction.toggleValue("tags", "#yggdrasil:structure/runic_fracture/monster_trial_spawner")}
                         renderer={(el: EnchantmentProps) => el.tags.includes("#yggdrasil:structure/runic_fracture/monster_trial_spawner")}
                     />
                 </ToolGrid>
@@ -199,7 +199,7 @@ export default function EnchantYggdrasilSection() {
                             title={structure.title}
                             description={structure.description}
                             image={structure.image}
-                            action={new Actions().toggleValue("tags", structure.tag).build()}
+                            action={CoreAction.toggleValue("tags", structure.tag)}
                             renderer={(el: EnchantmentProps) => el.tags.includes(structure.tag)}
                         />
                     ))}

@@ -1,6 +1,6 @@
 import { Link, useParams } from "@tanstack/react-router";
 import type { EnchantmentProps } from "@voxelio/breeze";
-import { Actions, flattenSlots, getItemFromMultipleOrOne, Identifier } from "@voxelio/breeze";
+import { CoreAction, flattenSlots, getItemFromMultipleOrOne, Identifier } from "@voxelio/breeze";
 import { useRef } from "react";
 import SimpleSwitch from "@/components/tools/elements/SimpleSwitch";
 import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer";
@@ -83,11 +83,7 @@ export default function SlotsEnchantmentCard({ element }: SlotsEnchantmentCardPr
 
                 <SimpleSwitch
                     elementId={elementId}
-                    action={new Actions()
-                        .alternative((el) => el.mode === "soft_delete")
-                        .ifTrue(new Actions().setValue("mode", "normal").build())
-                        .ifFalse(new Actions().setValue("mode", "soft_delete").build())
-                        .build()}
+                    action={CoreAction.setValue("mode", element.mode === "soft_delete" ? "normal" : "soft_delete")}
                     renderer={(el) => el.mode === "normal"}
                 />
             </div>

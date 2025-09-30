@@ -1,8 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import ToolSectionSelector from "@/components/tools/elements/ToolSectionSelector";
 import { ExclusiveGroupSection } from "@/components/tools/concept/enchantment/ExclusiveGroupSection";
 import { ExclusiveSingleSection } from "@/components/tools/concept/enchantment/ExclusiveSingleSection";
+import ToolSectionSelector from "@/components/tools/elements/ToolSectionSelector";
 
 export const Route = createFileRoute("/$lang/studio/editor/enchantment/exclusive")({
     component: EnchantmentExclusivePage
