@@ -1,14 +1,5 @@
-import type {
-    Action,
-    ActionValue,
-    Analysers,
-    DataDrivenElement,
-    DataDrivenRegistryElement,
-    GetAnalyserVoxel,
-    LabeledElement,
-    ParseDatapackResult
-} from "@voxelio/breeze";
-import { compileDatapack, Datapack, isVoxelElement, Logger, updateData, type VoxelElement } from "@voxelio/breeze";
+import type { Action, ActionValue, Analysers, DataDrivenElement, DataDrivenRegistryElement, GetAnalyserVoxel, VoxelElement, Datapack, ParseDatapackResult } from "@voxelio/breeze";
+import { compileDatapack, isVoxelElement, Logger, updateData } from "@voxelio/breeze";
 import { create } from "zustand";
 import type { CONCEPT_KEY } from "./elements";
 
@@ -22,14 +13,13 @@ export interface ConfiguratorState<T extends keyof Analysers> {
     isModded: boolean;
     version: number | null;
     sortedIdentifiers: Map<string, string[]>;
-    registryCache: Map<string, DataDrivenRegistryElement<any>[]>;
     getSortedIdentifiers: (registry: string) => string[];
     setName: (name: string) => void;
     setMinify: (minify: boolean) => void;
     setCurrentElementId: (id: string | null) => void;
-    handleChange: (action: Action, identifier?: string, value?: ActionValue) => Promise<void>;
+    handleChange: (action: Action, identifier?: string, value?: ActionValue) => void;
     setup: (updates: ParseDatapackResult<GetAnalyserVoxel<T>>) => void;
-    compile: () => Array<LabeledElement>;
+    compile: () => Datapack;
     getLengthByRegistry: (registry: string) => number;
     getConcept: (pathname: string) => CONCEPT_KEY | null;
     getRegistry: <R extends DataDrivenElement>(
@@ -48,12 +38,11 @@ const createConfiguratorStore = <T extends keyof Analysers>() =>
         isModded: false,
         version: null,
         sortedIdentifiers: new Map(),
-        registryCache: new Map(),
         getSortedIdentifiers: (registry) => get().sortedIdentifiers.get(registry) ?? [],
         setName: (name) => set({ name }),
         setMinify: (minify) => set({ minify }),
         setCurrentElementId: (currentElementId) => set({ currentElementId }),
-        handleChange: async (action, identifier) => {
+        handleChange: (action, identifier) => {
             const state = get();
             const elementId = identifier ?? state.currentElementId;
             if (!elementId) return;
@@ -61,20 +50,15 @@ const createConfiguratorStore = <T extends keyof Analysers>() =>
             const element = state.elements.get(elementId);
             if (!element) return;
 
-            const updatedElement = await state.logger?.trackChanges(element, (el) =>
+            const updatedElement = state.logger?.trackChanges(element, (el) =>
                 updateData(action, el, state.version ?? Number.POSITIVE_INFINITY)
             );
 
-            state.registryCache.clear();
             if (!updatedElement || !isVoxelElement(updatedElement)) return;
             set((state) => ({ elements: state.elements.set(elementId, updatedElement) }));
         },
-        setup: (updates) => set({ ...updates, sortedIdentifiers: sortElementsByRegistry(updates.elements), registryCache: new Map() }),
-        compile: () => {
-            const { elements, version, files, logger } = get();
-            if (!version || !files) return [];
-            return compileDatapack({ elements: Array.from(elements.values()), files, logger });
-        },
+        setup: (updates) => set({ ...updates, sortedIdentifiers: sortElementsByRegistry(updates.elements) }),
+        compile: () => compileDatapack({ elements: Array.from(get().elements.values()), files: get().files }),
         getLengthByRegistry: (registry) => get().getRegistry(registry).length,
         getConcept: (pathname) => {
             const pathParts = pathname.split("/").filter(Boolean);
@@ -83,20 +67,8 @@ const createConfiguratorStore = <T extends keyof Analysers>() =>
             }
             return null;
         },
-        getRegistry: <R extends DataDrivenElement>(
-            registry: string,
-            options?: { path?: string; excludeNamespaces?: string[] }
-        ): DataDrivenRegistryElement<R>[] => {
-            const state = get();
-            const cacheKey = buildCacheKey(registry, options);
-            const cached = state.registryCache.get(cacheKey) as DataDrivenRegistryElement<R>[] | undefined;
-            if (cached) return cached;
-
-            const compiled = state.compile();
-            const result = new Datapack(state.files).with(compiled).getRegistry<R>(registry, options?.path, options?.excludeNamespaces);
-
-            set((prevState) => ({ registryCache: new Map(prevState.registryCache).set(cacheKey, result) }));
-            return result;
+        getRegistry: <R extends DataDrivenElement>(registry: string, options?: { path?: string; excludeNamespaces?: string[] }) => {
+            return get().compile().getRegistry<R>(registry, options?.path, options?.excludeNamespaces);
         }
     }));
 
@@ -133,10 +105,3 @@ export function sortElementsByRegistry(elements: Map<string, VoxelElement>): Map
 
     return grouped;
 }
-
-const buildCacheKey = (registry: string, options?: { path?: string; excludeNamespaces?: string[] }) => {
-    if (!options) return registry;
-    const pathKey = options.path ?? "";
-    const excludeKey = options.excludeNamespaces?.length ? [...options.excludeNamespaces].sort().join(",") : "";
-    return `${registry}|${pathKey}|${excludeKey}`;
-};

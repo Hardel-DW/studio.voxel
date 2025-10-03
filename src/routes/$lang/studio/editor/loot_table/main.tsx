@@ -23,7 +23,7 @@ function LootMainPage() {
                     title="loot_table:section.main"
                     lootTable={lootTable}
                     data={items}
-                    action={(value) => LootTableAction.removeLootItem(value)}
+                    action={(value: string) => LootTableAction.removeLootItem(value)}
                     renderer={(el: LootTableProps) => el.items.length}
                 />
             )}

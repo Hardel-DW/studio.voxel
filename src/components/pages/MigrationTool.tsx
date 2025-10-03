@@ -1,4 +1,4 @@
-import { compileDatapack, Datapack, Logger, parseDatapack, VOXEL_TAGS } from "@voxelio/breeze";
+import { compileDatapack, Logger, parseDatapack } from "@voxelio/breeze";
 import type React from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Toaster, toast } from "sonner";
@@ -51,18 +51,14 @@ export default function MigrationTool({ children }: { children?: React.ReactNode
 
         try {
             const logger = new Logger(logFile);
-            const elements = await logger.replay(target.elements, target.version);
+            const elements = logger.replay(target.elements, target.version);
 
             const finalDatapack = compileDatapack({
                 elements: Array.from(elements.values()),
                 files: target.files
             });
 
-            const modifiedDatapack = new Datapack(target.files).generate(finalDatapack, {
-                isMinified: logger.isMinified,
-                logger,
-                include: VOXEL_TAGS
-            });
+            const modifiedDatapack = await finalDatapack.generate(logger, `Migrated-${target.name}`, target.isModded);
 
             downloadArchive(modifiedDatapack, `Migrated-${target.name}`, target.isModded);
             toast.success(dictionary.migration.success_message);

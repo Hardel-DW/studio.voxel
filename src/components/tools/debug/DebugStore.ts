@@ -1,5 +1,5 @@
-import type { LabeledElement } from "@voxelio/breeze";
-import { analyserCollection, Datapack, getLabeledIdentifier, Identifier } from "@voxelio/breeze";
+import type { Datapack } from "@voxelio/breeze";
+import { analyserCollection, FileStatusComparator, Identifier } from "@voxelio/breeze";
 import { create } from "zustand";
 import { useConfiguratorStore } from "@/components/tools/Store";
 
@@ -8,11 +8,12 @@ interface DebugState {
     selectedElement: string | undefined;
     selectedRegistry: string;
     selectedNamespace: string;
-    elements: Map<string, LabeledElement | undefined>;
+    compiledDatapack: Datapack | null;
+    fileStatusComparator: FileStatusComparator | null;
     registries: string[];
     namespaces: string[];
     format: "voxel" | "datapack" | "original";
-    openDebugModal: (labeledElements: LabeledElement[]) => void;
+    openDebugModal: (compiledDatapack: Datapack) => void;
     closeDebugModal: () => void;
     setSelectedRegistry: (registry: string) => void;
     setSelectedNamespace: (namespace: string) => void;
@@ -26,45 +27,44 @@ export const useDebugStore = create<DebugState>((set, get) => ({
     selectedElement: undefined,
     selectedRegistry: "",
     selectedNamespace: "",
-    elements: new Map(),
+    compiledDatapack: null,
+    fileStatusComparator: null,
     registries: [],
     namespaces: [],
     format: "voxel",
-    openDebugModal: (labeledElements) => {
-        const mainStore = useConfiguratorStore.getState();
-        const namespaces = new Datapack(mainStore.files).getNamespaces();
+    openDebugModal: (compiledDatapack) => {
+        const { files, elements, logger } = useConfiguratorStore.getState();
+        const namespaces = compiledDatapack.getNamespaces();
         const registries = Object.keys(analyserCollection).flatMap((registry) => {
             const analyser = analyserCollection[registry as keyof typeof analyserCollection];
             return analyser.hasTag ? [registry, `tags/${registry}`] : [registry];
         });
 
-        const elementsMap = new Map<string, LabeledElement | undefined>(
-            Array.from(mainStore.elements.keys()).map((uniqueKey) => [uniqueKey, undefined])
-        );
-
-        for (const labeledElement of labeledElements) {
-            elementsMap.set(new Identifier(getLabeledIdentifier(labeledElement)).toUniqueKey(), labeledElement);
-        }
+        if (!logger) throw new Error("Logger is not initialized");
+        const fileStatusComparator = new FileStatusComparator(files, elements, logger);
+        const allKeys = Array.from(fileStatusComparator.getAllFileStatuses().keys());
 
         set({
             isDebugModalOpen: true,
-            elements: elementsMap,
+            compiledDatapack,
+            fileStatusComparator,
             selectedRegistry: registries[0],
             selectedNamespace: namespaces[0],
-            selectedElement: Array.from(elementsMap.keys())[0],
+            selectedElement: allKeys[0],
             registries,
             namespaces
         });
     },
-    closeDebugModal: () => set({ isDebugModalOpen: false }),
+    closeDebugModal: () => set({ isDebugModalOpen: false, compiledDatapack: null, fileStatusComparator: null }),
     setSelectedRegistry: (registry) => set({ selectedRegistry: registry }),
     setSelectedNamespace: (namespace) => set({ selectedNamespace: namespace }),
     setSelectedElement: (uniqueKey) => set({ selectedElement: uniqueKey }),
     setFormat: (format) => set({ format }),
     getFilteredElements: () => {
-        const { elements, selectedRegistry, selectedNamespace } = get();
+        const { fileStatusComparator, selectedRegistry, selectedNamespace } = get();
+        if (!fileStatusComparator) return [];
 
-        return Array.from(elements.keys())
+        return Array.from(fileStatusComparator.getAllFileStatuses().keys())
             .filter((uniqueKey) => {
                 const identifier = Identifier.fromUniqueKey(uniqueKey);
                 const registryMatch = !selectedRegistry || identifier.registry === selectedRegistry;

@@ -1,12 +1,13 @@
 import { Link, useParams } from "@tanstack/react-router";
-import type { EnchantmentProps } from "@voxelio/breeze";
-import { CoreAction, getItemFromMultipleOrOne, Identifier } from "@voxelio/breeze";
+import type { EnchantmentProps, TagType } from "@voxelio/breeze";
+import { CoreAction, getItemFromMultipleOrOne, Identifier, TagsProcessor } from "@voxelio/breeze";
 import OverviewCase from "@/components/tools/concept/enchantment/EnchantmentOverviewCase";
 import SimpleSwitch from "@/components/tools/elements/SimpleSwitch";
 import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import Translate from "@/components/tools/Translate";
-import useTagManager from "@/lib/hook/useTagManager";
+import { mergeRegistries } from "@/lib/registry";
+import useRegistry from "@/lib/hook/useRegistry";
 import { cn } from "@/lib/utils";
 
 const findOptions = [
@@ -44,14 +45,16 @@ const findOptions = [
 
 export default function EnchantOverviewCard(props: { element: EnchantmentProps; display: boolean }) {
     const { lang } = useParams({ from: "/$lang" });
-    const { getAllItemsFromTag } = useTagManager();
+    const { data: vanillaTags } = useRegistry<Record<string, TagType>>("summary", "tags/item");
+    const datapackTags = useConfiguratorStore((state) => state.getRegistry<TagType>("tags/item"));
     const { isTag, id } = getItemFromMultipleOrOne(props.element.supportedItems);
     const elementId = new Identifier(props.element.identifier).toUniqueKey();
-    const items = isTag ? getAllItemsFromTag(id) : [id];
 
-    const handleConfigure = () => {
-        useConfiguratorStore.getState().setCurrentElementId(elementId);
-    };
+    const allTags = vanillaTags ? mergeRegistries(vanillaTags, datapackTags, "tags/item") : [];
+    const tagId = Identifier.of(id.startsWith("#") ? id.slice(1) : id, "tags/item");
+    const items = isTag && allTags.length > 0 ? new TagsProcessor(allTags).getRecursiveValues(tagId) : [id];
+
+    const handleConfigure = () => useConfiguratorStore.getState().setCurrentElementId(elementId);
 
     return (
         <div

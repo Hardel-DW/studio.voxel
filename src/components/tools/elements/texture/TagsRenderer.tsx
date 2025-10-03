@@ -1,11 +1,11 @@
-import type { DataDrivenRegistryElement, TagRegistry, TagType } from "@voxelio/breeze";
+import type { DataDrivenRegistryElement, TagType } from "@voxelio/breeze";
 import { Identifier, TagsComparator } from "@voxelio/breeze";
 import { useEffect, useMemo, useState } from "react";
 import ErrorPlaceholder from "@/components/tools/elements/error/ErrorPlaceholder";
 import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import Loader from "@/components/ui/Loader";
-import useRegistry from "@/lib/hook/useRegistry";
+import useRegistry, { FetchedRegistry } from "@/lib/hook/useRegistry";
 
 interface TagsRendererProps {
     items: string[] | string;
@@ -22,7 +22,7 @@ interface TagsRendererProps {
  */
 export default function TagsRenderer({ items, className, intervalMs = 2000 }: TagsRendererProps) {
     const [currentIndex, setCurrentIndex] = useState(0);
-    const { data, isLoading, isError } = useRegistry<TagRegistry>("summary", "tags/item");
+    const { data, isLoading, isError } = useRegistry<FetchedRegistry<TagType>>("summary", "tags/item");
     const { getRegistry } = useConfiguratorStore();
 
     const itemsArray = useMemo(() => {

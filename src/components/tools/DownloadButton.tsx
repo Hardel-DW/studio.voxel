@@ -1,4 +1,3 @@
-import { Datapack, VOXEL_TAGS } from "@voxelio/breeze";
 import { useRef } from "react";
 import SettingsDialog from "@/components/tools/SettingsDialog";
 import { useConfiguratorStore } from "@/components/tools/Store";
@@ -11,11 +10,11 @@ export default function DownloadButton() {
     const dialogRef = useRef<HTMLDivElement>(null);
 
     const handleClick = async () => {
-        const store = useConfiguratorStore.getState();
-        const { logger, files, minify, name, isModded } = store;
+        const { logger, name, isModded } = useConfiguratorStore.getState();
+        if (!logger) return;
 
-        const content = store.compile();
-        const compiledContent = new Datapack(files).generate(content, { isMinified: minify, logger, include: VOXEL_TAGS });
+        const content = useConfiguratorStore.getState().compile();
+        const compiledContent = await content.generate(logger, name, isModded);
         downloadArchive(compiledContent, name, isModded);
         dialogRef.current?.showPopover();
     };

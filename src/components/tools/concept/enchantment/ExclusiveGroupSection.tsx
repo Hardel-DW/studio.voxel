@@ -1,20 +1,19 @@
-import type { IdentifierObject, TagRegistry, TagType } from "@voxelio/breeze";
-import { EnchantmentAction, Identifier, isTag, isVoxel, Tags } from "@voxelio/breeze";
+import type { TagType, IdentifierObject } from "@voxelio/breeze";
+import { CoreAction, Identifier, Tags } from "@voxelio/breeze";
 import { useState } from "react";
 import ErrorPlaceholder from "@/components/tools/elements/error/ErrorPlaceholder";
 import ToolCategory from "@/components/tools/elements/ToolCategory";
 import ToolGrid from "@/components/tools/elements/ToolGrid";
 import ToolListOption from "@/components/tools/elements/ToolListOption";
-import { getCurrentElement, useConfiguratorStore } from "@/components/tools/Store";
+import { useConfiguratorStore } from "@/components/tools/Store";
 import Translate from "@/components/tools/Translate";
 import { Button } from "@/components/ui/Button";
 import { Dialog, DialogCloseButton, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/Dialog";
 import Loader from "@/components/ui/Loader";
 import { exclusiveSetGroups } from "@/lib/data/exclusive";
-import useRegistry from "@/lib/hook/useRegistry";
+import useRegistry, { type FetchedRegistry } from "@/lib/hook/useRegistry";
 import { isMinecraft } from "@/lib/utils/lock";
-
-const normalizeTag = (tag: string) => (tag.startsWith("#") ? tag.slice(1) : tag);
+import { mergeRegistries } from "@/lib/registry";
 
 type SelectedGroup = {
     identifier: IdentifierObject;
@@ -25,37 +24,24 @@ type SelectedGroup = {
 };
 
 export function ExclusiveGroupSection() {
-    const [selectedGroup, setSelectedGroup] = useState<SelectedGroup | null>(null);
-    const { data, isLoading, isError } = useRegistry<TagRegistry>("summary", "tags/enchantment");
-    const tagsRegistry = useConfiguratorStore((state) => state.getRegistry<TagType>("tags/enchantment"));
-    const currentElement = useConfiguratorStore((state) => getCurrentElement(state));
-    const currentEnchantment = currentElement && isVoxel(currentElement, "enchantment") ? currentElement : undefined;
-    if (!currentEnchantment) return null;
+    const [selectedGroup, _setSelectedGroup] = useState<SelectedGroup | null>(null);
+    const { data, isLoading, isError } = useRegistry<FetchedRegistry<TagType>>("summary", "tags/enchantment");
+    const currentElementId = useConfiguratorStore((state) => state.currentElementId);
+    const getRegistry = useConfiguratorStore((state) => state.getRegistry);
+    if (!currentElementId) return null;
 
-    const currentIdentifier = new Identifier(currentEnchantment.identifier);
-    const exclusiveTags = tagsRegistry.filter((tag) => tag.identifier.resource.startsWith("exclusive_set/"));
-    const tagIndex = new Map(exclusiveTags.map((tag) => [new Identifier(tag.identifier).toUniqueKey(), tag]));
-    const customExclusiveTags = exclusiveTags.filter((tag) => tag.identifier.namespace !== "minecraft");
-    const tags = currentEnchantment?.tags ?? [];
-    const currentTagSet = new Set(Array.isArray(tags) ? tags.map(normalizeTag) : []);
-
-    const resolveValues = (identifier: Identifier) => {
-        const fromDatapack = tagIndex.get(identifier.toUniqueKey());
-        const compiledValues = fromDatapack && isTag(fromDatapack.data) ? new Tags(fromDatapack.data).fromRegistry() : [];
-        const vanillaValues = data?.[identifier.resource] ? new Tags(data[identifier.resource]).fromRegistry() : [];
-        return Array.from(new Set([...compiledValues, ...vanillaValues]));
-    };
+    const tagsRegistry = getRegistry<TagType>("tags/enchantment", { path: "exclusive_set" });
+    const mergedTagsRegistry = mergeRegistries(data, tagsRegistry, "tags/enchantment");
 
     return (
         <>
             <ToolCategory title="enchantment:exclusive.vanilla.title">
                 <ToolGrid>
                     {exclusiveSetGroups.map(({ id, image, value }) => {
-                        const identifier = Identifier.of(value, "tags/enchantment");
-                        const values = resolveValues(identifier);
-                        const containsCurrent = currentEnchantment
-                            ? values.includes(currentIdentifier.toString()) || currentTagSet.has(normalizeTag(value))
-                            : false;
+                        const tagData = mergedTagsRegistry.find((tag) =>
+                            new Identifier(tag.identifier).equals(Identifier.of(value, "tags/enchantment"))
+                        );
+                        const values = tagData && Tags.isTag(tagData.data) ? new Tags(tagData.data).fromRegistry() : [];
 
                         return (
                             <ToolListOption
@@ -64,9 +50,13 @@ export function ExclusiveGroupSection() {
                                 description={`enchantment:exclusive.set.${id}.description`}
                                 image={`/images/features/item/${image}.webp`}
                                 values={values}
-                                action={EnchantmentAction.setExclusiveSetWithTags(value)}
+                                action={CoreAction.setValue("exclusiveSet", value)}
+                                highlightAction={CoreAction.removeTags([value])}
                                 renderer={(el) => el.exclusiveSet === value}
-                                highlight={containsCurrent}
+                                highlightRenderer={(el) => {
+                                    const tags = el.tags ?? [];
+                                    return Array.isArray(tags) && tags.includes(value);
+                                }}
                                 lock={[isMinecraft]}
                             />
                         );
@@ -75,36 +65,38 @@ export function ExclusiveGroupSection() {
             </ToolCategory>
 
             <ToolCategory title="enchantment:exclusive.custom.title">
-                {customExclusiveTags.length === 0 && (
+                {mergedTagsRegistry.filter((tag) => tag.identifier.namespace !== "minecraft").length === 0 && (
                     <p className="text-zinc-400 p-4">
                         <Translate content="enchantment:exclusive.custom.fallback" />
                     </p>
                 )}
 
-                {customExclusiveTags.length > 0 && (
+                {mergedTagsRegistry.filter((tag) => tag.identifier.namespace !== "minecraft").length > 0 && (
                     <ToolGrid>
-                        {customExclusiveTags.map((enchantment) => {
-                            const identifier = new Identifier(enchantment.identifier);
-                            const values = resolveValues(identifier);
-                            const identifierString = identifier.toString();
-                            const value = identifierString;
-                            const containsCurrent = currentEnchantment
-                                ? values.includes(currentIdentifier.toString()) || currentTagSet.has(normalizeTag(value))
-                                : false;
+                        {mergedTagsRegistry
+                            .filter((tag) => tag.identifier.namespace !== "minecraft")
+                            .map((tagEntry) => {
+                                const identifier = new Identifier(tagEntry.identifier);
+                                const values = Tags.isTag(tagEntry.data) ? new Tags(tagEntry.data).fromRegistry() : [];
+                                const identifierString = identifier.toString();
 
-                            return (
-                                <ToolListOption
-                                    key={identifier.toUniqueKey()}
-                                    title={identifier.toResourceName()}
-                                    description={identifier.toResourcePath()}
-                                    image="/icons/logo.svg"
-                                    values={values}
-                                    action={EnchantmentAction.setExclusiveSetWithTags(identifierString)}
-                                    renderer={(el) => el.exclusiveSet === identifierString}
-                                    highlight={containsCurrent}
-                                />
-                            );
-                        })}
+                                return (
+                                    <ToolListOption
+                                        key={identifier.toUniqueKey()}
+                                        title={identifier.toResourceName()}
+                                        description={identifier.toResourcePath()}
+                                        image="/icons/logo.svg"
+                                        values={values}
+                                        action={CoreAction.setValue("exclusiveSet", identifierString)}
+                                        highlightAction={CoreAction.removeTags([identifierString])}
+                                        renderer={(el) => el.exclusiveSet === identifierString}
+                                        highlightRenderer={(el) => {
+                                            const tags = el.tags ?? [];
+                                            return Array.isArray(tags) && tags.includes(identifierString);
+                                        }}
+                                    />
+                                );
+                            })}
                     </ToolGrid>
                 )}
             </ToolCategory>

@@ -1,13 +1,14 @@
 import { Link, useParams } from "@tanstack/react-router";
-import type { EnchantmentProps } from "@voxelio/breeze";
-import { CoreAction, flattenSlots, getItemFromMultipleOrOne, Identifier } from "@voxelio/breeze";
+import type { EnchantmentProps, TagType } from "@voxelio/breeze";
+import { CoreAction, getItemFromMultipleOrOne, Identifier, SlotManager, TagsProcessor } from "@voxelio/breeze";
 import { useRef } from "react";
 import SimpleSwitch from "@/components/tools/elements/SimpleSwitch";
 import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import Translate from "@/components/tools/Translate";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/Popover";
-import useTagManager from "@/lib/hook/useTagManager";
+import { mergeRegistries } from "@/lib/registry";
+import useRegistry from "@/lib/hook/useRegistry";
 import { cn } from "@/lib/utils";
 import SlotGrid from "./SlotGrid";
 
@@ -32,12 +33,16 @@ interface SlotsEnchantmentCardProps {
 export default function SlotsEnchantmentCard({ element }: SlotsEnchantmentCardProps) {
     const cardRef = useRef<HTMLDivElement | null>(null);
     const { lang } = useParams({ from: "/$lang" });
-    const { getAllItemsFromTag } = useTagManager();
+    const { data: vanillaTags } = useRegistry<Record<string, TagType>>("summary", "tags/item");
+    const datapackTags = useConfiguratorStore((state) => state.getRegistry<TagType>("tags/item"));
     const elementId = new Identifier(element.identifier).toUniqueKey();
     const { isTag, id } = getItemFromMultipleOrOne(element.supportedItems);
-    const items = isTag ? getAllItemsFromTag(id) : [id];
 
-    const flattenedSlots = flattenSlots(element.slots);
+    const allTags = vanillaTags ? mergeRegistries(vanillaTags, datapackTags, "tags/item") : [];
+    const tagId = Identifier.of(id.startsWith("#") ? id.slice(1) : id, "tags/item");
+    const items = isTag && allTags.length > 0 ? new TagsProcessor(allTags).getRecursiveValues(tagId) : [id];
+
+    const flattenedSlots = new SlotManager(element.slots).flatten();
 
     const handleConfigure = () => {
         useConfiguratorStore.getState().setCurrentElementId(elementId);

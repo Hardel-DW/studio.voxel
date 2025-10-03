@@ -29,6 +29,7 @@ const variants = {
     size: {
         square: "h-10 p-2",
         default: "h-10 px-4 py-2",
+        xs: "h-6 rounded px-3 py-2",
         sm: "h-9 rounded-md px-3",
         md: "h-10 rounded-md px-4",
         lg: "h-11 rounded-md px-8",

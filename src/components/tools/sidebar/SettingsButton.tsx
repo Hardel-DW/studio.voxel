@@ -27,8 +27,8 @@ export default function SettingsButton() {
 
     const handleDebugModalOpen = () => {
         const store = useConfiguratorStore.getState();
-        const assembleDatapack = store.compile();
-        openDebugModal(assembleDatapack);
+        const compiledDatapack = store.compile();
+        openDebugModal(compiledDatapack);
     };
 
     const calculateStoreSize = () => {

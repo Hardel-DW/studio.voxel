@@ -1,4 +1,4 @@
-import { Identifier } from "@voxelio/breeze";
+import { FILE_STATUS, Identifier } from "@voxelio/breeze";
 import { useDebugStore } from "@/components/tools/debug/DebugStore";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import Translate from "@/components/tools/Translate";
@@ -11,12 +11,12 @@ interface CodeSectionProps {
 
 export function CodeSection({ uniqueKey }: CodeSectionProps) {
     const { elements, files } = useConfiguratorStore.getState();
-    const { format, elements: debugElements } = useDebugStore();
+    const { format, compiledDatapack, fileStatusComparator } = useDebugStore();
 
     if (!uniqueKey) return null;
 
-    const labeledElement = debugElements.get(uniqueKey);
     const identifier = Identifier.fromUniqueKey(uniqueKey);
+    const fileStatus = fileStatusComparator?.getFileStatus(uniqueKey);
 
     const codeToDisplay = (() => {
         if (format === "voxel") return elements.get(uniqueKey);
@@ -25,8 +25,8 @@ export function CodeSection({ uniqueKey }: CodeSectionProps) {
             return fileData ? JSON.parse(new TextDecoder().decode(fileData)) : undefined;
         }
         if (format === "datapack") {
-            if (labeledElement?.type === "new" || labeledElement?.type === "updated") {
-                return labeledElement?.element?.data;
+            if (fileStatus === FILE_STATUS.ADDED || fileStatus === FILE_STATUS.UPDATED) {
+                return compiledDatapack?.getIndex(identifier.registry).get(uniqueKey)?.data;
             }
             return undefined;
         }
@@ -35,13 +35,13 @@ export function CodeSection({ uniqueKey }: CodeSectionProps) {
 
     return (
         <div className="h-full flex flex-col">
-            {labeledElement?.type !== "deleted" && codeToDisplay !== undefined ? (
+            {fileStatus !== FILE_STATUS.DELETED && codeToDisplay !== undefined ? (
                 <CodeBlock language="json" title={identifier.toFileName()}>
                     {JSON.stringify(codeToDisplay, null, 4)}
                 </CodeBlock>
             ) : (
                 <EmptyCodeBlock title={identifier.toFileName()}>
-                    {labeledElement?.type === "deleted" ? (
+                    {fileStatus === FILE_STATUS.DELETED ? (
                         <Translate content="debug.code.deleted" />
                     ) : (
                         <Translate content="debug.code.unavailable" />

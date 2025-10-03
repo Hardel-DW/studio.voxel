@@ -1,6 +1,6 @@
 import { createFileRoute, useParams } from "@tanstack/react-router";
 import type { EnchantmentOption, EnchantmentStats, SlotLevelRange, TagType } from "@voxelio/breeze";
-import { type Enchantment, EnchantmentSimulator, Identifier, TagCompiler, TagsComparator, toRoman } from "@voxelio/breeze";
+import { type Enchantment, EnchantmentSimulator, Identifier, TagsProcessor, TagsComparator, toRoman } from "@voxelio/breeze";
 import { type Component, useState } from "react";
 import EnchantingTable from "@/components/tools/elements/EnchantingTable";
 import MinecraftSlot from "@/components/tools/elements/gui/MinecraftSlot";
@@ -58,14 +58,13 @@ function RouteComponent() {
         const allVanillaTagsEnchantments = mergeRegistries(vanillaTagsEnchantment, [], "tags/enchantment");
 
         const enchantmentMap = new Map(allEnchantments.map((element) => [new Identifier(element.identifier).toString(), element.data]));
-
-        const tagCompiler = new TagCompiler(true);
-        const compiledEnchTags = tagCompiler.compile([
+        const compiledEnchTags = TagsProcessor.merge([
             { id: "vanilla", tags: allVanillaTagsEnchantments },
             { id: "datapack", tags: enchantmentTagsRegistry }
         ]);
 
-        const simulator = new EnchantmentSimulator(enchantmentMap as Map<string, Enchantment>, compiledEnchTags);
+        const flatten = new TagsProcessor(compiledEnchTags).flatten();
+        const simulator = new EnchantmentSimulator(enchantmentMap as Map<string, Enchantment>, flatten);
         const itemTags = new TagsComparator(allItemTags).findItemTags(itemInput).map((tag) => tag.toString());
         setOutput(simulator.simulateEnchantmentTable(blockCount, enchantability, itemTags)[index]);
         setStats(simulator.calculateEnchantmentProbabilities(blockCount, enchantability, itemTags, iteration, index));
