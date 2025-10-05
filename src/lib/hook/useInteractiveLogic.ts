@@ -11,7 +11,6 @@ export interface UseActionHandlerOptions {
     lock?: Lock[];
 }
 
-
 export type BaseInteractiveComponent = BaseComponent & {
     action: ActionOrBuilder;
     renderer: BaseRender;
@@ -53,6 +52,9 @@ export function useInteractiveLogic<C extends BaseInteractiveComponent, T>(
     elementId?: string
 ): UseInteractiveLogicReturn<T> {
     const value = useRenderer<T>(props.component.renderer, elementId ?? props.component.elementId);
-    const { handleChange, lock } = useActionHandler(props.component.action, { elementId: elementId ?? props.component.elementId, lock: props.component.lock });
+    const { handleChange, lock } = useActionHandler(props.component.action, {
+        elementId: elementId ?? props.component.elementId,
+        lock: props.component.lock
+    });
     return { value, handleChange, lock };
 }

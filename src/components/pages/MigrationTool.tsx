@@ -1,4 +1,4 @@
-import { compileDatapack, Logger, parseDatapack } from "@voxelio/breeze";
+import { compileDatapack, Datapack, Logger, parseDatapack } from "@voxelio/breeze";
 import type React from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Toaster, toast } from "sonner";
@@ -43,14 +43,9 @@ export default function MigrationTool({ children }: { children?: React.ReactNode
             return;
         }
 
-        const logFile = source.files["voxel/logs.json"];
-        if (!logFile) {
-            toast.error("No logs found in source datapack");
-            return;
-        }
-
         try {
-            const logger = new Logger(logFile);
+            const datapack = await Datapack.parse(sourceFiles[0]);
+            const logger = new Logger(datapack.getFiles());
             const elements = logger.replay(target.elements, target.version);
 
             const finalDatapack = compileDatapack({

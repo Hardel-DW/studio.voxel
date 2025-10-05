@@ -2,11 +2,11 @@ import { Identifier } from "@voxelio/breeze";
 import RenderGuard from "@/components/tools/elements/RenderGuard";
 import type { TranslateTextType } from "@/components/tools/Translate";
 import Translate from "@/components/tools/Translate";
+import { Button } from "@/components/ui/Button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/Popover";
 import type { ActionOrBuilder, BaseInteractiveComponent, BaseRender } from "@/lib/hook/useInteractiveLogic";
 import { useActionHandler, useInteractiveLogic, useRenderer } from "@/lib/hook/useInteractiveLogic";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/Button";
 
 export type ToolListOptionType = BaseInteractiveComponent & {
     title: TranslateTextType;
@@ -127,7 +127,11 @@ export default function ToolListOption(props: ToolListOptionType) {
 
                     <div>
                         {props.highlightAction && highlightValue && (
-                            <Button variant="ghost_border" size="xs" className="rounded-md text-zinc-400 text-xs px-3 py-2" onClick={handleHighlightAction}>
+                            <Button
+                                variant="ghost_border"
+                                size="xs"
+                                className="rounded-md text-zinc-400 text-xs px-3 py-2"
+                                onClick={handleHighlightAction}>
                                 Retirer
                             </Button>
                         )}

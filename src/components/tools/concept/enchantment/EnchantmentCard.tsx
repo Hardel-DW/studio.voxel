@@ -50,8 +50,13 @@ export default function EnchantOverviewCard(props: { element: EnchantmentProps; 
     const elementId = new Identifier(props.element.identifier).toUniqueKey();
 
     const tagId = Identifier.of(id.startsWith("#") ? id.slice(1) : id, "tags/item");
-    const vanillaTags = data ? Object.entries(data).map(([key, value]) => ({ identifier: Identifier.of(key, "tags/item"), data: value })) : [];
-    const merge = TagsProcessor.merge([{ id: "vanilla", tags: vanillaTags }, { id: "datapack", tags: datapackTags }]);
+    const vanillaTags = data
+        ? Object.entries(data).map(([key, value]) => ({ identifier: Identifier.of(key, "tags/item"), data: value }))
+        : [];
+    const merge = TagsProcessor.merge([
+        { id: "vanilla", tags: vanillaTags },
+        { id: "datapack", tags: datapackTags }
+    ]);
     const items = isTag && merge.length > 0 ? new TagsProcessor(merge).getRecursiveValues(tagId) : [id];
 
     const handleConfigure = () => useConfiguratorStore.getState().setCurrentElementId(elementId);

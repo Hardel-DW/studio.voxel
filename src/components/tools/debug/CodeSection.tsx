@@ -31,8 +31,7 @@ export function CodeSection({ uniqueKey }: CodeSectionProps) {
             return undefined;
         }
         if (format === "logs") {
-            const identifierString = `${identifier.namespace}:${identifier.resource}`;
-            const changeSets = logger?.getChanges().filter((change) => change.identifier === identifierString);
+            const changeSets = logger?.getChangeSets().filter((change) => new Identifier(change.identifier).equals(identifier));
             return changeSets && changeSets.length > 0 ? changeSets : undefined;
         }
         return undefined;

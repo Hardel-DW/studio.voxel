@@ -29,18 +29,18 @@ export default function TagsRenderer({ items, className, intervalMs = 2000 }: Ta
     const hasData = Boolean(data);
     const identifier = isTag ? Identifier.of(items, "tags/item") : null;
     const tag = isTag ? getRegistry<TagType>("tags/item") : [];
-    const tagRegistry: DataDrivenRegistryElement<TagType>[] = isTag && hasData && data
-        ? Object.entries(data).map(([key, value]) => ({
-            identifier: Identifier.of(key, "tags/item"),
-            data: value
-        }))
-        : [];
+    const tagRegistry: DataDrivenRegistryElement<TagType>[] =
+        isTag && hasData && data
+            ? Object.entries(data).map(([key, value]) => ({
+                  identifier: Identifier.of(key, "tags/item"),
+                  data: value
+              }))
+            : [];
 
-    const processedItems = isTag && hasData && identifier
-        ? new TagsProcessor([...tag, ...tagRegistry]).getRecursiveValues(identifier.get())
-        : [];
+    const processedItems =
+        isTag && hasData && identifier ? new TagsProcessor([...tag, ...tagRegistry]).getRecursiveValues(identifier.get()) : [];
 
-    const itemsArray = isTag ? processedItems : (Array.isArray(items) ? items : [items]);
+    const itemsArray = isTag ? processedItems : Array.isArray(items) ? items : [items];
 
     useEffect(() => {
         if (itemsArray.length <= 1) return;

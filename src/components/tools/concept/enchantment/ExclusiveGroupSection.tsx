@@ -45,8 +45,13 @@ export function ExclusiveGroupSection() {
     };
 
     const tagsRegistry = getRegistry<TagType>("tags/enchantment", { path: "exclusive_set" });
-    const vanillaTags = data ? Object.entries(data).map(([key, value]) => ({ identifier: Identifier.of(key, "tags/enchantment"), data: value })) : [];
-    const merge = TagsProcessor.merge([{ id: "vanilla", tags: vanillaTags }, { id: "datapack", tags: tagsRegistry }]);
+    const vanillaTags = data
+        ? Object.entries(data).map(([key, value]) => ({ identifier: Identifier.of(key, "tags/enchantment"), data: value }))
+        : [];
+    const merge = TagsProcessor.merge([
+        { id: "vanilla", tags: vanillaTags },
+        { id: "datapack", tags: tagsRegistry }
+    ]);
 
     return (
         <>
@@ -71,14 +76,16 @@ export function ExclusiveGroupSection() {
                                 highlightRenderer={(el) => Array.isArray(el.tags) && el.tags.includes(value)}
                                 lock={[isMinecraft]}
                                 disableToggle
-                                onSelect={() => openDialog({
-                                    identifier: Identifier.of(value, "tags/enchantment"),
-                                    title: `enchantment:exclusive.set.${id}.title`,
-                                    description: `enchantment:exclusive.set.${id}.description`,
-                                    image: `/images/features/item/${image}.webp`,
-                                    values,
-                                    value
-                                })}
+                                onSelect={() =>
+                                    openDialog({
+                                        identifier: Identifier.of(value, "tags/enchantment"),
+                                        title: `enchantment:exclusive.set.${id}.title`,
+                                        description: `enchantment:exclusive.set.${id}.description`,
+                                        image: `/images/features/item/${image}.webp`,
+                                        values,
+                                        value
+                                    })
+                                }
                             />
                         );
                     })}
@@ -113,14 +120,16 @@ export function ExclusiveGroupSection() {
                                         renderer={(el) => el.exclusiveSet === identifierString}
                                         highlightRenderer={(el) => Array.isArray(el.tags) && el.tags.includes(identifierString)}
                                         disableToggle
-                                        onSelect={() => openDialog({
-                                            identifier,
-                                            title: identifier.toResourceName(),
-                                            description: identifier.toResourcePath(),
-                                            image: "/icons/logo.svg",
-                                            values,
-                                            value: identifierString
-                                        })}
+                                        onSelect={() =>
+                                            openDialog({
+                                                identifier,
+                                                title: identifier.toResourceName(),
+                                                description: identifier.toResourcePath(),
+                                                image: "/icons/logo.svg",
+                                                values,
+                                                value: identifierString
+                                            })
+                                        }
                                     />
                                 );
                             })}
@@ -199,7 +208,10 @@ export function ExclusiveGroupSection() {
                                 <DropdownMenuItem onClick={() => selectedGroup && executeAction(CoreAction.addTags([selectedGroup.value]))}>
                                     <Translate content="enchantment:exclusive.dialog.actions.join" />
                                 </DropdownMenuItem>
-                                <DropdownMenuItem onClick={() => selectedGroup && executeAction(EnchantmentAction.setExclusiveSetWithTags(selectedGroup.value))}>
+                                <DropdownMenuItem
+                                    onClick={() =>
+                                        selectedGroup && executeAction(EnchantmentAction.setExclusiveSetWithTags(selectedGroup.value))
+                                    }>
                                     <Translate content="enchantment:exclusive.dialog.actions.target_join" />
                                 </DropdownMenuItem>
                                 <DropdownMenuSeparator />

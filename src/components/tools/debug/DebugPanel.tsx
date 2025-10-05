@@ -93,26 +93,42 @@ export default function DebugPanel() {
                                 <DropdownMenuContent className="z-100">
                                     <DropdownMenuItem onClick={() => setFormat("original")}>
                                         <div className="flex flex-col">
-                                            <span><Translate content="debug.format.original" /></span>
-                                            <span className="text-[10px] text-zinc-500"><Translate content="debug.format.original.description" /></span>
+                                            <span>
+                                                <Translate content="debug.format.original" />
+                                            </span>
+                                            <span className="text-[10px] text-zinc-500">
+                                                <Translate content="debug.format.original.description" />
+                                            </span>
                                         </div>
                                     </DropdownMenuItem>
                                     <DropdownMenuItem onClick={() => setFormat("voxel")}>
                                         <div className="flex flex-col">
-                                            <span><Translate content="debug.format.voxel" /></span>
-                                            <span className="text-[10px] text-zinc-500"><Translate content="debug.format.voxel.description" /></span>
+                                            <span>
+                                                <Translate content="debug.format.voxel" />
+                                            </span>
+                                            <span className="text-[10px] text-zinc-500">
+                                                <Translate content="debug.format.voxel.description" />
+                                            </span>
                                         </div>
                                     </DropdownMenuItem>
                                     <DropdownMenuItem onClick={() => setFormat("datapack")}>
                                         <div className="flex flex-col">
-                                            <span><Translate content="debug.format.datapack" /></span>
-                                            <span className="text-[10px] text-zinc-500"><Translate content="debug.format.datapack.description" /></span>
+                                            <span>
+                                                <Translate content="debug.format.datapack" />
+                                            </span>
+                                            <span className="text-[10px] text-zinc-500">
+                                                <Translate content="debug.format.datapack.description" />
+                                            </span>
                                         </div>
                                     </DropdownMenuItem>
                                     <DropdownMenuItem onClick={() => setFormat("logs")}>
                                         <div className="flex flex-col">
-                                            <span><Translate content="debug.format.logs" /></span>
-                                            <span className="text-[10px] text-zinc-500"><Translate content="debug.format.logs.description" /></span>
+                                            <span>
+                                                <Translate content="debug.format.logs" />
+                                            </span>
+                                            <span className="text-[10px] text-zinc-500">
+                                                <Translate content="debug.format.logs.description" />
+                                            </span>
                                         </div>
                                     </DropdownMenuItem>
                                 </DropdownMenuContent>

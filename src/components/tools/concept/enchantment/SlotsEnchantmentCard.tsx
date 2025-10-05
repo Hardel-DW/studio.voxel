@@ -37,8 +37,13 @@ export default function SlotsEnchantmentCard({ element }: SlotsEnchantmentCardPr
     const elementId = new Identifier(element.identifier).toUniqueKey();
     const { isTag, id } = getItemFromMultipleOrOne(element.supportedItems);
 
-    const vanillaTags = data ? Object.entries(data).map(([key, value]) => ({ identifier: Identifier.of(key, "tags/item"), data: value })) : [];
-    const merge = TagsProcessor.merge([{ id: "vanilla", tags: vanillaTags }, { id: "datapack", tags: datapackTags }]);
+    const vanillaTags = data
+        ? Object.entries(data).map(([key, value]) => ({ identifier: Identifier.of(key, "tags/item"), data: value }))
+        : [];
+    const merge = TagsProcessor.merge([
+        { id: "vanilla", tags: vanillaTags },
+        { id: "datapack", tags: datapackTags }
+    ]);
     const tagId = Identifier.of(id.startsWith("#") ? id.slice(1) : id, "tags/item");
     const items = isTag && merge.length > 0 ? new TagsProcessor(merge).getRecursiveValues(tagId) : [id];
 

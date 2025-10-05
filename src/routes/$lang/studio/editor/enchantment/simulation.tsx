@@ -1,6 +1,6 @@
 import { createFileRoute, useParams } from "@tanstack/react-router";
 import type { EnchantmentOption, EnchantmentStats, SlotLevelRange, TagType } from "@voxelio/breeze";
-import { type Enchantment, EnchantmentSimulator, Identifier, TagsProcessor, TagsComparator, toRoman } from "@voxelio/breeze";
+import { type Enchantment, EnchantmentSimulator, Identifier, TagsProcessor, toRoman } from "@voxelio/breeze";
 import { type Component, useState } from "react";
 import EnchantingTable from "@/components/tools/elements/EnchantingTable";
 import MinecraftSlot from "@/components/tools/elements/gui/MinecraftSlot";
@@ -65,7 +65,7 @@ function RouteComponent() {
 
         const flatten = new TagsProcessor(compiledEnchTags).flatten();
         const simulator = new EnchantmentSimulator(enchantmentMap as Map<string, Enchantment>, flatten);
-        const itemTags = new TagsComparator(allItemTags).findItemTags(itemInput).map((tag) => tag.toString());
+        const itemTags = new TagsProcessor(allItemTags).findItemTags(itemInput).map((tag) => tag.toString());
         setOutput(simulator.simulateEnchantmentTable(blockCount, enchantability, itemTags)[index]);
         setStats(simulator.calculateEnchantmentProbabilities(blockCount, enchantability, itemTags, iteration, index));
     };
