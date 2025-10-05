@@ -10,7 +10,7 @@ interface CodeSectionProps {
 }
 
 export function CodeSection({ uniqueKey }: CodeSectionProps) {
-    const { elements, files } = useConfiguratorStore.getState();
+    const { elements, files, logger } = useConfiguratorStore.getState();
     const { format, compiledDatapack, fileStatusComparator } = useDebugStore();
 
     if (!uniqueKey) return null;
@@ -29,6 +29,11 @@ export function CodeSection({ uniqueKey }: CodeSectionProps) {
                 return compiledDatapack?.getIndex(identifier.registry).get(uniqueKey)?.data;
             }
             return undefined;
+        }
+        if (format === "logs") {
+            const identifierString = `${identifier.namespace}:${identifier.resource}`;
+            const changeSets = logger?.getChanges().filter((change) => change.identifier === identifierString);
+            return changeSets && changeSets.length > 0 ? changeSets : undefined;
         }
         return undefined;
     })();

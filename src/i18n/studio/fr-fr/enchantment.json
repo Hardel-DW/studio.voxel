@@ -158,6 +158,7 @@
     "exclusive.dialog.actions.join": "Ajouter au groupe",
     "exclusive.dialog.actions.target_join": "Cibler et ajouter",
     "exclusive.dialog.actions.target_exclusive": "Cibler et retirer des autres",
+    "exclusive.dialog.actions.more": "Plus d'options",
     "exclusive.dialog.actions.close": "Fermer",
     "exclusive.group.remove": "Retirer du groupe",
     "toggle.supported.title": "Supporté",

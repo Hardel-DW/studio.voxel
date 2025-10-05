@@ -158,6 +158,7 @@
     "exclusive.dialog.actions.join": "Add to group",
     "exclusive.dialog.actions.target_join": "Target and add",
     "exclusive.dialog.actions.target_exclusive": "Target and remove from others",
+    "exclusive.dialog.actions.more": "More options",
     "exclusive.dialog.actions.close": "Close",
     "exclusive.group.remove": "Remove from group",
     "toggle.supported.title": "Supported",

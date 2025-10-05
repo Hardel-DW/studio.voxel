@@ -64,26 +64,56 @@ export default function DebugPanel() {
                         <div className="flex items-center gap-2">
                             <DropdownMenu>
                                 <DropdownMenuTrigger className="z-10">
-                                    <Button variant="ghost" className="min-w-[150px] justify-between">
-                                        {format === "voxel" ? (
-                                            <Translate content="debug.format.voxel" />
-                                        ) : format === "datapack" ? (
-                                            <Translate content="debug.format.datapack" />
-                                        ) : (
-                                            <Translate content="debug.format.original" />
-                                        )}
+                                    <Button variant="ghost" className="min-w-[200px] justify-between">
+                                        <span className="flex items-center gap-x-2">
+                                            <span>
+                                                {format === "voxel" ? (
+                                                    <Translate content="debug.format.voxel" />
+                                                ) : format === "datapack" ? (
+                                                    <Translate content="debug.format.datapack" />
+                                                ) : format === "logs" ? (
+                                                    <Translate content="debug.format.logs" />
+                                                ) : (
+                                                    <Translate content="debug.format.original" />
+                                                )}
+                                            </span>
+                                            <span className="text-[10px] text-zinc-500 font-light">
+                                                {format === "voxel" ? (
+                                                    <Translate content="debug.format.voxel.subtitle" />
+                                                ) : format === "logs" ? (
+                                                    <Translate content="debug.format.logs.subtitle" />
+                                                ) : (
+                                                    <Translate content="debug.format.datapack.subtitle" />
+                                                )}
+                                            </span>
+                                        </span>
                                         <span className="ml-2">▼</span>
                                     </Button>
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent className="z-100">
+                                    <DropdownMenuItem onClick={() => setFormat("original")}>
+                                        <div className="flex flex-col">
+                                            <span><Translate content="debug.format.original" /></span>
+                                            <span className="text-[10px] text-zinc-500"><Translate content="debug.format.original.description" /></span>
+                                        </div>
+                                    </DropdownMenuItem>
                                     <DropdownMenuItem onClick={() => setFormat("voxel")}>
-                                        <Translate content="debug.format.voxel" />
+                                        <div className="flex flex-col">
+                                            <span><Translate content="debug.format.voxel" /></span>
+                                            <span className="text-[10px] text-zinc-500"><Translate content="debug.format.voxel.description" /></span>
+                                        </div>
                                     </DropdownMenuItem>
                                     <DropdownMenuItem onClick={() => setFormat("datapack")}>
-                                        <Translate content="debug.format.datapack" />
+                                        <div className="flex flex-col">
+                                            <span><Translate content="debug.format.datapack" /></span>
+                                            <span className="text-[10px] text-zinc-500"><Translate content="debug.format.datapack.description" /></span>
+                                        </div>
                                     </DropdownMenuItem>
-                                    <DropdownMenuItem onClick={() => setFormat("original")}>
-                                        <Translate content="debug.format.original" />
+                                    <DropdownMenuItem onClick={() => setFormat("logs")}>
+                                        <div className="flex flex-col">
+                                            <span><Translate content="debug.format.logs" /></span>
+                                            <span className="text-[10px] text-zinc-500"><Translate content="debug.format.logs.description" /></span>
+                                        </div>
                                     </DropdownMenuItem>
                                 </DropdownMenuContent>
                             </DropdownMenu>

@@ -7,8 +7,7 @@ import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer
 import { useConfiguratorStore } from "@/components/tools/Store";
 import Translate from "@/components/tools/Translate";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/Popover";
-import { mergeRegistries } from "@/lib/registry";
-import useRegistry from "@/lib/hook/useRegistry";
+import useRegistry, { type FetchedRegistry } from "@/lib/hook/useRegistry";
 import { cn } from "@/lib/utils";
 import SlotGrid from "./SlotGrid";
 
@@ -33,14 +32,15 @@ interface SlotsEnchantmentCardProps {
 export default function SlotsEnchantmentCard({ element }: SlotsEnchantmentCardProps) {
     const cardRef = useRef<HTMLDivElement | null>(null);
     const { lang } = useParams({ from: "/$lang" });
-    const { data: vanillaTags } = useRegistry<Record<string, TagType>>("summary", "tags/item");
+    const { data } = useRegistry<FetchedRegistry<TagType>>("summary", "tags/item");
     const datapackTags = useConfiguratorStore((state) => state.getRegistry<TagType>("tags/item"));
     const elementId = new Identifier(element.identifier).toUniqueKey();
     const { isTag, id } = getItemFromMultipleOrOne(element.supportedItems);
 
-    const allTags = vanillaTags ? mergeRegistries(vanillaTags, datapackTags, "tags/item") : [];
+    const vanillaTags = data ? Object.entries(data).map(([key, value]) => ({ identifier: Identifier.of(key, "tags/item"), data: value })) : [];
+    const merge = TagsProcessor.merge([{ id: "vanilla", tags: vanillaTags }, { id: "datapack", tags: datapackTags }]);
     const tagId = Identifier.of(id.startsWith("#") ? id.slice(1) : id, "tags/item");
-    const items = isTag && allTags.length > 0 ? new TagsProcessor(allTags).getRecursiveValues(tagId) : [id];
+    const items = isTag && merge.length > 0 ? new TagsProcessor(merge).getRecursiveValues(tagId) : [id];
 
     const flattenedSlots = new SlotManager(element.slots).flatten();
 

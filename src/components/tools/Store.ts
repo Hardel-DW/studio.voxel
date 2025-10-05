@@ -13,6 +13,7 @@ export interface ConfiguratorState<T extends keyof Analysers> {
     isModded: boolean;
     version: number | null;
     sortedIdentifiers: Map<string, string[]>;
+    registryCache: Map<string, DataDrivenRegistryElement<any>[]>;
     getSortedIdentifiers: (registry: string) => string[];
     setName: (name: string) => void;
     setMinify: (minify: boolean) => void;
@@ -38,6 +39,7 @@ const createConfiguratorStore = <T extends keyof Analysers>() =>
         isModded: false,
         version: null,
         sortedIdentifiers: new Map(),
+        registryCache: new Map(),
         getSortedIdentifiers: (registry) => get().sortedIdentifiers.get(registry) ?? [],
         setName: (name) => set({ name }),
         setMinify: (minify) => set({ minify }),
@@ -68,7 +70,13 @@ const createConfiguratorStore = <T extends keyof Analysers>() =>
             return null;
         },
         getRegistry: <R extends DataDrivenElement>(registry: string, options?: { path?: string; excludeNamespaces?: string[] }) => {
-            return get().compile().getRegistry<R>(registry, options?.path, options?.excludeNamespaces);
+            const cacheKey = buildCacheKey(registry, options);
+            const cached = get().registryCache.get(cacheKey) as DataDrivenRegistryElement<R>[] | undefined;
+            if (cached) return cached;
+
+            const registryData = get().compile().getRegistry<R>(registry, options?.path, options?.excludeNamespaces);
+            get().registryCache.set(cacheKey, registryData);
+            return registryData;
         }
     }));
 
@@ -105,3 +113,10 @@ export function sortElementsByRegistry(elements: Map<string, VoxelElement>): Map
 
     return grouped;
 }
+
+const buildCacheKey = (registry: string, options?: { path?: string; excludeNamespaces?: string[] }) => {
+    if (!options) return registry;
+    const pathKey = options.path ?? "";
+    const excludeKey = options.excludeNamespaces?.length ? [...options.excludeNamespaces].sort().join(",") : "";
+    return `${registry}|${pathKey}|${excludeKey}`;
+};

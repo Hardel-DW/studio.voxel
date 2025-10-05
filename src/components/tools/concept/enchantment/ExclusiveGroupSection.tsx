@@ -1,5 +1,5 @@
-import type { TagType, IdentifierObject } from "@voxelio/breeze";
-import { CoreAction, Identifier, Tags } from "@voxelio/breeze";
+import type { IdentifierObject, TagType } from "@voxelio/breeze";
+import { CoreAction, EnchantmentAction, Identifier, Tags, TagsProcessor } from "@voxelio/breeze";
 import { useState } from "react";
 import ErrorPlaceholder from "@/components/tools/elements/error/ErrorPlaceholder";
 import ToolCategory from "@/components/tools/elements/ToolCategory";
@@ -9,11 +9,11 @@ import { useConfiguratorStore } from "@/components/tools/Store";
 import Translate from "@/components/tools/Translate";
 import { Button } from "@/components/ui/Button";
 import { Dialog, DialogCloseButton, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/Dialog";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/Dropdown";
 import Loader from "@/components/ui/Loader";
 import { exclusiveSetGroups } from "@/lib/data/exclusive";
 import useRegistry, { type FetchedRegistry } from "@/lib/hook/useRegistry";
 import { isMinecraft } from "@/lib/utils/lock";
-import { mergeRegistries } from "@/lib/registry";
 
 type SelectedGroup = {
     identifier: IdentifierObject;
@@ -21,24 +21,39 @@ type SelectedGroup = {
     description: string;
     image: string;
     values: string[];
+    value: string;
 };
 
 export function ExclusiveGroupSection() {
-    const [selectedGroup, _setSelectedGroup] = useState<SelectedGroup | null>(null);
+    const [selectedGroup, setSelectedGroup] = useState<SelectedGroup | null>(null);
     const { data, isLoading, isError } = useRegistry<FetchedRegistry<TagType>>("summary", "tags/enchantment");
     const currentElementId = useConfiguratorStore((state) => state.currentElementId);
     const getRegistry = useConfiguratorStore((state) => state.getRegistry);
+    const performGlobalHandleChange = useConfiguratorStore((state) => state.handleChange);
     if (!currentElementId) return null;
 
+    const openDialog = (group: SelectedGroup) => {
+        setSelectedGroup(group);
+        document.getElementById("exclusive-group-dialog")?.showPopover();
+    };
+
+    const closeDialog = () => document.getElementById("exclusive-group-dialog")?.hidePopover();
+    const executeAction = (action: CoreAction | EnchantmentAction) => {
+        if (!currentElementId) return;
+        performGlobalHandleChange(action, currentElementId, true);
+        closeDialog();
+    };
+
     const tagsRegistry = getRegistry<TagType>("tags/enchantment", { path: "exclusive_set" });
-    const mergedTagsRegistry = mergeRegistries(data, tagsRegistry, "tags/enchantment");
+    const vanillaTags = data ? Object.entries(data).map(([key, value]) => ({ identifier: Identifier.of(key, "tags/enchantment"), data: value })) : [];
+    const merge = TagsProcessor.merge([{ id: "vanilla", tags: vanillaTags }, { id: "datapack", tags: tagsRegistry }]);
 
     return (
         <>
             <ToolCategory title="enchantment:exclusive.vanilla.title">
                 <ToolGrid>
                     {exclusiveSetGroups.map(({ id, image, value }) => {
-                        const tagData = mergedTagsRegistry.find((tag) =>
+                        const tagData = merge.find((tag) =>
                             new Identifier(tag.identifier).equals(Identifier.of(value, "tags/enchantment"))
                         );
                         const values = tagData && Tags.isTag(tagData.data) ? new Tags(tagData.data).fromRegistry() : [];
@@ -53,11 +68,17 @@ export function ExclusiveGroupSection() {
                                 action={CoreAction.setValue("exclusiveSet", value)}
                                 highlightAction={CoreAction.removeTags([value])}
                                 renderer={(el) => el.exclusiveSet === value}
-                                highlightRenderer={(el) => {
-                                    const tags = el.tags ?? [];
-                                    return Array.isArray(tags) && tags.includes(value);
-                                }}
+                                highlightRenderer={(el) => Array.isArray(el.tags) && el.tags.includes(value)}
                                 lock={[isMinecraft]}
+                                disableToggle
+                                onSelect={() => openDialog({
+                                    identifier: Identifier.of(value, "tags/enchantment"),
+                                    title: `enchantment:exclusive.set.${id}.title`,
+                                    description: `enchantment:exclusive.set.${id}.description`,
+                                    image: `/images/features/item/${image}.webp`,
+                                    values,
+                                    value
+                                })}
                             />
                         );
                     })}
@@ -65,15 +86,15 @@ export function ExclusiveGroupSection() {
             </ToolCategory>
 
             <ToolCategory title="enchantment:exclusive.custom.title">
-                {mergedTagsRegistry.filter((tag) => tag.identifier.namespace !== "minecraft").length === 0 && (
+                {merge.filter((tag) => tag.identifier.namespace !== "minecraft").length === 0 && (
                     <p className="text-zinc-400 p-4">
                         <Translate content="enchantment:exclusive.custom.fallback" />
                     </p>
                 )}
 
-                {mergedTagsRegistry.filter((tag) => tag.identifier.namespace !== "minecraft").length > 0 && (
+                {merge.filter((tag) => tag.identifier.namespace !== "minecraft").length > 0 && (
                     <ToolGrid>
-                        {mergedTagsRegistry
+                        {merge
                             .filter((tag) => tag.identifier.namespace !== "minecraft")
                             .map((tagEntry) => {
                                 const identifier = new Identifier(tagEntry.identifier);
@@ -90,10 +111,16 @@ export function ExclusiveGroupSection() {
                                         action={CoreAction.setValue("exclusiveSet", identifierString)}
                                         highlightAction={CoreAction.removeTags([identifierString])}
                                         renderer={(el) => el.exclusiveSet === identifierString}
-                                        highlightRenderer={(el) => {
-                                            const tags = el.tags ?? [];
-                                            return Array.isArray(tags) && tags.includes(identifierString);
-                                        }}
+                                        highlightRenderer={(el) => Array.isArray(el.tags) && el.tags.includes(identifierString)}
+                                        disableToggle
+                                        onSelect={() => openDialog({
+                                            identifier,
+                                            title: identifier.toResourceName(),
+                                            description: identifier.toResourcePath(),
+                                            image: "/icons/logo.svg",
+                                            values,
+                                            value: identifierString
+                                        })}
                                     />
                                 );
                             })}
@@ -118,22 +145,22 @@ export function ExclusiveGroupSection() {
                                 <Translate content={selectedGroup.description} />
                             </p>
                         )}
-                        <div className="space-y-3 text-sm text-zinc-400">
+                        <div className="text-sm text-zinc-400">
                             <p>
-                                Cibler un groupe signifie que l'enchantement ne peut pas être combiné avec les enchantements listés dans ce
-                                groupe.
+                                <Translate content="enchantment:exclusive.dialog.explain.target" />
                             </p>
                             <p>
-                                Appartenir à un groupe ajoute l'enchantement à la liste de ce groupe, pour que d'autres enchantements qui
-                                ciblent ce groupe le prennent en compte.
+                                <Translate content="enchantment:exclusive.dialog.explain.membership" />
                             </p>
                         </div>
                     </DialogDescription>
                 </DialogHeader>
 
-                <div className="p-4 space-y-4">
+                <div className="px-4 pb-4 space-y-4">
                     <div>
-                        <h3 className="text-sm font-semibold text-zinc-300 mb-2">Enchantements dans ce groupe</h3>
+                        <h3 className="text-sm font-semibold text-zinc-300 mb-2">
+                            <Translate content="enchantment:exclusive.dialog.members.title" />
+                        </h3>
                         {selectedGroup?.values?.length && selectedGroup.values.length > 0 ? (
                             <div className="flex flex-wrap gap-2">
                                 {selectedGroup.values.map((value) => (
@@ -145,22 +172,49 @@ export function ExclusiveGroupSection() {
                                 ))}
                             </div>
                         ) : (
-                            <p className="text-xs text-zinc-500">Aucun enchantement n'est encore listé dans ce groupe.</p>
+                            <p className="text-xs text-zinc-500">
+                                <Translate content="enchantment:exclusive.dialog.members.empty" />
+                            </p>
                         )}
-                    </div>
-
-                    <div className="flex flex-wrap gap-2">
-                        <Button variant="primary">Cibler</Button>
-                        <Button variant="ghost">Ajouter</Button>
-                        <Button variant="ghost">Cibler + ajouter</Button>
-                        <Button variant="destructive">Cibler + exclusif</Button>
                     </div>
                 </div>
 
-                <DialogFooter>
+                <DialogFooter className="border-t border-zinc-800">
                     <DialogCloseButton variant="ghost_border">
-                        <Translate content="close" />
+                        <Translate content="enchantment:exclusive.dialog.actions.close" />
                     </DialogCloseButton>
+                    <div className="flex gap-2">
+                        <Button
+                            variant="primary"
+                            onClick={() => selectedGroup && executeAction(CoreAction.setValue("exclusiveSet", selectedGroup.value))}>
+                            <Translate content="enchantment:exclusive.dialog.actions.target" />
+                        </Button>
+                        <DropdownMenu>
+                            <DropdownMenuTrigger>
+                                <Button variant="ghost_border">
+                                    <Translate content="enchantment:exclusive.dialog.actions.more" />
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent>
+                                <DropdownMenuItem onClick={() => selectedGroup && executeAction(CoreAction.addTags([selectedGroup.value]))}>
+                                    <Translate content="enchantment:exclusive.dialog.actions.join" />
+                                </DropdownMenuItem>
+                                <DropdownMenuItem onClick={() => selectedGroup && executeAction(EnchantmentAction.setExclusiveSetWithTags(selectedGroup.value))}>
+                                    <Translate content="enchantment:exclusive.dialog.actions.target_join" />
+                                </DropdownMenuItem>
+                                <DropdownMenuSeparator />
+                                <DropdownMenuItem
+                                    className="text-red-400 hover:text-red-300"
+                                    onClick={() => {
+                                        if (!selectedGroup || !currentElementId) return;
+                                        executeAction(CoreAction.setValue("exclusiveSet", selectedGroup.value));
+                                        executeAction(CoreAction.setValue("tags", []));
+                                    }}>
+                                    <Translate content="enchantment:exclusive.dialog.actions.target_exclusive" />
+                                </DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                    </div>
                 </DialogFooter>
             </Dialog>
         </>

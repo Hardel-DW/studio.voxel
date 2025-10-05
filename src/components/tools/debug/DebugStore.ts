@@ -12,14 +12,14 @@ interface DebugState {
     fileStatusComparator: FileStatusComparator | null;
     registries: string[];
     namespaces: string[];
-    format: "voxel" | "datapack" | "original";
+    format: "voxel" | "datapack" | "original" | "logs";
     openDebugModal: (compiledDatapack: Datapack) => void;
     closeDebugModal: () => void;
     setSelectedRegistry: (registry: string) => void;
     setSelectedNamespace: (namespace: string) => void;
     setSelectedElement: (uniqueKey: string | undefined) => void;
     getFilteredElements: () => string[];
-    setFormat: (format: "voxel" | "datapack" | "original") => void;
+    setFormat: (format: "voxel" | "datapack" | "original" | "logs") => void;
 }
 
 export const useDebugStore = create<DebugState>((set, get) => ({

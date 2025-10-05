@@ -6,8 +6,7 @@ import SimpleSwitch from "@/components/tools/elements/SimpleSwitch";
 import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import Translate from "@/components/tools/Translate";
-import { mergeRegistries } from "@/lib/registry";
-import useRegistry from "@/lib/hook/useRegistry";
+import useRegistry, { type FetchedRegistry } from "@/lib/hook/useRegistry";
 import { cn } from "@/lib/utils";
 
 const findOptions = [
@@ -45,14 +44,15 @@ const findOptions = [
 
 export default function EnchantOverviewCard(props: { element: EnchantmentProps; display: boolean }) {
     const { lang } = useParams({ from: "/$lang" });
-    const { data: vanillaTags } = useRegistry<Record<string, TagType>>("summary", "tags/item");
+    const { data } = useRegistry<FetchedRegistry<TagType>>("summary", "tags/item");
     const datapackTags = useConfiguratorStore((state) => state.getRegistry<TagType>("tags/item"));
     const { isTag, id } = getItemFromMultipleOrOne(props.element.supportedItems);
     const elementId = new Identifier(props.element.identifier).toUniqueKey();
 
-    const allTags = vanillaTags ? mergeRegistries(vanillaTags, datapackTags, "tags/item") : [];
     const tagId = Identifier.of(id.startsWith("#") ? id.slice(1) : id, "tags/item");
-    const items = isTag && allTags.length > 0 ? new TagsProcessor(allTags).getRecursiveValues(tagId) : [id];
+    const vanillaTags = data ? Object.entries(data).map(([key, value]) => ({ identifier: Identifier.of(key, "tags/item"), data: value })) : [];
+    const merge = TagsProcessor.merge([{ id: "vanilla", tags: vanillaTags }, { id: "datapack", tags: datapackTags }]);
+    const items = isTag && merge.length > 0 ? new TagsProcessor(merge).getRecursiveValues(tagId) : [id];
 
     const handleConfigure = () => useConfiguratorStore.getState().setCurrentElementId(elementId);
 
