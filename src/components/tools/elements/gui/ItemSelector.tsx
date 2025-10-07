@@ -2,9 +2,9 @@ import { useState } from "react";
 import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer";
 import { useDynamicIsland } from "@/components/tools/floatingbar/FloatingBarContext";
 import { Button } from "@/components/ui/Button";
+import { TextInput } from "@/components/ui/TextInput";
 import { useClickOutside } from "@/lib/hook/useClickOutside";
 import { clsx } from "@/lib/utils";
-import { TextInput } from "@/components/ui/TextInput";
 
 interface ItemSelectorProps {
     currentItem: string;

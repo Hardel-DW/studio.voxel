@@ -5,9 +5,9 @@ import RecipeOverviewCard from "@/components/tools/concept/recipe/RecipeOverview
 import RecipeSelector from "@/components/tools/concept/recipe/RecipeSelector";
 import { canBlockHandleRecipeType, getTypesFromSelection, RECIPE_BLOCKS } from "@/components/tools/concept/recipe/recipeConfig";
 import Translate from "@/components/tools/Translate";
+import { TextInput } from "@/components/ui/TextInput";
 import { useElementsByType } from "@/lib/hook/useElementsByType";
 import { useInfiniteScroll } from "@/lib/hook/useInfiniteScroll";
-import { TextInput } from "@/components/ui/TextInput";
 import { useTranslateKey } from "@/lib/hook/useTranslation";
 
 export const Route = createFileRoute("/$lang/studio/editor/recipe/overview")({

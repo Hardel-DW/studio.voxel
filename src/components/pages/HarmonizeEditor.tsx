@@ -1,11 +1,11 @@
 import { useRef, useState } from "react";
 import Dropzone from "@/components/ui/Dropzone";
+import Range from "@/components/ui/Range";
 import useFileManager from "@/lib/hook/useFileManager";
 import useImageProcessor from "@/lib/hook/useImageProcessor";
 import { useDictionary } from "@/lib/hook/useNext18n";
 import { cleanPalette, loadImage, quantizeImage } from "@/lib/utils/color";
 import { downloadCanvas } from "@/lib/utils/download";
-import Range from "@/components/ui/Range";
 
 export default function HarmonizeEditor() {
     const dictionary = useDictionary();

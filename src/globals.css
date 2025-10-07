@@ -10,7 +10,7 @@
     &::-moz-range-track {
         @slot;
     }
-};
+}
 
 @custom-variant thumb {
     &::-webkit-slider-thumb {
@@ -20,10 +20,10 @@
     &::-moz-range-thumb {
         @slot;
     }
-};
+}
 
 @utility slider-* {
-    box-shadow: 0 0 0 3px --value(--color-*) inset, calc(100rem * -1 - .6rem) 0 0 100rem --value(--color-*);
+    box-shadow: 0 0 0 3px --value(--color-\*) inset, calc(100rem * -1 - .6rem) 0 0 100rem --value(--color-\*);
 }
  
 @font-face {

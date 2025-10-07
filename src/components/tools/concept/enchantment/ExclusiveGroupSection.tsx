@@ -32,7 +32,8 @@ export function ExclusiveGroupSection() {
             title: "enchantment:exclusive.actions.target.title",
             subtitle: "enchantment:exclusive.actions.target.subtitle",
             description: "enchantment:exclusive.actions.target.description",
-            action: (isChecked: boolean) => (isChecked ? CoreAction.setValue("exclusiveSet", value) : CoreAction.setUndefined("exclusiveSet")),
+            action: (isChecked: boolean) =>
+                isChecked ? CoreAction.setValue("exclusiveSet", value) : CoreAction.setUndefined("exclusiveSet"),
             renderer: (el) => el.exclusiveSet === value
         },
         {
@@ -49,7 +50,9 @@ export function ExclusiveGroupSection() {
             <ToolCategory title="enchantment:exclusive.vanilla.title">
                 <ToolGrid>
                     {exclusiveSetGroups.map(({ id, image, value }) => {
-                        const tagData = merge.find((tag) => new Identifier(tag.identifier).equals(Identifier.of(value, "tags/enchantment")));
+                        const tagData = merge.find((tag) =>
+                            new Identifier(tag.identifier).equals(Identifier.of(value, "tags/enchantment"))
+                        );
                         const values = tagData && Tags.isTag(tagData.data) ? new Tags(tagData.data).fromRegistry() : [];
 
                         return (

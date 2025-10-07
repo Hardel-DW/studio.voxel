@@ -1,6 +1,6 @@
 import type { TranslateTextType } from "@/components/tools/Translate";
-import { useTranslateKey } from "@/lib/hook/useTranslation";
 import { TextInput } from "@/components/ui/TextInput";
+import { useTranslateKey } from "@/lib/hook/useTranslation";
 
 interface ToolbarSearchProps {
     placeholder?: TranslateTextType;

@@ -4,13 +4,13 @@ import { useConfiguratorStore } from "@/components/tools/Store";
 import type { TranslateTextType } from "@/components/tools/Translate";
 import Translate from "@/components/tools/Translate";
 import { Button } from "@/components/ui/Button";
-import { Switch } from "@/components/ui/Switch";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/Popover";
+import { Switch } from "@/components/ui/Switch";
 import { useElementLocks } from "@/lib/hook/useBreezeElement";
 import type { ActionOrBuilder, BaseRender } from "@/lib/hook/useInteractiveLogic";
 import { useActionHandler, useRenderer } from "@/lib/hook/useInteractiveLogic";
-import type { Condition, Lock } from "@/lib/utils/lock";
 import { cn } from "@/lib/utils";
+import type { Condition, Lock } from "@/lib/utils/lock";
 
 export type ToolListOptionAction = {
     title: TranslateTextType;
@@ -64,7 +64,7 @@ function ActionItem(props: ToolListOptionAction & { elementId?: string; lock: { 
                     <Translate content={props.description} />
                 </span>
             </div>
-            <Switch id="action-switch" isChecked={isChecked ?? false} setIsChecked={() => { }} disabled={props.lock.isLocked} />
+            <Switch id="action-switch" isChecked={isChecked ?? false} setIsChecked={() => {}} disabled={props.lock.isLocked} />
         </label>
     );
 }
@@ -77,10 +77,11 @@ export default function ToolListOption(props: ToolListOptionType) {
 
     return (
         <RenderGuard condition={props.hide}>
-            <div className={cn(
-                "bg-black/50 border-t-2 border-l-2 border-stone-900 ring-0 ring-zinc-900 transition-all hover:ring-1 px-6 py-4 rounded-xl relative overflow-hidden w-full h-full text-left flex flex-col justify-between",
-                { "opacity-50 ring-1 ring-zinc-700": lock.isLocked }
-            )}>
+            <div
+                className={cn(
+                    "bg-black/50 border-t-2 border-l-2 border-stone-900 ring-0 ring-zinc-900 transition-all hover:ring-1 px-6 py-4 rounded-xl relative overflow-hidden w-full h-full text-left flex flex-col justify-between",
+                    { "opacity-50 ring-1 ring-zinc-700": lock.isLocked }
+                )}>
                 {isInList && (
                     <span className="absolute top-2 right-2">
                         <img src="/icons/star.svg" alt="In list" className="w-4 h-4 invert" />
@@ -162,8 +163,18 @@ export default function ToolListOption(props: ToolListOptionType) {
                                 </PopoverTrigger>
                                 <PopoverContent className="max-w-80">
                                     <div className="space-y-2">
-                                        <ActionItem {...props.actions[0]} elementId={props.elementId} lock={lock} key={`target-${targetValue}`} />
-                                        <ActionItem {...props.actions[1]} elementId={props.elementId} lock={lock} key={`membership-${isInList}`} />
+                                        <ActionItem
+                                            {...props.actions[0]}
+                                            elementId={props.elementId}
+                                            lock={lock}
+                                            key={`target-${targetValue}`}
+                                        />
+                                        <ActionItem
+                                            {...props.actions[1]}
+                                            elementId={props.elementId}
+                                            lock={lock}
+                                            key={`membership-${isInList}`}
+                                        />
                                     </div>
                                 </PopoverContent>
                             </Popover>

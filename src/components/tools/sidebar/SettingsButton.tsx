@@ -3,8 +3,8 @@ import { useDebugStore } from "@/components/tools/debug/DebugStore";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import Translate from "@/components/tools/Translate";
 import { Button } from "@/components/ui/Button";
-import { Switch } from "@/components/ui/Switch";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/Popover";
+import { Switch } from "@/components/ui/Switch";
 import { useTranslateKey } from "@/lib/hook/useTranslation";
 
 const DebugPanel = lazy(() => import("@/components/tools/debug/DebugPanel"));

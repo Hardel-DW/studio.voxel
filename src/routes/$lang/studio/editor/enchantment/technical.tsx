@@ -95,7 +95,7 @@ function EnchantmentTechnicalPage() {
                                 key={field}
                                 label={`enchantment:global.${field}.title`}
                                 min={0}
-                                max={100} 
+                                max={100}
                                 step={1}
                                 action={(value: number) => CoreAction.setValue(field, value)}
                                 renderer={(el: EnchantmentProps) => el[field]}

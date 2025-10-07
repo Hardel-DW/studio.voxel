@@ -16,11 +16,11 @@ import Counter from "@/components/ui/Counter";
 import { Dialog, DialogCloseButton, DialogFooter, DialogHeader, DialogHero } from "@/components/ui/Dialog";
 import { MultiStep, MultiStepControl, MultiStepItem } from "@/components/ui/MultiStep";
 import Range from "@/components/ui/Range";
+import { Switch } from "@/components/ui/Switch";
 import useRegistry, { type FetchedRegistry } from "@/lib/hook/useRegistry";
 import { useTranslateKey } from "@/lib/hook/useTranslation";
 import { mergeRegistries } from "@/lib/registry";
 import { clsx, cn } from "@/lib/utils";
-import { Switch } from "@/components/ui/Switch";
 
 export const Route = createFileRoute("/$lang/studio/editor/enchantment/simulation")({
     component: RouteComponent
