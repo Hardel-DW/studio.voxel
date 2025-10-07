@@ -1,69 +1,89 @@
 import { Identifier } from "@voxelio/breeze";
 import RenderGuard from "@/components/tools/elements/RenderGuard";
+import { useConfiguratorStore } from "@/components/tools/Store";
 import type { TranslateTextType } from "@/components/tools/Translate";
 import Translate from "@/components/tools/Translate";
 import { Button } from "@/components/ui/Button";
+import { Switch } from "@/components/ui/Switch";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/Popover";
-import type { ActionOrBuilder, BaseInteractiveComponent, BaseRender } from "@/lib/hook/useInteractiveLogic";
-import { useActionHandler, useInteractiveLogic, useRenderer } from "@/lib/hook/useInteractiveLogic";
+import { useElementLocks } from "@/lib/hook/useBreezeElement";
+import type { ActionOrBuilder, BaseRender } from "@/lib/hook/useInteractiveLogic";
+import { useActionHandler, useRenderer } from "@/lib/hook/useInteractiveLogic";
+import type { Condition, Lock } from "@/lib/utils/lock";
 import { cn } from "@/lib/utils";
 
-export type ToolListOptionType = BaseInteractiveComponent & {
+export type ToolListOptionAction = {
+    title: TranslateTextType;
+    subtitle?: TranslateTextType;
+    description: TranslateTextType;
+    action: ActionOrBuilder;
+    renderer?: BaseRender;
+    type?: "toggle" | "action";
+};
+
+export type ToolListOptionType = {
     title: TranslateTextType;
     description: TranslateTextType;
     image?: string;
     values: string[];
     index?: number;
-    highlight?: boolean;
-    highlightRenderer?: BaseRender;
-    disableToggle?: boolean;
-    highlightAction?: ActionOrBuilder;
-    onSelect?: () => void;
+    hide?: Condition;
+    lock?: Lock[];
+    elementId?: string;
+    actions?: ToolListOptionAction[];
 };
 
-export default function ToolListOption(props: ToolListOptionType) {
-    const { value, lock, handleChange } = useInteractiveLogic<ToolListOptionType, boolean>({ component: props });
-    const highlightAction = useActionHandler(props.highlightAction, { ...props });
-    const highlightValue = useRenderer<boolean>(props.highlightRenderer, props.elementId);
-    if (value === null) return null;
+function ActionItem(props: ToolListOptionAction & { elementId?: string; lock: { isLocked: boolean } }) {
+    const actionHandler = useActionHandler(props.action, { elementId: props.elementId });
+    const isChecked = useRenderer<boolean>(props.renderer, props.elementId);
 
-    const handleSelection = () => {
-        if (lock.isLocked) return;
-        if (props.disableToggle) {
-            props.onSelect?.();
-            return;
-        }
-
-        handleChange(!value);
-    };
-
-    const handleHighlightAction = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const handleAction = (e: React.MouseEvent) => {
         e.preventDefault();
         e.stopPropagation();
-        if (lock.isLocked) return;
-        highlightAction.handleChange(true);
+        if (props.lock.isLocked) return;
+        actionHandler.handleChange(!isChecked);
     };
 
     return (
+        <label
+            htmlFor="action-switch"
+            className="flex items-center justify-between gap-4 p-2 rounded-lg hover:bg-zinc-900/50 cursor-pointer transition-colors"
+            onClick={handleAction}>
+            <div className="flex flex-col flex-1">
+                <div className="text-sm text-zinc-200 flex items-center gap-2">
+                    <span className="text-sm text-zinc-200">
+                        <Translate content={props.title} />
+                    </span>
+                    {props.subtitle && (
+                        <span className="text-[10px] text-zinc-500 bg-zinc-900/20 px-1 py-0.5 rounded-md border border-zinc-900">
+                            <Translate content={props.subtitle} />
+                        </span>
+                    )}
+                </div>
+                <span className="text-xs text-zinc-500">
+                    <Translate content={props.description} />
+                </span>
+            </div>
+            <Switch id="action-switch" isChecked={isChecked ?? false} setIsChecked={() => { }} disabled={props.lock.isLocked} />
+        </label>
+    );
+}
+
+export default function ToolListOption(props: ToolListOptionType) {
+    const currentElementId = useConfiguratorStore((state) => props.elementId ?? state.currentElementId);
+    const lock = useElementLocks(props.lock, currentElementId);
+    const isInList = useRenderer<boolean>(props.actions?.[1]?.renderer, props.elementId);
+    const targetValue = useRenderer<boolean>(props.actions?.[0]?.renderer, props.elementId);
+
+    return (
         <RenderGuard condition={props.hide}>
-            <button
-                type="button"
-                className={cn(
-                    "bg-black/50 border-t-2 border-l-2 border-stone-900 ring-0 ring-zinc-900 transition-all hover:ring-1 px-6 py-4 rounded-xl cursor-pointer relative overflow-hidden w-full h-full text-left flex flex-col justify-between",
-                    { "bg-black/25 ring-1 ring-zinc-600": value },
-                    { "opacity-50 ring-1 ring-zinc-700": lock.isLocked }
-                )}
-                onClick={handleSelection}
-                onKeyDown={(e) => {
-                    if (e.key === "Enter" || e.key === " ") {
-                        e.preventDefault();
-                        handleSelection();
-                    }
-                }}
-                disabled={lock.isLocked}>
-                {highlightValue && (
+            <div className={cn(
+                "bg-black/50 border-t-2 border-l-2 border-stone-900 ring-0 ring-zinc-900 transition-all hover:ring-1 px-6 py-4 rounded-xl relative overflow-hidden w-full h-full text-left flex flex-col justify-between",
+                { "opacity-50 ring-1 ring-zinc-700": lock.isLocked }
+            )}>
+                {isInList && (
                     <span className="absolute top-2 right-2">
-                        <img src="/icons/star.svg" alt="Highlight" className="w-4 h-4 invert" />
+                        <img src="/icons/star.svg" alt="In list" className="w-4 h-4 invert" />
                     </span>
                 )}
                 <div className="flex flex-col flex-1">
@@ -126,14 +146,27 @@ export default function ToolListOption(props: ToolListOptionType) {
                     </div>
 
                     <div>
-                        {props.highlightAction && highlightValue && (
-                            <Button
-                                variant="ghost_border"
-                                size="xs"
-                                className="rounded-md text-zinc-400 text-xs px-3 py-2"
-                                onClick={handleHighlightAction}>
-                                Retirer
-                            </Button>
+                        {props.actions && props.actions.length > 0 && (
+                            <Popover>
+                                <PopoverTrigger>
+                                    <Button
+                                        variant="ghost_border"
+                                        size="xs"
+                                        className="rounded-md text-zinc-400 text-xs px-3 py-2"
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            e.stopPropagation();
+                                        }}>
+                                        Actions
+                                    </Button>
+                                </PopoverTrigger>
+                                <PopoverContent className="max-w-80">
+                                    <div className="space-y-2">
+                                        <ActionItem {...props.actions[0]} elementId={props.elementId} lock={lock} key={`target-${targetValue}`} />
+                                        <ActionItem {...props.actions[1]} elementId={props.elementId} lock={lock} key={`membership-${isInList}`} />
+                                    </div>
+                                </PopoverContent>
+                            </Popover>
                         )}
                     </div>
                 </div>
@@ -141,7 +174,7 @@ export default function ToolListOption(props: ToolListOptionType) {
                 <div className="absolute inset-0 -z-10 brightness-25" style={{ transform: `translateX(${props.index ?? 0 * 75}px)` }}>
                     <img src="/images/shine.avif" alt="Shine" />
                 </div>
-            </button>
+            </div>
         </RenderGuard>
     );
 }

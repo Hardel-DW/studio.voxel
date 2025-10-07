@@ -7,6 +7,8 @@ import { canBlockHandleRecipeType, getTypesFromSelection, RECIPE_BLOCKS } from "
 import Translate from "@/components/tools/Translate";
 import { useElementsByType } from "@/lib/hook/useElementsByType";
 import { useInfiniteScroll } from "@/lib/hook/useInfiniteScroll";
+import { TextInput } from "@/components/ui/TextInput";
+import { useTranslateKey } from "@/lib/hook/useTranslation";
 
 export const Route = createFileRoute("/$lang/studio/editor/recipe/overview")({
     component: Page
@@ -16,6 +18,7 @@ function Page() {
     const [search, setSearch] = useState("");
     const [selection, setSelection] = useState<string>("minecraft:barrier");
     const recipeElements = useElementsByType("recipe");
+    const translatedPlaceholder = useTranslateKey("recipe:overview.search.placeholder");
     const filteredElements = recipeElements
         .filter((el) => !search || el.identifier.resource.toLowerCase().includes(search.toLowerCase()))
         .filter((el) => getTypesFromSelection(selection).includes(el.type));
@@ -39,7 +42,7 @@ function Page() {
                     </h1>
                 </div>
                 <div className="flex items-center gap-4">
-                    <input type="text" placeholder="recipe:overview.search.placeholder" onChange={(e) => setSearch(e.target.value)} />
+                    <TextInput placeholder={translatedPlaceholder} onChange={(e) => setSearch(e.target.value)} />
                     <div className="relative">
                         <RecipeSelector value={selection} onChange={setSelection} recipeCounts={recipeCounts} />
                     </div>

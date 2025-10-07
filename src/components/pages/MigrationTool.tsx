@@ -1,6 +1,6 @@
-import { compileDatapack, Datapack, Logger, parseDatapack } from "@voxelio/breeze";
+import { compileDatapack, Datapack, DatapackDownloader, Logger, parseDatapack } from "@voxelio/breeze";
 import type React from "react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { Toaster, toast } from "sonner";
 import { LinkButton } from "@/components/ui/Button";
 import { Dialog, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/Dialog";
@@ -8,7 +8,7 @@ import Dropzone from "@/components/ui/Dropzone";
 import { useConfetti } from "@/lib/hook/useConfetti";
 import { useDictionary } from "@/lib/hook/useNext18n";
 import { trackEvent } from "@/lib/telemetry";
-import { downloadArchive } from "@/lib/utils/download";
+import { downloadFile } from "@/lib/utils/download";
 import { StatusBox } from "../ui/StatusBox";
 
 interface DatapackInfo {
@@ -19,110 +19,82 @@ interface DatapackInfo {
     reason?: string;
 }
 
+type UploadType = "source" | "target";
+
+interface UploadState {
+    files: FileList | null;
+    data?: DatapackInfo;
+}
+
 export default function MigrationTool({ children }: { children?: React.ReactNode }) {
-    const [sourceFiles, setSourceFiles] = useState<FileList | null>(null);
-    const [targetFiles, setTargetFiles] = useState<FileList | null>(null);
-    const [sourceData, setSourceData] = useState<DatapackInfo>();
-    const [targetData, setTargetData] = useState<DatapackInfo>();
+    const [uploads, setUploads] = useState<Record<UploadType, UploadState>>({
+        source: { files: null },
+        target: { files: null }
+    });
     const dialogRef = useRef<HTMLDivElement>(null);
     const { addConfetti, renderConfetti } = useConfetti();
     const dictionary = useDictionary();
 
-    const handleMigration = useCallback(async () => {
-        if (!sourceFiles || !targetFiles) return;
+    const handleMigration = async () => {
+        const { source, target } = uploads;
+        if (!source.files || !target.files) return;
         toast.info(dictionary.migration.processing);
-        const source = await parseDatapack(sourceFiles[0]);
-        const target = await parseDatapack(targetFiles[0]);
-        if (typeof source === "string") {
-            toast.error(dictionary[source]);
-            return;
-        }
 
-        if (typeof target === "string") {
-            toast.error(dictionary[target]);
-            return;
-        }
+        const targetData = await parseDatapack(target.files[0]);
 
         try {
-            const datapack = await Datapack.parse(sourceFiles[0]);
-            const logger = new Logger(datapack.getFiles());
-            const elements = logger.replay(target.elements, target.version);
+            const sourceDatapack = await Datapack.parse(source.files[0]);
+            const changesetsA = new Logger(sourceDatapack.getFiles()).getChangeSets();
+
+            const loggerB = new Logger(targetData.files);
+            const mergedElements = loggerB.applyChangeSets(changesetsA, targetData.elements);
 
             const finalDatapack = compileDatapack({
-                elements: Array.from(elements.values()),
-                files: target.files
+                elements: Array.from(mergedElements.values()),
+                files: targetData.files
             });
 
-            const modifiedDatapack = await finalDatapack.generate(logger, `Migrated-${target.name}`, target.isModded);
+            const response = await finalDatapack.generate(loggerB);
+            const filename = DatapackDownloader.getFileName(targetData.name, targetData.isModded);
+            downloadFile(response, filename);
 
-            downloadArchive(modifiedDatapack, `Migrated-${target.name}`, target.isModded);
             toast.success(dictionary.migration.success_message);
             await trackEvent("migrated_datapack");
             dialogRef.current?.showPopover();
-            addConfetti();
 
-            setTimeout(() => {
-                setSourceFiles(null);
-                setTargetFiles(null);
-                setSourceData(undefined);
-                setTargetData(undefined);
-            }, 3000);
+            addConfetti();
+            setTimeout(() => setUploads({ source: { files: null }, target: { files: null } }), 3000);
         } catch (error) {
             console.error("Migration failed:", error);
             toast.error("Failed to apply migration changes");
         }
-    }, [sourceFiles, targetFiles, dictionary, addConfetti]);
-
-    useEffect(() => {
-        if (sourceFiles && targetFiles) handleMigration();
-    }, [sourceFiles, targetFiles, handleMigration]);
-
-    const handleSourceUpload = async (files: FileList) => {
-        const result = await parseDatapack(files[0]);
-        if (typeof result === "string") {
-            toast.error(dictionary[result]);
-            return;
-        }
-
-        if (!result.files["voxel/logs.json"]) {
-            toast.error(dictionary.migration.error_types.no_logs);
-            setSourceData({
-                version: result.version,
-                name: result.name,
-                isModded: result.isModded,
-                status: "error",
-                reason: dictionary.migration.error_types.invalid_datapack
-            });
-            setSourceFiles(files);
-            return;
-        }
-
-        setSourceFiles(files);
-        setSourceData({ version: result.version, name: result.name, isModded: result.isModded, status: "success" });
     };
 
-    const handleTargetUpload = async (files: FileList) => {
+    const validators: Record<UploadType, (result: Exclude<Awaited<ReturnType<typeof parseDatapack>>, string>) => string | null> = {
+        source: (result) => (!result.files["voxel/logs.json"] ? dictionary.migration.error_types.no_logs : null),
+        target: (result) => (result.elements.size === 0 ? dictionary.migration.error_types.invalid_datapack : null)
+    };
+
+    const handleUpload = async (files: FileList, type: UploadType) => {
         const result = await parseDatapack(files[0]);
+
         if (typeof result === "string") {
             toast.error(dictionary[result]);
             return;
         }
 
-        if (result.elements.size === 0) {
-            toast.error(dictionary.migration.error_types.invalid_datapack);
-            setTargetData({
-                version: result.version,
-                name: result.name,
-                isModded: result.isModded,
-                status: "error",
-                reason: dictionary.migration.error_types.invalid_datapack
-            });
-            setTargetFiles(files);
-            return;
-        }
+        const error = validators[type](result);
+        const data: DatapackInfo = {
+            version: result.version,
+            name: result.name,
+            isModded: result.isModded,
+            status: error ? "error" : "success",
+            reason: error ?? undefined
+        };
 
-        setTargetFiles(files);
-        setTargetData({ version: result.version, name: result.name, isModded: result.isModded, status: "success" });
+        setUploads((prev) => ({ ...prev, [type]: { files, data } }));
+        if (uploads.target.files && uploads.source.files) handleMigration();
+        if (error) toast.error(error);
     };
 
     return (
@@ -141,7 +113,7 @@ export default function MigrationTool({ children }: { children?: React.ReactNode
                         {dictionary.migration.success_message}
                         <div className="py-2">
                             <span className="font-semibold text-zinc-400">
-                                {targetData && `${targetData.name}.${targetData.isModded ? "jar" : "zip"}`}
+                                {uploads.target.data && `${uploads.target.data.name}.${uploads.target.data.isModded ? "jar" : "zip"}`}
                             </span>
                         </div>
                         <div className="h-1 w-full bg-zinc-700 rounded-full" />
@@ -178,10 +150,10 @@ export default function MigrationTool({ children }: { children?: React.ReactNode
 
             <div className="flex flex-col md:grid md:grid-cols-5 items-center justify-center mt-8">
                 <div className="col-span-2 h-full">
-                    {!sourceFiles ? (
+                    {!uploads.source.files ? (
                         <Dropzone
                             id="source-dropzone"
-                            onFileUpload={handleSourceUpload}
+                            onFileUpload={(files) => handleUpload(files, "source")}
                             dropzone={{
                                 accept: ".zip",
                                 maxSize: 100000000,
@@ -194,14 +166,11 @@ export default function MigrationTool({ children }: { children?: React.ReactNode
                         </Dropzone>
                     ) : (
                         <StatusBox
-                            files={sourceFiles}
-                            version={sourceData?.version ?? 0}
-                            onResetAction={() => {
-                                setSourceFiles(null);
-                                setSourceData(undefined);
-                            }}
-                            variant={sourceData?.status ?? "error"}
-                            reason={sourceData?.reason}
+                            files={uploads.source.files}
+                            version={uploads.source.data?.version ?? 0}
+                            onResetAction={() => setUploads((prev) => ({ ...prev, source: { files: null } }))}
+                            variant={uploads.source.data?.status ?? "error"}
+                            reason={uploads.source.data?.reason}
                         />
                     )}
                 </div>
@@ -217,10 +186,10 @@ export default function MigrationTool({ children }: { children?: React.ReactNode
                 </div>
 
                 <div className="col-span-2">
-                    {!targetFiles ? (
+                    {!uploads.target.files ? (
                         <Dropzone
                             id="target-dropzone"
-                            onFileUpload={handleTargetUpload}
+                            onFileUpload={(files) => handleUpload(files, "target")}
                             dropzone={{
                                 accept: ".zip",
                                 maxSize: 100000000,
@@ -233,13 +202,11 @@ export default function MigrationTool({ children }: { children?: React.ReactNode
                         </Dropzone>
                     ) : (
                         <StatusBox
-                            files={targetFiles}
-                            version={targetData?.version ?? 0}
-                            onResetAction={() => {
-                                setTargetFiles(null);
-                                setTargetData(undefined);
-                            }}
-                            variant={targetData?.status ?? "error"}
+                            files={uploads.target.files}
+                            version={uploads.target.data?.version ?? 0}
+                            onResetAction={() => setUploads((prev) => ({ ...prev, target: { files: null } }))}
+                            variant={uploads.target.data?.status ?? "error"}
+                            reason={uploads.target.data?.reason}
                         />
                     )}
                 </div>

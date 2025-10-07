@@ -20,6 +20,7 @@ import useRegistry, { type FetchedRegistry } from "@/lib/hook/useRegistry";
 import { useTranslateKey } from "@/lib/hook/useTranslation";
 import { mergeRegistries } from "@/lib/registry";
 import { clsx, cn } from "@/lib/utils";
+import { Switch } from "@/components/ui/Switch";
 
 export const Route = createFileRoute("/$lang/studio/editor/enchantment/simulation")({
     component: RouteComponent
@@ -333,8 +334,8 @@ function RouteComponent() {
                                         <Translate content="enchantment:simulation.vanilla.description" />
                                     </span>
                                 </div>
-                                <label className="cursor-pointer flex">
-                                    <input type="checkbox" checked={includeVanilla} onChange={(e) => setIncludeVanilla(e.target.checked)} />
+                                <label htmlFor="include-vanilla" className="cursor-pointer flex">
+                                    <Switch id="include-vanilla" isChecked={includeVanilla} setIsChecked={setIncludeVanilla} />
                                 </label>
                             </div>
                             <div className="flex flex-col w-full">

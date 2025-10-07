@@ -1,23 +1,16 @@
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { Confetti } from "@/components/ui/Confetti";
 
 export function useConfetti() {
     const [confettiIds, setConfettiIds] = useState<number[]>([]);
 
-    const addConfetti = useCallback(() => {
+    const addConfetti = () => {
         const newId = Date.now();
         setConfettiIds((ids) => [...ids, newId]);
-        setTimeout(() => {
-            setConfettiIds((ids) => ids.filter((id) => id !== newId));
-        }, 3000);
-    }, []);
+        setTimeout(() => setConfettiIds((ids) => ids.filter((id) => id !== newId)), 3000);
+    };
 
-    const renderConfetti = useCallback((): React.ReactNode => {
-        return confettiIds.map((id) => <Confetti key={id} />);
-    }, [confettiIds]);
+    const renderConfetti = (): React.ReactNode => confettiIds.map((id) => <Confetti key={id} />);
 
-    return {
-        addConfetti,
-        renderConfetti
-    } as const;
+    return { addConfetti, renderConfetti };
 }

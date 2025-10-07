@@ -7,7 +7,6 @@ import { useTranslate } from "@/lib/hook/useTranslation";
 
 // Type defined locally
 export type ToolRangeType = BaseInteractiveComponent & {
-    type: "Range";
     label: TranslateTextType;
     min: number;
     max: number;

@@ -78,7 +78,7 @@ const DatapackForm: React.FC<Props> = ({ file, initialMetadata, iconUrl }) => {
                         </label>
                         <input
                             id="mod-name"
-                            type="custom"
+                            type="text"
                             value={metadata.name}
                             onChange={(e) => setMetadata((prev) => ({ ...prev, name: e.target.value }))}
                             className="focus:outline-none rounded-md h-full"
@@ -112,7 +112,7 @@ const DatapackForm: React.FC<Props> = ({ file, initialMetadata, iconUrl }) => {
                         </label>
                         <input
                             id="mod-id"
-                            type="custom"
+                            type="text"
                             value={metadata.id}
                             onChange={(e) => setMetadata((prev) => ({ ...prev, id: e.target.value }))}
                             className="focus:outline-none rounded-md"
@@ -126,7 +126,7 @@ const DatapackForm: React.FC<Props> = ({ file, initialMetadata, iconUrl }) => {
                         </label>
                         <input
                             id="mod-version"
-                            type="custom"
+                            type="text"
                             value={metadata.version}
                             onChange={(e) => setMetadata((prev) => ({ ...prev, version: e.target.value }))}
                             className="focus:outline-none rounded-md"
@@ -169,7 +169,7 @@ const DatapackForm: React.FC<Props> = ({ file, initialMetadata, iconUrl }) => {
                                 </div>
                                 <input
                                     id="mod-authors"
-                                    type="custom"
+                                    type="text"
                                     value={newAuthor}
                                     onChange={(e) => setNewAuthor(e.target.value)}
                                     onKeyDown={handleAddAuthor}

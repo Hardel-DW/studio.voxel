@@ -49,7 +49,12 @@ export default function Range(props: RangeProps) {
                 }}
                 onMouseUp={handleMouseUp}
                 onTouchEnd={handleMouseUp}
-                className={cn("w-full text-sm font-normal", props.className)}
+                className={cn(
+                    "h-6 w-full cursor-pointer appearance-none overflow-hidden rounded-2xl bg-transparent focus:outline-none",
+                    "track:h-2 track:w-full track:rounded-2xl track:bg-tertiary track:border-none",
+                    "thumb:relative thumb:top-1/2 thumb:-translate-y-1/2 thumb:h-6 thumb:w-6 thumb:appearance-none thumb:rounded-2xl thumb:border-none thumb:bg-tertiary thumb:text-primary thumb:cursor-pointer thumb:slider-primary",
+                    props.className
+                )}
             />
         </div>
     );

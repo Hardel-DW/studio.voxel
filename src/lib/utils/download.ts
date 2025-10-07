@@ -16,17 +16,6 @@ export const downloadFile = async (content: Response | Blob | string, filename: 
 };
 
 /**
- * Télécharge un fichier ZIP ou JAR
- * @param content Le contenu du fichier
- * @param name Le nom du fichier sans extension
- * @param isModded Si true, utilise l'extension .jar, sinon .zip
- */
-export const downloadArchive = (content: Response, name: string, isModded = false) => {
-    const extension = isModded ? "jar" : "zip";
-    downloadFile(content, `${name}.${extension}`);
-};
-
-/**
  * Télécharge une image à partir d'un canvas
  * @param canvas Le canvas contenant l'image
  * @param filename Le nom de fichier souhaité (optionnel)

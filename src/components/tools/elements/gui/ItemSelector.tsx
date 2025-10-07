@@ -4,6 +4,7 @@ import { useDynamicIsland } from "@/components/tools/floatingbar/FloatingBarCont
 import { Button } from "@/components/ui/Button";
 import { useClickOutside } from "@/lib/hook/useClickOutside";
 import { clsx } from "@/lib/utils";
+import { TextInput } from "@/components/ui/TextInput";
 
 interface ItemSelectorProps {
     currentItem: string;
@@ -27,21 +28,7 @@ export default function ItemSelector({ currentItem, onItemSelect, items }: ItemS
 
     return (
         <div className="flex flex-col h-full" ref={ref}>
-            <div className="relative">
-                <div className="absolute left-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-zinc-400">
-                        <circle cx="11" cy="11" r="8" stroke="currentColor" strokeWidth="2" />
-                        <path d="m21 21-4.35-4.35" stroke="currentColor" strokeWidth="2" />
-                    </svg>
-                </div>
-                <input
-                    type="custom"
-                    placeholder="Rechercher un item..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full pl-8 pr-4 py-2 bg-zinc-800/30 border border-zinc-800 rounded-full text-sm text-zinc-100 placeholder-zinc-400 focus:outline-none focus:border-zinc-700 focus:bg-zinc-700/20 transition-all"
-                />
-            </div>
+            <TextInput placeholder="Rechercher un item..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
 
             <div className="grid grid-cols-items grid-rows-items gap-2 overflow-y-auto overflow-x-hidden max-h-64 mt-4 flex-1 -mr-1 pr-1">
                 {filteredItems.map((itemId) => (

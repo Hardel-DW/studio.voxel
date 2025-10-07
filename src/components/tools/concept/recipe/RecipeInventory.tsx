@@ -1,5 +1,6 @@
 import { useState } from "react";
 import ToolInventory from "@/components/tools/elements/ToolInventory";
+import { TextInput } from "@/components/ui/TextInput";
 
 export default function RecipeInventory() {
     const [search, setSearch] = useState("");
@@ -15,21 +16,12 @@ export default function RecipeInventory() {
                             <h2 className="text-xl font-bold text-white">Inventory</h2>
                             <p className="text-sm text-zinc-400">Select items for your recipe</p>
                         </div>
-                        <div className="relative">
-                            <div className="absolute left-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-zinc-400">
-                                    <circle cx="11" cy="11" r="8" stroke="currentColor" strokeWidth="2" />
-                                    <path d="m21 21-4.35-4.35" stroke="currentColor" strokeWidth="2" />
-                                </svg>
-                            </div>
-                            <input
-                                type="custom"
-                                className="min-w-64 pl-8 pr-4 py-2 select-none user-select-none bg-zinc-800/30 border border-zinc-800 rounded-full text-sm text-zinc-100 placeholder-zinc-400 focus:outline-none focus:border-zinc-700 focus:bg-zinc-700/20 transition-all"
-                                placeholder="Search"
-                                value={search}
-                                onChange={(e) => setSearch(e.target.value)}
-                            />
-                        </div>
+                        <TextInput
+                            className="min-w-64 pl-8 pr-4 py-2 select-none user-select-none bg-zinc-800/30 border border-zinc-800 rounded-full text-sm text-zinc-100 placeholder-zinc-400 focus:outline-none focus:border-zinc-700 focus:bg-zinc-700/20 transition-all"
+                            placeholder="Search"
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)}
+                        />
                     </div>
                     <hr className="my-4" />
                 </div>

@@ -3,6 +3,7 @@ import { useDebugStore } from "@/components/tools/debug/DebugStore";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import Translate from "@/components/tools/Translate";
 import { Button } from "@/components/ui/Button";
+import { Switch } from "@/components/ui/Switch";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/Popover";
 import { useTranslateKey } from "@/lib/hook/useTranslation";
 
@@ -74,13 +75,7 @@ export default function SettingsButton() {
                                 </span>
                             </div>
                             <div className="flex items-center gap-4 h-full">
-                                <input
-                                    type="checkbox"
-                                    name="minify"
-                                    id="minify"
-                                    checked={minify}
-                                    onChange={(e) => setMinify(e.target.checked)}
-                                />
+                                <Switch id="minify" isChecked={minify} setIsChecked={setMinify} />
                             </div>
                         </label>
 

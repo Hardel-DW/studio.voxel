@@ -6,10 +6,9 @@ import type {
     DataDrivenRegistryElement,
     Datapack,
     GetAnalyserVoxel,
-    ParseDatapackResult,
-    VoxelElement
+    ParseDatapackResult
 } from "@voxelio/breeze";
-import { compileDatapack, isVoxelElement, Logger, updateData } from "@voxelio/breeze";
+import { compileDatapack, isVoxelElement, Logger, sortElementsByRegistry, updateData } from "@voxelio/breeze";
 import { create } from "zustand";
 import type { CONCEPT_KEY } from "./elements";
 
@@ -93,36 +92,6 @@ const createConfiguratorStore = <T extends keyof Analysers>() =>
 export const useConfiguratorStore = createConfiguratorStore();
 export const getCurrentElement = <T extends keyof Analysers>(state: ConfiguratorState<T>) =>
     state.currentElementId ? state.elements.get(state.currentElementId) : undefined;
-
-/**
- * Sorts voxel elements by registry and then alphabetically
- * @param elements - Map of voxel elements
- * @returns Map of registry to sorted identifiers
- */
-export function sortElementsByRegistry(elements: Map<string, VoxelElement>): Map<string, string[]> {
-    const grouped = new Map<string, string[]>();
-
-    for (const [id, element] of elements.entries()) {
-        const registry = element.identifier.registry;
-        if (!grouped.has(registry)) {
-            grouped.set(registry, []);
-        }
-        grouped.get(registry)?.push(id);
-    }
-
-    for (const [_, ids] of grouped.entries()) {
-        ids.sort((a, b) => {
-            const elementA = elements.get(a);
-            const elementB = elements.get(b);
-            if (!elementA || !elementB) return 0;
-            const resourceA = elementA.identifier.resource.split("/").pop() ?? "";
-            const resourceB = elementB.identifier.resource.split("/").pop() ?? "";
-            return resourceA.localeCompare(resourceB);
-        });
-    }
-
-    return grouped;
-}
 
 const buildCacheKey = (registry: string, options?: { path?: string; excludeNamespaces?: string[] }) => {
     if (!options) return registry;

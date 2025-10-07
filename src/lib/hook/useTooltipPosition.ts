@@ -20,10 +20,10 @@ export function useTooltipPosition(ref: RefObject<HTMLElement | null>): Position
         let x = e.clientX + MOUSE_OFFSET;
         let y = e.clientY + MOUSE_OFFSET;
 
-        // Éviter que le tooltip sorte de l'écran
         if (x + tooltipRect.width > innerWidth) {
             x = e.clientX - tooltipRect.width - MOUSE_OFFSET;
         }
+
         if (y + tooltipRect.height > innerHeight) {
             y = e.clientY - tooltipRect.height - MOUSE_OFFSET;
         }
@@ -31,8 +31,7 @@ export function useTooltipPosition(ref: RefObject<HTMLElement | null>): Position
         setPosition({ x, y });
     };
 
-    // Throttle les updates de position
-    const throttledUpdate = throttle(updatePosition, 16); // ~60fps
+    const throttledUpdate = throttle(updatePosition, 16);
 
     useEffect(() => {
         document.addEventListener("mousemove", throttledUpdate, { passive: true });

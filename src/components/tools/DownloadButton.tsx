@@ -1,10 +1,11 @@
+import { DatapackDownloader } from "@voxelio/breeze";
 import { useRef } from "react";
 import SettingsDialog from "@/components/tools/SettingsDialog";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import Translate from "@/components/tools/Translate";
 import { Button, LinkButton } from "@/components/ui/Button";
 import { Dialog, DialogCloseButton, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/Dialog";
-import { downloadArchive } from "@/lib/utils/download";
+import { downloadFile } from "@/lib/utils/download";
 
 export default function DownloadButton() {
     const dialogRef = useRef<HTMLDivElement>(null);
@@ -14,8 +15,9 @@ export default function DownloadButton() {
         if (!logger) return;
 
         const content = useConfiguratorStore.getState().compile();
-        const compiledContent = await content.generate(logger, name, isModded);
-        downloadArchive(compiledContent, name, isModded);
+        const response = await content.generate(logger);
+        const filename = DatapackDownloader.getFileName(name, isModded);
+        downloadFile(response, filename);
         dialogRef.current?.showPopover();
     };
 

@@ -5,6 +5,7 @@ import useImageProcessor from "@/lib/hook/useImageProcessor";
 import { useDictionary } from "@/lib/hook/useNext18n";
 import { cleanPalette, loadImage, quantizeImage } from "@/lib/utils/color";
 import { downloadCanvas } from "@/lib/utils/download";
+import Range from "@/components/ui/Range";
 
 export default function HarmonizeEditor() {
     const dictionary = useDictionary();
@@ -89,8 +90,8 @@ export default function HarmonizeEditor() {
         }
     };
 
-    const handleThresholdChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
-        const newThreshold = Number.parseInt(event.target.value, 10);
+    const handleThresholdChange = async (value: number) => {
+        const newThreshold = value;
         setSimilarityThreshold(newThreshold);
 
         if (palette.original.length > 0 && files.current) {
@@ -99,7 +100,7 @@ export default function HarmonizeEditor() {
 
             try {
                 const image = await loadImage(files.current);
-                const cleanedPalette = cleanPalette(palette.original, newThreshold);
+                const cleanedPalette = cleanPalette(palette.original, value);
                 const quantized = await quantizeImage(image, cleanedPalette);
 
                 imageActions.updateCleanedPalette(cleanedPalette);
@@ -189,12 +190,12 @@ export default function HarmonizeEditor() {
                                     {similarityThreshold}
                                 </span>
                             </div>
-                            <input
-                                type="range"
+                            <Range
                                 id="similarityThreshold"
-                                min="0"
-                                max="150"
+                                min={0}
+                                max={150}
                                 value={similarityThreshold}
+                                step={1}
                                 onChange={handleThresholdChange}
                                 className="w-full"
                                 disabled={imageState.isLoading}

@@ -16,7 +16,7 @@ export const Route = createFileRoute("/$lang/studio/editor/enchantment/technical
 
 function EnchantmentTechnicalPage() {
     const currentElementId = useConfiguratorStore((state) => state.currentElementId);
-    const effects = useElementProperty((el) => (el as EnchantmentProps).effects, currentElementId, !!currentElementId);
+    const effectKeys = useElementProperty((el) => (el?.effects ? Object.keys(el.effects) : []), currentElementId, !!currentElementId);
     if (!currentElementId) return null;
 
     return (
@@ -93,10 +93,9 @@ function EnchantmentTechnicalPage() {
                         <div key={field}>
                             <ToolRange
                                 key={field}
-                                type="Range"
                                 label={`enchantment:global.${field}.title`}
                                 min={0}
-                                max={100}
+                                max={100} 
                                 step={1}
                                 action={(value: number) => CoreAction.setValue(field, value)}
                                 renderer={(el: EnchantmentProps) => el[field]}
@@ -107,8 +106,8 @@ function EnchantmentTechnicalPage() {
             </ToolSection>
 
             <ToolSection id="effects" title="enchantment:technical.effects.title">
-                {effects && Object.keys(effects).length > 0 ? (
-                    Object.keys(effects).map((effect) => (
+                {effectKeys && effectKeys.length > 0 ? (
+                    effectKeys.map((effect) => (
                         <ToolSwitch
                             key={effect}
                             title={Identifier.toDisplay(effect)}

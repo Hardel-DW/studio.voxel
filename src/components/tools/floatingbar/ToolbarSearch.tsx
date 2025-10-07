@@ -1,5 +1,6 @@
 import type { TranslateTextType } from "@/components/tools/Translate";
 import { useTranslateKey } from "@/lib/hook/useTranslation";
+import { TextInput } from "@/components/ui/TextInput";
 
 interface ToolbarSearchProps {
     placeholder?: TranslateTextType;
@@ -13,14 +14,7 @@ export function ToolbarSearch({ placeholder, value, onChange, onSubmit }: Toolba
 
     return (
         <div className="flex-1 relative">
-            <div className="absolute left-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-zinc-400">
-                    <circle cx="11" cy="11" r="8" stroke="currentColor" strokeWidth="2" />
-                    <path d="m21 21-4.35-4.35" stroke="currentColor" strokeWidth="2" />
-                </svg>
-            </div>
-            <input
-                type="custom"
+            <TextInput
                 placeholder={translatedPlaceholder}
                 defaultValue={value}
                 onChange={(e) => onChange(e.target.value)}

@@ -1,25 +1,19 @@
 import type { InputHTMLAttributes } from "react";
+import { cn } from "@/lib/utils";
 
-interface TextInputProps extends InputHTMLAttributes<HTMLInputElement> {
-    id: string;
-    label?: string;
-    onValueChange?: (value: string) => void;
-}
-
-export function TextInput({ id, label, onValueChange, ...props }: TextInputProps) {
+export function TextInput(props: InputHTMLAttributes<HTMLInputElement>) {
     return (
-        <div className="relative w-full">
-            {label && (
-                <label htmlFor={id} className="block text-sm font-medium text-zinc-400 mb-1">
-                    {label}
-                </label>
-            )}
+        <div className="relative">
+            <div className="absolute left-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-zinc-400">
+                    <circle cx="11" cy="11" r="8" stroke="currentColor" strokeWidth="2" />
+                    <path d="m21 21-4.35-4.35" stroke="currentColor" strokeWidth="2" />
+                </svg>
+            </div>
             <input
-                id={id}
-                type="text"
-                onChange={(e) => onValueChange?.(e.target.value)}
-                className="w-full border px-4 py-2 text-sm font-normal outline-0 focus-visible:border-fuchsia-700 border-zinc-700 hover:border-zinc-600 text-zinc-400 hover:text-zinc-200 transition-colors rounded-[0.5rem] shadow-2xl shadow-black"
                 {...props}
+                type="text"
+                className={cn("w-full pl-8 pr-4 py-2 bg-zinc-800/30 border border-zinc-800 rounded-full text-sm text-zinc-100 placeholder-zinc-400 focus:outline-none focus:border-zinc-700 focus:bg-zinc-700/20 transition-all", props.className)}
             />
         </div>
     );

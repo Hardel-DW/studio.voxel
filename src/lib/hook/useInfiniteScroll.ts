@@ -14,27 +14,16 @@ export function useInfiniteScroll<T>(items: T[], itemsPerPage = 50) {
 
     const initializeObserver = () => {
         if (!ref.current) return;
-
-        if (observerRef.current) {
-            observerRef.current.disconnect();
-        }
+        if (observerRef.current) observerRef.current.disconnect();
 
         observerRef.current = new IntersectionObserver(([entry]) => entry.isIntersecting && loadMore(), { rootMargin: "100px" });
-
         observerRef.current.observe(ref.current);
     };
 
     const setRef = (element: HTMLDivElement | null) => {
         ref.current = element;
-        if (element) {
-            initializeObserver();
-        }
+        if (element) initializeObserver();
     };
 
-    return {
-        setCount,
-        visibleItems,
-        hasMore,
-        ref: setRef
-    };
+    return { setCount, visibleItems, hasMore, ref: setRef };
 }
