@@ -15,22 +15,22 @@ const EnchantYggdrasilSection = lazy(() => import("@/components/tools/concept/en
 
 const iterationValues = [
     {
-        title: "enchantment:find.enchantingTable.title",
-        description: "enchantment:find.enchantingTable.description",
+        title: "enchantment:find.enchanting_table.title",
+        description: "enchantment:find.enchanting_table.description",
         image: "/images/features/block/enchanting_table.webp",
         tag: "#minecraft:in_enchanting_table",
         lock_value: "#minecraft:non_treasure"
     },
     {
-        title: "enchantment:find.mobEquipment.title",
-        description: "enchantment:find.mobEquipment.description",
+        title: "enchantment:find.mob_equipment.title",
+        description: "enchantment:find.mob_equipment.description",
         image: "/images/features/entity/zombie.webp",
         tag: "#minecraft:on_mob_spawn_equipment",
         lock_value: "#minecraft:non_treasure"
     },
     {
-        title: "enchantment:find.lootInChests.title",
-        description: "enchantment:find.lootInChests.description",
+        title: "enchantment:find.loot_in_chests.title",
+        description: "enchantment:find.loot_in_chests.description",
         image: "/images/features/block/chest.webp",
         tag: "#minecraft:on_random_loot",
         lock_value: "#minecraft:non_treasure"
@@ -43,15 +43,15 @@ const iterationValues = [
         lock_value: "#minecraft:non_treasure"
     },
     {
-        title: "enchantment:find.tradeableEquipment.title",
-        description: "enchantment:find.tradeableEquipment.description",
+        title: "enchantment:find.tradeable_equipment.title",
+        description: "enchantment:find.tradeable_equipment.description",
         image: "/images/features/item/enchanted_item.webp",
         tag: "#minecraft:tradeable",
         lock_value: "#minecraft:non_treasure"
     },
     {
-        title: "enchantment:find.priceDoubled.title",
-        description: "enchantment:find.priceDoubled.description",
+        title: "enchantment:find.price_doubled.title",
+        description: "enchantment:find.price_doubled.description",
         image: "/images/features/title/doubled.webp",
         tag: "#minecraft:double_trade_price",
         lock_value: "#minecraft:treasure"
@@ -59,9 +59,7 @@ const iterationValues = [
 ];
 
 export const Route = createFileRoute("/$lang/studio/editor/enchantment/find")({
-    validateSearch: (search: Record<string, unknown>) => ({
-        tab: search.tab as "dnt" | "yggdrasil" | undefined
-    }),
+    validateSearch: (search: Record<string, unknown>) => ({ tab: search.tab as "dnt" | "yggdrasil" | undefined }),
     component: EnchantmentFindPage
 });
 

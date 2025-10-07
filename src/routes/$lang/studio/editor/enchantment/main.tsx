@@ -7,7 +7,7 @@ import ToolCounter from "@/components/tools/elements/ToolCounter";
 import ToolGrid from "@/components/tools/elements/ToolGrid";
 import ToolSection from "@/components/tools/elements/ToolSection";
 import ToolSelector from "@/components/tools/elements/ToolSelector";
-import { LockEntryBuilder } from "@/lib/utils/lock";
+import { isMinecraft } from "@/lib/utils/lock";
 
 export const Route = createFileRoute("/$lang/studio/editor/enchantment/main")({
     component: EnchantmentMainPage
@@ -25,13 +25,7 @@ function EnchantmentMainPage() {
                                 image={`/icons/tools/${key}.svg`}
                                 title={`enchantment:global.${key}.title`}
                                 description={`enchantment:global.explanation.list.${index + 1}`}>
-                                <ToolCounter
-                                    min={1}
-                                    max={127}
-                                    step={1}
-                                    action={(value: number) => CoreAction.setValue(key, value)}
-                                    renderer={(el: EnchantmentProps) => el[key]}
-                                />
+                                <ToolCounter min={1} max={127} step={1} action={(value: number) => CoreAction.setValue(key, value)} renderer={(el: EnchantmentProps) => el[key]} />
                             </TemplateCard>
                         ))}
                     </ToolGrid>
@@ -39,12 +33,7 @@ function EnchantmentMainPage() {
                         key="mode-selector"
                         title="enchantment:global.mode.title"
                         description="enchantment:global.mode.description"
-                        lock={[
-                            new LockEntryBuilder()
-                                .addTextKey("vanilla_disabled")
-                                .addCondition((el: EnchantmentProps) => el.identifier?.namespace === "minecraft")
-                                .build()
-                        ]}
+                        lock={[isMinecraft]}
                         action={(value: string) => CoreAction.setValue("mode", value)}
                         renderer={(el: EnchantmentProps) => el.mode}
                         options={[

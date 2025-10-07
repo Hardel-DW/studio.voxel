@@ -63,7 +63,7 @@ function Page() {
                 </div>
             </Toolbar>
 
-            {/* Header de filtrage par slots */}
+            {/* Header of filtering by slots */}
             <div className="mb-6">
                 <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-4">
@@ -81,7 +81,7 @@ function Page() {
                 </div>
 
                 <div className="flex items-center justify-between">
-                    {/* Gauche: mainhand, offhand */}
+                    {/* Left: mainhand, offhand */}
                     <div className="flex items-center gap-3">
                         {SLOT_CONFIGS.slice(0, 2).map((slot) => (
                             <button
@@ -101,7 +101,7 @@ function Page() {
                         ))}
                     </div>
 
-                    {/* Droite: body, saddle, armor slots */}
+                    {/* Right: body, saddle, armor slots */}
                     <div className="flex items-center gap-3">
                         {SLOT_CONFIGS.slice(2).map((slot) => (
                             <button
@@ -125,7 +125,7 @@ function Page() {
 
             <hr className="my-4 border-zinc-800/50" />
 
-            {/* Résultats */}
+            {/* Results */}
             <div className="flex items-center justify-between mb-4">
                 <p className="text-sm text-zinc-400">
                     {filteredElements.length} <Translate content="enchantment:overview.results" />
@@ -137,7 +137,7 @@ function Page() {
                 </p>
             </div>
 
-            {/* Grille des cartes */}
+            {/* Grid of cards */}
             <div className="grid gap-4 overview-grid" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))" }}>
                 {filteredElements.map((element) => (
                     <SlotsEnchantmentCard key={element.identifier.resource} element={element} />

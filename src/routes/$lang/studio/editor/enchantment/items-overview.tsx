@@ -25,7 +25,6 @@ function Page() {
     const enchantmentElements = useElementsByType("enchantment");
 
     const toggleTag = (tag: string) => setSelectedTag((prev) => (prev === tag ? null : tag));
-
     const clearFilters = () => setSelectedTag(null);
 
     const filteredElements = enchantmentElements.filter((element) => {
@@ -34,14 +33,10 @@ function Page() {
             return false;
         }
 
-        if (!selectedTag) {
-            return true;
-        }
-
+        if (!selectedTag) return true;
         const supportedTags = extractTags(element.supportedItems);
         const primaryTags = extractTags(element.primaryItems ?? []);
         const elementTags = new Set<string>([...supportedTags, ...primaryTags, ...(element.tags ?? [])]);
-
         return elementTags.has(selectedTag);
     });
 
