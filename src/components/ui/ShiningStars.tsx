@@ -10,7 +10,7 @@ interface Star {
     phase: number;
 }
 
-const ShiningStars: React.FC = () => {
+export default function ShiningStars() {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const animationFrameIdRef = useRef<number>(0);
     const starsRef = useRef<Star[]>([]);
@@ -120,5 +120,3 @@ const ShiningStars: React.FC = () => {
 
     return <canvas ref={canvasRef} className="size-full opacity-50 md:opacity-100" />;
 };
-
-export default ShiningStars;
