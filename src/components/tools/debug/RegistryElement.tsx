@@ -37,12 +37,7 @@ export function RegistryElement({ uniqueKey, selectedElement, onElementSelect }:
             <p className="absolute top-2 right-2 px-2 rounded-2xl bg-zinc-700/50 text-[0.65rem] text-zinc-500">
                 {identifier.toNamespace()}
             </p>
-            <div
-                className={cn("text-white", {
-                    "text-rose-500": isSelected
-                })}>
-                {identifier.toResourceName()}
-            </div>
+            <div className={isSelected ? "text-rose-500" : "text-white"}>{identifier.toResourceName()}</div>
             <small className="text-xs text-gray-400">{identifier.toString()}</small>
         </button>
     );

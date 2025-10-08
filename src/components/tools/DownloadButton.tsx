@@ -23,7 +23,7 @@ export default function DownloadButton() {
 
     return (
         <>
-            <Button type="button" className="w-full" variant="white-shimmer" onClick={handleClick}>
+            <Button type="button" className="w-full" variant="shimmer" onClick={handleClick}>
                 <span className="text-sm hidden xl:block">
                     <Translate content="download_data_pack" />
                 </span>
@@ -60,7 +60,7 @@ export default function DownloadButton() {
                             target="_blank"
                             rel="noopener noreferrer"
                             href="https://streamelements.com/hardoudou/tip"
-                            variant="patreon-shimmer">
+                            variant="patreon">
                             <Translate content="donate" />
                         </LinkButton>
                     </div>

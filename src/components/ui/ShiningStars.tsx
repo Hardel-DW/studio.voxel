@@ -119,4 +119,4 @@ export default function ShiningStars() {
     }, []);
 
     return <canvas ref={canvasRef} className="size-full opacity-50 md:opacity-100" />;
-};
+}

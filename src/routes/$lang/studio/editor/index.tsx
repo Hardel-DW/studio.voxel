@@ -77,7 +77,7 @@ function EditorHomepage() {
                         <LinkButton href={`/${lang}/guides`} variant="ghost_border" size="sm" className="px-8">
                             <Translate content="welcome.help.guides" />
                         </LinkButton>
-                        <LinkButton href={`/${lang}/guides`} variant="white-shimmer" size="sm" className="px-8">
+                        <LinkButton href={`/${lang}/guides`} variant="shimmer" size="sm" className="px-8">
                             <Translate content="welcome.help.discord" />
                         </LinkButton>
                     </div>

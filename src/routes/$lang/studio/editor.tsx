@@ -1,11 +1,13 @@
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { createFileRoute, Outlet } from "@tanstack/react-router";
+import { useState } from "react";
 import EditorLoading from "@/components/pages/studio/EditorLoading";
 import ConfigManager from "@/components/tools/ConfigManager";
 import ConfiguratorPanel from "@/components/tools/ConfiguratorPanel";
 import PageTitle from "@/components/tools/PageTitle";
 import StudioSidebar from "@/components/tools/sidebar/Sidebar";
 import ToolInternalization from "@/components/tools/ToolInternalization";
+import { cn } from "@/lib/utils";
 import { getQueryClient } from "@/lib/utils/query";
 
 export const Route = createFileRoute("/$lang/studio/editor")({
@@ -15,15 +17,17 @@ export const Route = createFileRoute("/$lang/studio/editor")({
 
 function EditorLayout() {
     const queryClient = getQueryClient();
+    const [toggleSidebar, setToggleSidebar] = useState(false);
 
     return (
         <>
-            <input type="checkbox" id="sidebar-toggle" className="peer hidden" defaultChecked />
-
             {/* Sidebar */}
             <div
                 id="collapse-menu"
-                className="@container shrink-0 overflow-hidden transition-all duration-500 ease-in-out peer-checked:w-62.5 xl:peer-checked:w-80 w-0 max-md:absolute max-md:inset-0 max-md:bg-linear-to-br max-md:from-guides-gradient-from max-md:to-guides-gradient-to max-md:z-50 max-md:py-4 max-md:rounded-r-2xl max-md:border max-md:border-zinc-700">
+                className={cn(
+                    "@container shrink-0 overflow-hidden transition-all duration-500 ease-in-out w-0 max-md:absolute max-md:inset-0 max-md:bg-linear-to-br max-md:from-guides-gradient-from max-md:to-guides-gradient-to max-md:z-50 max-md:py-4 max-md:rounded-r-2xl max-md:border max-md:border-zinc-700",
+                    toggleSidebar ? "w-62.5 xl:w-80" : "w-0"
+                )}>
                 <div className="w-62.5 xl:w-80 flex flex-col h-full relative z-100 px-4 md:pl-0 @sm:pl-0">
                     <div className="flex w-full items-center justify-between">
                         <a
@@ -32,9 +36,12 @@ function EditorLayout() {
                             <img src="/icons/logo.svg" alt="Voxel" className="w-6 h-6 brightness-90 mx-2" />
                             <span className="font-bold text-primary">VOXEL</span>
                         </a>
-                        <label htmlFor="sidebar-toggle" className="w-6 h-6 cursor-pointer block md:hidden">
-                            <img src="/icons/menu.svg" alt="menu" className="invert-[75%]" />
-                        </label>
+                        <button
+                            type="button"
+                            onClick={() => setToggleSidebar(!toggleSidebar)}
+                            className="w-6 h-6 cursor-pointer block md:hidden">
+                            <img src="/icons/menu.svg" alt="menu" className="invert-75" />
+                        </button>
                     </div>
                     <StudioSidebar />
                 </div>
@@ -47,9 +54,9 @@ function EditorLayout() {
                 <main className="contents">
                     <div className="size-full pt-4 pb-8">
                         <div className="flex absolute inset-0 p-4 justify-between items-center select-none h-fit gap-x-4">
-                            <label htmlFor="sidebar-toggle" className="w-6 h-6 cursor-pointer">
-                                <img src="/icons/menu.svg" alt="Menu" className="invert opacity-75" />
-                            </label>
+                            <button type="button" onClick={() => setToggleSidebar(!toggleSidebar)} className="w-6 h-6 cursor-pointer">
+                                <img src="/icons/menu.svg" alt="Menu" className="invert-75" />
+                            </button>
                             <PageTitle />
                             <div className="flex items-center gap-x-6">
                                 <ToolInternalization />

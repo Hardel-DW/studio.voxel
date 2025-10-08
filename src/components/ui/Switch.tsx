@@ -22,7 +22,7 @@ export function Switch(props: {
                     onChange={(e) => props.setIsChecked(e.target.checked)}
                     disabled={props.disabled}
                 />
-                <span className="absolute inset-0 bg-unchecked-rail rounded-full transition-all duration-100 ease-in-out peer-checked:bg-linear-to-r from-purple-950 to-pink-900 peer-disabled:opacity-50 peer-disabled:pointer-events-none"></span>
+                <span className="absolute inset-0 bg-unchecked-rail rounded-full transition-all duration-100 ease-in-out peer-checked:linear-checked-rail peer-disabled:opacity-50 peer-disabled:pointer-events-none"></span>
                 <span className="absolute top-1/2 start-0.5 -translate-y-1/2 size-5 bg-unchecked-circle rounded-full transition-all duration-200 ease-in-out peer-checked:translate-x-full peer-checked:duration-300 peer-checked:bg-checked-circle"></span>
             </label>
             {props.label && (

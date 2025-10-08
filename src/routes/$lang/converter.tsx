@@ -101,7 +101,7 @@ function ConverterPage() {
                         <p className="text-gray-300 mt-4">{dictionary.suggestions.datapacks.description}</p>
 
                         <div className="mt-8 flex flex-col md:flex-row gap-4">
-                            <LinkButton href={`/${lang}/tools/studio`} size="xl" variant="white-shimmer" className="w-full md:w-auto">
+                            <LinkButton href={`/${lang}/tools/studio`} size="xl" variant="shimmer" className="w-full md:w-auto">
                                 {dictionary.generic.take_a_look}
                             </LinkButton>
                             <LinkButton href={`/${lang}/tools/studio`} size="xl" variant="ghost" className="w-full md:w-auto">

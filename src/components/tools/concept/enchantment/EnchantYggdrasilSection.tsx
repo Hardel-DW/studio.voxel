@@ -5,122 +5,97 @@ import ToolGrid from "@/components/tools/elements/ToolGrid";
 import ToolInline from "@/components/tools/elements/ToolInline";
 import ToolSlot from "@/components/tools/elements/ToolSlot";
 
-const alfheimStructures = [
-    {
-        title: "yggdrasil:random_chest.title",
-        description: "yggdrasil:random_chest.description",
+const alfheim = {
+    random_chest: {
         image: "/images/features/block/chest.webp",
         tag: "#yggdrasil:structure/alfheim_tree/random_loot"
     },
-    {
-        title: "yggdrasil:vault.title",
-        description: "yggdrasil:vault.description",
+    vault: {
         image: "/images/features/block/vault.webp",
         tag: "#yggdrasil:structure/alfheim_tree/vault"
     },
-    {
-        title: "yggdrasil:ominous_vault.title",
-        description: "yggdrasil:ominous_vault.description",
+    ominous_vault: {
         image: "/images/features/block/ominous_vault.webp",
         tag: "#yggdrasil:structure/alfheim_tree/ominous_vault"
     },
-    {
-        title: "yggdrasil:trial_spawner.title",
-        description: "yggdrasil:trial_spawner.description",
+    trial_spawner: {
         image: "/images/features/block/trial_spawner.webp",
         tag: "#yggdrasil:structure/alfheim_tree/trial_spawner"
     },
-    {
-        title: "yggdrasil:ominous_trial_spawner.title",
-        description: "yggdrasil:ominous_trial_spawner.description",
+    ominous_trial_spawner: {
         image: "/images/features/block/ominous_trial_spawner.webp",
         tag: "#yggdrasil:structure/alfheim_tree/ominous_trial_spawner"
     }
-];
+};
 
-const asflorsStructures = [
-    {
-        title: "yggdrasil:common_chest.title",
-        description: "yggdrasil:common_chest.description",
+const asflors = {
+    common_chest: {
         image: "/images/features/block/chest.webp",
         tag: "#yggdrasil:structure/asflors/common"
     },
-    {
-        title: "yggdrasil:structure_vault.title",
-        description: "yggdrasil:structure_vault.description",
+    structure_vault: {
         image: "/images/features/block/vault.webp",
         tag: "#yggdrasil:structure/asflors/vault"
     },
-    {
-        title: "yggdrasil:structure_ominous_vault.title",
-        description: "yggdrasil:structure_ominous_vault.description",
+    structure_ominous_vault: {
         image: "/images/features/block/ominous_vault.webp",
         tag: "#yggdrasil:structure/asflors/ominous_vault"
     },
-    {
-        title: "yggdrasil:asflors_sword.title",
-        description: "yggdrasil:asflors_sword.description",
+    asflors_sword: {
         image: "/images/features/item/sword.webp",
         tag: "#yggdrasil:structure/asflors/asflors_sword"
     }
-];
+};
 
-const runicLabyrinthStructures = [
-    {
-        title: "yggdrasil:runic_laby.dark_elven_bow.title",
-        description: "yggdrasil:runic_laby.dark_elven_bow.description",
+const runic = {
+    dark_elven_bow: {
         image: "/images/features/item/bow.webp",
         tag: "#yggdrasil:structure/runic_labyrinth/dark_elven_bow"
     },
-    {
-        title: "yggdrasil:runic_laby.twilight_bow.title",
-        description: "yggdrasil:runic_laby.twilight_bow.description",
+    twilight_bow: {
         image: "/images/features/item/bow.webp",
         tag: "#yggdrasil:structure/runic_labyrinth/twilight_of_yggdrasil_bow"
     },
-    {
-        title: "yggdrasil:runic_laby.library.title",
-        description: "yggdrasil:runic_laby.library.description",
+    library: {
         image: "/images/features/block/chest.webp",
         tag: "#yggdrasil:structure/runic_labyrinth/library"
     },
-    {
-        title: "yggdrasil:runic_laby.random.title",
-        description: "yggdrasil:runic_laby.random.description",
+    random: {
         image: "/images/features/block/chest.webp",
         tag: "#yggdrasil:structure/runic_labyrinth/random"
     },
-    {
-        title: "yggdrasil:runic_laby.shulker.title",
-        description: "yggdrasil:runic_laby.shulker.description",
+    shulker: {
         image: "/images/features/block/chest.webp",
         tag: "#yggdrasil:structure/runic_labyrinth/shulker"
     },
-    {
-        title: "yggdrasil:runic_laby.trial.title",
-        description: "yggdrasil:runic_laby.trial.description",
+    trial: {
         image: "/images/features/block/trial_spawner.webp",
         tag: "#yggdrasil:structure/runic_labyrinth/trial"
     },
-    {
-        title: "yggdrasil:runic_laby.vault.title",
-        description: "yggdrasil:runic_laby.vault.description",
+    vault: {
         image: "/images/features/block/vault.webp",
         tag: "#yggdrasil:structure/runic_labyrinth/vault"
     },
-    {
-        title: "yggdrasil:runic_laby.ominous_trial.title",
-        description: "yggdrasil:runic_laby.ominous_trial.description",
+    ominous_trial: {
         image: "/images/features/block/ominous_trial_spawner.webp",
         tag: "#yggdrasil:structure/runic_labyrinth/ominous_trial"
     },
-    {
-        title: "yggdrasil:runic_laby.ominous_vault.title",
-        description: "yggdrasil:runic_laby.ominous_vault.description",
+    ominous_vault: {
         image: "/images/features/block/ominous_vault.webp",
         tag: "#yggdrasil:structure/runic_labyrinth/ominous_vault"
     }
-];
+};
+
+const runicFracture = {
+    boss_trial_spawner: {
+        image: "/images/features/block/ominous_trial_spawner.webp",
+        tag: "#yggdrasil:structure/runic_fracture/boss_trial_spawner"
+    },
+    monster_trial_spawner: {
+        image: "/images/features/block/ominous_trial_spawner.webp",
+        tag: "#yggdrasil:structure/runic_fracture/monster_trial_spawner"
+    }
+};
 
 const yggdrasilEquipmentTags = [
     "#yggdrasil:equipment/item/bow",
@@ -144,14 +119,14 @@ export default function EnchantYggdrasilSection() {
                         renderer={(el: EnchantmentProps) => yggdrasilEquipmentTags.some((tag) => el.tags.includes(tag))}
                     />
 
-                    {alfheimStructures.map((structure) => (
+                    {Object.entries(alfheim).map(([key, value]) => (
                         <ToolSlot
-                            key={structure.tag}
-                            title={structure.title}
-                            description={structure.description}
-                            image={structure.image}
-                            action={CoreAction.toggleValueInList("tags", structure.tag)}
-                            renderer={(el: EnchantmentProps) => el.tags.includes(structure.tag)}
+                            key={value.tag}
+                            title={`yggdrasil:${key}.title`}
+                            description={`yggdrasil:${key}.description`}
+                            image={value.image}
+                            action={CoreAction.toggleValue("tags", value.tag)}
+                            renderer={(el: EnchantmentProps) => el.tags.includes(value.tag)}
                         />
                     ))}
                 </ToolGrid>
@@ -159,14 +134,14 @@ export default function EnchantYggdrasilSection() {
 
             <ToolCategory title="yggdrasil:asflors.title">
                 <ToolGrid size="300px">
-                    {asflorsStructures.map((structure) => (
+                    {Object.entries(asflors).map(([key, value]) => (
                         <ToolSlot
-                            key={structure.tag}
-                            title={structure.title}
-                            description={structure.description}
-                            image={structure.image}
-                            action={CoreAction.toggleValue("tags", structure.tag)}
-                            renderer={(el: EnchantmentProps) => el.tags.includes(structure.tag)}
+                            key={value.tag}
+                            title={`yggdrasil:${key}.title`}
+                            description={`yggdrasil:${key}.description`}
+                            image={value.image}
+                            action={CoreAction.toggleValue("tags", value.tag)}
+                            renderer={(el: EnchantmentProps) => el.tags.includes(value.tag)}
                         />
                     ))}
                 </ToolGrid>
@@ -174,33 +149,29 @@ export default function EnchantYggdrasilSection() {
 
             <ToolCategory title="yggdrasil:runic_fracture.title">
                 <ToolGrid size="400px">
-                    <ToolSlot
-                        title="yggdrasil:boss_trial_spawner.title"
-                        description="yggdrasil:boss_trial_spawner.description"
-                        image="/images/features/block/ominous_trial_spawner.webp"
-                        action={CoreAction.toggleValue("tags", "#yggdrasil:structure/runic_fracture/boss_trial_spawner")}
-                        renderer={(el: EnchantmentProps) => el.tags.includes("#yggdrasil:structure/runic_fracture/boss_trial_spawner")}
-                    />
-                    <ToolSlot
-                        title="yggdrasil:monster_trial_spawner.title"
-                        description="yggdrasil:monster_trial_spawner.description"
-                        image="/images/features/block/ominous_trial_spawner.webp"
-                        action={CoreAction.toggleValue("tags", "#yggdrasil:structure/runic_fracture/monster_trial_spawner")}
-                        renderer={(el: EnchantmentProps) => el.tags.includes("#yggdrasil:structure/runic_fracture/monster_trial_spawner")}
-                    />
+                    {Object.entries(runicFracture).map(([key, value]) => (
+                        <ToolSlot
+                            key={value.tag}
+                            title={`yggdrasil:${key}.title`}
+                            description={`yggdrasil:${key}.description`}
+                            image={value.image}
+                            action={CoreAction.toggleValue("tags", value.tag)}
+                            renderer={(el: EnchantmentProps) => el.tags.includes(value.tag)}
+                        />
+                    ))}
                 </ToolGrid>
             </ToolCategory>
 
             <ToolCategory title="yggdrasil:runic_laby.title">
                 <ToolGrid size="400px">
-                    {runicLabyrinthStructures.map((structure) => (
+                    {Object.entries(runic).map(([key, value]) => (
                         <ToolInline
-                            key={structure.tag}
-                            title={structure.title}
-                            description={structure.description}
-                            image={structure.image}
-                            action={CoreAction.toggleValue("tags", structure.tag)}
-                            renderer={(el: EnchantmentProps) => el.tags.includes(structure.tag)}
+                            key={value.tag}
+                            title={`yggdrasil:runic_laby.${key}.title`}
+                            description={`yggdrasil:runic_laby.${key}.description`}
+                            image={value.image}
+                            action={CoreAction.toggleValue("tags", value.tag)}
+                            renderer={(el: EnchantmentProps) => el.tags.includes(value.tag)}
                         />
                     ))}
                 </ToolGrid>

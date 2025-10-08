@@ -9,7 +9,7 @@ import Translate from "@/components/tools/Translate";
 import { useElementsByType } from "@/lib/hook/useElementsByType";
 import { cn } from "@/lib/utils";
 
-export const Route = createFileRoute("/$lang/studio/editor/enchantment/slots-overview")({
+export const Route = createFileRoute("/$lang/studio/editor/enchantment/slots_overview")({
     component: Page
 });
 

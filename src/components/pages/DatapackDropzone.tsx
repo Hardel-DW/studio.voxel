@@ -40,11 +40,7 @@ export default function DatapackDropzone({ children }: { children?: React.ReactN
             {!file ? (
                 <Dropzone
                     id="dropzone"
-                    dropzone={{
-                        accept: "application/zip",
-                        maxSize: 10000000,
-                        multiple: false
-                    }}
+                    dropzone={{ accept: "application/zip", maxSize: 10000000, multiple: false }}
                     onFileUpload={handleFileUpload}>
                     {children}
                 </Dropzone>

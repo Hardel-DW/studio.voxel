@@ -11,9 +11,7 @@ export default function HarmonizeEditor() {
     const dictionary = useDictionary();
     const [similarityThreshold, setSimilarityThreshold] = useState<number>(30);
     const outputCanvasRef = useRef<HTMLCanvasElement>(null);
-
     const { files, actions: fileActions } = useFileManager();
-
     const { palette, imageState, actions: imageActions } = useImageProcessor();
 
     const drawCanvas = (imageData: ImageData | null) => {

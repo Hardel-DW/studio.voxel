@@ -11,7 +11,7 @@ import { enchantableItems } from "@/lib/data/tags";
 import { useElementsByType } from "@/lib/hook/useElementsByType";
 import { cn } from "@/lib/utils";
 
-export const Route = createFileRoute("/$lang/studio/editor/enchantment/items-overview")({
+export const Route = createFileRoute("/$lang/studio/editor/enchantment/items_overview")({
     component: Page
 });
 

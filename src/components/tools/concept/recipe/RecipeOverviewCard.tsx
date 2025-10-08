@@ -8,9 +8,7 @@ import ErrorBoundary from "@/components/ui/ErrorBoundary";
 export default function RecipeOverviewCard(props: { element: RecipeProps; elementId: string }) {
     const { lang } = useParams({ from: "/$lang" });
 
-    const handleConfigure = () => {
-        useConfiguratorStore.getState().setCurrentElementId(props.elementId);
-    };
+    const handleConfigure = () => useConfiguratorStore.getState().setCurrentElementId(props.elementId);
 
     return (
         <ErrorBoundary fallback={(e) => <ErrorPlaceholder error={e} />}>

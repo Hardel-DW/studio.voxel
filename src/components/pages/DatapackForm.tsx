@@ -49,14 +49,10 @@ const DatapackForm: React.FC<Props> = ({ file, initialMetadata, iconUrl }) => {
         try {
             const platforms = [ModPlatforms.FORGE, ModPlatforms.FABRIC, ModPlatforms.QUILT, ModPlatforms.NEOFORGE];
             const result = await convertDatapack(file, platforms, metadata);
-
-            if (!result) {
-                throw new Error("La conversion n'a pas généré de fichier valide");
-            }
+            if (!result) throw new Error("The conversion did not generate a valid file");
 
             const blob = await result.blob();
             await downloadFile(blob, file.name.replace(/\.zip$/i, ".jar"));
-
             await trackEvent("converted_datapack");
         } catch (error) {
             console.error("Conversion error:", error);
@@ -222,7 +218,7 @@ const DatapackForm: React.FC<Props> = ({ file, initialMetadata, iconUrl }) => {
                     <p className="text-xs text-zinc-500">{dictionary.converter.form.advanced_description}</p>
                     {error && <p className="text-sm text-rose-500">{error}</p>}
                 </div>
-                <Button onClick={handleConvert} type="button" variant="white-shimmer" disabled={!file || isConverting}>
+                <Button onClick={handleConvert} type="button" variant="shimmer" disabled={!file || isConverting}>
                     {isConverting ? dictionary.converter.form.download_disabled : dictionary.converter.form.download}
                 </Button>
             </div>

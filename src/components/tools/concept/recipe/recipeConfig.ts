@@ -2,7 +2,7 @@ export interface RecipeBlockConfig {
     id: string;
     name: string;
     recipeTypes: string[];
-    isSpecial?: boolean; // pour barrier (tous) et crafting_table (crafting_*)
+    isSpecial?: boolean; // For barrier (all) and crafting_table (crafting_*)
 }
 
 export const RECIPE_BLOCKS: RecipeBlockConfig[] = [

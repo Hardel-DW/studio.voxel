@@ -106,7 +106,7 @@ function Page() {
                     <h2 className="text-white text-xl md:text-2xl font-bold line-clamp-1 pt-8">{dictionary.home.configurator.title}</h2>
                     <p className="text-zinc-400 text-sm md:text-base mt-2 line-clamp-3">{dictionary.home.configurator.description}</p>
                     <div className="flex flex-wrap gap-2 mt-6">
-                        <LinkButton className="w-full xl:w-fit" href={`/${lang}/studio`} size="sm" variant="white-shimmer">
+                        <LinkButton className="w-full xl:w-fit" href={`/${lang}/studio`} size="sm" variant="shimmer">
                             {dictionary.generic.start_now}
                         </LinkButton>
                         <LinkButton className="w-full xl:w-fit" href={`/${lang}/blog/enchant-configurator`} size="sm" variant="transparent">
@@ -120,7 +120,7 @@ function Page() {
                     </h2>
                     <p className="text-zinc-400 text-sm md:text-base mt-2 line-clamp-3">{dictionary.home.converter.description}</p>
                     <div className="flex flex-wrap gap-2 mt-6">
-                        <LinkButton className="w-full xl:w-fit" href={`/${lang}/converter`} size="sm" variant="white-shimmer">
+                        <LinkButton className="w-full xl:w-fit" href={`/${lang}/converter`} size="sm" variant="shimmer">
                             {dictionary.generic.start_now}
                         </LinkButton>
                         <LinkButton className="w-full xl:w-fit" href={`/${lang}/converter`} size="sm" variant="transparent">
@@ -134,7 +134,7 @@ function Page() {
                     </h2>
                     <p className="text-zinc-400 text-sm md:text-base mt-2 line-clamp-3">{dictionary.home.migration.description}</p>
                     <div className="flex flex-wrap gap-2 mt-6">
-                        <LinkButton className="w-full xl:w-fit" href={`/${lang}/migration`} size="sm" variant="white-shimmer">
+                        <LinkButton className="w-full xl:w-fit" href={`/${lang}/migration`} size="sm" variant="shimmer">
                             {dictionary.generic.start_now}
                         </LinkButton>
                         <LinkButton className="w-full xl:w-fit" href={`/${lang}/migration`} size="sm" variant="transparent">
@@ -148,7 +148,7 @@ function Page() {
                     </h2>
                     <p className="text-zinc-400 text-sm md:text-base mt-2 line-clamp-3">{dictionary.home.copilot.description}</p>
                     <div className="flex flex-wrap gap-2 mt-6">
-                        <LinkButton className="w-full xl:w-fit" href="#" size="sm" variant="white-shimmer">
+                        <LinkButton className="w-full xl:w-fit" href="#" size="sm" variant="shimmer">
                             {dictionary.generic.start_now}
                         </LinkButton>
                         <LinkButton className="w-full xl:w-fit" href="#" size="sm" variant="transparent">

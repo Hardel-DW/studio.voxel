@@ -25,7 +25,13 @@ function EnchantmentMainPage() {
                                 image={`/icons/tools/${key}.svg`}
                                 title={`enchantment:global.${key}.title`}
                                 description={`enchantment:global.explanation.list.${index + 1}`}>
-                                <ToolCounter min={1} max={127} step={1} action={(value: number) => CoreAction.setValue(key, value)} renderer={(el: EnchantmentProps) => el[key]} />
+                                <ToolCounter
+                                    min={1}
+                                    max={127}
+                                    step={1}
+                                    action={(value: number) => CoreAction.setValue(key, value)}
+                                    renderer={(el: EnchantmentProps) => el[key]}
+                                />
                             </TemplateCard>
                         ))}
                     </ToolGrid>

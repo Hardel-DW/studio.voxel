@@ -238,7 +238,7 @@ function RouteComponent() {
                         labelText="enchantment:simulation.toolbar.help"
                     />
                 </div>
-                <Button onClick={() => runSimulation(0)} rounded="full">
+                <Button onClick={() => runSimulation(0)} className="rounded-full">
                     <Translate content="enchantment:simulation.toolbar.run" />
                 </Button>
             </Toolbar>

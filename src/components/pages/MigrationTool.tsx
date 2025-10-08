@@ -138,11 +138,7 @@ export default function MigrationTool({ children }: { children?: React.ReactNode
                             <img src="/icons/company/discord.svg" alt="Discord" className="size-6 invert" />
                         </a>
                     </div>
-                    <LinkButton
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        href="https://streamelements.com/hardoudou/tip"
-                        variant="primary-shimmer">
+                    <LinkButton target="_blank" rel="noopener noreferrer" href="https://streamelements.com/hardoudou/tip" variant="shimmer">
                         {dictionary.generic.donate}
                     </LinkButton>
                 </DialogFooter>

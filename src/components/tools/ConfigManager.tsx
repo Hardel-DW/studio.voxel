@@ -26,7 +26,7 @@ export default function ConfigManager(props: PropsWithChildren) {
                     <div className="w-1/2">
                         <hr />
                     </div>
-                    <LinkButton variant="white-shimmer" size="sm" href={`/${lang}/studio`}>
+                    <LinkButton variant="shimmer" size="sm" href={`/${lang}/studio`}>
                         <Translate content="back" />
                     </LinkButton>
                 </div>

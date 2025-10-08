@@ -13,7 +13,16 @@ export const Route = createFileRoute("/$lang/studio/editor/enchantment/technical
     component: EnchantmentTechnicalPage
 });
 
-const FIELDS = ["curse", "non_treasure", "treasure", "smelts_loot", "prevent_ice_melting", "prevent_infested_block_spawning", "prevent_bee_spawning", "prevent_pot_shattering"];
+const FIELDS = [
+    "curse",
+    "non_treasure",
+    "treasure",
+    "smelts_loot",
+    "prevent_ice_melting",
+    "prevent_infested_block_spawning",
+    "prevent_bee_spawning",
+    "prevent_pot_shattering"
+];
 
 function EnchantmentTechnicalPage() {
     const currentElementId = useConfiguratorStore((state) => state.currentElementId);

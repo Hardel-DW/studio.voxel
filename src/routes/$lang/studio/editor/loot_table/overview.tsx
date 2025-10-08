@@ -38,7 +38,11 @@ function RouteComponent() {
 
             <div className="grid gap-4 overview-grid" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))" }}>
                 {visibleItems.map((element) => (
-                    <LootOverviewCard key={element.identifier.resource} element={element} elementId={new Identifier(element.identifier).toUniqueKey()} />
+                    <LootOverviewCard
+                        key={element.identifier.resource}
+                        element={element}
+                        elementId={new Identifier(element.identifier).toUniqueKey()}
+                    />
                 ))}
             </div>
 

@@ -67,24 +67,10 @@ export default function DebugPanel() {
                                     <Button variant="ghost" className="min-w-[200px] justify-between">
                                         <span className="flex items-center gap-x-2">
                                             <span>
-                                                {format === "voxel" ? (
-                                                    <Translate content="debug.format.voxel" />
-                                                ) : format === "datapack" ? (
-                                                    <Translate content="debug.format.datapack" />
-                                                ) : format === "logs" ? (
-                                                    <Translate content="debug.format.logs" />
-                                                ) : (
-                                                    <Translate content="debug.format.original" />
-                                                )}
+                                                <Translate content={`debug.format.${format}`} />
                                             </span>
                                             <span className="text-[10px] text-zinc-500 font-light">
-                                                {format === "voxel" ? (
-                                                    <Translate content="debug.format.voxel.subtitle" />
-                                                ) : format === "logs" ? (
-                                                    <Translate content="debug.format.logs.subtitle" />
-                                                ) : (
-                                                    <Translate content="debug.format.datapack.subtitle" />
-                                                )}
+                                                <Translate content={`debug.format.${format}.subtitle`} />
                                             </span>
                                         </span>
                                         <span className="ml-2">▼</span>

@@ -12,29 +12,33 @@ interface CodeSectionProps {
 export function CodeSection({ uniqueKey }: CodeSectionProps) {
     const { elements, files, logger } = useConfiguratorStore.getState();
     const { format, compiledDatapack, fileStatusComparator } = useDebugStore();
-
     if (!uniqueKey) return null;
 
     const identifier = Identifier.fromUniqueKey(uniqueKey);
     const fileStatus = fileStatusComparator?.getFileStatus(uniqueKey);
 
     const codeToDisplay = (() => {
-        if (format === "voxel") return elements.get(uniqueKey);
-        if (format === "original") {
-            const fileData = files[identifier.toFilePath()];
-            return fileData ? JSON.parse(new TextDecoder().decode(fileData)) : undefined;
-        }
-        if (format === "datapack") {
-            if (fileStatus === FILE_STATUS.ADDED || fileStatus === FILE_STATUS.UPDATED) {
-                return compiledDatapack?.getIndex(identifier.registry).get(uniqueKey)?.data;
+        switch (format) {
+            case "voxel":
+                return elements.get(uniqueKey);
+            case "original": {
+                const fileData = files[identifier.toFilePath()];
+                if (!fileData) return undefined;
+                return JSON.parse(new TextDecoder().decode(fileData));
             }
-            return undefined;
+            case "datapack": {
+                if (fileStatus === FILE_STATUS.ADDED || fileStatus === FILE_STATUS.UPDATED) {
+                    return compiledDatapack?.getIndex(identifier.registry).get(uniqueKey)?.data;
+                }
+                return undefined;
+            }
+            case "logs": {
+                const changeSets = logger?.getChangeSets().filter((change) => new Identifier(change.identifier).equals(identifier));
+                return changeSets?.length ? changeSets : undefined;
+            }
+            default:
+                return undefined;
         }
-        if (format === "logs") {
-            const changeSets = logger?.getChangeSets().filter((change) => new Identifier(change.identifier).equals(identifier));
-            return changeSets && changeSets.length > 0 ? changeSets : undefined;
-        }
-        return undefined;
     })();
 
     return (
@@ -45,11 +49,7 @@ export function CodeSection({ uniqueKey }: CodeSectionProps) {
                 </CodeBlock>
             ) : (
                 <EmptyCodeBlock title={identifier.toFileName()}>
-                    {fileStatus === FILE_STATUS.DELETED ? (
-                        <Translate content="debug.code.deleted" />
-                    ) : (
-                        <Translate content="debug.code.unavailable" />
-                    )}
+                    <Translate content={fileStatus === FILE_STATUS.DELETED ? "debug.code.deleted" : "debug.code.unavailable"} />
                 </EmptyCodeBlock>
             )}
         </div>

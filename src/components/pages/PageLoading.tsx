@@ -18,7 +18,7 @@ export default function PageLoading() {
                                 <div className="h-5 w-16 rounded bg-zinc-700 animate-pulse" />
                                 <div className="h-5 w-16 rounded bg-zinc-700 animate-pulse" />
                             </div>
-                            <div className="h-8 w-8 rounded-full bg-zinc-700 animate-pulse md:hidden" />{" "}
+                            <div className="h-8 w-8 rounded-full bg-zinc-700 animate-pulse md:hidden" />
                         </div>
                     </div>
                 </nav>

@@ -10,17 +10,26 @@ function toVal(mix: ClassValue): string {
     }
 
     if (Array.isArray(mix)) {
-        return mix.map((item: ClassValue) => toVal(item)).filter(Boolean).join(" ");
+        return mix
+            .map((item: ClassValue) => toVal(item))
+            .filter(Boolean)
+            .join(" ");
     }
 
     if (typeof mix === "object" && mix !== null) {
-        return Object.keys(mix).filter((key) => mix[key]).join(" ");
+        return Object.keys(mix)
+            .filter((key) => mix[key])
+            .join(" ");
     }
 
     return "";
 }
 
-export const clsx = (...args: ClassValue[]) => args.map((arg) => toVal(arg)).filter(Boolean).join(" ");
+export const clsx = (...args: ClassValue[]) =>
+    args
+        .map((arg) => toVal(arg))
+        .filter(Boolean)
+        .join(" ");
 export const cn = (...args: ClassValue[]) => twMerge(clsx(args));
 
 /**

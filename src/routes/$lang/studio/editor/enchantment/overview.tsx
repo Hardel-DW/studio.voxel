@@ -22,7 +22,7 @@ const sortOptions = [
     {
         key: "supported",
         value: "supportedItems",
-        to: "/$lang/studio/editor/enchantment/items-overview",
+        to: "/$lang/studio/editor/enchantment/items_overview",
         label: "enchantment:overview.sort.supported.label",
         description: "enchantment:overview.sort.supported.description"
     },
@@ -35,7 +35,7 @@ const sortOptions = [
     {
         key: "slots",
         value: "slots",
-        to: "/$lang/studio/editor/enchantment/slots-overview",
+        to: "/$lang/studio/editor/enchantment/slots_overview",
         label: "enchantment:overview.sort.slots.label",
         description: "enchantment:overview.sort.slots.description"
     },

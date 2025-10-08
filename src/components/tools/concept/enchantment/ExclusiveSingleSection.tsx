@@ -8,9 +8,8 @@ import useRegistry, { type FetchedRegistry } from "@/lib/hook/useRegistry";
 export function ExclusiveSingleSection() {
     const enchantments = useConfiguratorStore((state) => state.getRegistry<Enchantment>("enchantment"));
     const { data, isLoading, isError } = useRegistry<FetchedRegistry<Enchantment>>("summary", "enchantment");
-
     const identifiers = enchantments.map((enchantment) => new Identifier(enchantment.identifier));
-    const vanillaIdentifiers = Object.keys(data ?? {}).map((key) => Identifier.of(`minecraft:${key}`, "enchantment"));
+    const vanillaIdentifiers = Object.keys(data ?? {}).map((key) => Identifier.of(key, "enchantment"));
 
     return (
         <>

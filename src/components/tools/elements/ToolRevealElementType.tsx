@@ -21,7 +21,7 @@ const ToolRevealElement = function ToolRevealElement({ element, isSelected, onSe
             className="transition-all stack group cursor-pointer rounded-2xl border border-zinc-800">
             <div className="relative z-50 self-start justify-self-end p-4">
                 <LinkButton
-                    variant="white-shimmer"
+                    variant="shimmer"
                     href={element.href}
                     target="_blank"
                     rel="noopener noreferrer"

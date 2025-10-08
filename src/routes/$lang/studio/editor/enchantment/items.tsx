@@ -22,7 +22,7 @@ function EnchantmentItemsPage() {
     return (
         <ToolSectionSelector
             id="slots"
-            title="enchantment:section.items.description"
+            title="enchantment:section.supported.description"
             elements={elements}
             value={section}
             setValue={setSection}>

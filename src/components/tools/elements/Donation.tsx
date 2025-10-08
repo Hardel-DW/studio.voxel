@@ -58,12 +58,12 @@ export default function Donation(props: ToolDonationType) {
                                 target="_blank"
                                 rel="noreferrer"
                                 href={props.tipText.link}
-                                variant="white-shimmer">
+                                variant="shimmer">
                                 <Translate content={props.tipText.text} />
                             </LinkButton>
                             <LinkButton
                                 className="w-full flex-1 px-8"
-                                variant="patreon-shimmer"
+                                variant="patreon"
                                 href={props.patreon.link}
                                 target="_blank"
                                 rel="noreferrer">

@@ -36,14 +36,15 @@ export default function SlotsEnchantmentCard({ element }: SlotsEnchantmentCardPr
     const datapackTags = useConfiguratorStore((state) => state.getRegistry<TagType>("tags/item"));
     const elementId = new Identifier(element.identifier).toUniqueKey();
     const { isTag, id } = getItemFromMultipleOrOne(element.supportedItems);
-
     const vanillaTags = data
         ? Object.entries(data).map(([key, value]) => ({ identifier: Identifier.of(key, "tags/item"), data: value }))
         : [];
+
     const merge = TagsProcessor.merge([
         { id: "vanilla", tags: vanillaTags },
         { id: "datapack", tags: datapackTags }
     ]);
+
     const tagId = Identifier.of(id.startsWith("#") ? id.slice(1) : id, "tags/item");
     const items = isTag && merge.length > 0 ? new TagsProcessor(merge).getRecursiveValues(tagId) : [id];
 
@@ -66,7 +67,7 @@ export default function SlotsEnchantmentCard({ element }: SlotsEnchantmentCardPr
                 "overview-card bg-black/50 border-t-2 border-l-2 shadow-xl shadow-black/30 border-stone-900 select-none relative transition-all hover:ring-2 ring-zinc-900 rounded-xl p-4 h-full group",
                 "flex flex-col"
             )}>
-            {/* Header avec switch */}
+            {/* Header with switch */}
             <div className="flex items-center justify-between pb-4">
                 <div className="flex items-center gap-3 flex-1 min-w-0">
                     {items.length === 0 ? (
@@ -98,7 +99,7 @@ export default function SlotsEnchantmentCard({ element }: SlotsEnchantmentCardPr
                 />
             </div>
 
-            {/* Contenu principal - Slots */}
+            {/* Main content - Slots */}
             <div className="flex-1 flex flex-col pb-4">
                 <div className="relative w-full flex justify-between items-center">
                     <div className="flex -space-x-1">
@@ -151,7 +152,7 @@ export default function SlotsEnchantmentCard({ element }: SlotsEnchantmentCardPr
                 </div>
             </div>
 
-            {/* Footer - toujours en bas */}
+            {/* Footer - always at the bottom */}
             <div className="pt-4 border-t border-zinc-800/50 mt-auto">
                 <Link
                     to="/$lang/studio/editor/enchantment/main"
