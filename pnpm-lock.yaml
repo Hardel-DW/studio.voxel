@@ -24,8 +24,8 @@ importers:
         specifier: ^1.131.31
         version: 1.131.31(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
       '@voxelio/breeze':
-        specifier: ^1.10.5
-        version: 1.10.5
+        specifier: ^1.10.7
+        version: 1.10.7
       '@voxelio/converter':
         specifier: ^1.0.14
         version: 1.0.14
@@ -778,14 +778,14 @@ packages:
   '@voxelio/breeze@1.10.2':
     resolution: {integrity: sha512-rS5mfZxhfA8Ll0Wectih4pMOIQ3dTv1RKC1uXrAeW2QniKqF/Lq7kcTqLJ+ECeoKJK6vg9pnCECAH3OzR/ls2A==}
 
-  '@voxelio/breeze@1.10.5':
-    resolution: {integrity: sha512-jibeJG8NI1WdiEbkBBL+qJkS5kdkaQXmpQnXE7LG23h4UHr+RKN1NfROKhhJ4LXVCAhoBcm5HH7pEAu/CjJH9A==}
+  '@voxelio/breeze@1.10.7':
+    resolution: {integrity: sha512-1pwBSOddfT7LD/UfNAjIc7okbbqWAwVFjnvt7/Q5EpDtKYuG560FODyh/jis4vS94OHVGbof8h5etykfDQseIQ==}
 
   '@voxelio/converter@1.0.14':
     resolution: {integrity: sha512-WF2x/FZsz7dfot+Ecq2xLVrbt9u5azgxk+I7jZ+Hh1YT5f8qokRxNS03LwICfnDo7TTlUSo0GRZ8TH8wN7Kg+Q==}
 
-  '@voxelio/diff@1.0.1':
-    resolution: {integrity: sha512-5MeVEsHLZOuRLCjJs1c3glQPHy3hjLRS7GeTyO9BH1UWJDsNvm/h7eWCCF2/KWTPQKOq7fx2DeuKjJaJMEr9vA==}
+  '@voxelio/diff@1.0.2':
+    resolution: {integrity: sha512-WoXi4rkoetAxBE5Ji69XGC7BNXQTv5PzikGRAkPjXaF3xwJvP9nsdxHXJGiJTWHF5/GguL02WWfdT1zG8vvBXg==}
 
   '@voxelio/zip@3.2.0':
     resolution: {integrity: sha512-HBSjd8I2WQr+E4G/PfivnMC/pJNv58iBr4Yt4OT8/sPnhlXzztVUZBmxLZajI8KGwYWsai79YCmKK0NM1VZE0g==}
@@ -1900,9 +1900,9 @@ snapshots:
     dependencies:
       '@voxelio/zip': 3.2.0
 
-  '@voxelio/breeze@1.10.5':
+  '@voxelio/breeze@1.10.7':
     dependencies:
-      '@voxelio/diff': 1.0.1
+      '@voxelio/diff': 1.0.2
       '@voxelio/zip': 3.2.0
 
   '@voxelio/converter@1.0.14':
@@ -1910,7 +1910,7 @@ snapshots:
       '@voxelio/breeze': 1.10.2
       '@voxelio/zip': 3.2.0
 
-  '@voxelio/diff@1.0.1': {}
+  '@voxelio/diff@1.0.2': {}
 
   '@voxelio/zip@3.2.0': {}
 

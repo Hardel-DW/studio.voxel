@@ -1,5 +1,11 @@
 {
     "section.main": "Main",
+    "main.title": "Drop Chance",
+    "main.loading": "Loading loot table data…",
+    "main.probability_mass": "Probability mass",
+    "main.search.placeholder": "Search items...",
+    "main.item.delete": "Delete item",
+    "main.item.close": "Close",
     "overview.title": "Overview",
     "overview.search.placeholder": "Search loot tables...",
     "overview.scroll.more": "Scroll to load more loot tables",

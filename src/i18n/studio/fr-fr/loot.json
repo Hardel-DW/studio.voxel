@@ -1,5 +1,11 @@
 {
     "section.main": "Main",
+    "main.title": "Chance d'obtention",
+    "main.loading": "Chargement des données de la table de butin…",
+    "main.probability_mass": "Masse de probabilité",
+    "main.search.placeholder": "Rechercher des objets...",
+    "main.item.delete": "Supprimer l'objet",
+    "main.item.close": "Fermer",
     "overview.title": "Aperçu",
     "overview.search.placeholder": "Rechercher un loot table...",
     "overview.scroll.more": "Faites défiler pour charger plus de tables de butin",

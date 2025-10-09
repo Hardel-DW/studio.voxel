@@ -2,6 +2,7 @@ import { Link, useLocation, useParams } from "@tanstack/react-router";
 import type { CONCEPT_KEY } from "@/components/tools/elements";
 import { CONCEPTS } from "@/components/tools/elements";
 import Translate from "@/components/tools/Translate";
+import { useToggleSidebarStore } from "@/routes/$lang/studio/editor";
 import { cn } from "@/lib/utils";
 
 interface ToolNavItemProps {
@@ -18,14 +19,22 @@ interface ToolNavItemProps {
 export function ToolNavItem({ title, description, image, href, alignRight, comingSoon, elementsCount, index }: ToolNavItemProps) {
     const location = useLocation();
     const { lang } = useParams({ from: "/$lang" });
+    const [toggleSidebar, setToggleSidebar] = useToggleSidebarStore();
 
     const targetConcept = CONCEPTS.find((concept) => concept.registry === (href as CONCEPT_KEY));
     const targetRoute = targetConcept?.overview || location.pathname;
+
+    const handleClick = () => {
+        if (comingSoon) return;
+        setToggleSidebar(!toggleSidebar);
+    };
+
 
     return (
         <Link
             to={comingSoon ? location.pathname : targetRoute}
             params={{ lang }}
+            onClick={handleClick}
             className={cn(
                 "overflow-hidden bg-black/25 backdrop-blur-sm flex items-center relative justify-between w-full group rounded-xl p-4 transition-all duration-300 cursor-pointer ring-2 ring-zinc-900",
                 comingSoon ? "opacity-60 relative pointer-events-none" : "hover:ring-stone-900 hover:bg-black/45",

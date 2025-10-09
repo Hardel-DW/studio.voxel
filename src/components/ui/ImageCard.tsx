@@ -1,13 +1,7 @@
 import { LinkButton } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
 
-export default function ImageCard(props: {
-    image: string;
-    href: string;
-    title: string;
-    button: React.ReactNode;
-    className?: string;
-}) {
+export default function ImageCard(props: { image: string; href: string; title: string; button: React.ReactNode; className?: string }) {
     return (
         <div
             className={cn(
