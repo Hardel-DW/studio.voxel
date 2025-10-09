@@ -1,7 +1,16 @@
 {
+    "functions": {
+        "src/api/**/*.ts": {
+            "runtime": "nodejs22.x"
+        }
+    },
     "rewrites": [
         {
-            "source": "/(.*)",
+            "source": "/api/(.*)",
+            "destination": "/src/api/$1"
+        },
+        {
+            "source": "/((?!api).*)",
             "destination": "/index.html"
         }
     ]
