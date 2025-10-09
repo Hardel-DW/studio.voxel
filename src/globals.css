@@ -142,7 +142,10 @@
     }
 
     [popover] {
-        transition: 
+        translate: 0 1rem;
+        scale: 0.95;
+        opacity: 0;
+        transition:
             translate 200ms ease-out,
             scale 200ms ease-out,
             opacity 200ms ease-out,

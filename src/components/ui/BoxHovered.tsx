@@ -2,7 +2,6 @@ import React, { type ReactElement, type ReactNode, useCallback, useRef } from "r
 import { createPortal } from "react-dom";
 import { createDisclosureContext } from "@/components/ui/DisclosureContext";
 import { useBoxPosition } from "@/lib/hook/useBoxPosition";
-import { usePopoverVisibility } from "@/lib/hook/usePopoverVisibility";
 import { cn } from "@/lib/utils";
 
 const { Provider: BoxHoveredProvider, useDisclosure: useBoxHovered } = createDisclosureContext<HTMLElement>();
@@ -52,28 +51,29 @@ export function BoxHoveredTrigger(props: {
 export function BoxHoveredContent(props: { children: ReactNode; className?: string }) {
     const { open, setOpen, triggerRef } = useBoxHovered();
     const contentRef = useRef<HTMLDivElement>(null);
-    const { isVisible, isLeaving } = usePopoverVisibility({ open, transitionDuration: 150 });
     const position = useBoxPosition({ triggerRef, contentRef, open });
-    if (!isVisible) return null;
     const hasValidPosition = position.top > 0 && position.left > 0;
+
     return createPortal(
         <div
-            ref={contentRef}
+            ref={(node) => {
+                contentRef.current = node;
+                if (node) open ? node.showPopover() : node.hidePopover();
+            }}
+            popover="manual"
             role="tooltip"
             style={{
                 position: "absolute",
                 top: `${position.top}px`,
                 left: `${position.left}px`,
-                visibility: hasValidPosition ? "visible" : "hidden"
+                visibility: hasValidPosition ? "visible" : "hidden",
+                margin: 0,
+                inset: "unset"
             }}
             onMouseEnter={() => setOpen(true)}
             onMouseLeave={() => setOpen(false)}
             className={cn(
-                "z-40 rounded-2xl border-t border-l border-zinc-800 bg-zinc-950 p-4 text-zinc-200 shadow-2xl shadow-zinc-950",
-                "starting:translate-y-0 starting:scale-95",
-                "transition-[translate,scale,opacity] duration-150 ease-bounce",
-                "hidden:translate-y-0 hidden:scale-95 transition-discrete",
-                isLeaving && "opacity-0 scale-95",
+                "rounded-2xl border-t border-l border-zinc-800 bg-zinc-950 p-4 text-zinc-200 shadow-2xl shadow-zinc-950 duration-150 ease-bounce",
                 props.className
             )}>
             {props.children}

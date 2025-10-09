@@ -1,5 +1,8 @@
 import { calculateItemCountRange, type FlattenedLootItem, Identifier } from "@voxelio/breeze";
 import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer";
+import { useDynamicIsland } from "@/components/tools/floatingbar/FloatingBarContext";
+import { ToolbarButton } from "@/components/tools/floatingbar/ToolbarButton";
+import { useClickOutside } from "@/lib/hook/useClickOutside";
 
 interface RewardItemProps extends FlattenedLootItem {
     normalizedProbability?: number;
@@ -9,9 +12,41 @@ interface RewardItemProps extends FlattenedLootItem {
 export default function RewardItem(props: RewardItemProps) {
     const countRange = calculateItemCountRange(props.functions);
     const probabilityPercentage = props.normalizedProbability ? (props.normalizedProbability * 100).toFixed(1) : null;
+    const { expand, collapse, isExpanded } = useDynamicIsland();
+    const clickOutsideRef = useClickOutside(() => {
+        if (isExpanded) collapse();
+    });
+
+    const handleClick = () => {
+        if (!props.id || !props.onDelete) return;
+
+        expand(
+            <div ref={clickOutsideRef} className="flex items-center gap-4">
+                <div className="flex items-center gap-2 text-zinc-300">
+                    <TextureRenderer id={props.name} className="w-6 h-6" />
+                    <span className="text-sm font-medium">{Identifier.of(props.name, "not_a_registry").toResourceName()}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                    <ToolbarButton
+                        icon="/icons/tools/overview/delete.svg"
+                        tooltip="loot:main.item.delete"
+                        onClick={() => {
+                            if (props.id && props.onDelete) {
+                                props.onDelete(props.id);
+                                collapse();
+                            }
+                        }}
+                    />
+                    <ToolbarButton icon="/icons/tools/overview/close.svg" tooltip="loot:main.item.close" onClick={collapse} />
+                </div>
+            </div>
+        );
+    };
 
     return (
-        <li className="relative overflow-hidden text-zinc-400 tracking-tighter text-xs bg-zinc-900/20 rounded-md border border-zinc-900 p-4 h-fit flex items-center justify-between gap-x-8">
+        <li
+            onClick={handleClick}
+            className="relative overflow-hidden text-zinc-400 tracking-tighter text-xs bg-zinc-900/20 rounded-md border border-zinc-900 p-4 h-fit flex items-center justify-between gap-x-8 cursor-pointer hover:border-zinc-700 transition-colors">
             <div className="flex items-center gap-x-4">
                 <TextureRenderer id={props.name} />
                 <div className="flex flex-col">
@@ -28,25 +63,6 @@ export default function RewardItem(props: RewardItemProps) {
                     {probabilityPercentage && <p className="text-xs text-zinc-400">{probabilityPercentage}% chance</p>}
                 </div>
             </div>
-
-            {/* DO NOT DECOMMENT TIHS 
-            {props.id && props.onDelete && (
-                <button
-                    type="button"
-                    onClick={() => props.id && props.onDelete?.(props.id)}
-                    className="text-zinc-400 cursor-pointer hover:text-red-400 transition-colors p-1"
-                    title="Delete item">
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                        />
-                    </svg>
-                </button>
-            )} */}
-
             <div className="absolute inset-0 -z-10 brightness-30 hue-rotate-15">
                 <img src="/images/shine.avif" alt="Shine" />
             </div>

@@ -3,16 +3,19 @@ import { useCallback, useEffect, useState } from "react";
 interface Position {
     top: number;
     left: number;
+    width?: number;
 }
 
 interface UsePopoverPositionProps {
     triggerRef: React.RefObject<HTMLElement | null>;
     contentRef: React.RefObject<HTMLElement | null>;
+    containerRef?: React.RefObject<HTMLElement | null>;
     spacing?: number;
+    padding?: number;
     open: boolean;
 }
 
-export const usePopoverPosition = ({ triggerRef, contentRef, spacing = 8, open }: UsePopoverPositionProps) => {
+export const usePopoverPosition = ({ triggerRef, contentRef, containerRef, spacing = 8, padding = 0, open }: UsePopoverPositionProps) => {
     const [position, setPosition] = useState<Position>({ top: 0, left: 0 });
 
     const updatePosition = useCallback(() => {
@@ -24,17 +27,18 @@ export const usePopoverPosition = ({ triggerRef, contentRef, spacing = 8, open }
 
         const topPosition = triggerRect.bottom + window.scrollY + spacing;
         const bottomPosition = triggerRect.top + window.scrollY - contentRect.height - spacing;
-
         const wouldOverflowBottom = triggerRect.bottom + contentRect.height + spacing > viewportHeight;
         const top = wouldOverflowBottom ? bottomPosition : topPosition;
 
-        let left = triggerRect.left + window.scrollX - (contentRect.width - triggerRect.width) / 2;
+        const containerRect = containerRef?.current?.getBoundingClientRect();
+        const width = containerRect ? containerRect.width - padding : undefined;
+        const centeredLeft = triggerRect.left + window.scrollX - (contentRect.width - triggerRect.width) / 2;
         const minLeft = window.scrollX + spacing;
         const maxLeft = window.scrollX + window.innerWidth - contentRect.width - spacing;
-        left = Math.max(minLeft, Math.min(maxLeft, left));
+        const left = containerRect ? containerRect.left + window.scrollX : Math.max(minLeft, Math.min(maxLeft, centeredLeft));
 
-        setPosition({ top, left });
-    }, [triggerRef, contentRef, spacing]);
+        setPosition({ top, left, width });
+    }, [triggerRef, contentRef, containerRef, spacing, padding]);
 
     useEffect(() => {
         if (open) {

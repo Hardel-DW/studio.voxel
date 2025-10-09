@@ -3,6 +3,7 @@ import Footer from "@/components/layout/Footer";
 import Navbar from "@/components/layout/Navbar";
 import StudioLoading from "@/components/pages/studio/StudioLoading";
 import DatapackUploader from "@/components/tools/DatapackUploader";
+import RepositoryOpener from "@/components/tools/RepositoryOpener";
 import VanillaImportButton from "@/components/tools/VanillaImportButton";
 import { useDictionary } from "@/lib/hook/useNext18n";
 import type { Locale } from "@/lib/i18n/i18nServer";
@@ -43,7 +44,10 @@ function StudioLayout() {
                     </div>
                 </div>
                 <div className="relative w-full flex justify-center items-center">
-                    <DatapackUploader />
+                    <div className="w-full max-w-md">
+                        <DatapackUploader />
+                        <RepositoryOpener />
+                    </div>
                     <img className="absolute -z-10 opacity-10 select-none" src="/icons/circle.svg" alt="box" />
                 </div>
             </section>

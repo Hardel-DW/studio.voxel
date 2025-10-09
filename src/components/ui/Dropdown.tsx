@@ -5,7 +5,6 @@ import { createDisclosureContext } from "@/components/ui/DisclosureContext";
 import { Trigger } from "@/components/ui/Trigger";
 import { useClickOutside } from "@/lib/hook/useClickOutside";
 import { usePopoverPosition } from "@/lib/hook/usePopoverPosition";
-import { usePopoverVisibility } from "@/lib/hook/usePopoverVisibility";
 import { cn } from "@/lib/utils";
 
 const { Provider: DropdownProvider, useDisclosure: useDropdown } = createDisclosureContext<HTMLButtonElement>();
@@ -29,30 +28,27 @@ export function DropdownMenuTrigger(props: {
 export function DropdownMenuContent(props: { children: ReactNode; className?: string }) {
     const { open, setOpen, triggerRef } = useDropdown();
     const contentRef = useRef<HTMLDivElement>(null);
-    const { isVisible } = usePopoverVisibility({ open });
     const position = usePopoverPosition({ triggerRef, contentRef, open });
     const clickOutsideRef = useClickOutside(() => setOpen(false));
-
-    if (!isVisible && !open) return null;
 
     return createPortal(
         <div
             ref={(node) => {
                 contentRef.current = node;
-                if (clickOutsideRef) {
-                    clickOutsideRef.current = node;
-                }
+                if (clickOutsideRef) clickOutsideRef.current = node;
+                if (node) open ? node.showPopover() : node.hidePopover();
             }}
+            popover="manual"
             style={{
                 position: "absolute",
                 top: `${position.top}px`,
-                left: `${position.left}px`
+                left: `${position.left}px`,
+                margin: 0,
+                inset: "unset"
             }}
-            hidden={!open}
             className={cn(
-                "z-50 min-w-[8rem] max-h-[300px] overflow-y-auto rounded-2xl border border-zinc-700 bg-zinc-950 p-1 text-zinc-400 shadow-md outline-hidden",
-                "starting:translate-y-2 starting:scale-95 duration-150 ease-bounce transition-[translate,scale,display,opacity]",
-                "hidden:translate-y-2 hidden:scale-95 transition-discrete",
+                "min-w-[8rem] max-h-[300px] overflow-y-auto rounded-2xl border border-zinc-700 bg-zinc-950 p-1 text-zinc-400 shadow-md outline-hidden",
+                "duration-150 ease-bounce",
                 props.className
             )}>
             {props.children}

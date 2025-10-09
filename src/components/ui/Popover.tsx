@@ -5,7 +5,6 @@ import { createDisclosureContext } from "@/components/ui/DisclosureContext";
 import { Trigger } from "@/components/ui/Trigger";
 import { useClickOutside } from "@/lib/hook/useClickOutside";
 import { usePopoverPosition } from "@/lib/hook/usePopoverPosition";
-import { usePopoverVisibility } from "@/lib/hook/usePopoverVisibility";
 import { cn } from "@/lib/utils";
 
 const { Provider, useDisclosure } = createDisclosureContext<HTMLButtonElement>();
@@ -44,34 +43,34 @@ export function PopoverTrigger(props: {
     );
 }
 
-export function PopoverContent(props: { children: ReactNode; className?: string }) {
+export function PopoverContent(props: { children: ReactNode; className?: string; containerRef?: React.RefObject<HTMLElement | null>; spacing?: number; padding?: number }) {
     const { open, setOpen, triggerRef } = useDisclosure();
     const context = useContext(PopoverContext);
     const contentRef = useRef<HTMLDivElement>(null);
-    const { isVisible } = usePopoverVisibility({ open, transitionDuration: 150 });
-    const position = usePopoverPosition({ triggerRef, contentRef, open });
+    const position = usePopoverPosition({ triggerRef, contentRef, containerRef: props.containerRef, spacing: props.spacing, padding: props.padding, open });
     const clickOutsideRef = useClickOutside(() => {
         setOpen(false);
         context?.onOpenChange?.(false);
     });
-    if (!isVisible && !open) return null;
 
     return createPortal(
         <div
             ref={(node) => {
                 contentRef.current = node;
-                if (clickOutsideRef) {
-                    clickOutsideRef.current = node;
-                }
+                if (clickOutsideRef) clickOutsideRef.current = node;
+                if (node) open ? node.showPopover() : node.hidePopover();
             }}
+            popover="manual"
             style={{
                 position: "absolute",
                 top: `${position.top}px`,
-                left: `${position.left}px`
+                left: `${position.left}px`,
+                width: position.width ? `${position.width}px` : undefined,
+                margin: 0,
+                inset: "unset"
             }}
-            hidden={!open}
             className={cn(
-                "z-100 rounded-2xl border border-zinc-800 bg-zinc-950 p-4 text-zinc-200 shadow-md outline-hidden starting:translate-y-2 starting:scale-95 duration-150 ease-bounce transition-[translate,scale,display,opacity] hidden:translate-y-2 hidden:scale-95 transition-discrete",
+                "rounded-2xl border border-zinc-800 bg-zinc-950 p-4 text-zinc-200 shadow-md outline-hidden duration-150 ease-bounce",
                 props.className
             )}>
             {props.children}

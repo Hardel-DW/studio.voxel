@@ -1,4 +1,5 @@
 import { useLocation } from "@tanstack/react-router";
+import { useRef } from "react";
 import DownloadButton from "@/components/tools/DownloadButton";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import SettingsButton from "@/components/tools/sidebar/SettingsButton";
@@ -12,6 +13,7 @@ export default function StudioSidebar() {
     const elements = useConfiguratorStore((state) => state.elements);
     const getConcept = useConfiguratorStore((state) => state.getConcept);
     const selectedConcept = getConcept(location.pathname);
+    const buttonsContainerRef = useRef<HTMLDivElement>(null);
     if (elements.size === 0) return null;
 
     return (
@@ -35,8 +37,8 @@ export default function StudioSidebar() {
                     </Tabs>
                 </div>
             </div>
-            <div className="absolute bottom-0 left-0 right-0 max-md:px-4 pr-4 flex items-center gap-2">
-                <DownloadButton />
+            <div ref={buttonsContainerRef} className="absolute bottom-0 left-0 right-0 max-md:px-4 pr-4 flex items-center gap-2">
+                <DownloadButton containerRef={buttonsContainerRef} />
                 <SettingsButton />
             </div>
         </div>

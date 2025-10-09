@@ -5,7 +5,6 @@ import { createDisclosureContext } from "@/components/ui/DisclosureContext";
 import { Trigger } from "@/components/ui/Trigger";
 import { useClickOutside } from "@/lib/hook/useClickOutside";
 import { usePopoverPosition } from "@/lib/hook/usePopoverPosition";
-import { usePopoverVisibility } from "@/lib/hook/usePopoverVisibility";
 import { cn } from "@/lib/utils";
 
 interface SelectContextState<T> {
@@ -76,31 +75,27 @@ export function SelectValue({ placeholder }: { placeholder?: string }) {
 export function SelectContent({ children, className }: { children: ReactNode; className?: string }) {
     const { open, setOpen, triggerRef } = SelectContext.useDisclosure();
     const contentRef = useRef<HTMLDivElement>(null);
-    const { isVisible } = usePopoverVisibility({ open, transitionDuration: 150 });
     const position = usePopoverPosition({ triggerRef, contentRef, open });
     const clickOutsideRef = useClickOutside(() => setOpen(false));
-
-    if (!isVisible && !open) return null;
 
     return createPortal(
         <div
             ref={(node) => {
                 contentRef.current = node;
-                if (clickOutsideRef) {
-                    clickOutsideRef.current = node;
-                }
+                if (clickOutsideRef) clickOutsideRef.current = node;
+                if (node) open ? node.showPopover() : node.hidePopover();
             }}
+            popover="manual"
             style={{
                 position: "absolute",
                 top: `${position.top}px`,
                 left: `${position.left}px`,
-                width: triggerRef.current?.offsetWidth
+                width: triggerRef.current?.offsetWidth,
+                margin: 0,
+                inset: "unset"
             }}
-            hidden={!open}
             className={cn(
-                "z-50 max-h-[50vh] min-w-[8rem] overflow-y-auto rounded-md border border-zinc-700 bg-zinc-950 text-zinc-400 shadow-md outline-hidden",
-                "starting:scale-95 duration-150 ease-bounce transition-[translate,scale,display,opacity]",
-                "hidden:scale-95 transition-discrete",
+                "max-h-[50vh] min-w-[8rem] overflow-y-auto rounded-md border border-zinc-700 bg-zinc-950 text-zinc-400 shadow-md outline-hidden duration-150 ease-bounce",
                 className
             )}>
             <div className="p-1">{children}</div>

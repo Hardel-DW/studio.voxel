@@ -48,7 +48,7 @@ export function Dialog(props: {
             id={props.id}
             popover="auto"
             className={cn(
-                "fixed inset-0 m-auto w-2/5 min-w-[40%] max-w-[40%] h-fit rounded-xl bg-zinc-950 shadow-xl shadow-zinc-900 p-2 border border-zinc-800 backdrop:bg-black/50 backdrop:backdrop-blur-sm opacity-0 translate-y-4 scale-95 transition-all duration-200 ease-out transition-discrete starting:open:translate-y-4 starting:open:opacity-0 starting:open:scale-95 open:translate-y-0 open:opacity-100 open:scale-100",
+                "fixed inset-0 m-auto w-2/5 min-w-[40%] max-w-[40%] h-fit rounded-xl bg-zinc-950 shadow-lg shadow-neutral-900 p-2 border border-zinc-800 backdrop:bg-black/50 backdrop:backdrop-blur-sm opacity-0 translate-y-4 scale-95 transition-all duration-200 ease-out",
                 props.className
             )}>
             <DialogContext.Provider value={props.id}>{props.children}</DialogContext.Provider>
