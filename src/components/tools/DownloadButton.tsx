@@ -2,8 +2,8 @@ import { DatapackDownloader } from "@voxelio/breeze";
 import type { RefObject } from "react";
 import { useRef } from "react";
 import SettingsDialog from "@/components/tools/SettingsDialog";
-import { useExportStore } from "@/components/tools/sidebar/ExportStore";
 import { useConfiguratorStore } from "@/components/tools/Store";
+import { useExportStore } from "@/components/tools/sidebar/ExportStore";
 import Translate from "@/components/tools/Translate";
 import { Button, LinkButton } from "@/components/ui/Button";
 import { Dialog, DialogCloseButton, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/Dialog";
@@ -54,7 +54,9 @@ export default function DownloadButton({ containerRef }: { containerRef?: RefObj
                     {isGitRepository && (
                         <div className="p-4 flex items-center justify-between text-xs text-zinc-400">
                             <span className="leading-none">{repository}</span>
-                            <span className="leading-none"><Translate content="export.branch" />: {currentBranch}</span>
+                            <span className="leading-none">
+                                <Translate content="export.branch" />: {currentBranch}
+                            </span>
                         </div>
                     )}
 
@@ -62,19 +64,31 @@ export default function DownloadButton({ containerRef }: { containerRef?: RefObj
                         <div className=" flex flex-col gap-1 bg-neutral-950 rounded-2xl p-2 border border-zinc-800">
                             {isGitRepository ? (
                                 <>
-                                    <Button type="button" className="w-full justify-between bg-gradient-to-r from-transparent from-70% to-zinc-700/30 hover:from-50% hover:border-zinc-800" variant="ghost_border" onClick={handlePull}>
+                                    <Button
+                                        type="button"
+                                        className="w-full justify-between bg-gradient-to-r from-transparent from-70% to-zinc-700/30 hover:from-50% hover:border-zinc-800"
+                                        variant="ghost_border"
+                                        onClick={handlePull}>
                                         <span className="text-xs text-zinc-400">
                                             <Translate content="export.pull" />
                                         </span>
                                         <img src="/icons/company/pull.svg" alt="pull" className="size-4 invert-75" />
                                     </Button>
-                                    <Button type="button" className="w-full justify-between bg-gradient-to-r from-transparent from-50% to-zinc-700/30 hover:from-30% hover:border-zinc-800" variant="ghost_border" onClick={handlePush}>
+                                    <Button
+                                        type="button"
+                                        className="w-full justify-between bg-gradient-to-r from-transparent from-50% to-zinc-700/30 hover:from-30% hover:border-zinc-800"
+                                        variant="ghost_border"
+                                        onClick={handlePush}>
                                         <span className="text-xs text-zinc-400">
                                             <Translate content="export.push" />
                                         </span>
                                         <img src="/icons/company/github.svg" alt="push" className="size-4 invert-75" />
                                     </Button>
-                                    <Button type="button" className="w-full justify-between bg-gradient-to-r from-transparent from-30% to-zinc-700/30 hover:from-10% hover:border-zinc-800" variant="ghost_border" onClick={handleDownload}>
+                                    <Button
+                                        type="button"
+                                        className="w-full justify-between bg-gradient-to-r from-transparent from-30% to-zinc-700/30 hover:from-10% hover:border-zinc-800"
+                                        variant="ghost_border"
+                                        onClick={handleDownload}>
                                         <span className="text-xs text-zinc-400">
                                             <Translate content="export.download" />
                                         </span>
@@ -90,7 +104,6 @@ export default function DownloadButton({ containerRef }: { containerRef?: RefObj
                             )}
                         </div>
                     </div>
-
 
                     <div className="absolute inset-0 -z-10 brightness-30">
                         <img src="/images/shine.avif" alt="Shine" />

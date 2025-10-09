@@ -2,8 +2,8 @@ import { Link, useLocation, useParams } from "@tanstack/react-router";
 import type { CONCEPT_KEY } from "@/components/tools/elements";
 import { CONCEPTS } from "@/components/tools/elements";
 import Translate from "@/components/tools/Translate";
-import { useToggleSidebarStore } from "@/routes/$lang/studio/editor";
 import { cn } from "@/lib/utils";
+import { useToggleSidebarStore } from "@/routes/$lang/studio/editor";
 
 interface ToolNavItemProps {
     title: string;
@@ -28,7 +28,6 @@ export function ToolNavItem({ title, description, image, href, alignRight, comin
         if (comingSoon) return;
         setToggleSidebar(!toggleSidebar);
     };
-
 
     return (
         <Link

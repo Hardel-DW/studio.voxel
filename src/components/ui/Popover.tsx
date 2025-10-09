@@ -43,11 +43,24 @@ export function PopoverTrigger(props: {
     );
 }
 
-export function PopoverContent(props: { children: ReactNode; className?: string; containerRef?: React.RefObject<HTMLElement | null>; spacing?: number; padding?: number }) {
+export function PopoverContent(props: {
+    children: ReactNode;
+    className?: string;
+    containerRef?: React.RefObject<HTMLElement | null>;
+    spacing?: number;
+    padding?: number;
+}) {
     const { open, setOpen, triggerRef } = useDisclosure();
     const context = useContext(PopoverContext);
     const contentRef = useRef<HTMLDivElement>(null);
-    const position = usePopoverPosition({ triggerRef, contentRef, containerRef: props.containerRef, spacing: props.spacing, padding: props.padding, open });
+    const position = usePopoverPosition({
+        triggerRef,
+        contentRef,
+        containerRef: props.containerRef,
+        spacing: props.spacing,
+        padding: props.padding,
+        open
+    });
     const clickOutsideRef = useClickOutside(() => {
         setOpen(false);
         context?.onOpenChange?.(false);

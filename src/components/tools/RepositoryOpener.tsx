@@ -33,7 +33,9 @@ export default function RepositoryOpener() {
         { id: "3", name: "custom-loot-tables", description: "Enhanced loot table system", owner: "organization1" }
     ];
 
-    const filteredRepositories = mockRepositories.filter((repo) => repo.owner === selectedAccount && repo.name.toLowerCase().includes(searchQuery.toLowerCase()));
+    const filteredRepositories = mockRepositories.filter(
+        (repo) => repo.owner === selectedAccount && repo.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
 
     const selectedAccountLabel = mockAccounts.find((acc) => acc.value === selectedAccount)?.label ?? "Select account";
 
@@ -49,7 +51,11 @@ export default function RepositoryOpener() {
 
     return (
         <>
-            <Button type="button" onClick={() => dialogRef.current?.showPopover()} variant="default" className="w-full mt-8 flex items-center gap-x-2">
+            <Button
+                type="button"
+                onClick={() => dialogRef.current?.showPopover()}
+                variant="default"
+                className="w-full mt-8 flex items-center gap-x-2">
                 <img src="/icons/company/github.svg" alt="GitHub" className="size-4" />
                 <span className="text-sm">
                     <Translate content="repository.open" />
@@ -112,7 +118,11 @@ export default function RepositoryOpener() {
                                         <h3 className="text-sm font-semibold text-zinc-200 truncate">{repo.name}</h3>
                                         <p className="text-xs text-zinc-400 mt-1 line-clamp-2">{repo.description}</p>
                                     </div>
-                                    <Button type="button" onClick={() => handleImportRepository(repo.id)} variant="default" className="shrink-0 text-xs px-3 py-2">
+                                    <Button
+                                        type="button"
+                                        onClick={() => handleImportRepository(repo.id)}
+                                        variant="default"
+                                        className="shrink-0 text-xs px-3 py-2">
                                         <Translate content="repository.import" />
                                     </Button>
                                 </div>
@@ -133,7 +143,12 @@ export default function RepositoryOpener() {
                                 onChange={(e) => setThirdPartyUrl(e.target.value)}
                                 className="flex-1 rounded-lg border border-zinc-800 bg-zinc-950 px-4 py-2 text-sm text-zinc-200 placeholder:text-zinc-500 outline-none focus:border-zinc-700 transition-colors"
                             />
-                            <Button type="button" onClick={handleImportThirdParty} variant="default" className="text-xs px-4 py-2" disabled={!thirdPartyUrl.trim()}>
+                            <Button
+                                type="button"
+                                onClick={handleImportThirdParty}
+                                variant="default"
+                                className="text-xs px-4 py-2"
+                                disabled={!thirdPartyUrl.trim()}>
                                 <Translate content="repository.import" />
                             </Button>
                         </div>
