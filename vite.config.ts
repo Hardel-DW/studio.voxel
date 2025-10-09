@@ -24,7 +24,8 @@ export default defineConfig({
         alias: {
             "@": fileURLToPath(new URL("./src", import.meta.url)),
             "@lib/*": fileURLToPath(new URL("./src/lib/*", import.meta.url)),
-            "@routes/*": fileURLToPath(new URL("./src/routes/*", import.meta.url))
+            "@routes/*": fileURLToPath(new URL("./src/routes/*", import.meta.url)),
+            "@api/*": fileURLToPath(new URL("./api/*", import.meta.url))
         }
     }
 })
