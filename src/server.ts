@@ -5,7 +5,6 @@ import { cors } from "hono/cors";
 type Bindings = {
     GITHUB_CLIENT: string;
     GITHUB_SECRET: string;
-    GITHUB_REDIRECT_URI: string;
 };
 
 type GitHubOrganization = {
@@ -32,14 +31,15 @@ const app = new Hono<{ Bindings: Bindings }>();
 app.use("/api/*", cors());
 
 app.get("/api/github/auth", (c) => {
-    const { GITHUB_CLIENT, GITHUB_REDIRECT_URI } = env<Bindings>(c);
-    if (!GITHUB_CLIENT || !GITHUB_REDIRECT_URI) {
+    const { GITHUB_CLIENT } = env<Bindings>(c);
+    if (!GITHUB_CLIENT) {
         return c.json({ error: "Missing GitHub configuration" }, 500);
     }
 
+    const redirectUri = new URL("/auth", c.req.url).toString();
     const state = Math.random().toString(36).substring(7);
     const scope = "repo read:org read:user";
-    const authUrl = `https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT}&redirect_uri=${encodeURIComponent(GITHUB_REDIRECT_URI)}&scope=${encodeURIComponent(scope)}&state=${state}`;
+    const authUrl = `https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=${encodeURIComponent(scope)}&state=${state}`;
     c.header("Set-Cookie", `github_oauth_state=${state}; Path=/; HttpOnly; SameSite=Lax; Max-Age=600`);
     return c.json({ url: authUrl, state });
 });
@@ -83,25 +83,14 @@ app.get("/api/github/callback", async (c) => {
 
     const userData = (await userResponse.json()) as { login: string; id: number; avatar_url: string };
 
-    return c.html(`
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <title>GitHub Authentication Success</title>
-        </head>
-        <body>
-            <script>
-                window.opener.postMessage({
-                    type: 'github-auth-success',
-                    token: '${tokenData.access_token}',
-                    user: ${JSON.stringify({ login: userData.login, id: userData.id, avatar_url: userData.avatar_url })}
-                }, window.location.origin);
-                window.close();
-            </script>
-            <p>Authentication successful! You can close this window.</p>
-        </body>
-        </html>
-    `);
+    return c.json({
+        token: tokenData.access_token,
+        user: {
+            login: userData.login,
+            id: userData.id,
+            avatar_url: userData.avatar_url
+        }
+    });
 });
 
 app.get("/api/github/repos", async (c) => {

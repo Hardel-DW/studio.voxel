@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as AuthRouteImport } from './routes/auth'
 import { Route as LangRouteImport } from './routes/$lang'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as LangIndexRouteImport } from './routes/$lang/index'
@@ -34,6 +35,11 @@ import { Route as LangStudioEditorEnchantmentItemsRouteImport } from './routes/$
 import { Route as LangStudioEditorEnchantmentFindRouteImport } from './routes/$lang/studio/editor/enchantment/find'
 import { Route as LangStudioEditorEnchantmentExclusiveRouteImport } from './routes/$lang/studio/editor/enchantment/exclusive'
 
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LangRoute = LangRouteImport.update({
   id: '/$lang',
   path: '/$lang',
@@ -172,6 +178,7 @@ const LangStudioEditorEnchantmentExclusiveRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/$lang': typeof LangRouteWithChildren
+  '/auth': typeof AuthRoute
   '/$lang/studio': typeof LangStudioRouteRouteWithChildren
   '/$lang/converter': typeof LangConverterRoute
   '/$lang/harmonization': typeof LangHarmonizationRoute
@@ -197,6 +204,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/$lang/converter': typeof LangConverterRoute
   '/$lang/harmonization': typeof LangHarmonizationRoute
   '/$lang/migration': typeof LangMigrationRoute
@@ -222,6 +230,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/$lang': typeof LangRouteWithChildren
+  '/auth': typeof AuthRoute
   '/$lang/studio': typeof LangStudioRouteRouteWithChildren
   '/$lang/converter': typeof LangConverterRoute
   '/$lang/harmonization': typeof LangHarmonizationRoute
@@ -250,6 +259,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/$lang'
+    | '/auth'
     | '/$lang/studio'
     | '/$lang/converter'
     | '/$lang/harmonization'
@@ -275,6 +285,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/auth'
     | '/$lang/converter'
     | '/$lang/harmonization'
     | '/$lang/migration'
@@ -299,6 +310,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/$lang'
+    | '/auth'
     | '/$lang/studio'
     | '/$lang/converter'
     | '/$lang/harmonization'
@@ -326,10 +338,18 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   LangRoute: typeof LangRouteWithChildren
+  AuthRoute: typeof AuthRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/$lang': {
       id: '/$lang'
       path: '/$lang'
@@ -582,6 +602,7 @@ const LangRouteWithChildren = LangRoute._addFileChildren(LangRouteChildren)
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   LangRoute: LangRouteWithChildren,
+  AuthRoute: AuthRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
