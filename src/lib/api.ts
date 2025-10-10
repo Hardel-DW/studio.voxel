@@ -8,6 +8,6 @@ export interface VercelRequest extends IncomingMessage {
 
 export interface VercelResponse extends ServerResponse {
     status: (code: number) => VercelResponse;
-    json: (data: any) => VercelResponse;
+    json: (data: Record<string, any>) => VercelResponse;
     send: (data: any) => VercelResponse;
 }

@@ -1,8 +1,7 @@
 import { useNavigate, useParams } from "@tanstack/react-router";
-import { DatapackError, parseDatapack } from "@voxelio/breeze";
+import { Datapack, DatapackError } from "@voxelio/breeze";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/Dropdown";
-import { fetchDatapackPreset } from "@/lib/github";
 import useAsyncError from "@/lib/hook/useAsyncError";
 import { useDictionary } from "@/lib/hook/useNext18n";
 
@@ -13,19 +12,15 @@ export default function VanillaImportButton() {
     const throwError = useAsyncError();
     const handleVanillaImport = async (version: number) => {
         try {
-            const blob = await fetchDatapackPreset(version);
-            const file = new File([blob], `Enchantment-${version}.zip`, { type: "application/zip" });
-
-            const dataTransfer = new DataTransfer();
-            dataTransfer.items.add(file);
-            const fileList = dataTransfer.files;
-            const result = await parseDatapack(fileList[0]);
+            const mcmeta = { pack: { pack_format: version, description: "No Description, please change this - Voxel Configurator" } };
+            const result = new Datapack({ "pack.mcmeta": new TextEncoder().encode(JSON.stringify(mcmeta)) }).parse();
 
             if (typeof result === "string") {
                 throw new DatapackError("tools.error.failed_to_parse_datapack");
             }
 
-            useConfiguratorStore.getState().setup({ ...result, name: "Vanilla Enchantment - Voxel Configurator" });
+            useConfiguratorStore.getState().setName("Change This Name - Voxel Configurator");
+            useConfiguratorStore.getState().setup({ ...result });
             navigate({ to: "/$lang/studio/editor", params: { lang } });
         } catch (e: unknown) {
             if (e instanceof DatapackError) {

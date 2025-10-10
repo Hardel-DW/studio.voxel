@@ -16,18 +16,6 @@ export const MCMETA_PATH = {
     }
 } as const;
 
-export async function fetchDatapackPreset(version: number): Promise<Blob> {
-    const fileName = `enchantment-${version}.zip`;
-    const githubUrl = `https://raw.githubusercontent.com/Hardel-DW/voxel-datapack-preset/main/${fileName}`;
-
-    const response = await fetch(githubUrl);
-    if (!response.ok) {
-        throw new Error(`Failed to fetch datapack: ${response.status}`);
-    }
-
-    return response.blob();
-}
-
 export async function fetchMcmetaData(type: keyof typeof MCMETA_PATH, registry?: string): Promise<any> {
     const { path, gzip } = MCMETA_PATH[type];
     const registryPath = registry?.startsWith("tags/") ? registry.replace(/^tags\//, "tag/") : registry;

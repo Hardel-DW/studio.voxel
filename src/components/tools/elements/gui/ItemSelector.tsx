@@ -30,7 +30,7 @@ export default function ItemSelector({ currentItem, onItemSelect, items }: ItemS
         <div className="flex flex-col h-full" ref={ref}>
             <TextInput placeholder="Rechercher un item..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
 
-            <div className="grid grid-cols-items grid-rows-items gap-2 overflow-y-auto overflow-x-hidden max-h-64 mt-4 flex-1 -mr-1 pr-1">
+            <div className="grid grid-cols-items grid-rows-items gap-2 overflow-y-auto overflow-x-hidden mt-4 flex-1 -mr-1 pr-1">
                 {filteredItems.map((itemId) => (
                     <button
                         key={itemId}

@@ -6,7 +6,7 @@ export type FetchedRegistry<T> = Record<string, T>;
 export type Component<T> = Record<string, T>;
 
 export default function useRegistry<T>(type: keyof typeof MCMETA_PATH, registryId?: string) {
-    const registryQueryKey = ["registry", registryId];
+    const registryQueryKey = ["registry", registryId, "1.21.11"];
     const {
         data: registryData,
         isLoading: isRegistryLoading,

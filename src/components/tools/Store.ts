@@ -28,7 +28,7 @@ export interface ConfiguratorState<T extends keyof Analysers> {
     setMinify: (minify: boolean) => void;
     setCurrentElementId: (id: string | null) => void;
     handleChange: (action: Action, identifier?: string, value?: ActionValue) => void;
-    setup: (updates: ParseDatapackResult<GetAnalyserVoxel<T>>) => void;
+    setup: (updates: ParseDatapackResult<GetAnalyserVoxel<T>>, isModded: boolean, name: string) => void;
     compile: () => Datapack;
     getLengthByRegistry: (registry: string) => number;
     getConcept: (pathname: string) => CONCEPT_KEY | null;
@@ -68,7 +68,7 @@ const createConfiguratorStore = <T extends keyof Analysers>() =>
             if (!updatedElement || !isVoxelElement(updatedElement)) return;
             set((state) => ({ elements: state.elements.set(elementId, updatedElement) }));
         },
-        setup: (updates) => set({ ...updates, sortedIdentifiers: sortElementsByRegistry(updates.elements) }),
+        setup: (updates, isModded, name) => set({ ...updates, sortedIdentifiers: sortElementsByRegistry(updates.elements), isModded, name }),
         compile: () => compileDatapack({ elements: Array.from(get().elements.values()), files: get().files }),
         getLengthByRegistry: (registry) => get().getRegistry(registry).length,
         getConcept: (pathname) => {

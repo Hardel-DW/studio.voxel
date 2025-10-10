@@ -1,4 +1,4 @@
-import { compileDatapack, Datapack, DatapackDownloader, Logger, parseDatapack } from "@voxelio/breeze";
+import { compileDatapack, Datapack, DatapackDownloader, Logger } from "@voxelio/breeze";
 import type React from "react";
 import { useRef, useState } from "react";
 import { Toaster, toast } from "sonner";
@@ -40,23 +40,26 @@ export default function MigrationTool({ children }: { children?: React.ReactNode
         if (!source.files || !target.files) return;
         toast.info(dictionary.migration.processing);
 
-        const targetData = await parseDatapack(target.files[0]);
+        const targetData = await Datapack.from(target.files[0]);
+        const targetDataResult = targetData.parse();
+        const filename = target.files[0].name;
+        const isModded = filename.endsWith(".jar");
 
         try {
-            const sourceDatapack = await Datapack.parse(source.files[0]);
+            const sourceDatapack = await Datapack.from(source.files[0])
             const changesetsA = new Logger(sourceDatapack.getFiles()).getChangeSets();
 
-            const loggerB = new Logger(targetData.files);
-            const mergedElements = loggerB.applyChangeSets(changesetsA, targetData.elements);
+            const loggerB = new Logger(targetDataResult.files);
+            const mergedElements = loggerB.applyChangeSets(changesetsA, targetDataResult.elements);
 
             const finalDatapack = compileDatapack({
                 elements: Array.from(mergedElements.values()),
-                files: targetData.files
+                files: targetDataResult.files
             });
 
             const response = await finalDatapack.generate(loggerB);
-            const filename = DatapackDownloader.getFileName(targetData.name, targetData.isModded);
-            downloadFile(response, filename);
+            const newFilename = DatapackDownloader.getFileName(filename, isModded);
+            downloadFile(response, newFilename);
 
             toast.success(dictionary.migration.success_message);
             await trackEvent("migrated_datapack");
@@ -70,13 +73,16 @@ export default function MigrationTool({ children }: { children?: React.ReactNode
         }
     };
 
-    const validators: Record<UploadType, (result: Exclude<Awaited<ReturnType<typeof parseDatapack>>, string>) => string | null> = {
+    const validators: Record<UploadType, (result: Exclude<Awaited<ReturnType<Datapack["parse"]>>, string>) => string | null> = {
         source: (result) => (!result.files["voxel/logs.json"] ? dictionary.migration.error_types.no_logs : null),
         target: (result) => (result.elements.size === 0 ? dictionary.migration.error_types.invalid_datapack : null)
     };
 
     const handleUpload = async (files: FileList, type: UploadType) => {
-        const result = await parseDatapack(files[0]);
+        const datapack = await Datapack.from(files[0]);
+        const result = datapack.parse();
+        const filename = files[0].name;
+        const isModded = filename.endsWith(".jar");
 
         if (typeof result === "string") {
             toast.error(dictionary[result]);
@@ -86,8 +92,8 @@ export default function MigrationTool({ children }: { children?: React.ReactNode
         const error = validators[type](result);
         const data: DatapackInfo = {
             version: result.version,
-            name: result.name,
-            isModded: result.isModded,
+            name: filename,
+            isModded: isModded,
             status: error ? "error" : "success",
             reason: error ?? undefined
         };

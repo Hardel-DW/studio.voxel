@@ -4,43 +4,84 @@ import { Button } from "@/components/ui/Button";
 import { Dialog, DialogCloseButton, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/Dialog";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/Dropdown";
 import { useTranslateKey } from "@/lib/hook/useTranslation";
+import { useGitHubAuth, useGitHubRepos } from "@/lib/hook/useGitHubAuth";
 
 interface Repository {
-    id: string;
+    id: number;
     name: string;
+    full_name: string;
     description: string;
     owner: string;
+    private: boolean;
+    avatar_url: string;
+    html_url: string;
+    clone_url: string;
+}
+
+interface Organization {
+    login: string;
+    id: number;
+    avatar_url: string;
+    description: string;
 }
 
 export default function RepositoryOpener() {
     const dialogRef = useRef<HTMLDivElement>(null);
-    const [selectedAccount, setSelectedAccount] = useState("personal");
+    const [selectedAccount, setSelectedAccount] = useState<string>("");
     const [searchQuery, setSearchQuery] = useState("");
     const [thirdPartyUrl, setThirdPartyUrl] = useState("");
 
     const searchPlaceholder = useTranslateKey("repository.search_placeholder");
     const thirdPartyPlaceholder = useTranslateKey("repository.third_party_placeholder");
 
-    const mockAccounts = [
-        { value: "personal", label: "Personal", description: "Your personal repositories" },
-        { value: "organization1", label: "Organization 1", description: "Voxel Studio Team" },
-        { value: "organization2", label: "Organization 2", description: "Minecraft Community" }
-    ];
+    const { isAuthenticated, user, login, isLoggingIn } = useGitHubAuth();
+    const { data: reposData, isLoading: isLoadingRepos, refetch } = useGitHubRepos();
 
-    const mockRepositories: Repository[] = [
-        { id: "1", name: "datapack-project", description: "A Minecraft datapack for custom enchantments", owner: "personal" },
-        { id: "2", name: "vanilla-tweaks", description: "Collection of vanilla improvements", owner: "personal" },
-        { id: "3", name: "custom-loot-tables", description: "Enhanced loot table system", owner: "organization1" }
-    ];
+    const handleButtonClick = () => {
+        if (!isAuthenticated) {
+            login();
+            return;
+        }
 
-    const filteredRepositories = mockRepositories.filter(
+        refetch().then(() => {
+            if (!selectedAccount && user) {
+                setSelectedAccount(user.login);
+            }
+            dialogRef.current?.showPopover();
+        });
+    };
+
+    const accounts: Array<{ value: string; label: string; description: string }> = [];
+    const allRepositories: Repository[] = [];
+
+    if (reposData && user) {
+        accounts.push({
+            value: user.login,
+            label: user.login,
+            description: "Your personal repositories"
+        });
+
+        allRepositories.push(...reposData.repositories);
+
+        reposData.organizations.forEach((org: Organization) => {
+            accounts.push({
+                value: org.login,
+                label: org.login,
+                description: org.description || `${org.login} repositories`
+            });
+        });
+
+        allRepositories.push(...reposData.orgRepositories);
+    }
+
+    const filteredRepositories = allRepositories.filter(
         (repo) => repo.owner === selectedAccount && repo.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
-    const selectedAccountLabel = mockAccounts.find((acc) => acc.value === selectedAccount)?.label ?? "Select account";
+    const selectedAccountLabel = accounts.find((acc) => acc.value === selectedAccount)?.label ?? "Select account";
 
-    const handleImportRepository = (repoId: string) => {
-        console.log("Import repository:", repoId);
+    const handleImportRepository = (repo: Repository) => {
+        console.log("Import repository:", repo);
         dialogRef.current?.hidePopover();
     };
 
@@ -49,16 +90,19 @@ export default function RepositoryOpener() {
         dialogRef.current?.hidePopover();
     };
 
+    const isLoading = isLoggingIn || isLoadingRepos;
+
     return (
         <>
             <Button
                 type="button"
-                onClick={() => dialogRef.current?.showPopover()}
+                onClick={handleButtonClick}
                 variant="default"
+                disabled={isLoading}
                 className="w-full mt-8 flex items-center gap-x-2">
                 <img src="/icons/company/github.svg" alt="GitHub" className="size-4" />
                 <span className="text-sm">
-                    <Translate content="repository.open" />
+                    {isLoading ? <Translate content="repository.loading" /> : <Translate content="repository.open" />}
                 </span>
             </Button>
 
@@ -83,7 +127,7 @@ export default function RepositoryOpener() {
                                 </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent className="min-w-50">
-                                {mockAccounts.map((account) => (
+                                {accounts.map((account) => (
                                     <DropdownMenuItem
                                         key={account.value}
                                         onClick={() => setSelectedAccount(account.value)}
@@ -114,13 +158,21 @@ export default function RepositoryOpener() {
                                 <div
                                     key={repo.id}
                                     className="flex items-center justify-between gap-4 rounded-xl border border-zinc-800 bg-zinc-900/30 p-4 hover:border-zinc-700 transition-colors">
-                                    <div className="flex-1 min-w-0">
-                                        <h3 className="text-sm font-semibold text-zinc-200 truncate">{repo.name}</h3>
-                                        <p className="text-xs text-zinc-400 mt-1 line-clamp-2">{repo.description}</p>
+                                    <div className="flex items-center gap-3 flex-1 min-w-0">
+                                        <img src={repo.avatar_url} alt={repo.owner} className="size-8 rounded-full" />
+                                        <div className="flex-1 min-w-0">
+                                            <div className="flex items-center gap-2">
+                                                <h3 className="text-sm font-semibold text-zinc-200 truncate">{repo.name}</h3>
+                                                {repo.private && (
+                                                    <span className="text-xs px-2 py-0.5 bg-zinc-800 text-zinc-400 rounded">Private</span>
+                                                )}
+                                            </div>
+                                            <p className="text-xs text-zinc-400 mt-1 line-clamp-2">{repo.description || "No description"}</p>
+                                        </div>
                                     </div>
                                     <Button
                                         type="button"
-                                        onClick={() => handleImportRepository(repo.id)}
+                                        onClick={() => handleImportRepository(repo)}
                                         variant="default"
                                         className="shrink-0 text-xs px-3 py-2">
                                         <Translate content="repository.import" />

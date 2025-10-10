@@ -4,7 +4,9 @@ import { cn } from "@/lib/utils";
 
 const user = "Hardel-DW";
 const repo = "voxel.atlas";
-const path = "refs/heads/main/atlas/1.21.9/data.min.json";
+const branch = "archives";
+const path = `refs/heads/${branch}/items/data.min.json`;
+const version = "1.21.11";
 
 const getItems = async () => {
     const response = await fetch(`https://raw.githubusercontent.com/${user}/${repo}/${path}`);
@@ -19,7 +21,7 @@ type Response = Record<string, [number, number, number, number]>;
 export default function TextureRenderer(props: { id: string; className?: string }) {
     const processId = Identifier.of(props.id, "item").toString();
     const { data, isLoading, error } = useQuery<Response>({
-        queryKey: ["items", "1.21.9"],
+        queryKey: ["items", version],
         queryFn: getItems
     });
 

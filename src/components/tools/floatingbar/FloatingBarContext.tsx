@@ -21,9 +21,7 @@ export function FloatingBarProvider({ children }: { children: ReactNode }) {
 
     const expand = (content: ReactNode) => {
         if (state.type !== "COLLAPSED") return;
-
         setState({ type: "EXPANDING", content });
-
         requestAnimationFrame(() => {
             setState({ type: "EXPANDED", content });
         });
@@ -31,22 +29,12 @@ export function FloatingBarProvider({ children }: { children: ReactNode }) {
 
     const collapse = () => {
         if (state.type !== "EXPANDED") return;
-
         setState((prev) => ({ type: "COLLAPSING", content: prev.type === "EXPANDED" ? prev.content : null }));
-
-        setTimeout(() => {
-            setState({ type: "COLLAPSED" });
-        }, 700);
+        setTimeout(() => setState({ type: "COLLAPSED" }), 700);
     };
 
     return (
-        <FloatingBarContext.Provider
-            value={{
-                portalRef,
-                state,
-                expand,
-                collapse
-            }}>
+        <FloatingBarContext.Provider value={{ portalRef, state, expand, collapse }}>
             {children}
             <div ref={portalRef} id="floating-bar-portal" />
         </FloatingBarContext.Provider>
