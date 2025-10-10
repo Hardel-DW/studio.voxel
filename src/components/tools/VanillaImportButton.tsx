@@ -1,31 +1,22 @@
 import { useNavigate, useParams } from "@tanstack/react-router";
-import { Datapack, DatapackError } from "@voxelio/breeze";
+import { Datapack, Logger, VoxelElement } from "@voxelio/breeze";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/Dropdown";
-import useAsyncError from "@/lib/hook/useAsyncError";
 import { useDictionary } from "@/lib/hook/useNext18n";
 
 export default function VanillaImportButton() {
     const dictionary = useDictionary();
     const { lang } = useParams({ from: "/$lang" });
     const navigate = useNavigate();
-    const throwError = useAsyncError();
     const handleVanillaImport = async (version: number) => {
-        try {
-            const mcmeta = { pack: { pack_format: version, description: "No Description, please change this - Voxel Configurator" } };
-            const result = new Datapack({ "pack.mcmeta": new TextEncoder().encode(JSON.stringify(mcmeta)) }).parse();
+        const mcmeta = { pack: { pack_format: version, description: "No Description, please change this - Voxel Configurator" } };
+        const files = new Datapack({ "pack.mcmeta": new TextEncoder().encode(JSON.stringify(mcmeta)) }).getFiles();
+        const elements = new Map();
+        const logger = new Logger(files);
 
-            if (typeof result === "string") {
-                throw new DatapackError("tools.error.failed_to_parse_datapack");
-            }
+        useConfiguratorStore.getState().setup({ files, elements, version, logger }, false, "Change This Name - Voxel Configurator");
+        navigate({ to: "/$lang/studio/editor", params: { lang } });
 
-            useConfiguratorStore.getState().setup({ ...result }, false, "Change This Name - Voxel Configurator");
-            navigate({ to: "/$lang/studio/editor", params: { lang } });
-        } catch (e: unknown) {
-            if (e instanceof DatapackError) {
-                throwError(e.message);
-            }
-        }
     };
 
     return (

@@ -25,10 +25,15 @@ export default defineConfig({
             entry: "./src/server.ts",
             exclude: [
                 /^\/(?!api\/).*/,
-                /.*\.tsx?$/,
                 /.*\.css$/,
-                /.*\.(jpg|png|svg|gif|webp|ico)$/,
-            ],
+                /.*\.ts$/,
+                /.*\.tsx$/,
+                /\?t\=\d+$/,
+                /[?&]tsr-split=[^&]*(&t=[^&]*)?$/, // Support for TanStack Router code splitting
+                /^\/static\/.+/,
+                /^\/node_modules\/.*/,
+                /.*\.js$/,
+                /.*\.jsx$/,],
             injectClientScript: false
         }),
         build({ entry: "./src/server.ts" })

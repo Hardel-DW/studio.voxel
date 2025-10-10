@@ -10,11 +10,11 @@ import { Tabs, TabsContent, TabsTrigger } from "@/components/ui/Tabs";
 
 export default function StudioSidebar() {
     const location = useLocation();
-    const elements = useConfiguratorStore((state) => state.elements);
+    const hasElements = useConfiguratorStore((state) => Object.keys(state.files).length > 0);
     const getConcept = useConfiguratorStore((state) => state.getConcept);
     const selectedConcept = getConcept(location.pathname);
     const buttonsContainerRef = useRef<HTMLDivElement>(null);
-    if (elements.size === 0) return null;
+    if (!hasElements) return null;
 
     return (
         <div className="flex flex-col h-full pb-4">

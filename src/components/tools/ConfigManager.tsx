@@ -7,7 +7,7 @@ import { LinkButton } from "@/components/ui/Button";
 
 export default function ConfigManager(props: PropsWithChildren) {
     const { lang } = useParams({ from: "/$lang" });
-    const hasElements = useConfiguratorStore((state) => state.elements.size > 0);
+    const hasElements = useConfiguratorStore((state) => Object.keys(state.files).length > 0);
 
     return (
         <>
