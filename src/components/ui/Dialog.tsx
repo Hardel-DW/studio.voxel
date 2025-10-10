@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { createContext, useContext } from "react";
 import { Button } from "@/components/ui/Button";
 import { useLocalStorageImperative } from "@/lib/hook/useLocalStorage";
+import { useClickOutside } from "@/lib/hook/useClickOutside";
 import { cn } from "@/lib/utils";
 
 const DialogContext = createContext<string | null>(null);
@@ -30,11 +31,18 @@ export function Dialog(props: {
     const reminderKey = props.reminder ? props.id : `dialog-${props.id}`;
     const storage = useLocalStorageImperative(reminderKey, false);
 
+    const clickOutsideRef = useClickOutside(() => {
+        const element = document.getElementById(props.id) as HTMLDivElement | null;
+        if (element) element.hidePopover();
+    });
+
     const refCallback = (element: HTMLDivElement | null) => {
         if (props.ref) {
             if (typeof props.ref === "function") props.ref(element);
             else props.ref.current = element;
         }
+
+        if (clickOutsideRef) clickOutsideRef.current = element;
 
         if (element && props.defaultOpen && (!props.reminder || !storage.getValue())) {
             element.showPopover();
@@ -46,7 +54,7 @@ export function Dialog(props: {
         <div
             ref={refCallback}
             id={props.id}
-            popover="auto"
+            popover="manual"
             className={cn(
                 "fixed inset-0 m-auto w-2/5 min-w-[40%] max-w-[40%] h-fit rounded-xl bg-zinc-950 shadow-lg shadow-neutral-900 p-2 border border-zinc-800 backdrop:bg-black/50 backdrop:backdrop-blur-sm opacity-0 translate-y-4 scale-95 transition-all duration-200 ease-out",
                 props.className

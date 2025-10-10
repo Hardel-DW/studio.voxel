@@ -3,7 +3,7 @@ import react from "@vitejs/plugin-react";
 import { tanstackRouter } from "@tanstack/router-plugin/vite";
 import { fileURLToPath, URL } from "node:url";
 import tailwindcss from "@tailwindcss/vite";
-import devServer from '@hono/vite-dev-server'
+import devServer, { defaultOptions } from '@hono/vite-dev-server'
 import build from '@hono/vite-build/vercel'
 
 export default defineConfig({
@@ -23,18 +23,11 @@ export default defineConfig({
         tailwindcss(),
         devServer({
             entry: "./src/server.ts",
-            exclude: [
-                /^\/(?!api\/).*/,
-                /.*\.css$/,
-                /.*\.ts$/,
-                /.*\.tsx$/,
-                /\?t\=\d+$/,
-                /[?&]tsr-split=[^&]*(&t=[^&]*)?$/, // Support for TanStack Router code splitting
-                /^\/static\/.+/,
-                /^\/node_modules\/.*/,
-                /.*\.js$/,
-                /.*\.jsx$/,],
-            injectClientScript: false
+            exclude: [/^\/(?!api\/).*/, ...defaultOptions.exclude],
+            injectClientScript: false,
+            env: {
+                TEST: "B"
+            }
         }),
         build({ entry: "./src/server.ts" })
     ],

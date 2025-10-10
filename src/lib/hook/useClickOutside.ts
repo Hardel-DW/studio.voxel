@@ -2,12 +2,19 @@ import { useEffect, useRef } from "react";
 
 type Handler = () => void;
 
-export const useClickOutside = (handler: Handler) => {
+export const useClickOutside = (handler: Handler, ignoreOtherPopovers = true) => {
     const ref = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
-            if (ref.current && !ref.current.contains(event.target as Node)) {
+            const target = event.target as Node;
+            if (ref.current && !ref.current.contains(target)) {
+                if (ignoreOtherPopovers) {
+                    const clickedPopover = (target as Element).closest?.("[popover]");
+                    if (clickedPopover && clickedPopover !== ref.current) {
+                        return;
+                    }
+                }
                 handler();
             }
         };
@@ -17,7 +24,7 @@ export const useClickOutside = (handler: Handler) => {
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);
         };
-    }, [handler]);
+    }, [handler, ignoreOtherPopovers]);
 
     return ref;
 };

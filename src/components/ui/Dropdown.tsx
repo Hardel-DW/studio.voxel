@@ -29,7 +29,7 @@ export function DropdownMenuContent(props: { children: ReactNode; className?: st
     const { open, setOpen, triggerRef } = useDropdown();
     const contentRef = useRef<HTMLDivElement>(null);
     const position = usePopoverPosition({ triggerRef, contentRef, open });
-    const clickOutsideRef = useClickOutside(() => setOpen(false));
+    const clickOutsideRef = useClickOutside(() => setOpen(false), false);
 
     return createPortal(
         <div

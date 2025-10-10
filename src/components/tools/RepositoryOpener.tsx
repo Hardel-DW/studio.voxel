@@ -30,25 +30,32 @@ export default function RepositoryOpener() {
     const [selectedAccount, setSelectedAccount] = useState<string>("");
     const [searchQuery, setSearchQuery] = useState("");
     const [thirdPartyUrl, setThirdPartyUrl] = useState("");
-
     const searchPlaceholder = useTranslateKey("repository.search_placeholder");
     const thirdPartyPlaceholder = useTranslateKey("repository.third_party_placeholder");
-
-    const { isAuthenticated, user, login, isLoggingIn } = useGitHubAuth();
+    const { isAuthenticated, user, loginAsync, isLoggingIn } = useGitHubAuth();
     const { data: reposData, isLoading: isLoadingRepos, refetch } = useGitHubRepos();
 
-    const handleButtonClick = () => {
+    const handleButtonClick = async () => {
         if (!isAuthenticated) {
-            login();
-            return;
+            try {
+                await loginAsync();
+            } catch (error) {
+                console.error("Authentication failed:", error);
+                return;
+            }
         }
 
-        refetch().then(() => {
-            if (!selectedAccount && user) {
-                setSelectedAccount(user.login);
+        if (!selectedAccount) {
+            const data = reposData || (await refetch()).data;
+            if (data) {
+                const firstAccount = data.repositories[0]?.owner || user?.login;
+                if (firstAccount) {
+                    setSelectedAccount(firstAccount);
+                }
             }
-            dialogRef.current?.showPopover();
-        });
+        }
+
+        dialogRef.current?.showPopover();
     };
 
     const accounts: Array<{ value: string; label: string; description: string }> = [];

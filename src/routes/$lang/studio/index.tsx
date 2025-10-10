@@ -19,7 +19,7 @@ function StudioLayout() {
     const questions = dictionary.studio.questions;
 
     return (
-        <main>
+        <main className="w-full">
             <Link to="/$lang/studio/editor" params={{ lang }} className="hidden" aria-hidden="true" />
             <Navbar dictionary={dictionary} lang={lang as Locale} />
             <section className="w-11/12 md:w-3/4 mx-auto flex flex-col justify-evenly xl:grid grid-cols-2 items-center relative gap-8 min-h-screen">

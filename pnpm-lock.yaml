@@ -29,6 +29,9 @@ importers:
       '@voxelio/converter':
         specifier: ^1.0.20
         version: 1.0.20
+      '@voxelio/env':
+        specifier: ^1.0.2
+        version: 1.0.2
       fflate:
         specifier: ^0.8.2
         version: 0.8.2
@@ -811,6 +814,9 @@ packages:
 
   '@voxelio/diff@1.0.2':
     resolution: {integrity: sha512-WoXi4rkoetAxBE5Ji69XGC7BNXQTv5PzikGRAkPjXaF3xwJvP9nsdxHXJGiJTWHF5/GguL02WWfdT1zG8vvBXg==}
+
+  '@voxelio/env@1.0.2':
+    resolution: {integrity: sha512-MtkYK++Zz2sfGT4MD48udhkFw5TXRBAIFWK5CnacvN2B6XjOCo1iTnkGd5QiKL3T0on4/SwSwhWYoWoLTaT57Q==}
 
   '@voxelio/zip@3.2.0':
     resolution: {integrity: sha512-HBSjd8I2WQr+E4G/PfivnMC/pJNv58iBr4Yt4OT8/sPnhlXzztVUZBmxLZajI8KGwYWsai79YCmKK0NM1VZE0g==}
@@ -1960,6 +1966,8 @@ snapshots:
       '@voxelio/zip': 3.2.0
 
   '@voxelio/diff@1.0.2': {}
+
+  '@voxelio/env@1.0.2': {}
 
   '@voxelio/zip@3.2.0': {}
 

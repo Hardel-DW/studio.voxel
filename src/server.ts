@@ -1,11 +1,6 @@
 import { Hono } from "hono";
-import { env } from "hono/adapter";
 import { cors } from "hono/cors";
-
-type Bindings = {
-    GITHUB_CLIENT: string;
-    GITHUB_SECRET: string;
-};
+import "@voxelio/env/config";
 
 type GitHubOrganization = {
     login: string;
@@ -26,17 +21,19 @@ type GitHubRepo = {
     updated_at: string;
 };
 
-const app = new Hono<{ Bindings: Bindings }>();
+const app = new Hono();
 
 app.use("/api/*", cors());
+app.get("/api/hello", (c) => c.json({ message: "Hello, world!", test: process.env.TEST }));
 
 app.get("/api/github/auth", (c) => {
-    const { GITHUB_CLIENT } = env<Bindings>(c);
+    const GITHUB_CLIENT = process.env.GITHUB_CLIENT;
     if (!GITHUB_CLIENT) {
         return c.json({ error: "Missing GitHub configuration" }, 500);
     }
 
-    const redirectUri = new URL("/auth", c.req.url).toString();
+    const baseUrl = new URL(c.req.url);
+    const redirectUri = `${baseUrl.protocol}//${baseUrl.host}/auth`;
     const state = Math.random().toString(36).substring(7);
     const scope = "repo read:org read:user";
     const authUrl = `https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=${encodeURIComponent(scope)}&state=${state}`;
@@ -46,7 +43,8 @@ app.get("/api/github/auth", (c) => {
 
 app.get("/api/github/callback", async (c) => {
     const code = c.req.query("code");
-    const { GITHUB_CLIENT, GITHUB_SECRET } = env<Bindings>(c);
+    const GITHUB_CLIENT = process.env.GITHUB_CLIENT;
+    const GITHUB_SECRET = process.env.GITHUB_SECRET;
 
     if (!code) {
         return c.json({ error: "Missing code parameter" }, 400);
