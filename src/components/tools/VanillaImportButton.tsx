@@ -19,8 +19,7 @@ export default function VanillaImportButton() {
                 throw new DatapackError("tools.error.failed_to_parse_datapack");
             }
 
-            useConfiguratorStore.getState().setName("Change This Name - Voxel Configurator");
-            useConfiguratorStore.getState().setup({ ...result });
+            useConfiguratorStore.getState().setup({ ...result }, false, "Change This Name - Voxel Configurator");
             navigate({ to: "/$lang/studio/editor", params: { lang } });
         } catch (e: unknown) {
             if (e instanceof DatapackError) {
