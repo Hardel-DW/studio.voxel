@@ -89,7 +89,7 @@ async function initiateGitHubAuth(): Promise<{ url: string }> {
 async function fetchRepositories(token: string): Promise<ReposResponse> {
     const response = await fetch("/api/github/repos", {
         headers: {
-            "Authorization": `Bearer ${token}`
+            Authorization: `Bearer ${token}`
         }
     });
 

@@ -68,7 +68,8 @@ const createConfiguratorStore = <T extends keyof Analysers>() =>
             if (!updatedElement || !isVoxelElement(updatedElement)) return;
             set((state) => ({ elements: state.elements.set(elementId, updatedElement) }));
         },
-        setup: (updates, isModded, name) => set({ ...updates, sortedIdentifiers: sortElementsByRegistry(updates.elements), isModded, name }),
+        setup: (updates, isModded, name) =>
+            set({ ...updates, sortedIdentifiers: sortElementsByRegistry(updates.elements), isModded, name }),
         compile: () => compileDatapack({ elements: Array.from(get().elements.values()), files: get().files }),
         getLengthByRegistry: (registry) => get().getRegistry(registry).length,
         getConcept: (pathname) => {

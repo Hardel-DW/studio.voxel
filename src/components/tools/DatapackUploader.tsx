@@ -18,7 +18,7 @@ export default function DatapackUploader() {
             if (!files[0].name.endsWith(".zip") && !files[0].name.endsWith(".jar"))
                 throw new DatapackError("tools.enchantments.warning.invalid_file");
 
-            const datapack = await Datapack.from(files[0])
+            const datapack = await Datapack.from(files[0]);
             const result = datapack.parse();
             if (!result.version) throw new DatapackError("tools.enchantments.warning.no_version");
 

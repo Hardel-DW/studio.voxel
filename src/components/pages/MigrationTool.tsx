@@ -46,7 +46,7 @@ export default function MigrationTool({ children }: { children?: React.ReactNode
         const isModded = filename.endsWith(".jar");
 
         try {
-            const sourceDatapack = await Datapack.from(source.files[0])
+            const sourceDatapack = await Datapack.from(source.files[0]);
             const changesetsA = new Logger(sourceDatapack.getFiles()).getChangeSets();
 
             const loggerB = new Logger(targetDataResult.files);

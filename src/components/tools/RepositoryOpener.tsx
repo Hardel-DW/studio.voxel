@@ -3,8 +3,8 @@ import Translate from "@/components/tools/Translate";
 import { Button } from "@/components/ui/Button";
 import { Dialog, DialogCloseButton, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/Dialog";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/Dropdown";
-import { useTranslateKey } from "@/lib/hook/useTranslation";
 import { useGitHubAuth, useGitHubRepos } from "@/lib/hook/useGitHubAuth";
+import { useTranslateKey } from "@/lib/hook/useTranslation";
 
 interface Repository {
     id: number;
@@ -167,7 +167,9 @@ export default function RepositoryOpener() {
                                                     <span className="text-xs px-2 py-0.5 bg-zinc-800 text-zinc-400 rounded">Private</span>
                                                 )}
                                             </div>
-                                            <p className="text-xs text-zinc-400 mt-1 line-clamp-2">{repo.description || "No description"}</p>
+                                            <p className="text-xs text-zinc-400 mt-1 line-clamp-2">
+                                                {repo.description || "No description"}
+                                            </p>
                                         </div>
                                     </div>
                                     <Button
