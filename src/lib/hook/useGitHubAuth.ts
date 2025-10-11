@@ -1,18 +1,18 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-interface GitHubUser {
+export interface GitHubUser {
     login: string;
     id: number;
     avatar_url: string;
 }
 
-interface AuthState {
+export interface AuthState {
     token: string;
     user: GitHubUser;
     expiry: string;
 }
 
-interface Repository {
+export interface Repository {
     id: number;
     name: string;
     full_name: string;
@@ -23,9 +23,10 @@ interface Repository {
     html_url: string;
     clone_url: string;
     updated_at: string;
+    default_branch: string;
 }
 
-interface Organization {
+export interface Organization {
     login: string;
     id: number;
     avatar_url: string;

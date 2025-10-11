@@ -141,6 +141,11 @@
         image-rendering: pixelated;
     }
 
+    .discrete {
+        transition-timing-function: cubic-bezier(0.735, 0.590, 0.660, 1.225);
+        transition: translate 200ms ease-out, scale 200ms ease-out, opacity 200ms ease-out, overlay 200ms ease-out allow-discrete, display 200ms ease-out allow-discrete;
+    }
+
     [popover] {
         translate: 0 1rem;
         scale: 0.95;

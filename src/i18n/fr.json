@@ -107,6 +107,20 @@
         "latest_update": "Voir les dernières mises à jour",
         "faq": "FAQ",
         "import_vanilla": "Importer les éléments vanilla",
+        "import_repository": {
+            "downloading": "Téléchargement de {repo.name}...",
+            "success": "Successfully imported {repo.name}"
+        },
+        "error": {
+            "no_version": "Aucune version de pack trouvée",
+            "invalid_file": "Fichier invalide. Veuillez utiliser .zip ou .jar",
+            "multiple_files": "Veuillez sélectionner un seul fichier",
+            "no_file": "Aucun fichier sélectionné",
+            "failed_to_upload": "Erreur lors de l'upload du pack",
+            "failed_to_import_repository": "Erreur lors de l'importation du repository",
+            "authentication_token_missing": "Token d'authentification manquant",
+            "failed_to_download_repository": "Erreur lors du téléchargement du repository de GitHub"
+        },
         "upload": {
             "start": "Glissez votre contenu",
             "drop": "ou glissez et déposez",

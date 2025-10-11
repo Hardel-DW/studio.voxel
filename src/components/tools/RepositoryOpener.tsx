@@ -1,39 +1,29 @@
 import { useRef, useState } from "react";
+import { useNavigate, useParams } from "@tanstack/react-router";
+import { Datapack, DatapackError } from "@voxelio/breeze";
+import { extractZip } from "@voxelio/zip";
+import { TOAST, toast } from "@/components/ui/Toast";
 import Translate from "@/components/tools/Translate";
 import { Button } from "@/components/ui/Button";
 import { Dialog, DialogCloseButton, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/Dialog";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/Dropdown";
-import { useGitHubAuth, useGitHubRepos } from "@/lib/hook/useGitHubAuth";
+import { type Organization, type Repository, useGitHubAuth, useGitHubRepos } from "@/lib/hook/useGitHubAuth";
 import { useTranslateKey } from "@/lib/hook/useTranslation";
-
-interface Repository {
-    id: number;
-    name: string;
-    full_name: string;
-    description: string;
-    owner: string;
-    private: boolean;
-    avatar_url: string;
-    html_url: string;
-    clone_url: string;
-}
-
-interface Organization {
-    login: string;
-    id: number;
-    avatar_url: string;
-    description: string;
-}
+import { useConfiguratorStore } from "@/components/tools/Store";
+import { useDictionary } from "@/lib/hook/useNext18n";
 
 export default function RepositoryOpener() {
     const dialogRef = useRef<HTMLDivElement>(null);
     const [selectedAccount, setSelectedAccount] = useState<string>("");
     const [searchQuery, setSearchQuery] = useState("");
     const [thirdPartyUrl, setThirdPartyUrl] = useState("");
+    const dictionary = useDictionary();
     const searchPlaceholder = useTranslateKey("repository.search_placeholder");
     const thirdPartyPlaceholder = useTranslateKey("repository.third_party_placeholder");
-    const { isAuthenticated, user, loginAsync, isLoggingIn } = useGitHubAuth();
+    const { isAuthenticated, user, token, loginAsync, isLoggingIn } = useGitHubAuth();
     const { data: reposData, isLoading: isLoadingRepos, refetch } = useGitHubRepos();
+    const navigate = useNavigate();
+    const { lang } = useParams({ from: "/$lang" });
 
     const handleButtonClick = async () => {
         if (!isAuthenticated) {
@@ -87,9 +77,59 @@ export default function RepositoryOpener() {
 
     const selectedAccountLabel = accounts.find((acc) => acc.value === selectedAccount)?.label ?? "Select account";
 
-    const handleImportRepository = (repo: Repository) => {
-        console.log("Import repository:", repo);
-        dialogRef.current?.hidePopover();
+    const handleImportRepository = async (repo: Repository) => {
+        try {
+            if (!token) {
+                toast(dictionary.studio.error.authentication_token_missing, TOAST.ERROR);
+                return;
+            }
+
+            toast(dictionary.studio.import_repository.downloading.replace("{repo.name}", repo.name), TOAST.INFO);
+            const response = await fetch(`https://api.github.com/repos/${repo.owner}/${repo.name}/zipball/${repo.default_branch}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    Accept: "application/vnd.github+json"
+                }
+            });
+
+            if (!response.ok) {
+                toast(dictionary.studio.error.failed_to_download_repository, TOAST.ERROR);
+                return;
+            }
+
+            const arrayBuffer = await response.arrayBuffer();
+            const zipData = new Uint8Array(arrayBuffer);
+            let files = await extractZip(zipData);
+
+            const rootFolder = Object.keys(files).find((key) => key.includes("/"));
+            if (rootFolder) {
+                const prefix = `${rootFolder.split("/")[0]}/`;
+                const cleanedFiles: Record<string, Uint8Array> = {};
+                for (const [path, data] of Object.entries(files)) {
+                    if (path.startsWith(prefix)) {
+                        cleanedFiles[path.substring(prefix.length)] = data;
+                    }
+                }
+                files = cleanedFiles;
+            }
+
+            const datapack = new Datapack(files);
+            const result = datapack.parse();
+
+            useConfiguratorStore.getState().setup(result, true, repo.name);
+            toast(dictionary.studio.import_repository.success.replace("{repo.name}", repo.name), TOAST.SUCCESS);
+            navigate({ to: "/$lang/studio/editor", params: { lang } });
+            dialogRef.current?.hidePopover();
+        } catch (e: unknown) {
+            console.error("Failed to import repository:", e);
+            if (e instanceof DatapackError) {
+                toast(e.message, TOAST.ERROR);
+            } else if (e instanceof Error) {
+                toast(e.message, TOAST.ERROR);
+            } else {
+                toast(dictionary.studio.error.failed_to_import_repository, TOAST.ERROR);
+            }
+        }
     };
 
     const handleImportThirdParty = () => {

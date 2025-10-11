@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from "@tanstack/react-router";
-import { Datapack, Logger, VoxelElement } from "@voxelio/breeze";
+import { Datapack, Logger } from "@voxelio/breeze";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/Dropdown";
 import { useDictionary } from "@/lib/hook/useNext18n";
@@ -16,7 +16,6 @@ export default function VanillaImportButton() {
 
         useConfiguratorStore.getState().setup({ files, elements, version, logger }, false, "Change This Name - Voxel Configurator");
         navigate({ to: "/$lang/studio/editor", params: { lang } });
-
     };
 
     return (

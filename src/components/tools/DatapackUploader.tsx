@@ -1,32 +1,48 @@
 import { useNavigate, useParams } from "@tanstack/react-router";
 import { Datapack, DatapackError } from "@voxelio/breeze";
+import { TOAST, toast } from "@/components/ui/Toast";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import Dropzone from "@/components/ui/Dropzone";
-import useAsyncError from "@/lib/hook/useAsyncError";
 import { useDictionary } from "@/lib/hook/useNext18n";
 
 export default function DatapackUploader() {
     const dictionary = useDictionary();
     const navigate = useNavigate();
     const { lang } = useParams({ from: "/$lang" });
-    const throwError = useAsyncError();
 
     const handleFileUpload = async (files: FileList) => {
         try {
-            if (files.length === 0) throw new DatapackError("tools.enchantments.warning.no_file");
-            if (files.length > 1) throw new DatapackError("tools.enchantments.warning.multiple_files");
-            if (!files[0].name.endsWith(".zip") && !files[0].name.endsWith(".jar"))
-                throw new DatapackError("tools.enchantments.warning.invalid_file");
+            if (files.length === 0) {
+                toast(dictionary.studio.error.no_file, TOAST.ERROR);
+                return;
+            }
+            if (files.length > 1) {
+                toast(dictionary.studio.error.multiple_files, TOAST.ERROR);
+                return;
+            }
+            if (!files[0].name.endsWith(".zip") && !files[0].name.endsWith(".jar")) {
+                toast(dictionary.studio.error.invalid_file, TOAST.ERROR);
+                return;
+            }
 
             const datapack = await Datapack.from(files[0]);
             const result = datapack.parse();
-            if (!result.version) throw new DatapackError("tools.enchantments.warning.no_version");
+            if (!result.version) {
+                toast(dictionary.studio.error.no_version, TOAST.ERROR);
+                return;
+            }
 
             useConfiguratorStore.getState().setup(result, files[0].name.endsWith(".zip"), files[0].name);
+            toast(`Successfully loaded ${files[0].name}`, TOAST.SUCCESS);
             navigate({ to: "/$lang/studio/editor", params: { lang } });
         } catch (e: unknown) {
+            console.error("Failed to upload datapack:", e);
             if (e instanceof DatapackError) {
-                throwError(e.message);
+                toast(dictionary.generic.dialog.error, TOAST.ERROR);
+            } else if (e instanceof Error) {
+                toast(e.message, TOAST.ERROR);
+            } else {
+                toast(dictionary.studio.error.failed_to_upload, TOAST.ERROR);
             }
         }
     };

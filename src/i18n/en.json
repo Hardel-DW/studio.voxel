@@ -107,6 +107,20 @@
         "latest_update": "See latest updates",
         "faq": "FAQ",
         "import_vanilla": "Import Vanilla",
+        "import_repository": {
+            "downloading": "Downloading {repo.name}...",
+            "success": "Successfully imported {repo.name}"
+        },
+        "error": {
+            "no_version": "No pack format found",
+            "invalid_file": "Invalid file type. Please use .zip or .jar",
+            "multiple_files": "Please select only one file",
+            "no_file": "No file selected",
+            "failed_to_upload": "Failed to upload datapack",
+            "failed_to_import_repository": "Failed to import repository",
+            "authentication_token_missing": "Authentication token missing",
+            "failed_to_download_repository": "Failed to download repository from GitHub"
+        },
         "upload": {
             "start": "Click to upload",
             "drop": "or drag and drop",

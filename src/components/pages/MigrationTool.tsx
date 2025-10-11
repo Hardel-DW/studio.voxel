@@ -1,7 +1,7 @@
 import { compileDatapack, Datapack, DatapackDownloader, Logger } from "@voxelio/breeze";
 import type React from "react";
 import { useRef, useState } from "react";
-import { Toaster, toast } from "sonner";
+import { toast } from "@/components/ui/Toast";
 import { LinkButton } from "@/components/ui/Button";
 import { Dialog, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/Dialog";
 import Dropzone from "@/components/ui/Dropzone";
@@ -38,7 +38,7 @@ export default function MigrationTool({ children }: { children?: React.ReactNode
     const handleMigration = async () => {
         const { source, target } = uploads;
         if (!source.files || !target.files) return;
-        toast.info(dictionary.migration.processing);
+        toast(dictionary.migration.processing, "info");
 
         const targetData = await Datapack.from(target.files[0]);
         const targetDataResult = targetData.parse();
@@ -61,7 +61,7 @@ export default function MigrationTool({ children }: { children?: React.ReactNode
             const newFilename = DatapackDownloader.getFileName(filename, isModded);
             downloadFile(response, newFilename);
 
-            toast.success(dictionary.migration.success_message);
+            toast(dictionary.migration.success_message, "success");
             await trackEvent("migrated_datapack");
             dialogRef.current?.showPopover();
 
@@ -69,7 +69,7 @@ export default function MigrationTool({ children }: { children?: React.ReactNode
             setTimeout(() => setUploads({ source: { files: null }, target: { files: null } }), 3000);
         } catch (error) {
             console.error("Migration failed:", error);
-            toast.error("Failed to apply migration changes");
+            toast("Failed to apply migration changes", "error");
         }
     };
 
@@ -85,7 +85,7 @@ export default function MigrationTool({ children }: { children?: React.ReactNode
         const isModded = filename.endsWith(".jar");
 
         if (typeof result === "string") {
-            toast.error(dictionary[result]);
+            toast(dictionary[result], "error");
             return;
         }
 
@@ -100,15 +100,13 @@ export default function MigrationTool({ children }: { children?: React.ReactNode
 
         setUploads((prev) => ({ ...prev, [type]: { files, data } }));
         if (uploads.target.files && uploads.source.files) handleMigration();
-        if (error) toast.error(error);
+        if (error) toast(error, "error");
     };
 
     return (
         <div className="container mx-auto">
             {renderConfetti()}
             {children}
-            <Toaster richColors />
-
             <Dialog ref={dialogRef} id="migration-success-modal" className="sm:max-w-[525px]">
                 <DialogHeader>
                     <DialogTitle className="flex items-center gap-x-2">

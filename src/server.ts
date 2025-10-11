@@ -19,6 +19,7 @@ type GitHubRepo = {
     html_url: string;
     clone_url: string;
     updated_at: string;
+    default_branch: string;
 };
 
 const app = new Hono();
@@ -158,7 +159,8 @@ function transformRepo(repo: GitHubRepo) {
         avatar_url: repo.owner.avatar_url,
         html_url: repo.html_url,
         clone_url: repo.clone_url,
-        updated_at: repo.updated_at
+        updated_at: repo.updated_at,
+        default_branch: repo.default_branch
     };
 }
 
