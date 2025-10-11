@@ -1,6 +1,5 @@
-import React from "react";
+import { useEffect, useEffectEvent, useState } from "react";
 import { createPortal } from "react-dom";
-import { create } from "zustand";
 import { cn } from "@/lib/utils";
 
 export const TOAST = {
@@ -9,7 +8,7 @@ export const TOAST = {
     ERROR: "error",
     INFO: "info",
     WARNING: "warning"
-}
+} as const;
 
 const variantStyles: Record<typeof TOAST[keyof typeof TOAST], string> = {
     default: "border-zinc-200 bg-white text-zinc-900",
@@ -35,12 +34,10 @@ interface Toast {
     removing?: boolean;
 }
 
-interface ToastStore {
-    toasts: Toast[];
-    queue: Array<{ message: string; description?: string; variant: typeof TOAST[keyof typeof TOAST] }>;
-    addToast: (message: string, variant: typeof TOAST[keyof typeof TOAST], description?: string) => void;
-    removeToast: (id: string) => void;
-    processQueue: () => void;
+interface ToastEvent {
+    message: string;
+    variant: typeof TOAST[keyof typeof TOAST];
+    description?: string;
 }
 
 const MAX_TOASTS = 5;
@@ -48,67 +45,48 @@ const DURATION = 4000;
 const TRANSITION_DURATION = 200;
 const QUEUE_DELAY = 800;
 
-const useToastStore = create<ToastStore>((set, get) => ({
-    toasts: [],
-    queue: [],
-    addToast: (message, variant, description) => {
-        const state = get();
-        if (state.toasts.length >= MAX_TOASTS) {
-            set((state) => ({ queue: [...state.queue, { message, variant, description }] }));
-            return;
-        }
+class ToastEventEmitter {
+    private listeners: Set<(event: ToastEvent) => void> = new Set();
 
-        const id = Math.random().toString(36).substring(2, 11);
-        set((state) => ({ toasts: [...state.toasts, { id, message, variant, description }] }));
-        setTimeout(() => get().removeToast(id), DURATION);
-    },
-    removeToast: (id) => {
-        set((state) => ({ toasts: state.toasts.map((t) => (t.id === id ? { ...t, removing: true } : t)) }));
-        setTimeout(() => {
-            set((state) => ({ toasts: state.toasts.filter((t) => t.id !== id) }));
-            get().processQueue();
-        }, TRANSITION_DURATION);
-    },
-    processQueue: () => {
-        const state = get();
-        if (state.queue.length > 0 && state.toasts.length < MAX_TOASTS) {
-            setTimeout(() => {
-                const [next, ...remaining] = get().queue;
-                if (next) {
-                    set({ queue: remaining });
-                    get().addToast(next.message, next.variant, next.description);
-                }
-            }, QUEUE_DELAY);
+    subscribe(listener: (event: ToastEvent) => void) {
+        this.listeners.add(listener);
+        return () => {
+            this.listeners.delete(listener);
+        };
+    }
+
+    emit(event: ToastEvent) {
+        for (const listener of this.listeners) {
+            listener(event);
         }
     }
-}));
-
-export function toast(message: string, variant: typeof TOAST[keyof typeof TOAST] = TOAST.DEFAULT, description?: string) {
-    useToastStore.getState().addToast(message, variant, description);
 }
 
-function ToastItem({ toast: toastItem }: { toast: Toast }) {
-    const removeToast = useToastStore((state) => state.removeToast);
-    const asset = variantIcons[toastItem.variant];
+const emitter = new ToastEventEmitter();
+
+export function toast(message: string, variant: typeof TOAST[keyof typeof TOAST] = TOAST.DEFAULT, description?: string) {
+    emitter.emit({ message, variant, description });
+}
+
+function ToastItem({ toast, onRemove }: { toast: Toast; onRemove: (id: string) => void }) {
+    const asset = variantIcons[toast.variant];
 
     return (
         <div
             role="alert"
-            hidden={toastItem.removing}
+            hidden={toast.removing}
             className={cn(
                 "flex select-none items-center gap-2 rounded-xl border px-4 py-3 shadow-[0_4px_12px_rgba(0,0,0,0.1)] min-w-64 starting:translate-y-full starting:opacity-0 hidden:opacity-0 hidden:scale-95 hidden:-translate-y-full discrete",
-                variantStyles[toastItem.variant]
+                variantStyles[toast.variant]
             )}>
-            {typeof asset === "string" && (
-                <img src={asset} alt="Icon" className="size-5 shrink-0" />
-            )}
+            {typeof asset === "string" && <img src={asset} alt="Icon" className="size-5 shrink-0" />}
             <div className="flex-1">
-                <p className="text-sm font-medium">{toastItem.message}</p>
-                {toastItem.description && <p className="text-xs opacity-80 mt-1">{toastItem.description}</p>}
+                <p className="text-sm font-medium">{toast.message}</p>
+                {toast.description && <p className="text-xs opacity-80 mt-1">{toast.description}</p>}
             </div>
             <button
                 type="button"
-                onClick={() => removeToast(toastItem.id)}
+                onClick={() => onRemove(toast.id)}
                 className="shrink-0 rounded-md p-1 transition-colors hover:bg-current/10 cursor-pointer"
                 aria-label="Close">
                 <svg className="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -120,8 +98,61 @@ function ToastItem({ toast: toastItem }: { toast: Toast }) {
 }
 
 export function Toaster() {
-    const toasts = useToastStore((state) => state.toasts);
-    const [heights, setHeights] = React.useState(new Map<string, number>());
+    const [toasts, setToasts] = useState<Toast[]>([]);
+    const [queue, setQueue] = useState<ToastEvent[]>([]);
+    const [heights, setHeights] = useState(new Map<string, number>());
+
+    const processQueue = () => {
+        if (queue.length > 0) {
+            setTimeout(() => {
+                setQueue((current) => {
+                    const [next, ...remaining] = current;
+                    if (next) {
+                        setToasts((currentToasts) => {
+                            if (currentToasts.length < MAX_TOASTS) {
+                                addToastInternal(next);
+                            }
+                            return currentToasts;
+                        });
+                    }
+                    return remaining;
+                });
+            }, QUEUE_DELAY);
+        }
+    };
+
+    const removeToast = (id: string) => {
+        setToasts((current) => current.map((t) => (t.id === id ? { ...t, removing: true } : t)));
+        setTimeout(() => {
+            setToasts((current) => current.filter((t) => t.id !== id));
+            processQueue();
+        }, TRANSITION_DURATION);
+    };
+
+    const addToastInternal = (event: ToastEvent) => {
+        setToasts((current) => {
+            if (current.length >= MAX_TOASTS) {
+                setQueue((q) => [...q, event]);
+                return current;
+            }
+
+            const id = Math.random().toString(36).substring(2, 11);
+            const newToast: Toast = {
+                id,
+                message: event.message,
+                variant: event.variant,
+                description: event.description
+            };
+
+            setTimeout(() => removeToast(id), DURATION);
+
+            return [...current, newToast];
+        });
+    };
+
+    const unsubscribeEvent = useEffectEvent(() => emitter.subscribe(addToastInternal));
+    // biome-ignore lint/correctness/useExhaustiveDependencies: We need to wait the next version of biome. useEffectEvent look like useRef. https://github.com/biomejs/biome/pull/7669
+    useEffect(() => unsubscribeEvent(), []);
 
     if (toasts.length === 0) return null;
 
@@ -148,7 +179,7 @@ export function Toaster() {
                                 zIndex: index + 1
                             } as React.CSSProperties}
                             className="absolute right-0 bottom-0 transition-all duration-600 ease-[cubic-bezier(0.32,0.72,0,1)] translate-y-(--translateY) scale-(--scale) group-hover:translate-y-(--hoverTranslateY) group-hover:scale-100 before:absolute before:inset-0 before:-inset-y-4 before:content-[''] before:-z-10">
-                            <ToastItem toast={toast} />
+                            <ToastItem toast={toast} onRemove={removeToast} />
                         </div>
                     );
                 })}
