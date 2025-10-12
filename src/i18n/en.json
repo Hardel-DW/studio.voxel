@@ -119,7 +119,11 @@
             "failed_to_upload": "Failed to upload datapack",
             "failed_to_import_repository": "Failed to import repository",
             "authentication_token_missing": "Authentication token missing",
-            "failed_to_download_repository": "Failed to download repository from GitHub"
+            "failed_to_download_repository": "Failed to download repository from GitHub",
+            "failed_to_get_pack_mcmeta": "Failed to read pack.mcmeta file",
+            "failed_to_get_pack_format": "Failed to get pack format",
+            "failed_to_get_datapack_description": "Failed to get datapack description",
+            "no_elements": "The datapack is empty or contains no supported elements"
         },
         "upload": {
             "start": "Click to upload",

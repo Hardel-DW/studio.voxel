@@ -33,6 +33,7 @@
     "export.repository": "Repository",
     "export.branch": "Branch",
     "export.files_modified": "files modified",
+    "export.processing": "Processing...",
     "repository.open": "Open a Repository",
     "repository.select": "Select a Repository",
     "repository.select_description": "Choose an account and select a repository to import",

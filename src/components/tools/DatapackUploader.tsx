@@ -38,9 +38,11 @@ export default function DatapackUploader() {
         } catch (e: unknown) {
             console.error("Failed to upload datapack:", e);
             if (e instanceof DatapackError) {
-                toast(dictionary.generic.dialog.error, TOAST.ERROR);
+                const errorKey = e.message as keyof typeof dictionary.studio.error;
+                const errorMessage = dictionary.studio.error[errorKey] || e.message;
+                toast(dictionary.generic.dialog.error, TOAST.ERROR, errorMessage);
             } else if (e instanceof Error) {
-                toast(e.message, TOAST.ERROR);
+                toast(e.message, TOAST.ERROR, e.message);
             } else {
                 toast(dictionary.studio.error.failed_to_upload, TOAST.ERROR);
             }

@@ -148,6 +148,305 @@ app.get("/api/github/repos", async (c) => {
     });
 });
 
+app.get("/api/github/download/:owner/:repo/:branch", async (c) => {
+    const authHeader = c.req.header("authorization");
+    const { owner, repo, branch } = c.req.param();
+
+    if (!authHeader) {
+        return c.json({ error: "Missing authorization token" }, 401);
+    }
+
+    const response = await fetch(`https://api.github.com/repos/${owner}/${repo}/zipball/${branch}`, {
+        headers: {
+            Authorization: authHeader,
+            Accept: "application/vnd.github+json"
+        }
+    });
+
+    if (!response.ok) {
+        return c.json({ error: "Failed to download repository" }, 500);
+    }
+
+    const arrayBuffer = await response.arrayBuffer();
+    return c.body(new Uint8Array(arrayBuffer), 200, {
+        "Content-Type": "application/zip",
+        "Content-Disposition": `attachment; filename="${repo}.zip"`
+    });
+});
+
+app.post("/api/github/push", async (c) => {
+    const authHeader = c.req.header("authorization");
+    if (!authHeader) {
+        return c.json({ error: "Missing authorization token" }, 401);
+    }
+
+    const { owner, repo, branch, files } = await c.req.json();
+
+    try {
+        const refResponse = await fetch(
+            `https://api.github.com/repos/${owner}/${repo}/git/ref/heads/${branch}`,
+            {
+                headers: {
+                    Authorization: authHeader,
+                    Accept: "application/vnd.github+json"
+                }
+            }
+        );
+        const refData = await refResponse.json();
+        const commitSha = refData.object.sha;
+
+        const commitResponse = await fetch(
+            `https://api.github.com/repos/${owner}/${repo}/git/commits/${commitSha}`,
+            {
+                headers: {
+                    Authorization: authHeader,
+                    Accept: "application/vnd.github+json"
+                }
+            }
+        );
+        const commitData = await commitResponse.json();
+        const baseTreeSha = commitData.tree.sha;
+
+        const blobPromises = Object.entries(files as Record<string, string>).map(async ([path, content]) => {
+            const blobResponse = await fetch(
+                `https://api.github.com/repos/${owner}/${repo}/git/blobs`,
+                {
+                    method: "POST",
+                    headers: {
+                        Authorization: authHeader,
+                        Accept: "application/vnd.github+json",
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        content,
+                        encoding: "base64"
+                    })
+                }
+            );
+            const blobData = await blobResponse.json();
+            return {
+                path,
+                mode: "100644",
+                type: "blob",
+                sha: blobData.sha
+            };
+        });
+
+        const tree = await Promise.all(blobPromises);
+
+        const treeResponse = await fetch(
+            `https://api.github.com/repos/${owner}/${repo}/git/trees`,
+            {
+                method: "POST",
+                headers: {
+                    Authorization: authHeader,
+                    Accept: "application/vnd.github+json",
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    base_tree: baseTreeSha,
+                    tree
+                })
+            }
+        );
+        const treeData = await treeResponse.json();
+
+        const filesCount = Object.keys(files).length;
+        const newCommitResponse = await fetch(
+            `https://api.github.com/repos/${owner}/${repo}/git/commits`,
+            {
+                method: "POST",
+                headers: {
+                    Authorization: authHeader,
+                    Accept: "application/vnd.github+json",
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    message: `Update ${filesCount} file${filesCount > 1 ? "s" : ""} via Voxel Studio`,
+                    tree: treeData.sha,
+                    parents: [commitSha]
+                })
+            }
+        );
+        const newCommitData = await newCommitResponse.json();
+
+        await fetch(
+            `https://api.github.com/repos/${owner}/${repo}/git/refs/heads/${branch}`,
+            {
+                method: "PATCH",
+                headers: {
+                    Authorization: authHeader,
+                    Accept: "application/vnd.github+json",
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    sha: newCommitData.sha
+                })
+            }
+        );
+
+        return c.json({ filesModified: filesCount });
+    } catch (error) {
+        console.error("Failed to push changes:", error);
+        return c.json({ error: "Failed to push changes" }, 500);
+    }
+});
+
+app.post("/api/github/pr", async (c) => {
+    const authHeader = c.req.header("authorization");
+    if (!authHeader) {
+        return c.json({ error: "Missing authorization token" }, 401);
+    }
+
+    const { owner, repo, baseBranch, files } = await c.req.json();
+
+    try {
+        const branchName = `voxel-studio-${Date.now()}`;
+
+        const refResponse = await fetch(
+            `https://api.github.com/repos/${owner}/${repo}/git/ref/heads/${baseBranch}`,
+            {
+                headers: {
+                    Authorization: authHeader,
+                    Accept: "application/vnd.github+json"
+                }
+            }
+        );
+        const refData = await refResponse.json();
+        const baseSha = refData.object.sha;
+
+        await fetch(
+            `https://api.github.com/repos/${owner}/${repo}/git/refs`,
+            {
+                method: "POST",
+                headers: {
+                    Authorization: authHeader,
+                    Accept: "application/vnd.github+json",
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    ref: `refs/heads/${branchName}`,
+                    sha: baseSha
+                })
+            }
+        );
+
+        const commitResponse = await fetch(
+            `https://api.github.com/repos/${owner}/${repo}/git/commits/${baseSha}`,
+            {
+                headers: {
+                    Authorization: authHeader,
+                    Accept: "application/vnd.github+json"
+                }
+            }
+        );
+        const commitData = await commitResponse.json();
+        const baseTreeSha = commitData.tree.sha;
+
+        const blobPromises = Object.entries(files as Record<string, string>).map(async ([path, content]) => {
+            const blobResponse = await fetch(
+                `https://api.github.com/repos/${owner}/${repo}/git/blobs`,
+                {
+                    method: "POST",
+                    headers: {
+                        Authorization: authHeader,
+                        Accept: "application/vnd.github+json",
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        content,
+                        encoding: "base64"
+                    })
+                }
+            );
+            const blobData = await blobResponse.json();
+            return {
+                path,
+                mode: "100644",
+                type: "blob",
+                sha: blobData.sha
+            };
+        });
+
+        const tree = await Promise.all(blobPromises);
+
+        const treeResponse = await fetch(
+            `https://api.github.com/repos/${owner}/${repo}/git/trees`,
+            {
+                method: "POST",
+                headers: {
+                    Authorization: authHeader,
+                    Accept: "application/vnd.github+json",
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    base_tree: baseTreeSha,
+                    tree
+                })
+            }
+        );
+        const treeData = await treeResponse.json();
+
+        const filesCount = Object.keys(files).length;
+        const newCommitResponse = await fetch(
+            `https://api.github.com/repos/${owner}/${repo}/git/commits`,
+            {
+                method: "POST",
+                headers: {
+                    Authorization: authHeader,
+                    Accept: "application/vnd.github+json",
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    message: `Update ${filesCount} file${filesCount > 1 ? "s" : ""} via Voxel Studio`,
+                    tree: treeData.sha,
+                    parents: [baseSha]
+                })
+            }
+        );
+        const newCommitData = await newCommitResponse.json();
+
+        await fetch(
+            `https://api.github.com/repos/${owner}/${repo}/git/refs/heads/${branchName}`,
+            {
+                method: "PATCH",
+                headers: {
+                    Authorization: authHeader,
+                    Accept: "application/vnd.github+json",
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    sha: newCommitData.sha
+                })
+            }
+        );
+
+        const prResponse = await fetch(
+            `https://api.github.com/repos/${owner}/${repo}/pulls`,
+            {
+                method: "POST",
+                headers: {
+                    Authorization: authHeader,
+                    Accept: "application/vnd.github+json",
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    title: "Update from Voxel Studio",
+                    head: branchName,
+                    base: baseBranch,
+                    body: `Updated ${filesCount} file${filesCount > 1 ? "s" : ""} via Voxel Studio`
+                })
+            }
+        );
+
+        const prData = await prResponse.json();
+        return c.json({ prUrl: prData.html_url });
+    } catch (error) {
+        console.error("Failed to create pull request:", error);
+        return c.json({ error: "Failed to create pull request" }, 500);
+    }
+});
+
 function transformRepo(repo: GitHubRepo) {
     return {
         id: repo.id,

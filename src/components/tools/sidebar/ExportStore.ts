@@ -2,18 +2,22 @@ import { create } from "zustand";
 
 interface ExportState {
     isGitRepository: boolean;
-    repository: string;
-    currentBranch: string;
-    setIsGitRepository: (isGit: boolean) => void;
-    setRepository: (repository: string) => void;
-    setCurrentBranch: (branch: string) => void;
+    owner: string;
+    repositoryName: string;
+    branch: string;
+    token: string | null;
+    setGitRepository: (owner: string, repositoryName: string, branch: string, token: string) => void;
+    clearGitRepository: () => void;
 }
 
+
 export const useExportStore = create<ExportState>((set) => ({
-    isGitRepository: true,
-    repository: "FooBar",
-    currentBranch: "main",
-    setIsGitRepository: (isGit) => set({ isGitRepository: isGit }),
-    setRepository: (repository) => set({ repository: repository }),
-    setCurrentBranch: (branch) => set({ currentBranch: branch })
+    isGitRepository: false,
+    owner: "",
+    repositoryName: "",
+    branch: "",
+    token: null,
+    setGitRepository: (owner, repositoryName, branch, token) =>
+        set({ isGitRepository: true, owner, repositoryName, branch, token }),
+    clearGitRepository: () => set({ isGitRepository: false, owner: "", repositoryName: "", branch: "", token: null })
 }));

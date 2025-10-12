@@ -1,7 +1,7 @@
-import React from "react";
 import { createPortal } from "react-dom";
 import { create } from "zustand";
 import { cn } from "@/lib/utils";
+import { useState } from "react";
 
 export const TOAST = {
     DEFAULT: "default",
@@ -96,7 +96,7 @@ function ToastItem({ toast: toastItem }: { toast: Toast }) {
             role="alert"
             hidden={toastItem.removing}
             className={cn(
-                "flex select-none items-center gap-2 rounded-xl border px-4 py-3 shadow-[0_4px_12px_rgba(0,0,0,0.1)] min-w-64 starting:translate-y-full starting:opacity-0 hidden:opacity-0 hidden:scale-95 hidden:-translate-y-full discrete",
+                "flex select-none items-center gap-2 rounded-xl border px-4 py-3 shadow-[0_4px_12px_rgba(0,0,0,0.1)] w-86 starting:translate-y-full starting:opacity-0 hidden:opacity-0 hidden:scale-95 hidden:-translate-y-full discrete",
                 variantStyles[toastItem.variant]
             )}>
             {typeof asset === "string" && (
@@ -121,7 +121,7 @@ function ToastItem({ toast: toastItem }: { toast: Toast }) {
 
 export function Toaster() {
     const toasts = useToastStore((state) => state.toasts);
-    const [heights, setHeights] = React.useState(new Map<string, number>());
+    const [heights, setHeights] = useState(new Map<string, number>());
 
     if (toasts.length === 0) return null;
 

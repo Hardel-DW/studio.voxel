@@ -10,6 +10,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { type Organization, type Repository, useGitHubAuth, useGitHubRepos } from "@/lib/hook/useGitHubAuth";
 import { useTranslateKey } from "@/lib/hook/useTranslation";
 import { useConfiguratorStore } from "@/components/tools/Store";
+import { useExportStore } from "@/components/tools/sidebar/ExportStore";
 import { useDictionary } from "@/lib/hook/useNext18n";
 
 export default function RepositoryOpener() {
@@ -59,7 +60,6 @@ export default function RepositoryOpener() {
         });
 
         allRepositories.push(...reposData.repositories);
-
         reposData.organizations.forEach((org: Organization) => {
             accounts.push({
                 value: org.login,
@@ -85,10 +85,9 @@ export default function RepositoryOpener() {
             }
 
             toast(dictionary.studio.import_repository.downloading.replace("{repo.name}", repo.name), TOAST.INFO);
-            const response = await fetch(`https://api.github.com/repos/${repo.owner}/${repo.name}/zipball/${repo.default_branch}`, {
+            const response = await fetch(`/api/github/download/${repo.owner}/${repo.name}/${repo.default_branch}`, {
                 headers: {
-                    Authorization: `Bearer ${token}`,
-                    Accept: "application/vnd.github+json"
+                    Authorization: `Bearer ${token}`
                 }
             });
 
@@ -116,14 +115,17 @@ export default function RepositoryOpener() {
             const datapack = new Datapack(files);
             const result = datapack.parse();
 
-            useConfiguratorStore.getState().setup(result, true, repo.name);
+            useConfiguratorStore.getState().setup(result, false, repo.name);
+            useExportStore.getState().setGitRepository(repo.owner, repo.name, repo.default_branch, token);
             toast(dictionary.studio.import_repository.success.replace("{repo.name}", repo.name), TOAST.SUCCESS);
             navigate({ to: "/$lang/studio/editor", params: { lang } });
             dialogRef.current?.hidePopover();
         } catch (e: unknown) {
             console.error("Failed to import repository:", e);
             if (e instanceof DatapackError) {
-                toast(e.message, TOAST.ERROR);
+                const errorKey = e.message as keyof typeof dictionary.studio.error;
+                const errorMessage = dictionary.studio.error[errorKey] || e.message;
+                toast(dictionary.generic.dialog.error, TOAST.ERROR, errorMessage);
             } else if (e instanceof Error) {
                 toast(e.message, TOAST.ERROR);
             } else {

@@ -119,7 +119,11 @@
             "failed_to_upload": "Erreur lors de l'upload du pack",
             "failed_to_import_repository": "Erreur lors de l'importation du repository",
             "authentication_token_missing": "Token d'authentification manquant",
-            "failed_to_download_repository": "Erreur lors du téléchargement du repository de GitHub"
+            "failed_to_download_repository": "Erreur lors du téléchargement du repository de GitHub",
+            "failed_to_get_pack_mcmeta": "Impossible de lire le fichier pack.mcmeta",
+            "failed_to_get_pack_format": "Impossible d'obtenir le format du pack",
+            "failed_to_get_datapack_description": "Impossible d'obtenir la description du datapack",
+            "no_elements": "Le datapack est vide ou ne contient aucun élément supporté"
         },
         "upload": {
             "start": "Glissez votre contenu",

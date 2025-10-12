@@ -7,8 +7,6 @@ import RepositoryOpener from "@/components/tools/RepositoryOpener";
 import VanillaImportButton from "@/components/tools/VanillaImportButton";
 import { useDictionary } from "@/lib/hook/useNext18n";
 import type { Locale } from "@/lib/i18n/i18nServer";
-import { Button } from "@/components/ui/Button";
-import { TOAST, toast } from "@/components/ui/Toast";
 
 export const Route = createFileRoute("/$lang/studio/")({
     component: StudioLayout,
@@ -49,13 +47,6 @@ function StudioLayout() {
                     <div className="w-full max-w-md">
                         <DatapackUploader />
                         <RepositoryOpener />
-                        <Button onClick={() => toast("test")}>Test</Button>
-                        <Button onClick={() => toast("test", TOAST.SUCCESS)}>Test</Button>
-                        <Button onClick={() => toast("test", TOAST.ERROR)}>Test</Button>
-                        <Button onClick={() => toast("test", TOAST.INFO)}>Test</Button>
-                        <Button onClick={() => toast("test", TOAST.WARNING)}>Test</Button>
-                        <Button onClick={() => toast("test", TOAST.DEFAULT, "This is a description, good boy")}>Test</Button>
-                        <Button onClick={() => toast("test", TOAST.SUCCESS, "This is a description, good boy")}>Test</Button>
 
                     </div>
                     <img className="absolute -z-10 opacity-10 select-none" src="/icons/circle.svg" alt="box" />

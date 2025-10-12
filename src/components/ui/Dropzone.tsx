@@ -22,6 +22,7 @@ const Dropzone: React.FC<Props> = ({ dropzone, onFileUpload, children, id, disab
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files && event.target.files.length > 0) {
             onFileUpload(event.target.files);
+            event.target.value = "";
         }
     };
 
