@@ -16,10 +16,12 @@ export interface Repository {
     id: number;
     name: string;
     full_name: string;
-    description: string;
+    description: string | null;
     private: boolean;
-    owner: string;
-    avatar_url: string;
+    owner: {
+        login: string;
+        avatar_url: string;
+    };
     html_url: string;
     clone_url: string;
     updated_at: string;

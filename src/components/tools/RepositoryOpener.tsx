@@ -39,7 +39,7 @@ export default function RepositoryOpener() {
         if (!selectedAccount) {
             const data = reposData || (await refetch()).data;
             if (data) {
-                const firstAccount = data.repositories[0]?.owner || user?.login;
+                const firstAccount = data.repositories[0]?.owner.login || user?.login;
                 if (firstAccount) {
                     setSelectedAccount(firstAccount);
                 }
@@ -72,7 +72,7 @@ export default function RepositoryOpener() {
     }
 
     const filteredRepositories = allRepositories.filter(
-        (repo) => repo.owner === selectedAccount && repo.name.toLowerCase().includes(searchQuery.toLowerCase())
+        (repo) => repo.owner.login === selectedAccount && repo.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
     const selectedAccountLabel = accounts.find((acc) => acc.value === selectedAccount)?.label ?? "Select account";
@@ -85,7 +85,7 @@ export default function RepositoryOpener() {
             }
 
             toast(dictionary.studio.import_repository.downloading.replace("{repo.name}", repo.name), TOAST.INFO);
-            const response = await fetch(`/api/github/download/${repo.owner}/${repo.name}/${repo.default_branch}`, {
+            const response = await fetch(`/api/github/download/${repo.owner.login}/${repo.name}/${repo.default_branch}`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -116,7 +116,7 @@ export default function RepositoryOpener() {
             const result = datapack.parse();
 
             useConfiguratorStore.getState().setup(result, false, repo.name);
-            useExportStore.getState().setGitRepository(repo.owner, repo.name, repo.default_branch, token);
+            useExportStore.getState().setGitRepository(repo.owner.login, repo.name, repo.default_branch, token);
             toast(dictionary.studio.import_repository.success.replace("{repo.name}", repo.name), TOAST.SUCCESS);
             navigate({ to: "/$lang/studio/editor", params: { lang } });
             dialogRef.current?.hidePopover();
@@ -208,7 +208,7 @@ export default function RepositoryOpener() {
                                     key={repo.id}
                                     className="flex items-center justify-between gap-4 rounded-xl border border-zinc-800 bg-zinc-900/30 p-4 hover:border-zinc-700 transition-colors">
                                     <div className="flex items-center gap-3 flex-1 min-w-0">
-                                        <img src={repo.avatar_url} alt={repo.owner} className="size-8 rounded-full" />
+                                        <img src={repo.owner.avatar_url} alt={repo.owner.login} className="size-8 rounded-full" />
                                         <div className="flex-1 min-w-0">
                                             <div className="flex items-center gap-2">
                                                 <h3 className="text-sm font-semibold text-zinc-200 truncate">{repo.name}</h3>

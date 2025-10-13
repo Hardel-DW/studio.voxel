@@ -102,8 +102,7 @@ export default function DownloadButton({ containerRef }: { containerRef?: RefObj
                     owner,
                     repo,
                     branch,
-                    files: pendingAction.files,
-                    ...(pendingAction.type === "pr" && { baseBranch: branch })
+                    files: pendingAction.files
                 })
             });
 
