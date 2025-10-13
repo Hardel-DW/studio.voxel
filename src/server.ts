@@ -11,14 +11,13 @@ type SendRequest = {
 };
 
 const app = new Hono();
-
 app.use("/api/*", cors());
 app.get("/api/hello", (c) => c.json({ message: "Hello, world!", test: process.env.TEST }));
 
 app.get("/api/github/auth", (c) => {
     const GITHUB_CLIENT = process.env.GITHUB_CLIENT;
     if (!GITHUB_CLIENT) {
-        return c.json({ error: "Missing GitHub configuration" }, 500);
+        return c.json({ error: "Missing GitHub configuration" }, 400);
     }
 
     const baseUrl = new URL(c.req.url);
@@ -32,79 +31,69 @@ app.get("/api/github/auth", (c) => {
 
 app.get("/api/github/callback", async (c) => {
     const code = c.req.query("code");
-    const GITHUB_CLIENT = process.env.GITHUB_CLIENT;
-    const GITHUB_SECRET = process.env.GITHUB_SECRET;
 
-    if (!code) {
-        return c.json({ error: "Missing code parameter" }, 400);
+    try {
+        const github = new GitHub({
+            clientId: process.env.GITHUB_CLIENT,
+            clientSecret: process.env.GITHUB_SECRET
+        });
+
+        const tokenData = await github.getAccessToken(code);
+        const githubWithToken = new GitHub({ authHeader: tokenData.access_token as string });
+        const { login, id, avatar_url } = await githubWithToken.getUser();
+        return c.json({
+            token: tokenData.access_token,
+            user: { login, id, avatar_url }
+        });
+    } catch (error) {
+        return c.json({ error: error instanceof Error ? error.message : "Failed to authenticate" }, error instanceof Error ? 400 : 500);
     }
-
-    if (!GITHUB_CLIENT || !GITHUB_SECRET) {
-        return c.json({ error: "Missing GitHub configuration" }, 500);
-    }
-
-    const github = new GitHub("", GITHUB_CLIENT, GITHUB_SECRET);
-    const tokenData = await github.getAccessToken(code);
-    if (tokenData.error) {
-        return c.json({ error: tokenData.error_description || "Failed to get access token" }, 400);
-    }
-
-    const githubWithToken = new GitHub(tokenData.access_token as string, GITHUB_CLIENT, GITHUB_SECRET);
-    const { login, id, avatar_url } = await githubWithToken.getUser();
-    return c.json({
-        token: tokenData.access_token,
-        user: { login, id, avatar_url }
-    });
 });
 
 app.get("/api/github/repos", async (c) => {
     const authHeader = c.req.header("authorization");
-    if (!authHeader) {
-        return c.json({ error: "Missing authorization token" }, 401);
+
+    try {
+        const github = new GitHub({ authHeader });
+        const [repositories, organizations] = await Promise.all([github.getUserRepos(), github.getUserOrgs()]);
+        const orgReposPromises = organizations.map((org) => github.getOrgRepos(org.login));
+        const orgRepos = await Promise.all(orgReposPromises);
+        const allOrgRepos = orgRepos.flat();
+
+        return c.json({
+            repositories,
+            organizations: organizations.map(({ login, id, avatar_url, description }) => ({ login, id, avatar_url, description })),
+            orgRepositories: allOrgRepos
+        });
+    } catch (error) {
+        return c.json({ error: error instanceof Error ? error.message : "Failed to fetch repositories" }, error instanceof Error ? 400 : 500);
+
     }
-
-    const github = new GitHub(authHeader, "", "");
-    const [repositories, organizations] = await Promise.all([github.getUserRepos(), github.getUserOrgs()]);
-    const orgReposPromises = organizations.map((org) => github.getOrgRepos(org.login));
-    const orgRepos = await Promise.all(orgReposPromises);
-    const allOrgRepos = orgRepos.flat();
-
-    return c.json({
-        repositories,
-        organizations: organizations.map(({ login, id, avatar_url, description }) => ({ login, id, avatar_url, description })),
-        orgRepositories: allOrgRepos
-    });
 });
 
 app.get("/api/github/download/:owner/:repo/:branch", async (c) => {
     const authHeader = c.req.header("authorization");
     const { owner, repo, branch } = c.req.param();
-    if (!authHeader) {
-        return c.json({ error: "Missing authorization token" }, 401);
-    }
 
-    const github = new GitHub(authHeader, "", "");
-    const response = await github.downloadRepo(owner, repo, branch);
-    if (!response.ok) {
-        return c.json({ error: "Failed to download repository" }, 500);
+    try {
+        const github = new GitHub({ authHeader });
+        const response = await github.downloadRepo(owner, repo, branch);
+        const arrayBuffer = await response.arrayBuffer();
+        return c.body(new Uint8Array(arrayBuffer), 200, {
+            "Content-Type": "application/zip",
+            "Content-Disposition": `attachment; filename="${repo}.zip"`
+        });
+    } catch (error) {
+        return c.json({ error: error instanceof Error ? error.message : "Failed to download repository" }, error instanceof Error ? 400 : 500);
     }
-
-    const arrayBuffer = await response.arrayBuffer();
-    return c.body(new Uint8Array(arrayBuffer), 200, {
-        "Content-Type": "application/zip",
-        "Content-Disposition": `attachment; filename="${repo}.zip"`
-    });
 });
 
 app.post("/api/github/push", async (c) => {
     const authHeader = c.req.header("authorization");
     const { owner, repo, branch, files } = await c.req.json<SendRequest>();
-    if (!authHeader) {
-        return c.json({ error: "Missing authorization token" }, 401);
-    }
 
     try {
-        const github = new GitHub(authHeader, "", "");
+        const github = new GitHub({ authHeader });
         const refData = await github.getRef(owner, repo, branch);
         const baseSha = refData.object.sha;
         const { treeData, body, filesCount } = await github.prepareCommit(owner, repo, baseSha, files);
@@ -113,20 +102,16 @@ app.post("/api/github/push", async (c) => {
 
         return c.json({ filesModified: filesCount });
     } catch (error) {
-        console.error("Failed to push changes:", error);
-        return c.json({ error: "Failed to push changes" }, 500);
+        return c.json({ error: error instanceof Error ? error.message : "Failed to push changes" }, error instanceof Error ? 400 : 500);
     }
 });
 
 app.post("/api/github/pr", async (c) => {
     const authHeader = c.req.header("authorization");
     const { owner, repo, branch, files } = await c.req.json<SendRequest>();
-    if (!authHeader) {
-        return c.json({ error: "Missing authorization token" }, 401);
-    }
 
     try {
-        const github = new GitHub(authHeader, "", "");
+        const github = new GitHub({ authHeader });
         const branchName = `voxel-studio-${Date.now()}`;
         const refData = await github.getRef(owner, repo, branch);
         const baseSha = refData.object.sha;
@@ -139,8 +124,7 @@ app.post("/api/github/pr", async (c) => {
         const prData = await github.createPullRequest(owner, repo, "Update from Voxel Studio", branchName, branch, body);
         return c.json({ prUrl: prData.html_url });
     } catch (error) {
-        console.error("Failed to create pull request:", error);
-        return c.json({ error: "Failed to create pull request" }, 500);
+        return c.json({ error: error instanceof Error ? error.message : "Failed to create pull request" }, error instanceof Error ? 400 : 500);
     }
 });
 
