@@ -1,5 +1,5 @@
-import { DatapackDownloader } from "@voxelio/breeze";
 import type { FileStatus } from "@voxelio/breeze";
+import { DatapackDownloader } from "@voxelio/breeze";
 import type { RefObject } from "react";
 import { useRef, useState } from "react";
 import SettingsDialog from "@/components/tools/SettingsDialog";
@@ -8,22 +8,26 @@ import { useExportStore } from "@/components/tools/sidebar/ExportStore";
 import Translate from "@/components/tools/Translate";
 import { Button, LinkButton } from "@/components/ui/Button";
 import { Dialog, DialogCloseButton, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/Dialog";
+import Loader from "@/components/ui/Loader";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/Popover";
 import { TOAST, toast } from "@/components/ui/Toast";
+import { cn, encodeToBase64 } from "@/lib/utils";
 import { downloadFile } from "@/lib/utils/download";
-import Loader from "../ui/Loader";
-import { cn } from "@/lib/utils";
 
 type ActionType = "push" | "pr";
 
 export default function DownloadButton({ containerRef }: { containerRef?: RefObject<HTMLDivElement | null> }) {
     const [isProcessing, setIsProcessing] = useState(false);
-    const [pendingAction, setPendingAction] = useState<{ type: ActionType; changes: Map<string, FileStatus>; files: Record<string, string> } | null>(null);
+    const [pendingAction, setPendingAction] = useState<{
+        type: ActionType;
+        changes: Map<string, FileStatus>;
+        files: Record<string, string | null>;
+    } | null>(null);
     const dialogRef = useRef<HTMLDivElement>(null);
     const confirmDialogRef = useRef<HTMLDivElement>(null);
     const isGitRepository = useExportStore((state) => state.isGitRepository);
     const owner = useExportStore((state) => state.owner);
-    const repositoryName = useExportStore((state) => state.repositoryName);
+    const repo = useExportStore((state) => state.repositoryName);
     const branch = useExportStore((state) => state.branch);
     const token = useExportStore((state) => state.token);
 
@@ -49,9 +53,7 @@ export default function DownloadButton({ containerRef }: { containerRef?: RefObj
         }
 
         const filesToUpload = Object.fromEntries(
-            Array.from(changes)
-                .filter(([, status]) => status !== "deleted")
-                .map(([path]) => [path, btoa(String.fromCharCode(...compiledFiles[path]))])
+            Array.from(changes).map(([path, status]) => [path, status === "deleted" ? null : encodeToBase64(compiledFiles[path])])
         );
 
         return { changes, filesToUpload };
@@ -89,44 +91,41 @@ export default function DownloadButton({ containerRef }: { containerRef?: RefObj
         setIsProcessing(true);
         confirmDialogRef.current?.hidePopover();
 
-        // try {
-        //     const endpoint = pendingAction.type === "pr" ? "/api/github/pr" : "/api/github/push";
-        //     const body = {
-        //         owner,
-        //         repo: repositoryName,
-        //         branch,
-        //         files: pendingAction.files,
-        //         ...(pendingAction.type === "pr" && { baseBranch: branch })
-        //     };
+        try {
+            const response = await fetch(pendingAction.type === "pr" ? "/api/github/pr" : "/api/github/push", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    owner,
+                    repo,
+                    branch,
+                    files: pendingAction.files,
+                    ...(pendingAction.type === "pr" && { baseBranch: branch })
+                })
+            });
 
-        //     const response = await fetch(endpoint, {
-        //         method: "POST",
-        //         headers: {
-        //             "Content-Type": "application/json",
-        //             Authorization: `Bearer ${token}`
-        //         },
-        //         body: JSON.stringify(body)
-        //     });
+            if (!response.ok) {
+                const error = await response.json();
+                toast(`Failed to ${pendingAction.type === "pr" ? "create PR" : "push"}`, TOAST.ERROR, error.error);
+                return;
+            }
 
-        //     if (!response.ok) {
-        //         const error = await response.json();
-        //         toast(`Failed to ${pendingAction.type === "pr" ? "create PR" : "push"}`, TOAST.ERROR, error.error);
-        //         return;
-        //     }
-
-        //     const result = await response.json();
-        //     if (pendingAction.type === "pr") {
-        //         toast("Pull request created", TOAST.SUCCESS, result.prUrl);
-        //     } else {
-        //         toast("Changes pushed", TOAST.SUCCESS, `${result.filesModified} files modified`);
-        //     }
-        // } catch (error) {
-        //     console.error("Failed to execute action:", error);
-        //     toast(`Failed to ${pendingAction.type === "pr" ? "create PR" : "push"}`, TOAST.ERROR);
-        // } finally {
-        //     setIsProcessing(false);
-        //     setPendingAction(null);
-        // }
+            const result = await response.json();
+            if (pendingAction.type === "pr") {
+                toast("Pull request created", TOAST.SUCCESS, result.prUrl);
+            } else {
+                toast("Changes pushed", TOAST.SUCCESS, `${result.filesModified} files modified`);
+            }
+        } catch (error) {
+            console.error("Failed to execute action:", error);
+            toast(`Failed to ${pendingAction.type === "pr" ? "create PR" : "push"}`, TOAST.ERROR);
+        } finally {
+            setIsProcessing(false);
+            setPendingAction(null);
+        }
     };
 
     const handleInitRepository = () => {
@@ -148,7 +147,9 @@ export default function DownloadButton({ containerRef }: { containerRef?: RefObj
                 <PopoverContent containerRef={containerRef} spacing={20} padding={16} className="p-0 relative">
                     {isGitRepository && (
                         <div className="p-4 flex items-center justify-between text-xs text-zinc-400">
-                            <span className="leading-none">{owner}/{repositoryName}</span>
+                            <span className="leading-none">
+                                {owner}/{repo}
+                            </span>
                             <span className="leading-none">
                                 <Translate content="export.branch" />: {branch}
                             </span>
@@ -219,9 +220,7 @@ export default function DownloadButton({ containerRef }: { containerRef?: RefObj
 
                 {pendingAction && (
                     <div className="mt-4">
-                        <div className="text-sm text-zinc-300 mb-3">
-                            {pendingAction.changes.size} file(s) will be modified
-                        </div>
+                        <div className="text-sm text-zinc-300 mb-3">{pendingAction.changes.size} file(s) will be modified</div>
                         <div className="max-h-[400px] overflow-y-auto rounded-lg border border-zinc-800 bg-zinc-950">
                             {Array.from(pendingAction.changes).map(([path, status]) => (
                                 <div

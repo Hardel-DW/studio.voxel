@@ -47,7 +47,6 @@ function StudioLayout() {
                     <div className="w-full max-w-md">
                         <DatapackUploader />
                         <RepositoryOpener />
-
                     </div>
                     <img className="absolute -z-10 opacity-10 select-none" src="/icons/circle.svg" alt="box" />
                 </div>

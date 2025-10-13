@@ -10,11 +10,17 @@ export type ToolSlotType = BaseInteractiveComponent & {
     image: string;
     size?: number;
     align?: "left" | "center" | "right";
+    onBeforeChange?: () => void;
 };
 
 export default function ToolSlot(props: ToolSlotType & { index?: number }) {
     const { value, lock, handleChange } = useInteractiveLogic<ToolSlotType, boolean>({ component: props });
     if (value === null) return null;
+
+    const handleClick = () => {
+        props.onBeforeChange?.();
+        handleChange(!value);
+    };
 
     return (
         <button
@@ -24,9 +30,9 @@ export default function ToolSlot(props: ToolSlotType & { index?: number }) {
                 { "bg-zinc-950/25 ring-1 ring-zinc-600": value },
                 { "opacity-50 ring-1 ring-zinc-700": lock.isLocked }
             )}
-            onClick={() => handleChange(!value)}
+            onClick={handleClick}
             onKeyDown={(e) => {
-                if (e.key === "Enter" || e.key === " ") handleChange(!value);
+                if (e.key === "Enter" || e.key === " ") handleClick();
             }}
             tabIndex={0}>
             {value && !lock.isLocked && (

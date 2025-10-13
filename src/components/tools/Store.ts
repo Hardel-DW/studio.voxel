@@ -23,6 +23,8 @@ export interface ConfiguratorState<T extends keyof Analysers> {
     version: number | null;
     sortedIdentifiers: Map<string, string[]>;
     registryCache: Map<string, DataDrivenRegistryElement<any>[]>;
+    custom: Map<string, Uint8Array>;
+    addFile: (key: string, value: Uint8Array) => void;
     getSortedIdentifiers: (registry: string) => string[];
     setName: (name: string) => void;
     setMinify: (minify: boolean) => void;
@@ -44,11 +46,13 @@ const createConfiguratorStore = <T extends keyof Analysers>() =>
         minify: true,
         logger: new Logger(),
         files: {},
+        custom: new Map(),
         elements: new Map(),
         isModded: false,
         version: null,
         sortedIdentifiers: new Map(),
         registryCache: new Map(),
+        addFile: (key, value) => set({ custom: get().custom.set(key, value) }),
         getSortedIdentifiers: (registry) => get().sortedIdentifiers.get(registry) ?? [],
         setName: (name) => set({ name }),
         setMinify: (minify) => set({ minify }),
@@ -70,7 +74,12 @@ const createConfiguratorStore = <T extends keyof Analysers>() =>
         },
         setup: (updates, isModded, name) =>
             set({ ...updates, sortedIdentifiers: sortElementsByRegistry(updates.elements), isModded, name }),
-        compile: () => compileDatapack({ elements: Array.from(get().elements.values()), files: get().files }),
+        compile: () =>
+            compileDatapack({
+                elements: Array.from(get().elements.values()),
+                files: get().files,
+                additionnal: Object.fromEntries(get().custom)
+            }),
         getLengthByRegistry: (registry) => get().getRegistry(registry).length,
         getConcept: (pathname) => {
             const pathParts = pathname.split("/").filter(Boolean);

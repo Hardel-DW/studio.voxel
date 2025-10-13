@@ -5,7 +5,9 @@ import { useState } from "react";
 import ToolGrid from "@/components/tools/elements/ToolGrid";
 import ToolSectionSelector from "@/components/tools/elements/ToolSectionSelector";
 import ToolSlot from "@/components/tools/elements/ToolSlot";
-import { enchantableItems } from "@/lib/data/tags";
+import { useConfiguratorStore } from "@/components/tools/Store";
+import { enchantableEntries } from "@/lib/data/tags";
+import { VOXEL_TAGS } from "@/lib/data/voxel";
 
 const elements = [
     { id: "supportedItems", title: "enchantment:toggle.supported.title" },
@@ -18,6 +20,12 @@ export const Route = createFileRoute("/$lang/studio/editor/enchantment/items")({
 
 function EnchantmentItemsPage() {
     const [section, setSection] = useState<string>(elements[0].id);
+    const addFile = useConfiguratorStore((state) => state.addFile);
+
+    const addTagIfExists = (identifier: { toFilePath: () => string }) => {
+        const tagData = VOXEL_TAGS.get(identifier.toFilePath());
+        if (tagData) addFile(identifier.toFilePath(), tagData);
+    };
 
     return (
         <ToolSectionSelector
@@ -27,15 +35,19 @@ function EnchantmentItemsPage() {
             value={section}
             setValue={setSection}>
             <ToolGrid>
-                {Object.keys(enchantableItems).map((item) => (
-                    <ToolSlot
-                        key={item}
-                        title={`enchantment:supported.${item}.title`}
-                        image={`/images/features/item/${item}.webp`}
-                        action={CoreAction.setValue(section, enchantableItems[item as keyof typeof enchantableItems])}
-                        renderer={(el: EnchantmentProps) => el[section] === enchantableItems[item as keyof typeof enchantableItems]}
-                    />
-                ))}
+                {enchantableEntries.map(([key, identifier]) => {
+                    const tag = identifier.toString();
+                    return (
+                        <ToolSlot
+                            key={key}
+                            title={`enchantment:supported.${key}.title`}
+                            image={`/images/features/item/${key}.webp`}
+                            action={CoreAction.setValue(section, tag)}
+                            renderer={(el: EnchantmentProps) => el[section] === tag}
+                            onBeforeChange={() => addTagIfExists(identifier)}
+                        />
+                    );
+                })}
 
                 {section === "primaryItems" && (
                     <ToolSlot

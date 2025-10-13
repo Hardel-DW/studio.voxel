@@ -1,10 +1,10 @@
 import { compileDatapack, Datapack, DatapackDownloader, Logger } from "@voxelio/breeze";
 import type React from "react";
 import { useRef, useState } from "react";
-import { toast } from "@/components/ui/Toast";
 import { LinkButton } from "@/components/ui/Button";
 import { Dialog, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/Dialog";
 import Dropzone from "@/components/ui/Dropzone";
+import { toast } from "@/components/ui/Toast";
 import { useConfetti } from "@/lib/hook/useConfetti";
 import { useDictionary } from "@/lib/hook/useNext18n";
 import { trackEvent } from "@/lib/telemetry";

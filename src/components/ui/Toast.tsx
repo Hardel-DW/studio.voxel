@@ -1,7 +1,7 @@
+import { useState } from "react";
 import { createPortal } from "react-dom";
 import { create } from "zustand";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
 
 export const TOAST = {
     DEFAULT: "default",
@@ -9,9 +9,9 @@ export const TOAST = {
     ERROR: "error",
     INFO: "info",
     WARNING: "warning"
-}
+};
 
-const variantStyles: Record<typeof TOAST[keyof typeof TOAST], string> = {
+const variantStyles: Record<(typeof TOAST)[keyof typeof TOAST], string> = {
     default: "border-zinc-200 bg-white text-zinc-900",
     success: "border-green-200 bg-green-50 text-green-900",
     error: "border-red-200 bg-red-50 text-red-900",
@@ -19,7 +19,7 @@ const variantStyles: Record<typeof TOAST[keyof typeof TOAST], string> = {
     warning: "border-yellow-200 bg-yellow-50 text-yellow-900"
 };
 
-const variantIcons: Record<typeof TOAST[keyof typeof TOAST], string | null> = {
+const variantIcons: Record<(typeof TOAST)[keyof typeof TOAST], string | null> = {
     default: null,
     success: "/icons/toast/success.svg",
     error: "/icons/toast/error.svg",
@@ -31,14 +31,14 @@ interface Toast {
     id: string;
     message: string;
     description?: string;
-    variant: typeof TOAST[keyof typeof TOAST];
+    variant: (typeof TOAST)[keyof typeof TOAST];
     removing?: boolean;
 }
 
 interface ToastStore {
     toasts: Toast[];
-    queue: Array<{ message: string; description?: string; variant: typeof TOAST[keyof typeof TOAST] }>;
-    addToast: (message: string, variant: typeof TOAST[keyof typeof TOAST], description?: string) => void;
+    queue: Array<{ message: string; description?: string; variant: (typeof TOAST)[keyof typeof TOAST] }>;
+    addToast: (message: string, variant: (typeof TOAST)[keyof typeof TOAST], description?: string) => void;
     removeToast: (id: string) => void;
     processQueue: () => void;
 }
@@ -83,7 +83,7 @@ const useToastStore = create<ToastStore>((set, get) => ({
     }
 }));
 
-export function toast(message: string, variant: typeof TOAST[keyof typeof TOAST] = TOAST.DEFAULT, description?: string) {
+export function toast(message: string, variant: (typeof TOAST)[keyof typeof TOAST] = TOAST.DEFAULT, description?: string) {
     useToastStore.getState().addToast(message, variant, description);
 }
 
@@ -99,9 +99,7 @@ function ToastItem({ toast: toastItem }: { toast: Toast }) {
                 "flex select-none items-center gap-2 rounded-xl border px-4 py-3 shadow-[0_4px_12px_rgba(0,0,0,0.1)] w-86 starting:translate-y-full starting:opacity-0 hidden:opacity-0 hidden:scale-95 hidden:-translate-y-full discrete",
                 variantStyles[toastItem.variant]
             )}>
-            {typeof asset === "string" && (
-                <img src={asset} alt="Icon" className="size-5 shrink-0" />
-            )}
+            {typeof asset === "string" && <img src={asset} alt="Icon" className="size-5 shrink-0" />}
             <div className="flex-1">
                 <p className="text-sm font-medium">{toastItem.message}</p>
                 {toastItem.description && <p className="text-xs opacity-80 mt-1">{toastItem.description}</p>}
@@ -125,8 +123,7 @@ export function Toaster() {
 
     if (toasts.length === 0) return null;
 
-    const getOffset = (stackIndex: number) =>
-        toasts.slice(0, stackIndex).reduce((sum, t) => sum + (heights.get(t.id) || 64) + 8, 0);
+    const getOffset = (stackIndex: number) => toasts.slice(0, stackIndex).reduce((sum, t) => sum + (heights.get(t.id) || 64) + 8, 0);
 
     return createPortal(
         <div className="group pointer-events-none fixed right-0 bottom-0 z-50 p-4">
@@ -141,12 +138,14 @@ export function Toaster() {
                                     setHeights(new Map(heights.set(toast.id, el.offsetHeight)));
                                 }
                             }}
-                            style={{
-                                "--translateY": `${stackIndex * -8}px`,
-                                "--hoverTranslateY": `${-getOffset(stackIndex)}px`,
-                                "--scale": `${1 - stackIndex * 0.03}`,
-                                zIndex: index + 1
-                            } as React.CSSProperties}
+                            style={
+                                {
+                                    "--translateY": `${stackIndex * -8}px`,
+                                    "--hoverTranslateY": `${-getOffset(stackIndex)}px`,
+                                    "--scale": `${1 - stackIndex * 0.03}`,
+                                    zIndex: index + 1
+                                } as React.CSSProperties
+                            }
                             className="absolute right-0 bottom-0 transition-all duration-600 ease-[cubic-bezier(0.32,0.72,0,1)] translate-y-(--translateY) scale-(--scale) group-hover:translate-y-(--hoverTranslateY) group-hover:scale-100 before:absolute before:inset-0 before:-inset-y-4 before:content-[''] before:-z-10">
                             <ToastItem toast={toast} />
                         </div>

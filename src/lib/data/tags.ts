@@ -1,4 +1,6 @@
-export const enchantableItems = {
+import { Identifier } from "@voxelio/breeze";
+
+const definitions = {
     sword: "#minecraft:enchantable/sword",
     trident: "#minecraft:enchantable/trident",
     mace: "#minecraft:enchantable/mace",
@@ -22,4 +24,11 @@ export const enchantableItems = {
     pickaxes: "#voxel:enchantable/pickaxes",
     durability: "#minecraft:enchantable/durability",
     mining_loot: "#minecraft:enchantable/mining_loot"
-};
+} as const;
+
+export const enchantableItems = Object.fromEntries(
+    Object.entries(definitions).map(([key, id]) => [key, Identifier.of(id, "tags/item")])
+) as Record<keyof typeof definitions, Identifier>;
+
+export const enchantableKeys = Object.keys(definitions) as Array<keyof typeof definitions>;
+export const enchantableEntries = Object.entries(enchantableItems) as Array<[keyof typeof definitions, Identifier]>;

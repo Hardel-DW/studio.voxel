@@ -7,15 +7,13 @@ import { Toolbar } from "@/components/tools/floatingbar/Toolbar";
 import { ToolbarSearch } from "@/components/tools/floatingbar/ToolbarSearch";
 import { ToolbarTextLink } from "@/components/tools/floatingbar/ToolbarTextLink";
 import Translate from "@/components/tools/Translate";
-import { enchantableItems } from "@/lib/data/tags";
+import { enchantableEntries } from "@/lib/data/tags";
 import { useElementsByType } from "@/lib/hook/useElementsByType";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/$lang/studio/editor/enchantment/items_overview")({
     component: Page
 });
-
-const ENCHANTABLE_ENTRIES = Object.entries(enchantableItems) as Array<[string, string]>;
 const extractTags = (value: SingleOrMultiple<string>) => (!value ? [] : separateItemsAndTags(value).tags);
 
 function Page() {
@@ -76,23 +74,26 @@ function Page() {
                 </div>
 
                 <div className="grid gap-3 grid-cols-[repeat(auto-fit,minmax(80px,1fr))]">
-                    {ENCHANTABLE_ENTRIES.map(([key, tag]) => (
-                        <button
-                            key={key}
-                            type="button"
-                            onClick={() => toggleTag(tag)}
-                            className={cn(
-                                "flex flex-col justify-between items-center p-4 gap-4 bg-black/40 border border-stone-900 rounded-lg transition-all hover:ring-1 ring-zinc-900 cursor-pointer",
-                                selectedTag === tag && "bg-zinc-950/40 ring-1 ring-zinc-600"
-                            )}>
-                            <div className="relative w-12 h-12 flex items-center justify-center">
-                                <img src={`/images/features/item/${key}.webp`} alt={key} className="pixelated h-12" />
-                            </div>
-                            <span className="text-[11px] text-zinc-400 text-center leading-tight">
-                                <Translate content={`enchantment:supported.${key}.title`} />
-                            </span>
-                        </button>
-                    ))}
+                    {enchantableEntries.map(([key, identifier]) => {
+                        const tag = identifier.toString();
+                        return (
+                            <button
+                                key={key}
+                                type="button"
+                                onClick={() => toggleTag(tag)}
+                                className={cn(
+                                    "flex flex-col justify-between items-center p-4 gap-4 bg-black/40 border border-stone-900 rounded-lg transition-all hover:ring-1 ring-zinc-900 cursor-pointer",
+                                    selectedTag === tag && "bg-zinc-950/40 ring-1 ring-zinc-600"
+                                )}>
+                                <div className="relative w-12 h-12 flex items-center justify-center">
+                                    <img src={`/images/features/item/${key}.webp`} alt={key} className="pixelated h-12" />
+                                </div>
+                                <span className="text-[11px] text-zinc-400 text-center leading-tight">
+                                    <Translate content={`enchantment:supported.${key}.title`} />
+                                </span>
+                            </button>
+                        );
+                    })}
                 </div>
             </div>
 

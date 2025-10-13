@@ -1,8 +1,8 @@
 import { useNavigate, useParams } from "@tanstack/react-router";
 import { Datapack, DatapackError } from "@voxelio/breeze";
-import { TOAST, toast } from "@/components/ui/Toast";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import Dropzone from "@/components/ui/Dropzone";
+import { TOAST, toast } from "@/components/ui/Toast";
 import { useDictionary } from "@/lib/hook/useNext18n";
 
 export default function DatapackUploader() {
