@@ -1,4 +1,8 @@
-export async function getAccessToken(clientId: string, clientSecret: string, code: string): Promise<{ access_token?: string; error?: string; error_description?: string }> {
+export async function getAccessToken(
+    clientId: string,
+    clientSecret: string,
+    code: string
+): Promise<{ access_token?: string; error?: string; error_description?: string }> {
     const response = await fetch("https://github.com/login/oauth/access_token", {
         method: "POST",
         headers: {

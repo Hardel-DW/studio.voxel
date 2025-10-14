@@ -4,6 +4,7 @@ import { createPullRequest } from "./createPullRequest";
 import { createRef } from "./createRef";
 import { createTree } from "./createTree";
 import { downloadRepo } from "./downloadRepo";
+import { GitHubError } from "./GitHubError";
 import { getAccessToken } from "./getAccessToken";
 import { getCommit } from "./getCommit";
 import { getOrgRepos } from "./getOrgRepos";
@@ -12,7 +13,6 @@ import { getUser } from "./getUser";
 import { getUserOrgs } from "./getUserOrgs";
 import { getUserRepos } from "./getUserRepos";
 import { updateRef } from "./updateRef";
-import { GitHubError } from "./GitHubError";
 
 type TreeItem = {
     path: string;
@@ -38,27 +38,28 @@ export class GitHub {
         this.clientSecret = clientSecret;
     }
 
-    get token() {
-        return this.authHeader.replace("Bearer ", "");
-    }
-
-    private ensureAuth() {
+    private get authenticatedHeader() {
         if (!this.authHeader) {
             throw new GitHubError("Missing authorization token", 401);
         }
+        return this.authHeader;
     }
 
-    private ensureCredentials() {
-        if (!this.clientId || !this.clientSecret) {
-            throw new GitHubError("Missing GitHub configuration", 500);
+    private get authenticatedToken() {
+        if (!this.authHeader) {
+            throw new GitHubError("Missing authorization token", 401);
         }
+        return this.authHeader.replace("Bearer ", "");
     }
 
     async getAccessToken(code?: string) {
         if (!code) {
             throw new GitHubError("Missing code parameter", 400);
         }
-        this.ensureCredentials();
+
+        if (!this.clientId || !this.clientSecret) {
+            throw new GitHubError("Missing GitHub configuration", 500);
+        }
 
         const data = await getAccessToken(this.clientId, this.clientSecret, code);
         if (data.error) {
@@ -67,77 +68,63 @@ export class GitHub {
         return data;
     }
 
-    getUser() {
-        this.ensureAuth();
-        return getUser(this.token);
-    }
-
-    getUserRepos() {
-        this.ensureAuth();
-        return getUserRepos(this.token);
-    }
-
-    getUserOrgs() {
-        this.ensureAuth();
-        return getUserOrgs(this.token);
-    }
-
-    getOrgRepos(org: string) {
-        this.ensureAuth();
-        return getOrgRepos(this.token, org);
-    }
-
     async downloadRepo(owner: string, repo: string, branch: string) {
-        this.ensureAuth();
-        const response = await downloadRepo(this.authHeader, owner, repo, branch);
+        const response = await downloadRepo(this.authenticatedHeader, owner, repo, branch);
         if (!response.ok) {
             throw new GitHubError("Failed to download repository", response.status);
         }
         return response;
     }
 
+    getUser() {
+        return getUser(this.authenticatedToken);
+    }
+
+    getUserRepos() {
+        return getUserRepos(this.authenticatedToken);
+    }
+
+    getUserOrgs() {
+        return getUserOrgs(this.authenticatedToken);
+    }
+
+    getOrgRepos(org: string) {
+        return getOrgRepos(this.authenticatedToken, org);
+    }
+
     getRef(owner: string, repo: string, branch: string) {
-        this.ensureAuth();
-        return getRef(this.authHeader, owner, repo, branch);
+        return getRef(this.authenticatedHeader, owner, repo, branch);
     }
 
     getCommit(owner: string, repo: string, commitSha: string) {
-        this.ensureAuth();
-        return getCommit(this.authHeader, owner, repo, commitSha);
+        return getCommit(this.authenticatedHeader, owner, repo, commitSha);
     }
 
     createBlob(owner: string, repo: string, content: string) {
-        this.ensureAuth();
-        return createBlob(this.authHeader, owner, repo, content);
+        return createBlob(this.authenticatedHeader, owner, repo, content);
     }
 
     createTree(owner: string, repo: string, baseTreeSha: string, tree: TreeItem[]) {
-        this.ensureAuth();
-        return createTree(this.authHeader, owner, repo, baseTreeSha, tree);
+        return createTree(this.authenticatedHeader, owner, repo, baseTreeSha, tree);
     }
 
     createCommit(owner: string, repo: string, message: string, treeSha: string, parentSha: string) {
-        this.ensureAuth();
-        return createCommit(this.authHeader, owner, repo, message, treeSha, parentSha);
+        return createCommit(this.authenticatedHeader, owner, repo, message, treeSha, parentSha);
     }
 
     updateRef(owner: string, repo: string, branch: string, sha: string) {
-        this.ensureAuth();
-        return updateRef(this.authHeader, owner, repo, branch, sha);
+        return updateRef(this.authenticatedHeader, owner, repo, branch, sha);
     }
 
     createRef(owner: string, repo: string, branch: string, sha: string) {
-        this.ensureAuth();
-        return createRef(this.authHeader, owner, repo, branch, sha);
+        return createRef(this.authenticatedHeader, owner, repo, branch, sha);
     }
 
     createPullRequest(owner: string, repo: string, title: string, head: string, base: string, body: string) {
-        this.ensureAuth();
-        return createPullRequest(this.authHeader, owner, repo, title, head, base, body);
+        return createPullRequest(this.authenticatedHeader, owner, repo, title, head, base, body);
     }
 
     async prepareCommit(owner: string, repo: string, baseSha: string, files: Record<string, string | null>) {
-        this.ensureAuth();
         const commitData = await this.getCommit(owner, repo, baseSha);
         const baseTreeSha = commitData.tree.sha;
 
@@ -159,8 +146,7 @@ export class GitHub {
 
         const treeData = await this.createTree(owner, repo, baseTreeSha, tree);
         const filesCount = Object.keys(files).length;
-        const body = `Update ${filesCount} file${filesCount > 1 ? "s" : ""} via Voxel Studio`;
-
+        const body = `Update ${filesCount} file${filesCount > 1 ? "s" : ""} via Voxel Studio\n\nCo-authored-by: Voxel Studio <studio.voxelio@gmail.com>`;
         return { treeData, body, filesCount };
     }
 }

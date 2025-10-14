@@ -1,4 +1,12 @@
-export async function createPullRequest(authHeader: string, owner: string, repo: string, title: string, head: string, base: string, body: string) {
+export async function createPullRequest(
+    authHeader: string,
+    owner: string,
+    repo: string,
+    title: string,
+    head: string,
+    base: string,
+    body: string
+) {
     const response = await fetch(`https://api.github.com/repos/${owner}/${repo}/pulls`, {
         method: "POST",
         headers: {
