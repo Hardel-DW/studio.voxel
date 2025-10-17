@@ -22,9 +22,7 @@ export default function VanillaImportButton() {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger>
-                <Button variant="shimmer">
-                    {dictionary.studio.import_vanilla}
-                </Button>
+                <Button variant="shimmer">{dictionary.studio.import_vanilla}</Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
                 <DropdownMenuItem onClick={() => handleVanillaImport(88)}>Minecraft - Version 1.21.10</DropdownMenuItem>

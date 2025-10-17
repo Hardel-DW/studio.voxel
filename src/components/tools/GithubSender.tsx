@@ -61,7 +61,6 @@ export default function GithubSender() {
         const files = Object.fromEntries(
             Array.from(changes).map(([path, status]) => [path, status === "deleted" ? null : encodeToBase64(compiledFiles[path])])
         );
-
         setPendingAction({ type, changes, files });
     };
 

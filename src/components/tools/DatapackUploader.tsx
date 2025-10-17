@@ -51,13 +51,7 @@ export default function DatapackUploader() {
     };
 
     return (
-        <Dropzone
-            onFileUpload={handleFileUpload}
-            dropzone={{
-                accept: ".zip,.jar",
-                maxSize: 100000000,
-                multiple: false
-            }}>
+        <Dropzone onFileUpload={handleFileUpload} dropzone={{ accept: ".zip,.jar", maxSize: 100000000, multiple: false }}>
             <div>
                 <p className="mb-2 text-sm text-gray-500">
                     <span className="font-semibold">{dictionary.studio.upload.start}</span> {dictionary.studio.upload.drop}

@@ -142,8 +142,7 @@ export default function RepositoryOpener() {
     return (
         <Dialog id="repository-opener-modal">
             <DialogTrigger>
-                <Button type="button" onClick={handleButtonClick} variant="default" disabled={isLoading}
-                    className="w-full mt-8 flex items-center gap-x-2">
+                <Button onClick={handleButtonClick} disabled={isLoading} className="w-full mt-8 flex items-center gap-x-2">
                     <img src="/icons/company/github.svg" alt="GitHub" className="size-4" />
                     <span className="text-sm">
                         <Translate content={isLoggingIn ? "repository.loading" : "repository.open"} />
@@ -228,7 +227,11 @@ export default function RepositoryOpener() {
                             <Translate content="repository.third_party" />
                         </label>
                         <div className="flex items-center gap-2">
-                            <TextInput placeholder={thirdPartyPlaceholder} value={thirdPartyUrl} onChange={(e) => setThirdPartyUrl(e.target.value)} />
+                            <TextInput
+                                placeholder={thirdPartyPlaceholder}
+                                value={thirdPartyUrl}
+                                onChange={(e) => setThirdPartyUrl(e.target.value)}
+                            />
                             <DialogCloseButton variant="default" className="text-xs px-4 py-2" disabled={!thirdPartyUrl.trim()}>
                                 <Translate content="repository.import" />
                             </DialogCloseButton>
