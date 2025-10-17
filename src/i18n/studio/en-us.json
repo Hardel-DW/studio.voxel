@@ -35,6 +35,7 @@
     "export.files_modified": "files modified",
     "export.processing": "Processing...",
     "repository.open": "Open a Repository",
+    "repository.loading": "Loading repositories...",
     "repository.select": "Select a Repository",
     "repository.select_description": "Choose an account and select a repository to import",
     "repository.account": "Account",

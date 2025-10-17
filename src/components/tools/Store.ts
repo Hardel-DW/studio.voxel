@@ -14,7 +14,6 @@ import type { CONCEPT_KEY } from "./elements";
 
 export interface ConfiguratorState<T extends keyof Analysers> {
     name: string;
-    minify: boolean;
     logger?: Logger;
     files: Record<string, Uint8Array>;
     elements: Map<string, GetAnalyserVoxel<T>>;
@@ -27,7 +26,6 @@ export interface ConfiguratorState<T extends keyof Analysers> {
     addFile: (key: string, value: Uint8Array) => void;
     getSortedIdentifiers: (registry: string) => string[];
     setName: (name: string) => void;
-    setMinify: (minify: boolean) => void;
     setCurrentElementId: (id: string | null) => void;
     handleChange: (action: Action, identifier?: string, value?: ActionValue) => void;
     setup: (updates: ParseDatapackResult<GetAnalyserVoxel<T>>, isModded: boolean, name: string) => void;
@@ -43,7 +41,6 @@ export interface ConfiguratorState<T extends keyof Analysers> {
 const createConfiguratorStore = <T extends keyof Analysers>() =>
     create<ConfiguratorState<T>>((set, get) => ({
         name: "",
-        minify: true,
         logger: new Logger(),
         files: {},
         custom: new Map(),
@@ -55,7 +52,6 @@ const createConfiguratorStore = <T extends keyof Analysers>() =>
         addFile: (key, value) => set({ custom: get().custom.set(key, value) }),
         getSortedIdentifiers: (registry) => get().sortedIdentifiers.get(registry) ?? [],
         setName: (name) => set({ name }),
-        setMinify: (minify) => set({ minify }),
         setCurrentElementId: (currentElementId) => set({ currentElementId }),
         handleChange: (action, identifier) => {
             const state = get();

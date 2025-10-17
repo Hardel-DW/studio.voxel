@@ -1,6 +1,6 @@
 import { useLocation } from "@tanstack/react-router";
 import { useRef } from "react";
-import DownloadButton from "@/components/tools/DownloadButton";
+import ExportButton from "@/components/tools/ExportButton";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import SettingsButton from "@/components/tools/sidebar/SettingsButton";
 import ConceptTab from "@/components/tools/sidebar/tab/ConceptTab";
@@ -38,7 +38,7 @@ export default function StudioSidebar() {
                 </div>
             </div>
             <div ref={buttonsContainerRef} className="absolute bottom-0 left-0 right-0 max-md:px-4 pr-4 flex items-center gap-2">
-                <DownloadButton containerRef={buttonsContainerRef} />
+                <ExportButton containerRef={buttonsContainerRef} />
                 <SettingsButton />
             </div>
         </div>

@@ -33,6 +33,7 @@
     "export.files_modified": "fichiers modifiés",
     "export.processing": "En cours de traitement...",
     "repository.open": "Ouvrir un dépôt",
+    "repository.loading": "Chargement des dépôts...",
     "repository.select": "Sélectionner un dépôt",
     "repository.select_description": "Choisissez un compte et sélectionnez un dépôt à importer",
     "repository.account": "Compte",

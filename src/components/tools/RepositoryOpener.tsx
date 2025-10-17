@@ -1,20 +1,29 @@
 import { useNavigate, useParams } from "@tanstack/react-router";
 import { Datapack, DatapackError } from "@voxelio/breeze";
 import { extractZip } from "@voxelio/zip";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import { useExportStore } from "@/components/tools/sidebar/ExportStore";
 import Translate from "@/components/tools/Translate";
 import { Button } from "@/components/ui/Button";
-import { Dialog, DialogCloseButton, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/Dialog";
+import {
+    Dialog,
+    DialogCloseButton,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger
+} from "@/components/ui/Dialog";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/Dropdown";
 import { TOAST, toast } from "@/components/ui/Toast";
 import { type Organization, type Repository, useGitHubAuth, useGitHubRepos } from "@/lib/hook/useGitHubAuth";
 import { useDictionary } from "@/lib/hook/useNext18n";
 import { useTranslateKey } from "@/lib/hook/useTranslation";
+import { TextInput } from "../ui/TextInput";
 
 export default function RepositoryOpener() {
-    const dialogRef = useRef<HTMLDivElement>(null);
     const [selectedAccount, setSelectedAccount] = useState<string>("");
     const [searchQuery, setSearchQuery] = useState("");
     const [thirdPartyUrl, setThirdPartyUrl] = useState("");
@@ -25,32 +34,9 @@ export default function RepositoryOpener() {
     const { data: reposData, isLoading: isLoadingRepos, refetch } = useGitHubRepos();
     const navigate = useNavigate();
     const { lang } = useParams({ from: "/$lang" });
-
-    const handleButtonClick = async () => {
-        if (!isAuthenticated) {
-            try {
-                await loginAsync();
-            } catch (error) {
-                console.error("Authentication failed:", error);
-                return;
-            }
-        }
-
-        if (!selectedAccount) {
-            const data = reposData || (await refetch()).data;
-            if (data) {
-                const firstAccount = data.repositories[0]?.owner.login || user?.login;
-                if (firstAccount) {
-                    setSelectedAccount(firstAccount);
-                }
-            }
-        }
-
-        dialogRef.current?.showPopover();
-    };
-
     const accounts: Array<{ value: string; label: string; description: string }> = [];
     const allRepositories: Repository[] = [];
+    const isLoading = isLoggingIn || isLoadingRepos;
 
     if (reposData && user) {
         accounts.push({
@@ -71,11 +57,10 @@ export default function RepositoryOpener() {
         allRepositories.push(...reposData.orgRepositories);
     }
 
+    const selectedAccountLabel = accounts.find((acc) => acc.value === selectedAccount)?.label ?? "Select account";
     const filteredRepositories = allRepositories.filter(
         (repo) => repo.owner.login === selectedAccount && repo.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
-
-    const selectedAccountLabel = accounts.find((acc) => acc.value === selectedAccount)?.label ?? "Select account";
 
     const handleImportRepository = async (repo: Repository) => {
         try {
@@ -119,7 +104,6 @@ export default function RepositoryOpener() {
             useExportStore.getState().setGitRepository(repo.owner.login, repo.name, repo.default_branch, token);
             toast(dictionary.studio.import_repository.success.replace("{repo.name}", repo.name), TOAST.SUCCESS);
             navigate({ to: "/$lang/studio/editor", params: { lang } });
-            dialogRef.current?.hidePopover();
         } catch (e: unknown) {
             console.error("Failed to import repository:", e);
             if (e instanceof DatapackError) {
@@ -134,28 +118,40 @@ export default function RepositoryOpener() {
         }
     };
 
-    const handleImportThirdParty = () => {
-        console.log("Import third-party repository:", thirdPartyUrl);
-        dialogRef.current?.hidePopover();
+    const handleButtonClick = async () => {
+        if (!isAuthenticated) {
+            try {
+                await loginAsync();
+            } catch (error) {
+                console.error("Authentication failed:", error);
+                return;
+            }
+        }
+
+        if (!selectedAccount) {
+            const data = reposData || (await refetch()).data;
+            if (data) {
+                const firstAccount = data.repositories[0]?.owner.login || user?.login;
+                if (firstAccount) {
+                    setSelectedAccount(firstAccount);
+                }
+            }
+        }
     };
 
-    const isLoading = isLoggingIn || isLoadingRepos;
-
     return (
-        <>
-            <Button
-                type="button"
-                onClick={handleButtonClick}
-                variant="default"
-                disabled={isLoading}
-                className="w-full mt-8 flex items-center gap-x-2">
-                <img src="/icons/company/github.svg" alt="GitHub" className="size-4" />
-                <span className="text-sm">
-                    {isLoading ? <Translate content="repository.loading" /> : <Translate content="repository.open" />}
-                </span>
-            </Button>
+        <Dialog id="repository-opener-modal">
+            <DialogTrigger>
+                <Button type="button" onClick={handleButtonClick} variant="default" disabled={isLoading}
+                    className="w-full mt-8 flex items-center gap-x-2">
+                    <img src="/icons/company/github.svg" alt="GitHub" className="size-4" />
+                    <span className="text-sm">
+                        <Translate content={isLoggingIn ? "repository.loading" : "repository.open"} />
+                    </span>
+                </Button>
+            </DialogTrigger>
 
-            <Dialog ref={dialogRef} id="repository-opener-modal" className="sm:max-w-[768px] p-6">
+            <DialogContent className="sm:max-w-[768px] p-6">
                 <DialogHeader>
                     <DialogTitle className="flex items-center gap-x-2">
                         <img src="/icons/company/github.svg" alt="GitHub" className="size-6 invert" />
@@ -188,13 +184,7 @@ export default function RepositoryOpener() {
                             </DropdownMenuContent>
                         </DropdownMenu>
 
-                        <input
-                            type="text"
-                            placeholder={searchPlaceholder}
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                            className="flex-1 rounded-lg border border-zinc-800 bg-zinc-950 px-4 py-2 text-sm text-zinc-200 placeholder:text-zinc-500 outline-none focus:border-zinc-700 transition-colors"
-                        />
+                        <TextInput placeholder={searchPlaceholder} value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
                     </div>
 
                     <div className="max-h-[400px] overflow-y-auto space-y-3">
@@ -238,22 +228,10 @@ export default function RepositoryOpener() {
                             <Translate content="repository.third_party" />
                         </label>
                         <div className="flex items-center gap-2">
-                            <input
-                                id="third-party-url"
-                                type="text"
-                                placeholder={thirdPartyPlaceholder}
-                                value={thirdPartyUrl}
-                                onChange={(e) => setThirdPartyUrl(e.target.value)}
-                                className="flex-1 rounded-lg border border-zinc-800 bg-zinc-950 px-4 py-2 text-sm text-zinc-200 placeholder:text-zinc-500 outline-none focus:border-zinc-700 transition-colors"
-                            />
-                            <Button
-                                type="button"
-                                onClick={handleImportThirdParty}
-                                variant="default"
-                                className="text-xs px-4 py-2"
-                                disabled={!thirdPartyUrl.trim()}>
+                            <TextInput placeholder={thirdPartyPlaceholder} value={thirdPartyUrl} onChange={(e) => setThirdPartyUrl(e.target.value)} />
+                            <DialogCloseButton variant="default" className="text-xs px-4 py-2" disabled={!thirdPartyUrl.trim()}>
                                 <Translate content="repository.import" />
-                            </Button>
+                            </DialogCloseButton>
                         </div>
                     </div>
                 </div>
@@ -263,7 +241,7 @@ export default function RepositoryOpener() {
                         <Translate content="close" />
                     </DialogCloseButton>
                 </DialogFooter>
-            </Dialog>
-        </>
+            </DialogContent>
+        </Dialog>
     );
 }

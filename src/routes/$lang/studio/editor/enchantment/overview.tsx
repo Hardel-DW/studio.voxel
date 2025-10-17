@@ -9,7 +9,7 @@ import { ToolbarDropdown } from "@/components/tools/floatingbar/ToolbarDropdown"
 import { ToolbarSearch } from "@/components/tools/floatingbar/ToolbarSearch";
 import Translate from "@/components/tools/Translate";
 import { Button } from "@/components/ui/Button";
-import { Dialog, DialogCloseButton, DialogFooter, DialogHeader, DialogHero } from "@/components/ui/Dialog";
+import { Dialog, DialogCloseButton, DialogContent, DialogFooter, DialogHeader, DialogHero } from "@/components/ui/Dialog";
 import { MultiStep, MultiStepControl, MultiStepItem } from "@/components/ui/MultiStep";
 import { useElementsByType } from "@/lib/hook/useElementsByType";
 import { useTranslateKey } from "@/lib/hook/useTranslation";
@@ -59,109 +59,111 @@ function Page() {
 
     return (
         <>
-            <Dialog id="enchantment-welcome" reminder defaultOpen className="sm:max-w-[800px]">
-                <MultiStep>
-                    <MultiStepItem>
-                        <DialogHeader>
-                            <DialogHero image="/images/background/dialog/enchantment/overview_1.webp" />
-                        </DialogHeader>
-                        <hr className="!my-1" />
-                        <div className="p-4">
-                            <h2 className="flex shrink-0 items-center justify-between text-xl font-medium text-zinc-200 mb-2">
-                                <Translate content="enchantment:overview.dialog.welcome.title" />
-                            </h2>
-                            <div className="relative leading-normal text-zinc-400 font-light">
-                                <p>
-                                    <Translate content="enchantment:overview.dialog.welcome.body" />
-                                </p>
-                                <ul className="list-disc list-inside ml-4 mt-4 text-zinc-500 text-sm">
-                                    <li>
-                                        <Translate content="enchantment:overview.dialog.welcome.list.1" />
-                                    </li>
-                                    <li>
-                                        <Translate content="enchantment:overview.dialog.welcome.list.2" />
-                                    </li>
-                                    <li>
-                                        <Translate content="enchantment:overview.dialog.welcome.list.3" />
-                                    </li>
-                                </ul>
+            <Dialog id="enchantment-welcome">
+                <DialogContent reminder defaultOpen className="sm:max-w-[800px]">
+                    <MultiStep>
+                        <MultiStepItem>
+                            <DialogHeader>
+                                <DialogHero image="/images/background/dialog/enchantment/overview_1.webp" />
+                            </DialogHeader>
+                            <hr className="!my-1" />
+                            <div className="p-4">
+                                <h2 className="flex shrink-0 items-center justify-between text-xl font-medium text-zinc-200 mb-2">
+                                    <Translate content="enchantment:overview.dialog.welcome.title" />
+                                </h2>
+                                <div className="relative leading-normal text-zinc-400 font-light">
+                                    <p>
+                                        <Translate content="enchantment:overview.dialog.welcome.body" />
+                                    </p>
+                                    <ul className="list-disc list-inside ml-4 mt-4 text-zinc-500 text-sm">
+                                        <li>
+                                            <Translate content="enchantment:overview.dialog.welcome.list.1" />
+                                        </li>
+                                        <li>
+                                            <Translate content="enchantment:overview.dialog.welcome.list.2" />
+                                        </li>
+                                        <li>
+                                            <Translate content="enchantment:overview.dialog.welcome.list.3" />
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
-                        </div>
-                    </MultiStepItem>
-                    <MultiStepItem>
-                        <DialogHeader>
-                            <DialogHero image="/images/background/dialog/enchantment/overview_2.webp" />
-                        </DialogHeader>
-                        <hr className="!my-1" />
-                        <div className="p-4">
-                            <h2 className="flex shrink-0 items-center justify-between text-xl font-medium text-zinc-200 mb-2">
-                                <Translate content="enchantment:overview.dialog.toolbar.title" />
-                            </h2>
-                            <div className="relative leading-normal text-zinc-400 font-light">
-                                <p>
-                                    <Translate content="enchantment:overview.dialog.toolbar.body" />
-                                </p>
-                                <ul className="list-disc list-inside ml-4 mt-4 text-zinc-500 text-sm">
-                                    <li>
-                                        <Translate content="enchantment:overview.dialog.toolbar.list.1" />
-                                    </li>
-                                    <li>
-                                        <Translate content="enchantment:overview.dialog.toolbar.list.2" />
-                                    </li>
-                                    <li>
-                                        <Translate content="enchantment:overview.dialog.toolbar.list.3" />
-                                    </li>
-                                </ul>
+                        </MultiStepItem>
+                        <MultiStepItem>
+                            <DialogHeader>
+                                <DialogHero image="/images/background/dialog/enchantment/overview_2.webp" />
+                            </DialogHeader>
+                            <hr className="!my-1" />
+                            <div className="p-4">
+                                <h2 className="flex shrink-0 items-center justify-between text-xl font-medium text-zinc-200 mb-2">
+                                    <Translate content="enchantment:overview.dialog.toolbar.title" />
+                                </h2>
+                                <div className="relative leading-normal text-zinc-400 font-light">
+                                    <p>
+                                        <Translate content="enchantment:overview.dialog.toolbar.body" />
+                                    </p>
+                                    <ul className="list-disc list-inside ml-4 mt-4 text-zinc-500 text-sm">
+                                        <li>
+                                            <Translate content="enchantment:overview.dialog.toolbar.list.1" />
+                                        </li>
+                                        <li>
+                                            <Translate content="enchantment:overview.dialog.toolbar.list.2" />
+                                        </li>
+                                        <li>
+                                            <Translate content="enchantment:overview.dialog.toolbar.list.3" />
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
-                        </div>
-                    </MultiStepItem>
-                    <MultiStepItem>
-                        <DialogHeader>
-                            <DialogHero image="/images/background/dialog/enchantment/overview_3.webp" />
-                        </DialogHeader>
-                        <hr className="!my-1" />
-                        <div className="p-4">
-                            <h2 className="flex shrink-0 items-center justify-between text-xl font-medium text-zinc-200 mb-2">
-                                <Translate content="enchantment:overview.dialog.advanced.title" />
-                            </h2>
-                            <div className="relative leading-normal text-zinc-400 font-light">
-                                <p>
-                                    <Translate content="enchantment:overview.dialog.advanced.body" />
-                                </p>
-                                <ul className="list-disc list-inside ml-4 mt-4 text-zinc-500 text-sm">
-                                    <li>
-                                        <Translate content="enchantment:overview.dialog.advanced.list.before" />{" "}
-                                        <b>
-                                            <Translate content="enchantment:overview.dialog.advanced.list.1.bold" />
-                                        </b>
-                                        , <Translate content="enchantment:overview.dialog.advanced.list.1.after" />
-                                    </li>
-                                    <li>
-                                        <Translate content="enchantment:overview.dialog.advanced.list.before" />{" "}
-                                        <b>
-                                            <Translate content="enchantment:overview.dialog.advanced.list.2.bold" />
-                                        </b>
-                                        , <Translate content="enchantment:overview.dialog.advanced.list.2.after" />
-                                    </li>
-                                    <li>
-                                        <Translate content="enchantment:overview.dialog.advanced.list.before" />{" "}
-                                        <b>
-                                            <Translate content="enchantment:overview.dialog.advanced.list.3.bold" />
-                                        </b>
-                                        , <Translate content="enchantment:overview.dialog.advanced.list.3.after" />
-                                    </li>
-                                </ul>
+                        </MultiStepItem>
+                        <MultiStepItem>
+                            <DialogHeader>
+                                <DialogHero image="/images/background/dialog/enchantment/overview_3.webp" />
+                            </DialogHeader>
+                            <hr className="!my-1" />
+                            <div className="p-4">
+                                <h2 className="flex shrink-0 items-center justify-between text-xl font-medium text-zinc-200 mb-2">
+                                    <Translate content="enchantment:overview.dialog.advanced.title" />
+                                </h2>
+                                <div className="relative leading-normal text-zinc-400 font-light">
+                                    <p>
+                                        <Translate content="enchantment:overview.dialog.advanced.body" />
+                                    </p>
+                                    <ul className="list-disc list-inside ml-4 mt-4 text-zinc-500 text-sm">
+                                        <li>
+                                            <Translate content="enchantment:overview.dialog.advanced.list.before" />{" "}
+                                            <b>
+                                                <Translate content="enchantment:overview.dialog.advanced.list.1.bold" />
+                                            </b>
+                                            , <Translate content="enchantment:overview.dialog.advanced.list.1.after" />
+                                        </li>
+                                        <li>
+                                            <Translate content="enchantment:overview.dialog.advanced.list.before" />{" "}
+                                            <b>
+                                                <Translate content="enchantment:overview.dialog.advanced.list.2.bold" />
+                                            </b>
+                                            , <Translate content="enchantment:overview.dialog.advanced.list.2.after" />
+                                        </li>
+                                        <li>
+                                            <Translate content="enchantment:overview.dialog.advanced.list.before" />{" "}
+                                            <b>
+                                                <Translate content="enchantment:overview.dialog.advanced.list.3.bold" />
+                                            </b>
+                                            , <Translate content="enchantment:overview.dialog.advanced.list.3.after" />
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
-                        </div>
-                    </MultiStepItem>
+                        </MultiStepItem>
 
-                    <DialogFooter className="flex items-end justify-between">
-                        <DialogCloseButton variant="ghost_border">
-                            <Translate content="close" />
-                        </DialogCloseButton>
-                        <MultiStepControl />
-                    </DialogFooter>
-                </MultiStep>
+                        <DialogFooter className="flex items-end justify-between">
+                            <DialogCloseButton variant="ghost_border">
+                                <Translate content="close" />
+                            </DialogCloseButton>
+                            <MultiStepControl />
+                        </DialogFooter>
+                    </MultiStep>
+                </DialogContent>
             </Dialog>
 
             <Toolbar>

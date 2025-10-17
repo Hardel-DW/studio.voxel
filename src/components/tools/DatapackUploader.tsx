@@ -25,15 +25,16 @@ export default function DatapackUploader() {
                 return;
             }
 
-            const datapack = await Datapack.from(files[0]);
+            const file = files[0];
+            const datapack = await Datapack.from(file);
             const result = datapack.parse();
             if (!result.version) {
                 toast(dictionary.studio.error.no_version, TOAST.ERROR);
                 return;
             }
 
-            useConfiguratorStore.getState().setup(result, files[0].name.endsWith(".zip"), files[0].name);
-            toast(`Successfully loaded ${files[0].name}`, TOAST.SUCCESS);
+            useConfiguratorStore.getState().setup(result, file.name.endsWith(".zip"), file.name);
+            toast(`Successfully loaded ${file.name}`, TOAST.SUCCESS);
             navigate({ to: "/$lang/studio/editor", params: { lang } });
         } catch (e: unknown) {
             console.error("Failed to upload datapack:", e);

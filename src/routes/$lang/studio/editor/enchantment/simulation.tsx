@@ -13,7 +13,7 @@ import { useConfiguratorStore } from "@/components/tools/Store";
 import Translate from "@/components/tools/Translate";
 import { Button } from "@/components/ui/Button";
 import Counter from "@/components/ui/Counter";
-import { Dialog, DialogCloseButton, DialogFooter, DialogHeader, DialogHero } from "@/components/ui/Dialog";
+import { Dialog, DialogCloseButton, DialogContent, DialogFooter, DialogHeader, DialogHero } from "@/components/ui/Dialog";
 import { MultiStep, MultiStepControl, MultiStepItem } from "@/components/ui/MultiStep";
 import Range from "@/components/ui/Range";
 import { Switch } from "@/components/ui/Switch";
@@ -106,121 +106,123 @@ function RouteComponent() {
 
     return (
         <div className="h-full">
-            <Dialog id="enchantment-simulation-welcome" reminder defaultOpen className="sm:max-w-[800px]">
-                <MultiStep>
-                    <MultiStepItem>
-                        <DialogHeader>
-                            <DialogHero image="/images/background/dialog/enchantment/simulation_1.webp" />
-                        </DialogHeader>
-                        <hr className="!my-1" />
-                        <div className="p-4">
-                            <h2 className="flex shrink-0 items-center justify-between text-xl font-medium text-zinc-200 mb-2">
-                                <Translate content="enchantment:simulation.dialog.usage.title" />
-                            </h2>
-                            <div className="relative leading-normal text-zinc-400 font-light">
-                                <p>
-                                    <Translate content="enchantment:simulation.dialog.usage.body" />
-                                </p>
-                                <ul className="list-disc list-inside ml-4 mt-4 text-zinc-500 text-sm">
-                                    <li>
-                                        <Translate content="enchantment:simulation.dialog.usage.list.1" />
-                                    </li>
-                                    <li>
-                                        <Translate content="enchantment:simulation.dialog.usage.list.2" />
-                                    </li>
-                                    <li>
-                                        <Translate content="enchantment:simulation.dialog.usage.list.3" />
-                                    </li>
-                                </ul>
+            <Dialog id="enchantment-simulation-welcome">
+                <DialogContent reminder defaultOpen className="sm:max-w-[800px]">
+                    <MultiStep>
+                        <MultiStepItem>
+                            <DialogHeader>
+                                <DialogHero image="/images/background/dialog/enchantment/simulation_1.webp" />
+                            </DialogHeader>
+                            <hr className="!my-1" />
+                            <div className="p-4">
+                                <h2 className="flex shrink-0 items-center justify-between text-xl font-medium text-zinc-200 mb-2">
+                                    <Translate content="enchantment:simulation.dialog.usage.title" />
+                                </h2>
+                                <div className="relative leading-normal text-zinc-400 font-light">
+                                    <p>
+                                        <Translate content="enchantment:simulation.dialog.usage.body" />
+                                    </p>
+                                    <ul className="list-disc list-inside ml-4 mt-4 text-zinc-500 text-sm">
+                                        <li>
+                                            <Translate content="enchantment:simulation.dialog.usage.list.1" />
+                                        </li>
+                                        <li>
+                                            <Translate content="enchantment:simulation.dialog.usage.list.2" />
+                                        </li>
+                                        <li>
+                                            <Translate content="enchantment:simulation.dialog.usage.list.3" />
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
-                        </div>
-                    </MultiStepItem>
-                    <MultiStepItem>
-                        <DialogHeader>
-                            <DialogHero image="/images/background/dialog/enchantment/simulation_2.webp" />
-                        </DialogHeader>
-                        <hr className="!my-1" />
-                        <div className="p-4">
-                            <h2 className="flex shrink-0 items-center justify-between text-xl font-medium text-zinc-200 mb-2">
-                                <Translate content="enchantment:simulation.dialog.stats.title" />
-                            </h2>
-                            <div className="relative leading-normal text-zinc-400 font-light">
-                                <p>
-                                    <Translate content="enchantment:simulation.dialog.stats.body" />
-                                </p>
-                                <ul className="list-disc list-inside ml-4 mt-4 text-zinc-500 text-sm">
-                                    <li>
-                                        <Translate content="enchantment:simulation.dialog.stats.list.1" />
-                                    </li>
-                                    <li>
-                                        <Translate content="enchantment:simulation.dialog.stats.list.2" />
-                                    </li>
-                                    <li>
-                                        <Translate content="enchantment:simulation.dialog.stats.list.3" />
-                                    </li>
-                                </ul>
+                        </MultiStepItem>
+                        <MultiStepItem>
+                            <DialogHeader>
+                                <DialogHero image="/images/background/dialog/enchantment/simulation_2.webp" />
+                            </DialogHeader>
+                            <hr className="!my-1" />
+                            <div className="p-4">
+                                <h2 className="flex shrink-0 items-center justify-between text-xl font-medium text-zinc-200 mb-2">
+                                    <Translate content="enchantment:simulation.dialog.stats.title" />
+                                </h2>
+                                <div className="relative leading-normal text-zinc-400 font-light">
+                                    <p>
+                                        <Translate content="enchantment:simulation.dialog.stats.body" />
+                                    </p>
+                                    <ul className="list-disc list-inside ml-4 mt-4 text-zinc-500 text-sm">
+                                        <li>
+                                            <Translate content="enchantment:simulation.dialog.stats.list.1" />
+                                        </li>
+                                        <li>
+                                            <Translate content="enchantment:simulation.dialog.stats.list.2" />
+                                        </li>
+                                        <li>
+                                            <Translate content="enchantment:simulation.dialog.stats.list.3" />
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
-                        </div>
-                    </MultiStepItem>
-                    <MultiStepItem>
-                        <DialogHeader>
-                            <DialogHero image="/images/background/dialog/enchantment/simulation_3.webp" />
-                        </DialogHeader>
-                        <hr className="!my-1" />
-                        <div className="p-4">
-                            <h2 className="flex shrink-0 items-center justify-between text-xl font-medium text-zinc-200 mb-2">
-                                <Translate content="enchantment:simulation.dialog.results.title" />
-                            </h2>
-                            <div className="relative leading-normal text-zinc-400 font-light">
-                                <p>
-                                    <Translate content="enchantment:simulation.dialog.results.body" />
-                                </p>
-                                <ul className="list-disc list-inside ml-4 mt-4 text-zinc-500 text-sm">
-                                    <li>
-                                        <Translate content="enchantment:simulation.dialog.results.list.1" />
-                                    </li>
-                                    <li>
-                                        <Translate content="enchantment:simulation.dialog.results.list.2" />
-                                    </li>
-                                </ul>
+                        </MultiStepItem>
+                        <MultiStepItem>
+                            <DialogHeader>
+                                <DialogHero image="/images/background/dialog/enchantment/simulation_3.webp" />
+                            </DialogHeader>
+                            <hr className="!my-1" />
+                            <div className="p-4">
+                                <h2 className="flex shrink-0 items-center justify-between text-xl font-medium text-zinc-200 mb-2">
+                                    <Translate content="enchantment:simulation.dialog.results.title" />
+                                </h2>
+                                <div className="relative leading-normal text-zinc-400 font-light">
+                                    <p>
+                                        <Translate content="enchantment:simulation.dialog.results.body" />
+                                    </p>
+                                    <ul className="list-disc list-inside ml-4 mt-4 text-zinc-500 text-sm">
+                                        <li>
+                                            <Translate content="enchantment:simulation.dialog.results.list.1" />
+                                        </li>
+                                        <li>
+                                            <Translate content="enchantment:simulation.dialog.results.list.2" />
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
-                        </div>
-                    </MultiStepItem>
-                    <MultiStepItem>
-                        <DialogHeader>
-                            <DialogHero image="/images/background/dialog/enchantment/simulation_4.webp" />
-                        </DialogHeader>
-                        <hr className="!my-1" />
-                        <div className="p-4">
-                            <h2 className="flex shrink-0 items-center justify-between text-xl font-medium text-zinc-200 mb-2">
-                                <Translate content="enchantment:simulation.dialog.item_selection.title" />
-                            </h2>
-                            <div className="relative leading-normal text-zinc-400 font-light">
-                                <p>
-                                    <Translate content="enchantment:simulation.dialog.item_selection.body" />
-                                </p>
-                                <ul className="list-disc list-inside ml-4 mt-4 text-zinc-500 text-sm">
-                                    <li>
-                                        <Translate content="enchantment:simulation.dialog.item_selection.list.1" />
-                                    </li>
-                                    <li>
-                                        <Translate content="enchantment:simulation.dialog.item_selection.list.2" />
-                                    </li>
-                                    <li>
-                                        <Translate content="enchantment:simulation.dialog.item_selection.list.3" />
-                                    </li>
-                                </ul>
+                        </MultiStepItem>
+                        <MultiStepItem>
+                            <DialogHeader>
+                                <DialogHero image="/images/background/dialog/enchantment/simulation_4.webp" />
+                            </DialogHeader>
+                            <hr className="!my-1" />
+                            <div className="p-4">
+                                <h2 className="flex shrink-0 items-center justify-between text-xl font-medium text-zinc-200 mb-2">
+                                    <Translate content="enchantment:simulation.dialog.item_selection.title" />
+                                </h2>
+                                <div className="relative leading-normal text-zinc-400 font-light">
+                                    <p>
+                                        <Translate content="enchantment:simulation.dialog.item_selection.body" />
+                                    </p>
+                                    <ul className="list-disc list-inside ml-4 mt-4 text-zinc-500 text-sm">
+                                        <li>
+                                            <Translate content="enchantment:simulation.dialog.item_selection.list.1" />
+                                        </li>
+                                        <li>
+                                            <Translate content="enchantment:simulation.dialog.item_selection.list.2" />
+                                        </li>
+                                        <li>
+                                            <Translate content="enchantment:simulation.dialog.item_selection.list.3" />
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
-                        </div>
-                    </MultiStepItem>
+                        </MultiStepItem>
 
-                    <DialogFooter className="flex items-end justify-between">
-                        <DialogCloseButton variant="ghost_border">
-                            <Translate content="close" />
-                        </DialogCloseButton>
-                        <MultiStepControl />
-                    </DialogFooter>
-                </MultiStep>
+                        <DialogFooter className="flex items-end justify-between">
+                            <DialogCloseButton variant="ghost_border">
+                                <Translate content="close" />
+                            </DialogCloseButton>
+                            <MultiStepControl />
+                        </DialogFooter>
+                    </MultiStep>
+                </DialogContent>
             </Dialog>
             <Toolbar>
                 <div className="flex items-center gap-1">

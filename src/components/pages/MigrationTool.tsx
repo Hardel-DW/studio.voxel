@@ -2,7 +2,7 @@ import { compileDatapack, Datapack, DatapackDownloader, Logger } from "@voxelio/
 import type React from "react";
 import { useRef, useState } from "react";
 import { LinkButton } from "@/components/ui/Button";
-import { Dialog, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/Dialog";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/Dialog";
 import Dropzone from "@/components/ui/Dropzone";
 import { toast } from "@/components/ui/Toast";
 import { useConfetti } from "@/lib/hook/useConfetti";
@@ -107,45 +107,51 @@ export default function MigrationTool({ children }: { children?: React.ReactNode
         <div className="container mx-auto">
             {renderConfetti()}
             {children}
-            <Dialog ref={dialogRef} id="migration-success-modal" className="sm:max-w-[525px]">
-                <DialogHeader>
-                    <DialogTitle className="flex items-center gap-x-2">
-                        <img src="/icons/success.svg" alt="zip" className="size-6" />
-                        {dictionary.generic.dialog.success}
-                    </DialogTitle>
-                    <DialogDescription>
-                        {dictionary.migration.success_message}
-                        <div className="py-2">
-                            <span className="font-semibold text-zinc-400">
-                                {uploads.target.data && `${uploads.target.data.name}.${uploads.target.data.isModded ? "jar" : "zip"}`}
-                            </span>
+            <Dialog id="migration-success-modal">
+                <DialogContent ref={dialogRef} className="sm:max-w-[525px]">
+                    <DialogHeader>
+                        <DialogTitle className="flex items-center gap-x-2">
+                            <img src="/icons/success.svg" alt="zip" className="size-6" />
+                            {dictionary.generic.dialog.success}
+                        </DialogTitle>
+                        <DialogDescription>
+                            {dictionary.migration.success_message}
+                            <div className="py-2">
+                                <span className="font-semibold text-zinc-400">
+                                    {uploads.target.data && `${uploads.target.data.name}.${uploads.target.data.isModded ? "jar" : "zip"}`}
+                                </span>
+                            </div>
+                            <div className="h-1 w-full bg-zinc-700 rounded-full" />
+                            <div className="pt-8">
+                                <h4 className="font-semibold">{dictionary.migration.success_info.additional_info}</h4>
+                                <ul className="list-disc list-inside pt-4 space-y-2 pl-4">
+                                    <li>
+                                        <span className="font-light">{dictionary.migration.success_info.additional_info}</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </DialogDescription>
+                    </DialogHeader>
+                    <DialogFooter className="pt-4 flex items-end justify-between">
+                        <div>
+                            <a
+                                href="https://discord.gg/TAmVFvkHep"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                aria-label="discord"
+                                className="hover:opacity-50 transition">
+                                <img src="/icons/company/discord.svg" alt="Discord" className="size-6 invert" />
+                            </a>
                         </div>
-                        <div className="h-1 w-full bg-zinc-700 rounded-full" />
-                        <div className="pt-8">
-                            <h4 className="font-semibold">{dictionary.migration.success_info.additional_info}</h4>
-                            <ul className="list-disc list-inside pt-4 space-y-2 pl-4">
-                                <li>
-                                    <span className="font-light">{dictionary.migration.success_info.additional_info}</span>
-                                </li>
-                            </ul>
-                        </div>
-                    </DialogDescription>
-                </DialogHeader>
-                <DialogFooter className="pt-4 flex items-end justify-between">
-                    <div>
-                        <a
-                            href="https://discord.gg/TAmVFvkHep"
+                        <LinkButton
                             target="_blank"
                             rel="noopener noreferrer"
-                            aria-label="discord"
-                            className="hover:opacity-50 transition">
-                            <img src="/icons/company/discord.svg" alt="Discord" className="size-6 invert" />
-                        </a>
-                    </div>
-                    <LinkButton target="_blank" rel="noopener noreferrer" href="https://streamelements.com/hardoudou/tip" variant="shimmer">
-                        {dictionary.generic.donate}
-                    </LinkButton>
-                </DialogFooter>
+                            href="https://streamelements.com/hardoudou/tip"
+                            variant="shimmer">
+                            {dictionary.generic.donate}
+                        </LinkButton>
+                    </DialogFooter>
+                </DialogContent>
             </Dialog>
 
             <div className="flex flex-col md:grid md:grid-cols-5 items-center justify-center mt-8">

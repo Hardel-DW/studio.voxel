@@ -4,7 +4,6 @@ import { useConfiguratorStore } from "@/components/tools/Store";
 import Translate from "@/components/tools/Translate";
 import { Button } from "@/components/ui/Button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/Popover";
-import { Switch } from "@/components/ui/Switch";
 import { useTranslateKey } from "@/lib/hook/useTranslation";
 
 const DebugPanel = lazy(() => import("@/components/tools/debug/DebugPanel"));
@@ -13,16 +12,10 @@ export default function SettingsButton() {
     const { isDebugModalOpen, openDebugModal } = useDebugStore();
     const name = useConfiguratorStore((state) => state.name);
     const setName = useConfiguratorStore((state) => state.setName);
-    const minify = useConfiguratorStore((state) => state.minify);
-    const setMinify = useConfiguratorStore((state) => state.setMinify);
     const translateKey = useTranslateKey("settings.datapack_name_placeholder");
 
     const handleClick = () => {
         const store = useConfiguratorStore.getState();
-        const assembleDatapack = store.compile();
-        console.info("------------ Datapack ---------------");
-        console.debug(assembleDatapack);
-        console.info("------------- Store ----------------");
         console.debug(store);
     };
 
@@ -47,7 +40,7 @@ export default function SettingsButton() {
                     <img src="/icons/settings.svg" alt="settings" className="size-8 invert" />
                 </Button>
             </PopoverTrigger>
-            <PopoverContent>
+            <PopoverContent className="w-72">
                 <div>
                     <p className="text-xs font-semibold border-b border-zinc-700">
                         <Translate content="settings.external_configuration" />
@@ -64,20 +57,6 @@ export default function SettingsButton() {
                                 placeholder={translateKey}
                             />
                         </div>
-
-                        <label htmlFor="minify" className="flex items-center justify-between w-full h-16">
-                            <div className="flex flex-col w-3/4">
-                                <span className="text-white text-sm line-clamp-1">
-                                    <Translate content="settings.minify_code" />
-                                </span>
-                                <span className="text-xs text-zinc-400 font-light line-clamp-2">
-                                    <Translate content="settings.minify_code.description" />
-                                </span>
-                            </div>
-                            <div className="flex items-center gap-4 h-full">
-                                <Switch id="minify" isChecked={minify} setIsChecked={setMinify} />
-                            </div>
-                        </label>
 
                         <div className="flex flex-col gap-2">
                             <button
