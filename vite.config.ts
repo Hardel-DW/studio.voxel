@@ -4,6 +4,7 @@ import { tanstackRouter } from "@tanstack/router-plugin/vite";
 import { fileURLToPath, URL } from "node:url";
 import tailwindcss from "@tailwindcss/vite";
 import devServer, { defaultOptions } from '@hono/vite-dev-server'
+import build from '@hono/vite-build/vercel'
 
 export default defineConfig({
     plugins: [
@@ -24,7 +25,8 @@ export default defineConfig({
             entry: "./src/server.ts",
             exclude: [/^\/(?!api\/).*/, ...defaultOptions.exclude],
             injectClientScript: false
-        })
+        }),
+        build({ entry: "./src/server.ts" })
     ],
     resolve: {
         alias: {
