@@ -21,7 +21,7 @@ app.onError((err, c) =>
     )
 );
 app.use("/api/*", cors());
-app.get("/api/hello", (c) => c.json({ message: "Hello, world!", test: process.env.TEST }));
+app.get("/api/hello", (c) => c.json({ message: "Hello, world!" }));
 app.get("/api/github/auth", (c) => {
     const GITHUB_CLIENT = process.env.GITHUB_CLIENT;
     if (!GITHUB_CLIENT) {
