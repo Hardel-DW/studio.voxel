@@ -1,6 +1,9 @@
-import type { KeyDictionary, Locale } from "@/lib/i18n/i18nServer";
+import { useParams } from "@tanstack/react-router";
+import { useDictionary } from "@/lib/hook/useNext18n";
 
-export default function Footer({ dictionary, lang }: { dictionary: KeyDictionary; lang: Locale }) {
+export default function Footer() {
+    const { lang } = useParams({ from: "/$lang" });
+    const dictionary = useDictionary();
     const basePath = "https://voxel.hardel.io";
     const footerContent = [
         {

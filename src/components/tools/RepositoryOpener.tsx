@@ -1,6 +1,6 @@
+import { useMutation } from "@tanstack/react-query";
 import { useNavigate, useParams } from "@tanstack/react-router";
-import { Datapack, DatapackError } from "@voxelio/breeze";
-import { extractZip } from "@voxelio/zip";
+import { Datapack } from "@voxelio/breeze";
 import { useState } from "react";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import { useExportStore } from "@/components/tools/sidebar/ExportStore";
@@ -18,131 +18,65 @@ import {
 } from "@/components/ui/Dialog";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/Dropdown";
 import { TOAST, toast } from "@/components/ui/Toast";
-import { type Organization, type Repository, useGitHubAuth, useGitHubRepos } from "@/lib/hook/useGitHubAuth";
+import { GitHub, type Repository } from "@/lib/github/GitHub";
+import { useGitHubAuth, useGitHubRepos } from "@/lib/hook/useGitHubAuth";
 import { useDictionary } from "@/lib/hook/useNext18n";
-import { useTranslateKey } from "@/lib/hook/useTranslation";
+import { RepositoryManager } from "@/lib/RepositoryManager";
 import { TextInput } from "../ui/TextInput";
 
 export default function RepositoryOpener() {
+    const navigate = useNavigate();
+    const { lang } = useParams({ from: "/$lang" });
     const [selectedAccount, setSelectedAccount] = useState<string>("");
     const [searchQuery, setSearchQuery] = useState("");
     const [thirdPartyUrl, setThirdPartyUrl] = useState("");
     const dictionary = useDictionary();
-    const searchPlaceholder = useTranslateKey("repository.search_placeholder");
-    const thirdPartyPlaceholder = useTranslateKey("repository.third_party_placeholder");
-    const { isAuthenticated, user, token, loginAsync, isLoggingIn } = useGitHubAuth();
-    const { data: reposData, isLoading: isLoadingRepos, refetch } = useGitHubRepos();
-    const navigate = useNavigate();
-    const { lang } = useParams({ from: "/$lang" });
-    const accounts: Array<{ value: string; label: string; description: string }> = [];
-    const allRepositories: Repository[] = [];
-    const isLoading = isLoggingIn || isLoadingRepos;
+    const { isAuthenticated, user, token, login, isLoggingIn } = useGitHubAuth();
+    const { data, isLoading: isLoadingRepos } = useGitHubRepos(token);
 
-    if (reposData && user) {
-        accounts.push({
-            value: user.login,
-            label: user.login,
-            description: "Your personal repositories"
-        });
+    const manager = new RepositoryManager(user, data);
+    const accounts = manager.getAccounts();
+    const selectedAccountData = manager.findAccount(selectedAccount);
+    const selectedAccountLabel = selectedAccountData?.label ?? dictionary.repository.select_account;
+    const filteredRepositories = manager.getFilteredRepositories(selectedAccount, searchQuery);
 
-        allRepositories.push(...reposData.repositories);
-        reposData.organizations.forEach((org: Organization) => {
-            accounts.push({
-                value: org.login,
-                label: org.login,
-                description: org.description || `${org.login} repositories`
-            });
-        });
-
-        allRepositories.push(...reposData.orgRepositories);
-    }
-
-    const selectedAccountLabel = accounts.find((acc) => acc.value === selectedAccount)?.label ?? "Select account";
-    const filteredRepositories = allRepositories.filter(
-        (repo) => repo.owner.login === selectedAccount && repo.name.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-
-    const handleImportRepository = async (repo: Repository) => {
-        try {
-            if (!token) {
-                toast(dictionary.studio.error.authentication_token_missing, TOAST.ERROR);
-                return;
-            }
-
+    const { mutate, isPending } = useMutation({
+        mutationFn: async (repo: Repository) => {
             toast(dictionary.studio.import_repository.downloading.replace("{repo.name}", repo.name), TOAST.INFO);
-            const response = await fetch(`/api/github/download/${repo.owner.login}/${repo.name}/${repo.default_branch}`, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            });
-
-            if (!response.ok) {
-                toast(dictionary.studio.error.failed_to_download_repository, TOAST.ERROR);
-                return;
-            }
-
-            const arrayBuffer = await response.arrayBuffer();
-            const zipData = new Uint8Array(arrayBuffer);
-            let files = await extractZip(zipData);
-
-            const rootFolder = Object.keys(files).find((key) => key.includes("/"));
-            if (rootFolder) {
-                const prefix = `${rootFolder.split("/")[0]}/`;
-                const cleanedFiles: Record<string, Uint8Array> = {};
-                for (const [path, data] of Object.entries(files)) {
-                    if (path.startsWith(prefix)) {
-                        cleanedFiles[path.substring(prefix.length)] = data;
-                    }
-                }
-                files = cleanedFiles;
-            }
-
-            const datapack = new Datapack(files);
-            const result = datapack.parse();
-
-            useConfiguratorStore.getState().setup(result, false, repo.name);
-            useExportStore.getState().setGitRepository(repo.owner.login, repo.name, repo.default_branch, token);
+            const files = await new GitHub({ authHeader: token }).clone(repo.owner.login, repo.name, repo.default_branch, true);
+            const datapack = new Datapack(files).parse();
+            return { datapack, repo };
+        },
+        onSuccess: ({ datapack, repo }) => {
+            useConfiguratorStore.getState().setup(datapack, false, repo.name);
+            useExportStore.getState().setGitRepository(repo.owner.login, repo.name, repo.default_branch, token || "");
             toast(dictionary.studio.import_repository.success.replace("{repo.name}", repo.name), TOAST.SUCCESS);
             navigate({ to: "/$lang/studio/editor", params: { lang } });
-        } catch (e: unknown) {
-            console.error("Failed to import repository:", e);
-            if (e instanceof DatapackError) {
-                const errorKey = e.message as keyof typeof dictionary.studio.error;
-                const errorMessage = dictionary.studio.error[errorKey] || e.message;
-                toast(dictionary.generic.dialog.error, TOAST.ERROR, errorMessage);
-            } else if (e instanceof Error) {
-                toast(e.message, TOAST.ERROR);
-            } else {
-                toast(dictionary.studio.error.failed_to_import_repository, TOAST.ERROR);
-            }
+        },
+        onError: (e: unknown) => {
+            const errorMessage = e instanceof Error ? e.message : dictionary.studio.error.failed_to_import_repository;
+            toast(dictionary.generic.dialog.error, TOAST.ERROR, errorMessage);
         }
-    };
+    });
 
-    const handleButtonClick = async () => {
-        if (!isAuthenticated) {
-            try {
-                await loginAsync();
-            } catch (error) {
-                console.error("Authentication failed:", error);
-                return;
-            }
-        }
-
-        if (!selectedAccount) {
-            const data = reposData || (await refetch()).data;
-            if (data) {
-                const firstAccount = data.repositories[0]?.owner.login || user?.login;
-                if (firstAccount) {
-                    setSelectedAccount(firstAccount);
-                }
-            }
-        }
-    };
+    if (!isAuthenticated) return (
+        <Button
+            onClick={() => login()}
+            className="w-full mt-8 flex items-center gap-x-2 shimmer-zinc-950 border border-zinc-800 text-white">
+            <img src="/icons/company/github.svg" alt="GitHub" className="size-4 invert" />
+            <span className="text-sm">
+                <Translate content="repository.login_to_github" />
+            </span>
+        </Button>
+    );
 
     return (
-        <Dialog id="repository-opener-modal">
+        <Dialog id="repository-opener-modal" className="w-full">
             <DialogTrigger>
-                <Button onClick={handleButtonClick} disabled={isLoading} className="w-full mt-8 flex items-center gap-x-2">
+                <Button
+                    onClick={() => setSelectedAccount(manager.getDefaultAccountLogin())}
+                    disabled={isLoggingIn || isLoadingRepos}
+                    className="w-full mt-8 flex items-center gap-x-2">
                     <img src="/icons/company/github.svg" alt="GitHub" className="size-4" />
                     <span className="text-sm">
                         <Translate content={isLoggingIn ? "repository.loading" : "repository.open"} />
@@ -175,7 +109,11 @@ export default function RepositoryOpener() {
                                     <DropdownMenuItem
                                         key={account.value}
                                         onClick={() => setSelectedAccount(account.value)}
-                                        description={account.description}
+                                        description={
+                                            account.type === "user"
+                                                ? dictionary.repository.personal_repositories
+                                                : dictionary.repository.organization_repositories.replace("{org}", account.label)
+                                        }
                                         className={selectedAccount === account.value ? "bg-zinc-900 text-zinc-200" : ""}>
                                         {account.label}
                                     </DropdownMenuItem>
@@ -183,7 +121,11 @@ export default function RepositoryOpener() {
                             </DropdownMenuContent>
                         </DropdownMenu>
 
-                        <TextInput placeholder={searchPlaceholder} value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
+                        <TextInput
+                            placeholder={dictionary.repository.search_placeholder}
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                        />
                     </div>
 
                     <div className="max-h-[400px] overflow-y-auto space-y-3">
@@ -212,8 +154,9 @@ export default function RepositoryOpener() {
                                     </div>
                                     <Button
                                         type="button"
-                                        onClick={() => handleImportRepository(repo)}
+                                        onClick={() => mutate(repo)}
                                         variant="default"
+                                        disabled={isPending}
                                         className="shrink-0 text-xs px-3 py-2">
                                         <Translate content="repository.import" />
                                     </Button>
@@ -228,7 +171,7 @@ export default function RepositoryOpener() {
                         </label>
                         <div className="flex items-center gap-2">
                             <TextInput
-                                placeholder={thirdPartyPlaceholder}
+                                placeholder={dictionary.repository.third_party_placeholder}
                                 value={thirdPartyUrl}
                                 onChange={(e) => setThirdPartyUrl(e.target.value)}
                             />

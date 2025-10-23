@@ -17,6 +17,7 @@ import {
     DialogTrigger
 } from "@/components/ui/Dialog";
 import { TOAST, toast } from "@/components/ui/Toast";
+import { GitHub } from "@/lib/github/GitHub";
 import { cn, encodeToBase64 } from "@/lib/utils";
 
 type GitHubActionPayload = {
@@ -30,18 +31,7 @@ export default function GithubSender() {
     const { owner, repositoryName, branch, token, isGitRepository } = useExportStore();
 
     const { mutate } = useMutation({
-        mutationFn: async () => {
-            if (!token) throw new Error("Authentication token is missing");
-            const response = await fetch(pendingAction?.type === "pr" ? "/api/github/pr" : "/api/github/push", {
-                method: "POST",
-                headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-                body: JSON.stringify({ owner, repositoryName, branch, files: pendingAction?.files })
-            });
-
-            const data = await response.json();
-            if (!response.ok) throw new Error(data.error || "Request failed");
-            return data;
-        },
+        mutationFn: () => new GitHub({ authHeader: token }).send(owner, repositoryName, branch, pendingAction?.type),
         onSuccess: (data) => {
             const message = pendingAction?.type === "pr" ? "Pull request created" : "Changes pushed";
             const detail = pendingAction?.type === "pr" ? data.prUrl : `${data.filesModified} files modified`;
@@ -52,7 +42,6 @@ export default function GithubSender() {
     });
 
     const handleGitAction = (type: GitHubActionPayload["type"]) => {
-        if (!token) return toast("Authentication token missing", TOAST.ERROR);
         const configuratorStore = useConfiguratorStore.getState();
         const compiledFiles = configuratorStore.compile().getFiles();
         const changes = new DatapackDownloader(compiledFiles).getDiff(configuratorStore.files);

@@ -6,7 +6,6 @@ import DatapackUploader from "@/components/tools/DatapackUploader";
 import RepositoryOpener from "@/components/tools/RepositoryOpener";
 import VanillaImportButton from "@/components/tools/VanillaImportButton";
 import { useDictionary } from "@/lib/hook/useNext18n";
-import type { Locale } from "@/lib/i18n/i18nServer";
 
 export const Route = createFileRoute("/$lang/studio/")({
     component: StudioLayout,
@@ -21,7 +20,7 @@ function StudioLayout() {
     return (
         <main className="w-full">
             <Link to="/$lang/studio/editor" params={{ lang }} className="hidden" aria-hidden="true" />
-            <Navbar dictionary={dictionary} lang={lang as Locale} />
+            <Navbar />
             <section className="w-11/12 md:w-3/4 mx-auto flex flex-col justify-evenly xl:grid grid-cols-2 items-center relative gap-8 min-h-screen">
                 <div className="h-full w-[95%] md:w-full relative">
                     <div className="xl:invisible visible absolute flex justify-center items-center size-full -z-10">
@@ -76,7 +75,7 @@ function StudioLayout() {
                     </div>
                 </div>
             </section>
-            <Footer dictionary={dictionary} lang={lang as Locale} />
+            <Footer />
         </main>
     );
 }

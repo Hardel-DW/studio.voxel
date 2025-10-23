@@ -47,12 +47,41 @@ app.get("/api/github/callback", async (c) => {
     const githubWithToken = new GitHub({ authHeader: token as string });
     const { login, id, avatar_url } = await githubWithToken.getUser();
 
-    return c.json({ token, user: { login, id, avatar_url } });
+    const expiry = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+    const authData = btoa(JSON.stringify({ token, user: { login, id, avatar_url }, expiry: expiry.toISOString() }));
+
+    c.header("Set-Cookie", `voxel_github_auth=${authData}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=${7 * 24 * 60 * 60}`);
+    return c.json({ success: true, user: { login, id, avatar_url } });
+});
+
+app.get("/api/github/session", async (c) => {
+    const cookie = c.req.header("cookie");
+    const authCookie = cookie?.split(";").find((c) => c.trim().startsWith("voxel_github_auth="));
+
+    if (!authCookie) return c.json({ authenticated: false }, 401);
+
+    const authData = JSON.parse(atob(authCookie.split("=")[1]));
+    const expiryDate = new Date(authData.expiry);
+
+    if (expiryDate < new Date()) {
+        return c.json({ authenticated: false }, 401);
+    }
+
+    return c.json({ authenticated: true, user: authData.user, token: authData.token });
+});
+
+app.post("/api/github/logout", async (c) => {
+    c.header("Set-Cookie", "voxel_github_auth=; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=0");
+    return c.json({ success: true });
 });
 
 app.get("/api/github/repos", async (c) => {
-    const authHeader = c.req.header("authorization");
-    const github = new GitHub({ authHeader });
+    const cookie = c.req.header("cookie");
+    const authCookie = cookie?.split(";").find((c) => c.trim().startsWith("voxel_github_auth="));
+    if (!authCookie) return c.json({ error: "Unauthorized" }, 401);
+    const authData = JSON.parse(atob(authCookie.split("=")[1]));
+
+    const github = new GitHub({ authHeader: authData.token });
     const [repositories, rawOrganizations] = await Promise.all([github.getUserRepos(), github.getUserOrgs()]);
     const organizations = rawOrganizations.map(({ login, id, avatar_url, description }) => ({ login, id, avatar_url, description }));
     const orgReposPromises = rawOrganizations.map((org) => github.getOrgRepos(org.login));

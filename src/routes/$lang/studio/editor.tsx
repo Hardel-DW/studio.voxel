@@ -4,6 +4,7 @@ import { useState } from "react";
 import EditorLoading from "@/components/pages/studio/EditorLoading";
 import ConfigManager from "@/components/tools/ConfigManager";
 import ConfiguratorPanel from "@/components/tools/ConfiguratorPanel";
+import ItemTooltip from "@/components/tools/elements/gui/ItemTooltip";
 import PageTitle from "@/components/tools/PageTitle";
 import StudioSidebar from "@/components/tools/sidebar/Sidebar";
 import ToolInternalization from "@/components/tools/ToolInternalization";
@@ -74,6 +75,8 @@ function EditorLayout() {
                                         <div className="contents">
                                             <Outlet />
                                         </div>
+
+                                        <ItemTooltip />
                                     </ConfigManager>
                                 </HydrationBoundary>
                             </div>

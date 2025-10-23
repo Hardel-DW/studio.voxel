@@ -5,7 +5,6 @@ import PageLoading from "@/components/pages/PageLoading";
 import ShiningStars from "@/components/ui/ShiningStars";
 import Star from "@/components/ui/Star";
 import { useDictionary } from "@/lib/hook/useNext18n";
-import type { Locale } from "@/lib/i18n/i18nServer";
 
 export const Route = createFileRoute("/$lang/harmonization")({
     component: HarmonizationPage,
@@ -13,11 +12,10 @@ export const Route = createFileRoute("/$lang/harmonization")({
 });
 
 function HarmonizationPage() {
-    const { lang } = Route.useParams();
     const dictionary = useDictionary();
 
     return (
-        <CompoundLayout dictionary={dictionary} lang={lang as Locale}>
+        <CompoundLayout>
             <div className="fixed inset-0 -z-10">
                 <ShiningStars />
             </div>

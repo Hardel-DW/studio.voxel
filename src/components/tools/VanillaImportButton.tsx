@@ -9,6 +9,7 @@ export default function VanillaImportButton() {
     const dictionary = useDictionary();
     const { lang } = useParams({ from: "/$lang" });
     const navigate = useNavigate();
+
     const handleVanillaImport = async (version: number) => {
         const mcmeta = { pack: { pack_format: version, description: "No Description, please change this - Voxel Configurator" } };
         const files = new Datapack({ "pack.mcmeta": new TextEncoder().encode(JSON.stringify(mcmeta)) }).getFiles();

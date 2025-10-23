@@ -6,7 +6,7 @@ export default function SettingsDialog() {
     const isModded = useConfiguratorStore((state) => state.isModded);
 
     return (
-        <>
+        <div>
             <div className="py-2">
                 <span className="font-semibold text-zinc-400">{`${name}.${isModded ? "jar" : "zip"}`}</span>
             </div>
@@ -23,6 +23,6 @@ export default function SettingsDialog() {
                     </li>
                 </ul>
             </div>
-        </>
+        </div>
     );
 }

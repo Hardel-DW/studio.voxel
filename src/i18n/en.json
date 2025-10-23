@@ -13,6 +13,20 @@
             "error": "Error"
         }
     },
+    "repository": {
+        "loading": "Loading repositories...",
+        "select": "Select a Repository",
+        "select_description": "Choose an account and select a repository to import",
+        "select_account": "Select account",
+        "personal_repositories": "Your personal repositories",
+        "organization_repositories": "{org} repositories",
+        "account": "Account",
+        "search_placeholder": "Search repositories...",
+        "no_results": "No repositories found",
+        "import": "Import",
+        "third_party": "Import a Third-Party Git Repository",
+        "third_party_placeholder": "https://github.com/username/repository"
+    },
     "home": {
         "title": "Take control",
         "description": "is a project that offers customization tools for Minecraft content with intuitive interfaces, for everyone.",
@@ -43,6 +57,7 @@
         }
     },
     "navbar": {
+        "logout": "Logout",
         "item": {
             "blog": "Blog",
             "data_pack": "Datapacks",

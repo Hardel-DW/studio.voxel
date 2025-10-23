@@ -12,6 +12,11 @@ import { compileDatapack, isVoxelElement, Logger, sortElementsByRegistry, update
 import { create } from "zustand";
 import type { CONCEPT_KEY } from "./elements";
 
+export type RegistrySearchOptions = {
+    path?: string;
+    excludeNamespaces?: string[];
+};
+
 export interface ConfiguratorState<T extends keyof Analysers> {
     name: string;
     logger?: Logger;
@@ -32,10 +37,7 @@ export interface ConfiguratorState<T extends keyof Analysers> {
     compile: () => Datapack;
     getLengthByRegistry: (registry: string) => number;
     getConcept: (pathname: string) => CONCEPT_KEY | null;
-    getRegistry: <R extends DataDrivenElement>(
-        registry: string,
-        options?: { path?: string; excludeNamespaces?: string[] }
-    ) => DataDrivenRegistryElement<R>[];
+    getRegistry: <R extends DataDrivenElement>(registry: string, options?: RegistrySearchOptions) => DataDrivenRegistryElement<R>[];
 }
 
 const createConfiguratorStore = <T extends keyof Analysers>() =>

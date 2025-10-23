@@ -42,6 +42,7 @@
     "repository.import": "Importer",
     "repository.third_party": "Importer un dépôt Git tiers",
     "repository.third_party_placeholder": "https://github.com/utilisateur/depot",
+    "repository.login_to_github": "Se connecter à GitHub",
     "vanilla_disabled": "Contenu désactivé, Minecraft ne permet pas de modifier ce contenu.",
     "debug_mode": "Quitter le mode débug",
     "modification_success": "Le datapack a été modifié avec succès. Il devrait apparaître dans votre dossier de téléchargement sous le nom.",

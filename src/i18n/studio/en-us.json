@@ -44,6 +44,7 @@
     "repository.import": "Import",
     "repository.third_party": "Import a Third-Party Git Repository",
     "repository.third_party_placeholder": "https://github.com/username/repository",
+    "repository.login_to_github": "Login to GitHub",
     "vanilla_disabled": "Content disabled, Minecraft does not allow modifying this content.",
     "temporary_disabled": "Temporarily disabled - Come back soon!",
     "loading": "Loading...",

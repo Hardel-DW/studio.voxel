@@ -1,3 +1,4 @@
+import { clone } from "./clone";
 import { createBlob } from "./createBlob";
 import { createCommit } from "./createCommit";
 import { createPullRequest } from "./createPullRequest";
@@ -12,6 +13,8 @@ import { getRef } from "./getRef";
 import { getUser } from "./getUser";
 import { getUserOrgs } from "./getUserOrgs";
 import { getUserRepos } from "./getUserRepos";
+import { initiateGitHubAuth } from "./initiateAuth";
+import { send } from "./send";
 import { updateRef } from "./updateRef";
 
 type TreeItem = {
@@ -22,17 +25,46 @@ type TreeItem = {
 };
 
 type GitHubOptions = {
-    authHeader?: string;
-    clientId?: string;
-    clientSecret?: string;
+    authHeader?: string | null;
+    clientId?: string | null;
+    clientSecret?: string | null;
+};
+
+export type Repository = {
+    id: number;
+    name: string;
+    full_name: string;
+    description: string | null;
+    private: boolean;
+    owner: {
+        login: string;
+        avatar_url: string;
+    };
+    html_url: string;
+    clone_url: string;
+    updated_at: string;
+    default_branch: string;
+};
+
+export type Organization = {
+    login: string;
+    id: number;
+    avatar_url: string;
+    description: string;
+};
+
+export type ReposResponse = {
+    repositories: Repository[];
+    organizations: Organization[];
+    orgRepositories: Repository[];
 };
 
 export class GitHub {
-    private authHeader: string;
-    private clientId: string;
-    private clientSecret: string;
+    private authHeader: string | null;
+    private clientId: string | null;
+    private clientSecret: string | null;
 
-    constructor({ authHeader = "", clientId = "", clientSecret = "" }: GitHubOptions = {}) {
+    constructor({ authHeader = null, clientId = null, clientSecret = null }: GitHubOptions = {}) {
         this.authHeader = authHeader;
         this.clientId = clientId;
         this.clientSecret = clientSecret;
@@ -92,6 +124,42 @@ export class GitHub {
         return getOrgRepos(this.authenticatedToken, org);
     }
 
+    async getAllRepos(): Promise<ReposResponse> {
+        const response = await fetch("/api/github/repos", {
+            credentials: "include"
+        });
+
+        if (!response.ok) {
+            throw new GitHubError("Failed to fetch repositories", response.status);
+        }
+
+        return response.json();
+    }
+
+    async getSession() {
+        const response = await fetch("/api/github/session", {
+            credentials: "include"
+        });
+
+        if (!response.ok) return null;
+
+        const data = await response.json();
+        return data.authenticated ? { token: data.token, user: data.user } : null;
+    }
+
+    async logout() {
+        const response = await fetch("/api/github/logout", {
+            method: "POST",
+            credentials: "include"
+        });
+
+        if (!response.ok) {
+            throw new GitHubError("Failed to logout", response.status);
+        }
+
+        return response.json();
+    }
+
     getRef(owner: string, repo: string, branch: string) {
         return getRef(this.authenticatedHeader, owner, repo, branch);
     }
@@ -148,5 +216,19 @@ export class GitHub {
         const filesCount = Object.keys(files).length;
         const body = `Update ${filesCount} file${filesCount > 1 ? "s" : ""} via Voxel Studio\n\nCo-authored-by: Voxel Studio <studio.voxelio@gmail.com>`;
         return { treeData, body, filesCount };
+    }
+
+    async send(owner: string, repositoryName: string, branch: string, action?: "pr" | "push") {
+        if (!action) throw new GitHubError("Missing action parameter", 400);
+        return send(this.authenticatedToken, owner, repositoryName, branch, action);
+    }
+
+    async clone(owner: string, repositoryName: string, branch: string, removeRootFolder: boolean) {
+        return clone(this.authenticatedToken, owner, repositoryName, branch, removeRootFolder);
+    }
+
+    async initiateAuth() {
+        const { url } = await initiateGitHubAuth();
+        return url;
     }
 }

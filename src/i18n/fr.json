@@ -13,6 +13,20 @@
             "error": "Erreur"
         }
     },
+    "repository": {
+        "loading": "Chargement des repositories...",
+        "select": "Sélectionner un Repository",
+        "select_description": "Choisissez un compte et sélectionnez un repository pour importer",
+        "select_account": "Sélectionner un compte",
+        "personal_repositories": "Vos repositories personnels",
+        "organization_repositories": "Repositories de {org}",
+        "account": "Compte",
+        "search_placeholder": "Rechercher des repositories...",
+        "no_results": "Aucun repository trouvé",
+        "import": "Importer",
+        "third_party": "Importer un Repository Git tiers",
+        "third_party_placeholder": "https://github.com/username/repository"
+    },
     "home": {
         "title": "Prend le contrôle",
         "description": "est un projet qui offre des outils de personnalisation pour le contenu Minecraft avec des interfaces intuitives, pour le tout public.",
@@ -43,6 +57,7 @@
         }
     },
     "navbar": {
+        "logout": "Se déconnecter",
         "item": {
             "blog": "Blog",
             "data_pack": "Datapacks",
