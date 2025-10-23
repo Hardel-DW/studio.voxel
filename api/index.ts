@@ -134,6 +134,4 @@ app.post("/api/github/pr", async (c) => {
     return c.json({ prUrl: prData.html_url });
 });
 
-export default app;
-
-export const handler = handle(app);
+export default handle(app);
