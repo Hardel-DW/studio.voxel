@@ -1,20 +1,20 @@
-import { createBlob } from "./createBlob";
-import { createCommit } from "./createCommit";
-import { createPullRequest } from "./createPullRequest";
-import { createRef } from "./createRef";
-import { createTree } from "./createTree";
-import { downloadRepo } from "./downloadRepo";
-import { GitHubError } from "./GitHubError";
-import { getAccessToken } from "./getAccessToken";
-import { getCommit } from "./getCommit";
-import { getOrgRepos } from "./getOrgRepos";
-import { getRef } from "./getRef";
-import { getUser } from "./getUser";
-import { getUserOrgs } from "./getUserOrgs";
-import { getUserRepos } from "./getUserRepos";
-import { initiateGitHubAuth } from "./initiateAuth";
-import { send } from "./send";
-import { updateRef } from "./updateRef";
+import { createBlob } from "./createBlob.js";
+import { createCommit } from "./createCommit.js";
+import { createPullRequest } from "./createPullRequest.js";
+import { createRef } from "./createRef.js";
+import { createTree } from "./createTree.js";
+import { downloadRepo } from "./downloadRepo.js";
+import { GitHubError } from "./GitHubError.js";
+import { getAccessToken } from "./getAccessToken.js";
+import { getCommit } from "./getCommit.js";
+import { getOrgRepos } from "./getOrgRepos.js";
+import { getRef } from "./getRef.js";
+import { getUser } from "./getUser.js";
+import { getUserOrgs } from "./getUserOrgs.js";
+import { getUserRepos } from "./getUserRepos.js";
+import { initiateGitHubAuth } from "./initiateAuth.js";
+import { send } from "./send.js";
+import { updateRef } from "./updateRef.js";
 
 type TreeItem = {
     path: string;
