@@ -1,9 +1,8 @@
 import { Hono } from "hono";
 import { cors } from "hono/cors";
-import "@voxelio/env/config";
 import type { ContentfulStatusCode } from "hono/utils/http-status";
-import { GitHub } from "../src/lib/github/GitHub";
-import { GitHubError } from "../src/lib/github/GitHubError";
+import { GitHub } from "./lib/GitHub.js";
+import { GitHubError } from "./lib/GitHubError.js";
 import { handle } from "hono/vercel";
 
 type SendRequest = {
@@ -135,4 +134,6 @@ app.post("/api/github/pr", async (c) => {
     return c.json({ prUrl: prData.html_url });
 });
 
-export default handle(app);
+export default app;
+
+export const handler = handle(app);
