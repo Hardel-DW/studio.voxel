@@ -21,7 +21,7 @@ export default defineConfig({
         }),
         tailwindcss(),
         devServer({
-            entry: "./src/server.ts",
+            entry: "./api/index.ts",
             exclude: [/^\/(?!api\/).*/, ...defaultOptions.exclude],
             injectClientScript: false
         })
