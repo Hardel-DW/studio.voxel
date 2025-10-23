@@ -12,8 +12,6 @@ import { getRef } from "./getRef.js";
 import { getUser } from "./getUser.js";
 import { getUserOrgs } from "./getUserOrgs.js";
 import { getUserRepos } from "./getUserRepos.js";
-import { initiateGitHubAuth } from "./initiateAuth.js";
-import { send } from "./send.js";
 import { updateRef } from "./updateRef.js";
 
 type TreeItem = {
@@ -217,13 +215,11 @@ export class GitHub {
         return { treeData, body, filesCount };
     }
 
-    async send(owner: string, repositoryName: string, branch: string, action?: "pr" | "push") {
-        if (!action) throw new GitHubError("Missing action parameter", 400);
-        return send(this.authenticatedToken, owner, repositoryName, branch, action);
+    async send() {
+        return;
     }
 
     async initiateAuth() {
-        const { url } = await initiateGitHubAuth();
-        return url;
+        return;
     }
 }
