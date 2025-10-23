@@ -1,4 +1,3 @@
-import { clone } from "./clone";
 import { createBlob } from "./createBlob";
 import { createCommit } from "./createCommit";
 import { createPullRequest } from "./createPullRequest";
@@ -221,10 +220,6 @@ export class GitHub {
     async send(owner: string, repositoryName: string, branch: string, action?: "pr" | "push") {
         if (!action) throw new GitHubError("Missing action parameter", 400);
         return send(this.authenticatedToken, owner, repositoryName, branch, action);
-    }
-
-    async clone(owner: string, repositoryName: string, branch: string, removeRootFolder: boolean) {
-        return clone(this.authenticatedToken, owner, repositoryName, branch, removeRootFolder);
     }
 
     async initiateAuth() {
