@@ -4,6 +4,7 @@ import "@voxelio/env/config";
 import type { ContentfulStatusCode } from "hono/utils/http-status";
 import { GitHub } from "@/lib/github/GitHub";
 import { GitHubError } from "@/lib/github/GitHubError";
+import { handle } from "hono/vercel";
 
 type SendRequest = {
     owner: string;
@@ -135,3 +136,5 @@ app.post("/api/github/pr", async (c) => {
 });
 
 export default app;
+
+export const handler = handle(app);
