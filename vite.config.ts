@@ -1,18 +1,22 @@
 import { defineConfig } from 'vite'
 import react from "@vitejs/plugin-react";
-import { tanstackRouter } from "@tanstack/router-plugin/vite";
+import { tanstackStart } from '@tanstack/react-start/plugin/vite'
 import { fileURLToPath, URL } from "node:url";
 import tailwindcss from "@tailwindcss/vite";
-import devServer, { defaultOptions } from '@hono/vite-dev-server'
-import build from '@hono/vite-build/vercel'
 
 export default defineConfig({
     plugins: [
-        tanstackRouter({
-            routesDirectory: "./src/routes",
-            generatedRouteTree: "./src/routeTree.gen.ts",
-            autoCodeSplitting: true
+        tanstackStart({
+            spa: {
+                enabled: true,
+                prerender: {
+                    outputPath: '/custom-shell',
+                    retryCount: 3,
+                    crawlLinks: true
+                }
+            }
         }),
+        tailwindcss(),
         react({
             babel: {
                 plugins: [
@@ -20,15 +24,6 @@ export default defineConfig({
                 ],
             },
         }),
-        tailwindcss(),
-        devServer({
-            entry: "./api/index.ts",
-            exclude: [/^\/(?!api\/).*/, ...defaultOptions.exclude],
-            injectClientScript: false
-        }),
-        build({
-            entry: "./api/index.ts"
-        })
     ],
     resolve: {
         alias: {

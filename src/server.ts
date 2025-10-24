@@ -1,9 +1,9 @@
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 import type { ContentfulStatusCode } from "hono/utils/http-status";
-import { GitHub } from "./_lib/github/GitHub.js";
-import { GitHubError } from "./_lib/github/GitHubError.js";
 import { handle } from "hono/vercel";
+import { GitHub } from "@/lib/github/GitHub.js";
+import { GitHubError } from "@/lib/github/GitHubError.js";
 
 type SendRequest = {
     owner: string;
