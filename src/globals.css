@@ -23,15 +23,15 @@
 }
 
 @utility slider-* {
-    box-shadow: 0 0 0 3px --value(--color-\*) inset, calc(100rem * -1 - .6rem) 0 0 100rem --value(--color-\*);
+    box-shadow: 0 0 0 3px --value(--color-*) inset, calc(100rem * -1 - .6rem) 0 0 100rem --value(--color-*);
 }
 
 @utility linear-* {
-    background-image: --value(--color-\*);
+    background-image: --value(--color-*);
 }
 
 @utility shimmer-* {
-    --c: --value(--color-\*);
+    --c: --value(--color-*);
     animation: shimmer 2s linear infinite;
     background-image: linear-gradient(110deg in oklch,var(--c) 45%, oklch(from var(--c) clamp(0.3, calc(l + (0.7 - l) * 0.3), 0.95) calc(c * 0.9) h), var(--c) 55%);
     background-size: 200% 100%;
