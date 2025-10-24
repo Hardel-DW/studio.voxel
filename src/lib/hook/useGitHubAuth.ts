@@ -21,14 +21,14 @@ export function useGitHubAuth() {
     const authQuery = useQuery({
         queryKey: AUTH_QUERY_KEY,
         queryFn: () => new GitHub().getSession(),
-        staleTime: Number.POSITIVE_INFINITY,
+        staleTime: 0,
         retry: false
     });
 
     const loginMutation = useMutation({
         mutationFn: async () => {
-            sessionStorage.setItem("github_auth_return", window.location.pathname);
-            window.location.href = await new GitHub().initiateAuth();
+            const returnTo = window.location.pathname;
+            await new GitHub().initiateAuth(returnTo);
         }
     });
 

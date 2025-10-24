@@ -6,16 +6,7 @@ import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
     plugins: [
-        tanstackStart({
-            spa: {
-                enabled: true,
-                prerender: {
-                    outputPath: '/custom-shell',
-                    retryCount: 3,
-                    crawlLinks: true
-                }
-            }
-        }),
+        tanstackStart(),
         tailwindcss(),
         react({
             babel: {
@@ -29,8 +20,7 @@ export default defineConfig({
         alias: {
             "@": fileURLToPath(new URL("./src", import.meta.url)),
             "@lib/*": fileURLToPath(new URL("./src/lib/*", import.meta.url)),
-            "@routes/*": fileURLToPath(new URL("./src/routes/*", import.meta.url)),
-            "@api/*": fileURLToPath(new URL("./api/*", import.meta.url))
+            "@routes/*": fileURLToPath(new URL("./src/routes/*", import.meta.url))
         }
     }
 })

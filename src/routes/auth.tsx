@@ -1,27 +1,19 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
+import { handleGitHubCallbackFn } from "@/lib/server/callback";
 
 export const Route = createFileRoute("/auth")({
     loader: async ({ location }) => {
         const params = new URLSearchParams(location.search);
         const code = params.get("code");
+        const state = params.get("state");
 
-        if (!code) {
-            throw new Error("Missing code parameter");
+        if (!code || !state) {
+            throw new Error("Missing code or state parameter");
         }
 
-        const response = await fetch(`/api/github/callback?code=${code}`, {
-            credentials: "include"
-        });
+        const result = await handleGitHubCallbackFn({ data: { code, state } });
 
-        const data = await response.json();
-
-        if (!response.ok) {
-            throw new Error(data.error || "Authentication failed");
-        }
-
-        const returnTo = sessionStorage.getItem("github_auth_return") || "/en";
-        sessionStorage.removeItem("github_auth_return");
-
-        throw redirect({ to: returnTo });
+        // Ajouter un param de query pour signaler qu'on vient de login
+        throw redirect({ to: result.returnTo, search: { auth_refresh: true } });
     }
 });

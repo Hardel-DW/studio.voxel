@@ -82,20 +82,16 @@ src/
 - Real-time compilation and validation
 
 #### Code Style
-
 - **Biome Configuration**: 4-space indents, 140 char line width, double quotes
 - **Import Aliases**: `@/` for src root, `@lib/*` and `@routes/*` for specific
   paths
 - **React Patterns**: Uses React 19 features with React Compiler enabled
 
 Rules:
-
 - No code redundancy.
 - No "any" type. For type "unknown", it is preferable to request authorization.
 - Avoid globalthis.
 - Prefer modern and standards logic 2024 abb 2025.
-- Do not implement more features than requested.
-- After the third time with the same problem, try to think of a simple solution and a complete solution, which may require redoing a large part of the work.
 - Methods must be less than 10 lines of code and must do one thing correctly.
 - No Legacy or Deprecated support.
 - At the end of each sessions, check with `npm run lint`
