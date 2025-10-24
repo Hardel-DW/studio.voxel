@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { createPortal } from "react-dom";
 import { create } from "zustand";
+import Portal from "@/components/ui/Portal";
 import { cn } from "@/lib/utils";
 
 export const TOAST = {
@@ -125,34 +125,35 @@ export function Toaster() {
 
     const getOffset = (stackIndex: number) => toasts.slice(0, stackIndex).reduce((sum, t) => sum + (heights.get(t.id) || 64) + 8, 0);
 
-    return createPortal(
-        <div className="group pointer-events-none fixed right-0 bottom-0 z-50 p-4">
-            <div className="pointer-events-auto relative flex flex-col items-end">
-                {toasts.map((toast, index) => {
-                    const stackIndex = toasts.length - 1 - index;
-                    return (
-                        <div
-                            key={toast.id}
-                            ref={(el) => {
-                                if (el && !heights.has(toast.id)) {
-                                    setHeights(new Map(heights.set(toast.id, el.offsetHeight)));
+    return (
+        <Portal>
+            <div className="group pointer-events-none fixed right-0 bottom-0 z-50 p-4">
+                <div className="pointer-events-auto relative flex flex-col items-end">
+                    {toasts.map((toast, index) => {
+                        const stackIndex = toasts.length - 1 - index;
+                        return (
+                            <div
+                                key={toast.id}
+                                ref={(el) => {
+                                    if (el && !heights.has(toast.id)) {
+                                        setHeights(new Map(heights.set(toast.id, el.offsetHeight)));
+                                    }
+                                }}
+                                style={
+                                    {
+                                        "--translateY": `${stackIndex * -8}px`,
+                                        "--hoverTranslateY": `${-getOffset(stackIndex)}px`,
+                                        "--scale": `${1 - stackIndex * 0.03}`,
+                                        zIndex: index + 1
+                                    } as React.CSSProperties
                                 }
-                            }}
-                            style={
-                                {
-                                    "--translateY": `${stackIndex * -8}px`,
-                                    "--hoverTranslateY": `${-getOffset(stackIndex)}px`,
-                                    "--scale": `${1 - stackIndex * 0.03}`,
-                                    zIndex: index + 1
-                                } as React.CSSProperties
-                            }
-                            className="absolute right-0 bottom-0 transition-all duration-600 ease-[cubic-bezier(0.32,0.72,0,1)] translate-y-(--translateY) scale-(--scale) group-hover:translate-y-(--hoverTranslateY) group-hover:scale-100 before:absolute before:inset-0 before:-inset-y-4 before:content-[''] before:-z-10">
-                            <ToastItem toast={toast} />
-                        </div>
-                    );
-                })}
+                                className="absolute right-0 bottom-0 transition-all duration-600 ease-[cubic-bezier(0.32,0.72,0,1)] translate-y-(--translateY) scale-(--scale) group-hover:translate-y-(--hoverTranslateY) group-hover:scale-100 before:absolute before:inset-0 before:-inset-y-4 before:content-[''] before:-z-10">
+                                <ToastItem toast={toast} />
+                            </div>
+                        );
+                    })}
+                </div>
             </div>
-        </div>,
-        document.body
+        </Portal>
     );
 }

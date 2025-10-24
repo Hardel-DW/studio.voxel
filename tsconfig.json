@@ -1,18 +1,12 @@
 {
     "compilerOptions": {
-        "target": "ES2020",
-        "useDefineForClassFields": true,
-        "lib": [
-            "ES2020",
-            "DOM",
-            "DOM.Iterable"
-        ],
+        "target": "ES2022",
         "module": "ESNext",
         "skipLibCheck": true,
         "moduleResolution": "bundler",
         "allowImportingTsExtensions": true,
+        "strictNullChecks": true,
         "isolatedModules": true,
-        "moduleDetection": "force",
         "noEmit": true,
         "jsx": "react-jsx",
         "strict": true,
@@ -29,15 +23,7 @@
             ],
             "@lib/*": [
                 "./src/lib/*"
-            ],
-            "@api/*": [
-                "./api/*"
             ]
         }
-    },
-    "include": [
-        "src",
-        "api",
-        "vite.config.ts"
-    ]
+    }
 }

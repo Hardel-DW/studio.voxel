@@ -1,3 +1,7 @@
+import { initiateGitHubAuthFn } from "@/lib/server/auth";
+import { createPullRequestFn, pushToGitHubFn } from "@/lib/server/push";
+import { getAllReposFn } from "@/lib/server/repos";
+import { getSessionFn, logoutFn } from "@/lib/server/session";
 import { clone } from "./clone";
 import { createBlob } from "./createBlob";
 import { createCommit } from "./createCommit";
@@ -13,8 +17,6 @@ import { getRef } from "./getRef";
 import { getUser } from "./getUser";
 import { getUserOrgs } from "./getUserOrgs";
 import { getUserRepos } from "./getUserRepos";
-import { initiateGitHubAuth } from "./initiateAuth";
-import { send } from "./send";
 import { updateRef } from "./updateRef";
 
 type TreeItem = {
@@ -125,39 +127,16 @@ export class GitHub {
     }
 
     async getAllRepos(): Promise<ReposResponse> {
-        const response = await fetch("/api/github/repos", {
-            credentials: "include"
-        });
-
-        if (!response.ok) {
-            throw new GitHubError("Failed to fetch repositories", response.status);
-        }
-
-        return response.json();
+        return getAllReposFn();
     }
 
     async getSession() {
-        const response = await fetch("/api/github/session", {
-            credentials: "include"
-        });
-
-        if (!response.ok) return null;
-
-        const data = await response.json();
+        const data = await getSessionFn();
         return data.authenticated ? { token: data.token, user: data.user } : null;
     }
 
     async logout() {
-        const response = await fetch("/api/github/logout", {
-            method: "POST",
-            credentials: "include"
-        });
-
-        if (!response.ok) {
-            throw new GitHubError("Failed to logout", response.status);
-        }
-
-        return response.json();
+        return logoutFn();
     }
 
     getRef(owner: string, repo: string, branch: string) {
@@ -218,17 +197,23 @@ export class GitHub {
         return { treeData, body, filesCount };
     }
 
-    async send(owner: string, repositoryName: string, branch: string, action?: "pr" | "push") {
+    async send(owner: string, repositoryName: string, branch: string, action?: "pr" | "push", files?: Record<string, string | null>) {
         if (!action) throw new GitHubError("Missing action parameter", 400);
-        return send(this.authenticatedToken, owner, repositoryName, branch, action);
+        if (!files) throw new GitHubError("Missing files parameter", 400);
+
+        if (action === "push") {
+            return pushToGitHubFn({ data: { owner, repo: repositoryName, branch, files } });
+        }
+
+        return createPullRequestFn({ data: { owner, repo: repositoryName, branch, files } });
     }
 
     async clone(owner: string, repositoryName: string, branch: string, removeRootFolder: boolean) {
-        return clone(this.authenticatedToken, owner, repositoryName, branch, removeRootFolder);
+        return clone(owner, repositoryName, branch, removeRootFolder);
     }
 
-    async initiateAuth() {
-        const { url } = await initiateGitHubAuth();
-        return url;
+    async initiateAuth(returnTo?: string) {
+        const result = await initiateGitHubAuthFn({ data: { returnTo } });
+        window.location.href = result.authUrl;
     }
 }
