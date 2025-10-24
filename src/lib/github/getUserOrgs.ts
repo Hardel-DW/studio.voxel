@@ -1,3 +1,5 @@
+import { createGitHubHeaders } from "./headers";
+
 type GitHubOrganization = {
     login: string;
     id: number;
@@ -7,10 +9,7 @@ type GitHubOrganization = {
 
 export async function getUserOrgs(token: string): Promise<GitHubOrganization[]> {
     const response = await fetch("https://api.github.com/user/orgs", {
-        headers: {
-            Authorization: `Bearer ${token}`,
-            Accept: "application/vnd.github+json"
-        }
+        headers: createGitHubHeaders(`Bearer ${token}`)
     });
 
     return response.json();
