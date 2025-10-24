@@ -7,6 +7,8 @@ export default function Internalization() {
     const pathname = routerState.location.pathname;
     const pathWithoutLocale = pathname.split("/").slice(2).join("/");
     const currentLocale = pathname.split("/")[1];
+    const buttonId = useId();
+    const listId = useId();
     const names = [
         { lang: "en-us", name: "English" },
         { lang: "fr-fr", name: "Français" }
@@ -18,14 +20,14 @@ export default function Internalization() {
         <div className="relative group/langage">
             <button
                 type="button"
-                id={useId()}
+                id={buttonId}
                 className="select-none mr-4 flex items-center gap-2 cursor-pointer hover:text-zinc-400 transition">
                 <span data-lang={currentLocale}>{currentLangName}</span>
                 <img src="/icons/chevron-down.svg" alt="" className="w-4 h-4 invert" />
             </button>
 
             <ul
-                id={useId()}
+                id={listId}
                 className="group-focus-within/langage:flex hover:flex hidden absolute top-8 right-0 w-44 bg-black p-2 flex-col gap-2 rounded-xl border border-zinc-800">
                 {names.map((element) => (
                     <li key={element.lang}>

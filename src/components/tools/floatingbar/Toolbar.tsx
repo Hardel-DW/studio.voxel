@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { useState } from "react";
-import { createPortal } from "react-dom";
+import Portal from "@/components/ui/Portal";
 import { clsx } from "@/lib/utils";
 import { useFloatingBarPortal } from "./FloatingBarContext";
 
@@ -70,8 +70,8 @@ export function Toolbar({ children }: ToolbarProps) {
 
     if (!portalRef.current) return null;
 
-    return createPortal(
-        <>
+    return (
+        <Portal container={portalRef.current}>
             {showSnapZone && (
                 <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 z-999" style={{ width: "300px", height: "60px" }}>
                     <div className="w-full h-full border-2 border-dashed border-zinc-400/50 bg-zinc-400/10 rounded-full animate-pulse" />
@@ -96,7 +96,6 @@ export function Toolbar({ children }: ToolbarProps) {
                     <div className="flex items-center gap-4 h-full">{children}</div>
                 )}
             </div>
-        </>,
-        portalRef.current
+        </Portal>
     );
 }

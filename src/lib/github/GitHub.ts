@@ -1,3 +1,7 @@
+import { initiateGitHubAuthFn } from "@/lib/server/auth";
+import { createPullRequestFn, pushToGitHubFn } from "@/lib/server/push";
+import { getAllReposFn } from "@/lib/server/repos";
+import { getSessionFn, logoutFn } from "@/lib/server/session";
 import { clone } from "./clone";
 import { createBlob } from "./createBlob";
 import { createCommit } from "./createCommit";
@@ -14,10 +18,6 @@ import { getUser } from "./getUser";
 import { getUserOrgs } from "./getUserOrgs";
 import { getUserRepos } from "./getUserRepos";
 import { updateRef } from "./updateRef";
-import { initiateGitHubAuthFn } from "@/lib/server/auth";
-import { getSessionFn, logoutFn } from "@/lib/server/session";
-import { getAllReposFn } from "@/lib/server/repos";
-import { pushToGitHubFn, createPullRequestFn } from "@/lib/server/push";
 
 type TreeItem = {
     path: string;
@@ -209,7 +209,7 @@ export class GitHub {
     }
 
     async clone(owner: string, repositoryName: string, branch: string, removeRootFolder: boolean) {
-        return clone(this.authenticatedToken, owner, repositoryName, branch, removeRootFolder);
+        return clone(owner, repositoryName, branch, removeRootFolder);
     }
 
     async initiateAuth(returnTo?: string) {

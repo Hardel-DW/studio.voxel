@@ -1,7 +1,7 @@
 import type { ReactElement, ReactNode } from "react";
 import { createContext, useContext, useRef } from "react";
-import { createPortal } from "react-dom";
 import { createDisclosureContext } from "@/components/ui/DisclosureContext";
+import Portal from "@/components/ui/Portal";
 import { Trigger } from "@/components/ui/Trigger";
 import { useClickOutside } from "@/lib/hook/useClickOutside";
 import { usePopoverPosition } from "@/lib/hook/usePopoverPosition";
@@ -66,28 +66,29 @@ export function PopoverContent(props: {
         context?.onOpenChange?.(false);
     });
 
-    return createPortal(
-        <div
-            ref={(node) => {
-                contentRef.current = node;
-                if (clickOutsideRef) clickOutsideRef.current = node;
-                if (node) open ? node.showPopover() : node.hidePopover();
-            }}
-            popover="manual"
-            style={{
-                position: "absolute",
-                top: `${position.top}px`,
-                left: `${position.left}px`,
-                width: position.width ? `${position.width}px` : undefined,
-                margin: 0,
-                inset: "unset"
-            }}
-            className={cn(
-                "rounded-2xl border border-zinc-800 bg-zinc-950 p-4 text-zinc-200 shadow-md outline-hidden duration-150 ease-bounce",
-                props.className
-            )}>
-            {props.children}
-        </div>,
-        document.body
+    return (
+        <Portal>
+            <div
+                ref={(node) => {
+                    contentRef.current = node;
+                    if (clickOutsideRef) clickOutsideRef.current = node;
+                    if (node) open ? node.showPopover() : node.hidePopover();
+                }}
+                popover="manual"
+                style={{
+                    position: "absolute",
+                    top: `${position.top}px`,
+                    left: `${position.left}px`,
+                    width: position.width ? `${position.width}px` : undefined,
+                    margin: 0,
+                    inset: "unset"
+                }}
+                className={cn(
+                    "rounded-2xl border border-zinc-800 bg-zinc-950 p-4 text-zinc-200 shadow-md outline-hidden duration-150 ease-bounce",
+                    props.className
+                )}>
+                {props.children}
+            </div>
+        </Portal>
     );
 }

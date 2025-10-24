@@ -1,17 +1,19 @@
 import { createServerFn } from "@tanstack/react-start";
 import { useAppSession } from "@/lib/session";
 
-export type AuthSession = {
-    authenticated: true;
-    user: {
-        login: string;
-        id: number;
-        avatar_url: string;
-    };
-    token: string;
-} | {
-    authenticated: false;
-};
+export type AuthSession =
+    | {
+          authenticated: true;
+          user: {
+              login: string;
+              id: number;
+              avatar_url: string;
+          };
+          token: string;
+      }
+    | {
+          authenticated: false;
+      };
 
 export const getSessionFn = createServerFn({ method: "GET" }).handler(async (): Promise<AuthSession> => {
     const session = await useAppSession();
@@ -26,9 +28,9 @@ export const getSessionFn = createServerFn({ method: "GET" }).handler(async (): 
         user: {
             login: data.userLogin,
             id: data.userId,
-            avatar_url: data.userAvatar || "",
+            avatar_url: data.userAvatar || ""
         },
-        token: data.githubToken,
+        token: data.githubToken
     };
 });
 

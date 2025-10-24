@@ -1,6 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
-import { useAppSession } from "@/lib/session";
 import { GitHub } from "@/lib/github/GitHub";
+import { useAppSession } from "@/lib/session";
 
 type DownloadInput = {
     owner: string;
@@ -37,7 +37,7 @@ export const downloadRepoFn = createServerFn({ method: "GET" })
             status: 200,
             headers: {
                 "Content-Type": "application/zip",
-                "Content-Disposition": `attachment; filename="${data.repo}.zip"`,
-            },
+                "Content-Disposition": `attachment; filename="${data.repo}.zip"`
+            }
         });
     });

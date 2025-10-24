@@ -9,7 +9,7 @@ import {
     useEffect,
     useState
 } from "react";
-import { createPortal } from "react-dom";
+import Portal from "@/components/ui/Portal";
 import { cn } from "@/lib/utils";
 
 interface DragData {
@@ -85,19 +85,20 @@ function DragPreview({ dragData }: { dragData: DragData }) {
         return () => document.removeEventListener("mousemove", handleMouseMove);
     }, [dragData.offset.x, dragData.offset.y]);
 
-    return createPortal(
-        <div
-            className="fixed pointer-events-none z-50 opacity-75"
-            style={{
-                left: position.x,
-                top: position.y,
-                width: dragData.dimensions.width,
-                height: dragData.dimensions.height,
-                transform: "scale(0.9)"
-            }}>
-            {dragData.children}
-        </div>,
-        document.body
+    return (
+        <Portal>
+            <div
+                className="fixed pointer-events-none z-50 opacity-75"
+                style={{
+                    left: position.x,
+                    top: position.y,
+                    width: dragData.dimensions.width,
+                    height: dragData.dimensions.height,
+                    transform: "scale(0.9)"
+                }}>
+                {dragData.children}
+            </div>
+        </Portal>
     );
 }
 

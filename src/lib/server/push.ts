@@ -27,7 +27,7 @@ export const pushToGitHubFn = createServerFn({ method: "POST" })
     })
     .handler(async ({ data }) => {
         const session = await useAppSession();
-        const sessionData = await session.data;
+        const sessionData = session.data;
 
         if (!sessionData.githubToken) {
             throw new Error("Unauthorized - no GitHub token in session");
@@ -37,20 +37,9 @@ export const pushToGitHubFn = createServerFn({ method: "POST" })
         const refData = await github.getRef(data.owner, data.repo, data.branch);
         const baseSha = refData.object.sha;
 
-        const { treeData, body, filesCount } = await github.prepareCommit(
-            data.owner,
-            data.repo,
-            baseSha,
-            data.files
-        );
+        const { treeData, body, filesCount } = await github.prepareCommit(data.owner, data.repo, baseSha, data.files);
 
-        const newCommitData = await github.createCommit(
-            data.owner,
-            data.repo,
-            body,
-            treeData.sha,
-            baseSha
-        );
+        const newCommitData = await github.createCommit(data.owner, data.repo, body, treeData.sha, baseSha);
 
         await github.updateRef(data.owner, data.repo, data.branch, newCommitData.sha);
 
@@ -88,24 +77,12 @@ export const createPullRequestFn = createServerFn({ method: "POST" })
 
         await github.createRef(data.owner, data.repo, branchName, baseSha);
 
-        const { treeData, body, filesCount } = await github.prepareCommit(
-            data.owner,
-            data.repo,
-            baseSha,
-            data.files
-        );
+        const { treeData, body, filesCount } = await github.prepareCommit(data.owner, data.repo, baseSha, data.files);
 
         const newCommitData = await github.createCommit(data.owner, data.repo, body, treeData.sha, baseSha);
         await github.updateRef(data.owner, data.repo, branchName, newCommitData.sha);
 
-        const prData = await github.createPullRequest(
-            data.owner,
-            data.repo,
-            "Update from Voxel Studio",
-            branchName,
-            data.branch,
-            body
-        );
+        const prData = await github.createPullRequest(data.owner, data.repo, "Update from Voxel Studio", branchName, data.branch, body);
 
         return { filesModified: filesCount, prUrl: prData.html_url };
     });

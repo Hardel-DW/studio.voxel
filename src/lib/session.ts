@@ -11,13 +11,13 @@ export type SessionData = {
 
 export function useAppSession() {
     return useSession({
-        name: 'app-session',
+        name: "app-session",
         password: process.env.SESSION_SECRET,
         cookie: {
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: 'lax',
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "lax",
             httpOnly: true,
-            maxAge: 7 * 24 * 60 * 60,
-        },
-    })
+            maxAge: 7 * 24 * 60 * 60
+        }
+    });
 }

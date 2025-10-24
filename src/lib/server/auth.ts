@@ -9,9 +9,14 @@ export const initiateGitHubAuthFn = createServerFn({ method: "POST" })
     .inputValidator((data: { returnTo?: string }) => data)
     .handler(async ({ data }) => {
         const clientId = process.env.GITHUB_CLIENT;
+        const baseUrl = process.env.APP_URL;
 
         if (!clientId) {
             throw new Error("Missing GitHub configuration");
+        }
+
+        if (!baseUrl) {
+            throw new Error("Missing APP_URL configuration");
         }
 
         const state = generateRandomState();
@@ -21,7 +26,6 @@ export const initiateGitHubAuthFn = createServerFn({ method: "POST" })
             returnTo: data.returnTo || "/en"
         });
 
-        const baseUrl = process.env.APP_URL || "http://localhost:5173";
         const redirectUri = `${baseUrl}/auth`;
         const scope = "repo read:org read:user";
 

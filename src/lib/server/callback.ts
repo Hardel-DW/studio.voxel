@@ -41,7 +41,7 @@ export const handleGitHubCallbackFn = createServerFn({ method: "POST" })
             userAvatar: avatar_url,
             githubToken: token as string,
             oauthState: undefined,
-            returnTo: undefined,
+            returnTo: undefined
         });
 
         return { success: true, returnTo };

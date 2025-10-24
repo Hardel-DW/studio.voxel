@@ -12,8 +12,6 @@ export const Route = createFileRoute("/auth")({
         }
 
         const result = await handleGitHubCallbackFn({ data: { code, state } });
-
-        // Ajouter un param de query pour signaler qu'on vient de login
-        throw redirect({ to: result.returnTo, search: { auth_refresh: true } });
+        throw redirect({ to: result.returnTo });
     }
 });

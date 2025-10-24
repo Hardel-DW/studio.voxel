@@ -1,5 +1,5 @@
 import { startTransition, useRef, useState } from "react";
-import { createPortal } from "react-dom";
+import Portal from "@/components/ui/Portal";
 
 interface WalkthroughStep {
     title: string;
@@ -185,8 +185,8 @@ export default function Walkthrough({ steps }: { steps: WalkthroughStep[] }) {
                 </svg>
             </button>
 
-            {isOpen &&
-                createPortal(
+            {isOpen && (
+                <Portal>
                     <div className="fixed inset-0 z-50">
                         {/* Overlay de fond */}
                         <div className="absolute inset-0 bg-black/50" />
@@ -235,9 +235,9 @@ export default function Walkthrough({ steps }: { steps: WalkthroughStep[] }) {
                                 </button>
                             </div>
                         </div>
-                    </div>,
-                    document.body
-                )}
+                    </div>
+                </Portal>
+            )}
         </>
     );
 }

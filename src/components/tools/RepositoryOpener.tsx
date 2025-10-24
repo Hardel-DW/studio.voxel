@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { useNavigate, useParams } from "@tanstack/react-router";
+import { ClientOnly, useNavigate, useParams } from "@tanstack/react-router";
 import { Datapack } from "@voxelio/breeze";
 import { useState } from "react";
 import { useConfiguratorStore } from "@/components/tools/Store";
@@ -24,7 +24,7 @@ import { useDictionary } from "@/lib/hook/useNext18n";
 import { RepositoryManager } from "@/lib/RepositoryManager";
 import { TextInput } from "../ui/TextInput";
 
-export default function RepositoryOpener() {
+function RepositoryOpenerContent() {
     const navigate = useNavigate();
     const { lang } = useParams({ from: "/$lang" });
     const [selectedAccount, setSelectedAccount] = useState<string>("");
@@ -59,16 +59,17 @@ export default function RepositoryOpener() {
         }
     });
 
-    if (!isAuthenticated) return (
-        <Button
-            onClick={() => login()}
-            className="w-full mt-8 flex items-center gap-x-2 shimmer-zinc-950 border border-zinc-800 text-white">
-            <img src="/icons/company/github.svg" alt="GitHub" className="size-4 invert" />
-            <span className="text-sm">
-                <Translate content="repository.login_to_github" />
-            </span>
-        </Button>
-    );
+    if (!isAuthenticated)
+        return (
+            <Button
+                onClick={() => login()}
+                className="w-full mt-8 flex items-center gap-x-2 shimmer-zinc-950 border border-zinc-800 text-white">
+                <img src="/icons/company/github.svg" alt="GitHub" className="size-4 invert" />
+                <span className="text-sm">
+                    <Translate content="repository.login_to_github" />
+                </span>
+            </Button>
+        );
 
     return (
         <Dialog id="repository-opener-modal" className="w-full">
@@ -189,5 +190,24 @@ export default function RepositoryOpener() {
                 </DialogFooter>
             </DialogContent>
         </Dialog>
+    );
+}
+
+function RepositoryOpenerFallback() {
+    return (
+        <Button className="w-full mt-8 flex items-center gap-x-2 shimmer-zinc-950 border border-zinc-800 text-white">
+            <img src="/icons/company/github.svg" alt="GitHub" className="size-4 invert" />
+            <span className="text-sm">
+                <Translate content="repository.loading" />
+            </span>
+        </Button>
+    );
+}
+
+export default function RepositoryOpener() {
+    return (
+        <ClientOnly fallback={<RepositoryOpenerFallback />}>
+            <RepositoryOpenerContent />
+        </ClientOnly>
     );
 }
