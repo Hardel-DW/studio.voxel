@@ -12,7 +12,7 @@ export function getRouter() {
         defaultErrorComponent: DefaultCatchBoundary,
         defaultNotFoundComponent: () => <NotFound />,
         defaultPreload: "viewport",
-        defaultStaleTime: 1000 * 60 * 5 // 3 minutes
+        defaultStaleTime: 1000 * 60 * 5
     });
 
     return router;
