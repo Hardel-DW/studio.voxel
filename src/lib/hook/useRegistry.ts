@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import type { MCMETA_PATH } from "@/lib/github";
-import { fetchMcmetaData } from "@/lib/github";
+import type { MCMETA_PATH } from "@/lib/github/mcmeta";
+import { fetchMcmetaData } from "@/lib/github/mcmeta";
 
 export type FetchedRegistry<T> = Record<string, T>;
 export type Component<T> = Record<string, T>;

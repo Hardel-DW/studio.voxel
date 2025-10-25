@@ -4,7 +4,7 @@ import { RightSection } from "@/components/tools/debug/RightSection";
 import Translate from "@/components/tools/Translate";
 import { Button } from "@/components/ui/Button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/Dropdown";
-import { ruwsc } from "@/lib/utils";
+import { ruwsc } from "@/lib/utils/text";
 
 export default function DebugPanel() {
     const {
@@ -28,7 +28,7 @@ export default function DebugPanel() {
             <div className="grid grid-cols-2 gap-8 flex-1 min-h-0">
                 <div className="flex flex-col gap-4 min-h-0">
                     <div className="flex justify-between items-center">
-                        <div className="flex gap-4 flex-shrink-0">
+                        <div className="flex gap-4 shrink-0">
                             <DropdownMenu>
                                 <DropdownMenuTrigger className="z-10">
                                     <Button variant="ghost" className="min-w-[150px] justify-between">

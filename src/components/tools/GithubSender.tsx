@@ -18,7 +18,8 @@ import {
 } from "@/components/ui/Dialog";
 import { TOAST, toast } from "@/components/ui/Toast";
 import { GitHub } from "@/lib/github/GitHub";
-import { cn, encodeToBase64 } from "@/lib/utils";
+import { cn } from "@/lib/utils";
+import { encodeToBase64 } from "@/lib/utils/encode";
 
 type GitHubActionPayload = {
     type: "push" | "pr";
@@ -107,7 +108,9 @@ export default function GithubSender() {
                 )}
 
                 <DialogFooter className="pt-6 flex items-center justify-end gap-3">
-                    <DialogCloseButton variant="ghost" disabled={isPending}>Cancel</DialogCloseButton>
+                    <DialogCloseButton variant="ghost" disabled={isPending}>
+                        Cancel
+                    </DialogCloseButton>
                     <DialogCloseButton type="button" onClick={() => pendingAction && mutate()} variant="default" disabled={isPending}>
                         {isPending ? "Processing..." : `Confirm ${pendingAction?.type === "pr" ? "Pull Request" : "Push"}`}
                     </DialogCloseButton>

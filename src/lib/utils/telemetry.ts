@@ -21,19 +21,3 @@ export async function trackEvent(event: TelemetryEventType) {
         return null;
     }
 }
-
-export async function saveLogs(data: any) {
-    try {
-        const response = await fetch("https://dashboard.hardel.io/api/logs", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(data)
-        });
-
-        if (!response.ok) {
-            throw new Error(`Failed to save migration log: ${response.statusText}`);
-        }
-    } catch (error) {
-        console.error("Error saving migration log:", error);
-    }
-}

@@ -1,5 +1,5 @@
 import { type RefObject, useEffect, useState } from "react";
-import { throttle } from "../utils";
+import { throttle } from "@/lib/utils/pacer";
 
 interface Position {
     x: number;

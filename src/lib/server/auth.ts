@@ -1,5 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
-import { useAppSession } from "@/lib/session";
+import { useAppSession } from "@/lib/hook/useAppSession";
 
 function generateRandomState(): string {
     return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);

@@ -1,9 +1,9 @@
 import { extractZip } from "@voxelio/zip";
+import { initiateGitHubAuthFn } from "@/lib/server/auth";
 import { downloadRepoFn } from "@/lib/server/download";
 import { createPullRequestFn, pushToGitHubFn } from "@/lib/server/push";
 import { getAllReposFn } from "@/lib/server/repos";
 import { getSessionFn, logoutFn } from "@/lib/server/session";
-import { initiateGitHubAuthFn } from "@/lib/server/auth";
 import { GitHubError } from "./GitHubError";
 
 type TreeItem = {
@@ -171,7 +171,7 @@ export class GitHub {
             throw new GitHubError(`GitHub returned ${response.status}`, response.status);
         }
 
-        const data = await response.json() as { access_token?: string; error?: string; error_description?: string };
+        const data = (await response.json()) as { access_token?: string; error?: string; error_description?: string };
 
         if (data.error) {
             throw new GitHubError(data.error_description || "Failed to get access token", 400);

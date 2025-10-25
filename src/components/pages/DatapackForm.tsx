@@ -3,9 +3,9 @@ import { convertDatapack, ModPlatforms } from "@voxelio/converter";
 import { useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { useDictionary } from "@/lib/hook/useNext18n";
-import { trackEvent } from "@/lib/telemetry";
 import { cn } from "@/lib/utils";
 import { downloadFile } from "@/lib/utils/download";
+import { trackEvent } from "@/lib/utils/telemetry";
 
 interface Props {
     file: File | null;

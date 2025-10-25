@@ -1,5 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
-import { useAppSession } from "@/lib/session";
+import { useAppSession } from "@/lib/hook/useAppSession";
 
 export type AuthSession =
     | {

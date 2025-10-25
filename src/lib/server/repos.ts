@@ -1,5 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
-import { useAppSession } from "@/lib/session";
+import { useAppSession } from "@/lib/hook/useAppSession";
 import { GitHub, type ReposResponse } from "../github/GitHub";
 
 export const getAllReposFn = createServerFn({ method: "GET" }).handler(async (): Promise<ReposResponse> => {

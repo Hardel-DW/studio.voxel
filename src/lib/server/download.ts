@@ -1,6 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { GitHub } from "@/lib/github/GitHub";
-import { useAppSession } from "@/lib/session";
+import { useAppSession } from "@/lib/hook/useAppSession";
 
 type DownloadInput = {
     owner: string;

@@ -17,12 +17,12 @@ import {
     DialogTrigger
 } from "@/components/ui/Dialog";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/Dropdown";
+import { TextInput } from "@/components/ui/TextInput";
 import { TOAST, toast } from "@/components/ui/Toast";
 import { GitHub, type Repository } from "@/lib/github/GitHub";
+import { RepositoryManager } from "@/lib/github/RepositoryManager";
 import { useGitHubAuth, useGitHubRepos } from "@/lib/hook/useGitHubAuth";
 import { useDictionary } from "@/lib/hook/useNext18n";
-import { RepositoryManager } from "@/lib/RepositoryManager";
-import { TextInput } from "../ui/TextInput";
 
 function RepositoryOpenerContent() {
     const navigate = useNavigate();

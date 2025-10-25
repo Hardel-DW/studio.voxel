@@ -7,8 +7,8 @@ import Dropzone from "@/components/ui/Dropzone";
 import { toast } from "@/components/ui/Toast";
 import { useConfetti } from "@/lib/hook/useConfetti";
 import { useDictionary } from "@/lib/hook/useNext18n";
-import { trackEvent } from "@/lib/telemetry";
 import { downloadFile } from "@/lib/utils/download";
+import { trackEvent } from "@/lib/utils/telemetry";
 import { StatusBox } from "../ui/StatusBox";
 
 interface DatapackInfo {
