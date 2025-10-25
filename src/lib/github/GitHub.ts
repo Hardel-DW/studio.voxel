@@ -1,35 +1,16 @@
-import { initiateGitHubAuthFn } from "@/lib/server/auth";
+import { extractZip } from "@voxelio/zip";
+import { downloadRepoFn } from "@/lib/server/download";
 import { createPullRequestFn, pushToGitHubFn } from "@/lib/server/push";
 import { getAllReposFn } from "@/lib/server/repos";
 import { getSessionFn, logoutFn } from "@/lib/server/session";
-import { clone } from "./clone";
-import { createBlob } from "./createBlob";
-import { createCommit } from "./createCommit";
-import { createPullRequest } from "./createPullRequest";
-import { createRef } from "./createRef";
-import { createTree } from "./createTree";
-import { downloadRepo } from "./downloadRepo";
+import { initiateGitHubAuthFn } from "@/lib/server/auth";
 import { GitHubError } from "./GitHubError";
-import { getAccessToken } from "./getAccessToken";
-import { getCommit } from "./getCommit";
-import { getOrgRepos } from "./getOrgRepos";
-import { getRef } from "./getRef";
-import { getUser } from "./getUser";
-import { getUserOrgs } from "./getUserOrgs";
-import { getUserRepos } from "./getUserRepos";
-import { updateRef } from "./updateRef";
 
 type TreeItem = {
     path: string;
     mode?: string;
     type?: string;
     sha: string | null;
-};
-
-type GitHubOptions = {
-    authHeader?: string | null;
-    clientId?: string | null;
-    clientSecret?: string | null;
 };
 
 export type Repository = {
@@ -61,69 +42,139 @@ export type ReposResponse = {
     orgRepositories: Repository[];
 };
 
+type GitHubOptions = {
+    token?: string | null;
+};
+
 export class GitHub {
-    private authHeader: string | null;
-    private clientId: string | null;
-    private clientSecret: string | null;
+    private token: string | null;
 
-    constructor({ authHeader = null, clientId = null, clientSecret = null }: GitHubOptions = {}) {
-        this.authHeader = authHeader;
-        this.clientId = clientId;
-        this.clientSecret = clientSecret;
+    constructor({ token = null }: GitHubOptions = {}) {
+        this.token = token;
     }
 
-    private get authenticatedHeader() {
-        if (!this.authHeader) {
-            throw new GitHubError("Missing authorization token", 401);
-        }
-        return this.authHeader;
-    }
+    private async request<T>(method: "GET" | "POST" | "PATCH" | "DELETE", path: string, body?: unknown): Promise<T> {
+        const headers: Record<string, string> = {
+            Accept: "application/vnd.github+json",
+            "User-Agent": "Voxel-Studio"
+        };
 
-    private get authenticatedToken() {
-        if (!this.authHeader) {
-            throw new GitHubError("Missing authorization token", 401);
-        }
-        return this.authHeader.replace("Bearer ", "");
-    }
-
-    async getAccessToken(code?: string) {
-        if (!code) {
-            throw new GitHubError("Missing code parameter", 400);
+        if (this.token) {
+            headers.Authorization = `Bearer ${this.token}`;
         }
 
-        if (!this.clientId || !this.clientSecret) {
-            throw new GitHubError("Missing GitHub configuration", 500);
+        if (body !== undefined) {
+            headers["Content-Type"] = "application/json";
         }
 
-        const data = await getAccessToken(this.clientId, this.clientSecret, code);
-        if (data.error) {
-            throw new GitHubError(data.error_description || "Failed to get access token", 400);
-        }
-        return data;
-    }
+        const response = await fetch(`https://api.github.com${path}`, {
+            method,
+            headers,
+            body: body !== undefined ? JSON.stringify(body) : undefined
+        });
 
-    async downloadRepo(owner: string, repo: string, branch: string) {
-        const response = await downloadRepo(this.authenticatedHeader, owner, repo, branch);
         if (!response.ok) {
-            throw new GitHubError("Failed to download repository", response.status);
+            throw new GitHubError(`GitHub API error: ${response.statusText}`, response.status);
         }
-        return response;
+
+        return response.json();
     }
 
     getUser() {
-        return getUser(this.authenticatedToken);
+        return this.request<{ login: string; id: number; avatar_url: string }>("GET", "/user");
     }
 
     getUserRepos() {
-        return getUserRepos(this.authenticatedToken);
+        return this.request<Repository[]>("GET", "/user/repos?per_page=100&sort=updated");
     }
 
     getUserOrgs() {
-        return getUserOrgs(this.authenticatedToken);
+        return this.request<Organization[]>("GET", "/user/orgs");
     }
 
     getOrgRepos(org: string) {
-        return getOrgRepos(this.authenticatedToken, org);
+        return this.request<Repository[]>("GET", `/orgs/${org}/repos?per_page=100&sort=updated`);
+    }
+
+    getRef(owner: string, repo: string, branch: string) {
+        return this.request<{ ref: string; object: { sha: string } }>("GET", `/repos/${owner}/${repo}/git/ref/heads/${branch}`);
+    }
+
+    getCommit(owner: string, repo: string, sha: string) {
+        return this.request<{ sha: string; tree: { sha: string } }>("GET", `/repos/${owner}/${repo}/git/commits/${sha}`);
+    }
+
+    createBlob(owner: string, repo: string, content: string) {
+        const encoding = "base64";
+        return this.request<{ sha: string }>("POST", `/repos/${owner}/${repo}/git/blobs`, { content, encoding });
+    }
+
+    createTree(owner: string, repo: string, baseTreeSha: string, tree: TreeItem[]) {
+        const base_tree = baseTreeSha;
+        return this.request<{ sha: string }>("POST", `/repos/${owner}/${repo}/git/trees`, { base_tree, tree });
+    }
+
+    createCommit(owner: string, repo: string, message: string, treeSha: string, parentSha: string) {
+        return this.request<{ sha: string }>("POST", `/repos/${owner}/${repo}/git/commits`, {
+            message,
+            tree: treeSha,
+            parents: [parentSha]
+        });
+    }
+
+    updateRef(owner: string, repo: string, branch: string, sha: string) {
+        return this.request<{ ref: string; object: { sha: string } }>("PATCH", `/repos/${owner}/${repo}/git/refs/heads/${branch}`, { sha });
+    }
+
+    createRef(owner: string, repo: string, branch: string, sha: string) {
+        const ref = `refs/heads/${branch}`;
+        return this.request<{ ref: string; object: { sha: string } }>("POST", `/repos/${owner}/${repo}/git/refs`, { ref, sha });
+    }
+
+    createPullRequest(owner: string, repo: string, title: string, head: string, base: string, body: string) {
+        return this.request<{ html_url: string; number: number }>("POST", `/repos/${owner}/${repo}/pulls`, { title, head, base, body });
+    }
+
+    async downloadRepo(owner: string, repo: string, branch: string) {
+        const headers: Record<string, string> = {
+            Accept: "application/vnd.github+json",
+            "User-Agent": "Voxel-Studio"
+        };
+
+        if (this.token) {
+            headers.Authorization = `Bearer ${this.token}`;
+        }
+
+        const response = await fetch(`https://api.github.com/repos/${owner}/${repo}/zipball/${branch}`, { headers });
+        if (!response.ok) {
+            throw new GitHubError("Failed to download repository", response.status);
+        }
+
+        return response;
+    }
+
+    async getAccessToken(clientId: string, clientSecret: string, code: string) {
+        const response = await fetch("https://github.com/login/oauth/access_token", {
+            method: "POST",
+            headers: {
+                Accept: "application/vnd.github+json",
+                "User-Agent": "Voxel-Studio",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ client_id: clientId, client_secret: clientSecret, code })
+        });
+
+        if (!response.ok) {
+            throw new GitHubError(`GitHub returned ${response.status}`, response.status);
+        }
+
+        const data = await response.json() as { access_token?: string; error?: string; error_description?: string };
+
+        if (data.error) {
+            throw new GitHubError(data.error_description || "Failed to get access token", 400);
+        }
+
+        return data;
     }
 
     async getAllRepos(): Promise<ReposResponse> {
@@ -139,59 +190,18 @@ export class GitHub {
         return logoutFn();
     }
 
-    getRef(owner: string, repo: string, branch: string) {
-        return getRef(this.authenticatedHeader, owner, repo, branch);
-    }
-
-    getCommit(owner: string, repo: string, commitSha: string) {
-        return getCommit(this.authenticatedHeader, owner, repo, commitSha);
-    }
-
-    createBlob(owner: string, repo: string, content: string) {
-        return createBlob(this.authenticatedHeader, owner, repo, content);
-    }
-
-    createTree(owner: string, repo: string, baseTreeSha: string, tree: TreeItem[]) {
-        return createTree(this.authenticatedHeader, owner, repo, baseTreeSha, tree);
-    }
-
-    createCommit(owner: string, repo: string, message: string, treeSha: string, parentSha: string) {
-        return createCommit(this.authenticatedHeader, owner, repo, message, treeSha, parentSha);
-    }
-
-    updateRef(owner: string, repo: string, branch: string, sha: string) {
-        return updateRef(this.authenticatedHeader, owner, repo, branch, sha);
-    }
-
-    createRef(owner: string, repo: string, branch: string, sha: string) {
-        return createRef(this.authenticatedHeader, owner, repo, branch, sha);
-    }
-
-    createPullRequest(owner: string, repo: string, title: string, head: string, base: string, body: string) {
-        return createPullRequest(this.authenticatedHeader, owner, repo, title, head, base, body);
-    }
-
     async prepareCommit(owner: string, repo: string, baseSha: string, files: Record<string, string | null>) {
         const commitData = await this.getCommit(owner, repo, baseSha);
-        const baseTreeSha = commitData.tree.sha;
-
         const tree = await Promise.all(
             Object.entries(files).map(async ([path, content]) => {
-                if (content === null) {
-                    return { path, sha: null };
-                }
+                if (content === null) return { path, sha: null };
 
                 const blobData = await this.createBlob(owner, repo, content);
-                return {
-                    path,
-                    mode: "100644",
-                    type: "blob",
-                    sha: blobData.sha as string
-                };
+                return { path, mode: "100644", type: "blob", sha: blobData.sha };
             })
         );
 
-        const treeData = await this.createTree(owner, repo, baseTreeSha, tree);
+        const treeData = await this.createTree(owner, repo, commitData.tree.sha, tree);
         const filesCount = Object.keys(files).length;
         const body = `Update ${filesCount} file${filesCount > 1 ? "s" : ""} via Voxel Studio\n\nCo-authored-by: Voxel Studio <studio.voxelio@gmail.com>`;
         return { treeData, body, filesCount };
@@ -201,15 +211,26 @@ export class GitHub {
         if (!action) throw new GitHubError("Missing action parameter", 400);
         if (!files) throw new GitHubError("Missing files parameter", 400);
 
-        if (action === "push") {
-            return pushToGitHubFn({ data: { owner, repo: repositoryName, branch, files } });
-        }
-
-        return createPullRequestFn({ data: { owner, repo: repositoryName, branch, files } });
+        const params = { data: { owner, repo: repositoryName, branch, files } };
+        return action === "push" ? pushToGitHubFn(params) : createPullRequestFn(params);
     }
 
     async clone(owner: string, repositoryName: string, branch: string, removeRootFolder: boolean) {
-        return clone(owner, repositoryName, branch, removeRootFolder);
+        const response = await downloadRepoFn({ data: { owner, repo: repositoryName, branch } });
+        const zipData = new Uint8Array(await response.arrayBuffer());
+        const extractedFiles = await extractZip(zipData);
+
+        if (!removeRootFolder) {
+            return extractedFiles;
+        }
+
+        const firstPath = Object.keys(extractedFiles)[0];
+        const rootPrefix = firstPath.includes("/") ? `${firstPath.split("/")[0]}/` : "";
+        return Object.fromEntries(
+            Object.entries(extractedFiles)
+                .filter(([path]) => path.startsWith(rootPrefix))
+                .map(([path, data]) => [path.substring(rootPrefix.length), data])
+        );
     }
 
     async initiateAuth(returnTo?: string) {

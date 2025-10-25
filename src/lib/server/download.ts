@@ -29,7 +29,7 @@ export const downloadRepoFn = createServerFn({ method: "GET" })
             throw new Error("Unauthorized - no GitHub token in session");
         }
 
-        const github = new GitHub({ authHeader: sessionData.githubToken });
+        const github = new GitHub({ token: sessionData.githubToken });
         const response = await github.downloadRepo(data.owner, data.repo, data.branch);
         const arrayBuffer = await response.arrayBuffer();
 

@@ -10,7 +10,7 @@ export const getAllReposFn = createServerFn({ method: "GET" }).handler(async ():
         throw new Error("Unauthorized - no GitHub token in session");
     }
 
-    const github = new GitHub({ authHeader: data.githubToken });
+    const github = new GitHub({ token: data.githubToken });
     const [repositories, rawOrganizations] = await Promise.all([github.getUserRepos(), github.getUserOrgs()]);
 
     const organizations = rawOrganizations.map(({ login, id, avatar_url, description }) => ({

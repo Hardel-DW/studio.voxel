@@ -27,15 +27,19 @@ export const handleGitHubCallbackFn = createServerFn({ method: "POST" })
 
         const clientId = process.env.GITHUB_CLIENT;
         const clientSecret = process.env.GITHUB_SECRET;
-        const github = new GitHub({ clientId, clientSecret });
 
-        const tokenData = await github.getAccessToken(data.code);
+        if (!clientId || !clientSecret) {
+            throw new Error("Missing GitHub configuration");
+        }
+
+        const github = new GitHub();
+        const tokenData = await github.getAccessToken(clientId, clientSecret, data.code);
         const { access_token } = tokenData;
         if (!access_token) {
             throw new Error(`GitHub OAuth error: ${tokenData.error_description || tokenData.error || "No access token returned"}`);
         }
 
-        const githubWithToken = new GitHub({ authHeader: access_token });
+        const githubWithToken = new GitHub({ token: access_token });
         const { login, id, avatar_url } = await githubWithToken.getUser();
         const returnTo = sessionData.returnTo || "/en";
 

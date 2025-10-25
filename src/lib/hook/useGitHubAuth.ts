@@ -53,7 +53,7 @@ export function useGitHubAuth() {
 export function useGitHubRepos(token: string | null) {
     return useQuery({
         queryKey: [REPOS_QUERY_KEY, token],
-        queryFn: () => new GitHub({ authHeader: token }).getAllRepos(),
+        queryFn: () => new GitHub({ token }).getAllRepos(),
         enabled: !!token,
         staleTime: 1000 * 60 * 5,
         gcTime: 1000 * 60 * 30

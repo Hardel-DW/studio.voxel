@@ -43,7 +43,7 @@ function RepositoryOpenerContent() {
     const { mutate, isPending } = useMutation({
         mutationFn: async (repo: Repository) => {
             toast(dictionary.studio.import_repository.downloading.replace("{repo.name}", repo.name), TOAST.INFO);
-            const files = await new GitHub({ authHeader: token }).clone(repo.owner.login, repo.name, repo.default_branch, true);
+            const files = await new GitHub({ token }).clone(repo.owner.login, repo.name, repo.default_branch, true);
             const datapack = new Datapack(files).parse();
             return { datapack, repo };
         },

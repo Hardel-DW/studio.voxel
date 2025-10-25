@@ -31,7 +31,7 @@ export default function GithubSender() {
     const { owner, repositoryName, branch, token, isGitRepository } = useExportStore();
 
     const { mutate, isPending } = useMutation({
-        mutationFn: () => new GitHub({ authHeader: token }).send(owner, repositoryName, branch, pendingAction?.type, pendingAction?.files),
+        mutationFn: () => new GitHub({ token }).send(owner, repositoryName, branch, pendingAction?.type, pendingAction?.files),
         onSuccess: (data) => {
             const message = pendingAction?.type === "pr" ? "Pull request created" : "Changes pushed";
             const detail = pendingAction?.type === "pr" ? data.prUrl : `${data.filesModified} files modified`;

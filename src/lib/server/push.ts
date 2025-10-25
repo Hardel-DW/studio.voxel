@@ -33,7 +33,7 @@ export const pushToGitHubFn = createServerFn({ method: "POST" })
             throw new Error("Unauthorized - no GitHub token in session");
         }
 
-        const github = new GitHub({ authHeader: sessionData.githubToken });
+        const github = new GitHub({ token: sessionData.githubToken });
         const refData = await github.getRef(data.owner, data.repo, data.branch);
         const baseSha = refData.object.sha;
 
@@ -70,7 +70,7 @@ export const createPullRequestFn = createServerFn({ method: "POST" })
             throw new Error("Unauthorized - no GitHub token in session");
         }
 
-        const github = new GitHub({ authHeader: sessionData.githubToken });
+        const github = new GitHub({ token: sessionData.githubToken });
         const branchName = `voxel-studio-${Date.now()}`;
         const refData = await github.getRef(data.owner, data.repo, data.branch);
         const baseSha = refData.object.sha;
