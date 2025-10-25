@@ -30,8 +30,8 @@ export default function GithubSender() {
     const [pendingAction, setPendingAction] = useState<GitHubActionPayload | null>(null);
     const { owner, repositoryName, branch, token, isGitRepository } = useExportStore();
 
-    const { mutate } = useMutation({
-        mutationFn: () => new GitHub({ authHeader: token }).send(owner, repositoryName, branch, pendingAction?.type),
+    const { mutate, isPending } = useMutation({
+        mutationFn: () => new GitHub({ authHeader: token }).send(owner, repositoryName, branch, pendingAction?.type, pendingAction?.files),
         onSuccess: (data) => {
             const message = pendingAction?.type === "pr" ? "Pull request created" : "Changes pushed";
             const detail = pendingAction?.type === "pr" ? data.prUrl : `${data.filesModified} files modified`;
@@ -107,9 +107,9 @@ export default function GithubSender() {
                 )}
 
                 <DialogFooter className="pt-6 flex items-center justify-end gap-3">
-                    <DialogCloseButton variant="ghost">Cancel</DialogCloseButton>
-                    <Button type="button" onClick={() => pendingAction && mutate()} variant="default">
-                        Confirm {pendingAction?.type === "pr" ? "Pull Request" : "Push"}
+                    <DialogCloseButton variant="ghost" disabled={isPending}>Cancel</DialogCloseButton>
+                    <Button type="button" onClick={() => pendingAction && mutate()} variant="default" disabled={isPending}>
+                        {isPending ? "Processing..." : `Confirm ${pendingAction?.type === "pr" ? "Pull Request" : "Push"}`}
                     </Button>
                 </DialogFooter>
             </DialogContent>
