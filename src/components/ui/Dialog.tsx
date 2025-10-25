@@ -111,7 +111,7 @@ export function DialogTitle(props: BaseDialogProps) {
 }
 
 export function DialogHero(props: { image: string; className?: string }) {
-    return <img src={props.image} alt="Hero" className={cn("w-full aspect-[16/6] object-cover rounded-lg", props.className)} />;
+    return <img src={props.image} alt="Hero" className={cn("w-full aspect-16/6 object-cover rounded-lg", props.className)} />;
 }
 
 export function DialogDescription(props: BaseDialogProps) {
@@ -128,9 +128,15 @@ export function DialogFooter({ children, className }: { children: ReactNode; cla
 
 export function DialogCloseButton({ children, ...props }: { children?: ReactNode } & React.ComponentProps<typeof Button>) {
     const { setOpen } = useDisclosure();
+    const { onClick, ...restProps } = props;
+
+    const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+        setOpen(false);
+        if (onClick) onClick(e);
+    };
 
     return (
-        <Button type="button" onClick={() => setOpen(false)} {...props}>
+        <Button type="button" onClick={handleClick} {...restProps}>
             {children}
         </Button>
     );

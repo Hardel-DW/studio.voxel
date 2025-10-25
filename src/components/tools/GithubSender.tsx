@@ -56,7 +56,7 @@ export default function GithubSender() {
     if (!isGitRepository) return null;
 
     return (
-        <Dialog id="confirm-github-modal">
+        <Dialog id="confirm-github-modal" className="flex flex-col gap-1">
             <DialogTrigger>
                 <Button type="button" variant="aurora" onClick={() => handleGitAction("pr")}>
                     <Translate content="export.pull" />
@@ -108,9 +108,9 @@ export default function GithubSender() {
 
                 <DialogFooter className="pt-6 flex items-center justify-end gap-3">
                     <DialogCloseButton variant="ghost" disabled={isPending}>Cancel</DialogCloseButton>
-                    <Button type="button" onClick={() => pendingAction && mutate()} variant="default" disabled={isPending}>
+                    <DialogCloseButton type="button" onClick={() => pendingAction && mutate()} variant="default" disabled={isPending}>
                         {isPending ? "Processing..." : `Confirm ${pendingAction?.type === "pr" ? "Pull Request" : "Push"}`}
-                    </Button>
+                    </DialogCloseButton>
                 </DialogFooter>
             </DialogContent>
         </Dialog>
