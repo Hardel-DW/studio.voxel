@@ -14,7 +14,7 @@ export default function NavigationTrigger({ className, children, ...props }: Pro
             <img
                 src="/icons/chevron-down.svg"
                 alt="Open menu"
-                className="relative invert top-[1px] ml-1 h-3 w-3 transition duration-200 group-data-[state=open]:rotate-180" // Changed class to className
+                className="relative invert top-px ml-1 h-3 w-3 transition duration-200 group-data-[state=open]:rotate-180"
                 aria-hidden="true"
             />
         </button>

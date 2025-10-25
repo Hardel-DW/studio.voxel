@@ -46,8 +46,8 @@ export function ToolbarDropdown({ icon, tooltip, value, options, onChange, disab
                 {options.map((option) => {
                     const content = (
                         <div className="flex items-center w-full gap-3">
-                            {value === option.value && <img src="/icons/valid.svg" alt="Selected" className="h-4 w-4 flex-shrink-0" />}
-                            {value !== option.value && <div className="h-4 w-4 flex-shrink-0" />}
+                            {value === option.value && <img src="/icons/valid.svg" alt="Selected" className="h-4 w-4 shrink-0" />}
+                            {value !== option.value && <div className="h-4 w-4 shrink-0" />}
                             <div className="flex flex-col">
                                 <span className="font-medium">
                                     <Translate content={option.label} />

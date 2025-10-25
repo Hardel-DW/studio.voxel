@@ -7,7 +7,7 @@ export function DashedPattern({ className, ...props }: Props) {
     return (
         <svg
             className={cn(
-                "size-full -z-10 absolute stroke-zinc-500/30 [mask-image:radial-gradient(white,transparent_70%)] [stroke-dasharray:5_6] [stroke-dashoffset:10] stroke-6",
+                "size-full -z-10 absolute stroke-zinc-500/30 mask-[radial-gradient(white,transparent_70%)] [stroke-dasharray:5_6] [stroke-dashoffset:10] stroke-6",
                 className
             )}
             {...props}>

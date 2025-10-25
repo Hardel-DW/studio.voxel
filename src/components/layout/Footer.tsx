@@ -91,7 +91,7 @@ export default function Footer() {
 
     return (
         <footer className="w-full px-4 pb-4 bg-linear-to-b from-transparent to-black/70">
-            <div className="max-w-[theme(screens.2xl)] mx-auto border-t border-zinc-900 pt-8 grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 px-6 md:px-20">
+            <div className="max-w-(--breakpoint-2xl) mx-auto border-t border-zinc-900 pt-8 grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 px-6 md:px-20">
                 <div className="sm:col-span-2 md:col-span-3 lg:col-span-2">
                     <a href={`/${lang}`} className="text-lg flex items-center">
                         <img loading="lazy" src="/icons/logo.svg" alt="Voxel Logo" className="w-6 h-6 brightness-90 mr-2" />

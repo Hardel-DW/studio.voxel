@@ -10,7 +10,7 @@ const variants = {
         ghost: "bg-transparent text-zinc-200 border-2 border-zinc-500 hover:bg-zinc-200 hover:text-zinc-800",
         ghost_border:
             "bg-transparent text-zinc-200 border-2 border-zinc-900 ring-zinc-900 hover:text-zinc-100 hover:border-zinc-700 hover:ring-zinc-700",
-        aurora: "bg-transparent border-2 border-zinc-900 ring-zinc-900 hover:text-zinc-100 hover:ring-zinc-700 w-full justify-between bg-gradient-to-r from-transparent from-30% to-zinc-700/30 hover:from-10% hover:border-zinc-800 text-xs text-zinc-400",
+        aurora: "bg-transparent border-2 border-zinc-900 ring-zinc-900 hover:text-zinc-100 hover:ring-zinc-700 w-full justify-between bg-linear-to-r from-transparent from-30% to-zinc-700/30 hover:from-10% hover:border-zinc-800 text-xs text-zinc-400",
         transparent: "bg-transparent text-zinc-200 border-2 border-zinc-500 hover:bg-white/10",
         link: "bg-transparent hover:text-white text-zinc-400",
         shimmer: "shimmer-white text-black font-medium border-t border-l border-zinc-900 hover:opacity-75 transition",

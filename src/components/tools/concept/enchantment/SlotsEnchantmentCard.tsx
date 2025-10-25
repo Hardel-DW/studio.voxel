@@ -71,9 +71,9 @@ export default function SlotsEnchantmentCard({ element }: SlotsEnchantmentCardPr
             <div className="flex items-center justify-between pb-4">
                 <div className="flex items-center gap-3 flex-1 min-w-0">
                     {items.length === 0 ? (
-                        <div className="w-6 h-6 bg-stone-900 rounded-full animate-pulse flex-shrink-0" />
+                        <div className="w-6 h-6 bg-stone-900 rounded-full animate-pulse shrink-0" />
                     ) : (
-                        <div className="flex-shrink-0">
+                        <div className="shrink-0">
                             <TextureRenderer id={items[0]} />
                         </div>
                     )}

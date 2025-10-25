@@ -28,7 +28,7 @@ export default function SquareButton({
     };
 
     const variantClasses = {
-        default: "bg-black/50 border-1 border-zinc-800 hover:border-zinc-700",
+        default: "bg-black/50 border border-zinc-800 hover:border-zinc-700",
         outline: "border-2 border-zinc-700 hover:border-zinc-600 hover:bg-black/20",
         ghost: "hover:bg-black/30"
     };

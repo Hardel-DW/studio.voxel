@@ -40,7 +40,7 @@ export function ToolNavItem({ title, description, image, href, alignRight, comin
             <div className={cn("flex items-center gap-4", alignRight && "flex-row-reverse")}>
                 <div
                     className={cn(
-                        "w-12 h-12 flex-shrink-0",
+                        "w-12 h-12 shrink-0",
                         !comingSoon && "transition-transform duration-300 group-hover:scale-110",
                         !comingSoon && (alignRight ? "group-hover:-rotate-2" : "group-hover:rotate-2")
                     )}>

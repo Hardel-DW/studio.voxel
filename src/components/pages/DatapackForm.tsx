@@ -63,13 +63,13 @@ const DatapackForm: React.FC<Props> = ({ file, initialMetadata, iconUrl }) => {
     };
 
     return (
-        <div className="w-full bg-gradient-to-br from-zinc-950 to-zinc-950/50 p-4 rounded-lg border border-zinc-900">
+        <div className="w-full bg-linear-to-br from-zinc-950 to-zinc-950/50 p-4 rounded-lg border border-zinc-900">
             <div className="flex gap-4 mb-4">
                 {iconUrl && <img src={iconUrl} alt="Pack icon" className="size-48 object-contain rounded-lg border border-zinc-700 p-2" />}
 
                 <div className="flex items-center flex-col gap-2 h-48  w-full">
                     <div className="flex flex-col p-2 w-full border-y border-zinc-900 has-focus:border-zinc-700 transition-colors duration-200 rounded-lg">
-                        <label htmlFor="mod-name" className="!h-fit text-xs text-zinc-400 font-medium">
+                        <label htmlFor="mod-name" className="h-fit text-xs text-zinc-400 font-medium">
                             {dictionary.converter.form.name}
                         </label>
                         <input
@@ -83,7 +83,7 @@ const DatapackForm: React.FC<Props> = ({ file, initialMetadata, iconUrl }) => {
                     </div>
 
                     <div className="flex flex-col p-2 flex-1 w-full border-y border-zinc-900 has-focus:border-zinc-700 transition-colors duration-200 rounded-lg">
-                        <label htmlFor="mod-description" className="!h-fit text-xs text-zinc-400 font-medium">
+                        <label htmlFor="mod-description" className="h-fit text-xs text-zinc-400 font-medium">
                             {dictionary.converter.form.description}
                         </label>
                         <textarea
@@ -103,7 +103,7 @@ const DatapackForm: React.FC<Props> = ({ file, initialMetadata, iconUrl }) => {
             <div className="grid grid-cols-1 gap-4">
                 <div className="flex gap-4">
                     <div className="flex flex-col p-2 w-1/2 border-y border-zinc-900 has-focus:border-zinc-700 transition-colors duration-200 rounded-lg">
-                        <label htmlFor="mod-id" className="!h-fit text-xs text-zinc-400 font-medium">
+                        <label htmlFor="mod-id" className="h-fit text-xs text-zinc-400 font-medium">
                             {dictionary.converter.form.id}
                         </label>
                         <input
@@ -117,7 +117,7 @@ const DatapackForm: React.FC<Props> = ({ file, initialMetadata, iconUrl }) => {
                     </div>
 
                     <div className="flex flex-col p-2 w-1/2 border-y border-zinc-900 has-focus:border-zinc-700 transition-colors duration-200 rounded-lg">
-                        <label htmlFor="mod-version" className="!h-fit text-xs text-zinc-400 font-medium">
+                        <label htmlFor="mod-version" className="h-fit text-xs text-zinc-400 font-medium">
                             {dictionary.converter.form.version}
                         </label>
                         <input
@@ -147,7 +147,7 @@ const DatapackForm: React.FC<Props> = ({ file, initialMetadata, iconUrl }) => {
                     <div className="overflow-hidden">
                         <div className="grid gap-4">
                             <div className="flex flex-col p-2 w-full border-y border-zinc-900 has-focus:border-zinc-700 transition-colors duration-200 rounded-lg">
-                                <label htmlFor="mod-authors" className="!h-fit text-xs text-zinc-400 font-medium">
+                                <label htmlFor="mod-authors" className="h-fit text-xs text-zinc-400 font-medium">
                                     {dictionary.converter.form.authors}
                                 </label>
                                 <div className="flex flex-wrap gap-2 mb-2">
@@ -175,7 +175,7 @@ const DatapackForm: React.FC<Props> = ({ file, initialMetadata, iconUrl }) => {
                             </div>
 
                             <div className="flex flex-col p-2 w-full border-y border-zinc-900 has-focus:border-zinc-700 transition-colors duration-200 rounded-lg">
-                                <label htmlFor="mod-github" className="!h-fit text-xs text-zinc-400 font-medium">
+                                <label htmlFor="mod-github" className="h-fit text-xs text-zinc-400 font-medium">
                                     {dictionary.converter.form.sources}
                                 </label>
                                 <input
@@ -196,7 +196,7 @@ const DatapackForm: React.FC<Props> = ({ file, initialMetadata, iconUrl }) => {
                             </div>
 
                             <div className="flex flex-col p-2 w-full border-y border-zinc-900 has-focus:border-zinc-700 transition-colors duration-200 rounded-lg">
-                                <label htmlFor="mod-homepage" className="!h-fit text-xs text-zinc-400 font-medium">
+                                <label htmlFor="mod-homepage" className="h-fit text-xs text-zinc-400 font-medium">
                                     {dictionary.converter.form.homepage}
                                 </label>
                                 <input

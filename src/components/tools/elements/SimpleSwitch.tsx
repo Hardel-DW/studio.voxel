@@ -7,7 +7,7 @@ export default function SimpleSwitch(props: BaseInteractiveComponent) {
     if (value === null) return null;
 
     return (
-        <label htmlFor={props.elementId} className="flex items-center gap-2 cursor-pointer flex-shrink-0">
+        <label htmlFor={props.elementId} className="flex items-center gap-2 cursor-pointer shrink-0">
             <Switch isChecked={value} setIsChecked={handleChange} />
         </label>
     );

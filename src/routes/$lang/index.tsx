@@ -24,10 +24,10 @@ function Page() {
 
     return (
         <div className="relative">
-            <div className="fixed -z-50 -top-16 -right-16 size-72 rounded-full blur-[10rem] bg-gradient-to-br from-red-900/20 to-blue-900/20" />
-            <div className="fixed -z-50 top-0 bottom-0 translate-y-1/2 -left-8 w-64 h-full rounded-full blur-[4rem] bg-gradient-to-br from-pink-900/20 to-blue-900/20" />
-            <div className="fixed -z-50 -bottom-24 -right-24 size-60 rounded-full blur-[10rem] bg-gradient-to-br from-purple-900/20 to-red-900/20" />
-            <div className="fixed -z-50 -top-16 -left-16 size-100 rounded-full blur-[4rem] bg-gradient-to-br from-pink-900/20 to-blue-900/20" />
+            <div className="fixed -z-50 -top-16 -right-16 size-72 rounded-full blur-[10rem] bg-linear-to-br from-red-900/20 to-blue-900/20" />
+            <div className="fixed -z-50 top-0 bottom-0 translate-y-1/2 -left-8 w-64 h-full rounded-full blur-[4rem] bg-linear-to-br from-pink-900/20 to-blue-900/20" />
+            <div className="fixed -z-50 -bottom-24 -right-24 size-60 rounded-full blur-[10rem] bg-linear-to-br from-purple-900/20 to-red-900/20" />
+            <div className="fixed -z-50 -top-16 -left-16 size-100 rounded-full blur-[4rem] bg-linear-to-br from-pink-900/20 to-blue-900/20" />
 
             <Navbar />
             <LineSetup />
@@ -37,7 +37,7 @@ function Page() {
                     <div className="rotate-45 w-[85vw] h-[70vh] bg-radial from-zinc-900/20 to-stone-500/20 rounded-3xl blur-[10rem]" />
                 </div>
                 <div className="-z-10 absolute inset-0">
-                    <svg className="size-full stroke-white/10 [mask-image:radial-gradient(white,transparent_50%)] [stroke-dasharray:5_6] [stroke-dashoffset:10] lg:stroke-[4]">
+                    <svg className="size-full stroke-white/10 mask-[radial-gradient(white,transparent_50%)] [stroke-dasharray:5_6] [stroke-dashoffset:10] lg:stroke-4">
                         <title>Grid</title>
                         <defs>
                             <pattern id="grid" viewBox="0 0 64 64" width="32" height="32" patternUnits="userSpaceOnUse" x="0" y="0">
@@ -50,21 +50,21 @@ function Page() {
 
                 <div className="hidden s:flex w-full s:items-center s:justify-center s:overflow-x-hidden s:h-full s:flex-1 lg:flex-col lg:justify-evenly lg:p-12 lg:gap-8 lg:overflow-visible lg:h-auto lg:flex-initial">
                     <ImageCard
-                        className="flex-shrink-0 rotate-6 translate-y-1/2 s:translate-x-2/3 s:w-1/2 lg:translate-x-1/4 lg:w-auto"
+                        className="shrink-0 rotate-6 translate-y-1/2 s:translate-x-2/3 s:w-1/2 lg:translate-x-1/4 lg:w-auto"
                         image="/images/background/tools/configurator.webp"
                         href={`/${lang}/studio`}
                         title={dictionary.home.configurator.title}
                         button={dictionary.generic.start_now}
                     />
                     <ImageCard
-                        className="flex-shrink-0 -rotate-3 s:-translate-y-1/2 s:w-1/2 lg:-translate-x-1/4 lg:translate-y-0 lg:w-auto"
+                        className="shrink-0 -rotate-3 s:-translate-y-1/2 s:w-1/2 lg:-translate-x-1/4 lg:translate-y-0 lg:w-auto"
                         image="/images/background/marketplace.webp"
                         href={`https://voxel.hardel.io/${lang}/marketplace`}
                         title={dictionary.home.marketplace.title}
                         button={dictionary.generic.start_now}
                     />
                     <ImageCard
-                        className="flex-shrink-0 rotate-6 s:-translate-x-2/3 s:w-1/2 lg:-translate-y-1/2 lg:translate-x-0 lg:w-auto"
+                        className="shrink-0 rotate-6 s:-translate-x-2/3 s:w-1/2 lg:-translate-y-1/2 lg:translate-x-0 lg:w-auto"
                         image="/images/background/copilot.webp"
                         href="#"
                         title={dictionary.home.copilot.title}

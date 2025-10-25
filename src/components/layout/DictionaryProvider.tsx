@@ -8,7 +8,6 @@ interface DictionaryProviderProps {
     children: ReactNode;
 }
 
-// Provider component
 export const DictionaryProvider: React.FC<DictionaryProviderProps> = ({ dictionary, children }) => {
     return <DictionaryContext.Provider value={dictionary}>{children}</DictionaryContext.Provider>;
 };

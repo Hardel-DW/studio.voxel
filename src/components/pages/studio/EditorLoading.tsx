@@ -41,7 +41,7 @@ export default function EditorLoading() {
 
                         <div className="absolute bottom-0 left-0 right-0 max-md:px-4 pr-4 flex items-center gap-2">
                             <div className="h-9 w-full rounded-md bg-zinc-700 animate-pulse" />
-                            <div className="h-9 w-9 rounded-md bg-zinc-700 animate-pulse flex-shrink-0" />
+                            <div className="h-9 w-9 rounded-md bg-zinc-700 animate-pulse shrink-0" />
                         </div>
                     </div>
                 </div>

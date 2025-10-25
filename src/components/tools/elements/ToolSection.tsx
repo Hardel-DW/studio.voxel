@@ -22,7 +22,7 @@ export default function ToolSection(props: ToolSectionType) {
                             <h2 className="text-2xl font-semibold">
                                 <Translate content={props.title} />
                             </h2>
-                            <hr className="!m-0 absolute -bottom-2 left-0 right-0" />
+                            <hr className="m-0! absolute -bottom-2 left-0 right-0" />
                         </div>
                         {props.button && (
                             <LinkButton href={props.button.url} variant="ghost">

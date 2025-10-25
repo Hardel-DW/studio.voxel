@@ -5,7 +5,7 @@ export default function ImageCard(props: { image: string; href: string; title: s
     return (
         <div
             className={cn(
-                "group relative animate-levitate cursor-pointer hover:scale-105 transition-all duration-300 shadow-2xl shadow-red-950/15 w-full max-w-[20rem] sm:max-w-[22rem] md:max-w-[24rem] aspect-video",
+                "group relative animate-levitate cursor-pointer hover:scale-105 transition-all duration-300 shadow-2xl shadow-red-950/15 w-full max-w-80 sm:max-w-88 md:max-w-96 aspect-video",
                 props.className
             )}>
             <img className="w-full h-full object-cover rounded-2xl border-2 border-zinc-900" alt={props.title} src={props.image} />

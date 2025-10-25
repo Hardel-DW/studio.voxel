@@ -55,7 +55,7 @@ export default function SidebarCard(props: Props) {
                         <div className="flex items-center gap-2 h-full w-full justify-between">
                             <div className="flex flex-col items-start">
                                 <div
-                                    className={cn("text-lg font-bold break-words", {
+                                    className={cn("text-lg font-bold wrap-break-words", {
                                         "text-white": isSelected,
                                         "text-zinc-400": !isSelected
                                     })}>

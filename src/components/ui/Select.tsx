@@ -96,7 +96,7 @@ export function SelectContent({ children, className }: { children: ReactNode; cl
                     inset: "unset"
                 }}
                 className={cn(
-                    "max-h-[50vh] min-w-[8rem] overflow-y-auto rounded-md border border-zinc-700 bg-zinc-950 text-zinc-400 shadow-md outline-hidden duration-150 ease-bounce",
+                    "max-h-75 min-w-32 overflow-y-auto rounded-md border border-zinc-700 bg-zinc-950 text-zinc-400 shadow-md outline-hidden duration-150 ease-bounce",
                     className
                 )}>
                 <div className="p-1">{children}</div>
