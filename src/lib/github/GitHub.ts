@@ -53,19 +53,34 @@ export class GitHub {
         this.token = token;
     }
 
-    private async request<T>(method: "GET" | "POST" | "PATCH" | "DELETE", path: string, body?: unknown): Promise<T> {
+    private get authenticatedToken(): string {
+        if (!this.token) {
+            throw new GitHubError("Missing authorization token", 401);
+        }
+        return this.token;
+    }
+
+    private buildHeaders(options?: { requireAuth?: boolean; contentType?: boolean }): Record<string, string> {
+        const { requireAuth = true, contentType = false } = options || {};
+
         const headers: Record<string, string> = {
             Accept: "application/vnd.github+json",
             "User-Agent": "Voxel-Studio"
         };
 
-        if (this.token) {
-            headers.Authorization = `Bearer ${this.token}`;
+        if (requireAuth) {
+            headers.Authorization = `Bearer ${this.authenticatedToken}`;
         }
 
-        if (body !== undefined) {
+        if (contentType) {
             headers["Content-Type"] = "application/json";
         }
+
+        return headers;
+    }
+
+    private async request<T>(method: "GET" | "POST" | "PATCH" | "DELETE", path: string, body?: unknown): Promise<T> {
+        const headers = this.buildHeaders({ contentType: body !== undefined });
 
         const response = await fetch(`https://api.github.com${path}`, {
             method,
@@ -115,11 +130,9 @@ export class GitHub {
     }
 
     createCommit(owner: string, repo: string, message: string, treeSha: string, parentSha: string) {
-        return this.request<{ sha: string }>("POST", `/repos/${owner}/${repo}/git/commits`, {
-            message,
-            tree: treeSha,
-            parents: [parentSha]
-        });
+        const parents = [parentSha];
+        const tree = treeSha;
+        return this.request<{ sha: string }>("POST", `/repos/${owner}/${repo}/git/commits`, { message, tree, parents });
     }
 
     updateRef(owner: string, repo: string, branch: string, sha: string) {
@@ -136,16 +149,10 @@ export class GitHub {
     }
 
     async downloadRepo(owner: string, repo: string, branch: string) {
-        const headers: Record<string, string> = {
-            Accept: "application/vnd.github+json",
-            "User-Agent": "Voxel-Studio"
-        };
+        const response = await fetch(`https://api.github.com/repos/${owner}/${repo}/zipball/${branch}`, {
+            headers: this.buildHeaders()
+        });
 
-        if (this.token) {
-            headers.Authorization = `Bearer ${this.token}`;
-        }
-
-        const response = await fetch(`https://api.github.com/repos/${owner}/${repo}/zipball/${branch}`, { headers });
         if (!response.ok) {
             throw new GitHubError("Failed to download repository", response.status);
         }
@@ -156,11 +163,7 @@ export class GitHub {
     async getAccessToken(clientId: string, clientSecret: string, code: string) {
         const response = await fetch("https://github.com/login/oauth/access_token", {
             method: "POST",
-            headers: {
-                Accept: "application/vnd.github+json",
-                "User-Agent": "Voxel-Studio",
-                "Content-Type": "application/json"
-            },
+            headers: this.buildHeaders({ requireAuth: false, contentType: true }),
             body: JSON.stringify({ client_id: clientId, client_secret: clientSecret, code })
         });
 
@@ -212,6 +215,7 @@ export class GitHub {
         if (!files) throw new GitHubError("Missing files parameter", 400);
 
         const params = { data: { owner, repo: repositoryName, branch, files } };
+        if (import.meta.env.VITE_DISABLE_GITHUB_ACTIONS) return { filesModified: Object.keys(files).length, prUrl: undefined };
         return action === "push" ? pushToGitHubFn(params) : createPullRequestFn(params);
     }
 

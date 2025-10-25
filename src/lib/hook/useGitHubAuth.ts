@@ -51,11 +51,20 @@ export function useGitHubAuth() {
 }
 
 export function useGitHubRepos(token: string | null) {
+    const queryClient = useQueryClient();
+
     return useQuery({
         queryKey: [REPOS_QUERY_KEY, token],
         queryFn: () => new GitHub({ token }).getAllRepos(),
         enabled: !!token,
         staleTime: 1000 * 60 * 5,
-        gcTime: 1000 * 60 * 30
+        gcTime: 1000 * 60 * 30,
+        retry: (failureCount, error) => {
+            if (error instanceof Error && error.message.includes("Unauthorized")) {
+                queryClient.invalidateQueries({ queryKey: AUTH_QUERY_KEY });
+                return false;
+            }
+            return failureCount < 3;
+        }
     });
 }
