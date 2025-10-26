@@ -62,7 +62,7 @@ function RepositoryOpenerContent() {
     if (!isAuthenticated)
         return (
             <Button
-                onClick={() => login()}
+                onClick={() => login({ redirect: true })}
                 className="w-full mt-8 flex items-center gap-x-2 shimmer-zinc-950 border border-zinc-800 text-white">
                 <img src="/icons/company/github.svg" alt="GitHub" className="size-4 invert" />
                 <span className="text-sm">

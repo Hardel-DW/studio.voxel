@@ -18,6 +18,7 @@ import { TextInput } from "@/components/ui/TextInput";
 import { TOAST, toast } from "@/components/ui/Toast";
 import { GitHub } from "@/lib/github/GitHub";
 import { useClientDictionary } from "@/lib/hook/useClientDictionary";
+import { useGitHubAuth } from "@/lib/hook/useGitHubAuth";
 
 const DESCRIPTION = "Minecraft datapack created with Voxel Studio";
 
@@ -26,6 +27,7 @@ export default function InitializeRepoButton() {
     const { token } = useExportStore();
     const name = useConfiguratorStore((state) => state.name);
     const t = useClientDictionary("github");
+    const { isAuthenticated } = useGitHubAuth();
 
     const { mutate, isPending } = useMutation({
         mutationFn: () => new GitHub({ token }).initializeRepository(repoName, DESCRIPTION, false, true),
@@ -54,8 +56,8 @@ export default function InitializeRepoButton() {
 
     return (
         <Dialog id="init-repo-modal" onOpenChange={(open) => open && setRepoName(name.toLowerCase().replace(/[^a-z0-9-_]/g, "-"))}>
-            <DialogTrigger>
-                <Button type="button" variant="aurora">
+            <DialogTrigger disabled={!isAuthenticated}>
+                <Button type="button" variant="aurora" disabled={!isAuthenticated}>
                     <Translate content="github:init.button" />
                     <img src="/icons/company/github.svg" alt="init" className="size-4 invert-75" />
                 </Button>

@@ -21,6 +21,7 @@ import { GitHub } from "@/lib/github/GitHub";
 import { useClientDictionary } from "@/lib/hook/useClientDictionary";
 import { cn } from "@/lib/utils";
 import { encodeToBase64 } from "@/lib/utils/encode";
+import { useGitHubAuth } from "@/lib/hook/useGitHubAuth";
 
 type GitHubActionPayload = {
     type: "push" | "pr";
@@ -32,6 +33,7 @@ export default function GithubSender() {
     const [pendingAction, setPendingAction] = useState<GitHubActionPayload | null>(null);
     const { owner, repositoryName, branch, token, isGitRepository } = useExportStore();
     const t = useClientDictionary("github");
+    const { isAuthenticated } = useGitHubAuth();
 
     const { mutate, isPending } = useMutation({
         mutationFn: () => new GitHub({ token }).send(owner, repositoryName, branch, pendingAction?.type, pendingAction?.files),
@@ -63,15 +65,15 @@ export default function GithubSender() {
 
     return (
         <Dialog id="confirm-github-modal" className="flex flex-col gap-1">
-            <DialogTrigger>
-                <Button type="button" variant="aurora" onClick={() => handleGitAction("pr")}>
+            <DialogTrigger disabled={!isAuthenticated}>
+                <Button type="button" variant="aurora" onClick={() => handleGitAction("pr")} disabled={!isAuthenticated}>
                     <Translate content="export.pull" />
                     <img src="/icons/company/pull.svg" alt="pull" className="size-4 invert-75" />
                 </Button>
             </DialogTrigger>
 
-            <DialogTrigger>
-                <Button type="button" variant="aurora" onClick={() => handleGitAction("push")}>
+            <DialogTrigger disabled={!isAuthenticated}>
+                <Button type="button" variant="aurora" onClick={() => handleGitAction("push")} disabled={!isAuthenticated}>
                     <Translate content="export.push" />
                     <img src="/icons/company/github.svg" alt="push" className="size-4 invert-75" />
                 </Button>

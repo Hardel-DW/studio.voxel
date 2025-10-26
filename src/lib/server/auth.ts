@@ -8,11 +8,13 @@ function generateRandomState(): string {
 
 type AuthInput = {
     returnTo?: string;
+    isNewTab?: boolean;
 };
 
 export const initiateGitHubAuthFn = createServerFn({ method: "POST" })
     .inputValidator((data: AuthInput) => z.object({
-        returnTo: z.string().optional().description("Return URL after authentication")
+        returnTo: z.string().optional().description("Return URL after authentication"),
+        isNewTab: z.boolean().optional().description("Whether auth is opened in new tab")
     }).parse(data))
     .handler(async ({ data }) => {
         const clientId = process.env.GITHUB_CLIENT;
@@ -30,7 +32,8 @@ export const initiateGitHubAuthFn = createServerFn({ method: "POST" })
         const session = await useAppSession();
         await session.update({
             oauthState: state,
-            returnTo: data.returnTo || "/en"
+            returnTo: data.returnTo || "/en",
+            isNewTab: data.isNewTab || false
         });
 
         const redirectUri = `${baseUrl}/auth`;

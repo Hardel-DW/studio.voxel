@@ -34,11 +34,12 @@ export function Dialog(props: { children: ReactNode; id: string; className?: str
 export function DialogTrigger(props: {
     children: ReactElement<{ ref?: React.Ref<HTMLElement>; onClick?: () => void; className?: string }>;
     className?: string;
+    disabled?: boolean;
 }) {
     const { setOpen, triggerRef } = useDisclosure();
 
     return (
-        <Trigger elementRef={triggerRef} onToggle={() => setOpen((prev) => !prev)} className={props.className}>
+        <Trigger elementRef={triggerRef} onToggle={() => props.disabled ? undefined : setOpen((prev) => !prev)} className={cn(props.className, props.disabled && "opacity-50 cursor-not-allowed")}>
             {props.children}
         </Trigger>
     );

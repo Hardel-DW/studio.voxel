@@ -1,6 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { useAppSession } from "@/lib/hook/useAppSession";
 import { GitHub } from "../github/GitHub";
+import { z } from "@/lib/utils/validator";
 
 type CallbackInput = {
     code: string;
@@ -8,15 +9,10 @@ type CallbackInput = {
 };
 
 export const handleGitHubCallbackFn = createServerFn({ method: "POST" })
-    .inputValidator((data: CallbackInput) => {
-        if (!data.code || typeof data.code !== "string") {
-            throw new Error("Missing or invalid code parameter");
-        }
-        if (!data.state || typeof data.state !== "string") {
-            throw new Error("Missing or invalid state parameter");
-        }
-        return data;
-    })
+    .inputValidator((data: CallbackInput) => z.object({
+        code: z.string().min(1).description("GitHub code"),
+        state: z.string().min(1).description("GitHub state")
+    }).parse(data))
     .handler(async ({ data }) => {
         const session = await useAppSession();
         const sessionData = session.data;
@@ -42,6 +38,7 @@ export const handleGitHubCallbackFn = createServerFn({ method: "POST" })
         const githubWithToken = new GitHub({ token: access_token });
         const { login, id, avatar_url } = await githubWithToken.getUser();
         const returnTo = sessionData.returnTo || "/en";
+        const isNewTab = sessionData.isNewTab || false;
 
         await session.update({
             userId: id,
@@ -49,8 +46,9 @@ export const handleGitHubCallbackFn = createServerFn({ method: "POST" })
             userAvatar: avatar_url,
             githubToken: access_token,
             oauthState: undefined,
-            returnTo: undefined
+            returnTo: undefined,
+            isNewTab: undefined
         });
 
-        return { success: true, returnTo };
+        return { success: true, returnTo, isNewTab };
     });

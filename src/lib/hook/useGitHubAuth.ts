@@ -26,9 +26,21 @@ export function useGitHubAuth() {
     });
 
     const loginMutation = useMutation({
-        mutationFn: async () => {
+        mutationFn: async (options?: { redirect?: boolean }) => {
             const returnTo = window.location.pathname;
-            await new GitHub().initiateAuth(returnTo);
+            const redirect = options?.redirect ?? true;
+
+            if (!redirect) {
+                const channel = new BroadcastChannel("github-auth");
+                channel.onmessage = (event) => {
+                    if (event.data.type === "auth-success") {
+                        queryClient.invalidateQueries({ queryKey: AUTH_QUERY_KEY });
+                        channel.close();
+                    }
+                };
+            }
+
+            await new GitHub().initiateAuth(returnTo, redirect);
         }
     });
 

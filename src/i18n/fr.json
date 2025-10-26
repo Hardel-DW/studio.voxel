@@ -25,7 +25,14 @@
         "no_results": "Aucun repository trouvé",
         "import": "Importer",
         "third_party": "Importer un Repository Git tiers",
-        "third_party_placeholder": "https://github.com/username/repository"
+        "third_party_placeholder": "https://github.com/username/repository",
+        "login_to_github": "Se connecter à GitHub"
+    },
+    "auth": {
+        "success": {
+            "title": "Succès",
+            "description": "Vous pouvez fermer cet onglet"
+        }
     },
     "home": {
         "title": "Prend le contrôle",

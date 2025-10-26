@@ -247,9 +247,16 @@ export class GitHub {
         );
     }
 
-    async initiateAuth(returnTo?: string) {
-        const result = await initiateGitHubAuthFn({ data: { returnTo } });
-        window.location.href = result.authUrl;
+    async initiateAuth(returnTo?: string, redirect = true) {
+        const result = await initiateGitHubAuthFn({ data: { returnTo, isNewTab: !redirect } });
+
+        if (redirect) {
+            window.location.href = result.authUrl;
+        } else {
+            window.open(result.authUrl, "_blank");
+        }
+
+        return result;
     }
 
     async initializeRepository(name: string, description: string, isPrivate: boolean, autoInit: boolean) {
