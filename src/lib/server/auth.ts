@@ -1,12 +1,19 @@
 import { createServerFn } from "@tanstack/react-start";
 import { useAppSession } from "@/lib/hook/useAppSession";
+import { z } from "@/lib/utils/validator";
 
 function generateRandomState(): string {
     return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
 }
 
+type AuthInput = {
+    returnTo?: string;
+};
+
 export const initiateGitHubAuthFn = createServerFn({ method: "POST" })
-    .inputValidator((data: { returnTo?: string }) => data)
+    .inputValidator((data: AuthInput) => z.object({
+        returnTo: z.string().optional().description("Return URL after authentication")
+    }).parse(data))
     .handler(async ({ data }) => {
         const clientId = process.env.GITHUB_CLIENT;
         const baseUrl = process.env.APP_URL;

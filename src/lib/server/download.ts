@@ -1,6 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { GitHub } from "@/lib/github/GitHub";
 import { useAppSession } from "@/lib/hook/useAppSession";
+import { z } from "@/lib/utils/validator";
 
 type DownloadInput = {
     owner: string;
@@ -9,18 +10,11 @@ type DownloadInput = {
 };
 
 export const downloadRepoFn = createServerFn({ method: "GET" })
-    .inputValidator((data: DownloadInput) => {
-        if (!data.owner || typeof data.owner !== "string") {
-            throw new Error("Missing or invalid owner");
-        }
-        if (!data.repo || typeof data.repo !== "string") {
-            throw new Error("Missing or invalid repo");
-        }
-        if (!data.branch || typeof data.branch !== "string") {
-            throw new Error("Missing or invalid branch");
-        }
-        return data;
-    })
+    .inputValidator((data: DownloadInput) => z.object({
+        owner: z.string().min(1).description("Repository owner"),
+        repo: z.string().min(1).description("Repository name"),
+        branch: z.string().min(1).description("Branch name")
+    }).parse(data))
     .handler(async ({ data }) => {
         const session = await useAppSession();
         const sessionData = session.data;

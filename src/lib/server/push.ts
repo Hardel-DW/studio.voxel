@@ -1,5 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { useAppSession } from "@/lib/hook/useAppSession";
+import { z } from "@/lib/utils/validator";
 import { GitHub } from "../github/GitHub";
 
 type PushInput = {
@@ -10,21 +11,12 @@ type PushInput = {
 };
 
 export const pushToGitHubFn = createServerFn({ method: "POST" })
-    .inputValidator((data: PushInput) => {
-        if (!data.owner || typeof data.owner !== "string") {
-            throw new Error("Missing or invalid owner");
-        }
-        if (!data.repo || typeof data.repo !== "string") {
-            throw new Error("Missing or invalid repo");
-        }
-        if (!data.branch || typeof data.branch !== "string") {
-            throw new Error("Missing or invalid branch");
-        }
-        if (!data.files || typeof data.files !== "object") {
-            throw new Error("Missing or invalid files");
-        }
-        return data;
-    })
+    .inputValidator((data: PushInput) => z.object({
+        owner: z.string().min(1).description("Repository owner"),
+        repo: z.string().min(1).description("Repository name"),
+        branch: z.string().min(1).description("Branch name"),
+        files: z.record(z.string().nullable())
+    }).parse(data))
     .handler(async ({ data }) => {
         const session = await useAppSession();
         const sessionData = session.data;
@@ -47,21 +39,12 @@ export const pushToGitHubFn = createServerFn({ method: "POST" })
     });
 
 export const createPullRequestFn = createServerFn({ method: "POST" })
-    .inputValidator((data: PushInput) => {
-        if (!data.owner || typeof data.owner !== "string") {
-            throw new Error("Missing or invalid owner");
-        }
-        if (!data.repo || typeof data.repo !== "string") {
-            throw new Error("Missing or invalid repo");
-        }
-        if (!data.branch || typeof data.branch !== "string") {
-            throw new Error("Missing or invalid branch");
-        }
-        if (!data.files || typeof data.files !== "object") {
-            throw new Error("Missing or invalid files");
-        }
-        return data;
-    })
+    .inputValidator((data: PushInput) => z.object({
+        owner: z.string().min(1).description("Repository owner"),
+        repo: z.string().min(1).description("Repository name"),
+        branch: z.string().min(1).description("Branch name"),
+        files: z.record(z.string().nullable())
+    }).parse(data))
     .handler(async ({ data }) => {
         const session = await useAppSession();
         const sessionData = session.data;
