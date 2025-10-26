@@ -13,5 +13,15 @@
     "dialog.cancel": "Cancel",
     "dialog.processing": "Processing...",
     "dialog.pr.confirm": "Confirm Pull Request",
-    "dialog.push.confirm": "Confirm Push"
+    "dialog.push.confirm": "Confirm Push",
+    "init.title": "Initialize GitHub Repository",
+    "init.description": "Create a new repository on GitHub for your datapack",
+    "init.label": "Repository Name",
+    "init.placeholder": "my-datapack",
+    "init.error.empty": "Repository name cannot be empty",
+    "init.error.invalid": "Invalid repository name (only letters, numbers, hyphens and underscores)",
+    "init.success": "Repository created successfully",
+    "init.error": "Failed to create repository",
+    "init.confirm": "Create Repository",
+    "init.button": "Initialize Repository"
 }

@@ -1,6 +1,7 @@
 import type { RefObject } from "react";
 import DownloadButton from "@/components/tools/DownloadButton";
 import GithubSender from "@/components/tools/GithubSender";
+import InitializeRepoButton from "@/components/tools/InitializeRepoButton";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import { useExportStore } from "@/components/tools/sidebar/ExportStore";
 import Translate from "@/components/tools/Translate";
@@ -33,7 +34,7 @@ export default function ExportButton({ containerRef }: { containerRef?: RefObjec
 
                 <div className="px-2 pb-2">
                     <div className="flex flex-col gap-1 bg-neutral-950 rounded-2xl p-2 border border-zinc-800">
-                        <GithubSender />
+                        {isGitRepository ? <GithubSender /> : <InitializeRepoButton />}
                         <DownloadButton />
                     </div>
                 </div>

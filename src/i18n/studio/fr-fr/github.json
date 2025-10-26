@@ -13,5 +13,15 @@
     "dialog.cancel": "Annuler",
     "dialog.processing": "Traitement en cours...",
     "dialog.pr.confirm": "Confirmer la Pull Request",
-    "dialog.push.confirm": "Confirmer l'envoi"
+    "dialog.push.confirm": "Confirmer l'envoi",
+    "init.title": "Initialiser un dépôt GitHub",
+    "init.description": "Créer un nouveau dépôt sur GitHub pour votre datapack",
+    "init.label": "Nom du dépôt",
+    "init.placeholder": "mon-datapack",
+    "init.error.empty": "Le nom du dépôt ne peut pas être vide",
+    "init.error.invalid": "Nom de dépôt invalide (seulement lettres, chiffres, tirets et underscores)",
+    "init.success": "Dépôt créé avec succès",
+    "init.error": "Échec de la création du dépôt",
+    "init.confirm": "Créer le dépôt",
+    "init.button": "Initialiser le dépôt"
 }

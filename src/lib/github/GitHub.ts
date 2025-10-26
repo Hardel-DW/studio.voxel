@@ -1,6 +1,7 @@
 import { extractZip } from "@voxelio/zip";
 import { initiateGitHubAuthFn } from "@/lib/server/auth";
 import { downloadRepoFn } from "@/lib/server/download";
+import { initializeRepositoryFn } from "@/lib/server/init";
 import { createPullRequestFn, pushToGitHubFn } from "@/lib/server/push";
 import { getAllReposFn } from "@/lib/server/repos";
 import { getSessionFn, logoutFn } from "@/lib/server/session";
@@ -148,6 +149,15 @@ export class GitHub {
         return this.request<{ html_url: string; number: number }>("POST", `/repos/${owner}/${repo}/pulls`, { title, head, base, body });
     }
 
+    createRepository(name: string, description: string, isPrivate: boolean, autoInit: boolean) {
+        return this.request<{ name: string; full_name: string; html_url: string; default_branch: string }>("POST", "/user/repos", {
+            name,
+            description,
+            private: isPrivate,
+            auto_init: autoInit
+        });
+    }
+
     async downloadRepo(owner: string, repo: string, branch: string) {
         const response = await fetch(`https://api.github.com/repos/${owner}/${repo}/zipball/${branch}`, {
             headers: this.buildHeaders()
@@ -240,5 +250,9 @@ export class GitHub {
     async initiateAuth(returnTo?: string) {
         const result = await initiateGitHubAuthFn({ data: { returnTo } });
         window.location.href = result.authUrl;
+    }
+
+    async initializeRepository(name: string, description: string, isPrivate: boolean, autoInit: boolean) {
+        return initializeRepositoryFn({ data: { name, description, isPrivate, autoInit } });
     }
 }
