@@ -7,7 +7,7 @@ import { DashedPattern } from "@/components/ui/DashedPattern";
 import ShiningStars from "@/components/ui/ShiningStars";
 import Star from "@/components/ui/Star";
 import Walkthrough from "@/components/ui/Walkthrough";
-import { useDictionary } from "@/lib/hook/useNext18n";
+import { useServerDictionary } from "@/lib/hook/useServerDictionary";
 
 export const Route = createFileRoute("/$lang/migration")({
     component: MigrationPage,
@@ -16,7 +16,7 @@ export const Route = createFileRoute("/$lang/migration")({
 
 function MigrationPage() {
     const { lang } = Route.useParams();
-    const dictionary = useDictionary();
+    const dictionary = useServerDictionary();
 
     const walkthroughSteps = [
         {

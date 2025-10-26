@@ -2,7 +2,7 @@ import type { ModMetadata } from "@voxelio/converter";
 import { convertDatapack, ModPlatforms } from "@voxelio/converter";
 import { useState } from "react";
 import { Button } from "@/components/ui/Button";
-import { useDictionary } from "@/lib/hook/useNext18n";
+import { useServerDictionary } from "@/lib/hook/useServerDictionary";
 import { cn } from "@/lib/utils";
 import { downloadFile } from "@/lib/utils/download";
 import { trackEvent } from "@/lib/utils/telemetry";
@@ -20,7 +20,7 @@ const DatapackForm: React.FC<Props> = ({ file, initialMetadata, iconUrl }) => {
     const [error, setError] = useState<string | null>(null);
     const [newAuthor, setNewAuthor] = useState("");
     const [showAdvanced, setShowAdvanced] = useState(false);
-    const dictionary = useDictionary();
+    const dictionary = useServerDictionary();
 
     const handleAddAuthor = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === "Enter" && newAuthor.trim()) {

@@ -1,9 +1,9 @@
 import { useParams } from "@tanstack/react-router";
-import { useDictionary } from "@/lib/hook/useNext18n";
+import { useServerDictionary } from "@/lib/hook/useServerDictionary";
 
 export default function Footer() {
     const { lang } = useParams({ from: "/$lang" });
-    const dictionary = useDictionary();
+    const dictionary = useServerDictionary();
     const basePath = "https://voxel.hardel.io";
     const footerContent = [
         {

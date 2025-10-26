@@ -2,11 +2,11 @@ import { useNavigate, useParams } from "@tanstack/react-router";
 import { Datapack, Logger } from "@voxelio/breeze";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/Dropdown";
-import { useDictionary } from "@/lib/hook/useNext18n";
+import { useServerDictionary } from "@/lib/hook/useServerDictionary";
 import { Button } from "../ui/Button";
 
 export default function VanillaImportButton() {
-    const dictionary = useDictionary();
+    const dictionary = useServerDictionary();
     const { lang } = useParams({ from: "/$lang" });
     const navigate = useNavigate();
 

@@ -6,7 +6,7 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import Dropzone from "@/components/ui/Dropzone";
 import { toast } from "@/components/ui/Toast";
 import { useConfetti } from "@/lib/hook/useConfetti";
-import { useDictionary } from "@/lib/hook/useNext18n";
+import { useServerDictionary } from "@/lib/hook/useServerDictionary";
 import { downloadFile } from "@/lib/utils/download";
 import { trackEvent } from "@/lib/utils/telemetry";
 import { StatusBox } from "../ui/StatusBox";
@@ -33,7 +33,7 @@ export default function MigrationTool({ children }: { children?: React.ReactNode
     });
     const dialogRef = useRef<HTMLDivElement>(null);
     const { addConfetti, renderConfetti } = useConfetti();
-    const dictionary = useDictionary();
+    const dictionary = useServerDictionary();
 
     const handleMigration = async () => {
         const { source, target } = uploads;

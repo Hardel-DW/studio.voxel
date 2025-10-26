@@ -4,7 +4,7 @@ import HarmonizeEditor from "@/components/pages/HarmonizeEditor";
 import PageLoading from "@/components/pages/PageLoading";
 import ShiningStars from "@/components/ui/ShiningStars";
 import Star from "@/components/ui/Star";
-import { useDictionary } from "@/lib/hook/useNext18n";
+import { useServerDictionary } from "@/lib/hook/useServerDictionary";
 
 export const Route = createFileRoute("/$lang/harmonization")({
     component: HarmonizationPage,
@@ -12,7 +12,7 @@ export const Route = createFileRoute("/$lang/harmonization")({
 });
 
 function HarmonizationPage() {
-    const dictionary = useDictionary();
+    const dictionary = useServerDictionary();
 
     return (
         <CompoundLayout>

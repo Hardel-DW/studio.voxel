@@ -39,7 +39,7 @@ export default function ToolSectionSelector(props: ToolSectionSelectorSection) {
                             <h2 className="text-2xl font-semibold">
                                 <Translate content={props.title} />
                             </h2>
-                            <hr className="m-0! absolute -bottom-2 left-0 right-0" />
+                            <hr className="m-0 absolute -bottom-2 left-0 right-0" />
                         </div>
                         {props.elements && (
                             <div className="flex gap-x-2 py-2 px-2 items-center rounded-2xl p-1 bg-black/50 border-t-2 border-l-2 border-stone-900 shrink-0 relative overflow-hidden">

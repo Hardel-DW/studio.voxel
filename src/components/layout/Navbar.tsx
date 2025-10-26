@@ -1,7 +1,7 @@
 import { ClientOnly, Link, useParams } from "@tanstack/react-router";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/Popover";
 import { useGitHubAuth } from "@/lib/hook/useGitHubAuth";
-import { useDictionary } from "@/lib/hook/useNext18n";
+import { useServerDictionary } from "@/lib/hook/useServerDictionary";
 import HeroCard from "./navbar/HeroCard";
 import Internalization from "./navbar/internalization";
 import ListItem from "./navbar/ListItem";
@@ -38,7 +38,7 @@ function SocialLinks() {
 
 export default function Navbar() {
     const { lang } = useParams({ from: "/$lang" });
-    const dictionary = useDictionary();
+    const dictionary = useServerDictionary();
     const { isAuthenticated, user, logout } = useGitHubAuth();
 
     const links = [

@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/Button";
 import { Dialog, DialogCloseButton, DialogContent, DialogFooter, DialogHeader, DialogHero } from "@/components/ui/Dialog";
 import { MultiStep, MultiStepControl, MultiStepItem } from "@/components/ui/MultiStep";
 import { useElementsByType } from "@/lib/hook/useElementsByType";
-import { useTranslateKey } from "@/lib/hook/useTranslation";
+import { useTranslate } from "@/lib/hook/useTranslation";
 
 export const Route = createFileRoute("/$lang/studio/editor/enchantment/overview")({
     component: Page
@@ -54,8 +54,8 @@ function Page() {
     const isGroupView = sortCriteria !== "none";
     const filteredElements = isGroupView ? new EnchantmentSorter(baseElements).groupBy(sortCriteria) : baseElements;
     const sortOption = sortOptions.find((opt) => opt.value === sortCriteria);
-    const translatedSortOption = useTranslateKey(sortOption?.label || "enchantment:overview.sort.none.label");
-    const translatedSortBy = useTranslateKey("enchantment:overview.sort.by");
+    const translatedSortOption = useTranslate(sortOption?.label || "enchantment:overview.sort.none.label");
+    const translatedSortBy = useTranslate("enchantment:overview.sort.by");
 
     return (
         <>
@@ -66,7 +66,7 @@ function Page() {
                             <DialogHeader>
                                 <DialogHero image="/images/background/dialog/enchantment/overview_1.webp" />
                             </DialogHeader>
-                            <hr className="!my-1" />
+                            <hr className="my-1" />
                             <div className="p-4">
                                 <h2 className="flex shrink-0 items-center justify-between text-xl font-medium text-zinc-200 mb-2">
                                     <Translate content="enchantment:overview.dialog.welcome.title" />
@@ -93,7 +93,7 @@ function Page() {
                             <DialogHeader>
                                 <DialogHero image="/images/background/dialog/enchantment/overview_2.webp" />
                             </DialogHeader>
-                            <hr className="!my-1" />
+                            <hr className="my-1" />
                             <div className="p-4">
                                 <h2 className="flex shrink-0 items-center justify-between text-xl font-medium text-zinc-200 mb-2">
                                     <Translate content="enchantment:overview.dialog.toolbar.title" />
@@ -120,7 +120,7 @@ function Page() {
                             <DialogHeader>
                                 <DialogHero image="/images/background/dialog/enchantment/overview_3.webp" />
                             </DialogHeader>
-                            <hr className="!my-1" />
+                            <hr className="my-1" />
                             <div className="p-4">
                                 <h2 className="flex shrink-0 items-center justify-between text-xl font-medium text-zinc-200 mb-2">
                                     <Translate content="enchantment:overview.dialog.advanced.title" />

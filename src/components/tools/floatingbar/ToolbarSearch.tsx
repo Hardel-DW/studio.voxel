@@ -1,6 +1,6 @@
 import type { TranslateTextType } from "@/components/tools/Translate";
 import { TextInput } from "@/components/ui/TextInput";
-import { useTranslateKey } from "@/lib/hook/useTranslation";
+import { useTranslate } from "@/lib/hook/useTranslation";
 
 interface ToolbarSearchProps {
     placeholder?: TranslateTextType;
@@ -10,7 +10,7 @@ interface ToolbarSearchProps {
 }
 
 export function ToolbarSearch({ placeholder, value, onChange, onSubmit }: ToolbarSearchProps) {
-    const translatedPlaceholder = useTranslateKey(typeof placeholder === "string" ? placeholder : "search.placeholder");
+    const translatedPlaceholder = useTranslate(typeof placeholder === "string" ? placeholder : "search.placeholder");
 
     return (
         <div className="flex-1 relative">

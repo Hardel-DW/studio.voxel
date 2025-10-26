@@ -22,7 +22,7 @@ import { TOAST, toast } from "@/components/ui/Toast";
 import { GitHub, type Repository } from "@/lib/github/GitHub";
 import { RepositoryManager } from "@/lib/github/RepositoryManager";
 import { useGitHubAuth, useGitHubRepos } from "@/lib/hook/useGitHubAuth";
-import { useDictionary } from "@/lib/hook/useNext18n";
+import { useServerDictionary } from "@/lib/hook/useServerDictionary";
 
 function RepositoryOpenerContent() {
     const navigate = useNavigate();
@@ -30,7 +30,7 @@ function RepositoryOpenerContent() {
     const [selectedAccount, setSelectedAccount] = useState<string>("");
     const [searchQuery, setSearchQuery] = useState("");
     const [thirdPartyUrl, setThirdPartyUrl] = useState("");
-    const dictionary = useDictionary();
+    const dictionary = useServerDictionary();
     const { isAuthenticated, user, token, login, isLoggingIn } = useGitHubAuth();
     const { data, isLoading: isLoadingRepos } = useGitHubRepos(token);
 

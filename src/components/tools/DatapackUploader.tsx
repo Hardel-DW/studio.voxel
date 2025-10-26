@@ -3,10 +3,10 @@ import { Datapack } from "@voxelio/breeze";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import Dropzone from "@/components/ui/Dropzone";
 import { TOAST, toast } from "@/components/ui/Toast";
-import { useDictionary } from "@/lib/hook/useNext18n";
+import { useServerDictionary } from "@/lib/hook/useServerDictionary";
 
 export default function DatapackUploader() {
-    const dictionary = useDictionary();
+    const dictionary = useServerDictionary();
     const navigate = useNavigate();
     const { lang } = useParams({ from: "/$lang" });
 

@@ -18,7 +18,7 @@ import { MultiStep, MultiStepControl, MultiStepItem } from "@/components/ui/Mult
 import Range from "@/components/ui/Range";
 import { Switch } from "@/components/ui/Switch";
 import useRegistry, { type FetchedRegistry } from "@/lib/hook/useRegistry";
-import { useTranslateKey } from "@/lib/hook/useTranslation";
+import { useTranslate } from "@/lib/hook/useTranslation";
 import { mergeRegistries } from "@/lib/registry";
 import { clsx, cn } from "@/lib/utils";
 
@@ -38,7 +38,7 @@ function RouteComponent() {
     const [output, setOutput] = useState<EnchantmentOption>();
     const [showTooltip, setShowTooltip] = useState(false);
     const [slotRanges, setSlotRanges] = useState<SlotLevelRange[]>(new EnchantmentSimulator(new Map()).getSlotLevelRanges(defaultCount));
-    const translatedIterationsLabel = useTranslateKey("enchantment:simulation.iterations.label");
+    const translatedIterationsLabel = useTranslate("enchantment:simulation.iterations.label");
     const { data: vanillaEnchantment } = useRegistry<FetchedRegistry<Enchantment>>("summary", "enchantment");
     const { data: vanillaTagsItem } = useRegistry<FetchedRegistry<TagType>>("summary", "tag/item");
     const { data: vanillaTagsEnchantment } = useRegistry<FetchedRegistry<TagType>>("summary", "tag/enchantment");
@@ -113,7 +113,7 @@ function RouteComponent() {
                             <DialogHeader>
                                 <DialogHero image="/images/background/dialog/enchantment/simulation_1.webp" />
                             </DialogHeader>
-                            <hr className="!my-1" />
+                            <hr className="my-1" />
                             <div className="p-4">
                                 <h2 className="flex shrink-0 items-center justify-between text-xl font-medium text-zinc-200 mb-2">
                                     <Translate content="enchantment:simulation.dialog.usage.title" />
@@ -140,7 +140,7 @@ function RouteComponent() {
                             <DialogHeader>
                                 <DialogHero image="/images/background/dialog/enchantment/simulation_2.webp" />
                             </DialogHeader>
-                            <hr className="!my-1" />
+                            <hr className="my-1" />
                             <div className="p-4">
                                 <h2 className="flex shrink-0 items-center justify-between text-xl font-medium text-zinc-200 mb-2">
                                     <Translate content="enchantment:simulation.dialog.stats.title" />
@@ -167,7 +167,7 @@ function RouteComponent() {
                             <DialogHeader>
                                 <DialogHero image="/images/background/dialog/enchantment/simulation_3.webp" />
                             </DialogHeader>
-                            <hr className="!my-1" />
+                            <hr className="my-1" />
                             <div className="p-4">
                                 <h2 className="flex shrink-0 items-center justify-between text-xl font-medium text-zinc-200 mb-2">
                                     <Translate content="enchantment:simulation.dialog.results.title" />
@@ -191,7 +191,7 @@ function RouteComponent() {
                             <DialogHeader>
                                 <DialogHero image="/images/background/dialog/enchantment/simulation_4.webp" />
                             </DialogHeader>
-                            <hr className="!my-1" />
+                            <hr className="my-1" />
                             <div className="p-4">
                                 <h2 className="flex shrink-0 items-center justify-between text-xl font-medium text-zinc-200 mb-2">
                                     <Translate content="enchantment:simulation.dialog.item_selection.title" />
@@ -256,7 +256,7 @@ function RouteComponent() {
                 </div>
                 <div className="grid grid-cols-2 gap-8" style={{ gridTemplateColumns: `repeat(auto-fit, minmax("255px", 1fr))` }}>
                     <div
-                        className="flex justify-evenly items-center gap-4 w-full px-16 pixelated border-solid border-[16px]"
+                        className="flex justify-evenly items-center gap-4 w-full px-16 pixelated border-solid border-16"
                         style={{
                             borderImageSource: 'url("/images/features/gui/background.png")',
                             borderImageSlice: "4 4 4 4 fill",
@@ -375,7 +375,7 @@ function RouteComponent() {
                                 <Translate content="enchantment:simulation.results.description.2" />
                             </li>
                         </ul>
-                        <hr className="!m-0 absolute -bottom-2 left-0 right-0" />
+                        <hr className="absolute -bottom-2 left-0 right-0" />
                     </div>
                     <div className="backdrop-blur-2xl border-2 border-stone-900 rounded-xl overflow-hidden">
                         <div className="overflow-x-auto">

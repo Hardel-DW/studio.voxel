@@ -3,10 +3,10 @@ import type { DictionaryType } from "@/lib/i18n/i18nServer";
 
 export const DictionaryContext = createContext<DictionaryType | null>(null);
 
-export const useDictionary = (): DictionaryType => {
+export const useServerDictionary = (): DictionaryType => {
     const context = useContext(DictionaryContext);
     if (context === null) {
-        throw new Error("useDictionary must be used within a DictionaryProvider");
+        throw new Error("useServerDictionary must be used within a ServerDictionaryProvider");
     }
     return context;
 };

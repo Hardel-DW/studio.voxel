@@ -5,7 +5,7 @@ import StudioLoading from "@/components/pages/studio/StudioLoading";
 import DatapackUploader from "@/components/tools/DatapackUploader";
 import RepositoryOpener from "@/components/tools/RepositoryOpener";
 import VanillaImportButton from "@/components/tools/VanillaImportButton";
-import { useDictionary } from "@/lib/hook/useNext18n";
+import { useServerDictionary } from "@/lib/hook/useServerDictionary";
 
 export const Route = createFileRoute("/$lang/studio/")({
     component: StudioLayout,
@@ -14,7 +14,7 @@ export const Route = createFileRoute("/$lang/studio/")({
 
 function StudioLayout() {
     const { lang } = Route.useParams();
-    const dictionary = useDictionary();
+    const dictionary = useServerDictionary();
     const questions = dictionary.studio.questions;
 
     return (

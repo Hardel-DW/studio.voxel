@@ -86,7 +86,7 @@ export default function LootOverviewCard(props: { element: LootTableProps; eleme
                                     </div>
                                 </div>
 
-                                <hr className="my-0!" />
+                                <hr />
 
                                 {/* Grid des items */}
                                 <div className="overflow-y-auto max-h-96">

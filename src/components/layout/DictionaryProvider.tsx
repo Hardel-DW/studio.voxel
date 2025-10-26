@@ -1,6 +1,6 @@
 import type React from "react";
 import type { ReactNode } from "react";
-import { DictionaryContext } from "@/lib/hook/useNext18n";
+import { DictionaryContext } from "@/lib/hook/useServerDictionary";
 import type { DictionaryType } from "@/lib/i18n/i18nServer";
 
 interface DictionaryProviderProps {

@@ -2,18 +2,10 @@ import type { TranslateTextType } from "@/components/tools/Translate";
 import { useI18nStore } from "@/lib/i18n/i18nStore";
 
 /**
- * Hook to get a single translation key, use it for function
- */
-export function useTranslateKey(key: string): string {
-    return useI18nStore((state) => state.getTranslation(key));
-}
-
-/**
  * Hook to translate a TranslateTextType or string, use it for components
  */
 export function useTranslate(content: TranslateTextType | string | undefined, replace?: string[]): string {
-    const translationKey = typeof content === "string" ? content : "";
-    const translatedText = useTranslateKey(translationKey);
+    const translatedText = useI18nStore((state) => state.getTranslation(typeof content === "string" ? content : ""));
 
     if (content === undefined) {
         return "";

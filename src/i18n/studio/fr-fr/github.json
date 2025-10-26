@@ -1,0 +1,17 @@
+{
+    "pr.success": "Pull request créée",
+    "push.success": "Modifications envoyées",
+    "pr.error": "Échec de la création de la PR",
+    "push.error": "Échec de l'envoi",
+    "no.changes": "Aucune modification détectée",
+    "files.modified": "%s fichiers modifiés",
+    "files.count": "fichier(s) seront modifiés",
+    "dialog.pr.title": "Créer une Pull Request",
+    "dialog.push.title": "Envoyer les modifications",
+    "dialog.pr.description": "Vérifiez les modifications avant de créer une pull request",
+    "dialog.push.description": "Vérifiez les modifications avant de les envoyer vers le dépôt",
+    "dialog.cancel": "Annuler",
+    "dialog.processing": "Traitement en cours...",
+    "dialog.pr.confirm": "Confirmer la Pull Request",
+    "dialog.push.confirm": "Confirmer l'envoi"
+}

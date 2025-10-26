@@ -70,9 +70,12 @@ src/
 
 #### Translation System
 - For Voxel Studio, we need to use <Translate> component. Take a string props "content". Put a translation key like: "registry:key_name".
+- We can use `useClientDictionary` hook. for get all key from a namespaces. (Usefull for functions, props, etc.)
+- We can also use `useTranslate` hook. for get a single translation key. (Usefull for text, etc.)
 - Registry is json file at `src/i18n/studio/<lang>/<registry>.json`.
 - If you don't provider a registry, i will use `src/i18n/studio/<lang>.json`.
 - For some special cases, you can use a hook like `useTranslate("registry:key_name");`.
+- For Server we have `useServerDictionary` hook. With no namespace system. Full typesafe.
 
 #### Element System
 

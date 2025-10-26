@@ -1,6 +1,6 @@
 import { getMinecraftVersion } from "@voxelio/breeze";
 import { Button } from "@/components/ui/Button";
-import { useDictionary } from "@/lib/hook/useNext18n";
+import { useServerDictionary } from "@/lib/hook/useServerDictionary";
 import { cn } from "@/lib/utils";
 
 interface StatusBoxProps {
@@ -12,7 +12,7 @@ interface StatusBoxProps {
 }
 
 export function StatusBox({ files, version, onResetAction, variant = "success", reason }: StatusBoxProps) {
-    const dictionary = useDictionary();
+    const dictionary = useServerDictionary();
 
     const variants = {
         success: {

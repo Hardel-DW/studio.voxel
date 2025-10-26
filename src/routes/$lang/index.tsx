@@ -5,7 +5,7 @@ import Box from "@/components/ui/Box";
 import { LinkButton } from "@/components/ui/Button";
 import ImageCard from "@/components/ui/ImageCard";
 import LineSetup from "@/components/ui/line/LineSetup";
-import { useDictionary } from "@/lib/hook/useNext18n";
+import { useServerDictionary } from "@/lib/hook/useServerDictionary";
 
 export const Route = createFileRoute("/$lang/")({
     component: Page,
@@ -20,7 +20,7 @@ export const Route = createFileRoute("/$lang/")({
 
 function Page() {
     const { lang } = Route.useParams();
-    const dictionary = useDictionary();
+    const dictionary = useServerDictionary();
 
     return (
         <div className="relative">

@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/Dialog";
 import { TOAST, toast } from "@/components/ui/Toast";
 import { GitHub } from "@/lib/github/GitHub";
+import { useClientDictionary } from "@/lib/hook/useClientDictionary";
 import { cn } from "@/lib/utils";
 import { encodeToBase64 } from "@/lib/utils/encode";
 
@@ -30,23 +31,27 @@ type GitHubActionPayload = {
 export default function GithubSender() {
     const [pendingAction, setPendingAction] = useState<GitHubActionPayload | null>(null);
     const { owner, repositoryName, branch, token, isGitRepository } = useExportStore();
+    const t = useClientDictionary("github");
 
     const { mutate, isPending } = useMutation({
         mutationFn: () => new GitHub({ token }).send(owner, repositoryName, branch, pendingAction?.type, pendingAction?.files),
         onSuccess: (data) => {
-            const message = pendingAction?.type === "pr" ? "Pull request created" : "Changes pushed";
-            const detail = pendingAction?.type === "pr" ? data.prUrl : `${data.filesModified} files modified`;
+            const message = pendingAction?.type === "pr" ? t["pr.success"] : t["push.success"];
+            const detail = pendingAction?.type === "pr" ? data.prUrl : t["files.modified"].replace("%s", String(data.filesModified));
             toast(message, TOAST.SUCCESS, detail);
             setPendingAction(null);
         },
-        onError: (error: Error) => toast(`Failed to ${pendingAction?.type === "pr" ? "create PR" : "push"}`, TOAST.ERROR, error.message)
+        onError: (error: Error) => {
+            const message = pendingAction?.type === "pr" ? t["pr.error"] : t["push.error"];
+            toast(message, TOAST.ERROR, error.message);
+        }
     });
 
     const handleGitAction = (type: GitHubActionPayload["type"]) => {
         const configuratorStore = useConfiguratorStore.getState();
         const compiledFiles = configuratorStore.compile().getFiles();
         const changes = new DatapackDownloader(compiledFiles).getDiff(configuratorStore.files);
-        if (changes.size === 0) return toast("No changes detected", TOAST.INFO);
+        if (changes.size === 0) return toast(t["no.changes"], TOAST.INFO);
 
         const files = Object.fromEntries(
             Array.from(changes).map(([path, status]) => [path, status === "deleted" ? null : encodeToBase64(compiledFiles[path])])
@@ -76,16 +81,18 @@ export default function GithubSender() {
                 <DialogHeader>
                     <DialogTitle className="flex items-center gap-x-2">
                         <img src="/icons/company/github.svg" alt="GitHub" className="size-6 invert" />
-                        {pendingAction?.type === "pr" ? "Create Pull Request" : "Push Changes"}
+                        <Translate content={pendingAction?.type === "pr" ? "github:dialog.pr.title" : "github:dialog.push.title"} />
                     </DialogTitle>
                     <DialogDescription>
-                        Review the changes before {pendingAction?.type === "pr" ? "creating a pull request" : "pushing to the repository"}
+                        <Translate content={pendingAction?.type === "pr" ? "github:dialog.pr.description" : "github:dialog.push.description"} />
                     </DialogDescription>
                 </DialogHeader>
 
                 {pendingAction && (
                     <div className="mt-4">
-                        <div className="text-sm text-zinc-300 mb-3">{pendingAction.changes.size} file(s) will be modified</div>
+                        <div className="text-sm text-zinc-300 mb-3">
+                            <Translate content="github:files.count" /> {pendingAction.changes.size}
+                        </div>
                         <div className="max-h-[400px] overflow-y-auto rounded-lg border border-zinc-800 bg-zinc-950">
                             {Array.from(pendingAction.changes).map(([path, status]) => (
                                 <div
@@ -109,10 +116,14 @@ export default function GithubSender() {
 
                 <DialogFooter className="pt-6 flex items-center justify-end gap-3">
                     <DialogCloseButton variant="ghost" disabled={isPending}>
-                        Cancel
+                        <Translate content="github:dialog.cancel" />
                     </DialogCloseButton>
                     <DialogCloseButton type="button" onClick={() => pendingAction && mutate()} variant="default" disabled={isPending}>
-                        {isPending ? "Processing..." : `Confirm ${pendingAction?.type === "pr" ? "Pull Request" : "Push"}`}
+                        {isPending ? (
+                            <Translate content="github:dialog.processing" />
+                        ) : (
+                            <Translate content={pendingAction?.type === "pr" ? "github:dialog.pr.confirm" : "github:dialog.push.confirm"} />
+                        )}
                     </DialogCloseButton>
                 </DialogFooter>
             </DialogContent>

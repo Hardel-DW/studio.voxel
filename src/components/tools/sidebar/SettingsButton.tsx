@@ -4,7 +4,7 @@ import { useConfiguratorStore } from "@/components/tools/Store";
 import Translate from "@/components/tools/Translate";
 import { Button } from "@/components/ui/Button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/Popover";
-import { useTranslateKey } from "@/lib/hook/useTranslation";
+import { useTranslate } from "@/lib/hook/useTranslation";
 
 const DebugPanel = lazy(() => import("@/components/tools/debug/DebugPanel"));
 
@@ -12,7 +12,7 @@ export default function SettingsButton() {
     const { isDebugModalOpen, openDebugModal } = useDebugStore();
     const name = useConfiguratorStore((state) => state.name);
     const setName = useConfiguratorStore((state) => state.setName);
-    const translateKey = useTranslateKey("settings.datapack_name_placeholder");
+    const translateKey = useTranslate("settings.datapack_name_placeholder");
 
     const handleClick = () => {
         const store = useConfiguratorStore.getState();
