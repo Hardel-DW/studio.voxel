@@ -84,7 +84,9 @@ export default function GithubSender() {
                         <Translate content={pendingAction?.type === "pr" ? "github:dialog.pr.title" : "github:dialog.push.title"} />
                     </DialogTitle>
                     <DialogDescription>
-                        <Translate content={pendingAction?.type === "pr" ? "github:dialog.pr.description" : "github:dialog.push.description"} />
+                        <Translate
+                            content={pendingAction?.type === "pr" ? "github:dialog.pr.description" : "github:dialog.push.description"}
+                        />
                     </DialogDescription>
                 </DialogHeader>
 
