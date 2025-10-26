@@ -47,12 +47,16 @@ export const usePopoverPosition = ({ triggerRef, contentRef, containerRef, spaci
             window.addEventListener("resize", updatePosition);
             window.addEventListener("scroll", updatePosition);
 
+            const resizeObserver = contentRef.current ? new ResizeObserver(updatePosition) : null;
+            if (resizeObserver && contentRef.current) resizeObserver.observe(contentRef.current);
+
             return () => {
                 window.removeEventListener("resize", updatePosition);
                 window.removeEventListener("scroll", updatePosition);
+                resizeObserver?.disconnect();
             };
         }
-    }, [open, updatePosition]);
+    }, [open, updatePosition, contentRef]);
 
     return position;
 };
