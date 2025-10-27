@@ -53,27 +53,32 @@ export default function GithubSender() {
         const configuratorStore = useConfiguratorStore.getState();
         const compiledFiles = configuratorStore.compile().getFiles();
         const changes = new DatapackDownloader(compiledFiles).getDiff(configuratorStore.files);
-        if (changes.size === 0) return toast(t["no.changes"], TOAST.INFO);
+        if (changes.size === 0) {
+            toast(t["no.changes"], TOAST.ERROR);
+            return false;
+        }
 
         const files = Object.fromEntries(
             Array.from(changes).map(([path, status]) => [path, status === "deleted" ? null : encodeToBase64(compiledFiles[path])])
         );
+
         setPendingAction({ type, changes, files });
+        return true;
     };
 
     if (!isGitRepository) return null;
 
     return (
         <Dialog id="confirm-github-modal" className="flex flex-col gap-1">
-            <DialogTrigger disabled={!isAuthenticated}>
-                <Button type="button" variant="aurora" onClick={() => handleGitAction("pr")} disabled={!isAuthenticated}>
+            <DialogTrigger disabled={!isAuthenticated} onBeforeOpen={() => handleGitAction("pr")}>
+                <Button type="button" variant="aurora" disabled={!isAuthenticated}>
                     <Translate content="export.pull" />
                     <img src="/icons/company/pull.svg" alt="pull" className="size-4 invert-75" />
                 </Button>
             </DialogTrigger>
 
-            <DialogTrigger disabled={!isAuthenticated}>
-                <Button type="button" variant="aurora" onClick={() => handleGitAction("push")} disabled={!isAuthenticated}>
+            <DialogTrigger disabled={!isAuthenticated} onBeforeOpen={() => handleGitAction("push")}>
+                <Button type="button" variant="aurora" disabled={!isAuthenticated}>
                     <Translate content="export.push" />
                     <img src="/icons/company/github.svg" alt="push" className="size-4 invert-75" />
                 </Button>

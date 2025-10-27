@@ -35,13 +35,20 @@ export function DialogTrigger(props: {
     children: ReactElement<{ ref?: React.Ref<HTMLElement>; onClick?: () => void; className?: string }>;
     className?: string;
     disabled?: boolean;
+    onBeforeOpen?: () => boolean;
 }) {
     const { setOpen, triggerRef } = useDisclosure();
+
+    const handleToggle = () => {
+        if (props.disabled) return;
+        if (props.onBeforeOpen && !props.onBeforeOpen()) return;
+        setOpen((prev) => !prev);
+    };
 
     return (
         <Trigger
             elementRef={triggerRef}
-            onToggle={() => (props.disabled ? undefined : setOpen((prev) => !prev))}
+            onToggle={handleToggle}
             className={cn(props.className, props.disabled && "opacity-50 cursor-not-allowed")}>
             {props.children}
         </Trigger>
