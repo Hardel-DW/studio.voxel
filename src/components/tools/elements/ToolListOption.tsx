@@ -1,11 +1,11 @@
 import { Identifier } from "@voxelio/breeze";
 import RenderGuard from "@/components/tools/elements/RenderGuard";
 import { useConfiguratorStore } from "@/components/tools/Store";
-import type { TranslateTextType } from "@/components/tools/Translate";
-import Translate from "@/components/tools/Translate";
 import { Button } from "@/components/ui/Button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/Popover";
 import { Switch } from "@/components/ui/Switch";
+import type { TranslateTextType } from "@/components/ui/Translate";
+import Translate from "@/components/ui/Translate";
 import { useElementLocks } from "@/lib/hook/useBreezeElement";
 import type { ActionOrBuilder, BaseRender } from "@/lib/hook/useInteractiveLogic";
 import { useActionHandler, useRenderer } from "@/lib/hook/useInteractiveLogic";

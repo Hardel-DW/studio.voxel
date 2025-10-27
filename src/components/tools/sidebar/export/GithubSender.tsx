@@ -4,7 +4,6 @@ import { DatapackDownloader } from "@voxelio/breeze";
 import { useState } from "react";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import { useExportStore } from "@/components/tools/sidebar/ExportStore";
-import Translate from "@/components/tools/Translate";
 import { Button } from "@/components/ui/Button";
 import {
     Dialog,
@@ -17,11 +16,12 @@ import {
     DialogTrigger
 } from "@/components/ui/Dialog";
 import { TOAST, toast } from "@/components/ui/Toast";
+import Translate from "@/components/ui/Translate";
 import { GitHub } from "@/lib/github/GitHub";
 import { useClientDictionary } from "@/lib/hook/useClientDictionary";
+import { useGitHubAuth } from "@/lib/hook/useGitHubAuth";
 import { cn } from "@/lib/utils";
 import { encodeToBase64 } from "@/lib/utils/encode";
-import { useGitHubAuth } from "@/lib/hook/useGitHubAuth";
 
 type GitHubActionPayload = {
     type: "push" | "pr";

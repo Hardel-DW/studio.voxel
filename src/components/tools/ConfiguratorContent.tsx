@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import type { Tab } from "@/components/tools/elements";
-import Translate from "@/components/tools/Translate";
+import Translate from "@/components/ui/Translate";
 
 export default function ConfiguratorContent(props: { tab: Tab; children: ReactNode }) {
     return (

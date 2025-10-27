@@ -5,7 +5,7 @@ import ToolRange from "@/components/tools/elements/ToolRange";
 import ToolSection from "@/components/tools/elements/ToolSection";
 import ToolSwitch from "@/components/tools/elements/ToolSwitch";
 import { useConfiguratorStore } from "@/components/tools/Store";
-import Translate from "@/components/tools/Translate";
+import Translate from "@/components/ui/Translate";
 import { useElementProperty } from "@/lib/hook/useBreezeElement";
 import { isMinecraft } from "@/lib/utils/lock";
 

@@ -1,5 +1,5 @@
 import type { VoxelElement } from "@voxelio/breeze";
-import type { TranslateTextType } from "@/components/tools/Translate";
+import type { TranslateTextType } from "@/components/ui/Translate";
 
 export type Condition = (el: any) => boolean;
 export type Lock = { text: TranslateTextType; condition: Condition };

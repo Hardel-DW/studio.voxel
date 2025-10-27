@@ -5,7 +5,7 @@ import { SLOT_CONFIGS } from "@/components/tools/concept/enchantment/slots";
 import ToolGrid from "@/components/tools/elements/ToolGrid";
 import ToolSection from "@/components/tools/elements/ToolSection";
 import ToolSlot from "@/components/tools/elements/ToolSlot";
-import Translate from "@/components/tools/Translate";
+import Translate from "@/components/ui/Translate";
 
 export const Route = createFileRoute("/$lang/studio/editor/enchantment/slots")({
     component: EnchantmentSlotsPage

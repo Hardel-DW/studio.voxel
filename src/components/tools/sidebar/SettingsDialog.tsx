@@ -1,5 +1,5 @@
 import { useConfiguratorStore } from "@/components/tools/Store";
-import Translate from "@/components/tools/Translate";
+import Translate from "@/components/ui/Translate";
 
 export default function SettingsDialog() {
     const name = useConfiguratorStore((state) => state.name);

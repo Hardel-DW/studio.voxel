@@ -2,7 +2,7 @@ import { EnchantmentAction, type EnchantmentProps, type Identifier } from "@voxe
 import ToolCategory from "@/components/tools/elements/ToolCategory";
 import ToolGrid from "@/components/tools/elements/ToolGrid";
 import ToolInline from "@/components/tools/elements/ToolInline";
-import type { TranslateTextType } from "@/components/tools/Translate";
+import type { TranslateTextType } from "@/components/ui/Translate";
 
 interface EnchantmentCategoryProps {
     title: TranslateTextType;

@@ -1,7 +1,7 @@
 import { CONCEPTS } from "@/components/tools/elements";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import SidebarCard from "@/components/tools/sidebar/tab/SidebarCard";
-import Translate from "@/components/tools/Translate";
+import Translate from "@/components/ui/Translate";
 
 export default function ConceptTab() {
     const getLengthByRegistry = useConfiguratorStore((state) => state.getLengthByRegistry);

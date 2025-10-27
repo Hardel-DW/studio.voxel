@@ -1,7 +1,6 @@
 import { DatapackDownloader } from "@voxelio/breeze";
-import SettingsDialog from "@/components/tools/SettingsDialog";
 import { useConfiguratorStore } from "@/components/tools/Store";
-import Translate from "@/components/tools/Translate";
+import SettingsDialog from "@/components/tools/sidebar/SettingsDialog";
 import { Button, LinkButton } from "@/components/ui/Button";
 import {
     Dialog,
@@ -13,6 +12,7 @@ import {
     DialogTitle,
     DialogTrigger
 } from "@/components/ui/Dialog";
+import Translate from "@/components/ui/Translate";
 import { downloadFile } from "@/lib/utils/download";
 
 export default function DownloadButton() {

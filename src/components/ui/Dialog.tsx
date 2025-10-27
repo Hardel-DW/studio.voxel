@@ -39,7 +39,10 @@ export function DialogTrigger(props: {
     const { setOpen, triggerRef } = useDisclosure();
 
     return (
-        <Trigger elementRef={triggerRef} onToggle={() => props.disabled ? undefined : setOpen((prev) => !prev)} className={cn(props.className, props.disabled && "opacity-50 cursor-not-allowed")}>
+        <Trigger
+            elementRef={triggerRef}
+            onToggle={() => (props.disabled ? undefined : setOpen((prev) => !prev))}
+            className={cn(props.className, props.disabled && "opacity-50 cursor-not-allowed")}>
             {props.children}
         </Trigger>
     );

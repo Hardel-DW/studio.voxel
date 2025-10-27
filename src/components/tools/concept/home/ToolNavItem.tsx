@@ -1,7 +1,7 @@
 import { Link, useLocation, useParams } from "@tanstack/react-router";
 import type { CONCEPT_KEY } from "@/components/tools/elements";
 import { CONCEPTS } from "@/components/tools/elements";
-import Translate from "@/components/tools/Translate";
+import Translate from "@/components/ui/Translate";
 import { cn } from "@/lib/utils";
 
 interface ToolNavItemProps {

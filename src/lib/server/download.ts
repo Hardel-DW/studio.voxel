@@ -10,11 +10,15 @@ type DownloadInput = {
 };
 
 export const downloadRepoFn = createServerFn({ method: "GET" })
-    .inputValidator((data: DownloadInput) => z.object({
-        owner: z.string().min(1).description("Repository owner"),
-        repo: z.string().min(1).description("Repository name"),
-        branch: z.string().min(1).description("Branch name")
-    }).parse(data))
+    .inputValidator((data: DownloadInput) =>
+        z
+            .object({
+                owner: z.string().min(1).description("Repository owner"),
+                repo: z.string().min(1).description("Repository name"),
+                branch: z.string().min(1).description("Branch name")
+            })
+            .parse(data)
+    )
     .handler(async ({ data }) => {
         const session = await useAppSession();
         const sessionData = session.data;

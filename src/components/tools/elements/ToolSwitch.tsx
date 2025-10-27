@@ -1,8 +1,8 @@
 import { useId } from "react";
 import RenderGuard from "@/components/tools/elements/RenderGuard";
-import type { TranslateTextType } from "@/components/tools/Translate";
-import Translate from "@/components/tools/Translate";
 import { Switch } from "@/components/ui/Switch";
+import type { TranslateTextType } from "@/components/ui/Translate";
+import Translate from "@/components/ui/Translate";
 import type { BaseInteractiveComponent } from "@/lib/hook/useInteractiveLogic";
 import { useInteractiveLogic } from "@/lib/hook/useInteractiveLogic";
 

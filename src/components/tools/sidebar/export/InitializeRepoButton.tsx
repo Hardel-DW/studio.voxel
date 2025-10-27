@@ -2,7 +2,6 @@ import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import { useExportStore } from "@/components/tools/sidebar/ExportStore";
-import Translate from "@/components/tools/Translate";
 import { Button } from "@/components/ui/Button";
 import {
     Dialog,
@@ -16,9 +15,12 @@ import {
 } from "@/components/ui/Dialog";
 import { TextInput } from "@/components/ui/TextInput";
 import { TOAST, toast } from "@/components/ui/Toast";
+import Translate from "@/components/ui/Translate";
 import { GitHub } from "@/lib/github/GitHub";
 import { useClientDictionary } from "@/lib/hook/useClientDictionary";
 import { useGitHubAuth } from "@/lib/hook/useGitHubAuth";
+import { encodeToBase64 } from "@/lib/utils/encode";
+import { sanitizeRepoName } from "@/lib/utils/text";
 
 const DESCRIPTION = "Minecraft datapack created with Voxel Studio";
 
@@ -30,14 +32,21 @@ export default function InitializeRepoButton() {
     const { isAuthenticated } = useGitHubAuth();
 
     const { mutate, isPending } = useMutation({
-        mutationFn: () => new GitHub({ token }).initializeRepository(repoName, DESCRIPTION, false, true),
+        mutationFn: () => {
+            const compiledFiles = useConfiguratorStore.getState().compile().getFiles();
+            const files = Object.fromEntries(Object.entries(compiledFiles).map(([path, content]) => [path, encodeToBase64(content)]));
+            useExportStore.getState().setInitializing(Object.keys(files).length);
+            toast(t["init.progress"], TOAST.INFO, t["init.progress.count"].replace("%s", Object.keys(files).length.toString()));
+            return new GitHub({ token }).initializeRepository(repoName, DESCRIPTION, false, true, files);
+        },
         onSuccess: (data) => {
             toast(t["init.success"], TOAST.SUCCESS, data.htmlUrl);
             const [owner, repositoryName] = data.fullName.split("/");
             useExportStore.setState({ owner, repositoryName, branch: data.defaultBranch, isGitRepository: true });
             setRepoName("");
         },
-        onError: (error: Error) => toast(t["init.error"], TOAST.ERROR, error.message)
+        onError: (error: Error) => toast(t["init.error"], TOAST.ERROR, error.message),
+        onSettled: () => useExportStore.getState().setInitializing(null)
     });
 
     const handleSubmit = () => {
@@ -83,7 +92,7 @@ export default function InitializeRepoButton() {
                         id="repo-name"
                         type="text"
                         value={repoName}
-                        onChange={(e) => setRepoName(e.target.value)}
+                        onChange={(e) => setRepoName(sanitizeRepoName(e.target.value))}
                         placeholder={t["init.placeholder"]}
                         disabled={isPending}
                         className="w-full"

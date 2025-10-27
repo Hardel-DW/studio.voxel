@@ -1,7 +1,7 @@
 import { Link, useLocation, useParams } from "@tanstack/react-router";
 import { CONCEPTS } from "@/components/tools/elements";
 import { useConfiguratorStore } from "@/components/tools/Store";
-import Translate from "@/components/tools/Translate";
+import Translate from "@/components/ui/Translate";
 import { cn } from "@/lib/utils";
 
 export default function ConfiguratorPanel() {

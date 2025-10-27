@@ -6,7 +6,7 @@ import EnchantmentCard from "@/components/tools/concept/enchantment/EnchantmentC
 import { Toolbar } from "@/components/tools/floatingbar/Toolbar";
 import { ToolbarSearch } from "@/components/tools/floatingbar/ToolbarSearch";
 import { ToolbarTextLink } from "@/components/tools/floatingbar/ToolbarTextLink";
-import Translate from "@/components/tools/Translate";
+import Translate from "@/components/ui/Translate";
 import { enchantableEntries } from "@/lib/data/tags";
 import { useElementsByType } from "@/lib/hook/useElementsByType";
 import { cn } from "@/lib/utils";

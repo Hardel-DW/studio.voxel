@@ -3,8 +3,8 @@ import { Fragment } from "react/jsx-runtime";
 import { ToolNavItem } from "@/components/tools/concept/home/ToolNavItem";
 import { CONCEPTS } from "@/components/tools/elements";
 import { useConfiguratorStore } from "@/components/tools/Store";
-import Translate from "@/components/tools/Translate";
 import { LinkButton } from "@/components/ui/Button";
+import Translate from "@/components/ui/Translate";
 
 export const Route = createFileRoute("/$lang/studio/editor/")({
     component: EditorHomepage

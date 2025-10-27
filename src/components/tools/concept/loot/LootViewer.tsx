@@ -1,6 +1,6 @@
 import type { FlattenedLootItem, LootTableProps } from "@voxelio/breeze";
 import RewardItem from "@/components/tools/concept/loot/RewardItem";
-import type { TranslateTextType } from "@/components/tools/Translate";
+import type { TranslateTextType } from "@/components/ui/Translate";
 import { type BaseInteractiveComponent, useInteractiveLogic } from "@/lib/hook/useInteractiveLogic";
 
 export type LootViewerProps = BaseInteractiveComponent & {

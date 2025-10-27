@@ -22,6 +22,9 @@
     "init.error.invalid": "Nom de dépôt invalide (seulement lettres, chiffres, tirets et underscores)",
     "init.success": "Dépôt créé avec succès",
     "init.error": "Échec de la création du dépôt",
+    "init.progress": "Création du dépôt...",
+    "init.progress.sidebar": "Creating repository with %s files",
+    "init.progress.count": "Le dépôt sera créé avec %s fichiers",
     "init.confirm": "Créer le dépôt",
     "init.button": "Initialiser le dépôt"
 }

@@ -5,7 +5,7 @@ import RewardItem from "@/components/tools/concept/loot/RewardItem";
 import { Toolbar } from "@/components/tools/floatingbar/Toolbar";
 import { ToolbarSearch } from "@/components/tools/floatingbar/ToolbarSearch";
 import { getCurrentElement, useConfiguratorStore } from "@/components/tools/Store";
-import Translate from "@/components/tools/Translate";
+import Translate from "@/components/ui/Translate";
 import { useFlattenedLootItems } from "@/lib/hook/useFlattenedLootItems";
 
 export const Route = createFileRoute("/$lang/studio/editor/loot_table/main")({

@@ -7,10 +7,10 @@ import { Toolbar } from "@/components/tools/floatingbar/Toolbar";
 import { ToolbarButton } from "@/components/tools/floatingbar/ToolbarButton";
 import { ToolbarDropdown } from "@/components/tools/floatingbar/ToolbarDropdown";
 import { ToolbarSearch } from "@/components/tools/floatingbar/ToolbarSearch";
-import Translate from "@/components/tools/Translate";
 import { Button } from "@/components/ui/Button";
 import { Dialog, DialogCloseButton, DialogContent, DialogFooter, DialogHeader, DialogHero } from "@/components/ui/Dialog";
 import { MultiStep, MultiStepControl, MultiStepItem } from "@/components/ui/MultiStep";
+import Translate from "@/components/ui/Translate";
 import { useElementsByType } from "@/lib/hook/useElementsByType";
 import { useTranslate } from "@/lib/hook/useTranslation";
 

@@ -1,7 +1,7 @@
 import { CodeSection } from "@/components/tools/debug/CodeSection";
 import { useDebugStore } from "@/components/tools/debug/DebugStore";
 import { useConfiguratorStore } from "@/components/tools/Store";
-import Translate from "@/components/tools/Translate";
+import Translate from "@/components/ui/Translate";
 
 interface RightSectionProps {
     uniqueKey: string | undefined;

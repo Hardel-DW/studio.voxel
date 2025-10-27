@@ -1,8 +1,8 @@
 import type React from "react";
 import RenderGuard from "@/components/tools/elements/RenderGuard";
-import type { TranslateTextType } from "@/components/tools/Translate";
-import Translate from "@/components/tools/Translate";
 import { LinkButton } from "@/components/ui/Button";
+import type { TranslateTextType } from "@/components/ui/Translate";
+import Translate from "@/components/ui/Translate";
 import type { BaseComponent } from "@/lib/hook/useBreezeElement";
 
 export type ToolSectionType = BaseComponent & {

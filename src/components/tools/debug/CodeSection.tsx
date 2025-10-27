@@ -1,9 +1,9 @@
 import { FILE_STATUS, Identifier } from "@voxelio/breeze";
 import { useDebugStore } from "@/components/tools/debug/DebugStore";
 import { useConfiguratorStore } from "@/components/tools/Store";
-import Translate from "@/components/tools/Translate";
 import CodeBlock from "@/components/ui/codeblock/CodeBlock";
 import EmptyCodeBlock from "@/components/ui/codeblock/EmptyCodeBlock";
+import Translate from "@/components/ui/Translate";
 
 interface CodeSectionProps {
     uniqueKey: string | undefined;

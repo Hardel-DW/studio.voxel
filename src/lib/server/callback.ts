@@ -1,7 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { useAppSession } from "@/lib/hook/useAppSession";
-import { GitHub } from "../github/GitHub";
 import { z } from "@/lib/utils/validator";
+import { GitHub } from "../github/GitHub";
 
 type CallbackInput = {
     code: string;
@@ -9,10 +9,14 @@ type CallbackInput = {
 };
 
 export const handleGitHubCallbackFn = createServerFn({ method: "POST" })
-    .inputValidator((data: CallbackInput) => z.object({
-        code: z.string().min(1).description("GitHub code"),
-        state: z.string().min(1).description("GitHub state")
-    }).parse(data))
+    .inputValidator((data: CallbackInput) =>
+        z
+            .object({
+                code: z.string().min(1).description("GitHub code"),
+                state: z.string().min(1).description("GitHub state")
+            })
+            .parse(data)
+    )
     .handler(async ({ data }) => {
         const session = await useAppSession();
         const sessionData = session.data;

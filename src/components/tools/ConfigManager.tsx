@@ -1,8 +1,8 @@
 import { useParams } from "@tanstack/react-router";
 import type { PropsWithChildren } from "react";
 import { useConfiguratorStore } from "@/components/tools/Store";
-import Translate from "@/components/tools/Translate";
 import { LinkButton } from "@/components/ui/Button";
+import Translate from "@/components/ui/Translate";
 
 export default function ConfigManager(props: PropsWithChildren) {
     const { lang } = useParams({ from: "/$lang" });

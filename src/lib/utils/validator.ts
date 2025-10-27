@@ -209,16 +209,16 @@ type Validator = StringValidator | NumberValidator | BooleanValidator | ObjectVa
 type InferValidatorType<T extends Validator> = T extends StringValidator
     ? string
     : T extends NumberValidator
-    ? number
-    : T extends BooleanValidator
-    ? boolean
-    : T extends RecordValidator<infer V>
-    ? V extends StringValidator | NumberValidator | BooleanValidator
-    ? Record<string, InferValidatorType<V>>
-    : never
-    : T extends ObjectValidator
-    ? Record<string, unknown>
-    : never;
+      ? number
+      : T extends BooleanValidator
+        ? boolean
+        : T extends RecordValidator<infer V>
+          ? V extends StringValidator | NumberValidator | BooleanValidator
+              ? Record<string, InferValidatorType<V>>
+              : never
+          : T extends ObjectValidator
+            ? Record<string, unknown>
+            : never;
 
 type InferSchema<T extends Record<string, Validator>> = {
     -readonly [K in keyof T]: InferValidatorType<T[K]>;

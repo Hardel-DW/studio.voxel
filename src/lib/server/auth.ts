@@ -12,10 +12,14 @@ type AuthInput = {
 };
 
 export const initiateGitHubAuthFn = createServerFn({ method: "POST" })
-    .inputValidator((data: AuthInput) => z.object({
-        returnTo: z.string().optional().description("Return URL after authentication"),
-        isNewTab: z.boolean().optional().description("Whether auth is opened in new tab")
-    }).parse(data))
+    .inputValidator((data: AuthInput) =>
+        z
+            .object({
+                returnTo: z.string().optional().description("Return URL after authentication"),
+                isNewTab: z.boolean().optional().description("Whether auth is opened in new tab")
+            })
+            .parse(data)
+    )
     .handler(async ({ data }) => {
         const clientId = process.env.GITHUB_CLIENT;
         const baseUrl = process.env.APP_URL;

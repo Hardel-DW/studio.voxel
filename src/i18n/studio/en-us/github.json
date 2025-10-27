@@ -21,6 +21,9 @@
     "init.error.empty": "Repository name cannot be empty",
     "init.error.invalid": "Invalid repository name (only letters, numbers, hyphens and underscores)",
     "init.success": "Repository created successfully",
+    "init.progress": "Creating repository...",
+    "init.progress.sidebar": "Creating repository with %s files",
+    "init.progress.count": "Repository will be created with %s files",
     "init.error": "Failed to create repository",
     "init.confirm": "Create Repository",
     "init.button": "Initialize Repository"

@@ -1,6 +1,6 @@
 import { Identifier } from "@voxelio/breeze";
 import { useConfiguratorStore } from "@/components/tools/Store";
-import Translate from "@/components/tools/Translate";
+import Translate from "@/components/ui/Translate";
 
 export default function SidebarItemContent({ elementId }: { elementId: string }) {
     const identifier = useConfiguratorStore((state) => state.elements.get(elementId)?.identifier);

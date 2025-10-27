@@ -11,12 +11,16 @@ type PushInput = {
 };
 
 export const pushToGitHubFn = createServerFn({ method: "POST" })
-    .inputValidator((data: PushInput) => z.object({
-        owner: z.string().min(1).description("Repository owner"),
-        repo: z.string().min(1).description("Repository name"),
-        branch: z.string().min(1).description("Branch name"),
-        files: z.record(z.string().nullable())
-    }).parse(data))
+    .inputValidator((data: PushInput) =>
+        z
+            .object({
+                owner: z.string().min(1).description("Repository owner"),
+                repo: z.string().min(1).description("Repository name"),
+                branch: z.string().min(1).description("Branch name"),
+                files: z.record(z.string().nullable())
+            })
+            .parse(data)
+    )
     .handler(async ({ data }) => {
         const session = await useAppSession();
         const sessionData = session.data;
@@ -39,12 +43,16 @@ export const pushToGitHubFn = createServerFn({ method: "POST" })
     });
 
 export const createPullRequestFn = createServerFn({ method: "POST" })
-    .inputValidator((data: PushInput) => z.object({
-        owner: z.string().min(1).description("Repository owner"),
-        repo: z.string().min(1).description("Repository name"),
-        branch: z.string().min(1).description("Branch name"),
-        files: z.record(z.string().nullable())
-    }).parse(data))
+    .inputValidator((data: PushInput) =>
+        z
+            .object({
+                owner: z.string().min(1).description("Repository owner"),
+                repo: z.string().min(1).description("Repository name"),
+                branch: z.string().min(1).description("Branch name"),
+                files: z.record(z.string().nullable())
+            })
+            .parse(data)
+    )
     .handler(async ({ data }) => {
         const session = await useAppSession();
         const sessionData = session.data;

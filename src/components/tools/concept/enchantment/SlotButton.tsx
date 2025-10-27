@@ -1,5 +1,5 @@
 import type { SlotRegistryType } from "@voxelio/breeze";
-import Translate from "@/components/tools/Translate";
+import Translate from "@/components/ui/Translate";
 import { cn } from "@/lib/utils";
 import type { SLOT_CONFIGS } from "./slots";
 

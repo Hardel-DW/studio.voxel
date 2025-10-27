@@ -1,4 +1,4 @@
-import type { TranslateTextType } from "@/components/tools/Translate";
+import type { TranslateTextType } from "@/components/ui/Translate";
 import { useI18nStore } from "@/lib/i18n/i18nStore";
 
 /**

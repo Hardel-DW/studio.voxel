@@ -1,6 +1,6 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
-import { handleGitHubCallbackFn } from "@/lib/server/callback";
 import SimpleLayout from "@/components/layout/SimpleLayout";
+import { handleGitHubCallbackFn } from "@/lib/server/callback";
 
 export const Route = createFileRoute("/auth")({
     beforeLoad: async ({ location }) => {
@@ -24,19 +24,15 @@ export const Route = createFileRoute("/auth")({
             channel.close();
         }
     },
-    component: AuthSuccess,
+    component: AuthSuccess
 });
 
 function AuthSuccess() {
     return (
         <SimpleLayout>
             <div className="relative z-10 px-8 py-12 w-full max-w-3xl mx-auto">
-                <h1 className="text-5xl font-bold text-white">
-                    You are now authenticated with GitHub
-                </h1>
-                <p className="text-xl text-zinc-200 mt-4">
-                    You can close this tab to continue.
-                </p>
+                <h1 className="text-5xl font-bold text-white">You are now authenticated with GitHub</h1>
+                <p className="text-xl text-zinc-200 mt-4">You can close this tab to continue.</p>
             </div>
         </SimpleLayout>
     );

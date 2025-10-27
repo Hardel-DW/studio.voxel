@@ -1,9 +1,9 @@
 import { lazy, Suspense } from "react";
 import { useDebugStore } from "@/components/tools/debug/DebugStore";
 import { useConfiguratorStore } from "@/components/tools/Store";
-import Translate from "@/components/tools/Translate";
 import { Button } from "@/components/ui/Button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/Popover";
+import Translate from "@/components/ui/Translate";
 import { useTranslate } from "@/lib/hook/useTranslation";
 
 const DebugPanel = lazy(() => import("@/components/tools/debug/DebugPanel"));

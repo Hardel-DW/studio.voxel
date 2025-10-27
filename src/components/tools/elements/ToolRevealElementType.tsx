@@ -1,6 +1,6 @@
 import type { ToolRevealCardData } from "@/components/tools/elements/ToolReveal";
-import Translate from "@/components/tools/Translate";
 import { LinkButton } from "@/components/ui/Button";
+import Translate from "@/components/ui/Translate";
 import { cn } from "@/lib/utils";
 
 interface ToolRevealElementProps {

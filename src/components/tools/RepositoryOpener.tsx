@@ -4,7 +4,6 @@ import { Datapack } from "@voxelio/breeze";
 import { useState } from "react";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import { useExportStore } from "@/components/tools/sidebar/ExportStore";
-import Translate from "@/components/tools/Translate";
 import { Button } from "@/components/ui/Button";
 import {
     Dialog,
@@ -19,6 +18,7 @@ import {
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/Dropdown";
 import { TextInput } from "@/components/ui/TextInput";
 import { TOAST, toast } from "@/components/ui/Toast";
+import Translate from "@/components/ui/Translate";
 import { GitHub, type Repository } from "@/lib/github/GitHub";
 import { RepositoryManager } from "@/lib/github/RepositoryManager";
 import { useGitHubAuth, useGitHubRepos } from "@/lib/hook/useGitHubAuth";

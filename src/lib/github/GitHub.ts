@@ -125,13 +125,14 @@ export class GitHub {
         return this.request<{ sha: string }>("POST", `/repos/${owner}/${repo}/git/blobs`, { content, encoding });
     }
 
-    createTree(owner: string, repo: string, baseTreeSha: string, tree: TreeItem[]) {
-        const base_tree = baseTreeSha;
-        return this.request<{ sha: string }>("POST", `/repos/${owner}/${repo}/git/trees`, { base_tree, tree });
+    createTree(owner: string, repo: string, baseTreeSha: string | undefined, tree: TreeItem[]) {
+        const body: { tree: TreeItem[]; base_tree?: string } = { tree };
+        if (baseTreeSha) body.base_tree = baseTreeSha;
+        return this.request<{ sha: string }>("POST", `/repos/${owner}/${repo}/git/trees`, body);
     }
 
-    createCommit(owner: string, repo: string, message: string, treeSha: string, parentSha: string) {
-        const parents = [parentSha];
+    createCommit(owner: string, repo: string, message: string, treeSha: string, parentSha?: string) {
+        const parents = parentSha ? [parentSha] : [];
         const tree = treeSha;
         return this.request<{ sha: string }>("POST", `/repos/${owner}/${repo}/git/commits`, { message, tree, parents });
     }
@@ -203,20 +204,35 @@ export class GitHub {
         return logoutFn();
     }
 
-    async prepareCommit(owner: string, repo: string, baseSha: string, files: Record<string, string | null>) {
-        const commitData = await this.getCommit(owner, repo, baseSha);
-        const tree = await Promise.all(
+    private async createTreeFromFiles(owner: string, repo: string, files: Record<string, string | null>) {
+        return Promise.all(
             Object.entries(files).map(async ([path, content]) => {
                 if (content === null) return { path, sha: null };
-
                 const blobData = await this.createBlob(owner, repo, content);
                 return { path, mode: "100644", type: "blob", sha: blobData.sha };
             })
         );
+    }
 
+    private buildCommitMessage(filesCount: number, isInitial: boolean) {
+        const action = isInitial ? `Initial commit with` : `Update`;
+        return `${action} ${filesCount} file${filesCount > 1 ? "s" : ""} ${isInitial ? "from" : "via"} Voxel Studio\n\nCo-authored-by: Voxel Studio <studio.voxelio@gmail.com>`;
+    }
+
+    async prepareCommit(owner: string, repo: string, baseSha: string, files: Record<string, string | null>) {
+        const commitData = await this.getCommit(owner, repo, baseSha);
+        const tree = await this.createTreeFromFiles(owner, repo, files);
         const treeData = await this.createTree(owner, repo, commitData.tree.sha, tree);
         const filesCount = Object.keys(files).length;
-        const body = `Update ${filesCount} file${filesCount > 1 ? "s" : ""} via Voxel Studio\n\nCo-authored-by: Voxel Studio <studio.voxelio@gmail.com>`;
+        const body = this.buildCommitMessage(filesCount, false);
+        return { treeData, body, filesCount };
+    }
+
+    async prepareInitialCommit(owner: string, repo: string, files: Record<string, string | null>) {
+        const tree = await this.createTreeFromFiles(owner, repo, files);
+        const treeData = await this.createTree(owner, repo, undefined, tree);
+        const filesCount = Object.keys(files).length;
+        const body = this.buildCommitMessage(filesCount, true);
         return { treeData, body, filesCount };
     }
 
@@ -259,7 +275,13 @@ export class GitHub {
         return result;
     }
 
-    async initializeRepository(name: string, description: string, isPrivate: boolean, autoInit: boolean) {
-        return initializeRepositoryFn({ data: { name, description, isPrivate, autoInit } });
+    async initializeRepository(
+        name: string,
+        description: string,
+        isPrivate: boolean,
+        autoInit: boolean,
+        files?: Record<string, string | null>
+    ) {
+        return initializeRepositoryFn({ data: { name, description, isPrivate, autoInit, files } });
     }
 }

@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { cn } from "@/lib/utils";
-import Translate from "../Translate";
+import Translate from "../../ui/Translate";
 
 interface ToolbarTextLinkProps extends Omit<React.HTMLAttributes<HTMLAnchorElement>, "onClick" | "to" | "lang"> {
     icon: string;

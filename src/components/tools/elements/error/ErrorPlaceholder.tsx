@@ -1,4 +1,4 @@
-import Translate from "@/components/tools/Translate";
+import Translate from "@/components/ui/Translate";
 
 interface ErrorPlaceholderProps {
     error?: Error;

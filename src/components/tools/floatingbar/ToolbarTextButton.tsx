@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import Translate from "../Translate";
+import Translate from "../../ui/Translate";
 
 interface ToolbarTextButtonProps extends Omit<React.HTMLAttributes<HTMLButtonElement>, "onClick"> {
     icon: string;

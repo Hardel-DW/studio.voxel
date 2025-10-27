@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
-import Translate, { type TranslateTextType } from "@/components/tools/Translate";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/Dropdown";
+import Translate, { type TranslateTextType } from "@/components/ui/Translate";
 import { cn } from "@/lib/utils";
 
 interface ToolbarDropdownOption {

@@ -1,12 +1,12 @@
 import { useLocation } from "@tanstack/react-router";
 import { useRef } from "react";
-import ExportButton from "@/components/tools/ExportButton";
 import { useConfiguratorStore } from "@/components/tools/Store";
+import ExportButton from "@/components/tools/sidebar/export/ExportButton";
 import SettingsButton from "@/components/tools/sidebar/SettingsButton";
 import ConceptTab from "@/components/tools/sidebar/tab/ConceptTab";
 import DetailTab from "@/components/tools/sidebar/tab/DetailTab";
-import Translate from "@/components/tools/Translate";
 import { Tabs, TabsContent, TabsTrigger } from "@/components/ui/Tabs";
+import Translate from "@/components/ui/Translate";
 
 export default function StudioSidebar() {
     const location = useLocation();
