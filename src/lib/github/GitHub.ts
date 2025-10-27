@@ -5,7 +5,8 @@ import { initializeRepositoryFn } from "@/lib/server/init";
 import { createPullRequestFn, pushToGitHubFn } from "@/lib/server/push";
 import { getAllReposFn } from "@/lib/server/repos";
 import { getSessionFn, logoutFn } from "@/lib/server/session";
-import { GitHubError } from "./GitHubError";
+import { GitHubError, GithubRepoValidationError } from "./GitHubError";
+import { calculateContentSize, formatBytes } from "../utils/encode";
 
 type TreeItem = {
     path: string;
@@ -46,6 +47,10 @@ export type ReposResponse = {
 type GitHubOptions = {
     token?: string | null;
 };
+
+const MAX_FILES = 1000;
+const MAX_TOTAL_SIZE = 1_048_576; // 1 MB
+const MAX_FILE_SIZE = 204_800; // 200 KB
 
 export class GitHub {
     private token: string | null;
@@ -275,13 +280,27 @@ export class GitHub {
         return result;
     }
 
-    async initializeRepository(
-        name: string,
-        description: string,
-        isPrivate: boolean,
-        autoInit: boolean,
-        files?: Record<string, string | null>
-    ) {
+    async initializeRepository(name: string, description: string, isPrivate: boolean, autoInit: boolean, files: Record<string, string | null>) {
         return initializeRepositoryFn({ data: { name, description, isPrivate, autoInit, files } });
+    }
+
+    static validateRepository(files: Record<string, string | null>): void {
+        const fileEntries = Object.entries(files);
+        if (fileEntries.length > MAX_FILES) {
+            throw new GithubRepoValidationError(`Limit exceeded: ${fileEntries.length} files (max ${MAX_FILES})`);
+        }
+
+        const totalSize = fileEntries.reduce((total, [fileName, content]) => {
+            const fileSize = calculateContentSize(content);
+            if (fileSize > MAX_FILE_SIZE) {
+                throw new GithubRepoValidationError(`File too large: ${fileName} (${formatBytes(fileSize)}, max ${formatBytes(MAX_FILE_SIZE)})`);
+            }
+
+            return total + fileSize;
+        }, 0);
+
+        if (totalSize > MAX_TOTAL_SIZE) {
+            throw new GithubRepoValidationError(`Total size too large: ${formatBytes(totalSize)} (max ${formatBytes(MAX_TOTAL_SIZE)})`);
+        }
     }
 }

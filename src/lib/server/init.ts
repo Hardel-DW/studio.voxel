@@ -1,7 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
+import { GitHub } from "@/lib/github/GitHub";
 import { useAppSession } from "@/lib/hook/useAppSession";
 import { z } from "@/lib/utils/validator";
-import { GitHub } from "../github/GitHub";
 
 type InitRepositoryInput = {
     name: string;
@@ -31,8 +31,9 @@ export const initializeRepositoryFn = createServerFn({ method: "POST" })
             throw new Error("Unauthorized - no GitHub token in session");
         }
 
-        const github = new GitHub({ token: sessionData.githubToken });
+        GitHub.validateRepository(data.files);
         const hasFiles = data.files && Object.keys(data.files).length > 0;
+        const github = new GitHub({ token: sessionData.githubToken });
         const repository = await github.createRepository(data.name, data.description, data.isPrivate, true);
 
         if (hasFiles) {

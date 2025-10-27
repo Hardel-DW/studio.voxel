@@ -22,6 +22,8 @@
     "init.error.invalid": "Nom de dépôt invalide (seulement lettres, chiffres, tirets et underscores)",
     "init.success": "Dépôt créé avec succès",
     "init.error": "Échec de la création du dépôt",
+    "init.error.validation": "Trop de fichiers ou trop lourd",
+    "init.error.validation.desc": "Il est préférable d'utiliser git ou github.com pour créer le dépôt",
     "init.progress": "Création du dépôt...",
     "init.progress.sidebar": "Creating repository with %s files",
     "init.progress.count": "Le dépôt sera créé avec %s fichiers",

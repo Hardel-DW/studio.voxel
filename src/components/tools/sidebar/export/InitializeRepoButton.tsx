@@ -21,6 +21,7 @@ import { useClientDictionary } from "@/lib/hook/useClientDictionary";
 import { useGitHubAuth } from "@/lib/hook/useGitHubAuth";
 import { encodeToBase64 } from "@/lib/utils/encode";
 import { sanitizeRepoName } from "@/lib/utils/text";
+import { GithubRepoValidationError } from "@/lib/github/GitHubError";
 
 const DESCRIPTION = "Minecraft datapack created with Voxel Studio";
 
@@ -45,7 +46,12 @@ export default function InitializeRepoButton() {
             useExportStore.setState({ owner, repositoryName, branch: data.defaultBranch, isGitRepository: true });
             setRepoName("");
         },
-        onError: (error: Error) => toast(t["init.error"], TOAST.ERROR, error.message),
+        onError: (error: Error) => {
+            if (error instanceof GithubRepoValidationError) {
+                return toast(t["init.error.validation"], TOAST.ERROR, t["init.error.validation.desc"]);
+            }
+            toast(t["init.error"], TOAST.ERROR, error.message);
+        },
         onSettled: () => useExportStore.getState().setInitializing(null)
     });
 

@@ -25,6 +25,8 @@
     "init.progress.sidebar": "Creating repository with %s files",
     "init.progress.count": "Repository will be created with %s files",
     "init.error": "Failed to create repository",
+    "init.error.validation": "Too much File or Size",
+    "init.error.validation.desc": "It's better to use git or github.com to create the repository",
     "init.confirm": "Create Repository",
     "init.button": "Initialize Repository"
 }
