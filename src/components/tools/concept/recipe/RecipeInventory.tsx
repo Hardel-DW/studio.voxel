@@ -17,7 +17,7 @@ export default function RecipeInventory() {
                             <p className="text-sm text-zinc-400">Select items for your recipe</p>
                         </div>
                         <TextInput
-                            className="min-w-64 pl-8 pr-4 py-2 select-none user-select-none bg-zinc-800/30 border border-zinc-800 rounded-full text-sm text-zinc-100 placeholder-zinc-400 focus:outline-none focus:border-zinc-700 focus:bg-zinc-700/20 transition-all"
+                            className="min-w-64"
                             placeholder="Search"
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}

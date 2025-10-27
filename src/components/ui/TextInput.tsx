@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 
 export function TextInput(props: InputHTMLAttributes<HTMLInputElement> & { disableIcon?: boolean }) {
     return (
-        <div className="relative">
+        <div className={cn("relative", props.className)}>
             {!props.disableIcon && (
                 <div className="absolute left-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-zinc-400">
@@ -17,7 +17,6 @@ export function TextInput(props: InputHTMLAttributes<HTMLInputElement> & { disab
                 type="text"
                 className={cn(
                     "w-full pl-8 pr-4 py-2 bg-zinc-800/30 border border-zinc-800 rounded-full text-sm text-zinc-100 placeholder-zinc-400 focus:outline-none focus:border-zinc-700 focus:bg-zinc-700/20 transition-all",
-                    props.className,
                     props.disableIcon && "pl-4"
                 )}
             />

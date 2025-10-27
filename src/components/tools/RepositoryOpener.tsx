@@ -1,4 +1,4 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ClientOnly, useNavigate, useParams } from "@tanstack/react-router";
 import { Datapack } from "@voxelio/breeze";
 import { useState } from "react";
@@ -23,6 +23,7 @@ import { GitHub, type Repository } from "@/lib/github/GitHub";
 import { RepositoryManager } from "@/lib/github/RepositoryManager";
 import { useGitHubAuth, useGitHubRepos } from "@/lib/hook/useGitHubAuth";
 import { useServerDictionary } from "@/lib/hook/useServerDictionary";
+import { cn } from "@/lib/utils";
 
 function RepositoryOpenerContent() {
     const navigate = useNavigate();
@@ -31,14 +32,16 @@ function RepositoryOpenerContent() {
     const [searchQuery, setSearchQuery] = useState("");
     const [thirdPartyUrl, setThirdPartyUrl] = useState("");
     const dictionary = useServerDictionary();
+    const queryClient = useQueryClient();
     const { isAuthenticated, user, token, login, isLoggingIn } = useGitHubAuth();
-    const { data, isLoading: isLoadingRepos } = useGitHubRepos(token);
+    const { data, isLoading: isLoadingRepos, isFetching } = useGitHubRepos(token);
 
     const manager = new RepositoryManager(user, data);
     const accounts = manager.getAccounts();
     const selectedAccountData = manager.findAccount(selectedAccount);
     const selectedAccountLabel = selectedAccountData?.label ?? dictionary.repository.select_account;
     const filteredRepositories = manager.getFilteredRepositories(selectedAccount, searchQuery);
+    const handleRefresh = () => queryClient.invalidateQueries({ queryKey: [["github", "repos"], token] });
 
     const { mutate, isPending } = useMutation({
         mutationFn: async (repo: Repository) => {
@@ -98,6 +101,10 @@ function RepositoryOpenerContent() {
 
                 <div className="mt-6 space-y-4">
                     <div className="flex items-center gap-4">
+                        <Button type="button" variant="ghost_border" onClick={handleRefresh} disabled={isFetching} className="shrink-0 p-2">
+                            <img src="/icons/sync.svg" alt="refresh" className={cn("w-full h-full invert", isFetching && "animate-spin invert-50")} />
+                        </Button>
+
                         <DropdownMenu>
                             <DropdownMenuTrigger className="flex-1">
                                 <Button type="button" variant="ghost_border" className="w-full justify-between">
@@ -172,6 +179,7 @@ function RepositoryOpenerContent() {
                         </label>
                         <div className="flex items-center gap-2">
                             <TextInput
+                                className="w-full"
                                 placeholder={dictionary.repository.third_party_placeholder}
                                 value={thirdPartyUrl}
                                 onChange={(e) => setThirdPartyUrl(e.target.value)}
