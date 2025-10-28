@@ -96,7 +96,7 @@ export default function InitializeRepoButton() {
                         <Translate content="github:init.label" />
                     </label>
                     <TextInput
-                        disableIcon
+                        disableIcon={true}
                         id="repo-name"
                         type="text"
                         value={repoName}

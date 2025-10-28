@@ -7,9 +7,9 @@ import { useExportStore } from "@/components/tools/sidebar/ExportStore";
 import { Button } from "@/components/ui/Button";
 import {
     Dialog,
+    DialogBody,
     DialogCloseButton,
     DialogContent,
-    DialogDescription,
     DialogFooter,
     DialogHeader,
     DialogTitle,
@@ -88,8 +88,8 @@ function RepositoryOpenerContent() {
                 </Button>
             </DialogTrigger>
 
-            <DialogContent className="sm:max-w-5xl w-full p-6">
-                <DialogHeader className="border-b border-zinc-900">
+            <DialogContent className="sm:max-w-5xl w-full p-6 popover:flex popover:flex-col h-[80vh]">
+                <DialogHeader className="border-b border-zinc-900 shrink-0">
                     <DialogTitle>
                         <div className="flex items-center gap-x-4">
                             <img src="/icons/company/github.svg" alt="GitHub" className="size-6 invert" />
@@ -105,48 +105,48 @@ function RepositoryOpenerContent() {
                     </DialogTitle>
                 </DialogHeader>
 
-                <div className="mt-6 space-y-4 ">
-                    <div className="flex items-center gap-4">
-                        <Button type="button" variant="ghost_border" onClick={handleRefresh} disabled={isFetching} className="shrink-0 p-2">
-                            <img
-                                src="/icons/sync.svg"
-                                alt="refresh"
-                                className={cn("w-full h-full invert", isFetching && "animate-spin invert-50")}
-                            />
-                        </Button>
-
-                        <DropdownMenu>
-                            <DropdownMenuTrigger className="flex-1">
-                                <Button type="button" variant="ghost_border" className="w-full justify-between">
-                                    <span className="text-sm">{selectedAccountLabel}</span>
-                                    <img src="/icons/chevron-down.svg" alt="chevron" className="size-4 invert" />
-                                </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent className="min-w-50">
-                                {accounts.map((account) => (
-                                    <DropdownMenuItem
-                                        key={account.value}
-                                        onClick={() => setSelectedAccount(account.value)}
-                                        description={
-                                            account.type === "user"
-                                                ? dictionary.repository.personal_repositories
-                                                : dictionary.repository.organization_repositories.replace("{org}", account.label)
-                                        }
-                                        className={selectedAccount === account.value ? "bg-zinc-900 text-zinc-200" : ""}>
-                                        {account.label}
-                                    </DropdownMenuItem>
-                                ))}
-                            </DropdownMenuContent>
-                        </DropdownMenu>
-
-                        <TextInput
-                            placeholder={dictionary.repository.search_placeholder}
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
+                <div className="mt-4 flex items-center gap-4 shrink-0">
+                    <Button type="button" variant="ghost_border" onClick={handleRefresh} disabled={isFetching} className="shrink-0 p-2">
+                        <img
+                            src="/icons/sync.svg"
+                            alt="refresh"
+                            className={cn("w-full h-full invert", isFetching && "animate-spin invert-50")}
                         />
-                    </div>
+                    </Button>
 
-                    <div className="max-h-92 overflow-y-auto space-y-3">
+                    <DropdownMenu>
+                        <DropdownMenuTrigger className="flex-1">
+                            <Button type="button" variant="ghost_border" className="w-full justify-between">
+                                <span className="text-sm">{selectedAccountLabel}</span>
+                                <img src="/icons/chevron-down.svg" alt="chevron" className="size-4 invert" />
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent className="min-w-50">
+                            {accounts.map((account) => (
+                                <DropdownMenuItem
+                                    key={account.value}
+                                    onClick={() => setSelectedAccount(account.value)}
+                                    description={
+                                        account.type === "user"
+                                            ? dictionary.repository.personal_repositories
+                                            : dictionary.repository.organization_repositories.replace("{org}", account.label)
+                                    }
+                                    className={selectedAccount === account.value ? "bg-zinc-900 text-zinc-200" : ""}>
+                                    {account.label}
+                                </DropdownMenuItem>
+                            ))}
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+
+                    <TextInput
+                        placeholder={dictionary.repository.search_placeholder}
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                    />
+                </div>
+
+                <DialogBody className="mt-4">
+                    <div className="space-y-3">
                         {filteredRepositories.length === 0 ? (
                             <div className="text-center py-8 text-zinc-400 text-sm">
                                 <Translate content="repository.no_results" />
@@ -173,7 +173,7 @@ function RepositoryOpenerContent() {
                                     <Button
                                         type="button"
                                         onClick={() => mutate(repo)}
-                                        variant="ghost_border"
+                                        variant="default"
                                         disabled={isPending}
                                         className="shrink-0 text-xs px-3 py-2">
                                         <Translate content="repository.import" />
@@ -182,9 +182,9 @@ function RepositoryOpenerContent() {
                             ))
                         )}
                     </div>
-                </div>
+                </DialogBody>
 
-                <DialogFooter className="pt-4 border-t border-zinc-800 flex items-center justify-between w-full">
+                <DialogFooter className="pt-4 border-t border-zinc-800 flex items-center justify-between w-full shrink-0">
                     <div className="flex items-center gap-2 w-1/2">
                         <TextInput
                             disableIcon={true}

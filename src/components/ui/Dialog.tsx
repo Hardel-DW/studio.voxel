@@ -91,7 +91,7 @@ export function DialogContent(props: {
             id={dialogId}
             popover="manual"
             className={cn(
-                "fixed inset-0 m-auto w-2/5 min-w-[40%] max-w-[40%] h-fit rounded-xl bg-zinc-950 shadow-lg shadow-neutral-950 p-2 border border-zinc-800 backdrop:bg-black/50 backdrop:backdrop-blur-sm opacity-0 translate-y-4 scale-95 transition-all duration-200 ease-out",
+                "body-hidden m-auto w-2/5 min-w-[40%] max-w-[40%] rounded-xl bg-zinc-950 shadow-lg shadow-neutral-950 p-2 border border-zinc-800 backdrop:bg-black/50 backdrop:backdrop-blur-sm",
                 props.className
             )}>
             {props.children}
@@ -131,6 +131,10 @@ export function DialogDescription(props: BaseDialogProps) {
             {props.children}
         </div>
     );
+}
+
+export function DialogBody(props: BaseDialogProps) {
+    return <div className={cn("flex-1 overflow-y-auto min-h-0", props.className)}>{props.children}</div>;
 }
 
 export function DialogFooter({ children, className }: { children: ReactNode; className?: string }) {

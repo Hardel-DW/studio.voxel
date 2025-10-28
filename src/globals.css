@@ -2,6 +2,12 @@
 @import '@fontsource-variable/rubik';
 
 @custom-variant hidden (&[hidden]);
+@custom-variant popover {
+    &:popover-open {
+        @slot;
+    }
+}; 
+
 @custom-variant track {
     &::-webkit-slider-runnable-track {
         @slot;
@@ -254,6 +260,11 @@
 html,
 body {
     height: 100%;
+}
+
+html:has(.body-hidden:popover-open),
+body:has(.body-hidden:popover-open) {
+    overflow: hidden;
 }
 
 body {
