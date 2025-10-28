@@ -112,7 +112,9 @@ export default function MigrationTool({ children }: { children?: React.ReactNode
                     <DialogHeader>
                         <DialogTitle className="flex items-center gap-x-2">
                             <img src="/icons/success.svg" alt="zip" className="size-6" />
-                            {dictionary.generic.dialog.success}
+                            <span className="text-xl font-medium text-zinc-200">
+                                {dictionary.generic.dialog.success}
+                            </span>
                         </DialogTitle>
                         <DialogDescription>
                             {dictionary.migration.success_message}

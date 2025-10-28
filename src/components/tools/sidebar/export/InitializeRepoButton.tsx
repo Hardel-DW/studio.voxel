@@ -82,7 +82,9 @@ export default function InitializeRepoButton() {
                 <DialogHeader>
                     <DialogTitle className="flex items-center gap-x-2">
                         <img src="/icons/company/github.svg" alt="GitHub" className="size-6 invert" />
-                        <Translate content="github:init.title" />
+                        <span className="text-xl font-medium text-zinc-200">
+                            <Translate content="github:init.title" />
+                        </span>
                     </DialogTitle>
                     <DialogDescription>
                         <Translate content="github:init.description" />

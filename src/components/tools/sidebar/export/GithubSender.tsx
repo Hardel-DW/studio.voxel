@@ -88,7 +88,9 @@ export default function GithubSender() {
                 <DialogHeader>
                     <DialogTitle className="flex items-center gap-x-2">
                         <img src="/icons/company/github.svg" alt="GitHub" className="size-6 invert" />
-                        <Translate content={pendingAction?.type === "pr" ? "github:dialog.pr.title" : "github:dialog.push.title"} />
+                        <span className="text-xl font-medium text-zinc-200">
+                            <Translate content={pendingAction?.type === "pr" ? "github:dialog.pr.title" : "github:dialog.push.title"} />
+                        </span>
                     </DialogTitle>
                     <DialogDescription>
                         <Translate

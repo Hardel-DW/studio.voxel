@@ -17,6 +17,7 @@ const variants = {
         patreon: "shimmer-orange-700 text-white hover:scale-95 transition flex items-center gap-4 place-self-end rounded-xl"
     },
     size: {
+        none: "",
         square: "h-10 p-2",
         default: "h-10 px-4 py-2",
         xs: "h-6 rounded px-3 py-2",

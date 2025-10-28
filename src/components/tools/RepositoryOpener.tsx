@@ -88,18 +88,24 @@ function RepositoryOpenerContent() {
                 </Button>
             </DialogTrigger>
 
-            <DialogContent className="sm:max-w-[768px] p-6">
-                <DialogHeader>
-                    <DialogTitle className="flex items-center gap-x-2">
-                        <img src="/icons/company/github.svg" alt="GitHub" className="size-6 invert" />
-                        <Translate content="repository.select" />
+            <DialogContent className="sm:max-w-5xl w-full p-6">
+                <DialogHeader className="border-b border-zinc-900">
+                    <DialogTitle>
+                        <div className="flex items-center gap-x-4">
+                            <img src="/icons/company/github.svg" alt="GitHub" className="size-6 invert" />
+                            <div className="flex flex-col">
+                                <span className="text-xl font-medium text-zinc-200">
+                                    <Translate content="repository.select" />
+                                </span>
+                                <p className="text-zinc-500 text-sm">
+                                    <Translate content="repository.select_description" />
+                                </p>
+                            </div>
+                        </div>
                     </DialogTitle>
-                    <DialogDescription>
-                        <Translate content="repository.select_description" />
-                    </DialogDescription>
                 </DialogHeader>
 
-                <div className="mt-6 space-y-4">
+                <div className="mt-6 space-y-4 ">
                     <div className="flex items-center gap-4">
                         <Button type="button" variant="ghost_border" onClick={handleRefresh} disabled={isFetching} className="shrink-0 p-2">
                             <img
@@ -140,7 +146,7 @@ function RepositoryOpenerContent() {
                         />
                     </div>
 
-                    <div className="max-h-[400px] overflow-y-auto space-y-3">
+                    <div className="max-h-92 overflow-y-auto space-y-3">
                         {filteredRepositories.length === 0 ? (
                             <div className="text-center py-8 text-zinc-400 text-sm">
                                 <Translate content="repository.no_results" />
@@ -156,18 +162,18 @@ function RepositoryOpenerContent() {
                                             <div className="flex items-center gap-2">
                                                 <h3 className="text-sm font-semibold text-zinc-200 truncate">{repo.name}</h3>
                                                 {repo.private && (
-                                                    <span className="text-xs px-2 py-0.5 bg-zinc-800 text-zinc-400 rounded">Private</span>
+                                                    <span className="text-s leading-4 px-2 py-0.5 bg-zinc-900 text-zinc-400 border border-zinc-800 rounded-md">Private</span>
                                                 )}
                                             </div>
-                                            <p className="text-xs text-zinc-400 mt-1 line-clamp-2">
-                                                {repo.description || "No description"}
+                                            <p className="text-xs text-zinc-500 line-clamp-2">
+                                                {repo.description ? repo.description : <Translate content="repository.no_description" />}
                                             </p>
                                         </div>
                                     </div>
                                     <Button
                                         type="button"
                                         onClick={() => mutate(repo)}
-                                        variant="default"
+                                        variant="ghost_border"
                                         disabled={isPending}
                                         className="shrink-0 text-xs px-3 py-2">
                                         <Translate content="repository.import" />
@@ -176,26 +182,22 @@ function RepositoryOpenerContent() {
                             ))
                         )}
                     </div>
-
-                    <div className="pt-4 border-t border-zinc-800">
-                        <label htmlFor="third-party-url" className="text-sm text-zinc-300 font-medium mb-2 block">
-                            <Translate content="repository.third_party" />
-                        </label>
-                        <div className="flex items-center gap-2">
-                            <TextInput
-                                className="w-full"
-                                placeholder={dictionary.repository.third_party_placeholder}
-                                value={thirdPartyUrl}
-                                onChange={(e) => setThirdPartyUrl(e.target.value)}
-                            />
-                            <DialogCloseButton variant="default" className="text-xs px-4 py-2" disabled={!thirdPartyUrl.trim()}>
-                                <Translate content="repository.import" />
-                            </DialogCloseButton>
-                        </div>
-                    </div>
                 </div>
 
-                <DialogFooter className="pt-6">
+                <DialogFooter className="pt-4 border-t border-zinc-800 flex items-center justify-between w-full">
+                    <div className="flex items-center gap-2 w-1/2">
+                        <TextInput
+                            disableIcon={true}
+                            className="flex-1"
+                            placeholder={dictionary.repository.third_party_placeholder}
+                            value={thirdPartyUrl}
+                            onChange={(e) => setThirdPartyUrl(e.target.value)}
+                        />
+                        <DialogCloseButton variant="ghost_border" className="text-xs px-4 py-2" disabled={!thirdPartyUrl.trim()}>
+                            <Translate content="repository.import" />
+                        </DialogCloseButton>
+                    </div>
+
                     <DialogCloseButton variant="ghost">
                         <Translate content="close" />
                     </DialogCloseButton>

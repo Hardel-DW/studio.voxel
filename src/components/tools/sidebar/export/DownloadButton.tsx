@@ -35,7 +35,9 @@ export default function DownloadButton() {
                 <DialogHeader>
                     <DialogTitle className="flex items-center gap-x-2">
                         <img src="/icons/success.svg" alt="zip" className="size-6" />
-                        <Translate content="success" />
+                        <span className="text-xl font-medium text-zinc-200">
+                            <Translate content="success" />
+                        </span>
                     </DialogTitle>
                     <DialogDescription>
                         <Translate content="modification_success" />

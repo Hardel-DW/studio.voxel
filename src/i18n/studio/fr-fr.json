@@ -40,6 +40,7 @@
     "repository.search_placeholder": "Rechercher des dépôts...",
     "repository.no_results": "Aucun dépôt trouvé",
     "repository.import": "Importer",
+    "repository.no_description": "Aucune description",
     "repository.third_party": "Importer un dépôt Git tiers",
     "repository.third_party_placeholder": "https://github.com/utilisateur/depot",
     "repository.login_to_github": "Se connecter à GitHub",

@@ -91,7 +91,7 @@ export function DialogContent(props: {
             id={dialogId}
             popover="manual"
             className={cn(
-                "fixed inset-0 m-auto w-2/5 min-w-[40%] max-w-[40%] h-fit rounded-xl bg-zinc-950 shadow-lg shadow-neutral-900 p-2 border border-zinc-800 backdrop:bg-black/50 backdrop:backdrop-blur-sm opacity-0 translate-y-4 scale-95 transition-all duration-200 ease-out",
+                "fixed inset-0 m-auto w-2/5 min-w-[40%] max-w-[40%] h-fit rounded-xl bg-zinc-950 shadow-lg shadow-neutral-950 p-2 border border-zinc-800 backdrop:bg-black/50 backdrop:backdrop-blur-sm opacity-0 translate-y-4 scale-95 transition-all duration-200 ease-out",
                 props.className
             )}>
             {props.children}
@@ -103,12 +103,12 @@ export function DialogHeader(props: BaseDialogProps) {
     return <div className={cn("flex flex-col space-y-1.5 pb-4", props.className)}>{props.children}</div>;
 }
 
-export function DialogTitle(props: BaseDialogProps) {
+export function DialogTitle(props: BaseDialogProps & { description?: ReactNode }) {
     const { setOpen } = useDisclosure();
 
     return (
-        <div className="flex shrink-0 items-center justify-between text-xl font-medium text-zinc-200">
-            <h2 className={props.className}>{props.children}</h2>
+        <div className="flex shrink-0 items-center justify-between">
+            {props.children}
             <button
                 type="button"
                 onClick={() => setOpen(false)}

@@ -42,6 +42,7 @@
     "repository.search_placeholder": "Search repositories...",
     "repository.no_results": "No repositories found",
     "repository.import": "Import",
+    "repository.no_description": "No description",
     "repository.third_party": "Import a Third-Party Git Repository",
     "repository.third_party_placeholder": "https://github.com/username/repository",
     "repository.login_to_github": "Login to GitHub",
