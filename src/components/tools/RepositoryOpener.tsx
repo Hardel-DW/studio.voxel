@@ -162,7 +162,9 @@ function RepositoryOpenerContent() {
                                             <div className="flex items-center gap-2">
                                                 <h3 className="text-sm font-semibold text-zinc-200 truncate">{repo.name}</h3>
                                                 {repo.private && (
-                                                    <span className="text-s leading-4 px-2 py-0.5 bg-zinc-900 text-zinc-400 border border-zinc-800 rounded-md">Private</span>
+                                                    <span className="text-s leading-4 px-2 py-0.5 bg-zinc-900 text-zinc-400 border border-zinc-800 rounded-md">
+                                                        Private
+                                                    </span>
                                                 )}
                                             </div>
                                             <p className="text-xs text-zinc-500 line-clamp-2">

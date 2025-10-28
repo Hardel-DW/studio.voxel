@@ -6,7 +6,7 @@
     &:popover-open {
         @slot;
     }
-}; 
+}
 
 @custom-variant track {
     &::-webkit-slider-runnable-track {
