@@ -17,11 +17,11 @@ import { TextInput } from "@/components/ui/TextInput";
 import { TOAST, toast } from "@/components/ui/Toast";
 import Translate from "@/components/ui/Translate";
 import { GitHub } from "@/lib/github/GitHub";
+import { GithubRepoValidationError } from "@/lib/github/GitHubError";
 import { useClientDictionary } from "@/lib/hook/useClientDictionary";
 import { useGitHubAuth } from "@/lib/hook/useGitHubAuth";
 import { encodeToBase64 } from "@/lib/utils/encode";
 import { sanitizeRepoName } from "@/lib/utils/text";
-import { GithubRepoValidationError } from "@/lib/github/GitHubError";
 
 const DESCRIPTION = "Minecraft datapack created with Voxel Studio";
 

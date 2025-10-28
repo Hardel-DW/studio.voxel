@@ -5,8 +5,8 @@ import { initializeRepositoryFn } from "@/lib/server/init";
 import { createPullRequestFn, pushToGitHubFn } from "@/lib/server/push";
 import { getAllReposFn } from "@/lib/server/repos";
 import { getSessionFn, logoutFn } from "@/lib/server/session";
-import { GitHubError, GithubRepoValidationError } from "./GitHubError";
 import { calculateContentSize, formatBytes } from "../utils/encode";
+import { GitHubError, GithubRepoValidationError } from "./GitHubError";
 
 type TreeItem = {
     path: string;
@@ -280,7 +280,13 @@ export class GitHub {
         return result;
     }
 
-    async initializeRepository(name: string, description: string, isPrivate: boolean, autoInit: boolean, files: Record<string, string | null>) {
+    async initializeRepository(
+        name: string,
+        description: string,
+        isPrivate: boolean,
+        autoInit: boolean,
+        files: Record<string, string | null>
+    ) {
         return initializeRepositoryFn({ data: { name, description, isPrivate, autoInit, files } });
     }
 
@@ -293,7 +299,9 @@ export class GitHub {
         const totalSize = fileEntries.reduce((total, [fileName, content]) => {
             const fileSize = calculateContentSize(content);
             if (fileSize > MAX_FILE_SIZE) {
-                throw new GithubRepoValidationError(`File too large: ${fileName} (${formatBytes(fileSize)}, max ${formatBytes(MAX_FILE_SIZE)})`);
+                throw new GithubRepoValidationError(
+                    `File too large: ${fileName} (${formatBytes(fileSize)}, max ${formatBytes(MAX_FILE_SIZE)})`
+                );
             }
 
             return total + fileSize;

@@ -102,7 +102,11 @@ function RepositoryOpenerContent() {
                 <div className="mt-6 space-y-4">
                     <div className="flex items-center gap-4">
                         <Button type="button" variant="ghost_border" onClick={handleRefresh} disabled={isFetching} className="shrink-0 p-2">
-                            <img src="/icons/sync.svg" alt="refresh" className={cn("w-full h-full invert", isFetching && "animate-spin invert-50")} />
+                            <img
+                                src="/icons/sync.svg"
+                                alt="refresh"
+                                className={cn("w-full h-full invert", isFetching && "animate-spin invert-50")}
+                            />
                         </Button>
 
                         <DropdownMenu>

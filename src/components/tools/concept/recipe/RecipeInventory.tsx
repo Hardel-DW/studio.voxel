@@ -16,12 +16,7 @@ export default function RecipeInventory() {
                             <h2 className="text-xl font-bold text-white">Inventory</h2>
                             <p className="text-sm text-zinc-400">Select items for your recipe</p>
                         </div>
-                        <TextInput
-                            className="min-w-64"
-                            placeholder="Search"
-                            value={search}
-                            onChange={(e) => setSearch(e.target.value)}
-                        />
+                        <TextInput className="min-w-64" placeholder="Search" value={search} onChange={(e) => setSearch(e.target.value)} />
                     </div>
                     <hr className="my-4" />
                 </div>
