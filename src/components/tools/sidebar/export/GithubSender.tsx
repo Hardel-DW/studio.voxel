@@ -22,6 +22,7 @@ import { useClientDictionary } from "@/lib/hook/useClientDictionary";
 import { useGitHubAuth } from "@/lib/hook/useGitHubAuth";
 import { cn } from "@/lib/utils";
 import { encodeToBase64 } from "@/lib/utils/encode";
+import { TextInput } from "@/components/ui/TextInput";
 
 type GitHubActionPayload = {
     type: "push" | "pr";
@@ -34,14 +35,16 @@ export default function GithubSender() {
     const { owner, repositoryName, branch, token, isGitRepository } = useExportStore();
     const t = useClientDictionary("github");
     const { isAuthenticated } = useGitHubAuth();
+    const [newBranch, setNewBranch] = useState<string | undefined>(undefined);
 
     const { mutate, isPending } = useMutation({
-        mutationFn: () => new GitHub({ token }).send(owner, repositoryName, branch, pendingAction?.type, pendingAction?.files),
+        mutationFn: () => new GitHub({ token }).send(owner, repositoryName, branch, pendingAction?.type, pendingAction?.files, newBranch),
         onSuccess: (data) => {
             const message = pendingAction?.type === "pr" ? t["pr.success"] : t["push.success"];
             const detail = pendingAction?.type === "pr" ? data.prUrl : t["files.modified"].replace("%s", String(data.filesModified));
             toast(message, TOAST.SUCCESS, detail);
             setPendingAction(null);
+            setNewBranch(undefined);
         },
         onError: (error: Error) => {
             const message = pendingAction?.type === "pr" ? t["pr.error"] : t["push.error"];
@@ -87,10 +90,12 @@ export default function GithubSender() {
             <DialogContent className="sm:max-w-[600px] p-6">
                 <DialogHeader>
                     <DialogTitle className="flex items-center gap-x-2">
-                        <img src="/icons/company/github.svg" alt="GitHub" className="size-6 invert" />
-                        <span className="text-xl font-medium text-zinc-200">
-                            <Translate content={pendingAction?.type === "pr" ? "github:dialog.pr.title" : "github:dialog.push.title"} />
-                        </span>
+                        <div className="flex items-center gap-x-4">
+                            <img src="/icons/company/github.svg" alt="GitHub" className="size-6 invert" />
+                            <span className="text-xl font-medium text-zinc-200">
+                                <Translate content={pendingAction?.type === "pr" ? "github:dialog.pr.title" : "github:dialog.push.title"} />
+                            </span>
+                        </div>
                     </DialogTitle>
                     <DialogDescription>
                         <Translate
@@ -100,7 +105,7 @@ export default function GithubSender() {
                 </DialogHeader>
 
                 {pendingAction && (
-                    <div className="mt-4">
+                    <div>
                         <div className="text-sm text-zinc-300 mb-3">
                             <Translate content="github:files.count" /> {pendingAction.changes.size}
                         </div>
@@ -125,17 +130,29 @@ export default function GithubSender() {
                     </div>
                 )}
 
-                <DialogFooter className="pt-6 flex items-center justify-end gap-3">
-                    <DialogCloseButton variant="ghost" disabled={isPending}>
-                        <Translate content="github:dialog.cancel" />
-                    </DialogCloseButton>
-                    <DialogCloseButton type="button" onClick={() => pendingAction && mutate()} variant="default" disabled={isPending}>
-                        {isPending ? (
-                            <Translate content="github:dialog.processing" />
-                        ) : (
-                            <Translate content={pendingAction?.type === "pr" ? "github:dialog.pr.confirm" : "github:dialog.push.confirm"} />
+                <DialogFooter className="pt-8 flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                        {pendingAction?.type === "pr" && (
+                            <TextInput
+                                disableIcon
+                                placeholder="Branch Name"
+                                value={newBranch}
+                                onChange={(e) => setNewBranch(e.target.value || undefined)}
+                            />
                         )}
-                    </DialogCloseButton>
+                    </div>
+                    <div className="flex items-center gap-2">
+                        <DialogCloseButton variant="link" disabled={isPending}>
+                            <Translate content="github:dialog.cancel" />
+                        </DialogCloseButton>
+                        <DialogCloseButton type="button" onClick={() => pendingAction && mutate()} variant="ghost" disabled={isPending}>
+                            {isPending ? (
+                                <Translate content="github:dialog.processing" />
+                            ) : (
+                                <Translate content={pendingAction?.type === "pr" ? "github:dialog.pr.confirm" : "github:dialog.push.confirm"} />
+                            )}
+                        </DialogCloseButton>
+                    </div>
                 </DialogFooter>
             </DialogContent>
         </Dialog>

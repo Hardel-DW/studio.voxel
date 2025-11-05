@@ -8,6 +8,7 @@ type PushInput = {
     repo: string;
     branch: string;
     files: Record<string, string | null>;
+    newBranch?: string;
 };
 
 export const pushToGitHubFn = createServerFn({ method: "POST" })
@@ -49,7 +50,8 @@ export const createPullRequestFn = createServerFn({ method: "POST" })
                 owner: z.string().min(1).description("Repository owner"),
                 repo: z.string().min(1).description("Repository name"),
                 branch: z.string().min(1).description("Branch name"),
-                files: z.record(z.string().nullable())
+                files: z.record(z.string().nullable()),
+                newBranch: z.string().min(1).optional()
             })
             .parse(data)
     )
@@ -62,7 +64,7 @@ export const createPullRequestFn = createServerFn({ method: "POST" })
         }
 
         const github = new GitHub({ token: sessionData.githubToken });
-        const branchName = `voxel-studio-${Date.now()}`;
+        const branchName = data.newBranch || `voxel-studio-${Date.now()}`;
         const refData = await github.getRef(data.owner, data.repo, data.branch);
         const baseSha = refData.object.sha;
 

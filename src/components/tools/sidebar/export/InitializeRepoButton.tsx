@@ -81,17 +81,19 @@ export default function InitializeRepoButton() {
             <DialogContent className="sm:max-w-[500px] p-6">
                 <DialogHeader>
                     <DialogTitle className="flex items-center gap-x-2">
-                        <img src="/icons/company/github.svg" alt="GitHub" className="size-6 invert" />
-                        <span className="text-xl font-medium text-zinc-200">
-                            <Translate content="github:init.title" />
-                        </span>
+                        <div className="flex items-center gap-x-4">
+                            <img src="/icons/company/github.svg" alt="GitHub" className="size-6 invert" />
+                            <span className="text-xl font-medium text-zinc-200">
+                                <Translate content="github:init.title" />
+                            </span>
+                        </div>
                     </DialogTitle>
                     <DialogDescription>
                         <Translate content="github:init.description" />
                     </DialogDescription>
                 </DialogHeader>
 
-                <div className="mt-4">
+                <div>
                     <label htmlFor="repo-name" className="text-sm text-zinc-300 mb-2 block">
                         <Translate content="github:init.label" />
                     </label>

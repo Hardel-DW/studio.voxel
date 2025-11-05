@@ -241,11 +241,11 @@ export class GitHub {
         return { treeData, body, filesCount };
     }
 
-    async send(owner: string, repositoryName: string, branch: string, action?: "pr" | "push", files?: Record<string, string | null>) {
+    async send(owner: string, repositoryName: string, branch: string, action?: "pr" | "push", files?: Record<string, string | null>, newBranch?: string) {
         if (!action) throw new GitHubError("Missing action parameter", 400);
         if (!files) throw new GitHubError("Missing files parameter", 400);
 
-        const params = { data: { owner, repo: repositoryName, branch, files } };
+        const params = { data: { owner, repo: repositoryName, branch, files, newBranch } };
         if (import.meta.env.VITE_DISABLE_GITHUB_ACTIONS) return { filesModified: Object.keys(files).length, prUrl: undefined };
         return action === "push" ? pushToGitHubFn(params) : createPullRequestFn(params);
     }
