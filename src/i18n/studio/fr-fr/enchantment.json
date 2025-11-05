@@ -212,6 +212,8 @@
     "simulation.enchantability.description": "Automatiquement défini selon l'objet, utilisé dans la simulation.",
     "simulation.vanilla.title": "Enchantements Vanilla",
     "simulation.vanilla.description": "Inclure les enchantements Minecraft par défaut dans la simulation",
+    "simulation.tooltip.title": "Afficher l'infobulle",
+    "simulation.tooltip.description": "Lorsque activé, l'infobulle sera affichée sur l'objet en permanence.",
     "simulation.iterations.label": "Itérations",
     "simulation.iterations.speed": "Vitesse",
     "simulation.iterations.accuracy": "Précision",

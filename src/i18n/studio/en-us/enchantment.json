@@ -214,6 +214,8 @@
     "simulation.enchantability.description": "Automatically set based on the item, used in the simulation.",
     "simulation.vanilla.title": "Vanilla Enchantments",
     "simulation.vanilla.description": "Include default Minecraft enchantments in simulation",
+    "simulation.tooltip.title": "Show Tooltip",
+    "simulation.tooltip.description": "When enabled, the tooltip will be shown on the item permanently.",
     "simulation.iterations.label": "Iterations",
     "simulation.iterations.speed": "Speed",
     "simulation.iterations.accuracy": "Accuracy",

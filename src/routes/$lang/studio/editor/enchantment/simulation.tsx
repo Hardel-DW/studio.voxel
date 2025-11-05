@@ -14,11 +14,9 @@ import { Button } from "@/components/ui/Button";
 import Counter from "@/components/ui/Counter";
 import { Dialog, DialogCloseButton, DialogContent, DialogFooter, DialogHeader, DialogHero } from "@/components/ui/Dialog";
 import { MultiStep, MultiStepControl, MultiStepItem } from "@/components/ui/MultiStep";
-import Range from "@/components/ui/Range";
 import { Switch } from "@/components/ui/Switch";
 import Translate from "@/components/ui/Translate";
 import useRegistry, { type FetchedRegistry } from "@/lib/hook/useRegistry";
-import { useTranslate } from "@/lib/hook/useTranslation";
 import { mergeRegistries } from "@/lib/registry";
 import { clsx, cn } from "@/lib/utils";
 
@@ -32,13 +30,11 @@ function RouteComponent() {
     const [blockCount, setBlockCount] = useState(defaultCount);
     const [itemInput, setItemInput] = useState("minecraft:diamond_sword");
     const [enchantability, setEnchantability] = useState(10);
-    const [iteration, setIteration] = useState(1000);
     const [includeVanilla, setIncludeVanilla] = useState(false);
     const [stats, setStats] = useState<EnchantmentStats[]>([]);
     const [output, setOutput] = useState<EnchantmentOption>();
     const [showTooltip, setShowTooltip] = useState(false);
     const [slotRanges, setSlotRanges] = useState<SlotLevelRange[]>(new EnchantmentSimulator(new Map()).getSlotLevelRanges(defaultCount));
-    const translatedIterationsLabel = useTranslate("enchantment:simulation.iterations.label");
     const { data: vanillaEnchantment } = useRegistry<FetchedRegistry<Enchantment>>("summary", "enchantment");
     const { data: vanillaTagsItem } = useRegistry<FetchedRegistry<TagType>>("summary", "tag/item");
     const { data: vanillaTagsEnchantment } = useRegistry<FetchedRegistry<TagType>>("summary", "tag/enchantment");
@@ -68,7 +64,7 @@ function RouteComponent() {
         const simulator = new EnchantmentSimulator(enchantmentMap as Map<string, Enchantment>, flatten);
         const itemTags = new TagsProcessor(allItemTags).findItemTags(itemInput).map((tag) => tag.toString());
         setOutput(simulator.simulateEnchantmentTable(blockCount, enchantability, itemTags)[index]);
-        setStats(simulator.calculateEnchantmentProbabilities(blockCount, enchantability, itemTags, iteration, index));
+        setStats(simulator.calculateEnchantmentProbabilities(blockCount, enchantability, itemTags, 5000, index));
     };
 
     const getAvailableItems = () => {
@@ -340,23 +336,18 @@ function RouteComponent() {
                                     <Switch id="include-vanilla" isChecked={includeVanilla} setIsChecked={setIncludeVanilla} />
                                 </label>
                             </div>
-                            <div className="flex flex-col w-full">
-                                <Range
-                                    value={iteration}
-                                    min={100}
-                                    max={10000}
-                                    step={100}
-                                    onChangeEnd={(value) => setIteration(value)}
-                                    label={translatedIterationsLabel}
-                                />
-                                <div className="flex justify-between items-center text-xs text-zinc-500 font-light">
-                                    <p>
-                                        <Translate content="enchantment:simulation.iterations.speed" />
-                                    </p>
-                                    <p>
-                                        <Translate content="enchantment:simulation.iterations.accuracy" />
-                                    </p>
+                            <div className="flex items-center justify-between w-full">
+                                <div className="flex flex-col w-3/4">
+                                    <span className="text-lg font-medium text-zinc-200 tracking-wide">
+                                        <Translate content="enchantment:simulation.tooltip.title" />
+                                    </span>
+                                    <span className="text-sm text-zinc-500">
+                                        <Translate content="enchantment:simulation.tooltip.description" />
+                                    </span>
                                 </div>
+                                <label htmlFor="tooltip" className="cursor-pointer flex">
+                                    <Switch id="tooltip" isChecked={showTooltip} setIsChecked={setShowTooltip} />
+                                </label>
                             </div>
                         </div>
                     </SimpleCard>
