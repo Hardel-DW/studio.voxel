@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useLayoutEffect, useRef } from "react";
 
 interface Star {
     x: number;
@@ -18,7 +18,7 @@ export default function ShiningStars() {
     const initialSeedRef = useRef<number>(Date.now());
     const seededRandomRef = useRef<() => number>(() => 0);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         const canvas = canvasRef.current;
         if (!canvas) return;
         const ctx = canvas.getContext("2d");

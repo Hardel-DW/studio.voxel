@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getMinecraftVersion } from "@voxelio/breeze";
+import { getMinecraftVersion, PACK_VERSION } from "@voxelio/breeze";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import { MCMETA_PATH, fetchMcmetaData } from "@/lib/github/mcmeta";
 
@@ -8,7 +8,9 @@ export type Component<T> = Record<string, T>;
 
 function buildVersionTag(packFormat: number | null, type: keyof typeof MCMETA_PATH): string {
     if (!packFormat) return MCMETA_PATH[type].branch;
-    return `${getMinecraftVersion(packFormat)}-${MCMETA_PATH[type].branch}`;
+    const formatKey = packFormat.toString() as keyof typeof PACK_VERSION;
+    const effectiveFormat = formatKey in PACK_VERSION ? packFormat : Math.max(...Object.keys(PACK_VERSION).map(Number));
+    return `${getMinecraftVersion(effectiveFormat)}-${MCMETA_PATH[type].branch}`;
 }
 
 export default function useRegistry<T>(type: keyof typeof MCMETA_PATH, registryId?: string) {
