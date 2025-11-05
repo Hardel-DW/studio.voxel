@@ -3,25 +3,19 @@ import { RegistryElement } from "@/components/tools/debug/RegistryElement";
 import { RightSection } from "@/components/tools/debug/RightSection";
 import { Button } from "@/components/ui/Button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/Dropdown";
-import Translate from "@/components/ui/Translate";
+import { TextInput } from "@/components/ui/TextInput";
 import { ruwsc } from "@/lib/utils/text";
+import { useConfiguratorStore } from "../Store";
 
 export default function DebugPanel() {
-    const {
-        selectedElement,
-        selectedRegistry,
-        selectedNamespace,
-        registries,
-        namespaces,
-        format,
-        setSelectedRegistry,
-        setSelectedNamespace,
-        setSelectedElement,
-        getFilteredElements,
-        setFormat
-    } = useDebugStore();
+    const { selectedElement, selectedRegistry, registries, search, isDebugModalOpen, setSearch, setSelectedRegistry, setSelectedElement, getFilteredElements } = useDebugStore();
+    if (!isDebugModalOpen) return null;
 
     const filteredElements = getFilteredElements();
+    const showStoreData = () => {
+        const store = useConfiguratorStore.getState();
+        console.debug(store);
+    };
 
     return (
         <div className="fixed border-zinc-800 border-t border-l bg-header-translucent backdrop-blur-xl rounded-2xl inset-4 p-8 z-200 flex flex-col starting:translate-y-2 starting:scale-95 duration-150 ease-bounce transition-[translate,scale,display,opacity]">
@@ -31,9 +25,9 @@ export default function DebugPanel() {
                         <div className="flex gap-4 shrink-0">
                             <DropdownMenu>
                                 <DropdownMenuTrigger className="z-10">
-                                    <Button variant="ghost" className="min-w-[150px] justify-between">
-                                        {selectedRegistry || <Translate content="debug.registry" />}
-                                        <span className="ml-2">▼</span>
+                                    <Button variant="ghost" className="min-w-[150px] justify-between hover:bg-white/5 hover:text-zinc-200">
+                                        {ruwsc(selectedRegistry)}
+                                        <img src="/icons/chevron-down.svg" alt="Chevron Down" className="w-4 h-4 invert" />
                                     </Button>
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent className="z-100">
@@ -44,81 +38,14 @@ export default function DebugPanel() {
                                     ))}
                                 </DropdownMenuContent>
                             </DropdownMenu>
-
-                            <DropdownMenu>
-                                <DropdownMenuTrigger className="z-10">
-                                    <Button variant="ghost" className="min-w-[150px] justify-between">
-                                        {selectedNamespace || <Translate content="debug.namespace" />}
-                                        <span className="ml-2">▼</span>
-                                    </Button>
-                                </DropdownMenuTrigger>
-                                <DropdownMenuContent className="z-100">
-                                    {namespaces.map((namespace) => (
-                                        <DropdownMenuItem key={namespace} onClick={() => setSelectedNamespace(namespace)}>
-                                            {ruwsc(namespace)}
-                                        </DropdownMenuItem>
-                                    ))}
-                                </DropdownMenuContent>
-                            </DropdownMenu>
                         </div>
-                        <div className="flex items-center gap-2">
-                            <DropdownMenu>
-                                <DropdownMenuTrigger className="z-10">
-                                    <Button variant="ghost" className="min-w-[200px] justify-between">
-                                        <span className="flex items-center gap-x-2">
-                                            <span>
-                                                <Translate content={`debug.format.${format}`} />
-                                            </span>
-                                            <span className="text-[10px] text-zinc-500 font-light">
-                                                <Translate content={`debug.format.${format}.subtitle`} />
-                                            </span>
-                                        </span>
-                                        <span className="ml-2">▼</span>
-                                    </Button>
-                                </DropdownMenuTrigger>
-                                <DropdownMenuContent className="z-100">
-                                    <DropdownMenuItem onClick={() => setFormat("original")}>
-                                        <div className="flex flex-col">
-                                            <span>
-                                                <Translate content="debug.format.original" />
-                                            </span>
-                                            <span className="text-[10px] text-zinc-500">
-                                                <Translate content="debug.format.original.description" />
-                                            </span>
-                                        </div>
-                                    </DropdownMenuItem>
-                                    <DropdownMenuItem onClick={() => setFormat("voxel")}>
-                                        <div className="flex flex-col">
-                                            <span>
-                                                <Translate content="debug.format.voxel" />
-                                            </span>
-                                            <span className="text-[10px] text-zinc-500">
-                                                <Translate content="debug.format.voxel.description" />
-                                            </span>
-                                        </div>
-                                    </DropdownMenuItem>
-                                    <DropdownMenuItem onClick={() => setFormat("datapack")}>
-                                        <div className="flex flex-col">
-                                            <span>
-                                                <Translate content="debug.format.datapack" />
-                                            </span>
-                                            <span className="text-[10px] text-zinc-500">
-                                                <Translate content="debug.format.datapack.description" />
-                                            </span>
-                                        </div>
-                                    </DropdownMenuItem>
-                                    <DropdownMenuItem onClick={() => setFormat("logs")}>
-                                        <div className="flex flex-col">
-                                            <span>
-                                                <Translate content="debug.format.logs" />
-                                            </span>
-                                            <span className="text-[10px] text-zinc-500">
-                                                <Translate content="debug.format.logs.description" />
-                                            </span>
-                                        </div>
-                                    </DropdownMenuItem>
-                                </DropdownMenuContent>
-                            </DropdownMenu>
+                        <div className="flex items-center gap-x-4">
+                            <img src="/icons/debug.svg" alt="Search" className="w-4 h-4 invert-50 hover:invert-100 transition-colors cursor-pointer" onClick={showStoreData} />
+                            <TextInput
+                                placeholder="Search"
+                                value={search}
+                                onChange={(e) => setSearch(e.target.value)}
+                            />
                         </div>
                     </div>
 

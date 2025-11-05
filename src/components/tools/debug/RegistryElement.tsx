@@ -34,9 +34,9 @@ export function RegistryElement({ uniqueKey, selectedElement, onElementSelect }:
                     "border-blue-950": fileStatus === FILE_STATUS.UPDATED
                 }
             )}>
-            <p className="absolute top-2 right-2 px-2 rounded-2xl bg-zinc-700/50 text-[0.65rem] text-zinc-500">
+            <kbd className="absolute top-2 right-2 px-2 py-0.5 rounded-md bg-zinc-800/80 text-[0.65rem] text-zinc-400 font-mono border border-zinc-700">
                 {identifier.toNamespace()}
-            </p>
+            </kbd>
             <div className={isSelected ? "text-rose-500" : "text-white"}>{identifier.toResourceName()}</div>
             <small className="text-xs text-gray-400">{identifier.toString()}</small>
         </button>
