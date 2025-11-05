@@ -8,7 +8,17 @@ import { ruwsc } from "@/lib/utils/text";
 import { useConfiguratorStore } from "../Store";
 
 export default function DebugPanel() {
-    const { selectedElement, selectedRegistry, registries, search, isDebugModalOpen, setSearch, setSelectedRegistry, setSelectedElement, getFilteredElements } = useDebugStore();
+    const {
+        selectedElement,
+        selectedRegistry,
+        registries,
+        search,
+        isDebugModalOpen,
+        setSearch,
+        setSelectedRegistry,
+        setSelectedElement,
+        getFilteredElements
+    } = useDebugStore();
     if (!isDebugModalOpen) return null;
 
     const filteredElements = getFilteredElements();
@@ -40,12 +50,13 @@ export default function DebugPanel() {
                             </DropdownMenu>
                         </div>
                         <div className="flex items-center gap-x-4">
-                            <img src="/icons/debug.svg" alt="Search" className="w-4 h-4 invert-50 hover:invert-100 transition-colors cursor-pointer" onClick={showStoreData} />
-                            <TextInput
-                                placeholder="Search"
-                                value={search}
-                                onChange={(e) => setSearch(e.target.value)}
+                            <img
+                                src="/icons/debug.svg"
+                                alt="Search"
+                                className="w-4 h-4 invert-50 hover:invert-100 transition-colors cursor-pointer"
+                                onClick={showStoreData}
                             />
+                            <TextInput placeholder="Search" value={search} onChange={(e) => setSearch(e.target.value)} />
                         </div>
                     </div>
 

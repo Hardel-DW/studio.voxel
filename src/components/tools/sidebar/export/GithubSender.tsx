@@ -15,6 +15,7 @@ import {
     DialogTitle,
     DialogTrigger
 } from "@/components/ui/Dialog";
+import { TextInput } from "@/components/ui/TextInput";
 import { TOAST, toast } from "@/components/ui/Toast";
 import Translate from "@/components/ui/Translate";
 import { GitHub } from "@/lib/github/GitHub";
@@ -22,7 +23,6 @@ import { useClientDictionary } from "@/lib/hook/useClientDictionary";
 import { useGitHubAuth } from "@/lib/hook/useGitHubAuth";
 import { cn } from "@/lib/utils";
 import { encodeToBase64 } from "@/lib/utils/encode";
-import { TextInput } from "@/components/ui/TextInput";
 
 type GitHubActionPayload = {
     type: "push" | "pr";
@@ -149,7 +149,9 @@ export default function GithubSender() {
                             {isPending ? (
                                 <Translate content="github:dialog.processing" />
                             ) : (
-                                <Translate content={pendingAction?.type === "pr" ? "github:dialog.pr.confirm" : "github:dialog.push.confirm"} />
+                                <Translate
+                                    content={pendingAction?.type === "pr" ? "github:dialog.pr.confirm" : "github:dialog.push.confirm"}
+                                />
                             )}
                         </DialogCloseButton>
                     </div>

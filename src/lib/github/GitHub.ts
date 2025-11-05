@@ -241,7 +241,14 @@ export class GitHub {
         return { treeData, body, filesCount };
     }
 
-    async send(owner: string, repositoryName: string, branch: string, action?: "pr" | "push", files?: Record<string, string | null>, newBranch?: string) {
+    async send(
+        owner: string,
+        repositoryName: string,
+        branch: string,
+        action?: "pr" | "push",
+        files?: Record<string, string | null>,
+        newBranch?: string
+    ) {
         if (!action) throw new GitHubError("Missing action parameter", 400);
         if (!files) throw new GitHubError("Missing files parameter", 400);
 

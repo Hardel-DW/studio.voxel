@@ -12,20 +12,20 @@ interface CodeSectionProps {
 const tabs = {
     original: {
         title: "Source",
-        description: "Original datapack files",
+        description: "Original datapack files"
     },
     voxel: {
         title: "Modified",
-        description: "Elements in Voxel format",
+        description: "Elements in Voxel format"
     },
     datapack: {
         title: "Output",
-        description: "Files as they will be in the final datapack",
+        description: "Files as they will be in the final datapack"
     },
     logs: {
         title: "Logs",
-        description: "Logs related to modifications",
-    },
+        description: "Logs related to modifications"
+    }
 };
 
 export function CodeSection({ uniqueKey }: CodeSectionProps) {
@@ -45,7 +45,7 @@ export function CodeSection({ uniqueKey }: CodeSectionProps) {
                 return fileData ? JSON.parse(new TextDecoder().decode(fileData)) : undefined;
             }
             case "datapack":
-                return (fileStatus === FILE_STATUS.ADDED || fileStatus === FILE_STATUS.UPDATED)
+                return fileStatus === FILE_STATUS.ADDED || fileStatus === FILE_STATUS.UPDATED
                     ? compiledDatapack?.getIndex(identifier.registry).get(uniqueKey)?.data
                     : undefined;
             case "logs": {
@@ -60,7 +60,11 @@ export function CodeSection({ uniqueKey }: CodeSectionProps) {
     return (
         <div className="h-full flex flex-col">
             {fileStatus !== FILE_STATUS.DELETED && codeToDisplay !== undefined ? (
-                <CodeBlock language="json" title={identifier.toFileName()} tabs={tabs} onTabChange={(tab) => setFormat(tab as keyof typeof tabs)}>
+                <CodeBlock
+                    language="json"
+                    title={identifier.toFileName()}
+                    tabs={tabs}
+                    onTabChange={(tab) => setFormat(tab as keyof typeof tabs)}>
                     {JSON.stringify(codeToDisplay, null, 4)}
                 </CodeBlock>
             ) : (

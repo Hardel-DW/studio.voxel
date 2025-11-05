@@ -1,10 +1,10 @@
 import { useState } from "react";
 import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer";
 import { useDynamicIsland } from "@/components/tools/floatingbar/FloatingBarContext";
+import { Button } from "@/components/ui/Button";
 import { TextInput } from "@/components/ui/TextInput";
 import { useClickOutside } from "@/lib/hook/useClickOutside";
 import { clsx } from "@/lib/utils";
-import { Button } from "@/components/ui/Button";
 
 interface ItemSelectorProps {
     currentItem: string;
@@ -29,7 +29,11 @@ export default function ItemSelector({ currentItem, onItemSelect, items }: ItemS
         <div className="flex flex-col h-full" ref={ref}>
             <TextInput placeholder="Rechercher un item..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
 
-            <div className={clsx("grid grid-cols-items grid-rows-items gap-2 mt-4 flex-1 -mr-1 pr-1", isExpanded ? "overflow-hidden" : "overflow-x-hidden")}>
+            <div
+                className={clsx(
+                    "grid grid-cols-items grid-rows-items gap-2 mt-4 flex-1 -mr-1 pr-1",
+                    isExpanded ? "overflow-hidden" : "overflow-x-hidden"
+                )}>
                 {filteredItems.map((itemId) => (
                     <button
                         key={itemId}

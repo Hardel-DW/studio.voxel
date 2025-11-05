@@ -1,13 +1,20 @@
+import { useState } from "react";
 import ButtonCopy from "@/components/ui/codeblock/ButtonCopy";
 import ButtonDownload from "@/components/ui/codeblock/ButtonDownload";
 import HighlightSection from "@/components/ui/codeblock/HighlightSection";
 import { cn } from "@/lib/utils";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../Dropdown";
-import { useState } from "react";
 
-type Tabs = Record<string, { title: string; description: string; }>;
+type Tabs = Record<string, { title: string; description: string }>;
 
-export default function CodeBlock(props: { children: string; title?: string; className?: string, language: string, tabs?: Tabs, onTabChange?: (tab: string) => void }) {
+export default function CodeBlock(props: {
+    children: string;
+    title?: string;
+    className?: string;
+    language: string;
+    tabs?: Tabs;
+    onTabChange?: (tab: string) => void;
+}) {
     const [selectedTab, setSelectedTab] = useState<string | undefined>(Object.keys(props.tabs || {})[0]);
 
     const handleTabChange = (tab: string) => {
@@ -34,19 +41,19 @@ export default function CodeBlock(props: { children: string; title?: string; cla
                             <DropdownMenuTrigger className="items-center text-xs text-zinc-500 font-mono ml-2 group-hover:text-zinc-200 transition-colors cursor-pointer">
                                 <span className="flex items-center gap-x-1 leading-none">
                                     {selectedTab && props.tabs?.[selectedTab]?.title}
-                                    <img src="/icons/chevron-down.svg" alt="Chevron Down" className="w-2 h-2 invert-50 group-hover:invert-100 transition-colors" />
+                                    <img
+                                        src="/icons/chevron-down.svg"
+                                        alt="Chevron Down"
+                                        className="w-2 h-2 invert-50 group-hover:invert-100 transition-colors"
+                                    />
                                 </span>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent>
                                 {Object.keys(props.tabs).map((tab) => (
                                     <DropdownMenuItem key={tab} onClick={() => handleTabChange(tab)}>
                                         <div className="flex flex-col">
-                                            <span>
-                                                {props.tabs?.[tab]?.title}
-                                            </span>
-                                            <span className="text-[10px] text-zinc-500">
-                                                {props.tabs?.[tab]?.description}
-                                            </span>
+                                            <span>{props.tabs?.[tab]?.title}</span>
+                                            <span className="text-[10px] text-zinc-500">{props.tabs?.[tab]?.description}</span>
                                         </div>
                                     </DropdownMenuItem>
                                 ))}

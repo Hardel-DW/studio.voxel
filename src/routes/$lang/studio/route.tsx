@@ -1,8 +1,8 @@
 import { createFileRoute, Outlet } from "@tanstack/react-router";
 import QueryProvider from "@/components/QueryProvider";
+import DebugPanel from "@/components/tools/debug/DebugPanel";
 import { FloatingBarProvider } from "@/components/tools/floatingbar/FloatingBarContext";
 import ShiningStars from "@/components/ui/ShiningStars";
-import DebugPanel from "@/components/tools/debug/DebugPanel";
 
 export const Route = createFileRoute("/$lang/studio")({
     component: StudioLayout

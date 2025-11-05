@@ -52,10 +52,9 @@ export const useDebugStore = create<DebugState>((set, get) => ({
     getFilteredElements: () => {
         const { fileStatusComparator, selectedRegistry, search } = get();
         if (!fileStatusComparator) return [];
-        return Array.from(fileStatusComparator.getAllFileStatuses().keys())
-            .filter((uniqueKey) => {
-                const identifier = Identifier.fromUniqueKey(uniqueKey);
-                return !selectedRegistry || identifier.registry === selectedRegistry && identifier.toString().includes(search.toLowerCase());
-            });
+        return Array.from(fileStatusComparator.getAllFileStatuses().keys()).filter((uniqueKey) => {
+            const identifier = Identifier.fromUniqueKey(uniqueKey);
+            return !selectedRegistry || (identifier.registry === selectedRegistry && identifier.toString().includes(search.toLowerCase()));
+        });
     }
 }));
