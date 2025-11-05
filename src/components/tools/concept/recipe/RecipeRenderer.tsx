@@ -25,7 +25,7 @@ export default function RecipeRenderer({ element }: { element: RecipeProps }) {
     const Template = templateMap[blockConfig.id as keyof typeof templateMap];
     return Template ? (
         <Suspense fallback={<Loader />}>
-            <Template slots={element.slots} result={element.result} />
+            <Template slots={element.slots} result={{ item: element.result.id, count: element.result.count }} />
         </Suspense>
     ) : null;
 }
