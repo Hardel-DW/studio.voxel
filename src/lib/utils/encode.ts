@@ -1,4 +1,4 @@
-export const encodeToBase64 = (bytes: Uint8Array) => {
+export const encodeToBase64 = (bytes: Uint8Array): string => {
     let binary = "";
     const chunkSize = 0x8000;
     for (let offset = 0; offset < bytes.length; offset += chunkSize) {
@@ -29,3 +29,34 @@ export function calculateContentSize(content: string | null): number {
     }
     return new Blob([content]).size;
 }
+
+
+export const encodeUint8Array = (data: Uint8Array): string => {
+    const binaryString = Array.from(data, (byte) => String.fromCharCode(byte)).join("");
+    return btoa(binaryString);
+};
+
+export const decodeUint8Array = (encoded: string): Uint8Array => {
+    const binaryString = atob(encoded);
+    const bytes = new Uint8Array(binaryString.length);
+    for (let i = 0; i < binaryString.length; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+    }
+    return bytes;
+};
+
+export const encodeFilesRecord = (files: Record<string, Uint8Array>): Record<string, string> => {
+    const encoded: Record<string, string> = {};
+    for (const [key, value] of Object.entries(files)) {
+        encoded[key] = encodeUint8Array(value);
+    }
+    return encoded;
+};
+
+export const decodeFilesRecord = (encoded: Record<string, string>): Record<string, Uint8Array> => {
+    const decoded: Record<string, Uint8Array> = {};
+    for (const [key, value] of Object.entries(encoded)) {
+        decoded[key] = decodeUint8Array(value);
+    }
+    return decoded;
+};

@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/Button";
 import { createDisclosureContext } from "@/components/ui/DisclosureContext";
 import { Trigger } from "@/components/ui/Trigger";
 import { useClickOutside } from "@/lib/hook/useClickOutside";
-import { useLocalStorageImperative } from "@/lib/hook/useLocalStorage";
+import { createLocalStorage } from "@/lib/utils/createLocalStorage";
 import { cn } from "@/lib/utils";
 
 const { Provider, useDisclosure } = createDisclosureContext<HTMLButtonElement>();
@@ -65,7 +65,7 @@ export function DialogContent(props: {
     const { open, setOpen } = useDisclosure();
     const dialogId = useDialogId();
     const reminderKey = props.reminder ? dialogId : `dialog-${dialogId}`;
-    const storage = useLocalStorageImperative(reminderKey, false);
+    const storage = createLocalStorage(reminderKey, false);
     const clickOutsideRef = useClickOutside(() => setOpen(false));
 
     const refCallback = (element: HTMLDivElement | null) => {

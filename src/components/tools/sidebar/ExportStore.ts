@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { updateSessionData } from "@/lib/utils/sessionPersistence";
 
 interface ExportState {
     isGitRepository: boolean;
@@ -19,7 +20,16 @@ export const useExportStore = create<ExportState>((set) => ({
     branch: "",
     token: null,
     isInitializing: null,
-    setGitRepository: (owner, repositoryName, branch, token) => set({ isGitRepository: true, owner, repositoryName, branch, token }),
-    clearGitRepository: () => set({ isGitRepository: false, owner: "", repositoryName: "", branch: "", token: null }),
-    setInitializing: (isInitializing) => set({ isInitializing })
+    setGitRepository: (owner, repositoryName, branch, token) => {
+        set({ isGitRepository: true, owner, repositoryName, branch, token });
+        updateSessionData({ isGitRepository: true, owner, repositoryName, branch });
+    },
+    clearGitRepository: () => {
+        set({ isGitRepository: false, owner: "", repositoryName: "", branch: "", token: null });
+        updateSessionData({ isGitRepository: false, owner: "", repositoryName: "", branch: "" });
+    },
+    setInitializing: (isInitializing) => {
+        set({ isInitializing });
+        updateSessionData({ isInitializing });
+    }
 }));
