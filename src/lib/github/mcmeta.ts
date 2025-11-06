@@ -1,5 +1,3 @@
-import { gunzipSync } from "fflate";
-
 export const BASE_URL = "https://raw.githubusercontent.com/misode/mcmeta";
 export const MCMETA_PATH = {
     component: {
@@ -30,13 +28,14 @@ export async function fetchMcmetaData(type: keyof typeof MCMETA_PATH, version: s
     const suffix = gzip ? "/data.json.gz" : "/data.min.json";
     const url = `${BASE_URL}/${version}${dataPath}${registryPathSegment}${suffix}`;
 
-    const response = await fetch(url, gzip ? { headers: { "Accept-Encoding": "gzip" } } : undefined);
+    const response = await fetch(url);
     if (!response.ok) {
         throw new Error(`Registry not found: ${response.status}`);
     }
 
-    const buffer = await response.arrayBuffer();
-    const data = new Uint8Array(buffer);
-    const text = gzip ? new TextDecoder().decode(gunzipSync(data)) : new TextDecoder().decode(data);
-    return JSON.parse(text);
+    if (gzip && response.body) {
+        return await new Response(response.body.pipeThrough(new DecompressionStream("gzip"))).json();
+    }
+
+    return await response.json();
 }
