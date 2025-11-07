@@ -2,12 +2,15 @@ import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer
 import { useDragAndDrop } from "@/lib/hook/useDragAndDrop";
 import { useInfiniteScroll } from "@/lib/hook/useInfiniteScroll";
 import useRegistry from "@/lib/hook/useRegistry";
+import { useSelectedItemStore } from "@/components/tools/elements/gui/SelectedItemStore";
+import { cn } from "@/lib/utils";
 
 export default function ToolInventory({ search }: { search: string }) {
     const { data: allItems, isLoading, isError } = useRegistry<string[]>("registry", "item");
     const { handleDragStart, handleDragEnd, draggedItem } = useDragAndDrop();
     const filteredItems = allItems?.filter((item) => item !== "air" && item.toLowerCase().includes(search.toLowerCase())) ?? [];
     const { visibleItems, hasMore, ref } = useInfiniteScroll(filteredItems, 60);
+    const selectedItem = useSelectedItemStore((state) => state.item);
 
     if (isLoading) {
         return (
@@ -41,11 +44,19 @@ export default function ToolInventory({ search }: { search: string }) {
                         <button
                             type="button"
                             key={item}
-                            className={`relative overflow-hidden bg-zinc-900/20 border border-zinc-800 hover:border-zinc-600 rounded-lg p-3 cursor-grab active:cursor-grabbing transition-colors hover:bg-zinc-900/40 group ${isDragging ? "opacity-50" : ""}`}
+                            className={cn(
+                                "relative overflow-hidden bg-zinc-900/20 border border-zinc-800 hover:border-zinc-600 rounded-lg p-3 cursor-grab active:cursor-grabbing transition-colors hover:bg-zinc-900/40 group",
+                                isDragging && "opacity-50",
+                                selectedItem === item && "bg-zinc-900/40 border-zinc-600"
+                            )}
                             draggable={true}
-                            onDragStart={(e) => handleDragStart(e, item)}
+                            onClick={() => useSelectedItemStore.setState({ item })}
+                            onDragStart={(e) => {
+                                const preview = e.currentTarget.querySelector(".texture-preview") as HTMLElement;
+                                handleDragStart(e, item, preview);
+                            }}
                             onDragEnd={handleDragEnd}>
-                            <div className="w-8 h-8 flex items-center justify-center">
+                            <div className="texture-preview w-8 h-8 flex items-center justify-center">
                                 <TextureRenderer id={item} />
                             </div>
                         </button>
