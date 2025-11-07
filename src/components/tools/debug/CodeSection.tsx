@@ -2,8 +2,6 @@ import { FILE_STATUS, Identifier } from "@voxelio/breeze";
 import { useDebugStore } from "@/components/tools/debug/DebugStore";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import CodeBlock from "@/components/ui/codeblock/CodeBlock";
-import EmptyCodeBlock from "@/components/ui/codeblock/EmptyCodeBlock";
-import Translate from "@/components/ui/Translate";
 
 interface CodeSectionProps {
     uniqueKey: string | undefined;
@@ -57,22 +55,17 @@ export function CodeSection({ uniqueKey }: CodeSectionProps) {
         }
     })();
 
+    const title = fileStatus !== FILE_STATUS.DELETED && codeToDisplay !== undefined;
     return (
         <div className="h-full flex flex-col">
-            {fileStatus !== FILE_STATUS.DELETED && codeToDisplay !== undefined ? (
-                <CodeBlock
-                    language="json"
-                    title={identifier.toFileName()}
-                    tabs={tabs}
-                    defaultTab={format}
-                    onTabChange={(tab) => setFormat(tab as keyof typeof tabs)}>
-                    {JSON.stringify(codeToDisplay, null, 4)}
-                </CodeBlock>
-            ) : (
-                <EmptyCodeBlock title={identifier.toFileName()}>
-                    <Translate content={fileStatus === FILE_STATUS.DELETED ? "debug.code.deleted" : "debug.code.unavailable"} />
-                </EmptyCodeBlock>
-            )}
+            <CodeBlock
+                language="json"
+                title={title ? identifier.toFileName() : "This element has been deleted"}
+                tabs={tabs}
+                defaultTab={format}
+                onTabChange={(tab) => setFormat(tab as keyof typeof tabs)}>
+                {title ? JSON.stringify(codeToDisplay, null, 4) : "This element is not modified or deleted"}
+            </CodeBlock>
         </div>
     );
 }
