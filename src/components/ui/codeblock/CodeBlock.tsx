@@ -13,9 +13,10 @@ export default function CodeBlock(props: {
     className?: string;
     language: string;
     tabs?: Tabs;
+    defaultTab?: string;
     onTabChange?: (tab: string) => void;
 }) {
-    const [selectedTab, setSelectedTab] = useState<string | undefined>(Object.keys(props.tabs || {})[0]);
+    const [selectedTab, setSelectedTab] = useState<string | undefined>(props.defaultTab || Object.keys(props.tabs || {})[0]);
 
     const handleTabChange = (tab: string) => {
         setSelectedTab(tab);

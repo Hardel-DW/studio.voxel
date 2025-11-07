@@ -64,6 +64,7 @@ export function CodeSection({ uniqueKey }: CodeSectionProps) {
                     language="json"
                     title={identifier.toFileName()}
                     tabs={tabs}
+                    defaultTab={format}
                     onTabChange={(tab) => setFormat(tab as keyof typeof tabs)}>
                     {JSON.stringify(codeToDisplay, null, 4)}
                 </CodeBlock>

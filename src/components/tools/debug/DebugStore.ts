@@ -31,7 +31,7 @@ export const useDebugStore = create<DebugState>((set, get) => ({
     format: "voxel",
     search: "",
     openDebugModal: (compiledDatapack) => {
-        const { files, elements, logger } = useConfiguratorStore.getState();
+        const { files, elements, logger, currentElementId } = useConfiguratorStore.getState();
         const registries = Object.keys(analyserCollection).flatMap((registry) => {
             const analyser = analyserCollection[registry as keyof typeof analyserCollection];
             return analyser.hasTag ? [registry, `tags/${registry}`] : [registry];
@@ -40,7 +40,8 @@ export const useDebugStore = create<DebugState>((set, get) => ({
         if (!logger) throw new Error("Logger is not initialized");
         const fileStatusComparator = new FileStatusComparator(files, elements, logger);
         const allKeys = Array.from(fileStatusComparator.getAllFileStatuses().keys());
-        const selectedElement = allKeys[0];
+
+        const selectedElement = currentElementId && allKeys.includes(currentElementId) ? currentElementId : allKeys[0];
         const selectedRegistry = Identifier.fromUniqueKey(selectedElement).registry;
         set({ isDebugModalOpen: true, compiledDatapack, fileStatusComparator, selectedRegistry, selectedElement, registries });
     },

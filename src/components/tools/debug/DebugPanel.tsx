@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useDebugStore } from "@/components/tools/debug/DebugStore";
 import { RegistryElement } from "@/components/tools/debug/RegistryElement";
 import { RightSection } from "@/components/tools/debug/RightSection";
@@ -17,8 +18,17 @@ export default function DebugPanel() {
         setSearch,
         setSelectedRegistry,
         setSelectedElement,
-        getFilteredElements
+        getFilteredElements,
+        closeDebugModal
     } = useDebugStore();
+
+    useEffect(() => {
+        if (!isDebugModalOpen) return;
+        const handleEscape = (event: KeyboardEvent) => event.key === "Escape" && closeDebugModal();
+        document.addEventListener("keydown", handleEscape);
+        return () => document.removeEventListener("keydown", handleEscape);
+    }, [isDebugModalOpen, closeDebugModal]);
+
     if (!isDebugModalOpen) return null;
 
     const filteredElements = getFilteredElements();
