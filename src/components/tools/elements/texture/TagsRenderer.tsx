@@ -9,11 +9,10 @@ import { clsx } from "@/lib/utils";
 
 interface TagsRendererProps {
     items: string[] | string;
-    className?: string;
     intervalMs?: number;
 }
 
-export default function TagsRenderer({ items, className }: TagsRendererProps) {
+export default function TagsRenderer({ items }: TagsRendererProps) {
     const tick = useTagAnimationStore((state) => state.tick);
     const { data, isLoading, isError } = useRegistry<FetchedRegistry<TagType>>("summary", "tags/item");
     const getRegistry = useConfiguratorStore((state) => state.getRegistry);
@@ -38,7 +37,7 @@ export default function TagsRenderer({ items, className }: TagsRendererProps) {
 
     return (
         <div className={clsx(itemsArray.length > 1 && "animate-item-pulse")}>
-            <TextureRenderer id={itemsArray[currentIndex]} className={className} />
+            <TextureRenderer id={itemsArray[currentIndex]} />
         </div>
     );
 }
