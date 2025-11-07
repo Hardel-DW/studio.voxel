@@ -34,7 +34,7 @@ export default function RecipeSlot({ slotIndex, item, count, isEmpty = false, is
         if (!interactive || !slotIndex) return;
         const selectedItem = useSelectedItemStore.getState().item;
         if (!selectedItem) return;
-        handleChange(RecipeAction.addIngredient(slotIndex, [selectedItem], true));
+        handleChange(RecipeAction.addIngredient(slotIndex, [selectedItem], false));
     };
 
     const clearCurrentSlot = () => {
