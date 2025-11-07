@@ -26,15 +26,15 @@ export function BoxHoveredTrigger(props: {
     const { setOpen, triggerRef } = useBoxHovered();
     const { children } = props;
 
-    const handleMouseEnter = useCallback(() => {
+    const handleMouseEnter = () => {
         children.props.onMouseEnter?.();
         setOpen(true);
-    }, [children.props, setOpen]);
+    };
 
-    const handleMouseLeave = useCallback(() => {
+    const handleMouseLeave = () => {
         children.props.onMouseLeave?.();
         setOpen(false);
-    }, [children.props, setOpen]);
+    };
 
     return (
         <>

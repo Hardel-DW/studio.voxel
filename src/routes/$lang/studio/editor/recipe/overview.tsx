@@ -52,7 +52,7 @@ function Page() {
             </div>
 
             <hr className="my-4" />
-            <div className="grid gap-4" style={{ gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))" }}>
+            <div className="grid gap-4" style={{ gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))" }}>
                 {visibleItems.map((element, index) => (
                     <RecipeOverviewCard
                         key={`${new Identifier(element.identifier).toUniqueKey()}-${index}`}
