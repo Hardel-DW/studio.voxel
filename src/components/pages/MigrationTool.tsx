@@ -2,7 +2,7 @@ import { compileDatapack, Datapack, DatapackDownloader, Logger } from "@voxelio/
 import type React from "react";
 import { useRef, useState } from "react";
 import { LinkButton } from "@/components/ui/Button";
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/Dialog";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, type DialogHandle } from "@/components/ui/Dialog";
 import Dropzone from "@/components/ui/Dropzone";
 import { toast } from "@/components/ui/Toast";
 import { useConfetti } from "@/lib/hook/useConfetti";
@@ -31,9 +31,9 @@ export default function MigrationTool({ children }: { children?: React.ReactNode
         source: { files: null },
         target: { files: null }
     });
-    const dialogRef = useRef<HTMLDivElement>(null);
     const { addConfetti, renderConfetti } = useConfetti();
     const dictionary = useServerDictionary();
+    const dialogRef = useRef<DialogHandle>(null);
 
     const handleMigration = async () => {
         const { source, target } = uploads;
@@ -63,7 +63,7 @@ export default function MigrationTool({ children }: { children?: React.ReactNode
 
             toast(dictionary.migration.success_message, "success");
             await trackEvent("migrated_datapack");
-            dialogRef.current?.showPopover();
+            dialogRef.current?.open();
 
             addConfetti();
             setTimeout(() => setUploads({ source: { files: null }, target: { files: null } }), 3000);

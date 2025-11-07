@@ -1,7 +1,7 @@
 import { createFileRoute, useParams } from "@tanstack/react-router";
 import type { EnchantmentOption, EnchantmentStats, SlotLevelRange, TagType } from "@voxelio/breeze";
 import { type Enchantment, EnchantmentSimulator, Identifier, TagsProcessor, toRoman } from "@voxelio/breeze";
-import { type Component, useState } from "react";
+import { type Component, useRef, useState } from "react";
 import EnchantingTable from "@/components/tools/elements/EnchantingTable";
 import MinecraftSlot from "@/components/tools/elements/gui/MinecraftSlot";
 import MinecraftTooltip from "@/components/tools/elements/gui/MinecraftTooltip";
@@ -12,7 +12,7 @@ import { ToolbarTextLink } from "@/components/tools/floatingbar/ToolbarTextLink"
 import { useConfiguratorStore } from "@/components/tools/Store";
 import { Button } from "@/components/ui/Button";
 import Counter from "@/components/ui/Counter";
-import { Dialog, DialogCloseButton, DialogContent, DialogFooter, DialogHeader, DialogHero } from "@/components/ui/Dialog";
+import { Dialog, DialogCloseButton, DialogContent, DialogFooter, DialogHeader, DialogHero, type DialogHandle } from "@/components/ui/Dialog";
 import { MultiStep, MultiStepControl, MultiStepItem } from "@/components/ui/MultiStep";
 import { Switch } from "@/components/ui/Switch";
 import Translate from "@/components/ui/Translate";
@@ -26,6 +26,7 @@ export const Route = createFileRoute("/$lang/studio/editor/enchantment/simulatio
 
 function RouteComponent() {
     const defaultCount = 15;
+    const dialogRef = useRef<DialogHandle>(null);
     const params = useParams({ from: "/$lang/studio/editor" });
     const [blockCount, setBlockCount] = useState(defaultCount);
     const [itemInput, setItemInput] = useState("minecraft:diamond_sword");
@@ -103,7 +104,7 @@ function RouteComponent() {
     return (
         <div className="h-full">
             <Dialog id="enchantment-simulation-welcome">
-                <DialogContent reminder defaultOpen className="sm:max-w-[800px]">
+                <DialogContent ref={dialogRef} reminder defaultOpen className="sm:max-w-[800px]">
                     <MultiStep>
                         <MultiStepItem>
                             <DialogHeader>
@@ -232,7 +233,7 @@ function RouteComponent() {
                     <ToolbarTextButton
                         icon="/icons/tools/overview/help.svg"
                         tooltip="enchantment:simulation.toolbar.help"
-                        onClick={() => document.getElementById("enchantment-simulation-welcome")?.showPopover()}
+                        onClick={() => dialogRef.current?.open()}
                         labelText="enchantment:simulation.toolbar.help"
                     />
                 </div>

@@ -1,11 +1,15 @@
 import type { ReactElement, ReactNode } from "react";
-import { createContext, useContext } from "react";
+import { createContext, useContext, useImperativeHandle, useRef } from "react";
 import { Button } from "@/components/ui/Button";
 import { createDisclosureContext } from "@/components/ui/DisclosureContext";
 import { Trigger } from "@/components/ui/Trigger";
-import { useClickOutside } from "@/lib/hook/useClickOutside";
 import { createLocalStorage } from "@/lib/utils/createLocalStorage";
 import { cn } from "@/lib/utils";
+
+export interface DialogHandle {
+    open: () => void;
+    close: () => void;
+}
 
 const { Provider, useDisclosure } = createDisclosureContext<HTMLButtonElement>();
 const DialogIdContext = createContext<string | null>(null);
@@ -60,24 +64,24 @@ export function DialogContent(props: {
     className?: string;
     reminder?: boolean;
     defaultOpen?: boolean;
-    ref?: React.Ref<HTMLDivElement>;
+    ref?: React.Ref<DialogHandle>;
 }) {
     const { open, setOpen } = useDisclosure();
     const dialogId = useDialogId();
     const reminderKey = props.reminder ? dialogId : `dialog-${dialogId}`;
     const storage = createLocalStorage(reminderKey, false);
-    const clickOutsideRef = useClickOutside(() => setOpen(false));
+    const dialogRef = useRef<HTMLDialogElement>(null);
+    useImperativeHandle(props.ref, () => ({
+        open: () => setOpen(true),
+        close: () => setOpen(false)
+    }));
 
-    const refCallback = (element: HTMLDivElement | null) => {
-        if (props.ref) {
-            if (typeof props.ref === "function") props.ref(element);
-            else props.ref.current = element;
-        }
-
-        if (clickOutsideRef) clickOutsideRef.current = element;
+    const refCallback = (element: HTMLDialogElement | null) => {
+        dialogRef.current = element;
 
         if (element) {
-            open ? element.showPopover() : element.hidePopover();
+            if (open && !element.open) element.showModal();
+            else if (!open && element.open) element.close();
             if (props.defaultOpen && !open && (!props.reminder || !storage.getValue())) {
                 setOpen(true);
                 props.reminder && storage.setValue(true);
@@ -85,17 +89,30 @@ export function DialogContent(props: {
         }
     };
 
+    const handleCancel = (e: React.SyntheticEvent<HTMLDialogElement>) => {
+        e.preventDefault();
+        setOpen(false);
+    };
+
+    const handleBackdropClick = (e: React.MouseEvent<HTMLDialogElement>) => {
+        const rect = e.currentTarget.getBoundingClientRect();
+        if (e.clientX < rect.left || e.clientX > rect.right || e.clientY < rect.top || e.clientY > rect.bottom) {
+            setOpen(false);
+        }
+    };
+
     return (
-        <div
+        <dialog
             ref={refCallback}
             id={dialogId}
-            popover="manual"
+            onCancel={handleCancel}
+            onClick={handleBackdropClick}
             className={cn(
                 "body-hidden m-auto w-2/5 min-w-[40%] max-w-[40%] rounded-xl bg-zinc-950 shadow-lg shadow-neutral-950 p-2 border border-zinc-800 backdrop:bg-black/50 backdrop:backdrop-blur-sm",
                 props.className
             )}>
             {props.children}
-        </div>
+        </dialog>
     );
 }
 

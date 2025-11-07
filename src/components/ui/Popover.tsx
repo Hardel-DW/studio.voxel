@@ -74,7 +74,7 @@ export function PopoverContent(props: {
                     if (clickOutsideRef) clickOutsideRef.current = node;
                     if (node) open ? node.showPopover() : node.hidePopover();
                 }}
-                popover="manual"
+                popover="auto"
                 style={{
                     position: "absolute",
                     top: `${position.top}px`,

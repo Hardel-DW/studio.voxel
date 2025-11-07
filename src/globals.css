@@ -151,8 +151,8 @@
         transition-timing-function: cubic-bezier(0.735, 0.590, 0.660, 1.225);
         transition: translate 200ms ease-out, scale 200ms ease-out, opacity 200ms ease-out, overlay 200ms ease-out allow-discrete, display 200ms ease-out allow-discrete;
     }
-
-    [popover] {
+    
+    dialog, [popover] {
         translate: 0 1rem;
         scale: 0.95;
         opacity: 0;
@@ -164,14 +164,14 @@
             display 200ms ease-out allow-discrete;
     }
 
-    [popover]:popover-open {
+    dialog[open], [popover]:popover-open {
         translate: 0 0;
         scale: 1;
         opacity: 1;
     }
 
     @starting-style {
-        [popover]:popover-open {
+        dialog[open], [popover]:popover-open {
             translate: 0 1rem;
             scale: 0.95;
             opacity: 0;

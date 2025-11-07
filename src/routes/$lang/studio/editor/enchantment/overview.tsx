@@ -1,14 +1,14 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import type { EnchantmentProps, EnchantmentSortCriteria } from "@voxelio/breeze";
 import { EnchantmentSorter } from "@voxelio/breeze";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import EnchantmentCard from "@/components/tools/concept/enchantment/EnchantmentCard";
 import { Toolbar } from "@/components/tools/floatingbar/Toolbar";
 import { ToolbarButton } from "@/components/tools/floatingbar/ToolbarButton";
 import { ToolbarDropdown } from "@/components/tools/floatingbar/ToolbarDropdown";
 import { ToolbarSearch } from "@/components/tools/floatingbar/ToolbarSearch";
 import { Button } from "@/components/ui/Button";
-import { Dialog, DialogCloseButton, DialogContent, DialogFooter, DialogHeader, DialogHero } from "@/components/ui/Dialog";
+import { Dialog, DialogCloseButton, DialogContent, DialogFooter, DialogHeader, DialogHero, type DialogHandle } from "@/components/ui/Dialog";
 import { MultiStep, MultiStepControl, MultiStepItem } from "@/components/ui/MultiStep";
 import Translate from "@/components/ui/Translate";
 import { useElementsByType } from "@/lib/hook/useElementsByType";
@@ -47,6 +47,7 @@ function Page() {
     const [isDetailed, setIsDetailed] = useState(false);
     const [searchValue, setSearchValue] = useState("");
     const [sortCriteria, setSortCriteria] = useState<EnchantmentSortCriteria | "none">("none");
+    const dialogRef = useRef<DialogHandle>(null);
     const enchantmentElements = useElementsByType("enchantment");
     const baseElements = enchantmentElements.filter(
         (el) => !searchValue || el.identifier.resource.toLowerCase().includes(searchValue.toLowerCase())
@@ -60,7 +61,7 @@ function Page() {
     return (
         <>
             <Dialog id="enchantment-welcome">
-                <DialogContent reminder defaultOpen className="sm:max-w-[800px]">
+                <DialogContent ref={dialogRef} reminder defaultOpen className="sm:max-w-[800px]">
                     <MultiStep>
                         <MultiStepItem>
                             <DialogHeader>
@@ -185,7 +186,7 @@ function Page() {
                     <ToolbarButton
                         icon="/icons/tools/overview/help.svg"
                         tooltip="Réouvrir l'aide"
-                        onClick={() => document.getElementById("enchantment-welcome")?.showPopover()}
+                        onClick={() => dialogRef.current?.open()}
                     />
                 </div>
             </Toolbar>
