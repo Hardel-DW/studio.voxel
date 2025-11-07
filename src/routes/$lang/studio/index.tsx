@@ -6,6 +6,7 @@ import DatapackUploader from "@/components/tools/DatapackUploader";
 import RepositoryOpener from "@/components/tools/RepositoryOpener";
 import VanillaImportButton from "@/components/tools/VanillaImportButton";
 import { useServerDictionary } from "@/lib/hook/useServerDictionary";
+import RestoreLastSession from "@/components/tools/RestoreLastSession";
 
 export const Route = createFileRoute("/$lang/studio/")({
     component: StudioLayout,
@@ -34,6 +35,7 @@ function StudioLayout() {
 
                         <div className="flex items-center flex-col sm:flex-row gap-4 mt-8">
                             <VanillaImportButton />
+                            <RestoreLastSession className="shimmer-zinc-950 text-zinc-200 border border-zinc-800" />
                             <a
                                 href="https://voxel.hardel.io/en-us/update/enchant-configurator"
                                 className="inline-flex h-10 items-center justify-center rounded-md px-4 font-medium text-slate-400 transition-colors hover:text-zinc-300 text-sm">
