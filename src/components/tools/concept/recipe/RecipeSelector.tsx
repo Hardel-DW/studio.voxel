@@ -56,7 +56,9 @@ export default function RecipeSelector(props: {
                             <p className="text-lg font-bold">Select Recipe</p>
                             <span className="text-xs text-zinc-400">{displayName}</span>
                         </div>
-                        <TextureRenderer id={displayBlockId} />
+                        <div className="size-12">
+                            <TextureRenderer id={displayBlockId} />
+                        </div>
                     </div>
                     <hr />
                     <div className="grid grid-cols-3 gap-2">

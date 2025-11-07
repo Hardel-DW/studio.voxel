@@ -13,10 +13,12 @@ interface CraftingTemplateProps {
 export default function CraftingTemplate({ slots, result }: CraftingTemplateProps) {
     return (
         <RecipeTemplateBase result={result}>
-            <div className="grid grid-cols-3 gap-1">
-                {Array.from({ length: 9 }, (_, index) => (
-                    <RecipeSlot key={index.toString()} slotIndex={index.toString()} item={slots[index.toString()]} interactive={true} />
-                ))}
+            <div>
+                <div className="grid grid-cols-3 gap-1 w-full h-full">
+                    {Array.from({ length: 9 }, (_, index) => (
+                        <RecipeSlot key={index.toString()} slotIndex={index.toString()} item={slots[index.toString()]} interactive={true} />
+                    ))}
+                </div>
             </div>
         </RecipeTemplateBase>
     );

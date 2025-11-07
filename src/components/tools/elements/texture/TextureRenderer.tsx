@@ -26,28 +26,30 @@ export default function TextureRenderer(props: { id: string; className?: string 
     });
 
     if (isLoading) {
-        return <div className="h-10 w-10 relative shrink-0 bg-gray-200 animate-pulse rounded-md" />;
+        return <div className="h-full w-full relative shrink-0 bg-gray-200 animate-pulse rounded-md" />;
     }
 
     if (error || !data || !(processId in data)) {
         return (
-            <div className="h-10 w-10 relative shrink-0 border-2 border-red-500 rounded-md flex items-center justify-center">
+            <div className="h-full w-full relative shrink-0 border-2 border-red-500 rounded-md flex items-center justify-center">
                 <img src="/icons/error.svg" alt="Error" width={24} height={24} />
             </div>
         );
     }
 
     const asset = data[processId];
+    const maxSize = Math.max(asset[2], asset[3]);
+    const scale = 40 / maxSize;
     return (
-        <div className={cn("h-10 w-10 relative shrink-0", props.className)}>
+        <div className={cn("size-full relative flex items-center justify-center", props.className)}>
             <div
-                className="atlas absolute inset-0 pixelated"
+                className="atlas absolute pixelated"
                 style={{
                     backgroundPosition: `${-asset[0]}px ${-asset[1]}px`,
                     width: `${asset[2]}px`,
                     height: `${asset[3]}px`,
-                    transform: `scale(${40 / asset[2]})`,
-                    transformOrigin: "top left"
+                    transform: `scale(${scale})`,
+                    transformOrigin: "center"
                 }}
             />
         </div>

@@ -1,13 +1,11 @@
 import { CoreAction, isVoxel, RecipeAction, type RecipeProps } from "@voxelio/breeze";
-import { lazy, Suspense, useState } from "react";
+import { useState } from "react";
 import { getBlockByRecipeType, getFirstTypeFromSelection, RECIPE_BLOCKS } from "@/components/tools/concept/recipe/recipeConfig";
 import ToolCounter from "@/components/tools/elements/ToolCounter";
 import { getCurrentElement, useConfiguratorStore } from "@/components/tools/Store";
-import Loader from "@/components/ui/Loader";
 import { Tabs, TabsTrigger } from "@/components/ui/Tabs";
-import RecipeRenderer from "./RecipeRenderer";
-
-const RecipeSelector = lazy(() => import("./RecipeSelector"));
+import RecipeRenderer from "@/components/tools/concept/recipe/RecipeRenderer";
+import RecipeSelector from "@/components/tools/concept/recipe/RecipeSelector";
 
 const TAB_CONFIGS = {
     "minecraft:crafting_table": [
@@ -41,19 +39,17 @@ export default function RecipeSection() {
                     <p className="text-sm text-zinc-400">Configure your recipe</p>
                 </div>
                 <div className="relative">
-                    <Suspense fallback={<Loader />}>
-                        <RecipeSelector
-                            value={selection}
-                            onChange={handleSelectionChange}
-                            recipeCounts={new Map<string, number>(RECIPE_BLOCKS.map((block) => [block.id, 0]))}
-                            selectMode={true}
-                        />
-                    </Suspense>
+                    <RecipeSelector
+                        value={selection}
+                        onChange={handleSelectionChange}
+                        recipeCounts={new Map<string, number>(RECIPE_BLOCKS.map((block) => [block.id, 0]))}
+                        selectMode={true}
+                    />
                 </div>
             </div>
             <div className="overflow-y-auto flex-1 px-6 pb-6 pt-2">
                 <RecipeRenderer element={currentElement} />
-                <div className=" mt-4 border rounded-lg border-zinc-900 p-4 flex flex-col gap-8 relative">
+                <div className="overflow-hidden mt-4 border rounded-lg border-zinc-900 p-4 flex flex-col gap-8 relative">
                     <div className="flex justify-between items-center">
                         <div>
                             <p className="text-base font-semibold text-zinc-400">Result count</p>

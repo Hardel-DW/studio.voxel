@@ -9,7 +9,7 @@ interface SmeltingTemplateProps {
 export default function SmeltingTemplate({ slots, result }: SmeltingTemplateProps) {
     return (
         <RecipeTemplateBase result={result}>
-            <div className="flex flex-col gap-1">
+            <div className="flex flex-col gap-1 w-full h-full">
                 <RecipeSlot item={slots["0"]} />
                 <div className="size-12 flex items-center justify-center">
                     <img src="/images/features/gui/burn_progres.png" alt="Flame" className="object-contain size-8 pixelated" />

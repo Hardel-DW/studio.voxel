@@ -35,7 +35,7 @@ export default function RecipeSlot({ slotIndex, item, count, isEmpty = false, is
         <div className="relative">
             <button
                 type="button"
-                className="border border-zinc-600 rounded bg-zinc-800/50 size-12 flex items-center justify-center hover:border-zinc-500 transition-colors"
+                className="shrink-0 outline outline-zinc-600 rounded bg-zinc-800/50 size-12 flex items-center justify-center hover:outline-zinc-500 transition-colors"
                 onMouseEnter={() => displayItem && setHoveredItem(displayItem)}
                 onMouseLeave={() => setHoveredItem(undefined)}
                 onDragOver={interactive ? handleDragOver : undefined}
