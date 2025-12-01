@@ -1,6 +1,6 @@
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { createFileRoute, Outlet } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import EditorLoading from "@/components/pages/studio/EditorLoading";
 import ConfigManager from "@/components/tools/ConfigManager";
 import ConfiguratorPanel from "@/components/tools/ConfiguratorPanel";
@@ -85,7 +85,7 @@ function EditorLayout() {
                         </div>
                     </div>
                 </main>
-            </div>
+            </div >
         </>
     );
 }

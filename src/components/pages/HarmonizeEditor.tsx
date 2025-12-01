@@ -4,7 +4,7 @@ import Range from "@/components/ui/Range";
 import useFileManager from "@/lib/hook/useFileManager";
 import useImageProcessor from "@/lib/hook/useImageProcessor";
 import { useServerDictionary } from "@/lib/hook/useServerDictionary";
-import { cleanPalette, loadImage, quantizeImage } from "@/lib/utils/color";
+import { cleanPalette, loadImage, quantizeImage, type RGB } from "@/lib/utils/color";
 import { downloadCanvas } from "@/lib/utils/download";
 
 export default function HarmonizeEditor() {
@@ -113,8 +113,8 @@ export default function HarmonizeEditor() {
         }
     };
 
-    const handleDeleteColor = async (indexToDelete: number) => {
-        const newPalette = imageActions.deleteColor(indexToDelete);
+    const handleDeleteColor = async (colorToDelete: RGB) => {
+        const newPalette = imageActions.deleteColor(colorToDelete);
 
         if (files.current && newPalette.length > 0) {
             imageActions.setHasQuantizedData(false);
@@ -209,7 +209,7 @@ export default function HarmonizeEditor() {
                                             style={{ backgroundColor: `rgb(${color[0]}, ${color[1]}, ${color[2]})` }}>
                                             <button
                                                 type="button"
-                                                onClick={() => handleDeleteColor(index)}
+                                                onClick={() => handleDeleteColor(color)}
                                                 className="absolute inset-0 hidden group-hover:flex items-center justify-center bg-black/50 rounded-xs"
                                                 aria-label={`Remove color ${index + 1}`}>
                                                 <img
@@ -227,7 +227,7 @@ export default function HarmonizeEditor() {
                 </div>
 
                 {showOutput && (
-                    <div className="border-2 border-zinc-700 border-dashed rounded-3xl p-16 aspect-square relative">
+                    <div className="border-2 border-zinc-700 border-dashed rounded-3xl p-4 relative flex justify-center items-center w-full aspect-square bg-zinc-900/50 overflow-hidden">
                         <div className="absolute top-4 right-4 z-10">
                             <button
                                 type="button"
@@ -244,7 +244,7 @@ export default function HarmonizeEditor() {
                                 <img alt="" src="/icons/download.svg" width="24" height="24" className="invert" />
                             </button>
                         </div>
-                        <canvas ref={outputCanvasRef} id="output" className="pixelated size-full" />
+                        <canvas ref={outputCanvasRef} id="output" className="pixelated w-full h-full object-contain" />
                         {imageState.isLoading && (
                             <div className="absolute inset-0 bg-black/50 flex justify-center items-center rounded-[calc(1.5rem-1px)]">
                                 <p className="text-white text-lg font-semibold animate-pulse">Processing...</p>

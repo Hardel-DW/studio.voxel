@@ -16,7 +16,7 @@ export default function useImageProcessor() {
 
     const processImage = async (image: HTMLImageElement, threshold: number) => {
         try {
-            const originalPalette = await extractPalette(image, 128);
+            const originalPalette = await extractPalette(image, 256);
             const cleanedPalette = cleanPalette(originalPalette, threshold);
             const quantized = await quantizeImage(image, cleanedPalette);
 
@@ -55,13 +55,16 @@ export default function useImageProcessor() {
         setImageState((prev) => ({ ...prev, hasQuantizedData: value }));
     };
 
-    const deleteColor = (indexToDelete: number) => {
-        setPalette((prev) => {
-            if (indexToDelete < 0 || indexToDelete >= prev.original.length) return prev;
-            const newOriginal = prev.original.filter((_, i) => i !== indexToDelete);
-            return { ...prev, original: newOriginal };
-        });
-        return palette.original.filter((_, i) => i !== indexToDelete);
+    const deleteColor = (colorToDelete: RGB) => {
+        const newOriginal = palette.original.filter(
+            (c) => !(c[0] === colorToDelete[0] && c[1] === colorToDelete[1] && c[2] === colorToDelete[2])
+        );
+
+        setPalette((prev) => ({
+            ...prev,
+            original: newOriginal
+        }));
+        return newOriginal;
     };
 
     const updateCleanedPalette = (newCleanedPalette: RGB[]) => {

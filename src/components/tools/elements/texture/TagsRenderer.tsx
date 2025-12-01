@@ -4,7 +4,7 @@ import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer
 import { useConfiguratorStore } from "@/components/tools/Store";
 import useRegistry, { type FetchedRegistry } from "@/lib/hook/useRegistry";
 import LoadingSlot from "../gui/LoadingSlot";
-import { useTagAnimationStore } from "@/lib/hook/useTagAnimationStore";
+import { useAnimationStore } from "@/lib/hook/useAnimationStore";
 import { clsx } from "@/lib/utils";
 
 interface TagsRendererProps {
@@ -13,7 +13,7 @@ interface TagsRendererProps {
 }
 
 export default function TagsRenderer({ items }: TagsRendererProps) {
-    const tick = useTagAnimationStore((state) => state.tick);
+    const tick = useAnimationStore((state) => state.tick);
     const { data, isLoading, isError } = useRegistry<FetchedRegistry<TagType>>("summary", "tags/item");
     const getRegistry = useConfiguratorStore((state) => state.getRegistry);
 
