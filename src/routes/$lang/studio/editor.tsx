@@ -1,6 +1,6 @@
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { createFileRoute, Outlet } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import EditorLoading from "@/components/pages/studio/EditorLoading";
 import ConfigManager from "@/components/tools/ConfigManager";
 import ConfiguratorPanel from "@/components/tools/ConfiguratorPanel";
@@ -10,10 +10,12 @@ import StudioSidebar from "@/components/tools/sidebar/Sidebar";
 import ToolInternalization from "@/components/tools/ToolInternalization";
 import { cn } from "@/lib/utils";
 import { getQueryClient } from "@/lib/utils/query";
+import NotFoundStudio from "@/components/tools/NotFoundStudio";
 
 export const Route = createFileRoute("/$lang/studio/editor")({
     component: EditorLayout,
-    pendingComponent: EditorLoading
+    pendingComponent: EditorLoading,
+    notFoundComponent: NotFoundStudio
 });
 
 function EditorLayout() {
@@ -83,7 +85,7 @@ function EditorLayout() {
                         </div>
                     </div>
                 </main>
-            </div>
+            </div >
         </>
     );
 }
