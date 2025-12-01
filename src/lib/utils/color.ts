@@ -163,3 +163,52 @@ export const processImage = async (file: File, numColors: number, canvas: HTMLCa
     if (!ctx) throw new Error("Failed to get 2D context");
     ctx.putImageData(quantizedImageData, 0, 0);
 };
+
+/**
+ * Converts an RGB color to HSL
+ * @param {RGB} color - The RGB color to convert
+ * @returns {[number, number, number]} The HSL representation [h, s, l]
+ */
+export const rgbToHsl = (color: RGB): [number, number, number] => {
+    const r = color[0] / 255;
+    const g = color[1] / 255;
+    const b = color[2] / 255;
+
+    const max = Math.max(r, g, b);
+    const min = Math.min(r, g, b);
+    let h = 0;
+    let s = 0;
+    const l = (max + min) / 2;
+
+    if (max !== min) {
+        const d = max - min;
+        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+        switch (max) {
+            case r:
+                h = (g - b) / d + (g < b ? 6 : 0);
+                break;
+            case g:
+                h = (b - r) / d + 2;
+                break;
+            case b:
+                h = (r - g) / d + 4;
+                break;
+        }
+        h /= 6;
+    }
+
+    return [h * 360, s * 100, l * 100];
+};
+
+/**
+ * Sorts a palette of colors by hue
+ * @param {Palette} palette - The palette to sort
+ * @returns {Palette} The sorted palette
+ */
+export const sortPaletteByHue = (palette: Palette): Palette => {
+    return [...palette].sort((a, b) => {
+        const hslA = rgbToHsl(a);
+        const hslB = rgbToHsl(b);
+        return hslA[0] - hslB[0];
+    });
+};

@@ -55,6 +55,18 @@ export default function useImageProcessor() {
         setImageState((prev) => ({ ...prev, hasQuantizedData: value }));
     };
 
+    const deleteColorFromCleaned = (colorToDelete: RGB) => {
+        const newCleaned = palette.cleaned.filter(
+            (c) => !(c[0] === colorToDelete[0] && c[1] === colorToDelete[1] && c[2] === colorToDelete[2])
+        );
+
+        setPalette((prev) => ({
+            ...prev,
+            cleaned: newCleaned
+        }));
+        return newCleaned;
+    };
+
     const deleteColor = (colorToDelete: RGB) => {
         const newOriginal = palette.original.filter(
             (c) => !(c[0] === colorToDelete[0] && c[1] === colorToDelete[1] && c[2] === colorToDelete[2])
@@ -94,6 +106,7 @@ export default function useImageProcessor() {
             stopLoading,
             setHasQuantizedData,
             deleteColor,
+            deleteColorFromCleaned,
             resetPalette,
             updateCleanedPalette
         }

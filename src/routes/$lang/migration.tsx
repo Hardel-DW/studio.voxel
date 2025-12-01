@@ -59,7 +59,7 @@ function MigrationPage() {
 
             <section className="w-3/4 mx-auto relative grid md:grid-cols-2 items-center gap-x-16 gap-y-24 mt-16 mb-40">
                 <div className="absolute w-full inset-0 shadow-2xl bg-linear-to-r from-[#401727] to-[#311e7696] opacity-20 rounded-full blur-[10rem]" />
-                <DashedPattern className="[mask-image:radial-gradient(white,transparent_60%)]" />
+                <DashedPattern className="mask-[radial-gradient(white,transparent_60%)]" />
 
                 <div className="relative w-full flex justify-center items-center">
                     <img className="absolute opacity-10 select-none" src="/icons/circle.svg" alt="box" />
@@ -94,7 +94,7 @@ function MigrationPage() {
 
             <section className="w-3/4 mx-auto relative flex flex-col-reverse md:grid md:grid-cols-2 items-center gap-x-16 gap-y-24 my-40">
                 <div className="absolute w-full inset-0 shadow-2xl bg-linear-to-r from-[#401727] to-[#311e7696] opacity-20 rounded-full blur-[10rem]" />
-                <DashedPattern className="[mask-image:radial-gradient(white,transparent_60%)]" />
+                <DashedPattern className="mask-[radial-gradient(white,transparent_60%)]" />
 
                 <div className="h-full w-full mx-auto relative">
                     <div className="size-full flex flex-col justify-center">

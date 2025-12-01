@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
 
+export interface FileState {
+    items: File[];
+    currentIndex: number;
+    objectUrls: Record<string, string>;
+    current: File | null;
+}
+
 export default function useFileManager() {
-    const [files, setFiles] = useState<{
-        items: File[];
-        currentIndex: number;
-        objectUrls: Record<string, string>;
-    }>({
+    const [files, setFiles] = useState<Omit<FileState, "current">>({
         items: [],
         currentIndex: -1,
         objectUrls: {}
