@@ -4,6 +4,7 @@ import MigrationTool from "@/components/pages/MigrationTool";
 import PageLoading from "@/components/pages/PageLoading";
 import { LinkButton } from "@/components/ui/Button";
 import { DashedPattern } from "@/components/ui/DashedPattern";
+import LineSetup from "@/components/ui/line/LineSetup";
 import ShiningStars from "@/components/ui/ShiningStars";
 import Star from "@/components/ui/Star";
 import Walkthrough from "@/components/ui/Walkthrough";
@@ -35,15 +36,36 @@ function MigrationPage() {
 
     return (
         <CompoundLayout>
-            <div className="fixed inset-0 -z-10">
+            {/* Modern Background */}
+            <div className="fixed inset-0 -z-50 overflow-hidden pointer-events-none bg-zinc-950">
+                <div className="fixed -z-50 -top-16 -right-16 size-72 rounded-full blur-[10rem] bg-linear-to-br from-red-900/10 to-blue-900/10" />
+                <div className="fixed -z-50 top-0 bottom-0 translate-y-1/2 -left-8 w-64 h-full rounded-full blur-[4rem] bg-linear-to-br from-pink-900/10 to-blue-900/10" />
+                <div className="fixed -z-50 -bottom-24 -right-24 size-60 rounded-full blur-[10rem] bg-linear-to-br from-purple-900/10 to-red-900/10" />
+                <div className="fixed -z-50 -top-16 -left-16 size-100 rounded-full blur-[4rem] bg-linear-to-br from-pink-900/10 to-blue-900/10" />
+                <LineSetup />
+
+                <div className="-z-10 absolute inset-0 scale-110">
+                    <svg
+                        className="size-full stroke-white/10 [stroke-dasharray:5_6] [stroke-dashoffset:10] stroke-2"
+                        style={{ transform: "skewY(-12deg)" }}>
+                        <title>Grid</title>
+                        <defs>
+                            <pattern id="grid" viewBox="0 0 64 64" width="32" height="32" patternUnits="userSpaceOnUse" x="0" y="0">
+                                <path d="M64 0H0V64" fill="none" />
+                            </pattern>
+                        </defs>
+                        <rect width="100%" height="100%" fill="url(#grid)" />
+                    </svg>
+                </div>
                 <ShiningStars />
             </div>
-            <div className="absolute rounded-full w-3/4 h-1/2 bg-linear-to-r from-[#830335] to-[#311e7696] opacity-20 blur-[10rem] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
 
             <section className="pt-36 md:pt-60 relative flex flex-col items-center justify-center pb-72">
                 <div className="w-3/4 mx-auto">
                     <div className="mb-16">
-                        <h1 className="text-3xl md:text-5xl mb-4 font-semibold">{dictionary.migration.home}</h1>
+                        <h1 className="text-3xl md:text-5xl mb-4 font-semibold tracking-tight bg-clip-text text-transparent bg-linear-to-b from-white to-white/60">
+                            {dictionary.migration.home}
+                        </h1>
                         <p className="text-sm text-zinc-400 md:w-3/4 w-full mb-4">{dictionary.migration.home_description}</p>
                         <ul className="list-disc list-inside text-sm text-zinc-400 w-3/4 mb-4">
                             <li>{dictionary.migration.about.list.first}</li>
