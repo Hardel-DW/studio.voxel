@@ -1,4 +1,3 @@
-
 export function createLocalStorage<T>(key: string, initialValue: T) {
     const getValue = (): T => {
         if (typeof window === "undefined") {

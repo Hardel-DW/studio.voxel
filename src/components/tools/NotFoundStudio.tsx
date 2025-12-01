@@ -21,8 +21,10 @@ export default function NotFoundStudio() {
 
             <div className="relative z-10 px-8 py-12 w-full max-w-3xl mx-auto">
                 <h1 className="text-4xl font-bold text-white mb-2">This concept coming soon</h1>
-                <p className="text-lg text-zinc-500 font-light leading-normal">This concept is currently under development. We are working hard to bring you this feature. Please check back later.</p>
+                <p className="text-lg text-zinc-500 font-light leading-normal">
+                    This concept is currently under development. We are working hard to bring you this feature. Please check back later.
+                </p>
             </div>
         </div>
     );
-} 
+}

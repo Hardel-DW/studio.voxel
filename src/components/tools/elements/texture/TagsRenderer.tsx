@@ -2,10 +2,10 @@ import type { DataDrivenRegistryElement, TagType } from "@voxelio/breeze";
 import { Identifier, TagsProcessor } from "@voxelio/breeze";
 import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer";
 import { useConfiguratorStore } from "@/components/tools/Store";
-import useRegistry, { type FetchedRegistry } from "@/lib/hook/useRegistry";
-import LoadingSlot from "../gui/LoadingSlot";
 import { useAnimationStore } from "@/lib/hook/useAnimationStore";
+import useRegistry, { type FetchedRegistry } from "@/lib/hook/useRegistry";
 import { clsx } from "@/lib/utils";
+import LoadingSlot from "../gui/LoadingSlot";
 
 interface TagsRendererProps {
     items: string[] | string;
@@ -21,8 +21,12 @@ export default function TagsRenderer({ items }: TagsRendererProps) {
     const identifier = isTag ? Identifier.of(items, "tags/item") : null;
     const tag = isTag ? getRegistry<TagType>("tags/item") : [];
     const isCorrectTag = isTag && Boolean(data);
-    const tagRegistry: DataDrivenRegistryElement<TagType>[] = isCorrectTag && data ? Object.entries(data).map(([key, value]) => ({ identifier: Identifier.of(key, "tags/item"), data: value })) : [];
-    const processedItems = isCorrectTag && identifier ? new TagsProcessor([...tag, ...tagRegistry]).getRecursiveValues(identifier.get()) : [];
+    const tagRegistry: DataDrivenRegistryElement<TagType>[] =
+        isCorrectTag && data
+            ? Object.entries(data).map(([key, value]) => ({ identifier: Identifier.of(key, "tags/item"), data: value }))
+            : [];
+    const processedItems =
+        isCorrectTag && identifier ? new TagsProcessor([...tag, ...tagRegistry]).getRecursiveValues(identifier.get()) : [];
     const itemsArray = isTag ? processedItems : Array.isArray(items) ? items : [items];
     const currentIndex = itemsArray.length > 1 ? tick % itemsArray.length : 0;
 

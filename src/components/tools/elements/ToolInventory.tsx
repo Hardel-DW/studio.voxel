@@ -1,8 +1,8 @@
+import { useSelectedItemStore } from "@/components/tools/elements/gui/SelectedItemStore";
 import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer";
 import { useDragAndDrop } from "@/lib/hook/useDragAndDrop";
 import { useInfiniteScroll } from "@/lib/hook/useInfiniteScroll";
 import useRegistry from "@/lib/hook/useRegistry";
-import { useSelectedItemStore } from "@/components/tools/elements/gui/SelectedItemStore";
 import { cn } from "@/lib/utils";
 
 export default function ToolInventory({ search }: { search: string }) {

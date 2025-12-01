@@ -30,7 +30,6 @@ export function calculateContentSize(content: string | null): number {
     return new Blob([content]).size;
 }
 
-
 export const encodeUint8Array = (data: Uint8Array): string => {
     const binaryString = Array.from(data, (byte) => String.fromCharCode(byte)).join("");
     return btoa(binaryString);

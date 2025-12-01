@@ -1,5 +1,5 @@
-import LineSetup from "@/components/ui/line/LineSetup";
 import { LinkButton } from "@/components/ui/Button";
+import LineSetup from "@/components/ui/line/LineSetup";
 
 export default function NotFound() {
     return (

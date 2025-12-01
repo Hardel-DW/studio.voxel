@@ -2,7 +2,15 @@ import { compileDatapack, Datapack, DatapackDownloader, Logger } from "@voxelio/
 import type React from "react";
 import { useRef, useState } from "react";
 import { LinkButton } from "@/components/ui/Button";
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, type DialogHandle } from "@/components/ui/Dialog";
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    type DialogHandle,
+    DialogHeader,
+    DialogTitle
+} from "@/components/ui/Dialog";
 import Dropzone from "@/components/ui/Dropzone";
 import { toast } from "@/components/ui/Toast";
 import { useConfetti } from "@/lib/hook/useConfetti";

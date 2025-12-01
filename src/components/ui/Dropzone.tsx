@@ -1,6 +1,5 @@
 import type React from "react";
 import { useId, useState } from "react";
-import { cn } from "@/lib/utils";
 
 export interface Props {
     children: React.ReactNode;
@@ -15,7 +14,7 @@ export interface Props {
 }
 
 const Dropzone: React.FC<Props> = ({ dropzone, onFileUpload, children, id, disabled }) => {
-    const [isDragging, setIsDragging] = useState(false);
+    const [_isDragging, setIsDragging] = useState(false);
     const uniqueId = useId();
     const fileInputId = `dropzone-file-${uniqueId}`;
 
@@ -52,12 +51,7 @@ const Dropzone: React.FC<Props> = ({ dropzone, onFileUpload, children, id, disab
     return (
         <div className="mx-auto">
             <div className="flex items-center justify-center h-full w-full">
-                <label
-                    htmlFor={fileInputId}
-                    id={id}
-                    onDragOver={handleDragOver}
-                    onDragLeave={handleDragLeave}
-                    onDrop={handleDrop}>
+                <label htmlFor={fileInputId} id={id} onDragOver={handleDragOver} onDragLeave={handleDragLeave} onDrop={handleDrop}>
                     {children}
                     <input
                         id={fileInputId}

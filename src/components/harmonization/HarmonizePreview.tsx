@@ -1,4 +1,4 @@
-import { useState, type RefObject } from "react";
+import { type RefObject, useState } from "react";
 
 interface HarmonizePreviewProps {
     canvasRef: RefObject<HTMLCanvasElement | null>;
@@ -17,16 +17,19 @@ export default function HarmonizePreview({ canvasRef, isLoading, hasData, hasIma
     return (
         <div className="relative w-full h-full flex items-center justify-center overflow-hidden rounded-2xl bg-[#151515]">
             {/* Subtle Grid Background inside the Canvas Area */}
-            <div className="absolute inset-0 opacity-10 pointer-events-none"
-                style={{ backgroundImage: 'linear-gradient(#333 1px, transparent 1px), linear-gradient(90deg, #333 1px, transparent 1px)', backgroundSize: '40px 40px' }}>
-            </div>
+            <div
+                className="absolute inset-0 opacity-10 pointer-events-none"
+                style={{
+                    backgroundImage: "linear-gradient(#333 1px, transparent 1px), linear-gradient(90deg, #333 1px, transparent 1px)",
+                    backgroundSize: "40px 40px"
+                }}></div>
 
             <canvas
                 ref={canvasRef}
                 style={{
                     transform: `scale(${isLoading ? 0.95 : zoom})`
                 }}
-                className={`max-w-full max-h-full object-contain pixelated transition-transform duration-300 ease-out ${isLoading ? 'opacity-50 blur-lg grayscale' : 'opacity-100'}`}
+                className={`max-w-full max-h-full object-contain pixelated transition-transform duration-300 ease-out ${isLoading ? "opacity-50 blur-lg grayscale" : "opacity-100"}`}
             />
 
             {/* Loading Overlay */}
@@ -48,7 +51,9 @@ export default function HarmonizePreview({ canvasRef, isLoading, hasData, hasIma
                         </div>
                         <div className="space-y-2">
                             <h3 className="text-xl font-semibold text-zinc-300">No Image Selected</h3>
-                            <p className="text-sm text-zinc-500">Upload an image from your device or select one from the gallery to start harmonizing colors.</p>
+                            <p className="text-sm text-zinc-500">
+                                Upload an image from your device or select one from the gallery to start harmonizing colors.
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -63,9 +68,16 @@ export default function HarmonizePreview({ canvasRef, isLoading, hasData, hasIma
                         onClick={handleZoomOut}
                         className="size-10 flex items-center justify-center rounded-full hover:bg-white/10 text-zinc-400 hover:text-white transition-colors active:scale-95 disabled:opacity-50 cursor-pointer"
                         disabled={zoom <= 0.5}
-                        aria-label="Zoom Out"
-                    >
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        aria-label="Zoom Out">
+                        <svg
+                            width="20"
+                            height="20"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round">
                             <line x1="5" y1="12" x2="19" y2="12" />
                         </svg>
                     </button>
@@ -79,9 +91,16 @@ export default function HarmonizePreview({ canvasRef, isLoading, hasData, hasIma
                         onClick={handleZoomIn}
                         className="size-10 flex items-center justify-center rounded-full hover:bg-white/10 text-zinc-400 hover:text-white transition-colors active:scale-95 disabled:opacity-50 cursor-pointer"
                         disabled={zoom >= 5}
-                        aria-label="Zoom In"
-                    >
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        aria-label="Zoom In">
+                        <svg
+                            width="20"
+                            height="20"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round">
                             <line x1="12" y1="5" x2="12" y2="19" />
                             <line x1="5" y1="12" x2="19" y2="12" />
                         </svg>
@@ -89,15 +108,17 @@ export default function HarmonizePreview({ canvasRef, isLoading, hasData, hasIma
                 </div>
 
                 {/* Download Button - Bottom Right */}
-                <div className={`absolute bottom-8 right-8 z-30 transition-all duration-300 ${hasData && !isLoading ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0 pointer-events-none'}`}>
+                <div
+                    className={`absolute bottom-8 right-8 z-30 transition-all duration-300 ${hasData && !isLoading ? "translate-y-0 opacity-100" : "translate-y-20 opacity-0 pointer-events-none"}`}>
                     <button
                         type="button"
                         onClick={onDownload}
                         className="group flex items-center justify-center gap-0 px-4 py-4 hover:px-6 bg-white text-black rounded-full shadow-xl shadow-black/50 hover:scale-105 active:scale-95 transition-all duration-300 hover:bg-zinc-100 font-bold min-w-[56px] h-[56px] cursor-pointer"
-                        title="Download Result"
-                    >
+                        title="Download Result">
                         <img src="/icons/download.svg" className="size-5 shrink-0" alt="" />
-                        <span className="max-w-0 overflow-hidden group-hover:max-w-[100px] group-hover:ml-3 transition-all duration-500 whitespace-nowrap text-sm">Download</span>
+                        <span className="max-w-0 overflow-hidden group-hover:max-w-[100px] group-hover:ml-3 transition-all duration-500 whitespace-nowrap text-sm">
+                            Download
+                        </span>
                     </button>
                 </div>
             </div>

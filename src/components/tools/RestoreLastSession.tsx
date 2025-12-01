@@ -1,11 +1,11 @@
+import { useNavigate, useParams } from "@tanstack/react-router";
+import { Datapack } from "@voxelio/breeze";
+import { useConfiguratorStore } from "@/components/tools/Store";
+import { useExportStore } from "@/components/tools/sidebar/ExportStore";
 import { Button } from "@/components/ui/Button";
 import Translate from "@/components/ui/Translate";
 import { hasSession, restoreSession } from "@/lib/utils/sessionPersistence";
-import { toast, TOAST } from "../ui/Toast";
-import { Datapack } from "@voxelio/breeze";
-import { useExportStore } from "@/components/tools/sidebar/ExportStore";
-import { useConfiguratorStore } from "@/components/tools/Store";
-import { useNavigate, useParams } from "@tanstack/react-router";
+import { TOAST, toast } from "../ui/Toast";
 
 export default function RestoreLastSession({ className }: { className?: string }) {
     const { lang } = useParams({ from: "/$lang" });
@@ -23,7 +23,9 @@ export default function RestoreLastSession({ className }: { className?: string }
             const datapack = new Datapack(session.files);
             const result = datapack.parse();
             const restoredElements = session.logger.applyChangeSets(session.logger.getChangeSets(), result.elements);
-            useConfiguratorStore.getState().setup({ ...result, logger: session.logger, elements: restoredElements }, session.isModded, session.name);
+            useConfiguratorStore
+                .getState()
+                .setup({ ...result, logger: session.logger, elements: restoredElements }, session.isModded, session.name);
             useExportStore.getState().setGitRepository(session.owner, session.repositoryName, session.branch, "");
             useExportStore.getState().setInitializing(session.isInitializing);
 

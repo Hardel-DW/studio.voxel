@@ -3,10 +3,10 @@ import useFileManager from "@/lib/hook/useFileManager";
 import useImageProcessor from "@/lib/hook/useImageProcessor";
 import { cleanPalette, loadImage, quantizeImage, type RGB } from "@/lib/utils/color";
 import { downloadCanvas } from "@/lib/utils/download";
-import HarmonizeUpload from "../harmonization/HarmonizeUpload";
-import HarmonizeGallery from "../harmonization/HarmonizeGallery";
 import HarmonizeControls from "../harmonization/HarmonizeControls";
+import HarmonizeGallery from "../harmonization/HarmonizeGallery";
 import HarmonizePreview from "../harmonization/HarmonizePreview";
+import HarmonizeUpload from "../harmonization/HarmonizeUpload";
 
 export default function HarmonizeEditor() {
     const [similarityThreshold, setSimilarityThreshold] = useState<number>(30);
@@ -163,14 +163,8 @@ export default function HarmonizeEditor() {
                         </div>
                     ) : (
                         <div className="space-y-6">
-                            <HarmonizeGallery
-                                files={files}
-                                onSelect={handleSelectImage}
-                                onDelete={handleDeleteImage}
-                            />
-                            {files.items.length < 5 && (
-                                <HarmonizeUpload onFileUpload={handleFileUpload} isCompact />
-                            )}
+                            <HarmonizeGallery files={files} onSelect={handleSelectImage} onDelete={handleDeleteImage} />
+                            {files.items.length < 5 && <HarmonizeUpload onFileUpload={handleFileUpload} isCompact />}
                         </div>
                     )}
                 </div>
@@ -190,7 +184,8 @@ export default function HarmonizeEditor() {
 
             {/* Right Panel: Preview Canvas */}
             <div className="flex-1 w-full min-h-[500px] lg:h-[calc(100vh-200px)] sticky top-24 bg-zinc-900/40 backdrop-blur-md rounded-3xl border border-white/5 p-2 shadow-2xl overflow-hidden group">
-                <div className="absolute inset-0 bg-[url('/icons/transparent-grid.svg')] opacity-20" /> {/* Optional checkerboard pattern */}
+                <div className="absolute inset-0 bg-[url('/icons/transparent-grid.svg')] opacity-20" />{" "}
+                {/* Optional checkerboard pattern */}
                 <HarmonizePreview
                     canvasRef={outputCanvasRef}
                     isLoading={imageState.isLoading}

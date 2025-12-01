@@ -12,7 +12,15 @@ import { ToolbarTextLink } from "@/components/tools/floatingbar/ToolbarTextLink"
 import { useConfiguratorStore } from "@/components/tools/Store";
 import { Button } from "@/components/ui/Button";
 import Counter from "@/components/ui/Counter";
-import { Dialog, DialogCloseButton, DialogContent, DialogFooter, DialogHeader, DialogHero, type DialogHandle } from "@/components/ui/Dialog";
+import {
+    Dialog,
+    DialogCloseButton,
+    DialogContent,
+    DialogFooter,
+    type DialogHandle,
+    DialogHeader,
+    DialogHero
+} from "@/components/ui/Dialog";
 import { MultiStep, MultiStepControl, MultiStepItem } from "@/components/ui/MultiStep";
 import { Switch } from "@/components/ui/Switch";
 import Translate from "@/components/ui/Translate";

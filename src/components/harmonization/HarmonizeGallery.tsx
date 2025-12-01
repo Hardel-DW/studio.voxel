@@ -23,18 +23,17 @@ export default function HarmonizeGallery({ files, onSelect, onDelete }: Harmoniz
                             key={key}
                             className={`
                                 relative group shrink-0 rounded-xl overflow-hidden transition-all duration-300 border
-                                ${isActive
-                                    ? "border-white/80 shadow-[0_0_15px_-3px_rgba(255,255,255,0.3)] scale-100 ring-1 ring-white/50"
-                                    : "border-white/10 hover:border-white/30 opacity-60 hover:opacity-100 scale-95 hover:scale-100"
+                                ${
+                                    isActive
+                                        ? "border-white/80 shadow-[0_0_15px_-3px_rgba(255,255,255,0.3)] scale-100 ring-1 ring-white/50"
+                                        : "border-white/10 hover:border-white/30 opacity-60 hover:opacity-100 scale-95 hover:scale-100"
                                 }
-                            `}
-                        >
+                            `}>
                             <button
                                 type="button"
                                 onClick={() => onSelect(index)}
                                 className="block w-full h-full cursor-pointer focus:outline-none"
-                                aria-label={`Select image ${index + 1}`}
-                            >
+                                aria-label={`Select image ${index + 1}`}>
                                 <img
                                     src={imageUrl}
                                     alt={`Thumbnail ${index + 1}`}
@@ -48,8 +47,7 @@ export default function HarmonizeGallery({ files, onSelect, onDelete }: Harmoniz
                                     onDelete(index);
                                 }}
                                 className="absolute top-1 right-1 p-1.5 rounded-lg bg-black/60 hover:bg-red-500/90 text-white opacity-0 group-hover:opacity-100 transition-all backdrop-blur-sm cursor-pointer shadow-sm"
-                                aria-label={`Remove image ${index + 1}`}
-                            >
+                                aria-label={`Remove image ${index + 1}`}>
                                 <img src="/icons/close.svg" className="size-3 invert" alt="" />
                             </button>
                         </div>

@@ -37,7 +37,6 @@ function HarmonizationPage() {
                 </div>
             </div>
 
-
             <section className="pt-32 md:pt-48 pb-24 min-h-screen relative flex flex-col items-center">
                 <div className="w-full px-6 md:px-12 lg:px-16 max-w-[1920px] mx-auto flex flex-col gap-12">
                     {/* Header Section */}
@@ -45,9 +44,7 @@ function HarmonizationPage() {
                         <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight text-white">
                             {dictionary.harmonization.title}
                         </h1>
-                        <p className="text-lg text-zinc-400 leading-relaxed">
-                            {dictionary.harmonization.description}
-                        </p>
+                        <p className="text-lg text-zinc-400 leading-relaxed">{dictionary.harmonization.description}</p>
                     </div>
 
                     <HarmonizeEditor />

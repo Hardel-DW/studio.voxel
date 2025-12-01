@@ -4,9 +4,9 @@ import Navbar from "@/components/layout/Navbar";
 import StudioLoading from "@/components/pages/studio/StudioLoading";
 import DatapackUploader from "@/components/tools/DatapackUploader";
 import RepositoryOpener from "@/components/tools/RepositoryOpener";
+import RestoreLastSession from "@/components/tools/RestoreLastSession";
 import VanillaImportButton from "@/components/tools/VanillaImportButton";
 import { useServerDictionary } from "@/lib/hook/useServerDictionary";
-import RestoreLastSession from "@/components/tools/RestoreLastSession";
 
 export const Route = createFileRoute("/$lang/studio/")({
     component: StudioLayout,
