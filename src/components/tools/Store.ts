@@ -1,16 +1,9 @@
-import type {
-    Action,
-    ActionValue,
-    Analysers,
-    DataDrivenElement,
-    DataDrivenRegistryElement,
-    Datapack,
-    GetAnalyserVoxel,
-    ParseDatapackResult
-} from "@voxelio/breeze";
+import type { Action, ActionValue, Analysers, DataDrivenElement, DataDrivenRegistryElement, Datapack, GetAnalyserVoxel, ParseDatapackResult } from "@voxelio/breeze";
 import { compileDatapack, isVoxelElement, Logger, sortElementsByRegistry, updateData } from "@voxelio/breeze";
 import { create } from "zustand";
 import type { CONCEPT_KEY } from "./elements";
+import { saveSession, updateSessionData, updateSessionLogger } from "@/lib/utils/sessionPersistence";
+import { useExportStore } from "./sidebar/ExportStore";
 
 export type RegistrySearchOptions = {
     path?: string;
@@ -53,7 +46,10 @@ const createConfiguratorStore = <T extends keyof Analysers>() =>
         registryCache: new Map(),
         addFile: (key, value) => set({ custom: get().custom.set(key, value) }),
         getSortedIdentifiers: (registry) => get().sortedIdentifiers.get(registry) ?? [],
-        setName: (name) => set({ name }),
+        setName: (name) => {
+            set({ name });
+            updateSessionData({ name });
+        },
         setCurrentElementId: (currentElementId) => set({ currentElementId }),
         handleChange: (action, identifier) => {
             const state = get();
@@ -69,9 +65,13 @@ const createConfiguratorStore = <T extends keyof Analysers>() =>
 
             if (!updatedElement || !isVoxelElement(updatedElement)) return;
             set((state) => ({ elements: state.elements.set(elementId, updatedElement) }));
+            updateSessionLogger(state.logger);
         },
-        setup: (updates, isModded, name) =>
-            set({ ...updates, sortedIdentifiers: sortElementsByRegistry(updates.elements), isModded, name }),
+        setup: (updates, isModded, name) => {
+            set({ ...updates, sortedIdentifiers: sortElementsByRegistry(updates.elements), isModded, name });
+            const exportState = useExportStore.getState();
+            saveSession(get(), exportState);
+        },
         compile: () =>
             compileDatapack({
                 elements: Array.from(get().elements.values()),

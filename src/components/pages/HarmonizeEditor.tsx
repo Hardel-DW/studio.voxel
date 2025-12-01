@@ -227,7 +227,7 @@ export default function HarmonizeEditor() {
                 </div>
 
                 {showOutput && (
-                    <div className="border-2 border-zinc-700 border-dashed rounded-3xl p-16 aspect-square relative">
+                    <div className="border-2 border-zinc-700 border-dashed rounded-3xl p-16 relative inline-block max-w-full">
                         <div className="absolute top-4 right-4 z-10">
                             <button
                                 type="button"
@@ -244,7 +244,7 @@ export default function HarmonizeEditor() {
                                 <img alt="" src="/icons/download.svg" width="24" height="24" className="invert" />
                             </button>
                         </div>
-                        <canvas ref={outputCanvasRef} id="output" className="pixelated size-full" />
+                        <canvas ref={outputCanvasRef} id="output" className="pixelated block" />
                         {imageState.isLoading && (
                             <div className="absolute inset-0 bg-black/50 flex justify-center items-center rounded-[calc(1.5rem-1px)]">
                                 <p className="text-white text-lg font-semibold animate-pulse">Processing...</p>
