@@ -74,7 +74,7 @@ export default function EnchantOverviewCard(props: { element: EnchantmentProps; 
                         <div className="w-6 h-6 bg-stone-900 rounded-full animate-pulse shrink-0" />
                     ) : (
                         <div className="shrink-0">
-                            <TextureRenderer id={items[0]} />
+                            <TextureRenderer id={items[0]} className="size-10" />
                         </div>
                     )}
                     <div className="flex flex-col gap-1 justify-center">

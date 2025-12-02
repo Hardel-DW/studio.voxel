@@ -3,7 +3,8 @@
 
 @custom-variant hidden (&[hidden]);
 @custom-variant popover {
-    &:popover-open {
+    &:popover-open,
+    &[open] {
         @slot;
     }
 }

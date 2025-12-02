@@ -63,7 +63,7 @@ export default function LootOverviewCard(props: { element: LootTableProps; eleme
                 <div className="relative w-full flex justify-between items-center cursor-pointer">
                     <div className="flex -space-x-3">
                         {items.slice(0, 5).map((item, index) => (
-                            <TextureRenderer key={`${item.name}-${index}`} id={item.name} className="scale-75 drop-shadow-sm" />
+                            <TextureRenderer key={`${item.name}-${index}`} id={item.name} className="size-10 scale-75 drop-shadow-sm" />
                         ))}
                     </div>
                     <Popover className="loot-popover" onOpenChange={handlePopoverChange}>

@@ -41,7 +41,7 @@ export default function TextureRenderer(props: { id: string; className?: string 
     const maxSize = Math.max(asset[2], asset[3]);
     const scale = 40 / maxSize;
     return (
-        <div className={cn("size-full relative flex items-center justify-center", props.className)}>
+        <div className={cn("size-full relative flex items-center justify-center shrink-0", props.className)}>
             <div
                 className="atlas absolute pixelated"
                 style={{

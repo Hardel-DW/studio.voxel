@@ -23,7 +23,8 @@ export function useGitHubAuth() {
     const authQuery = useQuery({
         queryKey: AUTH_QUERY_KEY,
         queryFn: getSession,
-        staleTime: 1000 * 60 * 5,
+        staleTime: Infinity,
+        gcTime: 1000 * 60 * 60 * 24,
         retry: false
     });
 
