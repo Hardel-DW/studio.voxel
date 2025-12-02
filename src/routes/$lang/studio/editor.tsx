@@ -6,7 +6,6 @@ import ConfigManager from "@/components/tools/ConfigManager";
 import ConfiguratorPanel from "@/components/tools/ConfiguratorPanel";
 import ItemTooltip from "@/components/tools/elements/gui/ItemTooltip";
 import NotFoundStudio from "@/components/tools/NotFoundStudio";
-import PageTitle from "@/components/tools/PageTitle";
 import StudioSidebar from "@/components/tools/sidebar/Sidebar";
 import ToolInternalization from "@/components/tools/ToolInternalization";
 import { cn } from "@/lib/utils";
@@ -20,72 +19,73 @@ export const Route = createFileRoute("/$lang/studio/editor")({
 
 function EditorLayout() {
     const queryClient = getQueryClient();
-    const [toggleSidebar, setToggleSidebar] = useState(true);
+    const [isPinned, setIsPinned] = useState(true);
+    const [isHovered, setIsHovered] = useState(false);
 
     return (
-        <>
-            {/* Sidebar */}
+        <div className={cn(
+            "flex h-dvh w-full p-4 overflow-hidden relative transition-all duration-300 ease-in-out box-border",
+            isPinned ? "gap-4" : "gap-0"
+        )} data-pinned={isPinned}>
+            {!isPinned && (
+                <button type="button" tabIndex={0} onMouseEnter={() => setIsHovered(true)} onFocus={() => setIsHovered(true)} className="fixed inset-y-0 left-0 w-4 z-50 outline-none cursor-default" aria-label="Show sidebar" />
+            )}
+
             <div
-                id="collapse-menu"
                 className={cn(
-                    "@container shrink-0 overflow-hidden transition-all duration-500 ease-in-out w-0 max-md:absolute max-md:inset-0 max-md:bg-linear-to-br max-md:from-guides-gradient-from max-md:to-guides-gradient-to max-md:z-50 max-md:py-4 max-md:rounded-r-2xl max-md:border max-md:border-zinc-700",
-                    toggleSidebar ? "w-62.5 xl:w-80" : "w-0"
+                    "shrink-0 transition-[width] duration-300 ease-in-out z-40",
+                    isPinned ? "w-80" : "w-0"
                 )}>
-                <div className="w-62.5 xl:w-80 flex flex-col h-full relative z-100 px-4 md:pl-0 @sm:pl-0">
-                    <div className="flex w-full items-center justify-between">
-                        <a
-                            href="/"
-                            className="text-lg flex items-center transition focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-500 focus-visible:outline-hidden focus-visible:shadow-outline-indigo rounded-full px-2 -ml-2">
-                            <img src="/icons/logo.svg" alt="Voxel" className="w-6 h-6 brightness-90 mx-2" />
+                <aside
+                    onMouseEnter={() => !isPinned && setIsHovered(true)}
+                    onMouseLeave={() => setIsHovered(false)}
+                    className={cn(
+                        "flex flex-col w-80 transition-all duration-300 ease-in-out overflow-hidden rounded-2xl border-0 border-zinc-800",
+                        isPinned && "h-full relative translate-x-0 border-none",
+                        !isPinned && "fixed left-4 top-4 bottom-4 shadow-2xl z-50 bg-zinc-950 border",
+                        !isPinned && isHovered && "translate-x-0",
+                        !isPinned && !isHovered && "-translate-x-[120%]"
+                    )}>
+                    <div className="flex items-center justify-between px-6 pt-5 shrink-0">
+                        <a href="/" className="flex items-center gap-2 text-lg transition-colors hover:opacity-80">
+                            <img src="/icons/logo.svg" alt="Voxel" className="size-6 brightness-90" />
                             <span className="font-bold text-primary">VOXEL</span>
                         </a>
                         <button
                             type="button"
-                            onClick={() => setToggleSidebar(!toggleSidebar)}
-                            className="w-6 h-6 cursor-pointer block md:hidden">
-                            <img src="/icons/menu.svg" alt="menu" className="invert-75" />
+                            onClick={() => setIsPinned(!isPinned)}
+                            className="size-8 flex items-center justify-center rounded-md hover:bg-zinc-900 transition-colors cursor-pointer text-zinc-400 hover:text-zinc-100">
+                            <img src="/icons/menu.svg" alt="Collapse" className="size-5 invert-75" />
                         </button>
                     </div>
-                    <StudioSidebar />
-                </div>
-            </div>
 
-            {/* Content */}
-            <div
-                id="content-container"
-                className="overflow-x-hidden stack flex bg-content md:border md:border-zinc-900 md:rounded-2xl w-full relative z-20">
-                <main className="contents">
-                    <div className="size-full pt-4 pb-8">
-                        <div className="flex absolute inset-0 p-4 justify-between items-center select-none h-fit gap-x-4">
-                            <button type="button" onClick={() => setToggleSidebar(!toggleSidebar)} className="w-6 h-6 cursor-pointer">
-                                <img src="/icons/menu.svg" alt="Menu" className="invert-75" />
-                            </button>
-                            <PageTitle />
-                            <div className="flex items-center gap-x-6">
-                                <ToolInternalization />
-                                <a href="/" className="select-none size-fit">
-                                    <img src="/icons/logo.svg" alt="Voxel" className="w-6 h-6 opacity-75" />
-                                </a>
-                            </div>
-                        </div>
-                        <div id="content" className="px-8 lg:px-0 pt-12 h-full transition w-full md:w-[95%] mx-auto justify-self-center">
-                            <div className="flex flex-col h-full">
-                                <div className="absolute w-full -z-10 inset-0 shadow-2xl bg-linear-to-r from-[#401727] to-[#311e7696] opacity-20 rounded-full blur-[10rem]" />
-                                <HydrationBoundary state={dehydrate(queryClient)}>
-                                    <ConfigManager>
-                                        <ConfiguratorPanel />
-                                        <div className="contents">
-                                            <Outlet />
-                                        </div>
-
-                                        <ItemTooltip />
-                                    </ConfigManager>
-                                </HydrationBoundary>
-                            </div>
-                        </div>
+                    <div className="flex-1 min-h-0 px-2">
+                        <StudioSidebar />
                     </div>
-                </main>
+                </aside>
             </div>
-        </>
+
+            <main className="flex-1 relative flex flex-col min-w-0 bg-content overflow-hidden rounded-2xl border border-zinc-900">
+                <div className="absolute top-6 right-8 z-50 flex items-center gap-6 pointer-events-auto">
+                    <ToolInternalization />
+                    <a href="/" className="select-none size-fit opacity-50 hover:opacity-100 transition-opacity">
+                        <img src="/icons/logo.svg" alt="Voxel" className="size-6" />
+                    </a>
+                </div>
+
+                <div className="size-full relative">
+                    <div className="absolute w-full -z-10 inset-0 shadow-2xl bg-linear-to-r from-[#401727] to-[#311e7696] opacity-20 rounded-full blur-[10rem]" />
+                    <HydrationBoundary state={dehydrate(queryClient)}>
+                        <ConfigManager>
+                            <ConfiguratorPanel />
+                            <div className="size-full">
+                                <Outlet />
+                            </div>
+                            <ItemTooltip />
+                        </ConfigManager>
+                    </HydrationBoundary>
+                </div>
+            </main>
+        </div>
     );
 }

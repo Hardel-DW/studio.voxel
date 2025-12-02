@@ -44,7 +44,7 @@ export default function StudioSidebar() {
                     </Tabs>
                 </div>
             </div>
-            <div ref={buttonsContainerRef} className="absolute bottom-0 left-0 right-0 max-md:px-4 pr-4 flex items-center gap-2">
+            <div ref={buttonsContainerRef} className="absolute bottom-0 left-0 right-0 px-4 py-4 flex items-center gap-2">
                 <ExportButton containerRef={buttonsContainerRef} />
                 <Button
                     type="button"
