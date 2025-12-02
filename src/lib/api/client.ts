@@ -8,8 +8,8 @@ export async function apiCall<T>(endpoint: string, options?: RequestInit): Promi
     });
 
     if (!response.ok) {
-        const data = (await response.json().catch(() => ({}))) as { error?: string };
-        throw new Error(data.error || response.statusText);
+        const errorMessage = await response.json().then((data) => data?.error || response.statusText).catch(() => response.statusText);
+        throw new Error(errorMessage);
     }
 
     return response.status === 204 ? (undefined as T) : response.json();

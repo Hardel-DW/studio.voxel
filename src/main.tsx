@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import { routeTree } from "./routeTree.gen";
 import "./globals.css";
 
-const router = createRouter({ routeTree });
+const router = createRouter({ routeTree, defaultPreload: "intent", defaultPreloadStaleTime: 10000, defaultPreloadDelay: 0 });
 
 declare module "@tanstack/react-router" {
     interface Register {

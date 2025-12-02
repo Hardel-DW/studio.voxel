@@ -1,5 +1,6 @@
 import type React from "react";
 import { cn } from "@/lib/utils";
+import { Link } from "@tanstack/react-router";
 
 interface Props extends Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, "title"> {
     title: string;
@@ -10,7 +11,8 @@ interface Props extends Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, "tit
 export default function ListItem({ title, image, className, children, ...props }: Props) {
     return (
         <li>
-            <a
+            <Link
+                to={props.href}
                 className={cn(
                     "block select-none space-y-1 rounded-3xl px-6 py-4 leading-none no-underline outline-none transition-colors hover:bg-zinc-900 hover:text-white focus:bg-zinc-900 focus:text-white",
                     className
@@ -23,7 +25,7 @@ export default function ListItem({ title, image, className, children, ...props }
                     </div>
                     {image && <img src={image} alt={`${title} logo`} className="w-12 h-auto" />}
                 </div>
-            </a>
+            </Link>
         </li>
     );
 }

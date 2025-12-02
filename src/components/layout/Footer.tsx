@@ -1,33 +1,32 @@
-import { useParams } from "@tanstack/react-router";
+import { Link, useParams } from "@tanstack/react-router";
 import { useServerDictionary } from "@/lib/hook/useServerDictionary";
 
 export default function Footer() {
     const { lang } = useParams({ from: "/$lang" });
     const dictionary = useServerDictionary();
-    const basePath = "https://voxel.hardel.io";
     const footerContent = [
         {
             name: dictionary.footer.content.navigation.self,
             links: [
                 {
                     title: dictionary.footer.content.navigation.home,
-                    path: `${basePath}/${lang}`
+                    to: "/$lang"
                 },
                 {
                     title: dictionary.footer.content.navigation.datapacks,
-                    path: `${basePath}/${lang}/datapacks/neoenchant`
+                    to: "/$lang/datapacks/neoenchant"
                 },
                 {
                     title: dictionary.footer.content.navigation.guides,
-                    path: `${basePath}/${lang}/soon`
+                    to: "/$lang/soon"
                 },
                 {
                     title: dictionary.footer.content.navigation.enchantment_tool,
-                    path: `/${lang}/studio`
+                    to: "/$lang/studio"
                 },
                 {
                     title: dictionary.footer.content.navigation.contact,
-                    path: `${basePath}/${lang}/contact`
+                    to: "/$lang/contact"
                 }
             ]
         },
@@ -36,15 +35,15 @@ export default function Footer() {
             links: [
                 {
                     title: dictionary.footer.content.other.news,
-                    path: `${basePath}/${lang}/blog`
+                    to: "/$lang/blog"
                 },
                 {
                     title: dictionary.footer.content.other.faq,
-                    path: `${basePath}/${lang}`
+                    to: "/$lang"
                 },
                 {
                     title: dictionary.footer.content.other.about,
-                    path: `${basePath}/${lang}/soon`
+                    to: "/$lang/soon"
                 }
             ]
         },
@@ -53,19 +52,19 @@ export default function Footer() {
             links: [
                 {
                     title: dictionary.footer.content.support.help_center,
-                    path: `${basePath}/${lang}/contact`
+                    to: "/$lang/contact"
                 },
                 {
                     title: dictionary.footer.content.support.term_of_service,
-                    path: `${basePath}/terms`
+                    to: "/terms"
                 },
                 {
                     title: dictionary.footer.content.support.legal,
-                    path: `${basePath}/legal`
+                    to: "/legal"
                 },
                 {
                     title: dictionary.footer.content.support.privacy,
-                    path: `${basePath}/privacy`
+                    to: "/privacy"
                 }
             ]
         }
@@ -93,13 +92,13 @@ export default function Footer() {
         <footer className="w-full px-4 pb-4 bg-linear-to-b from-transparent to-black/70">
             <div className="max-w-(--breakpoint-2xl) mx-auto border-t border-zinc-900 pt-8 grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 px-6 md:px-20">
                 <div className="sm:col-span-2 md:col-span-3 lg:col-span-2">
-                    <a href={`/${lang}`} className="text-lg flex items-center">
+                    <Link to="/$lang" params={{ lang }} className="text-lg flex items-center">
                         <img loading="lazy" src="/icons/logo.svg" alt="Voxel Logo" className="w-6 h-6 brightness-90 mr-2" />
                         <div className="flex">
                             <span className="text-lg text-white font-bold">VOXEL</span>
                             <span className="text-s text-zinc-300 font-semibold">Labs</span>
                         </div>
-                    </a>
+                    </Link>
                     <p className="mt-4 text-sm text-zinc-400 tracking-tight font-light max-w-xs">{dictionary.footer.description}</p>
                     <div className="flex gap-3 mt-4 items-center">
                         {socialLinks.map((item) => (
@@ -122,9 +121,9 @@ export default function Footer() {
                         <h3 className="font-medium text-sm text-zinc-200">{section.name}</h3>
                         <div className="flex flex-col mt-2">
                             {section.links.map((link) => (
-                                <a key={link.title} href={link.path || "#"} className="py-1 text-sm text-zinc-400 hover:text-zinc-200">
+                                <Link key={link.title} to={link.to} params={{ lang }} className="py-1 text-sm text-zinc-400 hover:text-zinc-200">
                                     {link.title}
-                                </a>
+                                </Link>
                             ))}
                         </div>
                     </div>

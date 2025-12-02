@@ -116,7 +116,6 @@ export default function HarmonizeEditor() {
         const newPalette = imageActions.deleteColorFromCleaned(colorToDelete);
 
         if (files.current && newPalette.length > 0) {
-            // Do NOT clear hasQuantizedData here to avoid flashing "Empty State"
             imageActions.startLoading();
 
             try {

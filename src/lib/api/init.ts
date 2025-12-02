@@ -7,13 +7,7 @@ export type InitRepositoryResponse = {
     defaultBranch: string;
 };
 
-export const initializeRepository = (
-    name: string,
-    description: string,
-    isPrivate: boolean,
-    autoInit: boolean,
-    files?: Record<string, string | null>
-) =>
+export const initializeRepository = (name: string, description: string, isPrivate: boolean, autoInit: boolean, files?: Record<string, string | null>) =>
     apiCall<InitRepositoryResponse>("/init", {
         method: "POST",
         body: JSON.stringify({ name, description, isPrivate, autoInit, files })
