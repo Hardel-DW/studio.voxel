@@ -64,8 +64,7 @@ export default function Dropzone({ dropzone, onFileUpload, children, id, disable
                 isDragging && "bg-zinc-800/30 border-zinc-500",
                 disabled && "opacity-50 cursor-not-allowed",
                 className
-            )}
-        >
+            )}>
             {children}
             <input
                 id={fileInputId}

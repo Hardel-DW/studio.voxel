@@ -121,7 +121,11 @@ export default function Footer() {
                         <h3 className="font-medium text-sm text-zinc-200">{section.name}</h3>
                         <div className="flex flex-col mt-2">
                             {section.links.map((link) => (
-                                <Link key={link.title} to={link.to} params={{ lang }} className="py-1 text-sm text-zinc-400 hover:text-zinc-200">
+                                <Link
+                                    key={link.title}
+                                    to={link.to}
+                                    params={{ lang }}
+                                    className="py-1 text-sm text-zinc-400 hover:text-zinc-200">
                                     {link.title}
                                 </Link>
                             ))}

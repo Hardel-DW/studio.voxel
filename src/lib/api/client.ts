@@ -8,7 +8,10 @@ export async function apiCall<T>(endpoint: string, options?: RequestInit): Promi
     });
 
     if (!response.ok) {
-        const errorMessage = await response.json().then((data) => data?.error || response.statusText).catch(() => response.statusText);
+        const errorMessage = await response
+            .json()
+            .then((data) => data?.error || response.statusText)
+            .catch(() => response.statusText);
         throw new Error(errorMessage);
     }
 

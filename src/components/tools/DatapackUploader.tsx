@@ -33,8 +33,7 @@ export default function DatapackUploader() {
         <Dropzone
             onFileUpload={handleFileUpload}
             dropzone={{ accept: ".zip,.jar", maxSize: 100000000, multiple: false }}
-            className="gap-6 p-12 min-h-[300px]"
-        >
+            className="gap-6 p-12 min-h-[300px]">
             <div className="size-20 rounded-2xl bg-zinc-800/50 flex items-center justify-center border border-zinc-700 shadow-inner group-hover:scale-110 transition-transform duration-300">
                 <img
                     src="/icons/upload.svg"
@@ -46,9 +45,7 @@ export default function DatapackUploader() {
                 <p className="text-zinc-200 font-medium text-xl group-hover:text-white transition-colors">
                     {dictionary.studio.upload.start}
                 </p>
-                <p className="text-sm text-zinc-500 group-hover:text-zinc-400 transition-colors">
-                    {dictionary.studio.upload.description}
-                </p>
+                <p className="text-sm text-zinc-500 group-hover:text-zinc-400 transition-colors">{dictionary.studio.upload.description}</p>
             </div>
         </Dropzone>
     );

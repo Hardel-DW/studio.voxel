@@ -15,8 +15,7 @@ export default function HarmonizeUpload({ onFileUpload, isCompact = false }: Har
             <Dropzone
                 dropzone={{ accept: "image/*", maxSize: 5242880, multiple: true }}
                 onFileUpload={onFileUpload}
-                className={cn("gap-4", isCompact ? "py-8" : "flex-1")}
-            >
+                className={cn("gap-4", isCompact ? "py-8" : "flex-1")}>
                 <div className="size-16 rounded-2xl bg-zinc-800/50 flex items-center justify-center border border-zinc-700 shadow-inner group-hover:scale-110 transition-transform duration-300">
                     <img
                         src="/icons/upload.svg"
