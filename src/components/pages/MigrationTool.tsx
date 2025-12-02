@@ -173,7 +173,7 @@ export default function MigrationTool({ children }: { children?: React.ReactNode
                                 maxSize: 100000000,
                                 multiple: false
                             }}>
-                            <div>
+                            <div className="text-center">
                                 <p className="mb-2 text-sm text-gray-500">{dictionary.migration.source}</p>
                                 <p className="text-xs text-gray-500">{dictionary.migration.drop.source}</p>
                             </div>
@@ -209,7 +209,7 @@ export default function MigrationTool({ children }: { children?: React.ReactNode
                                 maxSize: 100000000,
                                 multiple: false
                             }}>
-                            <div>
+                            <div className="text-center">
                                 <p className="mb-2 text-sm text-gray-500">{dictionary.migration.target}</p>
                                 <p className="text-xs text-gray-500">{dictionary.migration.drop.target}</p>
                             </div>
