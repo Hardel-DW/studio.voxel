@@ -1,12 +1,12 @@
 import { useRef, useState } from "react";
+import HarmonizeControls from "@/components/pages/harmonization/HarmonizeControls";
+import HarmonizeGallery from "@/components/pages/harmonization/HarmonizeGallery";
+import HarmonizePreview from "@/components/pages/harmonization/HarmonizePreview";
+import HarmonizeUpload from "@/components/pages/harmonization/HarmonizeUpload";
 import useFileManager from "@/lib/hook/useFileManager";
 import useImageProcessor from "@/lib/hook/useImageProcessor";
 import { cleanPalette, loadImage, quantizeImage, type RGB } from "@/lib/utils/color";
 import { downloadCanvas } from "@/lib/utils/download";
-import HarmonizeControls from "../harmonization/HarmonizeControls";
-import HarmonizeGallery from "../harmonization/HarmonizeGallery";
-import HarmonizePreview from "../harmonization/HarmonizePreview";
-import HarmonizeUpload from "../harmonization/HarmonizeUpload";
 
 export default function HarmonizeEditor() {
     const [similarityThreshold, setSimilarityThreshold] = useState<number>(30);
@@ -93,7 +93,6 @@ export default function HarmonizeEditor() {
         setSimilarityThreshold(newThreshold);
 
         if (palette.original.length > 0 && files.current) {
-            // Do NOT clear hasQuantizedData here to avoid flashing "Empty State"
             imageActions.startLoading();
 
             try {

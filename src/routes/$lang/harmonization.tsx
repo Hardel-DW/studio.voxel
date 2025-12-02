@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import CompoundLayout from "@/components/layout/CompoundLayout";
-import HarmonizeEditor from "@/components/pages/HarmonizeEditor";
+import HarmonizeEditor from "@/components/pages/harmonization/HarmonizeEditor";
 import PageLoading from "@/components/pages/PageLoading";
 import LineSetup from "@/components/ui/line/LineSetup";
 import { useServerDictionary } from "@/lib/hook/useServerDictionary";

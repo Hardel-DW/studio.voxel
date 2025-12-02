@@ -35,7 +35,7 @@
 }
 
 @utility slider-* {
-    box-shadow: calc(100rem * -1 - .6rem) 0 0 100rem --value(--color-*);
+    box-shadow: 0 0 0 3px --value(--color-*) inset, calc(100rem * -1 - .6rem) 0 0 100rem --value(--color-*);
 }
 
 @utility linear-* {

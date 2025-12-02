@@ -1,10 +1,9 @@
 import { extractZip } from "@voxelio/zip";
-import { initiateGitHubAuthFn } from "@/lib/server/auth";
-import { downloadRepoFn } from "@/lib/server/download";
-import { initializeRepositoryFn } from "@/lib/server/init";
-import { createPullRequestFn, pushToGitHubFn } from "@/lib/server/push";
-import { getAllReposFn } from "@/lib/server/repos";
-import { getSessionFn, logoutFn } from "@/lib/server/session";
+import { initiateGitHubAuth } from "@/lib/api/auth";
+import { downloadRepo } from "@/lib/api/download";
+import { initializeRepository as initRepo } from "@/lib/api/init";
+import { createPullRequest, pushToGitHub } from "@/lib/api/push";
+import { getAllRepos } from "@/lib/api/repos";
 import { calculateContentSize, formatBytes } from "../utils/encode";
 import { GitHubError, GithubRepoValidationError } from "./GitHubError";
 
@@ -197,16 +196,7 @@ export class GitHub {
     }
 
     async getAllRepos(): Promise<ReposResponse> {
-        return getAllReposFn();
-    }
-
-    async getSession() {
-        const data = await getSessionFn();
-        return data.authenticated ? { token: data.token, user: data.user } : null;
-    }
-
-    async logout() {
-        return logoutFn();
+        return getAllRepos();
     }
 
     private async createTreeFromFiles(owner: string, repo: string, files: Record<string, string | null>) {
@@ -252,13 +242,14 @@ export class GitHub {
         if (!action) throw new GitHubError("Missing action parameter", 400);
         if (!files) throw new GitHubError("Missing files parameter", 400);
 
-        const params = { data: { owner, repo: repositoryName, branch, files, newBranch } };
         if (import.meta.env.VITE_DISABLE_GITHUB_ACTIONS) return { filesModified: Object.keys(files).length, prUrl: undefined };
-        return action === "push" ? pushToGitHubFn(params) : createPullRequestFn(params);
+        return action === "push"
+            ? pushToGitHub(owner, repositoryName, branch, files)
+            : createPullRequest(owner, repositoryName, branch, files, newBranch);
     }
 
     async clone(owner: string, repositoryName: string, branch: string, removeRootFolder: boolean) {
-        const response = await downloadRepoFn({ data: { owner, repo: repositoryName, branch } });
+        const response = await downloadRepo(owner, repositoryName, branch);
         const zipData = new Uint8Array(await response.arrayBuffer());
         const extractedFiles = await extractZip(zipData);
 
@@ -276,7 +267,7 @@ export class GitHub {
     }
 
     async initiateAuth(returnTo?: string, redirect = true) {
-        const result = await initiateGitHubAuthFn({ data: { returnTo, isNewTab: !redirect } });
+        const result = await initiateGitHubAuth(returnTo, !redirect);
 
         if (redirect) {
             window.location.href = result.authUrl;
@@ -294,7 +285,7 @@ export class GitHub {
         autoInit: boolean,
         files: Record<string, string | null>
     ) {
-        return initializeRepositoryFn({ data: { name, description, isPrivate, autoInit, files } });
+        return initRepo(name, description, isPrivate, autoInit, files);
     }
 
     static validateRepository(files: Record<string, string | null>): void {

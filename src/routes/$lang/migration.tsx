@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import CompoundLayout from "@/components/layout/CompoundLayout";
-import MigrationTool from "@/components/pages/MigrationTool";
+import MigrationEditor from "@/components/pages/migration/MigrationEditor";
 import PageLoading from "@/components/pages/PageLoading";
 import { LinkButton } from "@/components/ui/Button";
 import { DashedPattern } from "@/components/ui/DashedPattern";
@@ -75,7 +75,7 @@ function MigrationPage() {
                         <Star />
                     </div>
 
-                    <MigrationTool />
+                    <MigrationEditor />
                 </div>
             </section>
 

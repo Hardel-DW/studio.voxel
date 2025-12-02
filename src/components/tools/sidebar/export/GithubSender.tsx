@@ -41,7 +41,8 @@ export default function GithubSender() {
         mutationFn: () => new GitHub({ token }).send(owner, repositoryName, branch, pendingAction?.type, pendingAction?.files, newBranch),
         onSuccess: (data) => {
             const message = pendingAction?.type === "pr" ? t["pr.success"] : t["push.success"];
-            const detail = pendingAction?.type === "pr" ? data.prUrl : t["files.modified"].replace("%s", String(data.filesModified));
+            const detail =
+                pendingAction?.type === "pr" ? data.prUrl || undefined : t["files.modified"].replace("%s", String(data.filesModified));
             toast(message, TOAST.SUCCESS, detail);
             setPendingAction(null);
             setNewBranch(undefined);

@@ -1,6 +1,6 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import SimpleLayout from "@/components/layout/SimpleLayout";
-import { handleGitHubCallbackFn } from "@/lib/server/callback";
+import { handleGitHubCallback } from "@/lib/api/callback";
 
 export const Route = createFileRoute("/auth")({
     beforeLoad: async ({ location }) => {
@@ -12,7 +12,7 @@ export const Route = createFileRoute("/auth")({
             throw new Error("Missing code or state parameter");
         }
 
-        const result = await handleGitHubCallbackFn({ data: { code, state } });
+        const result = await handleGitHubCallback(code, state);
 
         if (!result.isNewTab) {
             throw redirect({ to: result.returnTo });

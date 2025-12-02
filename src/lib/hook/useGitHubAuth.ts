@@ -1,5 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { GitHub } from "@/lib/github/GitHub";
+import { initiateGitHubAuth } from "@/lib/api/auth";
+import { getAllRepos } from "@/lib/api/repos";
+import { getSession, logout } from "@/lib/api/session";
 
 const AUTH_QUERY_KEY = ["github", "auth"] as const;
 const REPOS_QUERY_KEY = ["github", "repos"] as const;
@@ -20,7 +22,7 @@ export function useGitHubAuth() {
 
     const authQuery = useQuery({
         queryKey: AUTH_QUERY_KEY,
-        queryFn: () => new GitHub().getSession(),
+        queryFn: getSession,
         staleTime: 0,
         retry: false
     });
@@ -40,22 +42,27 @@ export function useGitHubAuth() {
                 };
             }
 
-            await new GitHub().initiateAuth(returnTo, redirect);
+            const result = await initiateGitHubAuth(returnTo, !redirect);
+            if (redirect) {
+                window.location.href = result.authUrl;
+            }
         }
     });
 
     const logoutMutation = useMutation({
-        mutationFn: async () => await new GitHub().logout(),
+        mutationFn: logout,
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: AUTH_QUERY_KEY });
             queryClient.invalidateQueries({ queryKey: REPOS_QUERY_KEY });
         }
     });
 
+    const isAuthenticated = authQuery.data?.authenticated;
+
     return {
-        isAuthenticated: !!authQuery.data,
-        user: authQuery.data?.user ?? null,
-        token: authQuery.data?.token ?? null,
+        isAuthenticated: !!isAuthenticated,
+        user: isAuthenticated && authQuery.data?.authenticated ? authQuery.data.user : null,
+        token: isAuthenticated && authQuery.data?.authenticated ? authQuery.data.token : null,
         login: loginMutation.mutate,
         isLoggingIn: loginMutation.isPending,
         logout: logoutMutation.mutate
@@ -67,7 +74,7 @@ export function useGitHubRepos(token: string | null) {
 
     return useQuery({
         queryKey: [REPOS_QUERY_KEY, token],
-        queryFn: () => new GitHub({ token }).getAllRepos(),
+        queryFn: getAllRepos,
         enabled: !!token,
         staleTime: 1000 * 60 * 5,
         gcTime: 1000 * 60 * 30,

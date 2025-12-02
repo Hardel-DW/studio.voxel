@@ -1,7 +1,7 @@
 import { DEFAULT_MOD_METADATA, extractMetadata } from "@voxelio/converter";
 import { useState } from "react";
-import ConverterForm from "../converter/ConverterForm";
-import ConverterUpload from "../converter/ConverterUpload";
+import ConverterForm from "@/components/pages/converter/ConverterForm";
+import ConverterUpload from "@/components/pages/converter/ConverterUpload";
 
 export default function ConverterEditor() {
     const [file, setFile] = useState<File | null>(null);
