@@ -52,7 +52,7 @@
   
 @font-face {
     font-family: 'Minecraft';
-    src: url('/fonts/minecraft.ttf') format('truetype');
+    src: url('/fonts/minecraftten.woff2') format('woff2');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
@@ -60,9 +60,7 @@
 
 @font-face {
     font-family: 'MinecraftSeven';
-    src: url('/fonts/seven/minecraft.woff') format('woff'),
-         url('/fonts/seven/minecraft.ttf') format('truetype'),
-         url('/fonts/seven/minecraft.eot') format('embedded-opentype');
+    src: url('/fonts/seven.woff2') format('woff2');
     font-weight: normal;
     font-style: normal;
     font-display: swap;

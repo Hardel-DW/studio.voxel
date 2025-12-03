@@ -1,5 +1,7 @@
 import { compileDatapack, Datapack, DatapackDownloader, Logger } from "@voxelio/breeze";
 import { useRef, useState } from "react";
+import MigrationStatus from "@/components/pages/migration/MigrationStatus";
+import MigrationUpload from "@/components/pages/migration/MigrationUpload";
 import { LinkButton } from "@/components/ui/Button";
 import {
     Dialog,
@@ -15,8 +17,6 @@ import { useConfetti } from "@/lib/hook/useConfetti";
 import { useServerDictionary } from "@/lib/hook/useServerDictionary";
 import { downloadFile } from "@/lib/utils/download";
 import { trackEvent } from "@/lib/utils/telemetry";
-import MigrationStatus from "../migration/MigrationStatus";
-import MigrationUpload from "../migration/MigrationUpload";
 
 interface DatapackInfo {
     version: number;

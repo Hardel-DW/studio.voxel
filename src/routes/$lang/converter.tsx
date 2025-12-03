@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import CompoundLayout from "@/components/layout/CompoundLayout";
-import ConverterEditor from "@/components/pages/ConverterEditor";
+import ConverterEditor from "@/components/pages/converter/ConverterEditor";
 import PageLoading from "@/components/pages/PageLoading";
 import { LinkButton } from "@/components/ui/Button";
 import { DashedPattern } from "@/components/ui/DashedPattern";

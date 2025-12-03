@@ -147,13 +147,10 @@ export default function HarmonizeEditor() {
 
     return (
         <div className="relative w-full h-full flex flex-col lg:flex-row gap-8 items-start">
-            {/* Glass Backdrop for the whole editor area */}
             <div className="absolute -inset-4 bg-zinc-900/20 backdrop-blur-sm rounded-[3rem] -z-10 border border-white/5" />
 
-            {/* Left Panel: Controls & Gallery */}
             <div className="w-full lg:w-[400px] xl:w-[450px] shrink-0 flex flex-col gap-6 relative z-10">
                 <div className="bg-zinc-900/60 backdrop-blur-md rounded-3xl border border-white/5 p-6 shadow-xl flex flex-col gap-6 min-h-[300px]">
-                    {/* Upload & Gallery */}
                     {!hasImage ? (
                         <div className="flex-1 flex flex-col">
                             <p className="text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-3 px-1">Uploaded Images</p>
@@ -180,10 +177,7 @@ export default function HarmonizeEditor() {
                 )}
             </div>
 
-            {/* Right Panel: Preview Canvas */}
             <div className="flex-1 w-full min-h-[500px] lg:h-[calc(100vh-200px)] sticky top-24 bg-zinc-900/40 backdrop-blur-md rounded-3xl border border-white/5 p-2 shadow-2xl overflow-hidden group">
-                <div className="absolute inset-0 bg-[url('/icons/transparent-grid.svg')] opacity-20" />{" "}
-                {/* Optional checkerboard pattern */}
                 <HarmonizePreview
                     canvasRef={outputCanvasRef}
                     isLoading={imageState.isLoading}
