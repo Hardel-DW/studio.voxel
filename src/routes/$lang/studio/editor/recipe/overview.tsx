@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Identifier } from "@voxelio/breeze";
 import { useState } from "react";
+import SimpleStudio from "@/components/layout/SimpleStudio";
 import RecipeOverviewCard from "@/components/tools/concept/recipe/RecipeOverviewCard";
 import RecipeSelector from "@/components/tools/concept/recipe/RecipeSelector";
 import { canBlockHandleRecipeType, getTypesFromSelection, RECIPE_BLOCKS } from "@/components/tools/concept/recipe/recipeConfig";
@@ -33,7 +34,7 @@ function Page() {
     }
 
     return (
-        <div>
+        <SimpleStudio>
             <Toolbar>
                 <ToolbarSearch placeholder="recipe:overview.search.placeholder" value={searchValue} onChange={setSearchValue} />
             </Toolbar>
@@ -82,6 +83,6 @@ function Page() {
                     </div>
                 </div>
             )}
-        </div>
+        </SimpleStudio>
     );
 }

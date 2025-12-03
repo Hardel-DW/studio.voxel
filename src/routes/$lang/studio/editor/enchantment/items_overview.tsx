@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import type { SingleOrMultiple } from "@voxelio/breeze";
 import { separateItemsAndTags } from "@voxelio/breeze";
 import { useState } from "react";
+import SimpleStudio from "@/components/layout/SimpleStudio";
 import EnchantmentCard from "@/components/tools/concept/enchantment/EnchantmentCard";
 import { Toolbar } from "@/components/tools/floatingbar/Toolbar";
 import { ToolbarSearch } from "@/components/tools/floatingbar/ToolbarSearch";
@@ -39,7 +40,7 @@ function Page() {
     });
 
     return (
-        <div>
+        <SimpleStudio>
             <Toolbar>
                 <div className="flex items-center gap-1">
                     <ToolbarTextLink
@@ -126,6 +127,6 @@ function Page() {
                     </p>
                 </div>
             )}
-        </div>
+        </SimpleStudio>
     );
 }

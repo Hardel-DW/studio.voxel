@@ -2,6 +2,7 @@ import { createFileRoute, useParams } from "@tanstack/react-router";
 import type { EnchantmentOption, EnchantmentStats, SlotLevelRange, TagType } from "@voxelio/breeze";
 import { type Enchantment, EnchantmentSimulator, Identifier, TagsProcessor, toRoman } from "@voxelio/breeze";
 import { type Component, useRef, useState } from "react";
+import SimpleStudio from "@/components/layout/SimpleStudio";
 import EnchantingTable from "@/components/tools/elements/EnchantingTable";
 import MinecraftSlot from "@/components/tools/elements/gui/MinecraftSlot";
 import MinecraftTooltip from "@/components/tools/elements/gui/MinecraftTooltip";
@@ -110,7 +111,7 @@ function RouteComponent() {
     };
 
     return (
-        <div className="h-full">
+        <SimpleStudio>
             <Dialog id="enchantment-simulation-welcome">
                 <DialogContent ref={dialogRef} reminder defaultOpen className="sm:max-w-[800px]">
                     <MultiStep>
@@ -442,6 +443,6 @@ function RouteComponent() {
                     </div>
                 </div>
             </div>
-        </div>
+        </SimpleStudio>
     );
 }

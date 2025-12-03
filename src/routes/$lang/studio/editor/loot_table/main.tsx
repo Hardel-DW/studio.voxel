@@ -3,9 +3,9 @@ import { isVoxel, LootTableAction } from "@voxelio/breeze";
 import { useState } from "react";
 import RewardItem from "@/components/tools/concept/loot/RewardItem";
 import { getCurrentElement, useConfiguratorStore } from "@/components/tools/Store";
+import { TextInput } from "@/components/ui/TextInput";
 import Translate from "@/components/ui/Translate";
 import { useFlattenedLootItems } from "@/lib/hook/useFlattenedLootItems";
-import { TextInput } from "@/components/ui/TextInput";
 
 export const Route = createFileRoute("/$lang/studio/editor/loot_table/main")({
     component: LootMainPage

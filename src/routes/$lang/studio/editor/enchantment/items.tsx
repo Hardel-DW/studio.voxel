@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import type { EnchantmentProps } from "@voxelio/breeze";
 import { CoreAction } from "@voxelio/breeze";
 import { useState } from "react";
+import SimpleStudio from "@/components/layout/SimpleStudio";
 import ToolGrid from "@/components/tools/elements/ToolGrid";
 import ToolSectionSelector from "@/components/tools/elements/ToolSectionSelector";
 import ToolSlot from "@/components/tools/elements/ToolSlot";
@@ -28,36 +29,38 @@ function EnchantmentItemsPage() {
     };
 
     return (
-        <ToolSectionSelector
-            id="slots"
-            title="enchantment:section.supported.description"
-            elements={elements}
-            value={section}
-            setValue={setSection}>
-            <ToolGrid>
-                {enchantableEntries.map(([key, identifier]) => {
-                    const tag = identifier.toString();
-                    return (
-                        <ToolSlot
-                            key={key}
-                            title={`enchantment:supported.${key}.title`}
-                            image={`/images/features/item/${key}.webp`}
-                            action={CoreAction.setValue(section, tag)}
-                            renderer={(el: EnchantmentProps) => el[section] === tag}
-                            onBeforeChange={() => addTagIfExists(identifier)}
-                        />
-                    );
-                })}
+        <SimpleStudio>
+            <ToolSectionSelector
+                id="slots"
+                title="enchantment:section.supported.description"
+                elements={elements}
+                value={section}
+                setValue={setSection}>
+                <ToolGrid>
+                    {enchantableEntries.map(([key, identifier]) => {
+                        const tag = identifier.toString();
+                        return (
+                            <ToolSlot
+                                key={key}
+                                title={`enchantment:supported.${key}.title`}
+                                image={`/images/features/item/${key}.webp`}
+                                action={CoreAction.setValue(section, tag)}
+                                renderer={(el: EnchantmentProps) => el[section] === tag}
+                                onBeforeChange={() => addTagIfExists(identifier)}
+                            />
+                        );
+                    })}
 
-                {section === "primaryItems" && (
-                    <ToolSlot
-                        title="enchantment:supported.none.title"
-                        image="/images/tools/cross.webp"
-                        action={CoreAction.setUndefined("primaryItems")}
-                        renderer={(el: EnchantmentProps) => el.primaryItems === undefined}
-                    />
-                )}
-            </ToolGrid>
-        </ToolSectionSelector>
+                    {section === "primaryItems" && (
+                        <ToolSlot
+                            title="enchantment:supported.none.title"
+                            image="/images/tools/cross.webp"
+                            action={CoreAction.setUndefined("primaryItems")}
+                            renderer={(el: EnchantmentProps) => el.primaryItems === undefined}
+                        />
+                    )}
+                </ToolGrid>
+            </ToolSectionSelector>
+        </SimpleStudio>
     );
 }

@@ -7,7 +7,7 @@
         "dev": "vite",
         "build": "vite build",
         "preview": "vite preview",
-        "lint": "tsc --noEmit",
+        "lint": "tsgo --noEmit",
         "biome:format": "biome format --write ./src",
         "biome:check": "biome check ./src",
         "biome:unsafefix": "biome check --write --unsafe  ./src"
@@ -31,11 +31,11 @@
         "@types/node": "^24.10.1",
         "@types/react": "^19.2.7",
         "@types/react-dom": "^19.2.3",
+        "@typescript/native-preview": "7.0.0-dev.20251203.1",
         "@vitejs/plugin-react": "^5.1.1",
         "babel-plugin-react-compiler": "1.0.0",
         "tailwindcss": "^4.1.17",
-        "typescript": "~5.9.3",
-        "vite": "^7.2.6",
+        "vite": "8.0.0-beta.0",
         "wrangler": "^4.51.0"
     }
 }

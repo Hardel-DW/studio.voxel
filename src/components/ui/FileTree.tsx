@@ -52,8 +52,7 @@ function FileTreeNode({ name, path, node, activePath, onSelect, depth = 0, isRoo
                     if (e.key === "Enter" || e.key === " ") {
                         onSelect(path);
                     }
-                }}
-            >
+                }}>
                 {isActive && (
                     <div
                         className="absolute left-0 top-2 bottom-2 w-1 rounded-r-full shadow-[0_0_8px_rgba(255,255,255,0.5)]"

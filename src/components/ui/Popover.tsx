@@ -19,7 +19,15 @@ export const usePopoverStore = create<PopoverState>((set) => ({
 
 const PopoverContext = createContext<{ id: string; triggerRef: React.RefObject<HTMLElement | null> } | null>(null);
 
-export function Popover({ children, className }: { children: ReactNode; className?: string; defaultOpen?: boolean; onOpenChange?: (open: boolean) => void }) {
+export function Popover({
+    children,
+    className
+}: {
+    children: ReactNode;
+    className?: string;
+    defaultOpen?: boolean;
+    onOpenChange?: (open: boolean) => void;
+}) {
     const id = useId();
     const triggerRef = useRef<HTMLElement>(null);
 
@@ -30,7 +38,10 @@ export function Popover({ children, className }: { children: ReactNode; classNam
     );
 }
 
-export function PopoverTrigger({ children, className }: {
+export function PopoverTrigger({
+    children,
+    className
+}: {
     children: ReactElement<{ ref?: React.Ref<HTMLElement>; onClick?: () => void; className?: string }>;
     className?: string;
 }) {
@@ -41,16 +52,19 @@ export function PopoverTrigger({ children, className }: {
     const isActive = activeId === context.id;
 
     return (
-        <Trigger
-            elementRef={context.triggerRef}
-            onToggle={() => setActiveId(isActive ? null : context.id)}
-            className={className}>
+        <Trigger elementRef={context.triggerRef} onToggle={() => setActiveId(isActive ? null : context.id)} className={className}>
             {children}
         </Trigger>
     );
 }
 
-export function PopoverContent({ children, className, containerRef, spacing, padding }: {
+export function PopoverContent({
+    children,
+    className,
+    containerRef,
+    spacing,
+    padding
+}: {
     children: ReactNode;
     className?: string;
     containerRef?: React.RefObject<HTMLElement | null>;
@@ -75,7 +89,7 @@ export function PopoverContent({ children, className, containerRef, spacing, pad
                 ref={(node) => {
                     contentRef.current = node;
                     if (clickOutsideRef) clickOutsideRef.current = node;
-                    if (node && typeof node.showPopover === 'function') {
+                    if (node && typeof node.showPopover === "function") {
                         node.showPopover();
                     }
                 }}

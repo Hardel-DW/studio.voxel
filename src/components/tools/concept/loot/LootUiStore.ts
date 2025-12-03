@@ -17,5 +17,5 @@ export const useLootUiStore = create<LootUiState>((set) => ({
 
     setSelectedPath: (path) => set({ selectedPath: path }),
     setViewMode: (mode) => set({ viewMode: mode }),
-    setSearch: (search) => set({ search }),
+    setSearch: (search) => set({ search })
 }));

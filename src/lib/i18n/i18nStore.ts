@@ -63,13 +63,13 @@ export const useI18nStore = create<I18nState>((set, get) => ({
             let module: any;
             switch (state.language) {
                 case "en-us":
-                    module = await import(`@/i18n/studio/en-us/${namespace}.json`);
+                    module = await import(`../../i18n/studio/en-us/${namespace}.json`);
                     break;
                 case "fr-fr":
-                    module = await import(`@/i18n/studio/fr-fr/${namespace}.json`);
+                    module = await import(`../../i18n/studio/fr-fr/${namespace}.json`);
                     break;
                 default:
-                    module = await import(`@/i18n/studio/en-us/${namespace}.json`);
+                    module = await import(`../../i18n/studio/en-us/${namespace}.json`);
             }
 
             set((current) => {

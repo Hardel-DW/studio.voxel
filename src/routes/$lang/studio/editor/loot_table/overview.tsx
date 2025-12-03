@@ -2,13 +2,13 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Identifier } from "@voxelio/breeze";
 import { useState } from "react";
 import LootOverviewCard from "@/components/tools/concept/loot/LootOverviewCard";
+import { useLootUiStore } from "@/components/tools/concept/loot/LootUiStore";
+import { TextInput } from "@/components/ui/TextInput";
 import Translate from "@/components/ui/Translate";
 import { useElementsByType } from "@/lib/hook/useElementsByType";
 import { useInfiniteScroll } from "@/lib/hook/useInfiniteScroll";
 import { cn } from "@/lib/utils";
 import { matchesPath } from "@/lib/utils/tree";
-import { useLootUiStore } from "@/components/tools/concept/loot/LootUiStore";
-import { TextInput } from "@/components/ui/TextInput";
 
 export const Route = createFileRoute("/$lang/studio/editor/loot_table/overview")({
     component: RouteComponent
@@ -40,17 +40,14 @@ function RouteComponent() {
                         <div className="size-24 bg-zinc-900/50 rounded-full flex items-center justify-center mb-6 border border-zinc-800">
                             <img src="/icons/tools/overview/grid.svg" className="size-10 opacity-20 invert" alt="Too many items" />
                         </div>
-                        <h3 className="text-xl font-medium text-zinc-300 mb-2">
-                            Too many items to display
-                        </h3>
+                        <h3 className="text-xl font-medium text-zinc-300 mb-2">Too many items to display</h3>
                         <p className="text-zinc-500 max-w-sm text-center mb-6">
                             Please use the search bar or select a specific category to view items.
                         </p>
                         <button
                             type="button"
                             onClick={() => setForceShow(true)}
-                            className="px-4 py-2 bg-zinc-900 border border-zinc-800 hover:bg-zinc-800 hover:text-zinc-200 text-zinc-400 rounded-lg text-sm transition-colors cursor-pointer"
-                        >
+                            className="px-4 py-2 bg-zinc-900 border border-zinc-800 hover:bg-zinc-800 hover:text-zinc-200 text-zinc-400 rounded-lg text-sm transition-colors cursor-pointer">
                             Show anyway
                         </button>
                     </div>

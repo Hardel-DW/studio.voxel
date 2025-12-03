@@ -1,16 +1,16 @@
-import { createFileRoute, Outlet, Link, useParams, useLocation, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, Outlet, useLocation, useNavigate, useParams } from "@tanstack/react-router";
+import { Identifier, isVoxel } from "@voxelio/breeze";
+import { useLootUiStore } from "@/components/tools/concept/loot/LootUiStore";
+import { getCurrentElement, useConfiguratorStore } from "@/components/tools/Store";
 import { FileTree } from "@/components/ui/FileTree";
 import Translate from "@/components/ui/Translate";
 import { useElementsByType } from "@/lib/hook/useElementsByType";
-import { buildTree } from "@/lib/utils/tree";
-import { useLootUiStore } from "@/components/tools/concept/loot/LootUiStore";
-import { hueToHsl, stringToColor } from "@/lib/utils/color";
-import { Identifier, isVoxel } from "@voxelio/breeze";
-import { getCurrentElement, useConfiguratorStore } from "@/components/tools/Store";
 import { cn } from "@/lib/utils";
+import { hueToHsl, stringToColor } from "@/lib/utils/color";
+import { buildTree } from "@/lib/utils/tree";
 
 export const Route = createFileRoute("/$lang/studio/editor/loot_table")({
-    component: LootTableLayout,
+    component: LootTableLayout
 });
 
 function LootTableLayout() {
@@ -34,8 +34,7 @@ function LootTableLayout() {
                         to="/$lang/studio/editor/loot_table/overview"
                         params={{ lang }}
                         className="text-lg font-bold text-zinc-100 flex items-center gap-2 mb-1 hover:opacity-80 transition-opacity"
-                        onClick={() => setSelectedPath("")}
-                    >
+                        onClick={() => setSelectedPath("")}>
                         <img src="/images/features/item/bundle_close.webp" className="size-5 opacity-80" alt="Logo" />
                         <Translate content="loot:overview.title" />
                     </Link>
@@ -90,9 +89,12 @@ function LootTableLayout() {
                                         <button
                                             type="button"
                                             onClick={() => navigate({ to: "/$lang/studio/editor/loot_table/overview", params: { lang } })}
-                                            className="cursor-pointer flex items-center gap-1.5 text-zinc-400 hover:text-white transition-colors mr-2"
-                                        >
-                                            <img src="/icons/back.svg" className="size-3.5 invert opacity-50 group-hover:opacity-100" alt="Back" />
+                                            className="cursor-pointer flex items-center gap-1.5 text-zinc-400 hover:text-white transition-colors mr-2">
+                                            <img
+                                                src="/icons/back.svg"
+                                                className="size-3.5 invert opacity-50 group-hover:opacity-100"
+                                                alt="Back"
+                                            />
                                             <span className="text-xs font-medium">Back</span>
                                         </button>
                                     )}
@@ -102,11 +104,11 @@ function LootTableLayout() {
                                             <span key={segment} className="flex items-center gap-2">
                                                 <span className="opacity-30 text-xs">/</span>
                                                 <span
-                                                    className={index === array.length - 1
-                                                        ? "text-zinc-200 font-medium text-xs uppercase tracking-wider bg-black/20 px-2 py-0.5 rounded-md border border-white/5 backdrop-blur-sm"
-                                                        : "opacity-50 font-medium text-xs uppercase tracking-wider"
-                                                    }
-                                                >
+                                                    className={
+                                                        index === array.length - 1
+                                                            ? "text-zinc-200 font-medium text-xs uppercase tracking-wider bg-black/20 px-2 py-0.5 rounded-md border border-white/5 backdrop-blur-sm"
+                                                            : "opacity-50 font-medium text-xs uppercase tracking-wider"
+                                                    }>
                                                     {segment}
                                                 </span>
                                             </span>
@@ -121,11 +123,11 @@ function LootTableLayout() {
                                                 <span key={segment} className="flex items-center gap-2">
                                                     <span className="opacity-30 text-xs">/</span>
                                                     <span
-                                                        className={index === array.length - 1
-                                                            ? "text-zinc-200 font-medium text-xs uppercase tracking-wider bg-black/20 px-2 py-0.5 rounded-md border border-white/5 backdrop-blur-sm"
-                                                            : "opacity-50 font-medium text-xs uppercase tracking-wider"
-                                                        }
-                                                    >
+                                                        className={
+                                                            index === array.length - 1
+                                                                ? "text-zinc-200 font-medium text-xs uppercase tracking-wider bg-black/20 px-2 py-0.5 rounded-md border border-white/5 backdrop-blur-sm"
+                                                                : "opacity-50 font-medium text-xs uppercase tracking-wider"
+                                                        }>
                                                         {segment}
                                                     </span>
                                                 </span>
@@ -134,7 +136,9 @@ function LootTableLayout() {
                                     )}
                                 </div>
                                 <h1 className="text-4xl font-bold text-white tracking-tight drop-shadow-xl font-minecraft">
-                                    {isOverview ? displayTitle : lootTable?.identifier && new Identifier(lootTable.identifier).toResourceName()}
+                                    {isOverview
+                                        ? displayTitle
+                                        : lootTable?.identifier && new Identifier(lootTable.identifier).toResourceName()}
                                 </h1>
                                 <div
                                     className="h-px w-24 my-3 transition-colors duration-500"

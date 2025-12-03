@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import type { EnchantmentProps, EnchantmentSortCriteria } from "@voxelio/breeze";
 import { EnchantmentSorter } from "@voxelio/breeze";
 import { useRef, useState } from "react";
+import SimpleStudio from "@/components/layout/SimpleStudio";
 import EnchantmentCard from "@/components/tools/concept/enchantment/EnchantmentCard";
 import { Toolbar } from "@/components/tools/floatingbar/Toolbar";
 import { ToolbarButton } from "@/components/tools/floatingbar/ToolbarButton";
@@ -67,161 +68,159 @@ function Page() {
     const translatedSortBy = useTranslate("enchantment:overview.sort.by");
 
     return (
-        <div className="h-full overflow-y-auto">
-            <div className="px-8 pt-12 pb-8">
-                <Dialog id="enchantment-welcome">
-                    <DialogContent ref={dialogRef} reminder defaultOpen className="sm:max-w-[800px]">
-                        <MultiStep>
-                            <MultiStepItem>
-                                <DialogHeader>
-                                    <DialogHero image="/images/background/dialog/enchantment/overview_1.webp" />
-                                </DialogHeader>
-                                <hr className="my-1" />
-                                <div className="p-4">
-                                    <h2 className="flex shrink-0 items-center justify-between text-xl font-medium text-zinc-200 mb-2">
-                                        <Translate content="enchantment:overview.dialog.welcome.title" />
-                                    </h2>
-                                    <div className="relative leading-normal text-zinc-400 font-light">
-                                        <p>
-                                            <Translate content="enchantment:overview.dialog.welcome.body" />
-                                        </p>
-                                        <ul className="list-disc list-inside ml-4 mt-4 text-zinc-500 text-sm">
-                                            <li>
-                                                <Translate content="enchantment:overview.dialog.welcome.list.1" />
-                                            </li>
-                                            <li>
-                                                <Translate content="enchantment:overview.dialog.welcome.list.2" />
-                                            </li>
-                                            <li>
-                                                <Translate content="enchantment:overview.dialog.welcome.list.3" />
-                                            </li>
-                                        </ul>
-                                    </div>
+        <SimpleStudio>
+            <Dialog id="enchantment-welcome">
+                <DialogContent ref={dialogRef} reminder defaultOpen className="sm:max-w-[800px]">
+                    <MultiStep>
+                        <MultiStepItem>
+                            <DialogHeader>
+                                <DialogHero image="/images/background/dialog/enchantment/overview_1.webp" />
+                            </DialogHeader>
+                            <hr className="my-1" />
+                            <div className="p-4">
+                                <h2 className="flex shrink-0 items-center justify-between text-xl font-medium text-zinc-200 mb-2">
+                                    <Translate content="enchantment:overview.dialog.welcome.title" />
+                                </h2>
+                                <div className="relative leading-normal text-zinc-400 font-light">
+                                    <p>
+                                        <Translate content="enchantment:overview.dialog.welcome.body" />
+                                    </p>
+                                    <ul className="list-disc list-inside ml-4 mt-4 text-zinc-500 text-sm">
+                                        <li>
+                                            <Translate content="enchantment:overview.dialog.welcome.list.1" />
+                                        </li>
+                                        <li>
+                                            <Translate content="enchantment:overview.dialog.welcome.list.2" />
+                                        </li>
+                                        <li>
+                                            <Translate content="enchantment:overview.dialog.welcome.list.3" />
+                                        </li>
+                                    </ul>
                                 </div>
-                            </MultiStepItem>
-                            <MultiStepItem>
-                                <DialogHeader>
-                                    <DialogHero image="/images/background/dialog/enchantment/overview_2.webp" />
-                                </DialogHeader>
-                                <hr className="my-1" />
-                                <div className="p-4">
-                                    <h2 className="flex shrink-0 items-center justify-between text-xl font-medium text-zinc-200 mb-2">
-                                        <Translate content="enchantment:overview.dialog.toolbar.title" />
-                                    </h2>
-                                    <div className="relative leading-normal text-zinc-400 font-light">
-                                        <p>
-                                            <Translate content="enchantment:overview.dialog.toolbar.body" />
-                                        </p>
-                                        <ul className="list-disc list-inside ml-4 mt-4 text-zinc-500 text-sm">
-                                            <li>
-                                                <Translate content="enchantment:overview.dialog.toolbar.list.1" />
-                                            </li>
-                                            <li>
-                                                <Translate content="enchantment:overview.dialog.toolbar.list.2" />
-                                            </li>
-                                            <li>
-                                                <Translate content="enchantment:overview.dialog.toolbar.list.3" />
-                                            </li>
-                                        </ul>
-                                    </div>
+                            </div>
+                        </MultiStepItem>
+                        <MultiStepItem>
+                            <DialogHeader>
+                                <DialogHero image="/images/background/dialog/enchantment/overview_2.webp" />
+                            </DialogHeader>
+                            <hr className="my-1" />
+                            <div className="p-4">
+                                <h2 className="flex shrink-0 items-center justify-between text-xl font-medium text-zinc-200 mb-2">
+                                    <Translate content="enchantment:overview.dialog.toolbar.title" />
+                                </h2>
+                                <div className="relative leading-normal text-zinc-400 font-light">
+                                    <p>
+                                        <Translate content="enchantment:overview.dialog.toolbar.body" />
+                                    </p>
+                                    <ul className="list-disc list-inside ml-4 mt-4 text-zinc-500 text-sm">
+                                        <li>
+                                            <Translate content="enchantment:overview.dialog.toolbar.list.1" />
+                                        </li>
+                                        <li>
+                                            <Translate content="enchantment:overview.dialog.toolbar.list.2" />
+                                        </li>
+                                        <li>
+                                            <Translate content="enchantment:overview.dialog.toolbar.list.3" />
+                                        </li>
+                                    </ul>
                                 </div>
-                            </MultiStepItem>
-                            <MultiStepItem>
-                                <DialogHeader>
-                                    <DialogHero image="/images/background/dialog/enchantment/overview_3.webp" />
-                                </DialogHeader>
-                                <hr className="my-1" />
-                                <div className="p-4">
-                                    <h2 className="flex shrink-0 items-center justify-between text-xl font-medium text-zinc-200 mb-2">
-                                        <Translate content="enchantment:overview.dialog.advanced.title" />
-                                    </h2>
-                                    <div className="relative leading-normal text-zinc-400 font-light">
-                                        <p>
-                                            <Translate content="enchantment:overview.dialog.advanced.body" />
-                                        </p>
-                                        <ul className="list-disc list-inside ml-4 mt-4 text-zinc-500 text-sm">
-                                            <li>
-                                                <Translate content="enchantment:overview.dialog.advanced.list.before" />{" "}
-                                                <b>
-                                                    <Translate content="enchantment:overview.dialog.advanced.list.1.bold" />
-                                                </b>
-                                                , <Translate content="enchantment:overview.dialog.advanced.list.1.after" />
-                                            </li>
-                                            <li>
-                                                <Translate content="enchantment:overview.dialog.advanced.list.before" />{" "}
-                                                <b>
-                                                    <Translate content="enchantment:overview.dialog.advanced.list.2.bold" />
-                                                </b>
-                                                , <Translate content="enchantment:overview.dialog.advanced.list.2.after" />
-                                            </li>
-                                            <li>
-                                                <Translate content="enchantment:overview.dialog.advanced.list.before" />{" "}
-                                                <b>
-                                                    <Translate content="enchantment:overview.dialog.advanced.list.3.bold" />
-                                                </b>
-                                                , <Translate content="enchantment:overview.dialog.advanced.list.3.after" />
-                                            </li>
-                                        </ul>
-                                    </div>
+                            </div>
+                        </MultiStepItem>
+                        <MultiStepItem>
+                            <DialogHeader>
+                                <DialogHero image="/images/background/dialog/enchantment/overview_3.webp" />
+                            </DialogHeader>
+                            <hr className="my-1" />
+                            <div className="p-4">
+                                <h2 className="flex shrink-0 items-center justify-between text-xl font-medium text-zinc-200 mb-2">
+                                    <Translate content="enchantment:overview.dialog.advanced.title" />
+                                </h2>
+                                <div className="relative leading-normal text-zinc-400 font-light">
+                                    <p>
+                                        <Translate content="enchantment:overview.dialog.advanced.body" />
+                                    </p>
+                                    <ul className="list-disc list-inside ml-4 mt-4 text-zinc-500 text-sm">
+                                        <li>
+                                            <Translate content="enchantment:overview.dialog.advanced.list.before" />{" "}
+                                            <b>
+                                                <Translate content="enchantment:overview.dialog.advanced.list.1.bold" />
+                                            </b>
+                                            , <Translate content="enchantment:overview.dialog.advanced.list.1.after" />
+                                        </li>
+                                        <li>
+                                            <Translate content="enchantment:overview.dialog.advanced.list.before" />{" "}
+                                            <b>
+                                                <Translate content="enchantment:overview.dialog.advanced.list.2.bold" />
+                                            </b>
+                                            , <Translate content="enchantment:overview.dialog.advanced.list.2.after" />
+                                        </li>
+                                        <li>
+                                            <Translate content="enchantment:overview.dialog.advanced.list.before" />{" "}
+                                            <b>
+                                                <Translate content="enchantment:overview.dialog.advanced.list.3.bold" />
+                                            </b>
+                                            , <Translate content="enchantment:overview.dialog.advanced.list.3.after" />
+                                        </li>
+                                    </ul>
                                 </div>
-                            </MultiStepItem>
+                            </div>
+                        </MultiStepItem>
 
-                            <DialogFooter className="flex items-end justify-between">
-                                <DialogCloseButton variant="ghost_border">
-                                    <Translate content="close" />
-                                </DialogCloseButton>
-                                <MultiStepControl />
-                            </DialogFooter>
-                        </MultiStep>
-                    </DialogContent>
-                </Dialog>
+                        <DialogFooter className="flex items-end justify-between">
+                            <DialogCloseButton variant="ghost_border">
+                                <Translate content="close" />
+                            </DialogCloseButton>
+                            <MultiStepControl />
+                        </DialogFooter>
+                    </MultiStep>
+                </DialogContent>
+            </Dialog>
 
-                <Toolbar>
-                    <ToolbarSearch placeholder="enchantment:overview.search.placeholder" value={searchValue} onChange={setSearchValue} />
-                    <div className="flex items-center gap-1">
-                        <ToolbarDropdown
-                            icon="/icons/tools/overview/grid.svg"
-                            tooltip={`${translatedSortBy} ${translatedSortOption}`}
-                            value={sortCriteria}
-                            options={sortOptions}
-                            onChange={(value: string) => setSortCriteria(value as EnchantmentSortCriteria)}
-                            params={{ lang }}
-                        />
-                        <ToolbarButton
-                            icon={`/icons/tools/overview/${isDetailed ? "map" : "list"}.svg`}
-                            tooltip={isDetailed ? "enchantment:overview.view.minimal" : "enchantment:overview.view.detailed"}
-                            onClick={() => setIsDetailed(!isDetailed)}
-                        />
-                        <ToolbarButton
-                            icon="/icons/tools/overview/help.svg"
-                            tooltip="Réouvrir l'aide"
-                            onClick={() => dialogRef.current?.open()}
-                        />
-                    </div>
-                </Toolbar>
-
-                <div className="flex items-center justify-between gap-2">
-                    <div>
-                        <h1 className="text-2xl font-bold uppercase">
-                            <Translate content="enchantment:overview.title" />
-                        </h1>
-                        <p className="text-sm text-zinc-500">
-                            {sortCriteria !== "none" && <Translate content={`enchantment:overview.sort.${sortOption?.key}.section`} />}
-                        </p>
-                    </div>
-                    <Link to="/$lang/studio/editor/enchantment/simulation" params={{ lang }}>
-                        <Button variant="ghost">Simulation</Button>
-                    </Link>
+            <Toolbar>
+                <ToolbarSearch placeholder="enchantment:overview.search.placeholder" value={searchValue} onChange={setSearchValue} />
+                <div className="flex items-center gap-1">
+                    <ToolbarDropdown
+                        icon="/icons/tools/overview/grid.svg"
+                        tooltip={`${translatedSortBy} ${translatedSortOption}`}
+                        value={sortCriteria}
+                        options={sortOptions}
+                        onChange={(value: string) => setSortCriteria(value as EnchantmentSortCriteria)}
+                        params={{ lang }}
+                    />
+                    <ToolbarButton
+                        icon={`/icons/tools/overview/${isDetailed ? "map" : "list"}.svg`}
+                        tooltip={isDetailed ? "enchantment:overview.view.minimal" : "enchantment:overview.view.detailed"}
+                        onClick={() => setIsDetailed(!isDetailed)}
+                    />
+                    <ToolbarButton
+                        icon="/icons/tools/overview/help.svg"
+                        tooltip="Réouvrir l'aide"
+                        onClick={() => dialogRef.current?.open()}
+                    />
                 </div>
+            </Toolbar>
 
-                <hr className="my-4" />
-
-                <div className="grid gap-4 overview-grid" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))" }}>
-                    {(filteredElements as EnchantmentProps[]).map((element) => (
-                        <EnchantmentCard key={element.identifier.resource} element={element} display={isDetailed} />
-                    ))}
+            <div className="flex items-center justify-between gap-2">
+                <div>
+                    <h1 className="text-2xl font-bold uppercase">
+                        <Translate content="enchantment:overview.title" />
+                    </h1>
+                    <p className="text-sm text-zinc-500">
+                        {sortCriteria !== "none" && <Translate content={`enchantment:overview.sort.${sortOption?.key}.section`} />}
+                    </p>
                 </div>
+                <Link to="/$lang/studio/editor/enchantment/simulation" params={{ lang }}>
+                    <Button variant="ghost">Simulation</Button>
+                </Link>
             </div>
-        </div>
+
+            <hr className="my-4" />
+
+            <div className="grid gap-4 overview-grid" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))" }}>
+                {(filteredElements as EnchantmentProps[]).map((element) => (
+                    <EnchantmentCard key={element.identifier.resource} element={element} display={isDetailed} />
+                ))}
+            </div>
+        </SimpleStudio>
     );
 }

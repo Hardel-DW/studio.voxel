@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import type { EnchantmentProps } from "@voxelio/breeze";
 import { CoreAction } from "@voxelio/breeze";
 import { lazy, Suspense } from "react";
+import SimpleStudio from "@/components/layout/SimpleStudio";
 import ToolGrid from "@/components/tools/elements/ToolGrid";
 import ToolReveal, { ToolRevealElement } from "@/components/tools/elements/ToolReveal";
 import ToolSection from "@/components/tools/elements/ToolSection";
@@ -65,7 +66,7 @@ export const Route = createFileRoute("/$lang/studio/editor/enchantment/find")({
 
 function EnchantmentFindPage() {
     return (
-        <>
+        <SimpleStudio>
             <ToolSection id="behaviour" title="enchantment:section.find">
                 <ToolGrid size="350px">
                     {iterationValues.map((value) => (
@@ -114,6 +115,6 @@ function EnchantmentFindPage() {
                     </ToolRevealElement>
                 </ToolReveal>
             </ToolSection>
-        </>
+        </SimpleStudio>
     );
 }

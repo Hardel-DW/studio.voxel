@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
+import SimpleStudio from "@/components/layout/SimpleStudio";
 import SlotsEnchantmentCard from "@/components/tools/concept/enchantment/SlotsEnchantmentCard";
 import { SLOT_CONFIGS } from "@/components/tools/concept/enchantment/slots";
 import { Toolbar } from "@/components/tools/floatingbar/Toolbar";
@@ -39,7 +40,7 @@ function Page() {
     const clearAllFilters = () => setSelectedSlots([]);
 
     return (
-        <div>
+        <SimpleStudio>
             <Toolbar>
                 <div className="flex items-center gap-1">
                     <ToolbarTextLink
@@ -154,6 +155,6 @@ function Page() {
                     </p>
                 </div>
             )}
-        </div>
+        </SimpleStudio>
     );
 }
