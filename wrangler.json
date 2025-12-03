@@ -4,5 +4,15 @@
     "compatibility_date": "2025-12-03",
     "assets": {
         "directory": "./dist"
+    },
+    "routes": [
+        {
+            "pattern": "labs.hardel.io",
+            "zone_name": "hardel.io",
+            "custom_domain": true
+        }
+    ],
+    "vars": {
+        "VITE_API_URL": "https://api.hardel.io"
     }
 }
