@@ -24,7 +24,7 @@ export default function RewardItem(props: RewardItemProps) {
             <div ref={clickOutsideRef} className="flex items-center gap-4">
                 <div className="flex items-center gap-2 text-zinc-300">
                     <TextureRenderer id={props.name} className="w-6 h-6" />
-                    <span className="text-sm font-medium">{Identifier.of(props.name, "not_a_registry").toResourceName()}</span>
+                    <span className="text-sm font-medium">{Identifier.toDisplay(props.name)}</span>
                 </div>
                 <div className="flex items-center gap-2">
                     <ToolbarButton
@@ -48,7 +48,7 @@ export default function RewardItem(props: RewardItemProps) {
             onClick={handleClick}
             className="relative overflow-hidden text-zinc-400 tracking-tighter text-xs bg-zinc-900/20 rounded-md border border-zinc-900 p-4 h-fit flex items-center justify-between gap-x-8 cursor-pointer hover:border-zinc-700 transition-colors">
             <div className="flex items-center gap-x-4">
-                <TextureRenderer id={props.name} />
+                <TextureRenderer id={props.name} className="size-10" />
                 <div className="flex flex-col">
                     <h2 className="text-xl font-bold text-white">{Identifier.of(props.name, "not_a_registry").toResourceName()}</h2>
                     <p className="text-sm text-zinc-400">{props.name}</p>
