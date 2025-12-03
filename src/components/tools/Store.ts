@@ -40,11 +40,6 @@ export interface ConfiguratorState<T extends keyof Analysers> {
     getLengthByRegistry: (registry: string) => number;
     getConcept: (pathname: string) => CONCEPT_KEY | null;
     getRegistry: <R extends DataDrivenElement>(registry: string, options?: RegistrySearchOptions) => DataDrivenRegistryElement<R>[];
-    // Loot Table Specific
-    lootTablePath: string;
-    lootTableViewMode: "grid" | "list";
-    setLootTablePath: (path: string) => void;
-    setLootTableViewMode: (mode: "grid" | "list") => void;
 }
 
 const createConfiguratorStore = <T extends keyof Analysers>() =>
@@ -58,9 +53,6 @@ const createConfiguratorStore = <T extends keyof Analysers>() =>
         version: null,
         sortedIdentifiers: new Map(),
         registryCache: new Map(),
-        // Loot Table Specific Defaults
-        lootTablePath: "",
-        lootTableViewMode: "grid",
         addFile: (key, value) => set({ custom: get().custom.set(key, value) }),
         getSortedIdentifiers: (registry) => get().sortedIdentifiers.get(registry) ?? [],
         setName: (name) => {
@@ -68,8 +60,6 @@ const createConfiguratorStore = <T extends keyof Analysers>() =>
             updateSessionData({ name });
         },
         setCurrentElementId: (currentElementId) => set({ currentElementId }),
-        setLootTablePath: (lootTablePath) => set({ lootTablePath }),
-        setLootTableViewMode: (lootTableViewMode) => set({ lootTableViewMode }),
         handleChange: (action, identifier) => {
             const state = get();
             const elementId = identifier ?? state.currentElementId;
