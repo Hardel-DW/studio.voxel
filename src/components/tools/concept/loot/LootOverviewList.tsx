@@ -22,8 +22,10 @@ export default function LootOverviewList({ element, elementId }: { element: Loot
                     element={element}
                     trigger={
                         <div className="flex -space-x-2 relative group/preview shrink-0 items-center h-full cursor-pointer">
-                            {items.slice(0, 3).map((item, index) => (
-                                <div key={`${item.name}-${index}`} className="transition-transform hover:scale-110 hover:z-10 flex items-center justify-center">
+                            {items.slice(0, 1).map((item, index) => (
+                                <div
+                                    key={`${item.name}-${index}`}
+                                    className="transition-transform hover:scale-110 hover:z-10 flex items-center justify-center">
                                     <TextureRenderer id={item.name} className="size-8 drop-shadow-md" />
                                 </div>
                             ))}
@@ -41,17 +43,13 @@ export default function LootOverviewList({ element, elementId }: { element: Loot
                         {new Identifier(element.identifier).toResourceName()}
                     </h3>
                     <p className="text-xs text-zinc-500 truncate flex items-center gap-2">
-                        <span className="font-mono text-[10px] opacity-60">{new Identifier(element.identifier).toUniqueKey()}</span>
+                        <span className="font-mono text-[10px] opacity-60">{new Identifier(element.identifier).toString()}</span>
                     </p>
                 </div>
             </div>
 
             <div className="flex items-center gap-2 shrink-0">
-                <SimpleSwitch
-                    elementId={elementId}
-                    action={CoreAction.invertBoolean("disabled")}
-                    renderer={(el) => !el.disabled}
-                />
+                <SimpleSwitch elementId={elementId} action={CoreAction.invertBoolean("disabled")} renderer={(el) => !el.disabled} />
 
                 <div className="h-4 w-px bg-zinc-800/50 mx-2" />
 
@@ -66,4 +64,3 @@ export default function LootOverviewList({ element, elementId }: { element: Loot
         </div>
     );
 }
-

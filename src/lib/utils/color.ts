@@ -212,3 +212,27 @@ export const sortPaletteByHue = (palette: Palette): Palette => {
         return hslA[0] - hslB[0];
     });
 };
+
+/**
+ * Generates a consistent color hash from a text input
+ * @param str Input string
+ * @returns Hue value (0-359)
+ */
+export const stringToColor = (str: string): number => {
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) {
+        hash = str.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    return Math.abs(hash) % 360;
+};
+
+/**
+ * Converts a hue value to HSL color string
+ * @param hue Hue value (0-359)
+ * @param saturation Saturation percentage (default: 70)
+ * @param lightness Lightness percentage (default: 60)
+ * @returns HSL color string
+ */
+export const hueToHsl = (hue: number, saturation = 70, lightness = 60): string => {
+    return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+};

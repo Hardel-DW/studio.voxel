@@ -3,13 +3,12 @@ import type { LootTableProps } from "@voxelio/breeze";
 import { CoreAction, Identifier } from "@voxelio/breeze";
 import { useRef } from "react";
 import LootDetailsPopover, { getRollsInfo } from "@/components/tools/concept/loot/LootDetailsPopover";
+import LootOverviewList from "@/components/tools/concept/loot/LootOverviewList";
 import SimpleSwitch from "@/components/tools/elements/SimpleSwitch";
 import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import { useFlattenedLootItems } from "@/lib/hook/useFlattenedLootItems";
 import { cn } from "@/lib/utils";
-
-import LootOverviewList from "@/components/tools/concept/loot/LootOverviewList";
 
 export default function LootOverviewCard(props: { element: LootTableProps; elementId: string; mode?: "grid" | "list" }) {
     const cardRef = useRef<HTMLDivElement | null>(null);

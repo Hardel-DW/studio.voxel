@@ -23,19 +23,24 @@ function EditorLayout() {
     const [isHovered, setIsHovered] = useState(false);
 
     return (
-        <div className={cn(
-            "flex h-dvh w-full p-4 overflow-hidden relative transition-all duration-300 ease-in-out box-border",
-            isPinned ? "gap-4" : "gap-0"
-        )} data-pinned={isPinned}>
+        <div
+            className={cn(
+                "flex h-dvh w-full p-4 overflow-hidden relative transition-all duration-300 ease-in-out box-border",
+                isPinned ? "gap-4" : "gap-0"
+            )}
+            data-pinned={isPinned}>
             {!isPinned && (
-                <button type="button" tabIndex={0} onMouseEnter={() => setIsHovered(true)} onFocus={() => setIsHovered(true)} className="fixed inset-y-0 left-0 w-4 z-50 outline-none cursor-default" aria-label="Show sidebar" />
+                <button
+                    type="button"
+                    tabIndex={0}
+                    onMouseEnter={() => setIsHovered(true)}
+                    onFocus={() => setIsHovered(true)}
+                    className="fixed inset-y-0 left-0 w-4 z-50 outline-none cursor-default"
+                    aria-label="Show sidebar"
+                />
             )}
 
-            <div
-                className={cn(
-                    "shrink-0 transition-[width] duration-300 ease-in-out z-40",
-                    isPinned ? "w-80" : "w-0"
-                )}>
+            <div className={cn("shrink-0 transition-[width] duration-300 ease-in-out z-40", isPinned ? "w-80" : "w-0")}>
                 <aside
                     onMouseEnter={() => !isPinned && setIsHovered(true)}
                     onMouseLeave={() => setIsHovered(false)}

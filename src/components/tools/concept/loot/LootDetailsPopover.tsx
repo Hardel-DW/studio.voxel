@@ -23,12 +23,8 @@ export default function LootDetailsPopover({ element, trigger, onOpenChange }: L
                     <div className="flex items-center justify-between">
                         <p className="font-semibold leading-2">Loot Items</p>
                         <div className="flex gap-2 items-center">
-                            <span className="text-xs bg-zinc-900/50 border border-zinc-800 px-2 rounded-lg">
-                                {rollsInfo} rolls
-                            </span>
-                            <span className="text-xs bg-zinc-900/50 border border-zinc-800 px-2 rounded-lg">
-                                {itemsCount} items
-                            </span>
+                            <span className="text-xs bg-zinc-900/50 border border-zinc-800 px-2 rounded-lg">{rollsInfo} rolls</span>
+                            <span className="text-xs bg-zinc-900/50 border border-zinc-800 px-2 rounded-lg">{itemsCount} items</span>
                         </div>
                     </div>
 
