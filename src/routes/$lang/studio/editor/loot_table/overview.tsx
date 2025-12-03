@@ -18,6 +18,7 @@ function RouteComponent() {
     const [selectedPath, setSelectedPath] = useState("");
     const [search, setSearch] = useState("");
     const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+    const [forceShow, setForceShow] = useState(false);
     const elements = useElementsByType("loot_table");
     const tree = buildTree(elements.map((e) => e.identifier));
     const filtered = elements.filter((el) => {
@@ -28,6 +29,9 @@ function RouteComponent() {
 
     const { visibleItems, hasMore, ref } = useInfiniteScroll(filtered, 24);
     const bgColor = filtered[0] ? hueToHsl(stringToColor(selectedPath || "all")) : hueToHsl(stringToColor("all"));
+
+    const isBroadScope = selectedPath === "" || !selectedPath.includes("/");
+    const isTooManyItems = !forceShow && isBroadScope && filtered.length > 50 && !search;
 
     return (
         <div className="flex size-full overflow-hidden relative z-10 isolate">
@@ -41,7 +45,14 @@ function RouteComponent() {
                 </div>
 
                 <div className="flex-1 overflow-y-auto px-3 py-4 custom-scrollbar">
-                    <FileTree tree={tree} activePath={selectedPath} onSelect={setSelectedPath} />
+                    <FileTree
+                        tree={tree}
+                        activePath={selectedPath}
+                        onSelect={(path) => {
+                            setSelectedPath(path);
+                            setForceShow(false);
+                        }}
+                    />
                 </div>
 
                 <div className="p-4 border-t border-zinc-800/50 bg-zinc-950/90">
@@ -153,7 +164,26 @@ function RouteComponent() {
                 </div>
 
                 <div className="flex-1 overflow-y-auto px-8 py-6 custom-scrollbar bg-zinc-950/50">
-                    {visibleItems.length > 0 ? (
+                    {isTooManyItems ? (
+                        <div className="h-full flex flex-col items-center justify-center pb-20 opacity-60">
+                            <div className="size-24 bg-zinc-900/50 rounded-full flex items-center justify-center mb-6 border border-zinc-800">
+                                <img src="/icons/tools/overview/grid.svg" className="size-10 opacity-20 invert" alt="Too many items" />
+                            </div>
+                            <h3 className="text-xl font-medium text-zinc-300 mb-2">
+                                Too many items to display
+                            </h3>
+                            <p className="text-zinc-500 max-w-sm text-center mb-6">
+                                Please use the search bar or select a specific category to view items.
+                            </p>
+                            <button
+                                type="button"
+                                onClick={() => setForceShow(true)}
+                                className="px-4 py-2 bg-zinc-900 border border-zinc-800 hover:bg-zinc-800 hover:text-zinc-200 text-zinc-400 rounded-lg text-sm transition-colors cursor-pointer"
+                            >
+                                Show anyway
+                            </button>
+                        </div>
+                    ) : visibleItems.length > 0 ? (
                         <div
                             className={cn(
                                 "grid gap-4 pb-20",
@@ -182,7 +212,7 @@ function RouteComponent() {
                         </div>
                     )}
 
-                    {hasMore && (
+                    {!isTooManyItems && hasMore && (
                         <div ref={ref} className="flex justify-center items-center py-8">
                             <div className="flex items-center gap-2 text-zinc-500 text-xs">
                                 <span className="size-1.5 bg-zinc-600 rounded-full animate-bounce" style={{ animationDelay: "0ms" }} />
