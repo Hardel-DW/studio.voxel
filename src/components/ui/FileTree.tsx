@@ -37,15 +37,23 @@ function FileTreeNode({ name, path, node, activePath, onSelect, depth = 0, isRoo
 
     return (
         <div className="w-full select-none">
-            <button
-                type="button"
+            <div
                 className={cn(
                     "flex items-center gap-2 px-3 py-2 rounded-lg cursor-pointer transition-colors relative group w-full text-left",
                     isActive ? "bg-zinc-800/80 text-white" : "text-zinc-400 hover:bg-zinc-900/50 hover:text-zinc-200",
                     depth > 0 && "mt-0.5"
                 )}
                 style={{ paddingLeft: isRoot ? "12px" : `${depth * 12 + 12}px` }}
-                onClick={() => onSelect(path)}>
+                onClick={() => onSelect(path)}
+                role="treeitem"
+                aria-expanded={isActive}
+                tabIndex={0}
+                onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                        onSelect(path);
+                    }
+                }}
+            >
                 {isActive && (
                     <div
                         className="absolute left-0 top-2 bottom-2 w-1 rounded-r-full shadow-[0_0_8px_rgba(255,255,255,0.5)]"
@@ -82,7 +90,7 @@ function FileTreeNode({ name, path, node, activePath, onSelect, depth = 0, isRoo
                 <span className="text-[10px] text-zinc-600 font-mono tabular-nums bg-zinc-900/50 px-1.5 rounded-sm border border-zinc-800 group-hover:border-zinc-700">
                     {node.count}
                 </span>
-            </button>
+            </div>
 
             {hasChildren && !isCollapsed && (
                 <div
