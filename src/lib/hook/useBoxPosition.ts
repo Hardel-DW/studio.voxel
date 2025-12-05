@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useEffectEvent, useState } from "react";
 
 interface Position {
     top: number;
@@ -14,7 +14,7 @@ interface UseBoxPositionProps {
 export const useBoxPosition = ({ triggerRef, contentRef, open }: UseBoxPositionProps) => {
     const [position, setPosition] = useState<Position>({ top: 0, left: 0 });
 
-    const updatePosition = useCallback(() => {
+    const updatePosition = useEffectEvent(() => {
         if (!triggerRef.current || !contentRef.current) return;
 
         const triggerRect = triggerRef.current.getBoundingClientRect();
@@ -42,26 +42,21 @@ export const useBoxPosition = ({ triggerRef, contentRef, open }: UseBoxPositionP
         }
 
         setPosition({ top, left });
-    }, [triggerRef, contentRef]);
+    });
 
     useEffect(() => {
-        if (open) {
-            const checkAndUpdate = () => {
-                if (contentRef.current) updatePosition();
-                else requestAnimationFrame(checkAndUpdate);
-            };
+        if (!open) return;
+        const frame = requestAnimationFrame(updatePosition);
 
-            checkAndUpdate();
+        window.addEventListener("resize", updatePosition);
+        window.addEventListener("scroll", updatePosition);
 
-            window.addEventListener("resize", updatePosition);
-            window.addEventListener("scroll", updatePosition);
-
-            return () => {
-                window.removeEventListener("resize", updatePosition);
-                window.removeEventListener("scroll", updatePosition);
-            };
-        }
-    }, [open, updatePosition, contentRef.current]);
+        return () => {
+            cancelAnimationFrame(frame);
+            window.removeEventListener("resize", updatePosition);
+            window.removeEventListener("scroll", updatePosition);
+        };
+    }, [open]);
 
     return position;
 };

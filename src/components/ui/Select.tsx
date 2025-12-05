@@ -1,5 +1,5 @@
 import type { ReactElement, ReactNode } from "react";
-import React, { useRef } from "react";
+import React from "react";
 import { createDisclosureContext } from "@/components/ui/DisclosureContext";
 import Portal from "@/components/ui/Portal";
 import { Trigger } from "@/components/ui/Trigger";
@@ -74,27 +74,24 @@ export function SelectValue({ placeholder }: { placeholder?: string }) {
 
 export function SelectContent({ children, className }: { children: ReactNode; className?: string }) {
     const { open, setOpen, triggerRef } = SelectContext.useDisclosure();
-    const contentRef = useRef<HTMLDivElement>(null);
-    const position = usePopoverPosition({ triggerRef, contentRef, open });
+    const positionRef = usePopoverPosition({ triggerRef });
     const clickOutsideRef = useClickOutside(() => setOpen(false));
+
+    if (!open) return null;
 
     return (
         <Portal>
             <div
                 ref={(node) => {
-                    contentRef.current = node;
+                    positionRef(node);
                     if (clickOutsideRef) clickOutsideRef.current = node;
-                    if (node) open ? node.showPopover() : node.hidePopover();
+                    if (node && typeof node.showPopover === "function") {
+                        node.showPopover();
+                        if (triggerRef.current) node.style.width = `${triggerRef.current.offsetWidth}px`;
+                    }
                 }}
                 popover="auto"
-                style={{
-                    position: "absolute",
-                    top: `${position.top}px`,
-                    left: `${position.left}px`,
-                    width: triggerRef.current?.offsetWidth,
-                    margin: 0,
-                    inset: "unset"
-                }}
+                style={{ position: "absolute", margin: 0, inset: "unset" }}
                 className={cn(
                     "max-h-75 min-w-32 overflow-y-auto rounded-md border border-zinc-700 bg-zinc-950 text-zinc-400 shadow-md outline-hidden duration-150 ease-bounce",
                     className

@@ -1,28 +1,21 @@
-import { useCallback, useEffect, useState } from "react";
-
-interface Position {
-    top: number;
-    left: number;
-    width?: number;
-}
+import { useRef } from "react";
 
 interface UsePopoverPositionProps {
     triggerRef: React.RefObject<HTMLElement | null>;
-    contentRef: React.RefObject<HTMLElement | null>;
     containerRef?: React.RefObject<HTMLElement | null>;
     spacing?: number;
     padding?: number;
-    open: boolean;
 }
 
-export const usePopoverPosition = ({ triggerRef, contentRef, containerRef, spacing = 8, padding = 0, open }: UsePopoverPositionProps) => {
-    const [position, setPosition] = useState<Position>({ top: 0, left: 0 });
+export const usePopoverPosition = ({ triggerRef, containerRef, spacing = 8, padding = 0 }: UsePopoverPositionProps) => {
+    const contentRef = useRef<HTMLDivElement | null>(null);
+    const resizeObserver = useRef<ResizeObserver | null>(null);
 
-    const updatePosition = useCallback(() => {
-        if (!triggerRef.current || !contentRef.current) return;
+    const applyPosition = (node: HTMLDivElement) => {
+        if (!triggerRef.current) return;
 
         const triggerRect = triggerRef.current.getBoundingClientRect();
-        const contentRect = contentRef.current.getBoundingClientRect();
+        const contentRect = node.getBoundingClientRect();
         const viewportHeight = window.innerHeight;
 
         const topPosition = triggerRect.bottom + window.scrollY + spacing;
@@ -37,26 +30,37 @@ export const usePopoverPosition = ({ triggerRef, contentRef, containerRef, spaci
         const maxLeft = window.scrollX + window.innerWidth - contentRect.width - spacing;
         const left = containerRect ? containerRect.left + window.scrollX : Math.max(minLeft, Math.min(maxLeft, centeredLeft));
 
-        setPosition({ top, left, width });
-    }, [triggerRef, contentRef, containerRef, spacing, padding]);
+        node.style.top = `${top}px`;
+        node.style.left = `${left}px`;
+        if (width !== undefined) node.style.width = `${width}px`;
+    };
 
-    useEffect(() => {
-        if (open) {
-            queueMicrotask(updatePosition);
-
-            window.addEventListener("resize", updatePosition);
-            window.addEventListener("scroll", updatePosition);
-
-            const resizeObserver = contentRef.current ? new ResizeObserver(updatePosition) : null;
-            if (resizeObserver && contentRef.current) resizeObserver.observe(contentRef.current);
-
-            return () => {
-                window.removeEventListener("resize", updatePosition);
-                window.removeEventListener("scroll", updatePosition);
-                resizeObserver?.disconnect();
-            };
+    const refCallback = (node: HTMLDivElement | null) => {
+        // Cleanup previous
+        if (contentRef.current && !node) {
+            resizeObserver.current?.disconnect();
+            window.removeEventListener("resize", handleResize);
+            window.removeEventListener("scroll", handleResize);
         }
-    }, [open, updatePosition, contentRef]);
 
-    return position;
+        contentRef.current = node;
+
+        if (node) {
+            applyPosition(node);
+
+            resizeObserver.current = new ResizeObserver(() => {
+                if (contentRef.current) applyPosition(contentRef.current);
+            });
+            resizeObserver.current.observe(node);
+
+            window.addEventListener("resize", handleResize);
+            window.addEventListener("scroll", handleResize);
+        }
+    };
+
+    const handleResize = () => {
+        if (contentRef.current) applyPosition(contentRef.current);
+    };
+
+    return refCallback;
 };

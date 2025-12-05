@@ -1,5 +1,4 @@
 import type { ReactElement, ReactNode } from "react";
-import { useRef } from "react";
 import { createDisclosureContext } from "@/components/ui/DisclosureContext";
 import Portal from "@/components/ui/Portal";
 import { Trigger } from "@/components/ui/Trigger";
@@ -27,26 +26,21 @@ export function DropdownMenuTrigger(props: {
 
 export function DropdownMenuContent(props: { children: ReactNode; className?: string }) {
     const { open, setOpen, triggerRef } = useDropdown();
-    const contentRef = useRef<HTMLDivElement>(null);
-    const position = usePopoverPosition({ triggerRef, contentRef, open });
+    const positionRef = usePopoverPosition({ triggerRef });
     const clickOutsideRef = useClickOutside(() => setOpen(false), false);
+
+    if (!open) return null;
 
     return (
         <Portal>
             <div
                 ref={(node) => {
-                    contentRef.current = node;
+                    positionRef(node);
                     if (clickOutsideRef) clickOutsideRef.current = node;
-                    if (node) open ? node.showPopover() : node.hidePopover();
+                    if (node && typeof node.showPopover === "function") node.showPopover();
                 }}
                 popover="auto"
-                style={{
-                    position: "absolute",
-                    top: `${position.top}px`,
-                    left: `${position.left}px`,
-                    margin: 0,
-                    inset: "unset"
-                }}
+                style={{ position: "absolute", margin: 0, inset: "unset" }}
                 className={cn(
                     "min-w-32 max-h-75 overflow-y-auto rounded-2xl border border-zinc-700 bg-zinc-950 p-1 text-zinc-400 shadow-md outline-hidden",
                     "duration-150 ease-bounce",
@@ -58,7 +52,6 @@ export function DropdownMenuContent(props: { children: ReactNode; className?: st
     );
 }
 
-// Re-export des composants de Shadcn pour la compatibilité
 export function DropdownMenuItem(
     props: {
         children: ReactNode;
