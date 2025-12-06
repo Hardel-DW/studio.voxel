@@ -18,10 +18,15 @@ export default function ExportButton({ containerRef }: { containerRef?: RefObjec
     const { isAuthenticated } = useGitHubAuth();
 
     return (
-        <Popover className="w-full">
-            <PopoverTrigger className="w-full">
-                <Button type="button" className="w-full items-center gap-2" variant="shimmer">
-                    <span className="text-sm">
+        <Popover className="in-data-pinned:w-full">
+            <PopoverTrigger className="size-10 in-data-pinned:w-full in-data-pinned:flex-1">
+                <Button
+                    type="button"
+                    className="size-full p-0 in-data-pinned:w-full in-data-pinned:items-center in-data-pinned:gap-2"
+                    variant="shimmer"
+                    size="default">
+                    <img src="/icons/upload.svg" alt="Export" className="size-5 block in-data-pinned:hidden" />
+                    <span className="text-sm hidden in-data-pinned:block whitespace-nowrap">
                         <Translate content="export" />
                     </span>
                 </Button>
