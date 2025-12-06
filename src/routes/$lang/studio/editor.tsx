@@ -1,6 +1,5 @@
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { createFileRoute, Outlet } from "@tanstack/react-router";
-import { useState } from "react";
 import EditorLoading from "@/components/pages/studio/EditorLoading";
 import ConfigManager from "@/components/tools/ConfigManager";
 import ConfiguratorPanel from "@/components/tools/ConfiguratorPanel";
@@ -8,7 +7,7 @@ import ItemTooltip from "@/components/tools/elements/gui/ItemTooltip";
 import NotFoundStudio from "@/components/tools/NotFoundStudio";
 import StudioSidebar from "@/components/tools/sidebar/Sidebar";
 import ToolInternalization from "@/components/tools/ToolInternalization";
-import { cn } from "@/lib/utils";
+import { useDataAttribute } from "@/lib/hook/useDataAttribute";
 import { getQueryClient } from "@/lib/utils/query";
 
 export const Route = createFileRoute("/$lang/studio/editor")({
@@ -19,48 +18,28 @@ export const Route = createFileRoute("/$lang/studio/editor")({
 
 function EditorLayout() {
     const queryClient = getQueryClient();
-    const [isPinned, setIsPinned] = useState(true);
-    const [isHovered, setIsHovered] = useState(false);
+    const pinned = useDataAttribute<HTMLDivElement>({ name: "pinned", initial: true });
 
     return (
         <div
-            className={cn(
-                "flex h-dvh w-full p-4 overflow-hidden relative transition-all duration-300 ease-in-out box-border",
-                isPinned ? "gap-4" : "gap-0"
-            )}
-            data-pinned={isPinned}>
-            {!isPinned && (
-                <button
-                    type="button"
-                    tabIndex={0}
-                    onMouseEnter={() => setIsHovered(true)}
-                    onFocus={() => setIsHovered(true)}
-                    className="fixed inset-y-0 left-0 w-4 z-50 outline-none cursor-default"
-                    aria-label="Show sidebar"
-                />
-            )}
-
-            <div className={cn("shrink-0 transition-[width] duration-300 ease-in-out z-40", isPinned ? "w-80" : "w-0")}>
-                <aside
-                    onMouseEnter={() => !isPinned && setIsHovered(true)}
-                    onMouseLeave={() => setIsHovered(false)}
-                    className={cn(
-                        "flex flex-col w-80 transition-all duration-300 ease-in-out overflow-hidden rounded-2xl border-0 border-zinc-800",
-                        isPinned && "h-full relative translate-x-0 border-none",
-                        !isPinned && "fixed left-4 top-4 bottom-4 shadow-2xl z-50 bg-zinc-950 border",
-                        !isPinned && isHovered && "translate-x-0",
-                        !isPinned && !isHovered && "-translate-x-[120%]"
-                    )}>
-                    <div className="flex items-center justify-between px-6 pt-5 shrink-0">
-                        <a href="/" className="flex items-center gap-2 text-lg transition-colors hover:opacity-80">
+            className="group flex gap-4 h-dvh w-full p-4 overflow-hidden relative transition-all duration-300 ease-in-out box-border"
+            ref={pinned.ref}
+        >
+            <div className="shrink-0 transition-[width] duration-300 ease-in-out z-40 w-20 in-data-pinned:w-80 border border-none not-in-data-pinned:rounded-2xl not-in-data-pinned:border-zinc-900 not-in-data-pinned:bg-content">
+                <aside className="flex flex-col h-full w-full overflow-hidden rounded-2xl border-none">
+                    <div
+                        className="flex items-center shrink-0 in-data-pinned:pt-5 transition-all duration-300 justify-center in-data-pinned:justify-between flex-col gap-4 in-data-pinned:flex-row in-data-pinned:gap-0 in-data-pinned:px-6">
+                        <a href="/" className="flex items-center gap-2 text-lg transition-colors hover:opacity-80 w-0 opacity-0 in-data-pinned:w-auto in-data-pinned:opacity-100 not-in-data-pinned:h-0">
                             <img src="/icons/logo.svg" alt="Voxel" className="size-6 brightness-90" />
-                            <span className="font-bold text-primary">VOXEL</span>
+                            <span className="font-bold text-primary transition-all duration-300 overflow-hidden">
+                                VOXEL
+                            </span>
                         </a>
                         <button
                             type="button"
-                            onClick={() => setIsPinned(!isPinned)}
-                            className="size-8 flex items-center justify-center rounded-md hover:bg-zinc-900 transition-colors cursor-pointer text-zinc-400 hover:text-zinc-100">
-                            <img src="/icons/menu.svg" alt="Collapse" className="size-5 invert-75" />
+                            onClick={pinned.toggle}
+                            className="size-10 flex items-center justify-center rounded-md hover:bg-zinc-900 transition-colors cursor-pointer text-zinc-400 hover:text-zinc-100">
+                            <img src="/icons/menu.svg" alt="Collapse" className="size-6 invert-75" />
                         </button>
                     </div>
 

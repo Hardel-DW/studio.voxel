@@ -8,7 +8,6 @@ import { useConfiguratorStore } from "@/components/tools/Store";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/Popover";
 import Translate from "@/components/ui/Translate";
 import useRegistry, { type FetchedRegistry } from "@/lib/hook/useRegistry";
-import { cn } from "@/lib/utils";
 import SlotGrid from "./SlotGrid";
 
 const SLOT_IMAGES = {
@@ -63,11 +62,7 @@ export default function SlotsEnchantmentCard({ element }: SlotsEnchantmentCardPr
         <div
             ref={cardRef}
             data-element-id={elementId}
-            className={cn(
-                "overview-card bg-black/50 border-t-2 border-l-2 shadow-xl shadow-black/30 border-stone-900 select-none relative transition-all hover:ring-2 ring-zinc-900 rounded-xl p-4 h-full group",
-                "flex flex-col"
-            )}>
-            {/* Header with switch */}
+            className="overview-card bg-black/50 border-t-2 border-l-2 shadow-xl shadow-black/30 border-stone-900 select-none relative transition-all hover:ring-2 ring-zinc-900 rounded-xl p-4 h-full group flex flex-col">
             <div className="flex items-center justify-between pb-4">
                 <div className="flex items-center gap-3 flex-1 min-w-0">
                     {items.length === 0 ? (
@@ -124,10 +119,7 @@ export default function SlotsEnchantmentCard({ element }: SlotsEnchantmentCardPr
                     <Popover onOpenChange={handlePopoverChange}>
                         <PopoverTrigger>
                             <span className="text-xs bg-zinc-900/60 border border-zinc-800 px-2 py-2 rounded-lg cursor-pointer hover:bg-zinc-800/60 transition-colors">
-                                {flattenedSlots.length > 5
-                                    ? `
-                                +${flattenedSlots.length - 5} more`
-                                    : "Configure Slots"}
+                                {flattenedSlots.length > 5 ? `+${flattenedSlots.length - 5} more` : "Configure Slots"}
                             </span>
                         </PopoverTrigger>
                         <PopoverContent>

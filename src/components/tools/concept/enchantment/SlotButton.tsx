@@ -10,7 +10,7 @@ export function SlotButton(props: { slot: (typeof SLOT_CONFIGS)[0]; isActive: bo
             onClick={() => props.onToggle(props.slot.id as SlotRegistryType)}
             className={cn(
                 "bg-black/50 border-t-2 border-l-2 border-stone-900 ring-0 ring-zinc-900 select-none cursor-pointer relative transition-all hover:ring-1 p-3 rounded-xl min-h-20",
-                { "bg-zinc-950/25 ring-1 ring-zinc-600": props.isActive }
+                props.isActive && "bg-zinc-950/25 ring-1 ring-zinc-600"
             )}>
             <div className="flex flex-col items-center justify-center h-full gap-2">
                 <img src={props.slot.image} alt={props.slot.name} className="pixelated" style={{ height: "24px" }} />

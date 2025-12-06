@@ -1,4 +1,4 @@
-import { useId } from "react";
+
 import { useI18nStore } from "@/lib/i18n/i18nStore";
 import { cn } from "@/lib/utils";
 
@@ -17,7 +17,6 @@ export default function ToolInternalization() {
                 <img src="/icons/chevron-down.svg" alt="" className="w-4 h-4 invert-50" />
             </button>
             <ul
-                id={useId()}
                 className="group-focus-within/langage:flex hover:flex hidden bg-black border-t-2 border-l-2 border-stone-900 absolute top-8 right-0 w-44 p-2 flex-col gap-2 rounded-xl z-50 starting:translate-y-2 starting:scale-95 duration-150 ease-bounce transition-all">
                 {names.map((element) => (
                     <li key={element.lang}>
