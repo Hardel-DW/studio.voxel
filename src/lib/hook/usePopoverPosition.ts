@@ -24,7 +24,12 @@ export const usePopoverPosition = ({ triggerRef, containerRef, spacing = 8, padd
         const top = wouldOverflowBottom ? bottomPosition : topPosition;
 
         const containerRect = containerRef?.current?.getBoundingClientRect();
-        const width = containerRect ? containerRect.width - padding : undefined;
+        let width = containerRect ? containerRect.width - padding : undefined;
+
+        if (width && width < 160) {
+            width = undefined;
+        }
+
         const centeredLeft = triggerRect.left + window.scrollX - (contentRect.width - triggerRect.width) / 2;
         const minLeft = window.scrollX + spacing;
         const maxLeft = window.scrollX + window.innerWidth - contentRect.width - spacing;

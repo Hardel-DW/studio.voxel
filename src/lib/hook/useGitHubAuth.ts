@@ -19,13 +19,13 @@ export interface AuthState {
 
 export function useGitHubAuth() {
     const queryClient = useQueryClient();
-
     const authQuery = useQuery({
         queryKey: AUTH_QUERY_KEY,
         queryFn: getSession,
         staleTime: Infinity,
         gcTime: 1000 * 60 * 60 * 24,
-        retry: false
+        retry: false,
+        enabled: typeof document !== "undefined" && document.cookie.includes("app-session=")
     });
 
     const loginMutation = useMutation({
