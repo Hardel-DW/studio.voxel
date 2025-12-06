@@ -40,6 +40,7 @@ export const restoreSession = () => {
         owner: sessionData.owner,
         repositoryName: sessionData.repositoryName,
         branch: sessionData.branch,
+        isGitRepository: sessionData.isGitRepository,
         isInitializing: sessionData.isInitializing
     };
 };

@@ -26,7 +26,12 @@ export default function RestoreLastSession({ className }: { className?: string }
             useConfiguratorStore
                 .getState()
                 .setup({ ...result, logger: session.logger, elements: restoredElements }, session.isModded, session.name);
-            useExportStore.getState().setGitRepository(session.owner, session.repositoryName, session.branch, "");
+
+            useExportStore.getState().clearGitRepository();
+            if (session.isGitRepository) {
+                useExportStore.getState().setGitRepository(session.owner, session.repositoryName, session.branch, "");
+            }
+
             useExportStore.getState().setInitializing(session.isInitializing);
 
             toast("Session restored successfully", TOAST.SUCCESS);
