@@ -2,7 +2,6 @@ import { createFileRoute } from "@tanstack/react-router";
 import type { EnchantmentProps } from "@voxelio/breeze";
 import { CoreAction } from "@voxelio/breeze";
 import { useState } from "react";
-import SimpleStudio from "@/components/layout/SimpleStudio";
 import ToolGrid from "@/components/tools/elements/ToolGrid";
 import ToolSectionSelector from "@/components/tools/elements/ToolSectionSelector";
 import ToolSlot from "@/components/tools/elements/ToolSlot";
@@ -29,7 +28,7 @@ function EnchantmentItemsPage() {
     };
 
     return (
-        <SimpleStudio>
+        <div className="p-8 h-full overflow-y-auto custom-scrollbar">
             <ToolSectionSelector
                 id="slots"
                 title="enchantment:section.supported.description"
@@ -61,6 +60,6 @@ function EnchantmentItemsPage() {
                     )}
                 </ToolGrid>
             </ToolSectionSelector>
-        </SimpleStudio>
+        </div>
     );
 }

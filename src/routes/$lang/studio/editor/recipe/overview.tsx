@@ -1,88 +1,78 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Identifier } from "@voxelio/breeze";
-import { useState } from "react";
-import SimpleStudio from "@/components/layout/SimpleStudio";
+import { useEditorUiStore } from "@/components/tools/concept/EditorUiStore";
 import RecipeOverviewCard from "@/components/tools/concept/recipe/RecipeOverviewCard";
-import RecipeSelector from "@/components/tools/concept/recipe/RecipeSelector";
-import { canBlockHandleRecipeType, getTypesFromSelection, RECIPE_BLOCKS } from "@/components/tools/concept/recipe/recipeConfig";
-import { Toolbar } from "@/components/tools/floatingbar/Toolbar";
-import { ToolbarSearch } from "@/components/tools/floatingbar/ToolbarSearch";
+import { canBlockHandleRecipeType } from "@/components/tools/concept/recipe/recipeConfig";
+import { TextInput } from "@/components/ui/TextInput";
 import Translate from "@/components/ui/Translate";
 import { useElementsByType } from "@/lib/hook/useElementsByType";
 import { useInfiniteScroll } from "@/lib/hook/useInfiniteScroll";
+import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/$lang/studio/editor/recipe/overview")({
     component: Page
 });
 
-function Page() {
-    const [searchValue, setSearchValue] = useState("");
-    const [selection, setSelection] = useState<string>("minecraft:barrier");
-    const recipeElements = useElementsByType("recipe");
-    const filteredElements = recipeElements
-        .filter((el) => !searchValue || el.identifier.resource.toLowerCase().includes(searchValue.toLowerCase()))
-        .filter((el) => getTypesFromSelection(selection).includes(el.type));
-    const { visibleItems, hasMore, ref } = useInfiniteScroll(filteredElements, 16);
-    const recipeCounts = new Map<string, number>(RECIPE_BLOCKS.map((block) => [block.id, 0]));
+const DEFAULT_BLOCK = "minecraft:barrier";
 
-    for (const element of recipeElements) {
-        for (const block of RECIPE_BLOCKS) {
-            if (canBlockHandleRecipeType(block.id, element.type)) {
-                recipeCounts.set(block.id, (recipeCounts.get(block.id) || 0) + 1);
-            }
-        }
-    }
+function Page() {
+    const { search, setSearch, filterPath, viewMode } = useEditorUiStore();
+    const selectedBlock = filterPath || DEFAULT_BLOCK;
+    const recipeElements = useElementsByType("recipe");
+
+    const filteredElements = recipeElements.filter((el) => {
+        if (search && !el.identifier.resource.toLowerCase().includes(search.toLowerCase())) return false;
+        if (selectedBlock === "minecraft:barrier") return true; // All
+        return canBlockHandleRecipeType(selectedBlock, el.type);
+    });
+
+    const { visibleItems, hasMore, ref } = useInfiniteScroll(filteredElements, 24);
 
     return (
-        <SimpleStudio>
-            <Toolbar>
-                <ToolbarSearch placeholder="recipe:overview.search.placeholder" value={searchValue} onChange={setSearchValue} />
-            </Toolbar>
-
-            <div className="flex items-center justify-between gap-2">
-                <div className="flex items-center gap-8">
-                    <h1 className="text-2xl font-bold uppercase">
-                        <Translate content="recipe:overview.title" />
-                    </h1>
-                </div>
-                <div className="flex items-center gap-4">
-                    <div className="relative">
-                        <RecipeSelector value={selection} onChange={setSelection} recipeCounts={recipeCounts} />
-                    </div>
-                </div>
+        <div className="flex flex-col size-full">
+            <div className="max-w-xl sticky top-0 z-30 px-8 py-4 bg-zinc-950/80 backdrop-blur-md border-b border-zinc-800/50">
+                <TextInput value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search recipes..." />
             </div>
 
-            <hr className="my-4" />
-            <div className="grid gap-4" style={{ gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))" }}>
-                {visibleItems.map((element, index) => (
-                    <RecipeOverviewCard
-                        key={`${new Identifier(element.identifier).toUniqueKey()}-${index}`}
-                        element={element}
-                        elementId={new Identifier(element.identifier).toUniqueKey()}
-                    />
-                ))}
+            <div className="flex-1 overflow-y-auto px-8 py-6 custom-scrollbar bg-zinc-950/50">
+                {visibleItems.length > 0 ? (
+                    <div
+                        className={cn(
+                            "grid gap-4 pb-20",
+                            viewMode === "grid" ? "grid-cols-[repeat(auto-fill,minmax(320px,1fr))]" : "grid-cols-1"
+                        )}>
+                        {visibleItems.map((element) => (
+                            <RecipeOverviewCard
+                                key={new Identifier(element.identifier).toUniqueKey()}
+                                element={element}
+                                elementId={new Identifier(element.identifier).toUniqueKey()}
+                            />
+                        ))}
+                    </div>
+                ) : (
+                    <div className="h-full flex flex-col items-center justify-center pb-20 opacity-60">
+                        <div className="size-24 bg-zinc-900/50 rounded-full flex items-center justify-center mb-6 border border-zinc-800">
+                            <img src="/icons/search.svg" className="size-10 opacity-20 invert" alt="No results" />
+                        </div>
+                        <h3 className="text-xl font-medium text-zinc-300 mb-2">
+                            <Translate content="recipe:overview.no.recipes.found" />
+                        </h3>
+                        <p className="text-zinc-500 max-w-sm text-center">
+                            <Translate content="recipe:overview.try.adjusting.search.or.filter" />
+                        </p>
+                    </div>
+                )}
+
+                {hasMore && (
+                    <div ref={ref} className="flex justify-center items-center py-8">
+                        <div className="flex items-center gap-2 text-zinc-500 text-xs">
+                            <span className="size-1.5 bg-zinc-600 rounded-full animate-bounce" style={{ animationDelay: "0ms" }} />
+                            <span className="size-1.5 bg-zinc-600 rounded-full animate-bounce" style={{ animationDelay: "150ms" }} />
+                            <span className="size-1.5 bg-zinc-600 rounded-full animate-bounce" style={{ animationDelay: "300ms" }} />
+                        </div>
+                    </div>
+                )}
             </div>
-
-            {hasMore && (
-                <div ref={ref} className="flex justify-center items-center mt-8 py-4">
-                    <div className="bg-black/50 border-t-2 border-l-2 border-stone-900 rounded-xl p-2 opacity-60">
-                        <span className="text-zinc-500 text-xs">
-                            <Translate content="recipe:overview.scroll.more" />
-                        </span>
-                    </div>
-                </div>
-            )}
-
-            {filteredElements.length === 0 && (
-                <div className="text-center py-12 text-zinc-400">
-                    <div className="text-lg font-medium mb-2">
-                        <Translate content="recipe:overview.no.recipes.found" />
-                    </div>
-                    <div className="text-sm">
-                        <Translate content="recipe:overview.try.adjusting.search.or.filter" />
-                    </div>
-                </div>
-            )}
-        </SimpleStudio>
+        </div>
     );
 }

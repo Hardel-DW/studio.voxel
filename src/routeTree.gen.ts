@@ -20,18 +20,18 @@ import { Route as LangStudioRouteRouteImport } from './routes/$lang/studio/route
 import { Route as LangStudioIndexRouteImport } from './routes/$lang/studio/index'
 import { Route as LangStudioEditorRouteImport } from './routes/$lang/studio/editor'
 import { Route as LangStudioEditorIndexRouteImport } from './routes/$lang/studio/editor/index'
+import { Route as LangStudioEditorRecipeRouteImport } from './routes/$lang/studio/editor/recipe'
 import { Route as LangStudioEditorLoot_tableRouteImport } from './routes/$lang/studio/editor/loot_table'
+import { Route as LangStudioEditorEnchantmentRouteImport } from './routes/$lang/studio/editor/enchantment'
 import { Route as LangStudioEditorRecipeOverviewRouteImport } from './routes/$lang/studio/editor/recipe/overview'
 import { Route as LangStudioEditorRecipeMainRouteImport } from './routes/$lang/studio/editor/recipe/main'
 import { Route as LangStudioEditorLoot_tableOverviewRouteImport } from './routes/$lang/studio/editor/loot_table/overview'
 import { Route as LangStudioEditorLoot_tableMainRouteImport } from './routes/$lang/studio/editor/loot_table/main'
 import { Route as LangStudioEditorEnchantmentTechnicalRouteImport } from './routes/$lang/studio/editor/enchantment/technical'
-import { Route as LangStudioEditorEnchantmentSlots_overviewRouteImport } from './routes/$lang/studio/editor/enchantment/slots_overview'
 import { Route as LangStudioEditorEnchantmentSlotsRouteImport } from './routes/$lang/studio/editor/enchantment/slots'
 import { Route as LangStudioEditorEnchantmentSimulationRouteImport } from './routes/$lang/studio/editor/enchantment/simulation'
 import { Route as LangStudioEditorEnchantmentOverviewRouteImport } from './routes/$lang/studio/editor/enchantment/overview'
 import { Route as LangStudioEditorEnchantmentMainRouteImport } from './routes/$lang/studio/editor/enchantment/main'
-import { Route as LangStudioEditorEnchantmentItems_overviewRouteImport } from './routes/$lang/studio/editor/enchantment/items_overview'
 import { Route as LangStudioEditorEnchantmentItemsRouteImport } from './routes/$lang/studio/editor/enchantment/items'
 import { Route as LangStudioEditorEnchantmentFindRouteImport } from './routes/$lang/studio/editor/enchantment/find'
 import { Route as LangStudioEditorEnchantmentExclusiveRouteImport } from './routes/$lang/studio/editor/enchantment/exclusive'
@@ -91,23 +91,34 @@ const LangStudioEditorIndexRoute = LangStudioEditorIndexRouteImport.update({
   path: '/',
   getParentRoute: () => LangStudioEditorRoute,
 } as any)
+const LangStudioEditorRecipeRoute = LangStudioEditorRecipeRouteImport.update({
+  id: '/recipe',
+  path: '/recipe',
+  getParentRoute: () => LangStudioEditorRoute,
+} as any)
 const LangStudioEditorLoot_tableRoute =
   LangStudioEditorLoot_tableRouteImport.update({
     id: '/loot_table',
     path: '/loot_table',
     getParentRoute: () => LangStudioEditorRoute,
   } as any)
+const LangStudioEditorEnchantmentRoute =
+  LangStudioEditorEnchantmentRouteImport.update({
+    id: '/enchantment',
+    path: '/enchantment',
+    getParentRoute: () => LangStudioEditorRoute,
+  } as any)
 const LangStudioEditorRecipeOverviewRoute =
   LangStudioEditorRecipeOverviewRouteImport.update({
-    id: '/recipe/overview',
-    path: '/recipe/overview',
-    getParentRoute: () => LangStudioEditorRoute,
+    id: '/overview',
+    path: '/overview',
+    getParentRoute: () => LangStudioEditorRecipeRoute,
   } as any)
 const LangStudioEditorRecipeMainRoute =
   LangStudioEditorRecipeMainRouteImport.update({
-    id: '/recipe/main',
-    path: '/recipe/main',
-    getParentRoute: () => LangStudioEditorRoute,
+    id: '/main',
+    path: '/main',
+    getParentRoute: () => LangStudioEditorRecipeRoute,
   } as any)
 const LangStudioEditorLoot_tableOverviewRoute =
   LangStudioEditorLoot_tableOverviewRouteImport.update({
@@ -123,63 +134,51 @@ const LangStudioEditorLoot_tableMainRoute =
   } as any)
 const LangStudioEditorEnchantmentTechnicalRoute =
   LangStudioEditorEnchantmentTechnicalRouteImport.update({
-    id: '/enchantment/technical',
-    path: '/enchantment/technical',
-    getParentRoute: () => LangStudioEditorRoute,
-  } as any)
-const LangStudioEditorEnchantmentSlots_overviewRoute =
-  LangStudioEditorEnchantmentSlots_overviewRouteImport.update({
-    id: '/enchantment/slots_overview',
-    path: '/enchantment/slots_overview',
-    getParentRoute: () => LangStudioEditorRoute,
+    id: '/technical',
+    path: '/technical',
+    getParentRoute: () => LangStudioEditorEnchantmentRoute,
   } as any)
 const LangStudioEditorEnchantmentSlotsRoute =
   LangStudioEditorEnchantmentSlotsRouteImport.update({
-    id: '/enchantment/slots',
-    path: '/enchantment/slots',
-    getParentRoute: () => LangStudioEditorRoute,
+    id: '/slots',
+    path: '/slots',
+    getParentRoute: () => LangStudioEditorEnchantmentRoute,
   } as any)
 const LangStudioEditorEnchantmentSimulationRoute =
   LangStudioEditorEnchantmentSimulationRouteImport.update({
-    id: '/enchantment/simulation',
-    path: '/enchantment/simulation',
-    getParentRoute: () => LangStudioEditorRoute,
+    id: '/simulation',
+    path: '/simulation',
+    getParentRoute: () => LangStudioEditorEnchantmentRoute,
   } as any)
 const LangStudioEditorEnchantmentOverviewRoute =
   LangStudioEditorEnchantmentOverviewRouteImport.update({
-    id: '/enchantment/overview',
-    path: '/enchantment/overview',
-    getParentRoute: () => LangStudioEditorRoute,
+    id: '/overview',
+    path: '/overview',
+    getParentRoute: () => LangStudioEditorEnchantmentRoute,
   } as any)
 const LangStudioEditorEnchantmentMainRoute =
   LangStudioEditorEnchantmentMainRouteImport.update({
-    id: '/enchantment/main',
-    path: '/enchantment/main',
-    getParentRoute: () => LangStudioEditorRoute,
-  } as any)
-const LangStudioEditorEnchantmentItems_overviewRoute =
-  LangStudioEditorEnchantmentItems_overviewRouteImport.update({
-    id: '/enchantment/items_overview',
-    path: '/enchantment/items_overview',
-    getParentRoute: () => LangStudioEditorRoute,
+    id: '/main',
+    path: '/main',
+    getParentRoute: () => LangStudioEditorEnchantmentRoute,
   } as any)
 const LangStudioEditorEnchantmentItemsRoute =
   LangStudioEditorEnchantmentItemsRouteImport.update({
-    id: '/enchantment/items',
-    path: '/enchantment/items',
-    getParentRoute: () => LangStudioEditorRoute,
+    id: '/items',
+    path: '/items',
+    getParentRoute: () => LangStudioEditorEnchantmentRoute,
   } as any)
 const LangStudioEditorEnchantmentFindRoute =
   LangStudioEditorEnchantmentFindRouteImport.update({
-    id: '/enchantment/find',
-    path: '/enchantment/find',
-    getParentRoute: () => LangStudioEditorRoute,
+    id: '/find',
+    path: '/find',
+    getParentRoute: () => LangStudioEditorEnchantmentRoute,
   } as any)
 const LangStudioEditorEnchantmentExclusiveRoute =
   LangStudioEditorEnchantmentExclusiveRouteImport.update({
-    id: '/enchantment/exclusive',
-    path: '/enchantment/exclusive',
-    getParentRoute: () => LangStudioEditorRoute,
+    id: '/exclusive',
+    path: '/exclusive',
+    getParentRoute: () => LangStudioEditorEnchantmentRoute,
   } as any)
 
 export interface FileRoutesByFullPath {
@@ -193,17 +192,17 @@ export interface FileRoutesByFullPath {
   '/$lang/': typeof LangIndexRoute
   '/$lang/studio/editor': typeof LangStudioEditorRouteWithChildren
   '/$lang/studio/': typeof LangStudioIndexRoute
+  '/$lang/studio/editor/enchantment': typeof LangStudioEditorEnchantmentRouteWithChildren
   '/$lang/studio/editor/loot_table': typeof LangStudioEditorLoot_tableRouteWithChildren
+  '/$lang/studio/editor/recipe': typeof LangStudioEditorRecipeRouteWithChildren
   '/$lang/studio/editor/': typeof LangStudioEditorIndexRoute
   '/$lang/studio/editor/enchantment/exclusive': typeof LangStudioEditorEnchantmentExclusiveRoute
   '/$lang/studio/editor/enchantment/find': typeof LangStudioEditorEnchantmentFindRoute
   '/$lang/studio/editor/enchantment/items': typeof LangStudioEditorEnchantmentItemsRoute
-  '/$lang/studio/editor/enchantment/items_overview': typeof LangStudioEditorEnchantmentItems_overviewRoute
   '/$lang/studio/editor/enchantment/main': typeof LangStudioEditorEnchantmentMainRoute
   '/$lang/studio/editor/enchantment/overview': typeof LangStudioEditorEnchantmentOverviewRoute
   '/$lang/studio/editor/enchantment/simulation': typeof LangStudioEditorEnchantmentSimulationRoute
   '/$lang/studio/editor/enchantment/slots': typeof LangStudioEditorEnchantmentSlotsRoute
-  '/$lang/studio/editor/enchantment/slots_overview': typeof LangStudioEditorEnchantmentSlots_overviewRoute
   '/$lang/studio/editor/enchantment/technical': typeof LangStudioEditorEnchantmentTechnicalRoute
   '/$lang/studio/editor/loot_table/main': typeof LangStudioEditorLoot_tableMainRoute
   '/$lang/studio/editor/loot_table/overview': typeof LangStudioEditorLoot_tableOverviewRoute
@@ -218,17 +217,17 @@ export interface FileRoutesByTo {
   '/$lang/migration': typeof LangMigrationRoute
   '/$lang': typeof LangIndexRoute
   '/$lang/studio': typeof LangStudioIndexRoute
+  '/$lang/studio/editor/enchantment': typeof LangStudioEditorEnchantmentRouteWithChildren
   '/$lang/studio/editor/loot_table': typeof LangStudioEditorLoot_tableRouteWithChildren
+  '/$lang/studio/editor/recipe': typeof LangStudioEditorRecipeRouteWithChildren
   '/$lang/studio/editor': typeof LangStudioEditorIndexRoute
   '/$lang/studio/editor/enchantment/exclusive': typeof LangStudioEditorEnchantmentExclusiveRoute
   '/$lang/studio/editor/enchantment/find': typeof LangStudioEditorEnchantmentFindRoute
   '/$lang/studio/editor/enchantment/items': typeof LangStudioEditorEnchantmentItemsRoute
-  '/$lang/studio/editor/enchantment/items_overview': typeof LangStudioEditorEnchantmentItems_overviewRoute
   '/$lang/studio/editor/enchantment/main': typeof LangStudioEditorEnchantmentMainRoute
   '/$lang/studio/editor/enchantment/overview': typeof LangStudioEditorEnchantmentOverviewRoute
   '/$lang/studio/editor/enchantment/simulation': typeof LangStudioEditorEnchantmentSimulationRoute
   '/$lang/studio/editor/enchantment/slots': typeof LangStudioEditorEnchantmentSlotsRoute
-  '/$lang/studio/editor/enchantment/slots_overview': typeof LangStudioEditorEnchantmentSlots_overviewRoute
   '/$lang/studio/editor/enchantment/technical': typeof LangStudioEditorEnchantmentTechnicalRoute
   '/$lang/studio/editor/loot_table/main': typeof LangStudioEditorLoot_tableMainRoute
   '/$lang/studio/editor/loot_table/overview': typeof LangStudioEditorLoot_tableOverviewRoute
@@ -247,17 +246,17 @@ export interface FileRoutesById {
   '/$lang/': typeof LangIndexRoute
   '/$lang/studio/editor': typeof LangStudioEditorRouteWithChildren
   '/$lang/studio/': typeof LangStudioIndexRoute
+  '/$lang/studio/editor/enchantment': typeof LangStudioEditorEnchantmentRouteWithChildren
   '/$lang/studio/editor/loot_table': typeof LangStudioEditorLoot_tableRouteWithChildren
+  '/$lang/studio/editor/recipe': typeof LangStudioEditorRecipeRouteWithChildren
   '/$lang/studio/editor/': typeof LangStudioEditorIndexRoute
   '/$lang/studio/editor/enchantment/exclusive': typeof LangStudioEditorEnchantmentExclusiveRoute
   '/$lang/studio/editor/enchantment/find': typeof LangStudioEditorEnchantmentFindRoute
   '/$lang/studio/editor/enchantment/items': typeof LangStudioEditorEnchantmentItemsRoute
-  '/$lang/studio/editor/enchantment/items_overview': typeof LangStudioEditorEnchantmentItems_overviewRoute
   '/$lang/studio/editor/enchantment/main': typeof LangStudioEditorEnchantmentMainRoute
   '/$lang/studio/editor/enchantment/overview': typeof LangStudioEditorEnchantmentOverviewRoute
   '/$lang/studio/editor/enchantment/simulation': typeof LangStudioEditorEnchantmentSimulationRoute
   '/$lang/studio/editor/enchantment/slots': typeof LangStudioEditorEnchantmentSlotsRoute
-  '/$lang/studio/editor/enchantment/slots_overview': typeof LangStudioEditorEnchantmentSlots_overviewRoute
   '/$lang/studio/editor/enchantment/technical': typeof LangStudioEditorEnchantmentTechnicalRoute
   '/$lang/studio/editor/loot_table/main': typeof LangStudioEditorLoot_tableMainRoute
   '/$lang/studio/editor/loot_table/overview': typeof LangStudioEditorLoot_tableOverviewRoute
@@ -277,17 +276,17 @@ export interface FileRouteTypes {
     | '/$lang/'
     | '/$lang/studio/editor'
     | '/$lang/studio/'
+    | '/$lang/studio/editor/enchantment'
     | '/$lang/studio/editor/loot_table'
+    | '/$lang/studio/editor/recipe'
     | '/$lang/studio/editor/'
     | '/$lang/studio/editor/enchantment/exclusive'
     | '/$lang/studio/editor/enchantment/find'
     | '/$lang/studio/editor/enchantment/items'
-    | '/$lang/studio/editor/enchantment/items_overview'
     | '/$lang/studio/editor/enchantment/main'
     | '/$lang/studio/editor/enchantment/overview'
     | '/$lang/studio/editor/enchantment/simulation'
     | '/$lang/studio/editor/enchantment/slots'
-    | '/$lang/studio/editor/enchantment/slots_overview'
     | '/$lang/studio/editor/enchantment/technical'
     | '/$lang/studio/editor/loot_table/main'
     | '/$lang/studio/editor/loot_table/overview'
@@ -302,17 +301,17 @@ export interface FileRouteTypes {
     | '/$lang/migration'
     | '/$lang'
     | '/$lang/studio'
+    | '/$lang/studio/editor/enchantment'
     | '/$lang/studio/editor/loot_table'
+    | '/$lang/studio/editor/recipe'
     | '/$lang/studio/editor'
     | '/$lang/studio/editor/enchantment/exclusive'
     | '/$lang/studio/editor/enchantment/find'
     | '/$lang/studio/editor/enchantment/items'
-    | '/$lang/studio/editor/enchantment/items_overview'
     | '/$lang/studio/editor/enchantment/main'
     | '/$lang/studio/editor/enchantment/overview'
     | '/$lang/studio/editor/enchantment/simulation'
     | '/$lang/studio/editor/enchantment/slots'
-    | '/$lang/studio/editor/enchantment/slots_overview'
     | '/$lang/studio/editor/enchantment/technical'
     | '/$lang/studio/editor/loot_table/main'
     | '/$lang/studio/editor/loot_table/overview'
@@ -330,17 +329,17 @@ export interface FileRouteTypes {
     | '/$lang/'
     | '/$lang/studio/editor'
     | '/$lang/studio/'
+    | '/$lang/studio/editor/enchantment'
     | '/$lang/studio/editor/loot_table'
+    | '/$lang/studio/editor/recipe'
     | '/$lang/studio/editor/'
     | '/$lang/studio/editor/enchantment/exclusive'
     | '/$lang/studio/editor/enchantment/find'
     | '/$lang/studio/editor/enchantment/items'
-    | '/$lang/studio/editor/enchantment/items_overview'
     | '/$lang/studio/editor/enchantment/main'
     | '/$lang/studio/editor/enchantment/overview'
     | '/$lang/studio/editor/enchantment/simulation'
     | '/$lang/studio/editor/enchantment/slots'
-    | '/$lang/studio/editor/enchantment/slots_overview'
     | '/$lang/studio/editor/enchantment/technical'
     | '/$lang/studio/editor/loot_table/main'
     | '/$lang/studio/editor/loot_table/overview'
@@ -433,6 +432,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LangStudioEditorIndexRouteImport
       parentRoute: typeof LangStudioEditorRoute
     }
+    '/$lang/studio/editor/recipe': {
+      id: '/$lang/studio/editor/recipe'
+      path: '/recipe'
+      fullPath: '/$lang/studio/editor/recipe'
+      preLoaderRoute: typeof LangStudioEditorRecipeRouteImport
+      parentRoute: typeof LangStudioEditorRoute
+    }
     '/$lang/studio/editor/loot_table': {
       id: '/$lang/studio/editor/loot_table'
       path: '/loot_table'
@@ -440,19 +446,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LangStudioEditorLoot_tableRouteImport
       parentRoute: typeof LangStudioEditorRoute
     }
+    '/$lang/studio/editor/enchantment': {
+      id: '/$lang/studio/editor/enchantment'
+      path: '/enchantment'
+      fullPath: '/$lang/studio/editor/enchantment'
+      preLoaderRoute: typeof LangStudioEditorEnchantmentRouteImport
+      parentRoute: typeof LangStudioEditorRoute
+    }
     '/$lang/studio/editor/recipe/overview': {
       id: '/$lang/studio/editor/recipe/overview'
-      path: '/recipe/overview'
+      path: '/overview'
       fullPath: '/$lang/studio/editor/recipe/overview'
       preLoaderRoute: typeof LangStudioEditorRecipeOverviewRouteImport
-      parentRoute: typeof LangStudioEditorRoute
+      parentRoute: typeof LangStudioEditorRecipeRoute
     }
     '/$lang/studio/editor/recipe/main': {
       id: '/$lang/studio/editor/recipe/main'
-      path: '/recipe/main'
+      path: '/main'
       fullPath: '/$lang/studio/editor/recipe/main'
       preLoaderRoute: typeof LangStudioEditorRecipeMainRouteImport
-      parentRoute: typeof LangStudioEditorRoute
+      parentRoute: typeof LangStudioEditorRecipeRoute
     }
     '/$lang/studio/editor/loot_table/overview': {
       id: '/$lang/studio/editor/loot_table/overview'
@@ -470,76 +483,96 @@ declare module '@tanstack/react-router' {
     }
     '/$lang/studio/editor/enchantment/technical': {
       id: '/$lang/studio/editor/enchantment/technical'
-      path: '/enchantment/technical'
+      path: '/technical'
       fullPath: '/$lang/studio/editor/enchantment/technical'
       preLoaderRoute: typeof LangStudioEditorEnchantmentTechnicalRouteImport
-      parentRoute: typeof LangStudioEditorRoute
-    }
-    '/$lang/studio/editor/enchantment/slots_overview': {
-      id: '/$lang/studio/editor/enchantment/slots_overview'
-      path: '/enchantment/slots_overview'
-      fullPath: '/$lang/studio/editor/enchantment/slots_overview'
-      preLoaderRoute: typeof LangStudioEditorEnchantmentSlots_overviewRouteImport
-      parentRoute: typeof LangStudioEditorRoute
+      parentRoute: typeof LangStudioEditorEnchantmentRoute
     }
     '/$lang/studio/editor/enchantment/slots': {
       id: '/$lang/studio/editor/enchantment/slots'
-      path: '/enchantment/slots'
+      path: '/slots'
       fullPath: '/$lang/studio/editor/enchantment/slots'
       preLoaderRoute: typeof LangStudioEditorEnchantmentSlotsRouteImport
-      parentRoute: typeof LangStudioEditorRoute
+      parentRoute: typeof LangStudioEditorEnchantmentRoute
     }
     '/$lang/studio/editor/enchantment/simulation': {
       id: '/$lang/studio/editor/enchantment/simulation'
-      path: '/enchantment/simulation'
+      path: '/simulation'
       fullPath: '/$lang/studio/editor/enchantment/simulation'
       preLoaderRoute: typeof LangStudioEditorEnchantmentSimulationRouteImport
-      parentRoute: typeof LangStudioEditorRoute
+      parentRoute: typeof LangStudioEditorEnchantmentRoute
     }
     '/$lang/studio/editor/enchantment/overview': {
       id: '/$lang/studio/editor/enchantment/overview'
-      path: '/enchantment/overview'
+      path: '/overview'
       fullPath: '/$lang/studio/editor/enchantment/overview'
       preLoaderRoute: typeof LangStudioEditorEnchantmentOverviewRouteImport
-      parentRoute: typeof LangStudioEditorRoute
+      parentRoute: typeof LangStudioEditorEnchantmentRoute
     }
     '/$lang/studio/editor/enchantment/main': {
       id: '/$lang/studio/editor/enchantment/main'
-      path: '/enchantment/main'
+      path: '/main'
       fullPath: '/$lang/studio/editor/enchantment/main'
       preLoaderRoute: typeof LangStudioEditorEnchantmentMainRouteImport
-      parentRoute: typeof LangStudioEditorRoute
-    }
-    '/$lang/studio/editor/enchantment/items_overview': {
-      id: '/$lang/studio/editor/enchantment/items_overview'
-      path: '/enchantment/items_overview'
-      fullPath: '/$lang/studio/editor/enchantment/items_overview'
-      preLoaderRoute: typeof LangStudioEditorEnchantmentItems_overviewRouteImport
-      parentRoute: typeof LangStudioEditorRoute
+      parentRoute: typeof LangStudioEditorEnchantmentRoute
     }
     '/$lang/studio/editor/enchantment/items': {
       id: '/$lang/studio/editor/enchantment/items'
-      path: '/enchantment/items'
+      path: '/items'
       fullPath: '/$lang/studio/editor/enchantment/items'
       preLoaderRoute: typeof LangStudioEditorEnchantmentItemsRouteImport
-      parentRoute: typeof LangStudioEditorRoute
+      parentRoute: typeof LangStudioEditorEnchantmentRoute
     }
     '/$lang/studio/editor/enchantment/find': {
       id: '/$lang/studio/editor/enchantment/find'
-      path: '/enchantment/find'
+      path: '/find'
       fullPath: '/$lang/studio/editor/enchantment/find'
       preLoaderRoute: typeof LangStudioEditorEnchantmentFindRouteImport
-      parentRoute: typeof LangStudioEditorRoute
+      parentRoute: typeof LangStudioEditorEnchantmentRoute
     }
     '/$lang/studio/editor/enchantment/exclusive': {
       id: '/$lang/studio/editor/enchantment/exclusive'
-      path: '/enchantment/exclusive'
+      path: '/exclusive'
       fullPath: '/$lang/studio/editor/enchantment/exclusive'
       preLoaderRoute: typeof LangStudioEditorEnchantmentExclusiveRouteImport
-      parentRoute: typeof LangStudioEditorRoute
+      parentRoute: typeof LangStudioEditorEnchantmentRoute
     }
   }
 }
+
+interface LangStudioEditorEnchantmentRouteChildren {
+  LangStudioEditorEnchantmentExclusiveRoute: typeof LangStudioEditorEnchantmentExclusiveRoute
+  LangStudioEditorEnchantmentFindRoute: typeof LangStudioEditorEnchantmentFindRoute
+  LangStudioEditorEnchantmentItemsRoute: typeof LangStudioEditorEnchantmentItemsRoute
+  LangStudioEditorEnchantmentMainRoute: typeof LangStudioEditorEnchantmentMainRoute
+  LangStudioEditorEnchantmentOverviewRoute: typeof LangStudioEditorEnchantmentOverviewRoute
+  LangStudioEditorEnchantmentSimulationRoute: typeof LangStudioEditorEnchantmentSimulationRoute
+  LangStudioEditorEnchantmentSlotsRoute: typeof LangStudioEditorEnchantmentSlotsRoute
+  LangStudioEditorEnchantmentTechnicalRoute: typeof LangStudioEditorEnchantmentTechnicalRoute
+}
+
+const LangStudioEditorEnchantmentRouteChildren: LangStudioEditorEnchantmentRouteChildren =
+  {
+    LangStudioEditorEnchantmentExclusiveRoute:
+      LangStudioEditorEnchantmentExclusiveRoute,
+    LangStudioEditorEnchantmentFindRoute: LangStudioEditorEnchantmentFindRoute,
+    LangStudioEditorEnchantmentItemsRoute:
+      LangStudioEditorEnchantmentItemsRoute,
+    LangStudioEditorEnchantmentMainRoute: LangStudioEditorEnchantmentMainRoute,
+    LangStudioEditorEnchantmentOverviewRoute:
+      LangStudioEditorEnchantmentOverviewRoute,
+    LangStudioEditorEnchantmentSimulationRoute:
+      LangStudioEditorEnchantmentSimulationRoute,
+    LangStudioEditorEnchantmentSlotsRoute:
+      LangStudioEditorEnchantmentSlotsRoute,
+    LangStudioEditorEnchantmentTechnicalRoute:
+      LangStudioEditorEnchantmentTechnicalRoute,
+  }
+
+const LangStudioEditorEnchantmentRouteWithChildren =
+  LangStudioEditorEnchantmentRoute._addFileChildren(
+    LangStudioEditorEnchantmentRouteChildren,
+  )
 
 interface LangStudioEditorLoot_tableRouteChildren {
   LangStudioEditorLoot_tableMainRoute: typeof LangStudioEditorLoot_tableMainRoute
@@ -558,44 +591,35 @@ const LangStudioEditorLoot_tableRouteWithChildren =
     LangStudioEditorLoot_tableRouteChildren,
   )
 
-interface LangStudioEditorRouteChildren {
-  LangStudioEditorLoot_tableRoute: typeof LangStudioEditorLoot_tableRouteWithChildren
-  LangStudioEditorIndexRoute: typeof LangStudioEditorIndexRoute
-  LangStudioEditorEnchantmentExclusiveRoute: typeof LangStudioEditorEnchantmentExclusiveRoute
-  LangStudioEditorEnchantmentFindRoute: typeof LangStudioEditorEnchantmentFindRoute
-  LangStudioEditorEnchantmentItemsRoute: typeof LangStudioEditorEnchantmentItemsRoute
-  LangStudioEditorEnchantmentItems_overviewRoute: typeof LangStudioEditorEnchantmentItems_overviewRoute
-  LangStudioEditorEnchantmentMainRoute: typeof LangStudioEditorEnchantmentMainRoute
-  LangStudioEditorEnchantmentOverviewRoute: typeof LangStudioEditorEnchantmentOverviewRoute
-  LangStudioEditorEnchantmentSimulationRoute: typeof LangStudioEditorEnchantmentSimulationRoute
-  LangStudioEditorEnchantmentSlotsRoute: typeof LangStudioEditorEnchantmentSlotsRoute
-  LangStudioEditorEnchantmentSlots_overviewRoute: typeof LangStudioEditorEnchantmentSlots_overviewRoute
-  LangStudioEditorEnchantmentTechnicalRoute: typeof LangStudioEditorEnchantmentTechnicalRoute
+interface LangStudioEditorRecipeRouteChildren {
   LangStudioEditorRecipeMainRoute: typeof LangStudioEditorRecipeMainRoute
   LangStudioEditorRecipeOverviewRoute: typeof LangStudioEditorRecipeOverviewRoute
 }
 
+const LangStudioEditorRecipeRouteChildren: LangStudioEditorRecipeRouteChildren =
+  {
+    LangStudioEditorRecipeMainRoute: LangStudioEditorRecipeMainRoute,
+    LangStudioEditorRecipeOverviewRoute: LangStudioEditorRecipeOverviewRoute,
+  }
+
+const LangStudioEditorRecipeRouteWithChildren =
+  LangStudioEditorRecipeRoute._addFileChildren(
+    LangStudioEditorRecipeRouteChildren,
+  )
+
+interface LangStudioEditorRouteChildren {
+  LangStudioEditorEnchantmentRoute: typeof LangStudioEditorEnchantmentRouteWithChildren
+  LangStudioEditorLoot_tableRoute: typeof LangStudioEditorLoot_tableRouteWithChildren
+  LangStudioEditorRecipeRoute: typeof LangStudioEditorRecipeRouteWithChildren
+  LangStudioEditorIndexRoute: typeof LangStudioEditorIndexRoute
+}
+
 const LangStudioEditorRouteChildren: LangStudioEditorRouteChildren = {
+  LangStudioEditorEnchantmentRoute:
+    LangStudioEditorEnchantmentRouteWithChildren,
   LangStudioEditorLoot_tableRoute: LangStudioEditorLoot_tableRouteWithChildren,
+  LangStudioEditorRecipeRoute: LangStudioEditorRecipeRouteWithChildren,
   LangStudioEditorIndexRoute: LangStudioEditorIndexRoute,
-  LangStudioEditorEnchantmentExclusiveRoute:
-    LangStudioEditorEnchantmentExclusiveRoute,
-  LangStudioEditorEnchantmentFindRoute: LangStudioEditorEnchantmentFindRoute,
-  LangStudioEditorEnchantmentItemsRoute: LangStudioEditorEnchantmentItemsRoute,
-  LangStudioEditorEnchantmentItems_overviewRoute:
-    LangStudioEditorEnchantmentItems_overviewRoute,
-  LangStudioEditorEnchantmentMainRoute: LangStudioEditorEnchantmentMainRoute,
-  LangStudioEditorEnchantmentOverviewRoute:
-    LangStudioEditorEnchantmentOverviewRoute,
-  LangStudioEditorEnchantmentSimulationRoute:
-    LangStudioEditorEnchantmentSimulationRoute,
-  LangStudioEditorEnchantmentSlotsRoute: LangStudioEditorEnchantmentSlotsRoute,
-  LangStudioEditorEnchantmentSlots_overviewRoute:
-    LangStudioEditorEnchantmentSlots_overviewRoute,
-  LangStudioEditorEnchantmentTechnicalRoute:
-    LangStudioEditorEnchantmentTechnicalRoute,
-  LangStudioEditorRecipeMainRoute: LangStudioEditorRecipeMainRoute,
-  LangStudioEditorRecipeOverviewRoute: LangStudioEditorRecipeOverviewRoute,
 }
 
 const LangStudioEditorRouteWithChildren =

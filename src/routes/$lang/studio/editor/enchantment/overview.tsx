@@ -1,226 +1,114 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import type { EnchantmentProps, EnchantmentSortCriteria } from "@voxelio/breeze";
-import { EnchantmentSorter } from "@voxelio/breeze";
-import { useRef, useState } from "react";
-import SimpleStudio from "@/components/layout/SimpleStudio";
+import { createFileRoute } from "@tanstack/react-router";
+import { Identifier } from "@voxelio/breeze";
+import { useEditorUiStore } from "@/components/tools/concept/EditorUiStore";
 import EnchantmentCard from "@/components/tools/concept/enchantment/EnchantmentCard";
-import { Toolbar } from "@/components/tools/floatingbar/Toolbar";
-import { ToolbarButton } from "@/components/tools/floatingbar/ToolbarButton";
-import { ToolbarDropdown } from "@/components/tools/floatingbar/ToolbarDropdown";
-import { ToolbarSearch } from "@/components/tools/floatingbar/ToolbarSearch";
-import { Button } from "@/components/ui/Button";
-import {
-    Dialog,
-    DialogCloseButton,
-    DialogContent,
-    DialogFooter,
-    type DialogHandle,
-    DialogHeader,
-    DialogHero
-} from "@/components/ui/Dialog";
-import { MultiStep, MultiStepControl, MultiStepItem } from "@/components/ui/MultiStep";
+import { SLOT_CONFIGS } from "@/components/tools/concept/enchantment/slots";
+import { TextInput } from "@/components/ui/TextInput";
 import Translate from "@/components/ui/Translate";
+import { enchantableEntries } from "@/lib/data/tags";
 import { useElementsByType } from "@/lib/hook/useElementsByType";
-import { useTranslate } from "@/lib/hook/useTranslation";
+import { useInfiniteScroll } from "@/lib/hook/useInfiniteScroll";
+import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/$lang/studio/editor/enchantment/overview")({
-    component: Page
+    component: OverviewPage
 });
 
-const sortOptions = [
-    {
-        key: "supported",
-        value: "supportedItems",
-        to: "/$lang/studio/editor/enchantment/items_overview",
-        label: "enchantment:overview.sort.supported.label",
-        description: "enchantment:overview.sort.supported.description"
-    },
-    {
-        key: "exclusive",
-        value: "exclusiveSet",
-        label: "enchantment:overview.sort.exclusive.label",
-        description: "enchantment:overview.sort.exclusive.description"
-    },
-    {
-        key: "slots",
-        value: "slots",
-        to: "/$lang/studio/editor/enchantment/slots_overview",
-        label: "enchantment:overview.sort.slots.label",
-        description: "enchantment:overview.sort.slots.description"
-    },
-    { value: "none", label: "enchantment:overview.sort.none.label", description: "enchantment:overview.sort.none.description" }
-];
+function OverviewPage() {
+    const { search, setSearch, sidebarView, filterPath, viewMode } = useEditorUiStore();
+    const elements = useElementsByType("enchantment");
 
-function Page() {
-    const { lang } = Route.useParams();
-    const [isDetailed, setIsDetailed] = useState(false);
-    const [searchValue, setSearchValue] = useState("");
-    const [sortCriteria, setSortCriteria] = useState<EnchantmentSortCriteria | "none">("none");
-    const dialogRef = useRef<DialogHandle>(null);
-    const enchantmentElements = useElementsByType("enchantment");
-    const baseElements = enchantmentElements.filter(
-        (el) => !searchValue || el.identifier.resource.toLowerCase().includes(searchValue.toLowerCase())
-    );
-    const isGroupView = sortCriteria !== "none";
-    const filteredElements = isGroupView ? new EnchantmentSorter(baseElements).groupBy(sortCriteria) : baseElements;
-    const sortOption = sortOptions.find((opt) => opt.value === sortCriteria);
-    const translatedSortOption = useTranslate(sortOption?.label || "enchantment:overview.sort.none.label");
-    const translatedSortBy = useTranslate("enchantment:overview.sort.by");
+    const filteredElements = elements.filter((element) => {
+        if (search && !element.identifier.resource.toLowerCase().includes(search.toLowerCase())) {
+            return false;
+        }
+
+        if (filterPath) {
+            const parts = filterPath.split("/");
+            const category = parts[0];
+            const leaf = parts.length > 1 ? parts[1] : null;
+            if (leaf) {
+                const resourceName = new Identifier(element.identifier).toResourceName();
+                return resourceName === leaf;
+            }
+
+            if (sidebarView === "slots") {
+                const slotConfig = SLOT_CONFIGS.find((s) => s.id === category);
+                if (slotConfig) {
+                    return element.slots.some((s) => slotConfig.slots.includes(s));
+                }
+            } else if (sidebarView === "items") {
+                const entry = enchantableEntries.find(([k]) => k === category);
+                if (entry) {
+                    const tag = entry[1].toString();
+                    const supported = Array.isArray(element.supportedItems) ? element.supportedItems : [element.supportedItems];
+                    const primary = element.primaryItems
+                        ? Array.isArray(element.primaryItems)
+                            ? element.primaryItems
+                            : [element.primaryItems]
+                        : [];
+                    const allTags = [...supported, ...primary, ...(element.tags || [])];
+                    return allTags.includes(tag);
+                }
+            } else if (sidebarView === "exclusive") {
+                if (element.exclusiveSet) {
+                    const sets = Array.isArray(element.exclusiveSet) ? element.exclusiveSet : [element.exclusiveSet];
+                    const setName = category;
+                    return sets.some((s) => {
+                        const sName = s.startsWith("#") ? s : Identifier.toDisplay(s);
+                        return sName === setName;
+                    });
+                }
+                return false;
+            }
+        }
+
+        return true;
+    });
+
+    const { visibleItems, hasMore, ref } = useInfiniteScroll(filteredElements, 24);
 
     return (
-        <SimpleStudio>
-            <Dialog id="enchantment-welcome">
-                <DialogContent ref={dialogRef} reminder defaultOpen className="sm:max-w-[800px]">
-                    <MultiStep>
-                        <MultiStepItem>
-                            <DialogHeader>
-                                <DialogHero image="/images/background/dialog/enchantment/overview_1.webp" />
-                            </DialogHeader>
-                            <hr className="my-1" />
-                            <div className="p-4">
-                                <h2 className="flex shrink-0 items-center justify-between text-xl font-medium text-zinc-200 mb-2">
-                                    <Translate content="enchantment:overview.dialog.welcome.title" />
-                                </h2>
-                                <div className="relative leading-normal text-zinc-400 font-light">
-                                    <p>
-                                        <Translate content="enchantment:overview.dialog.welcome.body" />
-                                    </p>
-                                    <ul className="list-disc list-inside ml-4 mt-4 text-zinc-500 text-sm">
-                                        <li>
-                                            <Translate content="enchantment:overview.dialog.welcome.list.1" />
-                                        </li>
-                                        <li>
-                                            <Translate content="enchantment:overview.dialog.welcome.list.2" />
-                                        </li>
-                                        <li>
-                                            <Translate content="enchantment:overview.dialog.welcome.list.3" />
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </MultiStepItem>
-                        <MultiStepItem>
-                            <DialogHeader>
-                                <DialogHero image="/images/background/dialog/enchantment/overview_2.webp" />
-                            </DialogHeader>
-                            <hr className="my-1" />
-                            <div className="p-4">
-                                <h2 className="flex shrink-0 items-center justify-between text-xl font-medium text-zinc-200 mb-2">
-                                    <Translate content="enchantment:overview.dialog.toolbar.title" />
-                                </h2>
-                                <div className="relative leading-normal text-zinc-400 font-light">
-                                    <p>
-                                        <Translate content="enchantment:overview.dialog.toolbar.body" />
-                                    </p>
-                                    <ul className="list-disc list-inside ml-4 mt-4 text-zinc-500 text-sm">
-                                        <li>
-                                            <Translate content="enchantment:overview.dialog.toolbar.list.1" />
-                                        </li>
-                                        <li>
-                                            <Translate content="enchantment:overview.dialog.toolbar.list.2" />
-                                        </li>
-                                        <li>
-                                            <Translate content="enchantment:overview.dialog.toolbar.list.3" />
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </MultiStepItem>
-                        <MultiStepItem>
-                            <DialogHeader>
-                                <DialogHero image="/images/background/dialog/enchantment/overview_3.webp" />
-                            </DialogHeader>
-                            <hr className="my-1" />
-                            <div className="p-4">
-                                <h2 className="flex shrink-0 items-center justify-between text-xl font-medium text-zinc-200 mb-2">
-                                    <Translate content="enchantment:overview.dialog.advanced.title" />
-                                </h2>
-                                <div className="relative leading-normal text-zinc-400 font-light">
-                                    <p>
-                                        <Translate content="enchantment:overview.dialog.advanced.body" />
-                                    </p>
-                                    <ul className="list-disc list-inside ml-4 mt-4 text-zinc-500 text-sm">
-                                        <li>
-                                            <Translate content="enchantment:overview.dialog.advanced.list.before" />{" "}
-                                            <b>
-                                                <Translate content="enchantment:overview.dialog.advanced.list.1.bold" />
-                                            </b>
-                                            , <Translate content="enchantment:overview.dialog.advanced.list.1.after" />
-                                        </li>
-                                        <li>
-                                            <Translate content="enchantment:overview.dialog.advanced.list.before" />{" "}
-                                            <b>
-                                                <Translate content="enchantment:overview.dialog.advanced.list.2.bold" />
-                                            </b>
-                                            , <Translate content="enchantment:overview.dialog.advanced.list.2.after" />
-                                        </li>
-                                        <li>
-                                            <Translate content="enchantment:overview.dialog.advanced.list.before" />{" "}
-                                            <b>
-                                                <Translate content="enchantment:overview.dialog.advanced.list.3.bold" />
-                                            </b>
-                                            , <Translate content="enchantment:overview.dialog.advanced.list.3.after" />
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </MultiStepItem>
-
-                        <DialogFooter className="flex items-end justify-between">
-                            <DialogCloseButton variant="ghost_border">
-                                <Translate content="close" />
-                            </DialogCloseButton>
-                            <MultiStepControl />
-                        </DialogFooter>
-                    </MultiStep>
-                </DialogContent>
-            </Dialog>
-
-            <Toolbar>
-                <ToolbarSearch placeholder="enchantment:overview.search.placeholder" value={searchValue} onChange={setSearchValue} />
-                <div className="flex items-center gap-1">
-                    <ToolbarDropdown
-                        icon="/icons/tools/overview/grid.svg"
-                        tooltip={`${translatedSortBy} ${translatedSortOption}`}
-                        value={sortCriteria}
-                        options={sortOptions}
-                        onChange={(value: string) => setSortCriteria(value as EnchantmentSortCriteria)}
-                        params={{ lang }}
-                    />
-                    <ToolbarButton
-                        icon={`/icons/tools/overview/${isDetailed ? "map" : "list"}.svg`}
-                        tooltip={isDetailed ? "enchantment:overview.view.minimal" : "enchantment:overview.view.detailed"}
-                        onClick={() => setIsDetailed(!isDetailed)}
-                    />
-                    <ToolbarButton
-                        icon="/icons/tools/overview/help.svg"
-                        tooltip="Réouvrir l'aide"
-                        onClick={() => dialogRef.current?.open()}
-                    />
-                </div>
-            </Toolbar>
-
-            <div className="flex items-center justify-between gap-2">
-                <div>
-                    <h1 className="text-2xl font-bold uppercase">
-                        <Translate content="enchantment:overview.title" />
-                    </h1>
-                    <p className="text-sm text-zinc-500">
-                        {sortCriteria !== "none" && <Translate content={`enchantment:overview.sort.${sortOption?.key}.section`} />}
-                    </p>
-                </div>
-                <Link to="/$lang/studio/editor/enchantment/simulation" params={{ lang }}>
-                    <Button variant="ghost">Simulation</Button>
-                </Link>
+        <div className="flex flex-col flex-1 min-h-0">
+            <div className="max-w-xl sticky top-0 z-30 px-8 py-4 bg-zinc-950/80 backdrop-blur-md border-b border-zinc-800/50 flex flex-col gap-4">
+                <TextInput value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search enchantments..." />
             </div>
 
-            <hr className="my-4" />
+            <div className="flex-1 overflow-y-auto px-8 py-6 custom-scrollbar bg-zinc-950/50">
+                {visibleItems.length > 0 ? (
+                    <div
+                        className={cn(
+                            "grid gap-4 pb-20",
+                            viewMode === "grid" ? "grid-cols-[repeat(auto-fill,minmax(280px,1fr))]" : "grid-cols-1"
+                        )}>
+                        {visibleItems.map((element) => (
+                            <EnchantmentCard key={element.identifier.resource} element={element} display={viewMode === "list"} />
+                        ))}
+                    </div>
+                ) : (
+                    <div className="h-full flex flex-col items-center justify-center pb-20 opacity-60">
+                        <div className="size-24 bg-zinc-900/50 rounded-full flex items-center justify-center mb-6 border border-zinc-800">
+                            <img src="/icons/search.svg" className="size-10 opacity-20 invert" alt="No results" />
+                        </div>
+                        <h3 className="text-xl font-medium text-zinc-300 mb-2">
+                            <Translate content="enchantment:items.no_results.title" />
+                        </h3>
+                        <p className="text-zinc-500 max-w-sm text-center">
+                            <Translate content="enchantment:items.no_results.description" />
+                        </p>
+                    </div>
+                )}
 
-            <div className="grid gap-4 overview-grid" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))" }}>
-                {(filteredElements as EnchantmentProps[]).map((element) => (
-                    <EnchantmentCard key={element.identifier.resource} element={element} display={isDetailed} />
-                ))}
+                {hasMore && (
+                    <div ref={ref} className="flex justify-center items-center py-8">
+                        <div className="flex items-center gap-2 text-zinc-500 text-xs">
+                            <span className="size-1.5 bg-zinc-600 rounded-full animate-bounce" style={{ animationDelay: "0ms" }} />
+                            <span className="size-1.5 bg-zinc-600 rounded-full animate-bounce" style={{ animationDelay: "150ms" }} />
+                            <span className="size-1.5 bg-zinc-600 rounded-full animate-bounce" style={{ animationDelay: "300ms" }} />
+                        </div>
+                    </div>
+                )}
             </div>
-        </SimpleStudio>
+        </div>
     );
 }

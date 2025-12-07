@@ -1,6 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import SimpleStudio from "@/components/layout/SimpleStudio";
 import { ExclusiveGroupSection } from "@/components/tools/concept/enchantment/ExclusiveGroupSection";
 import { ExclusiveSingleSection } from "@/components/tools/concept/enchantment/ExclusiveSingleSection";
 import ToolSectionSelector from "@/components/tools/elements/ToolSectionSelector";
@@ -18,7 +17,7 @@ function EnchantmentExclusivePage() {
     const [mode, setMode] = useState<string>(elements[0].id);
 
     return (
-        <SimpleStudio>
+        <div className="p-8 h-full overflow-y-auto custom-scrollbar">
             <div className="flex items flex-col pt-4 h-full">
                 <ToolSectionSelector
                     id="exclusive"
@@ -30,6 +29,6 @@ function EnchantmentExclusivePage() {
                     {mode === "single" && <ExclusiveSingleSection />}
                 </ToolSectionSelector>
             </div>
-        </SimpleStudio>
+        </div>
     );
 }

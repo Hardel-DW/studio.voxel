@@ -1,7 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type { EnchantmentProps, SlotRegistryType } from "@voxelio/breeze";
 import { EnchantmentAction } from "@voxelio/breeze";
-import SimpleStudio from "@/components/layout/SimpleStudio";
 import { SLOT_CONFIGS } from "@/components/tools/concept/enchantment/slots";
 import ToolGrid from "@/components/tools/elements/ToolGrid";
 import ToolSection from "@/components/tools/elements/ToolSection";
@@ -20,7 +19,7 @@ function EnchantmentSlotsPage() {
     ];
 
     return (
-        <SimpleStudio>
+        <div className="p-8 h-full overflow-y-auto custom-scrollbar">
             <ToolSection id="slots" title="enchantment:section.slots.description">
                 {groupedSlots.map((group) => (
                     <ToolGrid key={group.map((config) => config.id).join(",")}>
@@ -52,6 +51,6 @@ function EnchantmentSlotsPage() {
                     </div>
                 </div>
             </ToolSection>
-        </SimpleStudio>
+        </div>
     );
 }

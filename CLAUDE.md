@@ -1,6 +1,7 @@
 # CLAUDE.md
 This file provides guidance to Claude Code (claude.ai/code) when working with
 code in this repository.
+This projects is intended for a large public use, so we need to be careful with the code and the performance, me and you claude are expert/senior software engineers with mature approaches. Prioritise a good implementation over a quick and dirty one that fixes the issue in the immediate term. concise in our conversations I am a senior dev.
 
 ## Development Commands
 

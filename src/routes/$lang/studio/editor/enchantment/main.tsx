@@ -1,7 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type { EnchantmentProps } from "@voxelio/breeze";
 import { CoreAction } from "@voxelio/breeze";
-import SimpleStudio from "@/components/layout/SimpleStudio";
 import Donation from "@/components/tools/elements/Donation";
 import TemplateCard from "@/components/tools/elements/TemplateCard";
 import ToolCounter from "@/components/tools/elements/ToolCounter";
@@ -16,7 +15,7 @@ export const Route = createFileRoute("/$lang/studio/editor/enchantment/main")({
 
 function EnchantmentMainPage() {
     return (
-        <SimpleStudio>
+        <div className="p-8 h-full overflow-y-auto custom-scrollbar">
             <ToolSection id="main" title="enchantment:section.global.description">
                 <ToolGrid>
                     {["maxLevel", "weight", "anvilCost"].map((key, index) => (
@@ -79,6 +78,6 @@ function EnchantmentMainPage() {
                     }}
                 />
             </ToolSection>
-        </SimpleStudio>
+        </div>
     );
 }

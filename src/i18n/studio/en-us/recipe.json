@@ -1,8 +1,9 @@
 {
+    "overview.title": "Recipes",
+    "overview.description": "Create and manage crafting recipes for your datapack.",
     "section.main": "Main",
     "main.result_counter": "Result count",
     "main.result_counter.description": "The number of items you want to get",
-    "overview.title": "Overview",
     "overview.search.placeholder": "Search recipes...",
     "overview.scroll.more": "Scroll for more",
     "overview.no.recipes.found": "No recipes found",

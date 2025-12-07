@@ -8,11 +8,12 @@ interface FileTreeProps {
     tree: TreeFolder;
     activePath: string;
     onSelect: (path: string) => void;
+    className?: string;
 }
 
-export function FileTree({ tree, activePath, onSelect }: FileTreeProps) {
+export function FileTree({ tree, activePath, onSelect, className }: FileTreeProps) {
     return (
-        <div className="space-y-1">
+        <div className={cn("space-y-1", className)}>
             <FileTreeNode name="All" path="" node={tree} activePath={activePath} onSelect={onSelect} isRoot />
         </div>
     );

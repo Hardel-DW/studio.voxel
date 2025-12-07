@@ -1,8 +1,9 @@
 {
+    "overview.title": "Recettes",
+    "overview.description": "Créez et gérez les recettes de craft pour votre datapack.",
     "section.main": "Main",
     "main.result_counter": "Nombre d'items",
     "main.result_counter.description": "Le nombre d'items",
-    "overview.title": "Aperçu",
     "overview.search.placeholder": "Rechercher un recipe...",
     "overview.scroll.more": "Faire défiler pour plus de résultats",
     "overview.no.recipes.found": "Aucun recipe trouvé",

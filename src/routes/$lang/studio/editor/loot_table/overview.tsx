@@ -1,8 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Identifier } from "@voxelio/breeze";
 import { useState } from "react";
+import { useEditorUiStore } from "@/components/tools/concept/EditorUiStore";
 import LootOverviewCard from "@/components/tools/concept/loot/LootOverviewCard";
-import { useLootUiStore } from "@/components/tools/concept/loot/LootUiStore";
 import { TextInput } from "@/components/ui/TextInput";
 import Translate from "@/components/ui/Translate";
 import { useElementsByType } from "@/lib/hook/useElementsByType";
@@ -15,17 +15,17 @@ export const Route = createFileRoute("/$lang/studio/editor/loot_table/overview")
 });
 
 function RouteComponent() {
-    const { selectedPath, search, setSearch, viewMode } = useLootUiStore();
+    const { filterPath, search, setSearch, viewMode } = useEditorUiStore();
     const [forceShow, setForceShow] = useState(false);
     const elements = useElementsByType("loot_table");
     const filtered = elements.filter((el) => {
-        if (!matchesPath(el.identifier, selectedPath)) return false;
+        if (!matchesPath(el.identifier, filterPath)) return false;
         if (search && !el.identifier.resource.toLowerCase().includes(search.toLowerCase())) return false;
         return true;
     });
 
     const { visibleItems, hasMore, ref } = useInfiniteScroll(filtered, 24);
-    const isBroadScope = selectedPath === "" || !selectedPath.includes("/");
+    const isBroadScope = filterPath === "" || !filterPath.includes("/");
     const isTooManyItems = !forceShow && isBroadScope && filtered.length > 50 && !search;
 
     return (

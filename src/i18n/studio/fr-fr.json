@@ -119,5 +119,8 @@
     "welcome.help.title": "Besoin d'Aide ?",
     "welcome.help.description": "Consultez nos guides complets et tutoriels pour commencer avec Voxel Studio.",
     "welcome.help.guides": "Voir les Guides",
-    "welcome.help.discord": "Rejoindre Discord"
+    "welcome.help.discord": "Rejoindre Discord",
+    "common.help.discord": "Besoin d'aide ?",
+    "common.back": "Retour",
+    "common.explorer": "Explorateur"
 }

@@ -1,7 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type { EnchantmentProps } from "@voxelio/breeze";
 import { CoreAction, Identifier } from "@voxelio/breeze";
-import SimpleStudio from "@/components/layout/SimpleStudio";
 import ToolRange from "@/components/tools/elements/ToolRange";
 import ToolSection from "@/components/tools/elements/ToolSection";
 import ToolSwitch from "@/components/tools/elements/ToolSwitch";
@@ -31,20 +30,10 @@ function EnchantmentTechnicalPage() {
     if (!currentElementId) return null;
 
     return (
-        <SimpleStudio>
+        <div className="p-8 h-full overflow-y-auto custom-scrollbar">
             <ToolSection id="technical_behaviour" title="enchantment:section.technical.description">
-                {FIELDS.slice(0, 4).map((field) => (
-                    <ToolSwitch
-                        key={field}
-                        title={`enchantment:technical.${field}.title`}
-                        description={`enchantment:technical.${field}.description`}
-                        action={CoreAction.toggleValueInList("tags", `#minecraft:${field}`)}
-                        renderer={(el: EnchantmentProps) => el.tags.includes(`#minecraft:${field}`)}
-                        lock={[isMinecraft]}
-                    />
-                ))}
                 <div className="grid lg:grid-cols-2 grid-cols-1 gap-4">
-                    {FIELDS.slice(4).map((field) => (
+                    {FIELDS.map((field) => (
                         <ToolSwitch
                             key={field}
                             title={`enchantment:technical.${field}.title`}
@@ -95,6 +84,6 @@ function EnchantmentTechnicalPage() {
                     </h1>
                 )}
             </ToolSection>
-        </SimpleStudio>
+        </div>
     );
 }

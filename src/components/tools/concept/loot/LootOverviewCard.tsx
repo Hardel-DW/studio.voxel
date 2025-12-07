@@ -8,13 +8,12 @@ import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer
 import { useConfiguratorStore } from "@/components/tools/Store";
 import { useFlattenedLootItems } from "@/lib/hook/useFlattenedLootItems";
 
-export default function LootOverviewCard(props: { element: LootTableProps; elementId: string; mode?: "grid" | "list" }) {
+export default function LootOverviewCard(props: { element: LootTableProps; elementId: string; mode?: string }) {
     const { lang } = useParams({ from: "/$lang" });
     const { items } = useFlattenedLootItems(props.element);
     const itemsCount = items.length;
 
     const handleConfigure = () => useConfiguratorStore.getState().setCurrentElementId(props.elementId);
-
     if (props.mode === "list") {
         return <LootOverviewList element={props.element} elementId={props.elementId} />;
     }
@@ -23,7 +22,6 @@ export default function LootOverviewCard(props: { element: LootTableProps; eleme
         <div
             data-element-id={props.elementId}
             className="overview-card bg-zinc-950/70 border border-zinc-900 select-none relative rounded-xl p-4 shadow-sm flex flex-col outline-hidden transition-[box-shadow,transform] duration-150 ease-out hover:shadow-lg hover:-translate-y-0.5">
-            {/* Première ligne : Titre/Badge/Switch */}
             <div className="flex items-center justify-between pb-3">
                 <div className="flex flex-col gap-1 justify-center flex-1 min-w-0">
                     <h3 className="text-sm font-semibold truncate">{new Identifier(props.element.identifier).toResourceName()}</h3>
