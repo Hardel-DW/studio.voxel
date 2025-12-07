@@ -2,7 +2,6 @@ import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { createFileRoute, Outlet } from "@tanstack/react-router";
 import EditorLoading from "@/components/pages/studio/EditorLoading";
 import ConfigManager from "@/components/tools/ConfigManager";
-import ConfiguratorPanel from "@/components/tools/ConfiguratorPanel";
 import ItemTooltip from "@/components/tools/elements/gui/ItemTooltip";
 import NotFoundStudio from "@/components/tools/NotFoundStudio";
 import StudioSidebar from "@/components/tools/sidebar/Sidebar";
@@ -59,10 +58,7 @@ function EditorLayout() {
                     <div className="absolute w-full -z-10 inset-0 shadow-2xl bg-linear-to-r from-[#401727] to-[#311e7696] opacity-20 rounded-full blur-3xl" />
                     <HydrationBoundary state={dehydrate(queryClient)}>
                         <ConfigManager>
-                            <ConfiguratorPanel />
-                            <div className="size-full">
-                                <Outlet />
-                            </div>
+                            <Outlet />
                             <ItemTooltip />
                         </ConfigManager>
                     </HydrationBoundary>

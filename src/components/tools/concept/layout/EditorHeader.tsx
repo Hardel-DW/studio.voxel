@@ -1,7 +1,12 @@
+import { Link } from "@tanstack/react-router";
 import { Identifier, type IdentifierObject } from "@voxelio/breeze";
 import type { ReactNode } from "react";
+import Translate from "@/components/ui/Translate";
+import { useActiveConcept } from "@/lib/hook/useActiveConcept";
+import { cn } from "@/lib/utils";
 import { hueToHsl, stringToColor } from "@/lib/utils/color";
-import { EditorBreadcrumb } from "./EditorBreadcrumb";
+import { EditorBreadcrumb } from "@/components/tools/concept/layout/EditorBreadcrumb";
+import type { Tab } from "@/components/tools/elements";
 
 interface EditorHeaderProps {
     fallbackTitle: string;
@@ -13,6 +18,7 @@ interface EditorHeaderProps {
 }
 
 export function EditorHeader({ fallbackTitle, identifier, filterPath, isOverview, onBack, children }: EditorHeaderProps) {
+    const { tabs, activeTab, lang, showTabs } = useActiveConcept();
     const title = isOverview
         ? filterPath ? Identifier.toDisplay(filterPath.split("/").pop() || "") : "All"
         : identifier ? new Identifier(identifier).toResourceName() : fallbackTitle;
@@ -33,13 +39,7 @@ export function EditorHeader({ fallbackTitle, identifier, filterPath, isOverview
             <div className="relative z-10 flex flex-col justify-end p-8 pb-6">
                 <div className="flex items-end justify-between gap-8 relative z-20">
                     <div className="space-y-2">
-                        <EditorBreadcrumb
-                            rootLabel={fallbackTitle}
-                            identifier={identifier}
-                            filterPath={filterPath}
-                            isOverview={isOverview}
-                            onBack={onBack}
-                        />
+                        <EditorBreadcrumb rootLabel={fallbackTitle} identifier={identifier} filterPath={filterPath} isOverview={isOverview} onBack={onBack} />
                         <h1 className="text-4xl font-bold text-white tracking-tight drop-shadow-xl font-minecraft">{title}</h1>
                         <div
                             className="h-px w-24 mt-3 transition-colors duration-500"
@@ -49,7 +49,25 @@ export function EditorHeader({ fallbackTitle, identifier, filterPath, isOverview
 
                     {isOverview && <div className="flex items-center gap-3">{children}</div>}
                 </div>
+
+                {showTabs && (
+                    <nav className="flex items-center gap-1 mt-6 -mb-2">
+                        {tabs.map((tab) => <EditorHeaderTabs key={tab.id} tab={tab} lang={lang} isActive={activeTab?.id === tab.id} />)}
+                    </nav>
+                )}
             </div>
         </header>
     );
+}
+
+const EditorHeaderTabs = ({ tab, lang, isActive }: { tab: Tab; lang: string; isActive: boolean }) => {
+    return (
+        <Link key={tab.id} to={tab.url} params={{ lang }} disabled={tab.soon}
+            className={cn(
+                "px-4 py-2 text-sm font-medium rounded-t-lg transition-all border-b-2 text-zinc-400 border-transparent disabled:opacity-40 disabled:cursor-not-allowed",
+                isActive ? "text-white border-white/60 bg-white/5" : "hover:text-zinc-200 hover:bg-white/5"
+            )}>
+            <Translate content={tab.text} />
+        </Link>
+    )
 }
