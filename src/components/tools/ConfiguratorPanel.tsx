@@ -17,7 +17,7 @@ export default function ConfiguratorPanel() {
     if (activeConcept.tabs.length <= 1) return null;
 
     return (
-        <div className="flex gap-x-5 bg-inherit justify-center pt-1 overflow-x-auto border-0 mb-4 pb-4 gap-y-4 border-b-2 rounded-none border-zinc-800 flex-wrap shrink-0">
+        <div className="pt-10 flex gap-x-5 bg-inherit justify-center overflow-x-auto border-0 mb-4 pb-4 gap-y-4 rounded-none flex-wrap shrink-0">
             {activeConcept.tabs.map((tab) => {
                 const tabUrl = tab.url.replace("$lang", params.lang);
                 const isActive = location.pathname === tabUrl;
@@ -36,6 +36,7 @@ export default function ConfiguratorPanel() {
                     </Link>
                 );
             })}
+            <div className="mx-4 h-px bg-linear-to-r from-transparent via-white/10 to-transparent w-full"></div>
         </div>
     );
 }

@@ -24,7 +24,7 @@ export default function UnauthView() {
                 onClick={() => login({ redirect: false })}
                 className="w-full flex items-center gap-x-2 bg-zinc-950 hover:bg-zinc-900 border border-zinc-800 text-white">
                 <img src="/icons/company/github.svg" alt="GitHub" className="size-4 invert" />
-                <span className="text-sm">
+                <span className="text-xs font-medium text-zinc-200">
                     <Translate content="repository.login_to_github" />
                 </span>
             </Button>

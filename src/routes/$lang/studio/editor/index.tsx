@@ -17,7 +17,6 @@ function EditorHomepage() {
     return (
         <div className="h-full py-8">
             <div className="container mx-auto relative z-10 flex flex-col h-full justify-between space-y-12 pt-12">
-                {/* Welcome Section */}
                 <div className="text-left mx-auto flex items-center gap-8">
                     <div className="w-24 h-24">
                         <img src="/icons/logo.svg" alt="Voxel" className="size-full" />
@@ -33,7 +32,6 @@ function EditorHomepage() {
                     </div>
                 </div>
 
-                {/* Studio Tools - Compact Alternating */}
                 <div className="mx-auto space-y-4 min-w-3xl max-w-5xl">
                     {CONCEPTS.map((concept, index) => (
                         <Fragment key={concept.registry}>
@@ -57,7 +55,6 @@ function EditorHomepage() {
                     ))}
                 </div>
 
-                {/* Guides Section */}
                 <div className="px-24">
                     <div className="bg-black/50 backdrop-blur-2xl border-t-2 border-l-2 border-stone-900 rounded-2xl p-6 relative overflow-hidden flex items-center justify-between">
                         <div className="absolute inset-0 -z-10 brightness-15 rotate-180 hue-rotate-30">

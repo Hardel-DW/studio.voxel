@@ -27,7 +27,7 @@ export default function StudioSidebar() {
     return (
         <div className="flex flex-col pb-4 size-full">
             <div className="overflow-y-auto overflow-x-hidden flex-1 scrollbar-thin flex flex-col items-center in-data-pinned:items-stretch w">
-                <div className="flex flex-col gap-3 mt-4 w-full max-w-[320px] mx-auto">
+                <div className="flex flex-col gap-3 mt-4 w-full max-w-[280px] mx-auto">
                     {CONCEPTS.map((concept, index) => (
                         <SidebarCard
                             key={concept.title}
@@ -44,7 +44,7 @@ export default function StudioSidebar() {
 
             <div
                 ref={buttonsContainerRef}
-                className="shrink-0 flex flex-col-reverse items-center gap-2 in-data-pinned:flex-row in-data-pinned:gap-2 mt-2 transition-all duration-300 w-full justify-center max-w-[320px] mx-auto">
+                className="shrink-0 flex flex-col-reverse items-center gap-2 in-data-pinned:flex-row in-data-pinned:gap-2 mt-2 transition-all duration-300 w-full justify-center max-w-[280px] mx-auto">
                 <ExportButton containerRef={buttonsContainerRef} />
                 <Popover>
                     <PopoverTrigger>
@@ -56,7 +56,10 @@ export default function StudioSidebar() {
                             <img src="/icons/settings.svg" alt="settings" className="size-6 invert opacity-70" />
                         </Button>
                     </PopoverTrigger>
-                    <PopoverContent className="w-80 p-2 flex flex-col relative bg-zinc-950 backdrop-blur-xl border border-white/5 shadow-2xl rounded-2xl">
+                    <PopoverContent
+                        containerRef={buttonsContainerRef}
+                        spacing={20}
+                        className="w-80 p-2 flex flex-col bg-zinc-950 backdrop-blur-xl border border-white/5 shadow-2xl rounded-2xl">
                         <div className="flex flex-col p-2 gap-1 relative">
                             <div className="absolute inset-0 -z-10 brightness-25 blur-lg rounded-xl overflow-hidden">
                                 <img src="/images/shine.avif" alt="Shine" className="w-full h-full object-cover" loading="lazy" />
@@ -96,14 +99,14 @@ export default function StudioSidebar() {
                             <Button
                                 variant="ghost"
                                 onClick={handleDebugModalOpen}
-                                className="w-full justify-between h-auto py-3 px-4 font-normal text-zinc-400 hover:text-white bg-white/5 hover:bg-zinc-700/35 border border-white/5 hover:border-white/10 rounded-xl transition-all duration-200 group">
+                                className="w-full justify-between h-auto py-3 px-4 font-normal text-zinc-400 hover:text-white bg-zinc-900/10 hover:bg-zinc-900/30 border border-white/5 hover:border-white/10 rounded-xl transition-all duration-200 group">
                                 <span className="flex items-center gap-3">
                                     <img
                                         src="/icons/debug.svg"
                                         alt="Code"
                                         className="size-4 invert opacity-50 group-hover:opacity-100 transition-opacity"
                                     />
-                                    <span className="font-medium">Open Code Viewer</span>
+                                    <span className="font-medium text-xs">Open Code Viewer</span>
                                 </span>
                                 <div className="flex items-center gap-2">
                                     <span className="text-[10px] font-mono text-zinc-500 bg-zinc-900/50 px-1.5 py-0.5 rounded border border-white/5 group-hover:border-white/10 transition-colors">

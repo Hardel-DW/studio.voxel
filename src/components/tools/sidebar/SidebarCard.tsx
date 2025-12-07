@@ -32,7 +32,7 @@ export default function SidebarCard(props: Props) {
                 params={{ lang: params.lang }}
                 disabled={isSelected}
                 className={cn(
-                    "block relative rounded-2xl overflow-hidden transition-all duration-300 ease-spring border h-14 in-data-pinned:h-24 bg-zinc-900/50 border-zinc-900",
+                    "block relative rounded-2xl overflow-hidden transition-all duration-300 ease-spring border h-14 in-data-pinned:h-20 bg-zinc-900/50 border-zinc-900",
                     isSelected
                         ? "opacity-100 not-in-data-pinned:bg-zinc-700/5 not-in-data-pinned:border-zinc-800"
                         : "opacity-40 hover:opacity-100 not-in-data-pinned:bg-transparent not-in-data-pinned:border-transparent not-in-data-pinned:hover:border-zinc-800 not-in-data-pinned:hover:bg-white/5"
@@ -42,7 +42,11 @@ export default function SidebarCard(props: Props) {
                 </div>
 
                 <div className="absolute inset-0 flex items-center justify-center transition-all duration-300 ease-spring opacity-100 scale-100 in-data-pinned:opacity-0 in-data-pinned:scale-90 in-data-pinned:pointer-events-none">
-                    <img src={props.image.src} alt={props.image.alt} className={cn("size-6 rounded-md object-contain transition-opacity", isSelected ? "opacity-100" : "opacity-80")} />
+                    <img
+                        src={props.image.src}
+                        alt={props.image.alt}
+                        className={cn("size-6 rounded-md object-contain transition-opacity", isSelected ? "opacity-100" : "opacity-80")}
+                    />
                 </div>
 
                 <div className="absolute inset-0 flex items-center px-4 transition-all duration-300 ease-spring opacity-0 translate-x-4 in-data-pinned:opacity-100 in-data-pinned:translate-x-0 pointer-events-none in-data-pinned:pointer-events-auto">

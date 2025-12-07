@@ -35,7 +35,6 @@ export default function ExportButton({ containerRef }: { containerRef?: RefObjec
             <PopoverContent
                 containerRef={containerRef}
                 spacing={20}
-                padding={16}
                 className="rounded-none border-none shadow-none p-0 bg-transparent space-y-2">
                 <div className="relative rounded-2xl border border-zinc-800 bg-zinc-950 text-zinc-200 shadow-md z-20 p-4">
                     <div className="relative">{isAuthenticated ? <AuthView /> : <UnauthView />}</div>

@@ -52,14 +52,13 @@ export function PopoverContent(props: {
     className?: string;
     containerRef?: React.RefObject<HTMLElement | null>;
     spacing?: number;
-    padding?: number;
 }) {
-    const { children, className, containerRef, spacing, padding } = props;
+    const { children, className, containerRef, spacing } = props;
     const context = useContext(PopoverContext);
     if (!context) throw new Error("PopoverContent must be used within a Popover");
     const { activeId, setActiveId } = usePopoverStore();
     const isOpen = activeId === context.id;
-    const positionRef = usePopoverPosition({ triggerRef: context.triggerRef, containerRef, spacing, padding });
+    const positionRef = usePopoverPosition({ triggerRef: context.triggerRef, containerRef, spacing });
     const clickOutsideRef = useClickOutside(() => {
         if (isOpen) setActiveId(null);
     });
