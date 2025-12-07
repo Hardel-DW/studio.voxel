@@ -63,7 +63,7 @@ export default function EditorLoading() {
 
                         <div className="px-8 lg:px-0 pt-12 h-full transition w-full md:w-[95%] justify-self-center">
                             <div className="flex flex-col h-full">
-                                <div className="absolute w-full -z-10 inset-0 shadow-2xl bg-linear-to-r from-[#401727] to-[#311e7696] opacity-20 rounded-full blur-[10rem]" />
+                                <div className="absolute w-full -z-10 inset-0 shadow-2xl bg-linear-to-r from-[#401727] to-[#311e7696] opacity-20 rounded-full blur-3xl" />
 
                                 <div className="size-full flex items-center justify-center flex-col gap-y-4">
                                     <div className="flex items-center justify-center mb-2">

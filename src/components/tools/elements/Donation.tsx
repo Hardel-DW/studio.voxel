@@ -75,7 +75,7 @@ export default function Donation(props: ToolDonationType) {
                 </div>
 
                 <div className="absolute inset-0 -z-10 hue-rotate-90 brightness-15">
-                    <img src="/images/shine.avif" alt="Shine" />
+                    <img src="/images/shine.avif" alt="Shine" loading="lazy" />
                 </div>
             </div>
         </RenderGuard>

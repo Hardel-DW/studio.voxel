@@ -19,29 +19,21 @@ export const usePopoverStore = create<PopoverState>((set) => ({
 
 const PopoverContext = createContext<{ id: string; triggerRef: React.RefObject<HTMLElement | null> } | null>(null);
 
-export function Popover({
-    children,
-    className
-}: {
+export function Popover(props: {
     children: ReactNode;
     className?: string;
-    defaultOpen?: boolean;
-    onOpenChange?: (open: boolean) => void;
 }) {
     const id = useId();
     const triggerRef = useRef<HTMLElement>(null);
 
     return (
         <PopoverContext.Provider value={{ id, triggerRef }}>
-            <div className={cn("relative inline-block", className)}>{children}</div>
+            <div className={cn("relative inline-block", props.className)}>{props.children}</div>
         </PopoverContext.Provider>
     );
 }
 
-export function PopoverTrigger({
-    children,
-    className
-}: {
+export function PopoverTrigger(props: {
     children: ReactElement<{ ref?: React.Ref<HTMLElement>; onClick?: () => void; className?: string }>;
     className?: string;
 }) {
@@ -52,25 +44,20 @@ export function PopoverTrigger({
     const isActive = activeId === context.id;
 
     return (
-        <Trigger elementRef={context.triggerRef} onToggle={() => setActiveId(isActive ? null : context.id)} className={className}>
-            {children}
+        <Trigger elementRef={context.triggerRef} onToggle={() => setActiveId(isActive ? null : context.id)} className={props.className}>
+            {props.children}
         </Trigger>
     );
 }
 
-export function PopoverContent({
-    children,
-    className,
-    containerRef,
-    spacing,
-    padding
-}: {
+export function PopoverContent(props: {
     children: ReactNode;
     className?: string;
     containerRef?: React.RefObject<HTMLElement | null>;
     spacing?: number;
     padding?: number;
 }) {
+    const { children, className, containerRef, spacing, padding } = props;
     const context = useContext(PopoverContext);
     if (!context) throw new Error("PopoverContent must be used within a Popover");
     const { activeId, setActiveId } = usePopoverStore();

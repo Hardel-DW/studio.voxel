@@ -1,7 +1,6 @@
 import { Link, useParams } from "@tanstack/react-router";
 import type { EnchantmentProps, TagType } from "@voxelio/breeze";
 import { CoreAction, getItemFromMultipleOrOne, Identifier, SlotManager, TagsProcessor } from "@voxelio/breeze";
-import { useRef } from "react";
 import SimpleSwitch from "@/components/tools/elements/SimpleSwitch";
 import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer";
 import { useConfiguratorStore } from "@/components/tools/Store";
@@ -29,7 +28,6 @@ interface SlotsEnchantmentCardProps {
 }
 
 export default function SlotsEnchantmentCard({ element }: SlotsEnchantmentCardProps) {
-    const cardRef = useRef<HTMLDivElement | null>(null);
     const { lang } = useParams({ from: "/$lang" });
     const { data } = useRegistry<FetchedRegistry<TagType>>("summary", "tags/item");
     const datapackTags = useConfiguratorStore((state) => state.getRegistry<TagType>("tags/item"));
@@ -53,14 +51,8 @@ export default function SlotsEnchantmentCard({ element }: SlotsEnchantmentCardPr
         useConfiguratorStore.getState().setCurrentElementId(elementId);
     };
 
-    const handlePopoverChange = (isOpen: boolean) => {
-        if (!cardRef.current) return;
-        cardRef.current.toggleAttribute("data-popover-open", isOpen);
-    };
-
     return (
         <div
-            ref={cardRef}
             data-element-id={elementId}
             className="overview-card bg-black/50 border-t-2 border-l-2 shadow-xl shadow-black/30 border-stone-900 select-none relative transition-all hover:ring-2 ring-zinc-900 rounded-xl p-4 h-full group flex flex-col">
             <div className="flex items-center justify-between pb-4">
@@ -116,7 +108,7 @@ export default function SlotsEnchantmentCard({ element }: SlotsEnchantmentCardPr
                             </span>
                         )}
                     </div>
-                    <Popover onOpenChange={handlePopoverChange}>
+                    <Popover>
                         <PopoverTrigger>
                             <span className="text-xs bg-zinc-900/60 border border-zinc-800 px-2 py-2 rounded-lg cursor-pointer hover:bg-zinc-800/60 transition-colors">
                                 {flattenedSlots.length > 5 ? `+${flattenedSlots.length - 5} more` : "Configure Slots"}
@@ -157,7 +149,7 @@ export default function SlotsEnchantmentCard({ element }: SlotsEnchantmentCardPr
 
             {/* Background shine */}
             <div className="absolute inset-0 -z-10 brightness-30 group-hover:brightness-70 transition rounded-xl overflow-hidden">
-                <img src="/images/shine.avif" alt="Shine" className="w-full h-full object-cover" />
+                <img src="/images/shine.avif" alt="Shine" className="w-full h-full object-cover" loading="lazy" />
             </div>
         </div>
     );

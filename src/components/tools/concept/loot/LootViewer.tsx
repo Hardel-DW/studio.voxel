@@ -37,10 +37,10 @@ export default function LootViewer(props: LootViewerProps) {
             </div>
 
             <div className="absolute inset-0 -z-10 brightness-30">
-                <img src="/images/shine.avif" alt="Shine" />
+                <img src="/images/shine.avif" alt="Shine" loading="lazy" />
             </div>
             <div className="absolute inset-0 -z-10 brightness-30 rotate-180">
-                <img src="/images/shine.avif" alt="Shine" />
+                <img src="/images/shine.avif" alt="Shine" loading="lazy" />
             </div>
         </div>
     );

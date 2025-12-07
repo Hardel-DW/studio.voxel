@@ -45,7 +45,7 @@ export function Tabs({ defaultValue, onValueChange, className, children }: TabsP
                     ref={containerRef}
                     className="h-fit relative w-full justify-center text-sm rounded-2xl border border-zinc-800 p-1 text-zinc-400 flex bg-transparent overflow-hidden">
                     <div className="absolute inset-0 -z-10 hue-rotate-45 brightness-20">
-                        <img src="/images/shine.avif" alt="Shine" />
+                        <img src="/images/shine.avif" alt="Shine" loading="lazy" />
                     </div>
                     {React.Children.toArray(children).filter((child) => React.isValidElement(child) && child.type === TabsTrigger)}
                     <div

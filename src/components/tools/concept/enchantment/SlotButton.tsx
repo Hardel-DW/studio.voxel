@@ -20,7 +20,7 @@ export function SlotButton(props: { slot: (typeof SLOT_CONFIGS)[0]; isActive: bo
             </div>
 
             <div className="absolute inset-0 -z-10 brightness-30">
-                <img src="/images/shine.avif" alt="Shine" className="w-full h-full object-cover" />
+                <img src="/images/shine.avif" alt="Shine" className="w-full h-full object-cover" loading="lazy" />
             </div>
         </button>
     );

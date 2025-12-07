@@ -38,7 +38,7 @@ export default function SidebarCard(props: Props) {
                 )}
             >
                 <div className="absolute inset-0 -z-10 brightness-30">
-                    <img src="/images/shine.avif" alt="Shine" />
+                    <img src="/images/shine.avif" alt="Shine" loading="lazy" />
                 </div>
 
                 <div className="absolute inset-0 flex items-center justify-center transition-all duration-300 ease-spring opacity-100 scale-100 in-data-pinned:opacity-0 in-data-pinned:scale-90 in-data-pinned:pointer-events-none">

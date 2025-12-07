@@ -61,7 +61,7 @@ function EditorHomepage() {
                 <div className="px-24">
                     <div className="bg-black/50 backdrop-blur-2xl border-t-2 border-l-2 border-stone-900 rounded-2xl p-6 relative overflow-hidden flex items-center justify-between">
                         <div className="absolute inset-0 -z-10 brightness-15 rotate-180 hue-rotate-30">
-                            <img src="/images/shine.avif" alt="Shine" className="w-full h-full object-cover" />
+                            <img src="/images/shine.avif" alt="Shine" className="w-full h-full object-cover" loading="lazy" />
                         </div>
 
                         <div className="text-left w-fit">

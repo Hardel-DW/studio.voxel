@@ -44,10 +44,10 @@ export default function RecipeSelector(props: {
             </BoxHoveredTrigger>
             <BoxHoveredContent className="relative -translate-y-2 -translate-x-2">
                 <div className="absolute inset-0 z-0 hue-rotate-45 starting:opacity-0 transition-all duration-500 brightness-20">
-                    <img src="/images/shine.avif" alt="Shine" />
+                    <img src="/images/shine.avif" alt="Shine" loading="lazy" />
                 </div>
                 <div className="absolute inset-0 z-0 hue-rotate-45 rotate-180 starting:opacity-0 transition-all duration-500 brightness-10">
-                    <img src="/images/shine.avif" alt="Shine" />
+                    <img src="/images/shine.avif" alt="Shine" loading="lazy" />
                 </div>
 
                 <div className="flex flex-col gap-2 relative z-20">

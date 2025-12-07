@@ -24,17 +24,17 @@ function Page() {
 
     return (
         <div className="relative">
-            <div className="fixed -z-50 -top-16 -right-16 size-72 rounded-full blur-[10rem] bg-linear-to-br from-red-900/20 to-blue-900/20" />
-            <div className="fixed -z-50 top-0 bottom-0 translate-y-1/2 -left-8 w-64 h-full rounded-full blur-[4rem] bg-linear-to-br from-pink-900/20 to-blue-900/20" />
-            <div className="fixed -z-50 -bottom-24 -right-24 size-60 rounded-full blur-[10rem] bg-linear-to-br from-purple-900/20 to-red-900/20" />
-            <div className="fixed -z-50 -top-16 -left-16 size-100 rounded-full blur-[4rem] bg-linear-to-br from-pink-900/20 to-blue-900/20" />
+            <div className="fixed -z-50 -top-16 -right-16 size-72 rounded-full blur-3xl bg-linear-to-br from-red-900/20 to-blue-900/20" />
+            <div className="fixed -z-50 top-0 bottom-0 translate-y-1/2 -left-8 w-64 h-full rounded-full blur-3xl bg-linear-to-br from-pink-900/20 to-blue-900/20" />
+            <div className="fixed -z-50 -bottom-24 -right-24 size-60 rounded-full blur-3xl bg-linear-to-br from-purple-900/20 to-red-900/20" />
+            <div className="fixed -z-50 -top-16 -left-16 size-100 rounded-full blur-3xl bg-linear-to-br from-pink-900/20 to-blue-900/20" />
 
             <Navbar />
             <LineSetup />
 
             <section className="min-h-screen flex flex-col justify-center s:justify-start lg:grid lg:grid-cols-2 gap-8 lg:gap-12 relative">
                 <div className="-z-10 absolute inset-0">
-                    <div className="rotate-45 w-[85vw] h-[70vh] bg-radial from-zinc-900/20 to-stone-500/20 rounded-3xl blur-[10rem]" />
+                    <div className="rotate-45 w-[85vw] h-[70vh] bg-radial from-zinc-900/20 to-stone-500/20 rounded-3xl blur-3xl" />
                 </div>
                 <div className="-z-10 absolute inset-0">
                     <svg className="size-full stroke-white/10 mask-[radial-gradient(white,transparent_50%)] [stroke-dasharray:5_6] [stroke-dashoffset:10] lg:stroke-4">

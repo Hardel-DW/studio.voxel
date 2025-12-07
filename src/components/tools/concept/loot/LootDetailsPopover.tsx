@@ -7,16 +7,15 @@ import { useFlattenedLootItems } from "@/lib/hook/useFlattenedLootItems";
 interface LootDetailsPopoverProps {
     element: LootTableProps;
     trigger: ReactElement<{ ref?: React.Ref<HTMLElement>; onClick?: () => void; className?: string }>;
-    onOpenChange?: (isOpen: boolean) => void;
 }
 
-export default function LootDetailsPopover({ element, trigger, onOpenChange }: LootDetailsPopoverProps) {
+export default function LootDetailsPopover({ element, trigger }: LootDetailsPopoverProps) {
     const { items, isLoading } = useFlattenedLootItems(element);
     const itemsCount = items.length;
     const rollsInfo = getRollsInfo(element);
 
     return (
-        <Popover className="loot-popover" onOpenChange={onOpenChange}>
+        <Popover className="loot-popover">
             <PopoverTrigger>{trigger}</PopoverTrigger>
             <PopoverContent className="max-w-100 max-h-120">
                 <div className="flex flex-col gap-2">

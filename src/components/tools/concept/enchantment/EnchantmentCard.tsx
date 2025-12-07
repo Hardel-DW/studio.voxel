@@ -126,7 +126,7 @@ export default function EnchantOverviewCard(props: { element: EnchantmentProps; 
 
             {/* Background shine */}
             <div className="absolute inset-0 -z-10 brightness-30 group-hover:brightness-70 transition rounded-xl overflow-hidden">
-                <img src="/images/shine.avif" alt="Shine" className="w-full h-full object-cover" />
+                <img src="/images/shine.avif" alt="Shine" className="w-full h-full object-cover" loading="lazy" />
             </div>
         </div>
     );

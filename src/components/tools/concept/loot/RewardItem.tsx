@@ -64,7 +64,7 @@ export default function RewardItem(props: RewardItemProps) {
                 </div>
             </div>
             <div className="absolute inset-0 -z-10 brightness-30 hue-rotate-15">
-                <img src="/images/shine.avif" alt="Shine" />
+                <img src="/images/shine.avif" alt="Shine" loading="lazy" />
             </div>
         </li>
     );

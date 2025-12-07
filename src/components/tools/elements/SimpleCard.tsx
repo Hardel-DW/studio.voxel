@@ -15,7 +15,7 @@ export default function SimpleCard({ children, className, ...props }: SimpleCard
             {...props}>
             {children}
             <div className="absolute inset-0 -z-10 brightness-30">
-                <img src="/images/shine.avif" alt="Shine" />
+                <img src="/images/shine.avif" alt="Shine" loading="lazy" />
             </div>
         </div>
     );

@@ -40,7 +40,7 @@ export default function ExportButton({ containerRef }: { containerRef?: RefObjec
                 <div className="relative rounded-2xl border border-zinc-800 bg-zinc-950 text-zinc-200 shadow-md z-20 p-4">
                     <div className="relative">{isAuthenticated ? <AuthView /> : <UnauthView />}</div>
                     <div className="absolute inset-0 -z-10 brightness-30">
-                        <img src="/images/shine.avif" alt="Shine" />
+                        <img src="/images/shine.avif" alt="Shine" loading="lazy" />
                     </div>
                 </div>
                 <div className="relative rounded-2xl border border-zinc-800 bg-zinc-950 text-zinc-200 shadow-md z-20 flex flex-col p-2 pb-3 gap-3">
@@ -55,7 +55,7 @@ export default function ExportButton({ containerRef }: { containerRef?: RefObjec
                     </div>
 
                     <div className="absolute inset-0 -z-10 brightness-30">
-                        <img src="/images/shine.avif" alt="Shine" />
+                        <img src="/images/shine.avif" alt="Shine" loading="lazy" />
                     </div>
                 </div>
             </PopoverContent>

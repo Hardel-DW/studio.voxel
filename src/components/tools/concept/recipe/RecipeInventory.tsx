@@ -28,10 +28,10 @@ export default function RecipeInventory() {
 
             <div className="absolute bottom-0 left-0 right-0 h-12 bg-linear-to-t from-black/80 via-black/20 to-transparent pointer-events-none" />
             <div className="absolute inset-0 -z-10 brightness-30 rotate-180 hue-rotate-45">
-                <img src="/images/shine.avif" alt="Shine" />
+                <img src="/images/shine.avif" alt="Shine" loading="lazy" />
             </div>
             <div className="absolute inset-0 -z-10 brightness-30">
-                <img src="/images/shine.avif" alt="Shine" />
+                <img src="/images/shine.avif" alt="Shine" loading="lazy" />
             </div>
         </div>
     );

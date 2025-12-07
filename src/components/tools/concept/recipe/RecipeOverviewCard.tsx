@@ -28,7 +28,7 @@ export default function RecipeOverviewCard(props: { element: RecipeProps; elemen
                 </div>
 
                 <div className="absolute inset-0 -z-10 brightness-30 rounded-xl overflow-hidden">
-                    <img src="/images/shine.avif" alt="Shine" className="w-full h-full object-cover" />
+                    <img src="/images/shine.avif" alt="Shine" className="w-full h-full object-cover" loading="lazy" />
                 </div>
             </div>
         </ErrorBoundary>

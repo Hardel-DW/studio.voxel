@@ -91,12 +91,12 @@ function Page() {
                                 onClick={() => toggleSlotFilter(slot.id)}
                                 className={cn(
                                     "bg-black/50 border-t-2 border-l-2 border-stone-900 ring-0 ring-zinc-900 select-none cursor-pointer relative transition-all hover:ring-1 p-2 rounded-md w-12 h-12 flex items-center justify-center",
-                                    { "bg-zinc-950/25 ring-1 ring-zinc-600": selectedSlots.includes(slot.id) }
+                                    selectedSlots.includes(slot.id) && "bg-zinc-950/25 ring-1 ring-zinc-600"
                                 )}
                                 title={slot.name}>
                                 <img src={slot.image} alt={slot.name} className="pixelated" style={{ height: "24px" }} />
                                 <div className="absolute inset-0 -z-10 brightness-30 rounded-md overflow-hidden">
-                                    <img src="/images/shine.avif" alt="Shine" />
+                                    <img src="/images/shine.avif" alt="Shine" loading="lazy" />
                                 </div>
                             </button>
                         ))}
@@ -111,12 +111,12 @@ function Page() {
                                 onClick={() => toggleSlotFilter(slot.id)}
                                 className={cn(
                                     "bg-black/50 border-t-2 border-l-2 border-stone-900 ring-0 ring-zinc-900 select-none cursor-pointer relative transition-all hover:ring-1 p-2 rounded-md w-12 h-12 flex items-center justify-center",
-                                    { "bg-zinc-950/25 ring-1 ring-zinc-600": selectedSlots.includes(slot.id) }
+                                    selectedSlots.includes(slot.id) && "bg-zinc-950/25 ring-1 ring-zinc-600"
                                 )}
                                 title={slot.name}>
                                 <img src={slot.image} alt={slot.name} className="pixelated" style={{ height: "24px" }} />
                                 <div className="absolute inset-0 -z-10 brightness-30 rounded-md overflow-hidden">
-                                    <img src="/images/shine.avif" alt="Shine" />
+                                    <img src="/images/shine.avif" alt="Shine" loading="lazy" />
                                 </div>
                             </button>
                         ))}

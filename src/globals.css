@@ -77,7 +77,6 @@
     --grid-template-columns-marketplace-pack: repeat(auto-fill, minmax(600px, 1fr));
     --grid-template-columns-items: repeat(auto-fill, minmax(52px, 1fr));
     --grid-template-rows-items: repeat(auto-fill, minmax(52px, 1fr)); 
-    --background-image-shine: url("/images/shine.avif");
     --animate-levitate: levitate 2500ms ease-in-out infinite;
     --animate-fadein: fadein 200ms ease-in;
     --animate-open: open 150ms ease-in-out forwards;

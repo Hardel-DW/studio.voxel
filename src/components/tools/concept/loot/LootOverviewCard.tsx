@@ -1,7 +1,6 @@
 import { Link, useParams } from "@tanstack/react-router";
 import type { LootTableProps } from "@voxelio/breeze";
 import { CoreAction, Identifier } from "@voxelio/breeze";
-import { useRef } from "react";
 import LootDetailsPopover, { getRollsInfo } from "@/components/tools/concept/loot/LootDetailsPopover";
 import LootOverviewList from "@/components/tools/concept/loot/LootOverviewList";
 import SimpleSwitch from "@/components/tools/elements/SimpleSwitch";
@@ -10,16 +9,11 @@ import { useConfiguratorStore } from "@/components/tools/Store";
 import { useFlattenedLootItems } from "@/lib/hook/useFlattenedLootItems";
 
 export default function LootOverviewCard(props: { element: LootTableProps; elementId: string; mode?: "grid" | "list" }) {
-    const cardRef = useRef<HTMLDivElement | null>(null);
     const { lang } = useParams({ from: "/$lang" });
     const { items } = useFlattenedLootItems(props.element);
     const itemsCount = items.length;
 
     const handleConfigure = () => useConfiguratorStore.getState().setCurrentElementId(props.elementId);
-    const handlePopoverChange = (isOpen: boolean) => {
-        if (!cardRef.current) return;
-        cardRef.current.toggleAttribute("data-popover-open", isOpen);
-    };
 
     if (props.mode === "list") {
         return <LootOverviewList element={props.element} elementId={props.elementId} />;
@@ -27,7 +21,6 @@ export default function LootOverviewCard(props: { element: LootTableProps; eleme
 
     return (
         <div
-            ref={cardRef}
             data-element-id={props.elementId}
             className="overview-card bg-zinc-950/70 border border-zinc-900 select-none relative rounded-xl p-4 shadow-sm flex flex-col outline-hidden transition-[box-shadow,transform] duration-150 ease-out hover:shadow-lg hover:-translate-y-0.5">
             {/* Première ligne : Titre/Badge/Switch */}
@@ -65,7 +58,6 @@ export default function LootOverviewCard(props: { element: LootTableProps; eleme
                     </div>
                     <LootDetailsPopover
                         element={props.element}
-                        onOpenChange={handlePopoverChange}
                         trigger={
                             <span className="text-xs bg-zinc-900/60 border border-zinc-800 px-2 py-2 rounded-lg cursor-pointer hover:bg-zinc-800/60 transition-colors">
                                 {itemsCount > 5 ? `+${itemsCount - 5} more` : "See Details"}

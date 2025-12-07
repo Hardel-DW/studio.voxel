@@ -82,12 +82,12 @@ export default function RecipeSection() {
                     </div>
 
                     <div className="absolute inset-0 -z-10 brightness-25">
-                        <img src="/images/shine.avif" alt="Shine" />
+                        <img src="/images/shine.avif" alt="Shine" loading="lazy" />
                     </div>
                 </div>
             </div>
             <div className="absolute inset-0 -z-10 brightness-30">
-                <img src="/images/shine.avif" alt="Shine" />
+                <img src="/images/shine.avif" alt="Shine" loading="lazy" />
             </div>
         </div>
     );

@@ -39,7 +39,7 @@ export default function ToolSwitch(props: ToolSwitchType & { index?: number }) {
                     </div>
                 </label>
                 <div className="absolute inset-0 -z-10 brightness-25" style={{ transform: `translateX(${props.index ?? 0 * 75}px)` }}>
-                    <img src="/images/shine.avif" alt="Shine" />
+                    <img src="/images/shine.avif" alt="Shine" loading="lazy" />
                 </div>
             </div>
         </RenderGuard>

@@ -81,7 +81,7 @@ export default function ToolSlot(props: ToolSlotType & { index?: number }) {
                 />
             </div>
             <div className="absolute inset-0 -z-10 brightness-30">
-                <img src="/images/shine.avif" alt="Shine" />
+                <img src="/images/shine.avif" alt="Shine" loading="lazy" />
             </div>
         </button>
     );

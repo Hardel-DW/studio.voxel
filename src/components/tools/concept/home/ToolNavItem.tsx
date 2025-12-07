@@ -34,7 +34,7 @@ export function ToolNavItem({ title, description, image, href, alignRight, comin
             <div
                 className="absolute inset-0 -z-10 brightness-20 hue-rotate-90 blur-lg"
                 style={{ transform: `translateX(${-200 + index * 100}px)` }}>
-                <img src="/images/shine.avif" alt="Shine" className="w-full h-full object-cover" />
+                <img src="/images/shine.avif" alt="Shine" className="w-full h-full object-cover" loading="lazy" />
             </div>
 
             <div className={cn("flex items-center gap-4", alignRight && "flex-row-reverse")}>

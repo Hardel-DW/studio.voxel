@@ -64,7 +64,7 @@ function ActionItem(props: ToolListOptionAction & { elementId?: string; lock: { 
                     <Translate content={props.description} />
                 </span>
             </div>
-            <Switch id="action-switch" isChecked={isChecked ?? false} setIsChecked={() => {}} disabled={props.lock.isLocked} />
+            <Switch id="action-switch" isChecked={isChecked ?? false} setIsChecked={() => { }} disabled={props.lock.isLocked} />
         </label>
     );
 }
@@ -183,7 +183,7 @@ export default function ToolListOption(props: ToolListOptionType) {
                 </div>
 
                 <div className="absolute inset-0 -z-10 brightness-25" style={{ transform: `translateX(${props.index ?? 0 * 75}px)` }}>
-                    <img src="/images/shine.avif" alt="Shine" />
+                    <img src="/images/shine.avif" alt="Shine" loading="lazy" />
                 </div>
             </div>
         </RenderGuard>

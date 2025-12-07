@@ -58,7 +58,7 @@ export default function ToolInline(props: ToolInlineType & { index?: number }) {
                     </div>
                 </div>
                 <div className="absolute inset-0 -z-10 brightness-25" style={{ transform: `translateX(${index * 75}px)` }}>
-                    <img src="/images/shine.avif" alt="Shine" />
+                    <img src="/images/shine.avif" alt="Shine" loading="lazy" />
                 </div>
             </button>
         </RenderGuard>

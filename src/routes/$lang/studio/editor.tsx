@@ -38,7 +38,7 @@ function EditorLayout() {
                         <button
                             type="button"
                             onClick={pinned.toggle}
-                            className="size-10 flex items-center justify-center rounded-md hover:bg-zinc-900 transition-colors cursor-pointer text-zinc-400 hover:text-zinc-100">
+                            className="size-10 flex items-center justify-center rounded-md hover:bg-white/10 transition-colors cursor-pointer text-zinc-400 hover:text-zinc-100">
                             <img src="/icons/menu.svg" alt="Collapse" className="size-6 invert-75" />
                         </button>
                     </div>
@@ -58,7 +58,7 @@ function EditorLayout() {
                 </div>
 
                 <div className="size-full relative">
-                    <div className="absolute w-full -z-10 inset-0 shadow-2xl bg-linear-to-r from-[#401727] to-[#311e7696] opacity-20 rounded-full blur-[10rem]" />
+                    <div className="absolute w-full -z-10 inset-0 shadow-2xl bg-linear-to-r from-[#401727] to-[#311e7696] opacity-20 rounded-full blur-3xl" />
                     <HydrationBoundary state={dehydrate(queryClient)}>
                         <ConfigManager>
                             <ConfiguratorPanel />
