@@ -17,4 +17,3 @@ export function useDataAttribute<T extends HTMLElement = HTMLElement>({ name, in
     const get = () => valueRef.current;
     return { ref, set, toggle, get, initial };
 }
-

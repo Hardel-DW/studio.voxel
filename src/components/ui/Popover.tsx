@@ -19,10 +19,7 @@ export const usePopoverStore = create<PopoverState>((set) => ({
 
 const PopoverContext = createContext<{ id: string; triggerRef: React.RefObject<HTMLElement | null> } | null>(null);
 
-export function Popover(props: {
-    children: ReactNode;
-    className?: string;
-}) {
+export function Popover(props: { children: ReactNode; className?: string }) {
     const id = useId();
     const triggerRef = useRef<HTMLElement>(null);
 

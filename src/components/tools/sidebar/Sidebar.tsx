@@ -1,13 +1,13 @@
 import { useRef } from "react";
 import { useDebugStore } from "@/components/tools/debug/DebugStore";
+import { CONCEPTS } from "@/components/tools/elements";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import ExportButton from "@/components/tools/sidebar/export/ExportButton";
-import { Button } from "@/components/ui/Button";
-import Translate from "@/components/ui/Translate";
-import { CONCEPTS } from "@/components/tools/elements";
 import SidebarCard from "@/components/tools/sidebar/SidebarCard";
+import { Button } from "@/components/ui/Button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/Popover";
 import { Switch } from "@/components/ui/Switch";
+import Translate from "@/components/ui/Translate";
 import { useLocalStorage } from "@/lib/hook/useLocalStorage";
 
 export default function StudioSidebar() {
@@ -67,16 +67,24 @@ export default function StudioSidebar() {
 
                             <div className="group flex items-center justify-between p-3 rounded-xl hover:bg-white/5 transition-all duration-200 cursor-pointer border border-transparent hover:border-white/5">
                                 <div className="flex flex-col gap-0.5">
-                                    <span className="text-sm font-medium text-zinc-200 group-hover:text-white transition-colors">Effects</span>
-                                    <span className="text-xs text-zinc-500 group-hover:text-zinc-400 transition-colors">Disable background animations</span>
+                                    <span className="text-sm font-medium text-zinc-200 group-hover:text-white transition-colors">
+                                        Effects
+                                    </span>
+                                    <span className="text-xs text-zinc-500 group-hover:text-zinc-400 transition-colors">
+                                        Disable background animations
+                                    </span>
                                 </div>
                                 <Switch isChecked={disableEffects ?? true} setIsChecked={setDisableEffects} />
                             </div>
 
                             <div className="group flex items-center justify-between p-3 rounded-xl hover:bg-white/5 transition-all duration-200 cursor-pointer border border-transparent hover:border-white/5">
                                 <div className="flex flex-col gap-0.5">
-                                    <span className="text-sm font-medium text-zinc-200 group-hover:text-white transition-colors">Lighting</span>
-                                    <span className="text-xs text-zinc-500 group-hover:text-zinc-400 transition-colors">Disable ambient light</span>
+                                    <span className="text-sm font-medium text-zinc-200 group-hover:text-white transition-colors">
+                                        Lighting
+                                    </span>
+                                    <span className="text-xs text-zinc-500 group-hover:text-zinc-400 transition-colors">
+                                        Disable ambient light
+                                    </span>
                                 </div>
                                 <Switch isChecked={disableLight ?? true} setIsChecked={setDisableLight} />
                             </div>
@@ -90,11 +98,17 @@ export default function StudioSidebar() {
                                 onClick={handleDebugModalOpen}
                                 className="w-full justify-between h-auto py-3 px-4 font-normal text-zinc-400 hover:text-white bg-white/5 hover:bg-zinc-700/35 border border-white/5 hover:border-white/10 rounded-xl transition-all duration-200 group">
                                 <span className="flex items-center gap-3">
-                                    <img src="/icons/debug.svg" alt="Code" className="size-4 invert opacity-50 group-hover:opacity-100 transition-opacity" />
+                                    <img
+                                        src="/icons/debug.svg"
+                                        alt="Code"
+                                        className="size-4 invert opacity-50 group-hover:opacity-100 transition-opacity"
+                                    />
                                     <span className="font-medium">Open Code Viewer</span>
                                 </span>
                                 <div className="flex items-center gap-2">
-                                    <span className="text-[10px] font-mono text-zinc-500 bg-zinc-900/50 px-1.5 py-0.5 rounded border border-white/5 group-hover:border-white/10 transition-colors">JSON</span>
+                                    <span className="text-[10px] font-mono text-zinc-500 bg-zinc-900/50 px-1.5 py-0.5 rounded border border-white/5 group-hover:border-white/10 transition-colors">
+                                        JSON
+                                    </span>
                                 </div>
                             </Button>
                         </div>

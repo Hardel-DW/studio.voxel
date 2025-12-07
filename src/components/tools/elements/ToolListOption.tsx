@@ -64,7 +64,7 @@ function ActionItem(props: ToolListOptionAction & { elementId?: string; lock: { 
                     <Translate content={props.description} />
                 </span>
             </div>
-            <Switch id="action-switch" isChecked={isChecked ?? false} setIsChecked={() => { }} disabled={props.lock.isLocked} />
+            <Switch id="action-switch" isChecked={isChecked ?? false} setIsChecked={() => {}} disabled={props.lock.isLocked} />
         </label>
     );
 }

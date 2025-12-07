@@ -23,17 +23,15 @@ function EditorLayout() {
     return (
         <div
             className="group flex gap-4 h-dvh w-full p-4 overflow-hidden relative transition-all duration-300 ease-in-out box-border"
-            ref={pinned.ref}
-        >
+            ref={pinned.ref}>
             <div className="shrink-0 transition-[width] duration-300 ease-in-out z-40 w-20 in-data-pinned:w-80 border border-none not-in-data-pinned:rounded-2xl not-in-data-pinned:border-zinc-900 not-in-data-pinned:bg-content">
                 <aside className="flex flex-col h-full w-full overflow-hidden rounded-2xl border-none">
-                    <div
-                        className="flex items-center shrink-0 in-data-pinned:pt-5 transition-all duration-300 justify-center in-data-pinned:justify-between flex-col gap-4 in-data-pinned:flex-row in-data-pinned:gap-0 in-data-pinned:px-6">
-                        <a href="/" className="flex items-center gap-2 text-lg transition-colors hover:opacity-80 w-0 opacity-0 in-data-pinned:w-auto in-data-pinned:opacity-100 not-in-data-pinned:h-0">
+                    <div className="flex items-center shrink-0 in-data-pinned:pt-5 transition-all duration-300 justify-center in-data-pinned:justify-between flex-col gap-4 in-data-pinned:flex-row in-data-pinned:gap-0 in-data-pinned:px-6">
+                        <a
+                            href="/"
+                            className="flex items-center gap-2 text-lg transition-colors hover:opacity-80 w-0 opacity-0 in-data-pinned:w-auto in-data-pinned:opacity-100 not-in-data-pinned:h-0">
                             <img src="/icons/logo.svg" alt="Voxel" className="size-6 brightness-90" />
-                            <span className="font-bold text-primary transition-all duration-300 overflow-hidden">
-                                VOXEL
-                            </span>
+                            <span className="font-bold text-primary transition-all duration-300 overflow-hidden">VOXEL</span>
                         </a>
                         <button
                             type="button"

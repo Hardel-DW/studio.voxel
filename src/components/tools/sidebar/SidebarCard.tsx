@@ -24,9 +24,9 @@ export default function SidebarCard(props: Props) {
     return (
         <div
             className={cn(
-                "relative group/card mx-auto transition-all duration-300 ease-spring w-14 in-data-pinned:w-full", isSelected && "in-data-pinned:mb-12 z-10"
+                "relative group/card mx-auto transition-all duration-300 ease-spring w-14 in-data-pinned:w-full",
+                isSelected && "in-data-pinned:mb-12 z-10"
             )}>
-
             <Link
                 to={isSelected ? location.pathname : props.overview}
                 params={{ lang: params.lang }}
@@ -35,8 +35,7 @@ export default function SidebarCard(props: Props) {
                     "block relative rounded-2xl overflow-hidden transition-all duration-300 ease-spring bg-zinc-900/50 border border-zinc-900 h-14 in-data-pinned:h-24",
                     isSelected && "cursor-default opacity-100",
                     !isSelected && "opacity-50 group-hover/card:opacity-100"
-                )}
-            >
+                )}>
                 <div className="absolute inset-0 -z-10 brightness-30">
                     <img src="/images/shine.avif" alt="Shine" loading="lazy" />
                 </div>
@@ -48,24 +47,25 @@ export default function SidebarCard(props: Props) {
                 <div className="absolute inset-0 flex items-center px-4 transition-all duration-300 ease-spring opacity-0 translate-x-4 in-data-pinned:opacity-100 in-data-pinned:translate-x-0 pointer-events-none in-data-pinned:pointer-events-auto">
                     <div className="w-[280px] flex items-center justify-between gap-4">
                         <div className="flex flex-col items-start min-w-0 flex-1">
-                            <div className={cn(
-                                "text-base font-semibold truncate w-full text-left tracking-tight",
-                                isSelected ? "text-white" : "text-zinc-400"
-                            )}>
+                            <div
+                                className={cn(
+                                    "text-base font-semibold truncate w-full text-left tracking-tight",
+                                    isSelected ? "text-white" : "text-zinc-400"
+                                )}>
                                 {props.title}
                             </div>
-                            <p className="text-xs text-zinc-500 truncate w-full text-left font-medium">
-                                {props.children}
-                            </p>
+                            <p className="text-xs text-zinc-500 truncate w-full text-left font-medium">{props.children}</p>
                         </div>
 
-                        <img src={props.image.src} alt={props.image.alt} className="size-10 rounded-xl shadow-sm object-cover shrink-0 bg-zinc-950/30" />
+                        <img
+                            src={props.image.src}
+                            alt={props.image.alt}
+                            className="size-10 rounded-xl shadow-sm object-cover shrink-0 bg-zinc-950/30"
+                        />
                     </div>
                 </div>
 
-                {isSelected && (
-                    <div className="absolute inset-0 -z-10 bg-linear-to-tr from-white/5 to-transparent opacity-50" />
-                )}
+                {isSelected && <div className="absolute inset-0 -z-10 bg-linear-to-tr from-white/5 to-transparent opacity-50" />}
             </Link>
 
             {isSelected && (
