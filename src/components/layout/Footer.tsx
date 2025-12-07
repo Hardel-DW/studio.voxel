@@ -78,8 +78,8 @@ export default function Footer() {
         },
         {
             name: dictionary.footer.social.twitter,
-            path: "https://twitter.com/Hardel7401",
-            icon: "twitter.svg"
+            path: "https://x.com/Hardel7401",
+            icon: "x.svg"
         },
         {
             name: dictionary.footer.social.discord,

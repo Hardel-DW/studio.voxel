@@ -1,4 +1,4 @@
-import LineSetup from "../ui/line/LineSetup";
+import LineSetup from "@/components/ui/line/LineSetup";
 
 export default function NotFoundStudio() {
     return (

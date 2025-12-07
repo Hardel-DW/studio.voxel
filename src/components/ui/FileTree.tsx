@@ -8,12 +8,11 @@ interface FileTreeProps {
     tree: TreeFolder;
     activePath: string;
     onSelect: (path: string) => void;
-    className?: string;
 }
 
-export function FileTree({ tree, activePath, onSelect, className }: FileTreeProps) {
+export function FileTree({ tree, activePath, onSelect }: FileTreeProps) {
     return (
-        <div className={cn("space-y-1", className)}>
+        <div className="space-y-1 mt-4">
             <FileTreeNode name="All" path="" node={tree} activePath={activePath} onSelect={onSelect} isRoot />
         </div>
     );
@@ -44,16 +43,13 @@ function FileTreeNode({ name, path, node, activePath, onSelect, depth = 0, isRoo
                     isActive ? "bg-zinc-800/80 text-white" : "text-zinc-400 hover:bg-zinc-900/50 hover:text-zinc-200",
                     depth > 0 && "mt-0.5"
                 )}
-                style={{ paddingLeft: isRoot ? "12px" : `${depth * 12 + 12}px` }}
+                style={{ paddingLeft: isRoot ? 8 : depth * 8 + 8 }}
                 onClick={() => onSelect(path)}
                 role="treeitem"
                 aria-expanded={isActive}
                 tabIndex={0}
-                onKeyDown={(e) => {
-                    if (e.key === "Enter" || e.key === " ") {
-                        onSelect(path);
-                    }
-                }}>
+                onKeyDown={(e) => e.key === "Enter" && onSelect(path)}>
+
                 {isActive && (
                     <div
                         className="absolute left-0 top-2 bottom-2 w-1 rounded-r-full shadow-[0_0_8px_rgba(255,255,255,0.5)]"
@@ -93,11 +89,7 @@ function FileTreeNode({ name, path, node, activePath, onSelect, depth = 0, isRoo
             </div>
 
             {hasChildren && !isCollapsed && (
-                <div
-                    className={cn(
-                        "flex flex-col border-zinc-800/50 my-1 pl-1",
-                        isRoot ? "ml-0 border-l-0" : "ml-[calc(1rem+7px)] border-l"
-                    )}>
+                <div className={cn("flex flex-col border-zinc-800/50 my-1 pl-1 ml-3 border-l", isRoot && "ml-0 border-l-0")}>
                     {Array.from(node.children.entries())
                         .sort(([a], [b]) => a.localeCompare(b))
                         .map(([childName, childNode]) => (

@@ -32,7 +32,7 @@ export default function TextureRenderer(props: { id: string; className?: string 
     if (error || !data || !(processId in data)) {
         return (
             <div className="h-full w-full relative shrink-0 border-2 border-red-500 rounded-md flex items-center justify-center">
-                <img src="/icons/error.svg" alt="Error" width={24} height={24} />
+                <img src="/icons/toast/error.svg" alt="Error" width={24} height={24} />
             </div>
         );
     }

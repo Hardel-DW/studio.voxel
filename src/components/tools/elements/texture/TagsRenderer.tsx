@@ -34,7 +34,7 @@ export default function TagsRenderer({ items }: TagsRendererProps) {
     if (itemsArray.length === 0 || isError || !data) {
         return (
             <div className="size-10 relative shrink-0 border-2 border-red-900 rounded-md flex items-center justify-center">
-                <img src="/icons/error.svg" alt="No items" width={24} height={24} />
+                <img src="/icons/toast/error.svg" alt="No items" width={24} height={24} />
             </div>
         );
     }

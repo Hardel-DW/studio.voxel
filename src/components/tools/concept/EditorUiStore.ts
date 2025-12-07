@@ -15,7 +15,7 @@ export const useEditorUiStore = create<EditorUiState>((set) => ({
     viewMode: "grid",
     search: "",
     filterPath: "",
-    sidebarView: "tree",
+    sidebarView: "slots",
     setViewMode: (mode) => set({ viewMode: mode }),
     setSearch: (search) => set({ search }),
     setFilterPath: (path) => set({ filterPath: path }),

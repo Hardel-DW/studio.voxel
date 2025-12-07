@@ -121,7 +121,7 @@ export function SelectItem<T>({ value, children, className }: { value: T; childr
                 className
             )}>
             <span className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
-                {isSelected && <img src="/icons/components/checked.svg" alt="check" className="size-6 invert" />}
+                {isSelected && <img src="/icons/checked.svg" alt="check" className="size-6 invert" />}
             </span>
             {children}
         </button>

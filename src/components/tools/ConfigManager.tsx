@@ -8,7 +8,6 @@ import RestoreLastSession from "./RestoreLastSession";
 export default function ConfigManager(props: PropsWithChildren) {
     const { lang } = useParams({ from: "/$lang" });
     const hasElements = useConfiguratorStore((state) => Object.keys(state.files).length > 0);
-
     if (hasElements) return props.children;
 
     return (
