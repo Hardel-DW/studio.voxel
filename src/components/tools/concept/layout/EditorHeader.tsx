@@ -1,12 +1,10 @@
 import { Identifier, type IdentifierObject } from "@voxelio/breeze";
 import type { ReactNode } from "react";
-import Translate from "@/components/ui/Translate";
 import { hueToHsl, stringToColor } from "@/lib/utils/color";
 import { EditorBreadcrumb } from "./EditorBreadcrumb";
 
 interface EditorHeaderProps {
     fallbackTitle: string;
-    descriptionKey: string;
     identifier?: IdentifierObject;
     filterPath?: string;
     isOverview: boolean;
@@ -14,7 +12,7 @@ interface EditorHeaderProps {
     children?: ReactNode;
 }
 
-export function EditorHeader({ fallbackTitle, descriptionKey, identifier, filterPath, isOverview, onBack, children }: EditorHeaderProps) {
+export function EditorHeader({ fallbackTitle, identifier, filterPath, isOverview, onBack, children }: EditorHeaderProps) {
     const title = isOverview
         ? filterPath ? Identifier.toDisplay(filterPath.split("/").pop() || "") : "All"
         : identifier ? new Identifier(identifier).toResourceName() : fallbackTitle;
@@ -44,12 +42,9 @@ export function EditorHeader({ fallbackTitle, descriptionKey, identifier, filter
                         />
                         <h1 className="text-4xl font-bold text-white tracking-tight drop-shadow-xl font-minecraft">{title}</h1>
                         <div
-                            className="h-px w-24 my-3 transition-colors duration-500"
+                            className="h-px w-24 mt-3 transition-colors duration-500"
                             style={{ background: `linear-gradient(90deg, ${bgColor}, transparent)` }}
                         />
-                        <p className="text-zinc-300 max-w-2xl line-clamp-1 drop-shadow-md font-light text-sm opacity-90">
-                            <Translate content={descriptionKey} />
-                        </p>
                     </div>
 
                     {isOverview && <div className="flex items-center gap-3">{children}</div>}

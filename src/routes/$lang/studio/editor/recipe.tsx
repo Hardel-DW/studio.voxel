@@ -58,13 +58,7 @@ function RecipeLayout() {
             </EditorSidebar>
 
             <main className="flex-1 flex flex-col min-w-0 relative bg-zinc-950">
-                <EditorHeader
-                    fallbackTitle="Recipe"
-                    descriptionKey="recipe:overview.description"
-                    identifier={recipe?.identifier}
-                    filterPath={isOverview && blockConfig ? blockConfig.name : undefined}
-                    isOverview={isOverview}
-                    onBack={handleBack}>
+                <EditorHeader fallbackTitle="Recipe" identifier={recipe?.identifier} filterPath={blockConfig?.name} isOverview={isOverview} onBack={handleBack}>
                     <ToggleGroup value={viewMode} onChange={setViewMode}>
                         <ToggleGroupOption
                             value="grid"
@@ -76,7 +70,6 @@ function RecipeLayout() {
                         />
                     </ToggleGroup>
                 </EditorHeader>
-
                 <Outlet />
             </main>
         </div>

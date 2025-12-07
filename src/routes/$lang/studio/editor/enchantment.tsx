@@ -54,13 +54,7 @@ function EnchantmentLayout() {
             </EditorSidebar>
 
             <main className="flex-1 flex flex-col min-w-0 relative bg-zinc-950">
-                <EditorHeader
-                    fallbackTitle="Enchantment"
-                    descriptionKey="enchantment:overview.description"
-                    identifier={enchantment?.identifier}
-                    filterPath={isOverview ? filterPath : undefined}
-                    isOverview={isOverview}
-                    onBack={handleBack}>
+                <EditorHeader fallbackTitle="Enchantment" identifier={enchantment?.identifier} filterPath={filterPath} isOverview={isOverview} onBack={handleBack}>
                     <Link
                         to="/$lang/studio/editor/enchantment/simulation"
                         params={{ lang }}
