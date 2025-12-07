@@ -18,7 +18,7 @@ export const Route = createFileRoute("/$lang/studio/editor")({
 
 function EditorLayout() {
     const queryClient = getQueryClient();
-    const pinned = useDataAttribute<HTMLDivElement>({ name: "pinned", initial: true });
+    const pinned = useDataAttribute<HTMLDivElement>({ name: "pinned", initial: false });
 
     return (
         <div

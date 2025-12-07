@@ -44,7 +44,7 @@ export default function StudioSidebar() {
 
             <div
                 ref={buttonsContainerRef}
-                className="shrink-0 flex flex-col-reverse items-center gap-2 in-data-pinned:flex-row in-data-pinned:gap-2 px-2 mt-2 transition-all duration-300 w-full justify-center max-w-[320px] mx-auto">
+                className="shrink-0 flex flex-col-reverse items-center gap-2 in-data-pinned:flex-row in-data-pinned:gap-2 mt-2 transition-all duration-300 w-full justify-center max-w-[320px] mx-auto">
                 <ExportButton containerRef={buttonsContainerRef} />
                 <Popover>
                     <PopoverTrigger>
