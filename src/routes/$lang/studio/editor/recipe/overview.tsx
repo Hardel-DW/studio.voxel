@@ -18,14 +18,13 @@ function Page() {
     const { search, setSearch, filterPath } = useEditorUiStore();
     const selectedBlock = filterPath || DEFAULT_BLOCK;
     const recipeElements = useElementsByType("recipe");
-
     const filteredElements = recipeElements.filter((el) => {
         if (search && !el.identifier.resource.toLowerCase().includes(search.toLowerCase())) return false;
         if (selectedBlock === "minecraft:barrier") return true;
         return canBlockHandleRecipeType(selectedBlock, el.type);
     });
 
-    const { visibleItems, hasMore, ref } = useInfiniteScroll(filteredElements, 24);
+    const { visibleItems, hasMore, ref } = useInfiniteScroll(filteredElements, 16, [filterPath, search]);
 
     return (
         <div className="flex flex-col size-full">
@@ -47,7 +46,7 @@ function Page() {
                         </p>
                     </div>
                 ) : (
-                    <div className="grid gap-4 pb-20 grid-cols-[repeat(auto-fill,minmax(320px,1fr))]">
+                    <div className="grid gap-4 grid-cols-[repeat(auto-fill,minmax(320px,1fr))]">
                         {visibleItems.map((element) => {
                             const elementId = new Identifier(element.identifier).toUniqueKey();
                             return <RecipeOverviewCard key={elementId} element={element} elementId={elementId} />;

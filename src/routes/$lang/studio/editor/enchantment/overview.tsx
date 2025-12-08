@@ -25,7 +25,7 @@ function OverviewPage() {
         return viewMatchers[sidebarView]?.(el, category) ?? true;
     });
 
-    const { visibleItems, hasMore, ref } = useInfiniteScroll(filteredElements, 24);
+    const { visibleItems, hasMore, ref } = useInfiniteScroll(filteredElements, 16, [viewMode, filterPath, search]);
 
     return (
         <div className="flex flex-col flex-1 min-h-0">
@@ -47,7 +47,7 @@ function OverviewPage() {
                         </p>
                     </div>
                 ) : (
-                    <div className={cn("grid gap-4 pb-20", viewMode === "grid" ? "grid-cols-[repeat(auto-fill,minmax(280px,1fr))]" : "grid-cols-1")}>
+                    <div className={cn("grid gap-4", viewMode === "grid" ? "grid-cols-[repeat(auto-fill,minmax(280px,1fr))]" : "grid-cols-1")}>
                         {visibleItems.map((element) => (
                             <EnchantmentCard key={element.identifier.resource} element={element} display={viewMode === "list"} />
                         ))}
