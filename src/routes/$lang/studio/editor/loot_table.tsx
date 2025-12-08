@@ -33,7 +33,7 @@ function LootTableLayout() {
     };
 
     return (
-        <div className="flex size-full overflow-hidden relative z-10 isolate">
+        <div className="flex size-full overflow-hidden relative isolate">
             <EditorSidebar
                 title="loot:overview.title"
                 icon="/images/features/item/bundle_close.webp"

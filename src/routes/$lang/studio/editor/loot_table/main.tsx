@@ -29,25 +29,17 @@ function LootMainPage() {
         handleChange(action, currentElementId, id);
     };
 
-    if (isLoading) {
+    if (isLoading || items.length === 0) {
         return (
             <div className="p-8 text-sm text-zinc-400">
-                <Translate content="loot:main.loading" />
-            </div>
-        );
-    }
-
-    if (!isLoading && items.length === 0) {
-        return (
-            <div className="p-8 text-sm text-zinc-400">
-                <Translate content="loot:main.empty" />
+                <Translate content={isLoading ? "loot:main.loading" : "loot:main.empty"} />
             </div>
         );
     }
 
     return (
         <div className="relative w-full min-h-full">
-            <div className="max-w-xl sticky top-0 z-30 px-8 py-4 bg-zinc-950/80 backdrop-blur-md border-b border-zinc-800/50 flex items-center gap-4">
+            <div className="max-w-xl sticky top-0 z-30 px-8 py-4 bg-zinc-950/75 backdrop-blur-md border-b border-zinc-800/50 flex items-center gap-4">
                 <TextInput value={searchValue} onChange={(e) => setSearchValue(e.target.value)} placeholder="Search items..." />
             </div>
 

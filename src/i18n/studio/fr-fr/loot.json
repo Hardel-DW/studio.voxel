@@ -18,5 +18,8 @@
     "overview.search.placeholder": "Rechercher un loot table...",
     "overview.scroll.more": "Faites défiler pour charger plus de tables de butin",
     "overview.empty.title": "Aucune table de butin trouvée",
-    "overview.empty.description": "Essayez d'ajuster votre recherche ou vos filtres."
+    "overview.empty.description": "Essayez d'ajuster votre recherche ou vos filtres.",
+    "overview.too_many_items.title": "Trop d'items à afficher",
+    "overview.too_many_items.description": "Veuillez utiliser la barre de recherche ou sélectionner une catégorie spécifique pour voir les items.",
+    "overview.too_many_items.button": "Afficher quand même"
 }

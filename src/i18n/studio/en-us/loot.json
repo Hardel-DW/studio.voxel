@@ -18,5 +18,8 @@
     "overview.search.placeholder": "Search loot tables...",
     "overview.scroll.more": "Scroll to load more loot tables",
     "overview.empty.title": "No loot tables found",
-    "overview.empty.description": "Try adjusting your search or filters."
+    "overview.empty.description": "Try adjusting your search or filters.",
+    "overview.too_many_items.title": "Too many items to display",
+    "overview.too_many_items.description": "Please use the search bar or select a specific category to view items.",
+    "overview.too_many_items.button": "Show anyway"
 }

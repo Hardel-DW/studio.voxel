@@ -15,7 +15,7 @@ export const Route = createFileRoute("/$lang/studio/editor/enchantment/main")({
 
 function EnchantmentMainPage() {
     return (
-        <div className="p-8 h-full overflow-y-auto custom-scrollbar">
+        <div className="py-4 px-8 h-full overflow-y-auto custom-scrollbar flex flex-col gap-8">
             <ToolSection id="main" title="enchantment:section.global.description">
                 <ToolGrid>
                     {["maxLevel", "weight", "anvilCost"].map((key, index) => (
@@ -56,28 +56,28 @@ function EnchantmentMainPage() {
                         }
                     ]}
                 />
-                <Donation
-                    key="donation"
-                    icon="/icons/logo.svg"
-                    title="supports.title"
-                    description="supports.description"
-                    subTitle="supports.advantages"
-                    extra={[
-                        "supports.advantages.early_access",
-                        "supports.advantages.submit_ideas",
-                        "supports.advantages.discord_role",
-                        "supports.advantages.live_voxel"
-                    ]}
-                    patreon={{
-                        text: "supports.become",
-                        link: "https://www.patreon.com/hardel"
-                    }}
-                    tipText={{
-                        text: "donate",
-                        link: "https://streamelements.com/hardoudou/tip"
-                    }}
-                />
             </ToolSection>
+            <Donation
+                key="donation"
+                icon="/icons/logo.svg"
+                title="supports.title"
+                description="supports.description"
+                subTitle="supports.advantages"
+                extra={[
+                    "supports.advantages.early_access",
+                    "supports.advantages.submit_ideas",
+                    "supports.advantages.discord_role",
+                    "supports.advantages.live_voxel"
+                ]}
+                patreon={{
+                    text: "supports.become",
+                    link: "https://www.patreon.com/hardel"
+                }}
+                tipText={{
+                    text: "donate",
+                    link: "https://streamelements.com/hardoudou/tip"
+                }}
+            />
         </div>
     );
 }

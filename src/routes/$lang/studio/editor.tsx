@@ -23,7 +23,7 @@ function EditorLayout() {
         <div
             className="flex gap-4 h-dvh w-full p-4 overflow-hidden relative transition-all duration-300 ease-in-out box-border"
             ref={pinned.ref}>
-            <div className="shrink-0 transition-[width] duration-300 ease-in-out z-40 w-20 in-data-pinned:w-70 border border-none not-in-data-pinned:rounded-2xl not-in-data-pinned:border-zinc-900 not-in-data-pinned:bg-content">
+            <div className="shrink-0 transition-[width] duration-300 ease-in-out z-40 w-20 in-data-pinned:w-70 border in-data-pinned:border-none not-in-data-pinned:rounded-2xl not-in-data-pinned:border-zinc-800/50 not-in-data-pinned:bg-zinc-950/75">
                 <aside className="flex flex-col h-full w-full overflow-hidden rounded-2xl border-none">
                     <div className="flex items-center shrink-0 in-data-pinned:pt-5 transition-all duration-300 justify-center in-data-pinned:justify-between flex-col gap-4 in-data-pinned:flex-row in-data-pinned:gap-0 in-data-pinned:px-6">
                         <a

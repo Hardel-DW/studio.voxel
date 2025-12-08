@@ -26,7 +26,7 @@ export default function StudioSidebar() {
 
     return (
         <div className="flex flex-col pb-4 size-full">
-            <div className="overflow-y-auto overflow-x-hidden flex-1 scrollbar-thin flex flex-col items-center in-data-pinned:items-stretch w">
+            <div className="overflow-y-auto overflow-x-hidden flex-1 scrollbar-thin flex flex-col items-center in-data-pinned:items-stretch">
                 <div className="flex flex-col gap-3 mt-4 w-full max-w-[280px] mx-auto">
                     {CONCEPTS.map((concept, index) => (
                         <SidebarCard

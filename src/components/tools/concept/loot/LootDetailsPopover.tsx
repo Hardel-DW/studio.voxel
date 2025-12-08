@@ -1,42 +1,54 @@
 import type { LootTableProps } from "@voxelio/breeze";
-import type { ReactElement } from "react";
-import LootItemHoverCard from "@/components/tools/concept/loot/LootItemHoverCard";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/Popover";
 import { useFlattenedLootItems } from "@/lib/hook/useFlattenedLootItems";
+import type { ReactElement } from "react";
+import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer";
+import { Identifier } from "@voxelio/breeze";
 
 interface LootDetailsPopoverProps {
     element: LootTableProps;
-    trigger: ReactElement<{ ref?: React.Ref<HTMLElement>; onClick?: () => void; className?: string }>;
+    children: ReactElement<{ ref?: React.Ref<HTMLElement>; onClick?: () => void; className?: string }>;
 }
 
-export default function LootDetailsPopover({ element, trigger }: LootDetailsPopoverProps) {
+export default function LootDetailsPopover({ element, children }: LootDetailsPopoverProps) {
     const { items, isLoading } = useFlattenedLootItems(element);
     const itemsCount = items.length;
-    const rollsInfo = getRollsInfo(element);
 
     return (
         <Popover className="loot-popover">
-            <PopoverTrigger>{trigger}</PopoverTrigger>
-            <PopoverContent className="max-w-100 max-h-120">
+            <PopoverTrigger>{children}</PopoverTrigger>
+            <PopoverContent className="max-h-120 relative">
+                <div className="absolute inset-0 -z-10 brightness-10">
+                    <img src="/images/shine.avif" alt="Shine" loading="lazy" />
+                </div>
+
                 <div className="flex flex-col gap-2">
                     <div className="flex items-center justify-between">
                         <p className="font-semibold leading-2">Loot Items</p>
                         <div className="flex gap-2 items-center">
-                            <span className="text-xs bg-zinc-900/50 border border-zinc-800 px-2 rounded-lg">{rollsInfo} rolls</span>
                             <span className="text-xs bg-zinc-900/50 border border-zinc-800 px-2 rounded-lg">{itemsCount} items</span>
                         </div>
                     </div>
-
                     <hr />
 
-                    {/* Grid des items */}
                     <div className="overflow-y-auto max-h-96">
                         {isLoading ? (
                             <div className="py-8 text-center text-xs text-zinc-400">Loading loot data…</div>
                         ) : items.length > 0 ? (
                             <div className="grid grid-cols-2 gap-2">
                                 {items.map((item, index) => (
-                                    <LootItemHoverCard key={`${item.name}-${index}-${item.path.join("-")}`} item={item} />
+                                    <div key={`${item.name}-${index}-${item.path.join("-")}`} className="bg-zinc-900/50 border border-zinc-800 rounded p-2 flex items-center gap-2">
+                                        <div className="shrink-0 scale-75 size-10">
+                                            <TextureRenderer id={item.name} />
+                                        </div>
+                                        <div className="flex-1 min-w-0">
+                                            <div className="text-xs font-medium text-white truncate">{Identifier.of(item.name, "not_a_registry").toResourceName()}</div>
+                                            <div className="text-xs text-zinc-400 truncate">{item.name}</div>
+                                            {item.path.length > 1 && <div className="text-[10px] text-zinc-500 truncate">{item.path.join(" → ")}</div>}
+                                            {item.unresolved && <div className="text-xs text-amber-400">Unresolved reference</div>}
+                                            {item.cycle && <div className="text-xs text-red-400">Cyclic reference</div>}
+                                        </div>
+                                    </div>
                                 ))}
                             </div>
                         ) : (
@@ -49,24 +61,4 @@ export default function LootDetailsPopover({ element, trigger }: LootDetailsPopo
             </PopoverContent>
         </Popover>
     );
-}
-
-// Fonction utilitaire pour extraire les infos de rolls
-export function getRollsInfo(element: LootTableProps): string {
-    if (!element.pools || element.pools.length === 0) {
-        return "No pools";
-    }
-
-    if (element.pools.length === 1) {
-        const pool = element.pools[0];
-        if (typeof pool.rolls === "number") {
-            return `${pool.rolls} rolls`;
-        }
-        if (typeof pool.rolls === "object" && pool.rolls.min !== undefined && pool.rolls.max !== undefined) {
-            return `${pool.rolls.min}-${pool.rolls.max} rolls`;
-        }
-        return "Variable rolls";
-    }
-
-    return `${element.pools.length} pools`;
 }

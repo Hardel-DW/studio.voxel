@@ -29,34 +29,38 @@ function RouteComponent() {
     const isTooManyItems = !forceShow && isBroadScope && filtered.length > 50 && !search;
 
     return (
-        <div className="flex flex-col size-full">
-            <div className="max-w-xl sticky top-0 z-30 px-8 py-4 bg-zinc-950/80 backdrop-blur-md border-b border-zinc-800/50">
+        <div className="flex flex-col flex-1 min-h-0">
+            <div className="max-w-xl sticky top-0 px-8 py-4 bg-zinc-950/75 backdrop-blur-md border-b border-zinc-800/50">
                 <TextInput value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search tables..." />
             </div>
 
             <div className="flex-1 overflow-y-auto px-8 py-6 custom-scrollbar bg-zinc-950/50">
-                {isTooManyItems ? (
+                {isTooManyItems || visibleItems.length === 0 ? (
                     <div className="h-full flex flex-col items-center justify-center pb-20 opacity-60">
                         <div className="size-24 bg-zinc-900/50 rounded-full flex items-center justify-center mb-6 border border-zinc-800">
-                            <img src="/icons/tools/overview/grid.svg" className="size-10 opacity-20 invert" alt="Too many items" />
+                            <img
+                                src={isTooManyItems ? "/icons/tools/overview/grid.svg" : "/icons/search.svg"}
+                                className="size-10 opacity-20 invert"
+                                alt={isTooManyItems ? "Too many items" : "No results"}
+                            />
                         </div>
-                        <h3 className="text-xl font-medium text-zinc-300 mb-2">Too many items to display</h3>
+                        <h3 className="text-xl font-medium text-zinc-300 mb-2">
+                            <Translate content={isTooManyItems ? "loot:overview.too_many_items.title" : "loot:overview.empty.title"} />
+                        </h3>
                         <p className="text-zinc-500 max-w-sm text-center mb-6">
-                            Please use the search bar or select a specific category to view items.
+                            <Translate content={isTooManyItems ? "loot:overview.too_many_items.description" : "loot:overview.empty.description"} />
                         </p>
-                        <button
-                            type="button"
-                            onClick={() => setForceShow(true)}
-                            className="px-4 py-2 bg-zinc-900 border border-zinc-800 hover:bg-zinc-800 hover:text-zinc-200 text-zinc-400 rounded-lg text-sm transition-colors cursor-pointer">
-                            Show anyway
-                        </button>
+                        {isTooManyItems && (
+                            <button
+                                type="button"
+                                onClick={() => setForceShow(true)}
+                                className="px-4 py-2 bg-zinc-900 border border-zinc-800 hover:bg-zinc-800 hover:text-zinc-200 text-zinc-400 rounded-lg text-sm transition-colors cursor-pointer">
+                                <Translate content="loot:overview.too_many_items.button" />
+                            </button>
+                        )}
                     </div>
-                ) : visibleItems.length > 0 ? (
-                    <div
-                        className={cn(
-                            "grid gap-4 pb-20",
-                            viewMode === "grid" ? "grid-cols-[repeat(auto-fill,minmax(280px,1fr))]" : "grid-cols-1"
-                        )}>
+                ) : (
+                    <div className={cn("grid gap-4 pb-20", viewMode === "grid" ? "grid-cols-[repeat(auto-fill,minmax(280px,1fr))]" : "grid-cols-1")}>
                         {visibleItems.map((element) => (
                             <LootOverviewCard
                                 key={element.identifier.resource}
@@ -66,21 +70,9 @@ function RouteComponent() {
                             />
                         ))}
                     </div>
-                ) : (
-                    <div className="h-full flex flex-col items-center justify-center pb-20 opacity-60">
-                        <div className="size-24 bg-zinc-900/50 rounded-full flex items-center justify-center mb-6 border border-zinc-800">
-                            <img src="/icons/search.svg" className="size-10 opacity-20 invert" alt="No results" />
-                        </div>
-                        <h3 className="text-xl font-medium text-zinc-300 mb-2">
-                            <Translate content="loot:overview.empty.title" />
-                        </h3>
-                        <p className="text-zinc-500 max-w-sm text-center">
-                            <Translate content="loot:overview.empty.description" />
-                        </p>
-                    </div>
                 )}
 
-                {!isTooManyItems && hasMore && (
+                {hasMore && (
                     <div ref={ref} className="flex justify-center items-center py-8">
                         <div className="flex items-center gap-2 text-zinc-500 text-xs">
                             <span className="size-1.5 bg-zinc-600 rounded-full animate-bounce" style={{ animationDelay: "0ms" }} />

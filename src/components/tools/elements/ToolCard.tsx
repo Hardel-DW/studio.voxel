@@ -30,7 +30,7 @@ export default function ToolInlineSlot(props: ToolInlineType & { index?: number 
                 }}
                 tabIndex={0}>
                 {value && !lock.isLocked && (
-                    <div className="absolute z-30 top-0 right-0 p-2 bg-zinc-950/80 rounded-bl-xl rounded-tr-2xl">
+                    <div className="absolute z-30 top-0 right-0 p-2 bg-zinc-950/75 rounded-bl-xl rounded-tr-2xl">
                         <img src="/icons/check.svg" alt="checkbox" className="w-6 h-6 invert" />
                     </div>
                 )}

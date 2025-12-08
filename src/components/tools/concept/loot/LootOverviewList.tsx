@@ -9,8 +9,6 @@ import { useFlattenedLootItems } from "@/lib/hook/useFlattenedLootItems";
 export default function LootOverviewList({ element, elementId }: { element: LootTableProps; elementId: string }) {
     const { lang } = useParams({ from: "/$lang" });
     const { items } = useFlattenedLootItems(element);
-    const itemsCount = items.length;
-
     const handleConfigure = () => useConfiguratorStore.getState().setCurrentElementId(elementId);
 
     return (
@@ -18,25 +16,22 @@ export default function LootOverviewList({ element, elementId }: { element: Loot
             data-element-id={elementId}
             className="group flex items-center justify-between bg-zinc-950/30 hover:bg-zinc-900/60 border-b p-3 transition-colors first:border-t border-zinc-800/30">
             <div className="flex items-center gap-4 flex-1 min-w-0">
-                <LootDetailsPopover
-                    element={element}
-                    trigger={
-                        <div className="flex -space-x-2 relative group/preview shrink-0 items-center h-full cursor-pointer">
-                            {items.slice(0, 1).map((item, index) => (
-                                <div
-                                    key={`${item.name}-${index}`}
-                                    className="transition-transform hover:scale-110 hover:z-10 flex items-center justify-center">
-                                    <TextureRenderer id={item.name} className="size-8 drop-shadow-md" />
-                                </div>
-                            ))}
-                            {itemsCount === 0 && (
-                                <div className="size-8 rounded-md bg-zinc-800/50 flex items-center justify-center border border-white/5">
-                                    <span className="text-zinc-600 text-[10px]">0</span>
-                                </div>
-                            )}
-                        </div>
-                    }
-                />
+                <LootDetailsPopover element={element}>
+                    <div className="flex -space-x-2 relative group/preview shrink-0 items-center h-full cursor-pointer">
+                        {items.slice(0, 1).map((item, index) => (
+                            <div
+                                key={`${item.name}-${index}`}
+                                className="transition-transform hover:scale-110 hover:z-10 flex items-center justify-center">
+                                <TextureRenderer id={item.name} className="size-8 drop-shadow-md" />
+                            </div>
+                        ))}
+                        {items.length === 0 && (
+                            <div className="size-8 rounded-md bg-zinc-800/50 flex items-center justify-center border border-white/5">
+                                <span className="text-zinc-600 text-[10px]">0</span>
+                            </div>
+                        )}
+                    </div>
+                </LootDetailsPopover>
 
                 <div className="flex flex-col justify-center min-w-0">
                     <h3 className="text-sm font-medium text-zinc-200 truncate group-hover:text-white transition-colors">
