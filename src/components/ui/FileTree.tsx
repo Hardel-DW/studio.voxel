@@ -10,12 +10,13 @@ interface FileTreeProps {
     onSelect: (path: string) => void;
     onElementSelect?: (elementId: string) => void;
     elementIcon?: string;
+    folderIcons?: Record<string, string>;
 }
 
-export function FileTree({ tree, activePath, onSelect, onElementSelect, elementIcon }: FileTreeProps) {
+export function FileTree({ tree, activePath, onSelect, onElementSelect, elementIcon, folderIcons }: FileTreeProps) {
     return (
         <div className="space-y-1 mt-4">
-            <FileTreeNode node={tree} activePath={activePath} onSelect={onSelect} onElementSelect={onElementSelect} elementIcon={elementIcon} isRoot />
+            <FileTreeNode node={tree} activePath={activePath} onSelect={onSelect} onElementSelect={onElementSelect} elementIcon={elementIcon} folderIcons={folderIcons} isRoot />
         </div>
     );
 }
@@ -28,22 +29,25 @@ interface FileTreeNodeProps {
     onSelect: (path: string) => void;
     onElementSelect?: (elementId: string) => void;
     elementIcon?: string;
+    folderIcons?: Record<string, string>;
     depth?: number;
     isRoot?: boolean;
 }
 
-function FileTreeNode({ name, path = "", node, activePath, onSelect, onElementSelect, elementIcon, depth = 0, isRoot = false }: FileTreeNodeProps) {
+function FileTreeNode({ name, path = "", node, activePath, onSelect, onElementSelect, elementIcon, folderIcons, depth = 0, isRoot = false }: FileTreeNodeProps) {
     const [isCollapsed, setIsCollapsed] = useState(!isRoot);
     const hasChildren = node.children.size > 0;
     const isActive = activePath === path;
     const isElement = !!node.elementId;
     const label = isRoot ? "All" : Identifier.toDisplay(name ?? "All");
     const hue = stringToColor(path || "all");
+    const customFolderIcon = name && folderIcons?.[name];
 
     const handleClick = () => isElement && node.elementId && onElementSelect ? onElementSelect(node.elementId) : onSelect(path);
     const getIcon = () => {
         if (isRoot) return "/icons/search.svg";
         if (isElement && elementIcon) return elementIcon;
+        if (customFolderIcon) return customFolderIcon;
         return "/icons/folder.svg";
     };
 
@@ -88,8 +92,8 @@ function FileTreeNode({ name, path = "", node, activePath, onSelect, onElementSe
                         src={getIcon()}
                         className={cn(
                             "size-4 object-contain",
-                            isElement ? "" : "invert opacity-60",
-                            isActive && !isElement && "opacity-100"
+                            !isElement && !customFolderIcon && "invert opacity-60",
+                            isActive && !isElement && !customFolderIcon && "opacity-100"
                         )}
                         alt={isElement ? "Element" : "Folder"}
                     />
@@ -117,6 +121,7 @@ function FileTreeNode({ name, path = "", node, activePath, onSelect, onElementSe
                                 onSelect={onSelect}
                                 onElementSelect={onElementSelect}
                                 elementIcon={elementIcon}
+                                folderIcons={folderIcons}
                                 depth={isRoot ? 0 : depth + 1}
                             />
                         ))}
