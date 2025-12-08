@@ -23,7 +23,7 @@
     "overview.sidebar.slots": "Slots",
     "overview.sidebar.items": "Items",
     "overview.sidebar.exclusive": "Exclusive",
-    "overview.level": "Level",
+    "overview.level": "Max Level",
     "overview.sort": "View by",
     "overview.sort.supported.label": "Supported Items",
     "overview.sort.exclusive.label": "Non Combinable",

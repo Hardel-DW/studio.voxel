@@ -23,7 +23,7 @@
     "overview.sidebar.slots": "Slots",
     "overview.sidebar.items": "Objets",
     "overview.sidebar.exclusive": "Exclusif",
-    "overview.level": "Niveau",
+    "overview.level": "Niveau maximum",
     "overview.sort": "Vue par",
     "overview.sort.description": "Vue par",
     "overview.sort.supported.label": "Objets supportés",

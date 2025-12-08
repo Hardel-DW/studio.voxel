@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Identifier } from "@voxelio/breeze";
 import { useEditorUiStore } from "@/components/tools/concept/EditorUiStore";
 import EnchantmentCard from "@/components/tools/concept/enchantment/EnchantmentCard";
+import EnchantmentOverviewList from "@/components/tools/concept/enchantment/EnchantmentOverviewList";
 import { viewMatchers } from "@/components/tools/concept/enchantment/viewMatchers";
 import { TextInput } from "@/components/ui/TextInput";
 import Translate from "@/components/ui/Translate";
@@ -48,9 +49,13 @@ function OverviewPage() {
                     </div>
                 ) : (
                     <div className={cn("grid gap-4", viewMode === "grid" ? "grid-cols-[repeat(auto-fill,minmax(280px,1fr))]" : "grid-cols-1")}>
-                        {visibleItems.map((element) => (
-                            <EnchantmentCard key={element.identifier.resource} element={element} display={viewMode === "list"} />
-                        ))}
+                        {visibleItems.map((element) =>
+                            viewMode === "list" ? (
+                                <EnchantmentOverviewList key={element.identifier.resource} element={element} />
+                            ) : (
+                                <EnchantmentCard key={element.identifier.resource} element={element} />
+                            )
+                        )}
                     </div>
                 )}
 

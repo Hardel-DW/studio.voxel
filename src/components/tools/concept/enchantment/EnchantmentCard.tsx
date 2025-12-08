@@ -41,12 +41,13 @@ const findOptions = [
     }
 ];
 
-export default function EnchantOverviewCard(props: { element: EnchantmentProps; display: boolean }) {
+export default function EnchantmentCard({ element }: { element: EnchantmentProps }) {
     const { lang } = useParams({ from: "/$lang" });
     const { data } = useRegistry<FetchedRegistry<TagType>>("summary", "tags/item");
     const datapackTags = useConfiguratorStore((state) => state.getRegistry<TagType>("tags/item"));
-    const { isTag, id } = getItemFromMultipleOrOne(props.element.supportedItems);
-    const elementId = new Identifier(props.element.identifier).toUniqueKey();
+    const { isTag, id } = getItemFromMultipleOrOne(element.supportedItems);
+    const elementId = new Identifier(element.identifier).toUniqueKey();
+    const resourceName = new Identifier(element.identifier).toResourceName();
     const tagId = Identifier.of(id.startsWith("#") ? id.slice(1) : id, "tags/item");
     const vanillaTags = data
         ? Object.entries(data).map(([key, value]) => ({ identifier: Identifier.of(key, "tags/item"), data: value }))
@@ -61,69 +62,61 @@ export default function EnchantOverviewCard(props: { element: EnchantmentProps; 
     const handleConfigure = () => useConfiguratorStore.getState().setCurrentElementId(elementId);
 
     return (
-        <div className="bg-black/50 border-t-2 border-l-2 shadow-xl shadow-black/30 border-stone-900 select-none relative transition-all hover:ring-2 ring-zinc-900 rounded-xl p-4 h-full group flex flex-col">
-            <div className="flex items-center justify-between pb-4">
+        <div
+            data-element-id={elementId}
+            className="overview-card bg-zinc-950/70 border border-zinc-900 select-none relative rounded-xl p-4 flex flex-col transition-transform duration-150 ease-out hover:-translate-y-0.5 isolate">
+            <div className="absolute inset-0 -z-10 brightness-10">
+                <img src="/images/shine.avif" alt="Shine" loading="lazy" />
+            </div>
+
+            <div className="flex items-center justify-between pb-3">
                 <div className="flex items-center gap-3 flex-1 min-w-0">
                     {items.length === 0 ? (
-                        <div className="w-6 h-6 bg-stone-900 rounded-full animate-pulse shrink-0" />
+                        <div className="size-10 bg-zinc-900 rounded-full animate-pulse shrink-0" />
                     ) : (
                         <div className="shrink-0">
                             <TextureRenderer id={items[0]} className="size-10" />
                         </div>
                     )}
-                    <div className="flex flex-col gap-1 justify-center">
-                        <h3 className="text-sm font-semibold truncate">{new Identifier(props.element.identifier).toResourceName()}</h3>
-                        <div className="flex items-center">
-                            <div className="bg-zinc-800/20 pr-2 pl-1 py-px rounded-full border border-zinc-800">
-                                <div className="flex items-center gap-1">
-                                    <img src="/icons/tools/maxLevel.svg" alt="Max Level" className="invert-70 w-3 h-3" />
-                                    <span className="text-xs tracking-wider text-zinc-400 font-medium">
-                                        <Translate content="enchantment:overview.level" /> {props.element.maxLevel}
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
+                    <div className="flex flex-col justify-center flex-1 min-w-0">
+                        <h3 className="text-sm font-semibold truncate">{resourceName}</h3>
+                        <p className="text-[10px] tracking-wider minecraft-font text-zinc-400">
+                            <Translate content="enchantment:overview.level" /> {element.maxLevel}
+                        </p>
                     </div>
                 </div>
 
                 <SimpleSwitch
                     elementId={elementId}
-                    action={CoreAction.setValue("mode", props.element.mode === "soft_delete" ? "normal" : "soft_delete")}
+                    action={CoreAction.setValue("mode", element.mode === "soft_delete" ? "normal" : "soft_delete")}
                     renderer={(el) => el.mode === "normal"}
                 />
             </div>
 
-            <div className="flex-1 flex flex-col">
-                {!props.display && (
-                    <div className="flex flex-wrap gap-2 pb-4 flex-1">
-                        {findOptions.map((tag) => (
-                            <OverviewCase
-                                key={tag.title}
-                                title={tag.title}
-                                image={tag.image}
-                                tag={tag.tag}
-                                elementId={elementId}
-                                action={CoreAction.toggleValueInList("tags", tag.tag)}
-                                renderer={(el: EnchantmentProps) => el.tags.includes(tag.lock_value) || el.tags.includes(tag.tag)}
-                            />
-                        ))}
-                    </div>
-                )}
-
-                <div className="pt-4 border-t border-zinc-800/50 mt-auto">
-                    <Link
-                        to="/$lang/studio/editor/enchantment/main"
-                        params={{ lang }}
-                        onClick={handleConfigure}
-                        className="w-full cursor-pointer bg-zinc-800/30 hover:bg-zinc-700/50 border border-zinc-700/50 rounded-lg px-3 py-2 text-xs font-medium text-zinc-300 transition-colors block text-center">
-                        <Translate content="configure" />
-                    </Link>
+            <div className="pb-4">
+                <div className="flex flex-wrap gap-2">
+                    {findOptions.map((tag) => (
+                        <OverviewCase
+                            key={tag.title}
+                            title={tag.title}
+                            image={tag.image}
+                            tag={tag.tag}
+                            elementId={elementId}
+                            action={CoreAction.toggleValueInList("tags", tag.tag)}
+                            renderer={(el: EnchantmentProps) => el.tags.includes(tag.lock_value) || el.tags.includes(tag.tag)}
+                        />
+                    ))}
                 </div>
             </div>
 
-            {/* Background shine */}
-            <div className="absolute inset-0 -z-10 brightness-30 group-hover:brightness-70 transition rounded-xl overflow-hidden">
-                <img src="/images/shine.avif" alt="Shine" className="w-full h-full object-cover" loading="lazy" />
+            <div className="pt-4 border-t border-zinc-800/50 mt-auto">
+                <Link
+                    to="/$lang/studio/editor/enchantment/main"
+                    params={{ lang }}
+                    onClick={handleConfigure}
+                    className="w-full cursor-pointer bg-zinc-900/40 hover:bg-zinc-800/50 border border-zinc-800/40 rounded-lg px-3 py-2 text-xs font-medium text-zinc-300 transition-[background-color] duration-150 block text-center">
+                    <Translate content="configure" />
+                </Link>
             </div>
         </div>
     );
