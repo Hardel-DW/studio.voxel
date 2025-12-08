@@ -7,7 +7,6 @@ import { TextInput } from "@/components/ui/TextInput";
 import Translate from "@/components/ui/Translate";
 import { useElementsByType } from "@/lib/hook/useElementsByType";
 import { useInfiniteScroll } from "@/lib/hook/useInfiniteScroll";
-import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/$lang/studio/editor/recipe/overview")({
     component: Page
@@ -16,13 +15,13 @@ export const Route = createFileRoute("/$lang/studio/editor/recipe/overview")({
 const DEFAULT_BLOCK = "minecraft:barrier";
 
 function Page() {
-    const { search, setSearch, filterPath, viewMode } = useEditorUiStore();
+    const { search, setSearch, filterPath } = useEditorUiStore();
     const selectedBlock = filterPath || DEFAULT_BLOCK;
     const recipeElements = useElementsByType("recipe");
 
     const filteredElements = recipeElements.filter((el) => {
         if (search && !el.identifier.resource.toLowerCase().includes(search.toLowerCase())) return false;
-        if (selectedBlock === "minecraft:barrier") return true; // All
+        if (selectedBlock === "minecraft:barrier") return true;
         return canBlockHandleRecipeType(selectedBlock, el.type);
     });
 
@@ -35,21 +34,7 @@ function Page() {
             </div>
 
             <div className="flex-1 overflow-y-auto px-8 py-6 custom-scrollbar bg-zinc-950/50">
-                {visibleItems.length > 0 ? (
-                    <div
-                        className={cn(
-                            "grid gap-4 pb-20",
-                            viewMode === "grid" ? "grid-cols-[repeat(auto-fill,minmax(320px,1fr))]" : "grid-cols-1"
-                        )}>
-                        {visibleItems.map((element) => (
-                            <RecipeOverviewCard
-                                key={new Identifier(element.identifier).toUniqueKey()}
-                                element={element}
-                                elementId={new Identifier(element.identifier).toUniqueKey()}
-                            />
-                        ))}
-                    </div>
-                ) : (
+                {visibleItems.length === 0 ? (
                     <div className="h-full flex flex-col items-center justify-center pb-20 opacity-60">
                         <div className="size-24 bg-zinc-900/50 rounded-full flex items-center justify-center mb-6 border border-zinc-800">
                             <img src="/icons/search.svg" className="size-10 opacity-20 invert" alt="No results" />
@@ -60,6 +45,13 @@ function Page() {
                         <p className="text-zinc-500 max-w-sm text-center">
                             <Translate content="recipe:overview.try.adjusting.search.or.filter" />
                         </p>
+                    </div>
+                ) : (
+                    <div className="grid gap-4 pb-20 grid-cols-[repeat(auto-fill,minmax(320px,1fr))]">
+                        {visibleItems.map((element) => {
+                            const elementId = new Identifier(element.identifier).toUniqueKey();
+                            return <RecipeOverviewCard key={elementId} element={element} elementId={elementId} />;
+                        })}
                     </div>
                 )}
 

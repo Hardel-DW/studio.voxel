@@ -1,22 +1,27 @@
 import { Link, useParams } from "@tanstack/react-router";
-import { CoreAction, Identifier, type LootTableProps } from "@voxelio/breeze";
+import { CoreAction, type FlattenedLootItem, Identifier } from "@voxelio/breeze";
 import LootDetailsPopover from "@/components/tools/concept/loot/LootDetailsPopover";
 import SimpleSwitch from "@/components/tools/elements/SimpleSwitch";
 import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer";
 import { useConfiguratorStore } from "@/components/tools/Store";
-import { useFlattenedLootItems } from "@/lib/hook/useFlattenedLootItems";
 
-export default function LootOverviewList({ element, elementId }: { element: LootTableProps; elementId: string }) {
+interface LootOverviewListProps {
+    elementId: string;
+    items: FlattenedLootItem[];
+    resourceName: string;
+}
+
+export default function LootOverviewList({ elementId, items, resourceName }: LootOverviewListProps) {
     const { lang } = useParams({ from: "/$lang" });
-    const { items } = useFlattenedLootItems(element);
     const handleConfigure = () => useConfiguratorStore.getState().setCurrentElementId(elementId);
+    const fullIdentifier = Identifier.fromUniqueKey(elementId).toString();
 
     return (
         <div
             data-element-id={elementId}
             className="group flex items-center justify-between bg-zinc-950/30 hover:bg-zinc-900/60 border-b p-3 transition-colors first:border-t border-zinc-800/30">
             <div className="flex items-center gap-4 flex-1 min-w-0">
-                <LootDetailsPopover element={element}>
+                <LootDetailsPopover items={items}>
                     <div className="flex -space-x-2 relative group/preview shrink-0 items-center h-full cursor-pointer">
                         {items.slice(0, 1).map((item, index) => (
                             <div
@@ -35,10 +40,10 @@ export default function LootOverviewList({ element, elementId }: { element: Loot
 
                 <div className="flex flex-col justify-center min-w-0">
                     <h3 className="text-sm font-medium text-zinc-200 truncate group-hover:text-white transition-colors">
-                        {new Identifier(element.identifier).toResourceName()}
+                        {resourceName}
                     </h3>
                     <p className="text-xs text-zinc-500 truncate flex items-center gap-2">
-                        <span className="font-mono text-[10px] opacity-60">{new Identifier(element.identifier).toString()}</span>
+                        <span className="font-mono text-[10px] opacity-60">{fullIdentifier}</span>
                     </p>
                 </div>
             </div>

@@ -14,28 +14,28 @@
     },
     "dependencies": {
         "@fontsource-variable/rubik": "^5.2.8",
-        "@tanstack/react-query": "^5.90.11",
-        "@tanstack/react-router": "^1.139.12",
-        "@voxelio/breeze": "^1.10.21",
-        "@voxelio/converter": "^1.0.33",
-        "@voxelio/zip": "^3.2.2",
-        "react": "^19.2.0",
-        "react-dom": "^19.2.0",
+        "@tanstack/react-query": "^5.90.12",
+        "@tanstack/react-router": "^1.140.0",
+        "@voxelio/breeze": "^1.10.23",
+        "@voxelio/converter": "^1.0.35",
+        "@voxelio/zip": "^3.2.3",
+        "react": "^19.2.1",
+        "react-dom": "^19.2.1",
         "tailwind-merge": "^3.4.0",
         "zustand": "^5.0.9"
     },
     "devDependencies": {
         "@biomejs/biome": "^2.3.8",
         "@tailwindcss/vite": "^4.1.17",
-        "@tanstack/router-plugin": "^1.139.12",
+        "@tanstack/router-plugin": "^1.140.0",
         "@types/node": "^24.10.1",
         "@types/react": "^19.2.7",
         "@types/react-dom": "^19.2.3",
         "@typescript/native-preview": "7.0.0-dev.20251203.1",
-        "@vitejs/plugin-react": "^5.1.1",
+        "@vitejs/plugin-react": "^5.1.2",
         "babel-plugin-react-compiler": "1.0.0",
         "tailwindcss": "^4.1.17",
         "vite": "8.0.0-beta.0",
-        "wrangler": "^4.51.0"
+        "wrangler": "^4.53.0"
     }
 }

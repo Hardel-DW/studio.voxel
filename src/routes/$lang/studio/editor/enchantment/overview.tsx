@@ -1,14 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Identifier } from "@voxelio/breeze";
-import { useMemo } from "react";
 import { useEditorUiStore } from "@/components/tools/concept/EditorUiStore";
 import EnchantmentCard from "@/components/tools/concept/enchantment/EnchantmentCard";
+import { viewMatchers } from "@/components/tools/concept/enchantment/viewMatchers";
 import { TextInput } from "@/components/ui/TextInput";
 import Translate from "@/components/ui/Translate";
 import { useElementsByType } from "@/lib/hook/useElementsByType";
 import { useInfiniteScroll } from "@/lib/hook/useInfiniteScroll";
 import { cn } from "@/lib/utils";
-import { viewMatchers } from "@/components/tools/concept/enchantment/viewMatchers";
 
 export const Route = createFileRoute("/$lang/studio/editor/enchantment/overview")({
     component: OverviewPage
@@ -18,17 +17,13 @@ function OverviewPage() {
     const { search, setSearch, sidebarView, filterPath, viewMode } = useEditorUiStore();
     const elements = useElementsByType("enchantment");
 
-    const filteredElements = useMemo(() => {
-        const searchLower = search.toLowerCase();
-        const [category, leaf] = filterPath ? filterPath.split("/") : [null, null];
-
-        return elements.filter((el) => {
-            if (search && !el.identifier.resource.toLowerCase().includes(searchLower)) return false;
-            if (!category) return true;
-            if (leaf) return new Identifier(el.identifier).toResourceName() === leaf;
-            return viewMatchers[sidebarView]?.(el, category) ?? true;
-        });
-    }, [elements, search, filterPath, sidebarView]);
+    const filteredElements = elements.filter((el) => {
+        if (search && !el.identifier.resource.toLowerCase().includes(search.toLowerCase())) return false;
+        if (!filterPath) return true;
+        const [category, leaf] = filterPath.split("/");
+        if (leaf) return new Identifier(el.identifier).toResourceName() === leaf;
+        return viewMatchers[sidebarView]?.(el, category) ?? true;
+    });
 
     const { visibleItems, hasMore, ref } = useInfiniteScroll(filteredElements, 24);
 
@@ -39,17 +34,7 @@ function OverviewPage() {
             </div>
 
             <div className="flex-1 overflow-y-auto px-8 py-6 custom-scrollbar bg-zinc-950/50">
-                {visibleItems.length > 0 ? (
-                    <div
-                        className={cn(
-                            "grid gap-4 pb-20",
-                            viewMode === "grid" ? "grid-cols-[repeat(auto-fill,minmax(280px,1fr))]" : "grid-cols-1"
-                        )}>
-                        {visibleItems.map((element) => (
-                            <EnchantmentCard key={element.identifier.resource} element={element} display={viewMode === "list"} />
-                        ))}
-                    </div>
-                ) : (
+                {visibleItems.length === 0 ? (
                     <div className="h-full flex flex-col items-center justify-center pb-20 opacity-60">
                         <div className="size-24 bg-zinc-900/50 rounded-full flex items-center justify-center mb-6 border border-zinc-800">
                             <img src="/icons/search.svg" className="size-10 opacity-20 invert" alt="No results" />
@@ -60,6 +45,12 @@ function OverviewPage() {
                         <p className="text-zinc-500 max-w-sm text-center">
                             <Translate content="enchantment:items.no_results.description" />
                         </p>
+                    </div>
+                ) : (
+                    <div className={cn("grid gap-4 pb-20", viewMode === "grid" ? "grid-cols-[repeat(auto-fill,minmax(280px,1fr))]" : "grid-cols-1")}>
+                        {visibleItems.map((element) => (
+                            <EnchantmentCard key={element.identifier.resource} element={element} display={viewMode === "list"} />
+                        ))}
                     </div>
                 )}
 

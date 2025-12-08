@@ -6,6 +6,7 @@ import LootOverviewCard from "@/components/tools/concept/loot/LootOverviewCard";
 import { TextInput } from "@/components/ui/TextInput";
 import Translate from "@/components/ui/Translate";
 import { useElementsByType } from "@/lib/hook/useElementsByType";
+import { useFlattenedLootCache } from "@/lib/hook/useFlattenedLootItems";
 import { useInfiniteScroll } from "@/lib/hook/useInfiniteScroll";
 import { cn } from "@/lib/utils";
 import { matchesPath } from "@/lib/utils/tree";
@@ -18,6 +19,8 @@ function RouteComponent() {
     const { filterPath, search, setSearch, viewMode } = useEditorUiStore();
     const [forceShow, setForceShow] = useState(false);
     const elements = useElementsByType("loot_table");
+    const { itemsMap, isLoading: cacheLoading } = useFlattenedLootCache();
+
     const filtered = elements.filter((el) => {
         if (!matchesPath(el.identifier, filterPath)) return false;
         if (search && !el.identifier.resource.toLowerCase().includes(search.toLowerCase())) return false;
@@ -61,14 +64,17 @@ function RouteComponent() {
                     </div>
                 ) : (
                     <div className={cn("grid gap-4 pb-20", viewMode === "grid" ? "grid-cols-[repeat(auto-fill,minmax(280px,1fr))]" : "grid-cols-1")}>
-                        {visibleItems.map((element) => (
-                            <LootOverviewCard
-                                key={element.identifier.resource}
-                                element={element}
-                                elementId={new Identifier(element.identifier).toUniqueKey()}
-                                mode={viewMode}
-                            />
-                        ))}
+                        {visibleItems.map((element) => {
+                            const id = new Identifier(element.identifier);
+                            return (
+                                <LootOverviewCard
+                                    key={id.toUniqueKey()}
+                                    elementId={id.toUniqueKey()}
+                                    items={cacheLoading ? [] : (itemsMap.get(id.toString()) ?? [])}
+                                    mode={viewMode}
+                                />
+                            );
+                        })}
                     </div>
                 )}
 

@@ -1,17 +1,14 @@
-import type { LootTableProps } from "@voxelio/breeze";
+import { type FlattenedLootItem, Identifier } from "@voxelio/breeze";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/Popover";
-import { useFlattenedLootItems } from "@/lib/hook/useFlattenedLootItems";
 import type { ReactElement } from "react";
 import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer";
-import { Identifier } from "@voxelio/breeze";
 
 interface LootDetailsPopoverProps {
-    element: LootTableProps;
+    items: FlattenedLootItem[];
     children: ReactElement<{ ref?: React.Ref<HTMLElement>; onClick?: () => void; className?: string }>;
 }
 
-export default function LootDetailsPopover({ element, children }: LootDetailsPopoverProps) {
-    const { items, isLoading } = useFlattenedLootItems(element);
+export default function LootDetailsPopover({ items, children }: LootDetailsPopoverProps) {
     const itemsCount = items.length;
 
     return (
@@ -32,9 +29,7 @@ export default function LootDetailsPopover({ element, children }: LootDetailsPop
                     <hr />
 
                     <div className="overflow-y-auto max-h-96">
-                        {isLoading ? (
-                            <div className="py-8 text-center text-xs text-zinc-400">Loading loot data…</div>
-                        ) : items.length > 0 ? (
+                        {items.length > 0 ? (
                             <div className="grid grid-cols-2 gap-2">
                                 {items.map((item, index) => (
                                     <div key={`${item.name}-${index}-${item.path.join("-")}`} className="bg-zinc-900/50 border border-zinc-800 rounded p-2 flex items-center gap-2">

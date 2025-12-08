@@ -1,25 +1,31 @@
 import { Link, useParams } from "@tanstack/react-router";
-import type { LootTableProps } from "@voxelio/breeze";
+import type { FlattenedLootItem } from "@voxelio/breeze";
 import { CoreAction, Identifier } from "@voxelio/breeze";
 import LootDetailsPopover from "@/components/tools/concept/loot/LootDetailsPopover";
 import LootOverviewList from "@/components/tools/concept/loot/LootOverviewList";
 import SimpleSwitch from "@/components/tools/elements/SimpleSwitch";
 import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer";
 import { useConfiguratorStore } from "@/components/tools/Store";
-import { useFlattenedLootItems } from "@/lib/hook/useFlattenedLootItems";
 
-export default function LootOverviewCard(props: { element: LootTableProps; elementId: string; mode?: string }) {
+interface LootOverviewCardProps {
+    elementId: string;
+    items: FlattenedLootItem[];
+    mode?: string;
+}
+
+export default function LootOverviewCard({ elementId, items, mode }: LootOverviewCardProps) {
     const { lang } = useParams({ from: "/$lang" });
-    const { items } = useFlattenedLootItems(props.element);
+    const resourceName = Identifier.fromUniqueKey(elementId).toResourceName();
 
-    const handleConfigure = () => useConfiguratorStore.getState().setCurrentElementId(props.elementId);
-    if (props.mode === "list") {
-        return <LootOverviewList element={props.element} elementId={props.elementId} />;
+    const handleConfigure = () => useConfiguratorStore.getState().setCurrentElementId(elementId);
+
+    if (mode === "list") {
+        return <LootOverviewList elementId={elementId} items={items} resourceName={resourceName} />;
     }
 
     return (
         <div
-            data-element-id={props.elementId}
+            data-element-id={elementId}
             className="overview-card bg-zinc-950/70 border border-zinc-900 select-none relative rounded-xl p-4 flex flex-col transition-transform duration-150 ease-out hover:-translate-y-0.5 isolate">
 
             <div className="absolute inset-0 -z-10 brightness-10">
@@ -28,13 +34,13 @@ export default function LootOverviewCard(props: { element: LootTableProps; eleme
 
             <div className="flex items-center justify-between pb-3">
                 <div className="flex flex-col justify-center flex-1 min-w-0">
-                    <h3 className="text-sm font-semibold truncate">{new Identifier(props.element.identifier).toResourceName()}</h3>
+                    <h3 className="text-sm font-semibold truncate">{resourceName}</h3>
                     <p className="text-[10px] tracking-wider minecraft-font text-zinc-400">
                         {items.length} items
                     </p>
                 </div>
 
-                <SimpleSwitch elementId={props.elementId} action={CoreAction.invertBoolean("disabled")} renderer={(el) => !el.disabled} />
+                <SimpleSwitch elementId={elementId} action={CoreAction.invertBoolean("disabled")} renderer={(el) => !el.disabled} />
             </div>
 
             <div className="pb-4">
@@ -44,7 +50,7 @@ export default function LootOverviewCard(props: { element: LootTableProps; eleme
                             <TextureRenderer key={`${item.name}-${index}`} id={item.name} className="size-10 scale-75 drop-shadow-sm" />
                         ))}
                     </div>
-                    <LootDetailsPopover element={props.element}>
+                    <LootDetailsPopover items={items}>
                         <span className="text-xs bg-zinc-900/60 border border-zinc-800 px-2 py-2 rounded-lg cursor-pointer hover:bg-zinc-800/60 transition-colors">
                             See Details
                         </span>
