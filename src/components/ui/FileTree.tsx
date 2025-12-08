@@ -2,38 +2,50 @@ import { Identifier } from "@voxelio/breeze";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { hueToHsl, stringToColor } from "@/lib/utils/color";
-import type { TreeFolder } from "@/lib/utils/tree";
+import type { TreeNode } from "@/lib/utils/tree";
 
 interface FileTreeProps {
-    tree: TreeFolder;
+    tree: TreeNode;
     activePath: string;
     onSelect: (path: string) => void;
+    onElementSelect?: (elementId: string) => void;
+    elementIcon?: string;
 }
 
-export function FileTree({ tree, activePath, onSelect }: FileTreeProps) {
+export function FileTree({ tree, activePath, onSelect, onElementSelect, elementIcon }: FileTreeProps) {
     return (
         <div className="space-y-1 mt-4">
-            <FileTreeNode name="All" path="" node={tree} activePath={activePath} onSelect={onSelect} isRoot />
+            <FileTreeNode node={tree} activePath={activePath} onSelect={onSelect} onElementSelect={onElementSelect} elementIcon={elementIcon} isRoot />
         </div>
     );
 }
 
 interface FileTreeNodeProps {
-    name: string;
-    path: string;
-    node: TreeFolder;
+    name?: string;
+    path?: string;
+    node: TreeNode;
     activePath: string;
     onSelect: (path: string) => void;
+    onElementSelect?: (elementId: string) => void;
+    elementIcon?: string;
     depth?: number;
     isRoot?: boolean;
 }
 
-function FileTreeNode({ name, path, node, activePath, onSelect, depth = 0, isRoot = false }: FileTreeNodeProps) {
+function FileTreeNode({ name, path = "", node, activePath, onSelect, onElementSelect, elementIcon, depth = 0, isRoot = false }: FileTreeNodeProps) {
     const [isCollapsed, setIsCollapsed] = useState(!isRoot);
     const hasChildren = node.children.size > 0;
     const isActive = activePath === path;
-    const label = isRoot ? "All" : Identifier.toDisplay(name);
+    const isElement = !!node.elementId;
+    const label = isRoot ? "All" : Identifier.toDisplay(name ?? "All");
     const hue = stringToColor(path || "all");
+
+    const handleClick = () => isElement && node.elementId && onElementSelect ? onElementSelect(node.elementId) : onSelect(path);
+    const getIcon = () => {
+        if (isRoot) return "/icons/search.svg";
+        if (isElement && elementIcon) return elementIcon;
+        return "/icons/folder.svg";
+    };
 
     return (
         <div className="w-full select-none">
@@ -44,11 +56,15 @@ function FileTreeNode({ name, path, node, activePath, onSelect, depth = 0, isRoo
                     depth > 0 && "mt-0.5"
                 )}
                 style={{ paddingLeft: isRoot ? 8 : depth * 8 + 8 }}
-                onClick={() => onSelect(path)}
+                onClick={(e) => {
+                    e.stopPropagation();
+                    handleClick();
+                    setIsCollapsed(!isCollapsed);
+                }}
                 role="treeitem"
                 aria-expanded={isActive}
                 tabIndex={0}
-                onKeyDown={(e) => e.key === "Enter" && onSelect(path)}>
+                onKeyDown={(e) => e.key === "Enter" && handleClick()}>
 
                 {isActive && (
                     <div
@@ -57,35 +73,34 @@ function FileTreeNode({ name, path, node, activePath, onSelect, depth = 0, isRoo
                     />
                 )}
 
-                {!isRoot && (
-                    <button
-                        type="button"
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            if (hasChildren) setIsCollapsed(!isCollapsed);
-                        }}
-                        className={cn("p-0.5 rounded-md transition-colors -ml-1", hasChildren && "hover:bg-zinc-700/50")}
-                        disabled={!hasChildren}>
+                {!isRoot && !isElement && (
+                    <div className={cn("p-0.5 rounded-md transition-colors -ml-1", hasChildren && "hover:bg-zinc-700/50")}>
                         <img
                             src="/icons/chevron-down.svg"
                             className={cn("size-3 transition-transform invert", isCollapsed && "-rotate-90", !hasChildren && "opacity-20")}
                             alt="Toggle"
                         />
-                    </button>
+                    </div>
                 )}
 
                 <div className="flex items-center gap-2.5 flex-1 min-w-0">
                     <img
-                        src={isRoot ? "/icons/search.svg" : "/icons/folder.svg"}
-                        className={cn("size-4 object-contain invert opacity-60", isActive && "opacity-100")}
-                        alt="Folder"
+                        src={getIcon()}
+                        className={cn(
+                            "size-4 object-contain",
+                            isElement ? "" : "invert opacity-60",
+                            isActive && !isElement && "opacity-100"
+                        )}
+                        alt={isElement ? "Element" : "Folder"}
                     />
                     <span className="truncate text-sm font-medium">{label}</span>
                 </div>
 
-                <span className="text-[10px] text-zinc-600 font-mono tabular-nums bg-zinc-900/50 px-1.5 rounded-sm border border-zinc-800 group-hover:border-zinc-700">
-                    {node.count}
-                </span>
+                {!isElement && (
+                    <span className="text-[10px] text-zinc-600 font-mono tabular-nums bg-zinc-900/50 px-1.5 rounded-sm border border-zinc-800 group-hover:border-zinc-700">
+                        {node.count}
+                    </span>
+                )}
             </div>
 
             {hasChildren && !isCollapsed && (
@@ -100,6 +115,8 @@ function FileTreeNode({ name, path, node, activePath, onSelect, depth = 0, isRoo
                                 node={childNode}
                                 activePath={activePath}
                                 onSelect={onSelect}
+                                onElementSelect={onElementSelect}
+                                elementIcon={elementIcon}
                                 depth={isRoot ? 0 : depth + 1}
                             />
                         ))}

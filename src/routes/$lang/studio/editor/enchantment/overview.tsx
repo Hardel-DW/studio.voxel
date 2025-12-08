@@ -1,14 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Identifier } from "@voxelio/breeze";
+import { useMemo } from "react";
 import { useEditorUiStore } from "@/components/tools/concept/EditorUiStore";
 import EnchantmentCard from "@/components/tools/concept/enchantment/EnchantmentCard";
-import { SLOT_CONFIGS } from "@/components/tools/concept/enchantment/slots";
 import { TextInput } from "@/components/ui/TextInput";
 import Translate from "@/components/ui/Translate";
-import { enchantableEntries } from "@/lib/data/tags";
 import { useElementsByType } from "@/lib/hook/useElementsByType";
 import { useInfiniteScroll } from "@/lib/hook/useInfiniteScroll";
 import { cn } from "@/lib/utils";
+import { viewMatchers } from "@/components/tools/concept/enchantment/viewMatchers";
 
 export const Route = createFileRoute("/$lang/studio/editor/enchantment/overview")({
     component: OverviewPage
@@ -18,53 +18,17 @@ function OverviewPage() {
     const { search, setSearch, sidebarView, filterPath, viewMode } = useEditorUiStore();
     const elements = useElementsByType("enchantment");
 
-    const filteredElements = elements.filter((element) => {
-        if (search && !element.identifier.resource.toLowerCase().includes(search.toLowerCase())) {
-            return false;
-        }
+    const filteredElements = useMemo(() => {
+        const searchLower = search.toLowerCase();
+        const [category, leaf] = filterPath ? filterPath.split("/") : [null, null];
 
-        if (filterPath) {
-            const parts = filterPath.split("/");
-            const category = parts[0];
-            const leaf = parts.length > 1 ? parts[1] : null;
-            if (leaf) {
-                const resourceName = new Identifier(element.identifier).toResourceName();
-                return resourceName === leaf;
-            }
-
-            if (sidebarView === "slots") {
-                const slotConfig = SLOT_CONFIGS.find((s) => s.id === category);
-                if (slotConfig) {
-                    return element.slots.some((s) => slotConfig.slots.includes(s));
-                }
-            } else if (sidebarView === "items") {
-                const entry = enchantableEntries.find(([k]) => k === category);
-                if (entry) {
-                    const tag = entry[1].toString();
-                    const supported = Array.isArray(element.supportedItems) ? element.supportedItems : [element.supportedItems];
-                    const primary = element.primaryItems
-                        ? Array.isArray(element.primaryItems)
-                            ? element.primaryItems
-                            : [element.primaryItems]
-                        : [];
-                    const allTags = [...supported, ...primary, ...(element.tags || [])];
-                    return allTags.includes(tag);
-                }
-            } else if (sidebarView === "exclusive") {
-                if (element.exclusiveSet) {
-                    const sets = Array.isArray(element.exclusiveSet) ? element.exclusiveSet : [element.exclusiveSet];
-                    const setName = category;
-                    return sets.some((s) => {
-                        const sName = s.startsWith("#") ? s : Identifier.toDisplay(s);
-                        return sName === setName;
-                    });
-                }
-                return false;
-            }
-        }
-
-        return true;
-    });
+        return elements.filter((el) => {
+            if (search && !el.identifier.resource.toLowerCase().includes(searchLower)) return false;
+            if (!category) return true;
+            if (leaf) return new Identifier(el.identifier).toResourceName() === leaf;
+            return viewMatchers[sidebarView]?.(el, category) ?? true;
+        });
+    }, [elements, search, filterPath, sidebarView]);
 
     const { visibleItems, hasMore, ref } = useInfiniteScroll(filteredElements, 24);
 

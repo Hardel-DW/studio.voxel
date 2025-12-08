@@ -47,11 +47,11 @@ export default function EnchantOverviewCard(props: { element: EnchantmentProps; 
     const datapackTags = useConfiguratorStore((state) => state.getRegistry<TagType>("tags/item"));
     const { isTag, id } = getItemFromMultipleOrOne(props.element.supportedItems);
     const elementId = new Identifier(props.element.identifier).toUniqueKey();
-
     const tagId = Identifier.of(id.startsWith("#") ? id.slice(1) : id, "tags/item");
     const vanillaTags = data
         ? Object.entries(data).map(([key, value]) => ({ identifier: Identifier.of(key, "tags/item"), data: value }))
         : [];
+
     const merge = TagsProcessor.merge([
         { id: "vanilla", tags: vanillaTags },
         { id: "datapack", tags: datapackTags }
@@ -93,7 +93,6 @@ export default function EnchantOverviewCard(props: { element: EnchantmentProps; 
                 />
             </div>
 
-            {/* Contenu principal */}
             <div className="flex-1 flex flex-col">
                 {!props.display && (
                     <div className="flex flex-wrap gap-2 pb-4 flex-1">
@@ -111,7 +110,6 @@ export default function EnchantOverviewCard(props: { element: EnchantmentProps; 
                     </div>
                 )}
 
-                {/* Footer - toujours en bas */}
                 <div className="pt-4 border-t border-zinc-800/50 mt-auto">
                     <Link
                         to="/$lang/studio/editor/enchantment/main"

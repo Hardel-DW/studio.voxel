@@ -1,13 +1,14 @@
 import type { IdentifierObject } from "@voxelio/breeze";
 
-export interface TreeFolder {
+export interface TreeNode {
     identifiers: IdentifierObject[];
-    children: Map<string, TreeFolder>;
+    children: Map<string, TreeNode>;
     count: number;
+    elementId?: string;
 }
 
-export function buildTree(identifiers: IdentifierObject[]): TreeFolder {
-    const root: TreeFolder = {
+export function buildTree(identifiers: IdentifierObject[]): TreeNode {
+    const root: TreeNode = {
         identifiers: [],
         children: new Map(),
         count: 0
@@ -28,12 +29,12 @@ export function buildTree(identifiers: IdentifierObject[]): TreeFolder {
         current.identifiers.push(id);
     }
 
-    const calculateCount = (folder: TreeFolder): number => {
-        let count = folder.identifiers.length;
-        for (const child of folder.children.values()) {
+    const calculateCount = (node: TreeNode): number => {
+        let count = node.identifiers.length;
+        for (const child of node.children.values()) {
             count += calculateCount(child);
         }
-        folder.count = count;
+        node.count = count;
         return count;
     };
 

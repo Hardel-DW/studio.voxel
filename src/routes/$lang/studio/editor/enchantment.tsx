@@ -10,6 +10,8 @@ import { ToggleGroup, ToggleGroupOption } from "@/components/ui/ToggleGroup";
 import Translate from "@/components/ui/Translate";
 import { useElementsByType } from "@/lib/hook/useElementsByType";
 
+const ENCHANTMENT_ICON = "/images/features/item/enchanted_book.webp";
+
 export const Route = createFileRoute("/$lang/studio/editor/enchantment")({
     component: EnchantmentLayout
 });
@@ -32,6 +34,10 @@ function EnchantmentLayout() {
             navigate({ to: "/$lang/studio/editor/enchantment/overview", params: { lang } });
         }
     };
+    const handleElementSelect = (elementId: string) => {
+        useConfiguratorStore.getState().setCurrentElementId(elementId);
+        navigate({ to: "/$lang/studio/editor/enchantment/main", params: { lang } });
+    };
 
     return (
         <div className="flex size-full overflow-hidden relative z-10 isolate">
@@ -50,7 +56,7 @@ function EnchantmentLayout() {
                         <Translate content="enchantment:overview.sidebar.exclusive" />
                     </ToggleGroupOption>
                 </ToggleGroup>
-                <FileTree tree={tree} activePath={filterPath} onSelect={handleTreeSelect} />
+                <FileTree tree={tree} activePath={filterPath} onSelect={handleTreeSelect} onElementSelect={handleElementSelect} elementIcon={ENCHANTMENT_ICON} />
             </EditorSidebar>
 
             <main className="flex-1 flex flex-col min-w-0 relative bg-zinc-950">

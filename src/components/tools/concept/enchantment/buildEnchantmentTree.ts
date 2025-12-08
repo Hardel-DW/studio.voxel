@@ -1,6 +1,6 @@
 import { Identifier } from "@voxelio/breeze";
 import { enchantableEntries } from "@/lib/data/tags";
-import type { TreeFolder } from "@/lib/utils/tree";
+import type { TreeNode } from "@/lib/utils/tree";
 import { SLOT_CONFIGS } from "./slots";
 
 type EnchantmentElement = {
@@ -12,8 +12,8 @@ type EnchantmentElement = {
     exclusiveSet?: string | string[];
 };
 
-export function buildEnchantmentTree(elements: EnchantmentElement[], view: string): TreeFolder {
-    const root: TreeFolder = { count: elements.length, children: new Map(), identifiers: [] };
+export function buildEnchantmentTree(elements: EnchantmentElement[], view: string): TreeNode {
+    const root: TreeNode = { count: elements.length, children: new Map(), identifiers: [] };
     const builders: Record<string, () => void> = {
         tree: () => { },
         slots: () => buildBySlots(root, elements),
@@ -25,16 +25,16 @@ export function buildEnchantmentTree(elements: EnchantmentElement[], view: strin
     return root;
 }
 
-function buildBySlots(root: TreeFolder, elements: EnchantmentElement[]) {
+function buildBySlots(root: TreeNode, elements: EnchantmentElement[]) {
     for (const config of SLOT_CONFIGS) {
         const matching = elements.filter((el) => el.slots.some((s) => config.slots.includes(s)));
         if (matching.length > 0) {
-            root.children.set(config.id, createLeafFolder(matching));
+            root.children.set(config.id, createCategoryNode(matching));
         }
     }
 }
 
-function buildByItems(root: TreeFolder, elements: EnchantmentElement[]) {
+function buildByItems(root: TreeNode, elements: EnchantmentElement[]) {
     for (const [key, identifier] of enchantableEntries) {
         const tag = identifier.toString();
         const matching = elements.filter((el) => {
@@ -45,12 +45,12 @@ function buildByItems(root: TreeFolder, elements: EnchantmentElement[]) {
         });
 
         if (matching.length > 0) {
-            root.children.set(key, createLeafFolder(matching));
+            root.children.set(key, createCategoryNode(matching));
         }
     }
 }
 
-function buildByExclusive(root: TreeFolder, elements: EnchantmentElement[]) {
+function buildByExclusive(root: TreeNode, elements: EnchantmentElement[]) {
     const grouped = new Map<string, EnchantmentElement[]>();
 
     for (const el of elements) {
@@ -65,15 +65,20 @@ function buildByExclusive(root: TreeFolder, elements: EnchantmentElement[]) {
 
     for (const [set, group] of grouped) {
         const name = set.startsWith("#") ? set : Identifier.toDisplay(set);
-        root.children.set(name, createLeafFolder(group));
+        root.children.set(name, createCategoryNode(group));
     }
 }
 
-function createLeafFolder(elements: EnchantmentElement[]): TreeFolder {
-    const children = new Map<string, TreeFolder>();
+function createCategoryNode(elements: EnchantmentElement[]): TreeNode {
+    const children = new Map<string, TreeNode>();
     for (const el of elements) {
-        const resource = new Identifier(el.identifier).toResourceName();
-        children.set(resource, { count: 0, children: new Map(), identifiers: [el.identifier] });
+        const id = new Identifier(el.identifier);
+        children.set(id.toResourceName(), {
+            count: 0,
+            children: new Map(),
+            identifiers: [el.identifier],
+            elementId: id.toUniqueKey()
+        });
     }
     return { count: elements.length, children, identifiers: [] };
 }
