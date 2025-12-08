@@ -11,7 +11,6 @@ interface MinecraftSlotProps {
 
 export default function MinecraftSlot({ id, count, onItemChange, items }: MinecraftSlotProps) {
     const { expand } = useDynamicIsland();
-
     const handleSlotClick = () => {
         if (onItemChange) {
             expand(<ItemSelector currentItem={id} onItemSelect={onItemChange} items={items} />);
@@ -19,8 +18,8 @@ export default function MinecraftSlot({ id, count, onItemChange, items }: Minecr
     };
 
     return (
-        <button type="button" className="slot w-16 h-16 relative flex items-center justify-center cursor-pointer" onClick={handleSlotClick}>
-            {id && <TextureRenderer id={id} className="scale-125" />}
+        <button type="button" className="cursor-pointer size-16 relative border-2 border-zinc-800 rounded-lg bg-zinc-900/50 hover:bg-zinc-900 transition-colors" onClick={handleSlotClick}>
+            {id && <TextureRenderer id={id} />}
             {count > 1 && <span className="absolute bottom-0 right-0 text-xl text-white font-seven">{count}</span>}
         </button>
     );

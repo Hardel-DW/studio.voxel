@@ -1,9 +1,9 @@
 import { createFileRoute, useParams } from "@tanstack/react-router";
 import type { EnchantmentOption, EnchantmentStats, SlotLevelRange, TagType } from "@voxelio/breeze";
 import { type Enchantment, EnchantmentSimulator, Identifier, TagsProcessor, toRoman } from "@voxelio/breeze";
-import { type Component, useRef, useState } from "react";
+import type { Component } from "react";
+import { useRef, useState } from "react";
 import EnchantingTable from "@/components/tools/elements/EnchantingTable";
-import MinecraftSlot from "@/components/tools/elements/gui/MinecraftSlot";
 import MinecraftTooltip from "@/components/tools/elements/gui/MinecraftTooltip";
 import SimpleCard from "@/components/tools/elements/SimpleCard";
 import { Toolbar } from "@/components/tools/floatingbar/Toolbar";
@@ -26,7 +26,8 @@ import { Switch } from "@/components/ui/Switch";
 import Translate from "@/components/ui/Translate";
 import useRegistry, { type FetchedRegistry } from "@/lib/hook/useRegistry";
 import { mergeRegistries } from "@/lib/registry";
-import { clsx, cn } from "@/lib/utils";
+import { cn } from "@/lib/utils";
+import MinecraftSlot from "@/components/tools/elements/gui/MinecraftSlot";
 
 export const Route = createFileRoute("/$lang/studio/editor/enchantment/simulation")({
     component: RouteComponent
@@ -80,15 +81,9 @@ function RouteComponent() {
         const getRegistry = useConfiguratorStore.getState().getRegistry;
         const enchantments = getRegistry<Enchantment>("enchantment");
         const itemTagsRegistry = getRegistry<TagType>("tags/item");
-
         const allEnchantments = mergeRegistries(vanillaEnchantment, enchantments, "enchantment");
         const allItemTags = mergeRegistries(vanillaTagsItem, itemTagsRegistry, "tags/item");
-
-        const enchantmentMap = new Map();
-        for (const element of allEnchantments) {
-            enchantmentMap.set(new Identifier(element.identifier).toString(), element.data);
-        }
-
+        const enchantmentMap = new Map(allEnchantments.map((element) => [new Identifier(element.identifier).toString(), element.data]));
         const simulator = new EnchantmentSimulator(enchantmentMap);
         return simulator.getFlattenedPrimaryItems(allItemTags);
     };
@@ -110,7 +105,7 @@ function RouteComponent() {
     };
 
     return (
-        <div className="flex flex-col p-4 h-full space-y-4">
+        <div className="flex flex-col size-full overflow-hidden">
             <Dialog id="enchantment-simulation-welcome">
                 <DialogContent ref={dialogRef} reminder defaultOpen className="sm:max-w-[800px]">
                     <MultiStep>
@@ -250,8 +245,8 @@ function RouteComponent() {
                 </Button>
             </Toolbar>
 
-            <div className="flex flex-col p-4 h-full space-y-4">
-                <div className="relative">
+            <div className="flex-1 overflow-y-auto px-8 py-6">
+                <div className="relative mb-6">
                     <h1 className="text-2xl font-semibold">
                         <Translate content="enchantment:simulation.title" />
                     </h1>
@@ -259,63 +254,70 @@ function RouteComponent() {
                         <Translate content="enchantment:simulation.description" />
                     </p>
                 </div>
-                <div className="grid grid-cols-2 gap-8" style={{ gridTemplateColumns: `repeat(auto-fit, minmax("255px", 1fr))` }}>
-                    <div
-                        className="flex justify-evenly items-center gap-4 w-full px-16 pixelated border-solid border-16"
-                        style={{
-                            borderImageSource: 'url("/images/features/gui/background.png")',
-                            borderImageSlice: "4 4 4 4 fill",
-                            borderImageRepeat: "stretch"
-                        }}>
-                        <div className="flex flex-col justify-center items-center h-full flex-2">
-                            <p className="font-seven text-zinc-800 text-xl">
-                                <Translate content="enchantment:simulation.enchant_label" />
-                            </p>
-                            <img
-                                onClick={() => setShowTooltip(!showTooltip)}
-                                src={showTooltip ? "/images/features/gui/book_open.webp" : "/images/features/gui/book_closed.webp"}
-                                alt="Enchanting Table"
-                                className="pixelated w-24 mt-4 mb-8 cursor-pointer hover:scale-110 transition-transform duration-200 ease-in-out"
-                            />
-                            <div className="relative group">
-                                <MinecraftSlot id={itemInput} count={1} onItemChange={setItemInputHandler} items={getAvailableItems} />
-                                <MinecraftTooltip
-                                    enchantments={enchantmentsTooltipEntries}
-                                    name={Identifier.of(itemInput, "item")}
-                                    className={cn("hidden group-hover:block absolute top-16 left-4", showTooltip && "block opacity-100")}
-                                />
+
+                <div className="grid gap-6" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))" }}>
+                    <SimpleCard className="flex justify-between px-2">
+                        <div className="relative flex flex-col gap-6 w-full px-6">
+                            <div className="flex items-center gap-3 border-b border-zinc-800/50 pb-4">
+                                <div>
+                                    <h3 className="text-lg font-semibold text-zinc-100">
+                                        <Translate content="enchantment:simulation.enchant_label" />
+                                    </h3>
+                                    <p className="text-xs text-zinc-500">
+                                        <Translate content="enchantment:simulation.enchant_sublabel" />
+                                    </p>
+                                </div>
                             </div>
-                        </div>
-                        <div className="flex flex-col justify-center h-full flex-3">
-                            {Array(3)
-                                .fill(null)
-                                .map((_, index) => (
+
+
+                            <div className="flex items-center justify-between gap-6 w-full px-6">
+                                <div className="flex flex-col items-center gap-4">
                                     <button
                                         type="button"
-                                        key={`enchantment_slot_${index + 1}`}
-                                        className="relative cursor-pointer"
-                                        onClick={() => runSimulation(index)}>
+                                        onClick={() => setShowTooltip(!showTooltip)}
+                                        className="relative group cursor-pointer transition-transform hover:scale-105">
+                                        <div className="absolute inset-0 bg-purple-500/20 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity" />
                                         <img
-                                            src={`/images/features/gui/enchantment_slot_${index + 1}.png`}
-                                            alt="Enchanting Table"
-                                            className="w-full pixelated hover:-hue-rotate-20 transition"
+                                            src={showTooltip ? "/images/features/gui/book_open.webp" : "/images/features/gui/book_closed.webp"}
+                                            alt="Enchanting Book"
+                                            className="pixelated w-20 relative"
                                         />
-                                        {slotRanges[index] && (
-                                            <div
-                                                className={clsx(
-                                                    "absolute user-select-none select-none font-seven bottom-1.5 right-2.5 text-experience text-shadow-tooltip text-shadow-experience-shadow text-sm rounded",
-                                                    index === 2 && "bottom-2"
-                                                )}>
-                                                {slotRanges[index].minLevel} - {slotRanges[index].maxLevel}
-                                            </div>
-                                        )}
                                     </button>
-                                ))}
+                                    <div className="relative group">
+                                        <MinecraftSlot id={itemInput} count={1} onItemChange={setItemInputHandler} items={getAvailableItems} />
+                                        <MinecraftTooltip
+                                            enchantments={enchantmentsTooltipEntries}
+                                            name={Identifier.of(itemInput, "item")}
+                                            className={cn("hidden group-hover:block absolute top-14 left-4 z-10", showTooltip && "block")}
+                                        />
+                                    </div>
+                                </div>
+                                <div className="flex flex-col gap-2 flex-1">
+                                    {[0, 1, 2].map((index) => (
+                                        <button
+                                            type="button"
+                                            key={`slot-${index}`}
+                                            onClick={() => runSimulation(index)}
+                                            className="group relative flex items-center justify-between px-4 py-3 rounded-lg border transition-all cursor-pointer bg-zinc-900/50 border-zinc-800 hover:bg-purple-950/30 hover:border-purple-800/50">
+                                            <div className="flex items-center gap-3">
+                                                <span className="text-zinc-300 text-sm font-medium">
+                                                    <Translate content={`enchantment:simulation.slot.${index + 1}`} />
+                                                </span>
+                                            </div>
+                                            {slotRanges[index] && (
+                                                <span className="text-experience font-seven text-sm">
+                                                    {slotRanges[index].minLevel} - {slotRanges[index].maxLevel}
+                                                </span>
+                                            )}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
                         </div>
-                    </div>
+                    </SimpleCard>
                     <SimpleCard className="flex justify-between px-2">
                         <div className="flex flex-col items-center gap-4 px-6">
-                            <div className="size-50 ">
+                            <div className="size-50">
                                 <EnchantingTable blockCount={blockCount} />
                             </div>
                             <Counter max={15} min={0} step={1} value={blockCount} onChange={calculateSlotRanges} />
@@ -362,7 +364,7 @@ function RouteComponent() {
                     </SimpleCard>
                 </div>
 
-                <div className="mt-16">
+                <div className="mt-12 mb-20">
                     <div className="relative mb-8">
                         <h2 className="text-2xl font-semibold mb-1">
                             <Translate content="enchantment:simulation.results.title" />
@@ -377,7 +379,7 @@ function RouteComponent() {
                         </ul>
                         <hr className="absolute -bottom-2 left-0 right-0" />
                     </div>
-                    <div className="backdrop-blur-2xl border-2 border-stone-900 rounded-xl overflow-hidden">
+                    <div className="backdrop-blur-2xl border border-zinc-900 rounded-xl overflow-hidden">
                         <div className="overflow-x-auto">
                             <table className="min-w-full">
                                 <thead className="bg-black/50">
@@ -398,15 +400,22 @@ function RouteComponent() {
                                 </thead>
                                 <tbody className="divide-y divide-zinc-800">
                                     {stats.length === 0 ? (
-                                        <tr className="bg-black/30 h-96">
-                                            <td colSpan={4} className="px-6 py-12 text-center text-zinc-400">
-                                                <div className="flex flex-col items-center gap-2">
-                                                    <span className="text-sm">
+                                        <tr className="bg-black/30">
+                                            <td colSpan={4} className="px-6 py-16">
+                                                <div className="flex flex-col items-center justify-center opacity-60">
+                                                    <div className="size-20 bg-zinc-900/50 rounded-full flex items-center justify-center mb-5 border border-zinc-800">
+                                                        <img
+                                                            src="/images/features/item/enchanted_book.webp"
+                                                            className="size-10 pixelated opacity-40"
+                                                            alt="No results"
+                                                        />
+                                                    </div>
+                                                    <h3 className="text-lg font-medium text-zinc-300 mb-1">
                                                         <Translate content="enchantment:simulation.results.empty.title" />
-                                                    </span>
-                                                    <span className="text-xs text-zinc-500">
+                                                    </h3>
+                                                    <p className="text-zinc-500 text-sm max-w-sm text-center">
                                                         <Translate content="enchantment:simulation.results.empty.description" />
-                                                    </span>
+                                                    </p>
                                                 </div>
                                             </td>
                                         </tr>
