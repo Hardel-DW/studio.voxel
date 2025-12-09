@@ -21,4 +21,3 @@ export function useActiveConcept() {
         showTabs: !!selectedElement && !!activeTab && (concept?.tabs.length ?? 0) > 1
     };
 }
-

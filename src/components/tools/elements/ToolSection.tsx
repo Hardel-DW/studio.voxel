@@ -31,6 +31,6 @@ export default function ToolSection(props: ToolSectionType) {
                 </div>
                 <div className="pt-4 gap-4 flex items flex-col">{props.children}</div>
             </div>
-        </RenderGuard >
+        </RenderGuard>
     );
 }

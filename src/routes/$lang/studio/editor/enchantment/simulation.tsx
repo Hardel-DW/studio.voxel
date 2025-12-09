@@ -4,6 +4,7 @@ import { type Enchantment, EnchantmentSimulator, Identifier, TagsProcessor, toRo
 import type { Component } from "react";
 import { useRef, useState } from "react";
 import EnchantingTable from "@/components/tools/elements/EnchantingTable";
+import MinecraftSlot from "@/components/tools/elements/gui/MinecraftSlot";
 import MinecraftTooltip from "@/components/tools/elements/gui/MinecraftTooltip";
 import SimpleCard from "@/components/tools/elements/SimpleCard";
 import { Toolbar } from "@/components/tools/floatingbar/Toolbar";
@@ -27,7 +28,6 @@ import Translate from "@/components/ui/Translate";
 import useRegistry, { type FetchedRegistry } from "@/lib/hook/useRegistry";
 import { mergeRegistries } from "@/lib/registry";
 import { cn } from "@/lib/utils";
-import MinecraftSlot from "@/components/tools/elements/gui/MinecraftSlot";
 
 export const Route = createFileRoute("/$lang/studio/editor/enchantment/simulation")({
     component: RouteComponent
@@ -269,7 +269,6 @@ function RouteComponent() {
                                 </div>
                             </div>
 
-
                             <div className="flex items-center justify-between gap-6 w-full px-6">
                                 <div className="flex flex-col items-center gap-4">
                                     <button
@@ -278,13 +277,22 @@ function RouteComponent() {
                                         className="relative group cursor-pointer transition-transform hover:scale-105">
                                         <div className="absolute inset-0 bg-purple-500/20 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity" />
                                         <img
-                                            src={showTooltip ? "/images/features/gui/book_open.webp" : "/images/features/gui/book_closed.webp"}
+                                            src={
+                                                showTooltip
+                                                    ? "/images/features/gui/book_open.webp"
+                                                    : "/images/features/gui/book_closed.webp"
+                                            }
                                             alt="Enchanting Book"
                                             className="pixelated w-20 relative"
                                         />
                                     </button>
                                     <div className="relative group">
-                                        <MinecraftSlot id={itemInput} count={1} onItemChange={setItemInputHandler} items={getAvailableItems} />
+                                        <MinecraftSlot
+                                            id={itemInput}
+                                            count={1}
+                                            onItemChange={setItemInputHandler}
+                                            items={getAvailableItems}
+                                        />
                                         <MinecraftTooltip
                                             enchantments={enchantmentsTooltipEntries}
                                             name={Identifier.of(itemInput, "item")}

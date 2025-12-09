@@ -48,7 +48,11 @@ function RouteComponent() {
                     </div>
                 ) : (
                     <div>
-                        <div className={cn("grid gap-4", viewMode === "grid" ? "grid-cols-[repeat(auto-fill,minmax(280px,1fr))]" : "grid-cols-1")}>
+                        <div
+                            className={cn(
+                                "grid gap-4",
+                                viewMode === "grid" ? "grid-cols-[repeat(auto-fill,minmax(280px,1fr))]" : "grid-cols-1"
+                            )}>
                             {visibleItems.map((element) => {
                                 const id = new Identifier(element.identifier);
                                 return (
@@ -66,8 +70,14 @@ function RouteComponent() {
                             <div ref={ref} className="flex justify-center items-center py-8">
                                 <div className="flex items-center gap-2 text-zinc-500 text-xs">
                                     <span className="size-1.5 bg-zinc-600 rounded-full animate-bounce" style={{ animationDelay: "0ms" }} />
-                                    <span className="size-1.5 bg-zinc-600 rounded-full animate-bounce" style={{ animationDelay: "150ms" }} />
-                                    <span className="size-1.5 bg-zinc-600 rounded-full animate-bounce" style={{ animationDelay: "300ms" }} />
+                                    <span
+                                        className="size-1.5 bg-zinc-600 rounded-full animate-bounce"
+                                        style={{ animationDelay: "150ms" }}
+                                    />
+                                    <span
+                                        className="size-1.5 bg-zinc-600 rounded-full animate-bounce"
+                                        style={{ animationDelay: "300ms" }}
+                                    />
                                 </div>
                             </div>
                         )}

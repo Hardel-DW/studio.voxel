@@ -39,9 +39,7 @@ export default function LootOverviewList({ elementId, items, resourceName }: Loo
                 </LootDetailsPopover>
 
                 <div className="flex flex-col justify-center min-w-0">
-                    <h3 className="text-sm font-medium text-zinc-200 truncate group-hover:text-white transition-colors">
-                        {resourceName}
-                    </h3>
+                    <h3 className="text-sm font-medium text-zinc-200 truncate group-hover:text-white transition-colors">{resourceName}</h3>
                     <p className="text-xs text-zinc-500 truncate flex items-center gap-2">
                         <span className="font-mono text-[10px] opacity-60">{fullIdentifier}</span>
                     </p>

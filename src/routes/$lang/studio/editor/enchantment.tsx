@@ -62,11 +62,23 @@ function EnchantmentLayout() {
                         <Translate content="enchantment:overview.sidebar.exclusive" />
                     </ToggleGroupOption>
                 </ToggleGroup>
-                <FileTree tree={tree} activePath={filterPath} onSelect={handleTreeSelect} onElementSelect={handleElementSelect} elementIcon={ENCHANTMENT_ICON} folderIcons={folderIcons} />
+                <FileTree
+                    tree={tree}
+                    activePath={filterPath}
+                    onSelect={handleTreeSelect}
+                    onElementSelect={handleElementSelect}
+                    elementIcon={ENCHANTMENT_ICON}
+                    folderIcons={folderIcons}
+                />
             </EditorSidebar>
 
             <main className="flex-1 flex flex-col min-w-0 relative bg-zinc-950">
-                <EditorHeader fallbackTitle="Enchantment" identifier={enchantment?.identifier} filterPath={filterPath} isOverview={isOverview} onBack={handleBack}>
+                <EditorHeader
+                    fallbackTitle="Enchantment"
+                    identifier={enchantment?.identifier}
+                    filterPath={filterPath}
+                    isOverview={isOverview}
+                    onBack={handleBack}>
                     <Link
                         to="/$lang/studio/editor/enchantment/simulation"
                         params={{ lang }}

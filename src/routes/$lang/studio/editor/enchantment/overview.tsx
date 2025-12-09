@@ -48,7 +48,11 @@ function OverviewPage() {
                         </p>
                     </div>
                 ) : (
-                    <div className={cn("grid gap-4", viewMode === "grid" ? "grid-cols-[repeat(auto-fill,minmax(280px,1fr))]" : "grid-cols-1")}>
+                    <div
+                        className={cn(
+                            "grid gap-4",
+                            viewMode === "grid" ? "grid-cols-[repeat(auto-fill,minmax(280px,1fr))]" : "grid-cols-1"
+                        )}>
                         {visibleItems.map((element) =>
                             viewMode === "list" ? (
                                 <EnchantmentOverviewList key={element.identifier.resource} element={element} />

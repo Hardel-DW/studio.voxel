@@ -15,7 +15,7 @@ type EnchantmentElement = {
 export function buildEnchantmentTree(elements: EnchantmentElement[], view: string): TreeNode {
     const root: TreeNode = { count: elements.length, children: new Map(), identifiers: [] };
     const builders: Record<string, () => void> = {
-        tree: () => { },
+        tree: () => {},
         slots: () => buildBySlots(root, elements),
         items: () => buildByItems(root, elements),
         exclusive: () => buildByExclusive(root, elements)

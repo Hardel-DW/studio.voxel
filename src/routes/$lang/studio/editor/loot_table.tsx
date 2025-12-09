@@ -42,7 +42,12 @@ function LootTableLayout() {
             </EditorSidebar>
 
             <main className="flex-1 flex flex-col min-w-0 min-h-0 overflow-hidden relative bg-zinc-950">
-                <EditorHeader fallbackTitle="Loot Table" identifier={lootTable?.identifier} filterPath={filterPath} isOverview={isOverview} onBack={handleBack}>
+                <EditorHeader
+                    fallbackTitle="Loot Table"
+                    identifier={lootTable?.identifier}
+                    filterPath={filterPath}
+                    isOverview={isOverview}
+                    onBack={handleBack}>
                     <ToggleGroup value={viewMode} onChange={setViewMode}>
                         <ToggleGroupOption
                             value="grid"

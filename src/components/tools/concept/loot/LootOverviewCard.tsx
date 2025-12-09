@@ -27,7 +27,6 @@ export default function LootOverviewCard({ elementId, items, mode }: LootOvervie
         <div
             data-element-id={elementId}
             className="overview-card bg-zinc-950/70 border border-zinc-900 select-none relative rounded-xl p-4 flex flex-col transition-transform duration-150 ease-out hover:-translate-y-0.5 isolate">
-
             <div className="absolute inset-0 -z-10 brightness-10">
                 <img src="/images/shine.avif" alt="Shine" loading="lazy" />
             </div>
@@ -35,9 +34,7 @@ export default function LootOverviewCard({ elementId, items, mode }: LootOvervie
             <div className="flex items-center justify-between pb-3">
                 <div className="flex flex-col justify-center flex-1 min-w-0">
                     <h3 className="text-sm font-semibold truncate">{resourceName}</h3>
-                    <p className="text-[10px] tracking-wider minecraft-font text-zinc-400">
-                        {items.length} items
-                    </p>
+                    <p className="text-[10px] tracking-wider minecraft-font text-zinc-400">{items.length} items</p>
                 </div>
 
                 <SimpleSwitch elementId={elementId} action={CoreAction.invertBoolean("disabled")} renderer={(el) => !el.disabled} />

@@ -32,5 +32,4 @@ export const clsx = (...args: ClassValue[]) =>
         .join(" ");
 export const cn = (...args: ClassValue[]) => twMerge(clsx(args));
 
-export const toArray = <T,>(value: T | T[] | undefined): T[] =>
-    value === undefined ? [] : Array.isArray(value) ? value : [value];
+export const toArray = <T>(value: T | T[] | undefined): T[] => (value === undefined ? [] : Array.isArray(value) ? value : [value]);

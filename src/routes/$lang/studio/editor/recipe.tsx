@@ -1,5 +1,5 @@
 import { createFileRoute, Outlet, useLocation, useNavigate, useParams } from "@tanstack/react-router";
-import { isVoxel } from "@voxelio/breeze";
+import { Identifier, isVoxel } from "@voxelio/breeze";
 import { useEditorUiStore } from "@/components/tools/concept/EditorUiStore";
 import { EditorHeader } from "@/components/tools/concept/layout/EditorHeader";
 import { EditorSidebar } from "@/components/tools/concept/layout/EditorSidebar";
@@ -9,7 +9,6 @@ import { getCurrentElement, useConfiguratorStore } from "@/components/tools/Stor
 import { FileTree } from "@/components/ui/FileTree";
 import { ToggleGroup, ToggleGroupOption } from "@/components/ui/ToggleGroup";
 import { useElementsByType } from "@/lib/hook/useElementsByType";
-import { Identifier } from "@voxelio/breeze";
 
 export const Route = createFileRoute("/$lang/studio/editor/recipe")({
     component: RecipeLayout
@@ -51,7 +50,12 @@ function RecipeLayout() {
             </EditorSidebar>
 
             <main className="flex-1 flex flex-col min-w-0 min-h-0 overflow-hidden relative bg-zinc-950">
-                <EditorHeader fallbackTitle="Recipe" identifier={recipe?.identifier} filterPath={filterPath} isOverview={isOverview} onBack={handleBack}>
+                <EditorHeader
+                    fallbackTitle="Recipe"
+                    identifier={recipe?.identifier}
+                    filterPath={filterPath}
+                    isOverview={isOverview}
+                    onBack={handleBack}>
                     <ToggleGroup value={viewMode} onChange={setViewMode}>
                         <ToggleGroupOption
                             value="grid"

@@ -1,7 +1,7 @@
 import type { EnchantmentProps } from "@voxelio/breeze";
+import { Identifier } from "@voxelio/breeze";
 import { enchantableEntries } from "@/lib/data/tags";
 import { toArray } from "@/lib/utils";
-import { Identifier } from "@voxelio/breeze";
 import { SLOT_CONFIGS } from "./slots";
 
 const matchesSlot = (el: EnchantmentProps, category: string) => {

@@ -18,7 +18,10 @@ export default function MinecraftSlot({ id, count, onItemChange, items }: Minecr
     };
 
     return (
-        <button type="button" className="cursor-pointer size-16 relative border-2 border-zinc-800 rounded-lg bg-zinc-900/50 hover:bg-zinc-900 transition-colors" onClick={handleSlotClick}>
+        <button
+            type="button"
+            className="cursor-pointer size-16 relative border-2 border-zinc-800 rounded-lg bg-zinc-900/50 hover:bg-zinc-900 transition-colors"
+            onClick={handleSlotClick}>
             {id && <TextureRenderer id={id} />}
             {count > 1 && <span className="absolute bottom-0 right-0 text-xl text-white font-seven">{count}</span>}
         </button>

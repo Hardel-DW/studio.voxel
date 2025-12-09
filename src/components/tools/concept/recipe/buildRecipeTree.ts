@@ -16,11 +16,19 @@ export function buildRecipeTree(elements: RecipeProps[]): TreeNode {
             for (const recipeType of block.recipeTypes) {
                 const subMatching = matching.filter((el) => el.type === recipeType);
                 if (subMatching.length === 0) continue;
-                children.set(recipeType, { count: subMatching.length, children: new Map(), identifiers: subMatching.map((el) => el.identifier) });
+                children.set(recipeType, {
+                    count: subMatching.length,
+                    children: new Map(),
+                    identifiers: subMatching.map((el) => el.identifier)
+                });
             }
         }
 
-        root.children.set(block.id, { count: matching.length, children, identifiers: hasSubTypes ? [] : matching.map((el) => el.identifier) });
+        root.children.set(block.id, {
+            count: matching.length,
+            children,
+            identifiers: hasSubTypes ? [] : matching.map((el) => el.identifier)
+        });
     }
 
     return root;
