@@ -8,7 +8,7 @@ export interface RecipeBlockConfig {
 export const RECIPE_BLOCKS: RecipeBlockConfig[] = [
     {
         id: "minecraft:barrier",
-        name: "All Recipes",
+        name: "All",
         recipeTypes: [],
         isSpecial: true
     },
@@ -73,11 +73,6 @@ export function getBlockByRecipeType(recipeType: string): RecipeBlockConfig {
     return RECIPE_BLOCKS.find((block) => block.recipeTypes.includes(recipeType)) ?? RECIPE_BLOCKS[0];
 }
 
-export function getDefaultRecipeType(blockId: string): string | undefined {
-    const config = getBlockConfig(blockId);
-    return config?.recipeTypes[0];
-}
-
 export function canBlockHandleRecipeType(blockId: string, recipeType: string): boolean {
     if (blockId === "minecraft:barrier") return true;
 
@@ -96,12 +91,6 @@ export function getAllRecipeTypes(): string[] {
 
 export function isBlockId(selection: string): boolean {
     return RECIPE_BLOCKS.some((block) => block.id === selection);
-}
-
-export function getTypesFromSelection(selection: string): string[] {
-    if (selection === "minecraft:barrier") return getAllRecipeTypes();
-    const blockConfig = getBlockConfig(selection);
-    return blockConfig?.recipeTypes || [selection];
 }
 
 export function getFirstTypeFromSelection(selection: string): string {

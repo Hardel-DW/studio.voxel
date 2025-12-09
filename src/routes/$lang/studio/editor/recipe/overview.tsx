@@ -12,16 +12,15 @@ export const Route = createFileRoute("/$lang/studio/editor/recipe/overview")({
     component: Page
 });
 
-const DEFAULT_BLOCK = "minecraft:barrier";
-
 function Page() {
     const { search, setSearch, filterPath } = useEditorUiStore();
-    const selectedBlock = filterPath || DEFAULT_BLOCK;
     const recipeElements = useElementsByType("recipe");
     const filteredElements = recipeElements.filter((el) => {
         if (search && !el.identifier.resource.toLowerCase().includes(search.toLowerCase())) return false;
-        if (selectedBlock === "minecraft:barrier") return true;
-        return canBlockHandleRecipeType(selectedBlock, el.type);
+        if (!filterPath) return true;
+        const parts = filterPath.split("/");
+        if (parts.length === 2) return el.type === parts[1];
+        return canBlockHandleRecipeType(filterPath, el.type);
     });
 
     const { visibleItems, hasMore, ref } = useInfiniteScroll(filteredElements, 16, [filterPath, search]);

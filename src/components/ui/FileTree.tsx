@@ -14,38 +14,76 @@ interface FileTreeProps {
 }
 
 export function FileTree({ tree, activePath, onSelect, onElementSelect, elementIcon, folderIcons }: FileTreeProps) {
+    const isAllActive = activePath === "";
+    const hue = stringToColor("all");
+
     return (
         <div className="space-y-1 mt-4">
-            <FileTreeNode node={tree} activePath={activePath} onSelect={onSelect} onElementSelect={onElementSelect} elementIcon={elementIcon} folderIcons={folderIcons} isRoot />
+            <button
+                type="button"
+                className={cn(
+                    "flex items-center gap-2 px-3 py-2 rounded-lg cursor-pointer transition-colors relative group w-full text-left",
+                    isAllActive ? "bg-zinc-800/80 text-white" : "text-zinc-400 hover:bg-zinc-900/50 hover:text-zinc-200"
+                )}
+                onClick={() => onSelect("")}>
+                {isAllActive && (
+                    <div
+                        className="absolute left-0 top-2 bottom-2 w-1 rounded-r-full shadow-[0_0_8px_rgba(255,255,255,0.5)]"
+                        style={{ backgroundColor: hueToHsl(hue) }}
+                    />
+                )}
+                <img src="/icons/search.svg" className="size-5 invert opacity-60" alt="Search" />
+                <span className="truncate text-sm font-medium flex-1">All</span>
+                <span className="text-[10px] text-zinc-600 font-mono tabular-nums bg-zinc-900/50 px-1.5 rounded-sm border border-zinc-800 group-hover:border-zinc-700">
+                    {tree.count}
+                </span>
+            </button>
+
+            <div className="flex flex-col">
+                {Array.from(tree.children.entries())
+                    .sort(([a], [b]) => a.localeCompare(b))
+                    .map(([childName, childNode]) => (
+                        <FileTreeNode
+                            key={childName}
+                            name={childName}
+                            path={childName}
+                            node={childNode}
+                            activePath={activePath}
+                            onSelect={onSelect}
+                            onElementSelect={onElementSelect}
+                            elementIcon={elementIcon}
+                            folderIcons={folderIcons}
+                            depth={0}
+                        />
+                    ))}
+            </div>
         </div>
     );
 }
 
 interface FileTreeNodeProps {
-    name?: string;
-    path?: string;
+    name: string;
+    path: string;
     node: TreeNode;
     activePath: string;
     onSelect: (path: string) => void;
     onElementSelect?: (elementId: string) => void;
     elementIcon?: string;
     folderIcons?: Record<string, string>;
-    depth?: number;
-    isRoot?: boolean;
+    depth: number;
 }
 
-function FileTreeNode({ name, path = "", node, activePath, onSelect, onElementSelect, elementIcon, folderIcons, depth = 0, isRoot = false }: FileTreeNodeProps) {
-    const [isCollapsed, setIsCollapsed] = useState(!isRoot);
+function FileTreeNode({ name, path, node, activePath, onSelect, onElementSelect, elementIcon, folderIcons, depth }: FileTreeNodeProps) {
+    const [isCollapsed, setIsCollapsed] = useState(true);
     const hasChildren = node.children.size > 0;
     const isActive = activePath === path;
     const isElement = !!node.elementId;
-    const label = isRoot ? "All" : Identifier.toDisplay(name ?? "All");
-    const hue = stringToColor(path || "all");
-    const customFolderIcon = name && folderIcons?.[name];
+    const label = Identifier.toDisplay(name);
+    const hue = stringToColor(path);
+    const customFolderIcon = folderIcons?.[name];
 
-    const handleClick = () => isElement && node.elementId && onElementSelect ? onElementSelect(node.elementId) : onSelect(path);
+    const handleClick = () => (isElement && node.elementId && onElementSelect ? onElementSelect(node.elementId) : onSelect(path));
     const getIcon = () => {
-        if (isRoot) return "/icons/search.svg";
         if (isElement && elementIcon) return elementIcon;
         if (customFolderIcon) return customFolderIcon;
         return "/icons/folder.svg";
@@ -53,23 +91,20 @@ function FileTreeNode({ name, path = "", node, activePath, onSelect, onElementSe
 
     return (
         <div className="w-full select-none">
-            <div
+            <button
+                type="button"
                 className={cn(
                     "flex items-center gap-2 px-3 py-2 rounded-lg cursor-pointer transition-colors relative group w-full text-left",
                     isActive ? "bg-zinc-800/80 text-white" : "text-zinc-400 hover:bg-zinc-900/50 hover:text-zinc-200",
-                    depth > 0 && "mt-0.5"
+                    depth > 0 && "mt-0.5",
+                    node.count === 0 && !isActive && "opacity-50"
                 )}
-                style={{ paddingLeft: isRoot ? 8 : depth * 8 + 8 }}
+                style={{ paddingLeft: depth * 8 + 8 }}
                 onClick={(e) => {
                     e.stopPropagation();
                     handleClick();
                     setIsCollapsed(!isCollapsed);
-                }}
-                role="treeitem"
-                aria-expanded={isActive}
-                tabIndex={0}
-                onKeyDown={(e) => e.key === "Enter" && handleClick()}>
-
+                }}>
                 {isActive && (
                     <div
                         className="absolute left-0 top-2 bottom-2 w-1 rounded-r-full shadow-[0_0_8px_rgba(255,255,255,0.5)]"
@@ -77,7 +112,7 @@ function FileTreeNode({ name, path = "", node, activePath, onSelect, onElementSe
                     />
                 )}
 
-                {!isRoot && !isElement && (
+                {!isElement && (
                     <div className={cn("p-0.5 rounded-md transition-colors -ml-1", hasChildren && "hover:bg-zinc-700/50")}>
                         <img
                             src="/icons/chevron-down.svg"
@@ -91,7 +126,7 @@ function FileTreeNode({ name, path = "", node, activePath, onSelect, onElementSe
                     <img
                         src={getIcon()}
                         className={cn(
-                            "size-4 object-contain",
+                            "size-5 object-contain",
                             !isElement && !customFolderIcon && "invert opacity-60",
                             isActive && !isElement && !customFolderIcon && "opacity-100"
                         )}
@@ -105,10 +140,10 @@ function FileTreeNode({ name, path = "", node, activePath, onSelect, onElementSe
                         {node.count}
                     </span>
                 )}
-            </div>
+            </button>
 
             {hasChildren && !isCollapsed && (
-                <div className={cn("flex flex-col border-zinc-800/50 my-1 pl-1 ml-3 border-l", isRoot && "ml-0 border-l-0")}>
+                <div className="flex flex-col border-zinc-800/50 my-1 pl-1 ml-3 border-l">
                     {Array.from(node.children.entries())
                         .sort(([a], [b]) => a.localeCompare(b))
                         .map(([childName, childNode]) => (
@@ -122,7 +157,7 @@ function FileTreeNode({ name, path = "", node, activePath, onSelect, onElementSe
                                 onElementSelect={onElementSelect}
                                 elementIcon={elementIcon}
                                 folderIcons={folderIcons}
-                                depth={isRoot ? 0 : depth + 1}
+                                depth={depth + 1}
                             />
                         ))}
                 </div>

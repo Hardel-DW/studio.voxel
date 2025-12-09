@@ -3,33 +3,42 @@ import { isVoxel } from "@voxelio/breeze";
 import { useEditorUiStore } from "@/components/tools/concept/EditorUiStore";
 import { EditorHeader } from "@/components/tools/concept/layout/EditorHeader";
 import { EditorSidebar } from "@/components/tools/concept/layout/EditorSidebar";
+import { buildRecipeTree } from "@/components/tools/concept/recipe/buildRecipeTree";
 import { RECIPE_BLOCKS } from "@/components/tools/concept/recipe/recipeConfig";
-import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer";
 import { getCurrentElement, useConfiguratorStore } from "@/components/tools/Store";
+import { FileTree } from "@/components/ui/FileTree";
 import { ToggleGroup, ToggleGroupOption } from "@/components/ui/ToggleGroup";
-import { cn } from "@/lib/utils";
+import { useElementsByType } from "@/lib/hook/useElementsByType";
+import { Identifier } from "@voxelio/breeze";
 
 export const Route = createFileRoute("/$lang/studio/editor/recipe")({
     component: RecipeLayout
 });
 
-const DEFAULT_BLOCK = "minecraft:barrier";
+const RECIPE_FOLDER_ICONS: Record<string, string> = Object.fromEntries(
+    RECIPE_BLOCKS.filter((b) => !b.isSpecial).flatMap((b) => {
+        const icon = `/images/features/block/${Identifier.of(b.id, "none").resource}.webp`;
+        return [[b.id, icon], ...b.recipeTypes.map((t) => [t, icon])];
+    })
+);
 
 function RecipeLayout() {
     const { lang } = useParams({ from: "/$lang/studio/editor/recipe" });
     const { filterPath, setFilterPath, viewMode, setViewMode } = useEditorUiStore();
+    const elements = useElementsByType("recipe");
+    const tree = buildRecipeTree(elements);
     const location = useLocation();
     const navigate = useNavigate();
     const isOverview = location.pathname.endsWith("/overview");
     const currentElement = useConfiguratorStore((state) => getCurrentElement(state));
     const recipe = currentElement && isVoxel(currentElement, "recipe") ? currentElement : undefined;
-    const selectedBlock = filterPath || DEFAULT_BLOCK;
-    const blockConfig = RECIPE_BLOCKS.find((b) => b.id === selectedBlock);
 
     const handleBack = () => navigate({ to: "/$lang/studio/editor/recipe/overview", params: { lang } });
-    const handleBlockSelect = (blockId: string) => {
-        setFilterPath(blockId);
-        navigate({ to: "/$lang/studio/editor/recipe/overview", params: { lang } });
+    const handleTreeSelect = (path: string) => {
+        setFilterPath(path);
+        if (!isOverview) {
+            navigate({ to: "/$lang/studio/editor/recipe/overview", params: { lang } });
+        }
     };
 
     return (
@@ -38,27 +47,11 @@ function RecipeLayout() {
                 title="recipe:overview.title"
                 icon="/images/features/block/crafting_table.webp"
                 linkTo="/$lang/studio/editor/recipe/overview">
-                <div className="flex flex-col gap-1 mt-4">
-                    {RECIPE_BLOCKS.map((block) => (
-                        <button
-                            key={block.id}
-                            type="button"
-                            onClick={() => handleBlockSelect(block.id)}
-                            className={cn(
-                                "flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors w-full text-left text-zinc-400",
-                                selectedBlock === block.id ? "bg-zinc-800/50 text-zinc-100" : "hover:bg-zinc-800/30 hover:text-zinc-200"
-                            )}>
-                            <div className="size-5 scale-50">
-                                <TextureRenderer id={block.id} />
-                            </div>
-                            <span>{block.name}</span>
-                        </button>
-                    ))}
-                </div>
+                <FileTree tree={tree} activePath={filterPath} onSelect={handleTreeSelect} folderIcons={RECIPE_FOLDER_ICONS} />
             </EditorSidebar>
 
-            <main className="flex-1 flex flex-col min-w-0 relative bg-zinc-950">
-                <EditorHeader fallbackTitle="Recipe" identifier={recipe?.identifier} filterPath={blockConfig?.name} isOverview={isOverview} onBack={handleBack}>
+            <main className="flex-1 flex flex-col min-w-0 min-h-0 overflow-hidden relative bg-zinc-950">
+                <EditorHeader fallbackTitle="Recipe" identifier={recipe?.identifier} filterPath={filterPath} isOverview={isOverview} onBack={handleBack}>
                     <ToggleGroup value={viewMode} onChange={setViewMode}>
                         <ToggleGroupOption
                             value="grid"

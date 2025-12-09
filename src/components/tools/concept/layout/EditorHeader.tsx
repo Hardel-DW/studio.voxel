@@ -23,7 +23,8 @@ export function EditorHeader({ fallbackTitle, identifier, filterPath, isOverview
         ? filterPath ? Identifier.toDisplay(filterPath.split("/").pop() || "") : "All"
         : identifier ? new Identifier(identifier).toResourceName() : fallbackTitle;
 
-    const bgColor = hueToHsl(stringToColor(title));
+    const colorKey = isOverview ? (filterPath || "all") : (identifier ? new Identifier(identifier).toUniqueKey() : fallbackTitle);
+    const bgColor = hueToHsl(stringToColor(colorKey));
 
     return (
         <header className="relative shrink-0 overflow-hidden border-b border-zinc-800/50 bg-zinc-900/50">
