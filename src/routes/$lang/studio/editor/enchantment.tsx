@@ -3,9 +3,11 @@ import { isVoxel } from "@voxelio/breeze";
 import { useEditorUiStore } from "@/components/tools/concept/EditorUiStore";
 import { buildEnchantmentTree } from "@/components/tools/concept/enchantment/buildEnchantmentTree";
 import { SLOT_CONFIGS } from "@/components/tools/concept/enchantment/slots";
+import SidebarButton from "@/components/tools/concept/layout/EditorButton";
 import { EditorHeader } from "@/components/tools/concept/layout/EditorHeader";
 import { EditorSidebar } from "@/components/tools/concept/layout/EditorSidebar";
-import { getCurrentElement, useConfiguratorStore } from "@/components/tools/Store";
+import NotFoundStudio from "@/components/tools/NotFoundStudio";
+import { getCurrentElement, getModifiedElements, useConfiguratorStore } from "@/components/tools/Store";
 import { FileTree } from "@/components/ui/FileTree";
 import { ToggleGroup, ToggleGroupOption } from "@/components/ui/ToggleGroup";
 import Translate from "@/components/ui/Translate";
@@ -18,7 +20,8 @@ const SLOT_FOLDER_ICONS = Object.fromEntries(SLOT_CONFIGS.map((c) => [c.id, c.im
 const ITEM_FOLDER_ICONS = Object.fromEntries(enchantableKeys.map((k) => [k, `/images/features/item/${k}.webp`]));
 
 export const Route = createFileRoute("/$lang/studio/editor/enchantment")({
-    component: EnchantmentLayout
+    component: EnchantmentLayout,
+    notFoundComponent: NotFoundStudio
 });
 
 function EnchantmentLayout() {
@@ -30,6 +33,7 @@ function EnchantmentLayout() {
     const currentElement = useConfiguratorStore((state) => getCurrentElement(state));
     const enchantment = currentElement && isVoxel(currentElement, "enchantment") ? currentElement : undefined;
     const elements = useElementsByType("enchantment");
+    const modifiedCount = useConfiguratorStore((state) => getModifiedElements(state, "enchantment").length);
     const tree = buildEnchantmentTree(elements, sidebarView);
     const folderIcons = sidebarView === "slots" ? SLOT_FOLDER_ICONS : sidebarView === "items" ? ITEM_FOLDER_ICONS : undefined;
 
@@ -40,6 +44,7 @@ function EnchantmentLayout() {
             navigate({ to: "/$lang/studio/editor/enchantment/overview", params: { lang } });
         }
     };
+
     const handleElementSelect = (elementId: string) => {
         useConfiguratorStore.getState().setCurrentElementId(elementId);
         navigate({ to: "/$lang/studio/editor/enchantment/main", params: { lang } });
@@ -62,14 +67,31 @@ function EnchantmentLayout() {
                         <Translate content="enchantment:overview.sidebar.exclusive" />
                     </ToggleGroupOption>
                 </ToggleGroup>
-                <FileTree
-                    tree={tree}
-                    activePath={filterPath}
-                    onSelect={handleTreeSelect}
-                    onElementSelect={handleElementSelect}
-                    elementIcon={ENCHANTMENT_ICON}
-                    folderIcons={folderIcons}
-                />
+                <div className="space-y-1 mt-4">
+                    <SidebarButton
+                        icon="/icons/pencil.svg"
+                        count={modifiedCount}
+                        disabled={modifiedCount === 0}
+                        to="/$lang/studio/editor/enchantment/changes"
+                        params={{ lang }}>
+                        Updated
+                    </SidebarButton>
+                    <SidebarButton
+                        icon="/icons/search.svg"
+                        count={tree.count}
+                        isActive={filterPath === ""}
+                        onClick={() => setFilterPath("")}>
+                        All
+                    </SidebarButton>
+                    <FileTree
+                        tree={tree}
+                        activePath={filterPath}
+                        onSelect={handleTreeSelect}
+                        onElementSelect={handleElementSelect}
+                        folderIcons={folderIcons}
+                        elementIcon={ENCHANTMENT_ICON}
+                    />
+                </div>
             </EditorSidebar>
 
             <main className="flex-1 flex flex-col min-w-0 relative bg-zinc-950">

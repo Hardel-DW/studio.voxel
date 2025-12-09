@@ -40,7 +40,7 @@ export function EditorSidebar({ title, icon, linkTo, children }: EditorSidebarPr
                         <img
                             src="/icons/company/discord.svg"
                             className="size-4 invert opacity-30 group-hover:opacity-50 transition-opacity"
-                            alt=""
+                            alt="Discord icon"
                         />
                     </div>
                 </a>

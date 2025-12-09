@@ -14,49 +14,24 @@ interface FileTreeProps {
 }
 
 export function FileTree({ tree, activePath, onSelect, onElementSelect, elementIcon, folderIcons }: FileTreeProps) {
-    const isAllActive = activePath === "";
-    const hue = stringToColor("all");
-
     return (
-        <div className="space-y-1 mt-4">
-            <button
-                type="button"
-                className={cn(
-                    "flex items-center gap-2 px-3 py-2 rounded-lg cursor-pointer transition-colors relative group w-full text-left",
-                    isAllActive ? "bg-zinc-800/80 text-white" : "text-zinc-400 hover:bg-zinc-900/50 hover:text-zinc-200"
-                )}
-                onClick={() => onSelect("")}>
-                {isAllActive && (
-                    <div
-                        className="absolute left-0 top-2 bottom-2 w-1 rounded-r-full shadow-[0_0_8px_rgba(255,255,255,0.5)]"
-                        style={{ backgroundColor: hueToHsl(hue) }}
+        <div className="flex flex-col">
+            {Array.from(tree.children.entries())
+                .sort(([a], [b]) => a.localeCompare(b))
+                .map(([childName, childNode]) => (
+                    <FileTreeNode
+                        key={childName}
+                        name={childName}
+                        path={childName}
+                        node={childNode}
+                        activePath={activePath}
+                        onSelect={onSelect}
+                        onElementSelect={onElementSelect}
+                        elementIcon={elementIcon}
+                        folderIcons={folderIcons}
+                        depth={0}
                     />
-                )}
-                <img src="/icons/search.svg" className="size-5 invert opacity-60" alt="Search" />
-                <span className="truncate text-sm font-medium flex-1">All</span>
-                <span className="text-[10px] text-zinc-600 font-mono tabular-nums bg-zinc-900/50 px-1.5 rounded-sm border border-zinc-800 group-hover:border-zinc-700">
-                    {tree.count}
-                </span>
-            </button>
-
-            <div className="flex flex-col">
-                {Array.from(tree.children.entries())
-                    .sort(([a], [b]) => a.localeCompare(b))
-                    .map(([childName, childNode]) => (
-                        <FileTreeNode
-                            key={childName}
-                            name={childName}
-                            path={childName}
-                            node={childNode}
-                            activePath={activePath}
-                            onSelect={onSelect}
-                            onElementSelect={onElementSelect}
-                            elementIcon={elementIcon}
-                            folderIcons={folderIcons}
-                            depth={0}
-                        />
-                    ))}
-            </div>
+                ))}
         </div>
     );
 }

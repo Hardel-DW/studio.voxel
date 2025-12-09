@@ -1,16 +1,19 @@
 import { createFileRoute, Outlet, useLocation, useNavigate, useParams } from "@tanstack/react-router";
 import { isVoxel } from "@voxelio/breeze";
 import { useEditorUiStore } from "@/components/tools/concept/EditorUiStore";
+import SidebarButton from "@/components/tools/concept/layout/EditorButton";
 import { EditorHeader } from "@/components/tools/concept/layout/EditorHeader";
 import { EditorSidebar } from "@/components/tools/concept/layout/EditorSidebar";
-import { getCurrentElement, useConfiguratorStore } from "@/components/tools/Store";
+import NotFoundStudio from "@/components/tools/NotFoundStudio";
+import { getCurrentElement, getModifiedElements, useConfiguratorStore } from "@/components/tools/Store";
 import { FileTree } from "@/components/ui/FileTree";
 import { ToggleGroup, ToggleGroupOption } from "@/components/ui/ToggleGroup";
 import { useElementsByType } from "@/lib/hook/useElementsByType";
 import { buildTree } from "@/lib/utils/tree";
 
 export const Route = createFileRoute("/$lang/studio/editor/loot_table")({
-    component: LootTableLayout
+    component: LootTableLayout,
+    notFoundComponent: NotFoundStudio
 });
 
 function LootTableLayout() {
@@ -21,6 +24,7 @@ function LootTableLayout() {
     const location = useLocation();
     const navigate = useNavigate();
     const isOverview = location.pathname.endsWith("/overview");
+    const modifiedCount = useConfiguratorStore((state) => getModifiedElements(state, "loot_table").length);
     const currentElement = useConfiguratorStore((state) => getCurrentElement(state));
     const lootTable = currentElement && isVoxel(currentElement, "loot_table") ? currentElement : undefined;
 
@@ -38,7 +42,24 @@ function LootTableLayout() {
                 title="loot:overview.title"
                 icon="/images/features/item/bundle_close.webp"
                 linkTo="/$lang/studio/editor/loot_table/overview">
-                <FileTree tree={tree} activePath={filterPath} onSelect={handleTreeSelect} />
+                <div className="space-y-1 mt-4">
+                    <SidebarButton
+                        icon="/icons/pencil.svg"
+                        count={modifiedCount}
+                        disabled={modifiedCount === 0}
+                        to="/$lang/studio/editor/recipe/changes"
+                        params={{ lang }}>
+                        Updated
+                    </SidebarButton>
+                    <SidebarButton
+                        icon="/icons/search.svg"
+                        count={tree.count}
+                        isActive={filterPath === ""}
+                        onClick={() => setFilterPath("")}>
+                        All
+                    </SidebarButton>
+                    <FileTree tree={tree} activePath={filterPath} onSelect={handleTreeSelect} />
+                </div>
             </EditorSidebar>
 
             <main className="flex-1 flex flex-col min-w-0 min-h-0 overflow-hidden relative bg-zinc-950">

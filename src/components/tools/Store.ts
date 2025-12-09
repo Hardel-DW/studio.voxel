@@ -110,6 +110,14 @@ export const useConfiguratorStore = createConfiguratorStore();
 export const getCurrentElement = <T extends keyof Analysers>(state: ConfiguratorState<T>) =>
     state.currentElementId ? state.elements.get(state.currentElementId) : undefined;
 
+export const getModifiedElements = <T extends keyof Analysers>(state: ConfiguratorState<T>, registry: string) => {
+    const changeSets = state.logger?.getChangeSets() ?? [];
+    return changeSets
+        .filter((c) => c.identifier.registry === registry)
+        .map((c) => state.elements.get(`${c.identifier.namespace}:${c.identifier.resource}$${c.identifier.registry}`))
+        .filter((el): el is GetAnalyserVoxel<T> => !!el);
+};
+
 const buildCacheKey = (registry: string, options?: { path?: string; excludeNamespaces?: string[] }) => {
     if (!options) return registry;
     const pathKey = options.path ?? "";
