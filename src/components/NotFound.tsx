@@ -1,4 +1,4 @@
-import { LinkButton } from "@/components/ui/Button";
+import { Button } from "@/components/ui/Button";
 import LineSetup from "@/components/ui/line/LineSetup";
 
 export default function NotFound() {
@@ -38,9 +38,9 @@ export default function NotFound() {
                 <p className="text-xl text-zinc-400 mb-12">
                     This page does not exist, please go back to the home page or contact the support if you think this is an error.
                 </p>
-                <LinkButton to="/" variant="black" className="w-full shimmer-neutral-950 border-zinc-800 hover:shimmer-neutral-900">
+                <Button to="/" variant="black" className="w-full shimmer-neutral-950 border-zinc-800 hover:shimmer-neutral-900">
                     Go to home
-                </LinkButton>
+                </Button>
             </div>
         </div>
     );

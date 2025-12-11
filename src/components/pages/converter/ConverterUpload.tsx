@@ -1,12 +1,14 @@
 import Dropzone from "@/components/ui/Dropzone";
-import { useServerDictionary } from "@/lib/hook/useServerDictionary";
+import { t } from "@/lib/i18n/i18n";
+import { useParams } from "@tanstack/react-router";
 
 interface ConverterUploadProps {
     onFileUpload: (files: FileList) => void;
 }
 
 export default function ConverterUpload({ onFileUpload }: ConverterUploadProps) {
-    const dictionary = useServerDictionary();
+    const { lang } = useParams({ from: "/$lang" });
+    const translate = t(lang);
 
     return (
         <div className="w-full h-full min-h-[300px] flex flex-col">
@@ -23,7 +25,7 @@ export default function ConverterUpload({ onFileUpload }: ConverterUploadProps) 
                 </div>
                 <div className="text-center space-y-2">
                     <p className="text-zinc-200 font-medium text-xl group-hover:text-white transition-colors">
-                        {dictionary.converter.dropzone}
+                        {translate("converter.dropzone")}
                     </p>
                     <p className="text-sm text-zinc-500 group-hover:text-zinc-400 transition-colors">.zip files up to 10MB</p>
                 </div>

@@ -1,4 +1,6 @@
 import { type RefObject, useState } from "react";
+import { useParams } from "@tanstack/react-router";
+import { t } from "@/lib/i18n/i18n";
 
 interface HarmonizePreviewProps {
     canvasRef: RefObject<HTMLCanvasElement | null>;
@@ -10,13 +12,14 @@ interface HarmonizePreviewProps {
 
 export default function HarmonizePreview({ canvasRef, isLoading, hasData, hasImage, onDownload }: HarmonizePreviewProps) {
     const [zoom, setZoom] = useState(1);
+    const { lang } = useParams({ from: "/$lang" });
+    const translate = t(lang);
 
     const handleZoomIn = () => setZoom((prev) => Math.min(prev + 0.5, 5));
     const handleZoomOut = () => setZoom((prev) => Math.max(prev - 0.5, 0.5));
 
     return (
         <div className="relative w-full h-full flex items-center justify-center overflow-hidden rounded-2xl bg-[#151515]">
-            {/* Subtle Grid Background inside the Canvas Area */}
             <div
                 className="absolute inset-0 opacity-10 pointer-events-none"
                 style={{
@@ -37,7 +40,7 @@ export default function HarmonizePreview({ canvasRef, isLoading, hasData, hasIma
                 <div className="absolute inset-0 flex items-center justify-center z-20">
                     <div className="flex flex-col items-center gap-4 bg-black/40 backdrop-blur-xl p-8 rounded-3xl border border-white/10 shadow-2xl animate-in fade-in zoom-in duration-300">
                         <div className="size-12 border-4 border-white/10 border-t-pink-500 rounded-full animate-spin" />
-                        <p className="text-base font-medium text-white tracking-wide animate-pulse">Processing...</p>
+                        <p className="text-base font-medium text-white tracking-wide animate-pulse">{translate("harmonization.processing")}</p>
                     </div>
                 </div>
             )}
@@ -50,9 +53,9 @@ export default function HarmonizePreview({ canvasRef, isLoading, hasData, hasIma
                             <img src="/icons/image.svg" className="size-10 opacity-30 invert" alt="" />
                         </div>
                         <div className="space-y-2">
-                            <h3 className="text-xl font-semibold text-zinc-300">No Image Selected</h3>
+                            <h3 className="text-xl font-semibold text-zinc-300">{translate("harmonization.no_image_selected")}</h3>
                             <p className="text-sm text-zinc-500">
-                                Upload an image from your device or select one from the gallery to start harmonizing colors.
+                                {translate("harmonization.no_image_selected_description")}
                             </p>
                         </div>
                     </div>
@@ -68,7 +71,7 @@ export default function HarmonizePreview({ canvasRef, isLoading, hasData, hasIma
                         onClick={handleZoomOut}
                         className="size-10 flex items-center justify-center rounded-full hover:bg-white/10 text-zinc-400 hover:text-white transition-colors active:scale-95 disabled:opacity-50 cursor-pointer"
                         disabled={zoom <= 0.5}
-                        aria-label="Zoom Out">
+                        aria-label={translate("generic.zoom_out")}>
                         <svg
                             width="20"
                             height="20"
@@ -91,7 +94,7 @@ export default function HarmonizePreview({ canvasRef, isLoading, hasData, hasIma
                         onClick={handleZoomIn}
                         className="size-10 flex items-center justify-center rounded-full hover:bg-white/10 text-zinc-400 hover:text-white transition-colors active:scale-95 disabled:opacity-50 cursor-pointer"
                         disabled={zoom >= 5}
-                        aria-label="Zoom In">
+                        aria-label={translate("generic.zoom_in")}>
                         <svg
                             width="20"
                             height="20"
@@ -114,10 +117,10 @@ export default function HarmonizePreview({ canvasRef, isLoading, hasData, hasIma
                         type="button"
                         onClick={onDownload}
                         className="group flex items-center justify-center gap-0 px-4 py-4 hover:px-6 bg-white text-black rounded-full shadow-xl shadow-black/50 hover:scale-105 active:scale-95 transition-all duration-300 hover:bg-zinc-100 font-bold min-w-[56px] h-[56px] cursor-pointer"
-                        title="Download Result">
+                        title={translate("generic.download")}>
                         <img src="/icons/download.svg" className="size-5 shrink-0" alt="" />
                         <span className="max-w-0 overflow-hidden group-hover:max-w-[100px] group-hover:ml-3 transition-all duration-500 whitespace-nowrap text-sm">
-                            Download
+                            {translate("generic.download")}
                         </span>
                     </button>
                 </div>

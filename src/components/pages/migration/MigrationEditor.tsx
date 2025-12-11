@@ -2,7 +2,7 @@ import { compileDatapack, Datapack, DatapackDownloader, Logger } from "@voxelio/
 import { useRef, useState } from "react";
 import MigrationStatus from "@/components/pages/migration/MigrationStatus";
 import MigrationUpload from "@/components/pages/migration/MigrationUpload";
-import { LinkButton } from "@/components/ui/Button";
+import { Button } from "@/components/ui/Button";
 import {
     Dialog,
     DialogContent,
@@ -14,9 +14,10 @@ import {
 } from "@/components/ui/Dialog";
 import { toast } from "@/components/ui/Toast";
 import { useConfetti } from "@/lib/hook/useConfetti";
-import { useServerDictionary } from "@/lib/hook/useServerDictionary";
+import { t } from "@/lib/i18n/i18n";
 import { downloadFile } from "@/lib/utils/download";
 import { trackEvent } from "@/lib/utils/telemetry";
+import { useParams } from "@tanstack/react-router";
 
 interface DatapackInfo {
     version: number;
@@ -39,13 +40,14 @@ export default function MigrationEditor() {
         target: { files: null }
     });
     const { addConfetti, renderConfetti } = useConfetti();
-    const dictionary = useServerDictionary();
+    const { lang } = useParams({ from: "/$lang" });
+    const translate = t(lang);
     const dialogRef = useRef<DialogHandle>(null);
 
     const handleMigration = async () => {
         const { source, target } = uploads;
         if (!source.files || !target.files) return;
-        toast(dictionary.migration.processing, "info");
+        toast(translate("migration.processing"), "info");
 
         const targetData = await Datapack.from(target.files[0]);
         const targetDataResult = targetData.parse();
@@ -68,7 +70,7 @@ export default function MigrationEditor() {
             const newFilename = DatapackDownloader.getFileName(filename, isModded);
             downloadFile(response, newFilename);
 
-            toast(dictionary.migration.success_message, "success");
+            toast(translate("migration.success_message"), "success");
             await trackEvent("migrated_datapack");
             dialogRef.current?.open();
 
@@ -76,13 +78,13 @@ export default function MigrationEditor() {
             setTimeout(() => setUploads({ source: { files: null }, target: { files: null } }), 3000);
         } catch (error) {
             console.error("Migration failed:", error);
-            toast("Failed to apply migration changes", "error");
+            toast(translate("migration.error.failed_to_apply_changes"), "error");
         }
     };
 
     const validators: Record<UploadType, (result: Exclude<Awaited<ReturnType<Datapack["parse"]>>, string>) => string | null> = {
-        source: (result) => (!result.files["voxel/logs.json"] ? dictionary.migration.error_types.no_logs : null),
-        target: (result) => (result.elements.size === 0 ? dictionary.migration.error_types.invalid_datapack : null)
+        source: (result) => (!result.files["voxel/logs.json"] ? translate("migration.error_types.no_logs") : null),
+        target: (result) => (result.elements.size === 0 ? translate("migration.error_types.invalid_datapack") : null)
     };
 
     const handleUpload = async (files: FileList, type: UploadType) => {
@@ -92,7 +94,7 @@ export default function MigrationEditor() {
         const isModded = filename.endsWith(".jar");
 
         if (typeof result === "string") {
-            toast(dictionary[result], "error");
+            toast(translate(result), "error");
             return;
         }
 
@@ -119,10 +121,10 @@ export default function MigrationEditor() {
                     <DialogHeader>
                         <DialogTitle className="flex items-center gap-x-2">
                             <img src="/icons/success.svg" alt="zip" className="size-6" />
-                            <span className="text-xl font-medium text-zinc-200">{dictionary.generic.dialog.success}</span>
+                            <span className="text-xl font-medium text-zinc-200">{translate("generic.dialog.success")}</span>
                         </DialogTitle>
                         <DialogDescription className="text-zinc-400">
-                            {dictionary.migration.success_message}
+                            {translate("migration.success_message")}
                             <div className="py-2">
                                 <span className="font-semibold text-zinc-200">
                                     {uploads.target.data && `${uploads.target.data.name}.${uploads.target.data.isModded ? "jar" : "zip"}`}
@@ -130,10 +132,10 @@ export default function MigrationEditor() {
                             </div>
                             <div className="h-px w-full bg-white/10 my-4" />
                             <div className="space-y-2">
-                                <h4 className="font-semibold text-zinc-200">{dictionary.migration.success_info.additional_info}</h4>
+                                <h4 className="font-semibold text-zinc-200">{translate("migration.success_info.additional_info")}</h4>
                                 <ul className="list-disc list-inside text-sm pl-2">
                                     <li>
-                                        <span className="font-light">{dictionary.migration.success_info.additional_info}</span>
+                                        <span className="font-light">{translate("migration.success_info.additional_info")}</span>
                                     </li>
                                 </ul>
                             </div>
@@ -150,27 +152,26 @@ export default function MigrationEditor() {
                                 <img src="/icons/company/discord.svg" alt="Discord" className="size-6 invert" />
                             </a>
                         </div>
-                        <LinkButton
+                        <Button
                             target="_blank"
                             rel="noopener noreferrer"
                             href="https://streamelements.com/hardoudou/tip"
                             variant="shimmer"
                             className="cursor-pointer">
-                            {dictionary.generic.donate}
-                        </LinkButton>
+                            {translate("generic.donate")}
+                        </Button>
                     </DialogFooter>
                 </DialogContent>
             </Dialog>
 
             <div className="flex flex-col lg:grid lg:grid-cols-11 gap-8 lg:items-stretch items-center justify-center relative">
-                {/* Source Upload */}
                 <div className="w-full lg:col-span-5">
                     {!uploads.source.files ? (
                         <MigrationUpload
                             id="source-dropzone"
                             onFileUpload={(files) => handleUpload(files, "source")}
-                            title={dictionary.migration.source}
-                            description={dictionary.migration.drop.source}
+                            title={translate("migration.source")}
+                            description={translate("migration.drop.source")}
                         />
                     ) : (
                         <MigrationStatus
@@ -200,8 +201,8 @@ export default function MigrationEditor() {
                         <MigrationUpload
                             id="target-dropzone"
                             onFileUpload={(files) => handleUpload(files, "target")}
-                            title={dictionary.migration.target}
-                            description={dictionary.migration.drop.target}
+                            title={translate("migration.target")}
+                            description={translate("migration.drop.target")}
                         />
                     ) : (
                         <MigrationStatus

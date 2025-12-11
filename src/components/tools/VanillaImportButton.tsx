@@ -2,12 +2,12 @@ import { useNavigate, useParams } from "@tanstack/react-router";
 import { Datapack, Logger } from "@voxelio/breeze";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/Dropdown";
-import { useServerDictionary } from "@/lib/hook/useServerDictionary";
+import { t } from "@/lib/i18n/i18n";
 import { Button } from "../ui/Button";
 
 export default function VanillaImportButton() {
-    const dictionary = useServerDictionary();
     const { lang } = useParams({ from: "/$lang" });
+    const translate = t(lang);
     const navigate = useNavigate();
 
     const handleVanillaImport = async (version: number) => {
@@ -23,7 +23,7 @@ export default function VanillaImportButton() {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger>
-                <Button variant="shimmer">{dictionary.studio.import_vanilla}</Button>
+                <Button variant="shimmer">{translate("studio.import_vanilla")}</Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
                 <DropdownMenuItem onClick={() => handleVanillaImport(88)}>Minecraft - Version 1.21.10</DropdownMenuItem>

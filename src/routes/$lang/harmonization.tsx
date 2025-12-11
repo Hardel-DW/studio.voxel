@@ -3,7 +3,7 @@ import CompoundLayout from "@/components/layout/CompoundLayout";
 import HarmonizeEditor from "@/components/pages/harmonization/HarmonizeEditor";
 import PageLoading from "@/components/pages/PageLoading";
 import LineSetup from "@/components/ui/line/LineSetup";
-import { useServerDictionary } from "@/lib/hook/useServerDictionary";
+import { t } from "@/lib/i18n/i18n";
 
 export const Route = createFileRoute("/$lang/harmonization")({
     component: HarmonizationPage,
@@ -11,7 +11,8 @@ export const Route = createFileRoute("/$lang/harmonization")({
 });
 
 function HarmonizationPage() {
-    const dictionary = useServerDictionary();
+    const { lang } = Route.useParams();
+    const translate = t(lang);
 
     return (
         <CompoundLayout>
@@ -42,9 +43,9 @@ function HarmonizationPage() {
                     {/* Header Section */}
                     <div className="text-center space-y-6 relative z-10 max-w-3xl mx-auto">
                         <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight text-white">
-                            {dictionary.harmonization.title}
+                            {translate("harmonization.title")}
                         </h1>
-                        <p className="text-lg text-zinc-400 leading-relaxed">{dictionary.harmonization.description}</p>
+                        <p className="text-lg text-zinc-400 leading-relaxed">{translate("harmonization.description")}</p>
                     </div>
 
                     <HarmonizeEditor />

@@ -31,62 +31,42 @@ const variants = {
     }
 } as const;
 
-interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     variant?: keyof typeof variants.variant;
     size?: keyof typeof variants.size;
-}
-
-export function Button({ variant = "default", size = "default", className, children, ...rest }: Props) {
-    return (
-        <button
-            type="button"
-            className={cn([
-                "rounded-xl inline-flex items-center justify-center whitespace-nowrap cursor-pointer truncate text-sm font-medium ring-offset-background transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
-                variants.variant[variant],
-                variants.size[size],
-                className
-            ])}
-            {...rest}>
-            {children}
-        </button>
-    );
-}
-
-interface RouterLinkProps extends Props {
     href?: string;
     to?: string;
+    params?: Record<string, string>;
+    search?: Record<string, unknown>;
 }
 
-export function LinkButton({
-    variant = "default",
-    size = "default",
-    className,
-    href,
-    to,
-    children,
-    ...rest
-}: RouterLinkProps & Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, "href">) {
-    const linkUrl = href || to || "/";
-    const isExternal = href && (href.startsWith("http") || href.startsWith("mailto:"));
-
-    const linkClassName = cn([
-        "inline-flex rounded-xl items-center justify-center whitespace-nowrap cursor-pointer truncate text-sm font-medium ring-offset-background transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+export function Button({ variant = "default", size = "default", className, href, to, params, search, children, ...rest }: ButtonProps) {
+    const baseClassName = cn([
+        "rounded-xl inline-flex items-center justify-center whitespace-nowrap cursor-pointer truncate text-sm font-medium ring-offset-background transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
         variants.variant[variant],
         variants.size[size],
         className
     ]);
 
-    if (isExternal) {
+    if (to) {
         return (
-            <a href={linkUrl} className={linkClassName} {...rest}>
+            <Link to={to} params={params} search={search} className={baseClassName}>
+                {children}
+            </Link>
+        );
+    }
+
+    if (href) {
+        return (
+            <a href={href} className={baseClassName} {...(rest as React.AnchorHTMLAttributes<HTMLAnchorElement>)}>
                 {children}
             </a>
         );
     }
 
     return (
-        <Link to={linkUrl} className={linkClassName} {...rest}>
+        <button type="button" className={baseClassName} {...rest}>
             {children}
-        </Link>
+        </button>
     );
 }

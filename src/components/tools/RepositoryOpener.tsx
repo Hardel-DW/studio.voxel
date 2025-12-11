@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { ClientOnly, useNavigate, useParams } from "@tanstack/react-router";
+import { useNavigate, useParams } from "@tanstack/react-router";
 import { Datapack } from "@voxelio/breeze";
 import { useState } from "react";
 import { useConfiguratorStore } from "@/components/tools/Store";
@@ -18,34 +18,33 @@ import {
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/Dropdown";
 import { TextInput } from "@/components/ui/TextInput";
 import { TOAST, toast } from "@/components/ui/Toast";
-import Translate from "@/components/ui/Translate";
 import { GitHub, type Repository } from "@/lib/github/GitHub";
 import { RepositoryManager } from "@/lib/github/RepositoryManager";
 import { useGitHubAuth, useGitHubRepos } from "@/lib/hook/useGitHubAuth";
-import { useServerDictionary } from "@/lib/hook/useServerDictionary";
+import { t } from "@/lib/i18n/i18n";
 import { cn } from "@/lib/utils";
 
-function RepositoryOpenerContent() {
+export default function RepositoryOpener() {
     const navigate = useNavigate();
     const { lang } = useParams({ from: "/$lang" });
     const [selectedAccount, setSelectedAccount] = useState<string>("");
     const [searchQuery, setSearchQuery] = useState("");
     const [thirdPartyUrl, setThirdPartyUrl] = useState("");
-    const dictionary = useServerDictionary();
     const queryClient = useQueryClient();
     const { isAuthenticated, user, token, login, isLoggingIn } = useGitHubAuth();
     const { data, isLoading: isLoadingRepos, isFetching } = useGitHubRepos(token);
+    const translate = t(lang);
 
     const manager = new RepositoryManager(user, data);
     const accounts = manager.getAccounts();
     const selectedAccountData = manager.findAccount(selectedAccount);
-    const selectedAccountLabel = selectedAccountData?.label ?? dictionary.repository.select_account;
+    const selectedAccountLabel = selectedAccountData?.label ?? translate("repository.select_account");
     const filteredRepositories = manager.getFilteredRepositories(selectedAccount, searchQuery);
     const handleRefresh = () => queryClient.invalidateQueries({ queryKey: [["github", "repos"], token] });
 
     const { mutate, isPending } = useMutation({
         mutationFn: async (repo: Repository) => {
-            toast(dictionary.studio.import_repository.downloading.replace("{repo.name}", repo.name), TOAST.INFO);
+            toast(translate("studio.import_repository.downloading", { name: repo.name }), TOAST.INFO);
             const files = await new GitHub({ token }).clone(repo.owner.login, repo.name, repo.default_branch, true);
             const datapack = new Datapack(files).parse();
             return { datapack, repo };
@@ -53,12 +52,12 @@ function RepositoryOpenerContent() {
         onSuccess: ({ datapack, repo }) => {
             useConfiguratorStore.getState().setup(datapack, false, repo.name);
             useExportStore.getState().setGitRepository(repo.owner.login, repo.name, repo.default_branch, token || "");
-            toast(dictionary.studio.import_repository.success.replace("{repo.name}", repo.name), TOAST.SUCCESS);
+            toast(translate("studio.import_repository.success", { name: repo.name }), TOAST.SUCCESS);
             navigate({ to: "/$lang/studio/editor", params: { lang } });
         },
         onError: (e: unknown) => {
-            const errorMessage = e instanceof Error ? e.message : dictionary.studio.error.failed_to_import_repository;
-            toast(dictionary.generic.dialog.error, TOAST.ERROR, errorMessage);
+            const errorMessage = e instanceof Error ? e.message : translate("studio.error.failed_to_import_repository");
+            toast(translate("generic.dialog.error"), TOAST.ERROR, errorMessage);
         }
     });
 
@@ -69,7 +68,7 @@ function RepositoryOpenerContent() {
                 className="w-full mt-8 flex items-center gap-x-2 shimmer-zinc-950 border border-zinc-800 text-white">
                 <img src="/icons/company/github.svg" alt="GitHub" className="size-4 invert" />
                 <span className="text-sm">
-                    <Translate content="repository.login_to_github" />
+                    {translate("repository.login_to_github")}
                 </span>
             </Button>
         );
@@ -83,7 +82,7 @@ function RepositoryOpenerContent() {
                     className="w-full mt-8 flex items-center gap-x-2">
                     <img src="/icons/company/github.svg" alt="GitHub" className="size-4" />
                     <span className="text-sm">
-                        <Translate content={isLoggingIn ? "repository.loading" : "repository.open"} />
+                        {translate(isLoggingIn ? "repository.loading" : "repository.open")}
                     </span>
                 </Button>
             </DialogTrigger>
@@ -95,10 +94,10 @@ function RepositoryOpenerContent() {
                             <img src="/icons/company/github.svg" alt="GitHub" className="size-6 invert" />
                             <div className="flex flex-col">
                                 <span className="text-xl font-medium text-zinc-200">
-                                    <Translate content="repository.select" />
+                                    {translate("repository.select")}
                                 </span>
                                 <p className="text-zinc-500 text-sm">
-                                    <Translate content="repository.select_description" />
+                                    {translate("repository.select_description")}
                                 </p>
                             </div>
                         </div>
@@ -128,8 +127,8 @@ function RepositoryOpenerContent() {
                                     onClick={() => setSelectedAccount(account.value)}
                                     description={
                                         account.type === "user"
-                                            ? dictionary.repository.personal_repositories
-                                            : dictionary.repository.organization_repositories.replace("{org}", account.label)
+                                            ? translate("repository.personal_repositories")
+                                            : translate("repository.organization_repositories", { org: account.label })
                                     }
                                     className={selectedAccount === account.value ? "bg-zinc-900 text-zinc-200" : ""}>
                                     {account.label}
@@ -139,7 +138,7 @@ function RepositoryOpenerContent() {
                     </DropdownMenu>
 
                     <TextInput
-                        placeholder={dictionary.repository.search_placeholder}
+                        placeholder={translate("repository.search_placeholder")}
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                     />
@@ -149,7 +148,7 @@ function RepositoryOpenerContent() {
                     <div className="space-y-3">
                         {filteredRepositories.length === 0 ? (
                             <div className="text-center py-8 text-zinc-400 text-sm">
-                                <Translate content="repository.no_results" />
+                                {translate("repository.no_results")}
                             </div>
                         ) : (
                             filteredRepositories.map((repo) => (
@@ -163,12 +162,12 @@ function RepositoryOpenerContent() {
                                                 <h3 className="text-sm font-semibold text-zinc-200 truncate">{repo.name}</h3>
                                                 {repo.private && (
                                                     <span className="text-s leading-4 px-2 py-0.5 bg-zinc-900 text-zinc-400 border border-zinc-800 rounded-md">
-                                                        Private
+                                                        {translate("repository.private")}
                                                     </span>
                                                 )}
                                             </div>
                                             <p className="text-xs text-zinc-500 line-clamp-2">
-                                                {repo.description ? repo.description : <Translate content="repository.no_description" />}
+                                                {repo.description ? repo.description : translate("repository.no_description")}
                                             </p>
                                         </div>
                                     </div>
@@ -178,7 +177,7 @@ function RepositoryOpenerContent() {
                                         variant="default"
                                         disabled={isPending}
                                         className="shrink-0 text-xs px-3 py-2">
-                                        <Translate content="repository.import" />
+                                        {translate("repository.import")}
                                     </Button>
                                 </div>
                             ))
@@ -191,39 +190,20 @@ function RepositoryOpenerContent() {
                         <TextInput
                             disableIcon={true}
                             className="flex-1"
-                            placeholder={dictionary.repository.third_party_placeholder}
+                            placeholder={translate("repository.third_party_placeholder")}
                             value={thirdPartyUrl}
                             onChange={(e) => setThirdPartyUrl(e.target.value)}
                         />
                         <DialogCloseButton variant="ghost_border" className="text-xs px-4 py-2" disabled={!thirdPartyUrl.trim()}>
-                            <Translate content="repository.import" />
+                            {translate("repository.import")}
                         </DialogCloseButton>
                     </div>
 
                     <DialogCloseButton variant="ghost">
-                        <Translate content="close" />
+                        {translate("generic.close")}
                     </DialogCloseButton>
                 </DialogFooter>
             </DialogContent>
         </Dialog>
-    );
-}
-
-function RepositoryOpenerFallback() {
-    return (
-        <Button className="w-full mt-8 flex items-center gap-x-2 shimmer-zinc-950 border border-zinc-800 text-white">
-            <img src="/icons/company/github.svg" alt="GitHub" className="size-4 invert" />
-            <span className="text-sm">
-                <Translate content="repository.loading" />
-            </span>
-        </Button>
-    );
-}
-
-export default function RepositoryOpener() {
-    return (
-        <ClientOnly fallback={<RepositoryOpenerFallback />}>
-            <RepositoryOpenerContent />
-        </ClientOnly>
     );
 }

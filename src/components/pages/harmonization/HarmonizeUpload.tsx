@@ -1,6 +1,7 @@
 import Dropzone from "@/components/ui/Dropzone";
-import { useServerDictionary } from "@/lib/hook/useServerDictionary";
+import { t } from "@/lib/i18n/i18n";
 import { cn } from "@/lib/utils";
+import { useParams } from "@tanstack/react-router";
 
 interface HarmonizeUploadProps {
     onFileUpload: (files: FileList) => void;
@@ -8,7 +9,8 @@ interface HarmonizeUploadProps {
 }
 
 export default function HarmonizeUpload({ onFileUpload, isCompact = false }: HarmonizeUploadProps) {
-    const dictionary = useServerDictionary();
+    const { lang } = useParams({ from: "/$lang" });
+    const translate = t(lang);
 
     return (
         <div className="w-full h-full min-h-[200px] flex flex-col">
@@ -25,9 +27,9 @@ export default function HarmonizeUpload({ onFileUpload, isCompact = false }: Har
                 </div>
                 <div className="text-center space-y-1">
                     <p className="text-zinc-200 font-medium text-lg group-hover:text-white transition-colors">
-                        {dictionary.harmonization.drop}
+                        {translate("harmonization.drop")}
                     </p>
-                    <p className="text-sm text-zinc-500 group-hover:text-zinc-400 transition-colors">PNG, JPG, WEBP • Max 5MB</p>
+                    <p className="text-sm text-zinc-500 group-hover:text-zinc-400 transition-colors">{translate("harmonization.drop_description")}</p>
                 </div>
             </Dropzone>
         </div>

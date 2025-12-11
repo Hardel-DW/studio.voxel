@@ -2,10 +2,10 @@ import { createFileRoute } from "@tanstack/react-router";
 import Footer from "@/components/layout/Footer";
 import Navbar from "@/components/layout/Navbar";
 import Box from "@/components/ui/Box";
-import { LinkButton } from "@/components/ui/Button";
+import { Button } from "@/components/ui/Button";
 import ImageCard from "@/components/ui/ImageCard";
 import LineSetup from "@/components/ui/line/LineSetup";
-import { useServerDictionary } from "@/lib/hook/useServerDictionary";
+import { t } from "@/lib/i18n/i18n";
 
 export const Route = createFileRoute("/$lang/")({
     component: Page,
@@ -20,7 +20,7 @@ export const Route = createFileRoute("/$lang/")({
 
 function Page() {
     const { lang } = Route.useParams();
-    const dictionary = useServerDictionary();
+    const translate = t(lang);
 
     return (
         <div className="relative">
@@ -53,47 +53,47 @@ function Page() {
                         className="shrink-0 rotate-6 translate-y-1/2 s:translate-x-2/3 s:w-1/2 lg:translate-x-1/4 lg:w-auto"
                         image="/images/background/tools/configurator.webp"
                         href={`/${lang}/studio`}
-                        title={dictionary.home.configurator.title}
-                        button={dictionary.generic.start_now}
+                        title={translate("home.configurator.title")}
+                        button={translate("generic.start_now")}
                     />
                     <ImageCard
                         className="shrink-0 -rotate-3 s:-translate-y-1/2 s:w-1/2 lg:-translate-x-1/4 lg:translate-y-0 lg:w-auto"
                         image="/images/background/marketplace.webp"
                         href={`https://voxel.hardel.io/${lang}/marketplace`}
-                        title={dictionary.home.marketplace.title}
-                        button={dictionary.generic.start_now}
+                        title={translate("home.marketplace.title")}
+                        button={translate("generic.start_now")}
                     />
                     <ImageCard
                         className="shrink-0 rotate-6 s:-translate-x-2/3 s:w-1/2 lg:-translate-y-1/2 lg:translate-x-0 lg:w-auto"
                         image="/images/background/copilot.webp"
                         href="#"
-                        title={dictionary.home.copilot.title}
-                        button={dictionary.generic.soon}
+                        title={translate("home.copilot.title")}
+                        button={translate("generic.soon")}
                     />
                 </div>
 
                 <div className="grid gap-12 lg:order-first s:self-end xl:p-12 lg:p-8">
                     <div className="flex flex-col py-8 px-8 sm:px-12 lg:px-16 self-center">
-                        <h1 className="text-5xl font-bold">{dictionary.home.title}</h1>
+                        <h1 className="text-5xl font-bold">{translate("home.title")}</h1>
                         <p className="text-xl mt-4 text-zinc-200">
-                            <b>Voxel Labs</b> {dictionary.home.description}
+                            <b>Voxel Labs</b> {translate("home.description")}
                         </p>
 
                         <p className="pt-4 text-base text-zinc-400">
-                            <b>Voxel Labs</b> {dictionary.home.subtitle}
+                            <b>Voxel Labs</b> {translate("home.subtitle")}
                         </p>
 
                         <div className="mt-12 flex flex-wrap gap-4">
                             <a
                                 href={`/${lang}/studio`}
                                 className="bg-white text-lg cursor-pointer text-zinc-800 font-semibold py-3 px-8 rounded-lg hover:bg-zinc-300 hover:text-zinc-800 transition-all">
-                                {dictionary.home.button.start}
+                                {translate("home.button.start")}
                             </a>
 
                             <a
                                 href={`https://voxel.hardel.io/${lang}/blog/enchant-configurator`}
                                 className="w-full lg:w-fit text-center border border-zinc-200 text-lg cursor-pointer text-white font-semibold py-3 px-6 rounded-lg hover:bg-zinc-200 hover:text-zinc-800 transition-all">
-                                {dictionary.home.button.learn_more}
+                                {translate("home.button.learn_more")}
                             </a>
                         </div>
                     </div>
@@ -102,57 +102,57 @@ function Page() {
 
             <section className="my-32 md:my-52 px-8 w-full md:w-3/4 mx-auto grid md:grid-cols-2 gap-8">
                 <Box loading="eager" image="/images/features/dev.webp">
-                    <h2 className="text-white text-xl md:text-2xl font-bold line-clamp-1 pt-8">{dictionary.home.configurator.title}</h2>
-                    <p className="text-zinc-400 text-sm md:text-base mt-2 line-clamp-3">{dictionary.home.configurator.description}</p>
+                    <h2 className="text-white text-xl md:text-2xl font-bold line-clamp-1 pt-8">{translate("home.configurator.title")}</h2>
+                    <p className="text-zinc-400 text-sm md:text-base mt-2 line-clamp-3">{translate("home.configurator.description")}</p>
                     <div className="flex flex-wrap gap-2 mt-6">
-                        <LinkButton className="w-full xl:w-fit" href={`/${lang}/studio`} size="sm" variant="shimmer">
-                            {dictionary.generic.start_now}
-                        </LinkButton>
-                        <LinkButton className="w-full xl:w-fit" href={`/${lang}/blog/enchant-configurator`} size="sm" variant="transparent">
-                            {dictionary.generic.learn_more}
-                        </LinkButton>
+                        <Button className="w-full xl:w-fit" href={`/${lang}/studio`} size="sm" variant="shimmer">
+                            {translate("generic.start_now")}
+                        </Button>
+                        <Button className="w-full xl:w-fit" href={`/${lang}/blog/enchant-configurator`} size="sm" variant="transparent">
+                            {translate("generic.learn_more")}
+                        </Button>
                     </div>
                 </Box>
                 <Box loading="lazy" image="/images/features/title/cycle.webp">
                     <h2 className="text-white text-xl md:text-2xl font-bold text-left line-clamp-1 pt-8">
-                        {dictionary.home.converter.title}
+                        {translate("home.converter.title")}
                     </h2>
-                    <p className="text-zinc-400 text-sm md:text-base mt-2 line-clamp-3">{dictionary.home.converter.description}</p>
+                    <p className="text-zinc-400 text-sm md:text-base mt-2 line-clamp-3">{translate("home.converter.description")}</p>
                     <div className="flex flex-wrap gap-2 mt-6">
-                        <LinkButton className="w-full xl:w-fit" href={`/${lang}/converter`} size="sm" variant="shimmer">
-                            {dictionary.generic.start_now}
-                        </LinkButton>
-                        <LinkButton className="w-full xl:w-fit" href={`/${lang}/converter`} size="sm" variant="transparent">
-                            {dictionary.generic.learn_more}
-                        </LinkButton>
+                        <Button className="w-full xl:w-fit" href={`/${lang}/converter`} size="sm" variant="shimmer">
+                            {translate("generic.start_now")}
+                        </Button>
+                        <Button className="w-full xl:w-fit" href={`/${lang}/converter`} size="sm" variant="transparent">
+                            {translate("generic.learn_more")}
+                        </Button>
                     </div>
                 </Box>
                 <Box loading="lazy" image="/images/branding/voxel_white.webp">
                     <h2 className="text-white text-xl md:text-2xl font-bold text-left line-clamp-1 pt-8">
-                        {dictionary.home.migration.title}
+                        {translate("home.migration.title")}
                     </h2>
-                    <p className="text-zinc-400 text-sm md:text-base mt-2 line-clamp-3">{dictionary.home.migration.description}</p>
+                    <p className="text-zinc-400 text-sm md:text-base mt-2 line-clamp-3">{translate("home.migration.description")}</p>
                     <div className="flex flex-wrap gap-2 mt-6">
-                        <LinkButton className="w-full xl:w-fit" href={`/${lang}/migration`} size="sm" variant="shimmer">
-                            {dictionary.generic.start_now}
-                        </LinkButton>
-                        <LinkButton className="w-full xl:w-fit" href={`/${lang}/migration`} size="sm" variant="transparent">
-                            {dictionary.generic.learn_more}
-                        </LinkButton>
+                        <Button className="w-full xl:w-fit" href={`/${lang}/migration`} size="sm" variant="shimmer">
+                            {translate("generic.start_now")}
+                        </Button>
+                        <Button className="w-full xl:w-fit" href={`/${lang}/migration`} size="sm" variant="transparent">
+                            {translate("generic.learn_more")}
+                        </Button>
                     </div>
                 </Box>
                 <Box loading="lazy" image="/images/features/title/question_mark.webp">
                     <h2 className="text-white text-xl md:text-2xl font-bold text-left line-clamp-1 pt-8">
-                        {dictionary.home.copilot.title}
+                        {translate("home.copilot.title")}
                     </h2>
-                    <p className="text-zinc-400 text-sm md:text-base mt-2 line-clamp-3">{dictionary.home.copilot.description}</p>
+                    <p className="text-zinc-400 text-sm md:text-base mt-2 line-clamp-3">{translate("home.copilot.description")}</p>
                     <div className="flex flex-wrap gap-2 mt-6">
-                        <LinkButton className="w-full xl:w-fit" href="#" size="sm" variant="shimmer">
-                            {dictionary.generic.start_now}
-                        </LinkButton>
-                        <LinkButton className="w-full xl:w-fit" href="#" size="sm" variant="transparent">
-                            {dictionary.generic.learn_more}
-                        </LinkButton>
+                        <Button className="w-full xl:w-fit" href="#" size="sm" variant="shimmer">
+                            {translate("generic.start_now")}
+                        </Button>
+                        <Button className="w-full xl:w-fit" href="#" size="sm" variant="transparent">
+                            {translate("generic.learn_more")}
+                        </Button>
                     </div>
                 </Box>
             </section>

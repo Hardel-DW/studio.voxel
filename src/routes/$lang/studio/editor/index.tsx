@@ -3,7 +3,7 @@ import { Fragment } from "react/jsx-runtime";
 import { ToolNavItem } from "@/components/tools/concept/home/ToolNavItem";
 import { CONCEPTS } from "@/components/tools/elements";
 import { useConfiguratorStore } from "@/components/tools/Store";
-import { LinkButton } from "@/components/ui/Button";
+import { Button } from "@/components/ui/Button";
 import Translate from "@/components/ui/Translate";
 
 export const Route = createFileRoute("/$lang/studio/editor/")({
@@ -72,12 +72,12 @@ function EditorHomepage() {
                         </div>
 
                         <div className="flex flex-col gap-2">
-                            <LinkButton href={`/${lang}/guides`} variant="ghost_border" size="sm" className="px-8">
+                            <Button href={`/${lang}/guides`} variant="ghost_border" size="sm" className="px-8">
                                 <Translate content="welcome.help.guides" />
-                            </LinkButton>
-                            <LinkButton href={`/${lang}/guides`} variant="shimmer" size="sm" className="px-8">
+                            </Button>
+                            <Button href={`/${lang}/guides`} variant="shimmer" size="sm" className="px-8">
                                 <Translate content="welcome.help.discord" />
-                            </LinkButton>
+                            </Button>
                         </div>
                     </div>
                 </div>

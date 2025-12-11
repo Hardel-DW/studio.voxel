@@ -1,69 +1,69 @@
 import { Link, useParams } from "@tanstack/react-router";
-import { useServerDictionary } from "@/lib/hook/useServerDictionary";
+import { t } from "@/lib/i18n/i18n";
 
 export default function Footer() {
     const { lang } = useParams({ from: "/$lang" });
-    const dictionary = useServerDictionary();
+    const translate = t(lang);
     const footerContent = [
         {
-            name: dictionary.footer.content.navigation.self,
+            name: translate("footer.content.navigation.self"),
             links: [
                 {
-                    title: dictionary.footer.content.navigation.home,
+                    title: translate("footer.content.navigation.home"),
                     to: "/$lang"
                 },
                 {
-                    title: dictionary.footer.content.navigation.datapacks,
+                    title: translate("footer.content.navigation.datapacks"),
                     to: "/$lang/datapacks/neoenchant"
                 },
                 {
-                    title: dictionary.footer.content.navigation.guides,
+                    title: translate("footer.content.navigation.guides"),
                     to: "/$lang/soon"
                 },
                 {
-                    title: dictionary.footer.content.navigation.enchantment_tool,
+                    title: translate("footer.content.navigation.enchantment_tool"),
                     to: "/$lang/studio"
                 },
                 {
-                    title: dictionary.footer.content.navigation.contact,
+                    title: translate("footer.content.navigation.contact"),
                     to: "/$lang/contact"
                 }
             ]
         },
         {
-            name: dictionary.footer.content.other.self,
+            name: translate("footer.content.other.self"),
             links: [
                 {
-                    title: dictionary.footer.content.other.news,
+                    title: translate("footer.content.other.news"),
                     to: "/$lang/blog"
                 },
                 {
-                    title: dictionary.footer.content.other.faq,
+                    title: translate("footer.content.other.faq"),
                     to: "/$lang"
                 },
                 {
-                    title: dictionary.footer.content.other.about,
+                    title: translate("footer.content.other.about"),
                     to: "/$lang/soon"
                 }
             ]
         },
         {
-            name: dictionary.footer.content.support.self,
+            name: translate("footer.content.support.self"),
             links: [
                 {
-                    title: dictionary.footer.content.support.help_center,
+                    title: translate("footer.content.support.help_center"),
                     to: "/$lang/contact"
                 },
                 {
-                    title: dictionary.footer.content.support.term_of_service,
+                    title: translate("footer.content.support.term_of_service"),
                     to: "/terms"
                 },
                 {
-                    title: dictionary.footer.content.support.legal,
+                    title: translate("footer.content.support.legal"),
                     to: "/legal"
                 },
                 {
-                    title: dictionary.footer.content.support.privacy,
+                    title: translate("footer.content.support.privacy"),
                     to: "/privacy"
                 }
             ]
@@ -72,17 +72,17 @@ export default function Footer() {
 
     const socialLinks = [
         {
-            name: dictionary.footer.social.github,
+            name: translate("footer.social.github"),
             path: "https://github.com/Hardel-DW",
             icon: "github.svg"
         },
         {
-            name: dictionary.footer.social.twitter,
+            name: translate("footer.social.twitter"),
             path: "https://x.com/Hardel7401",
             icon: "x.svg"
         },
         {
-            name: dictionary.footer.social.discord,
+            name: translate("footer.social.discord"),
             path: "https://discord.gg/8z3tkQhay7",
             icon: "discord.svg"
         }
@@ -99,7 +99,7 @@ export default function Footer() {
                             <span className="text-s text-zinc-300 font-semibold">Labs</span>
                         </div>
                     </Link>
-                    <p className="mt-4 text-sm text-zinc-400 tracking-tight font-light max-w-xs">{dictionary.footer.description}</p>
+                    <p className="mt-4 text-sm text-zinc-400 tracking-tight font-light max-w-xs">{translate("footer.description")}</p>
                     <div className="flex gap-3 mt-4 items-center">
                         {socialLinks.map((item) => (
                             <a
@@ -136,7 +136,7 @@ export default function Footer() {
 
             <div className="mt-8 text-center text-zinc-400 text-sm">
                 <p className="text-sm mt-2 tracking-tight">
-                    {dictionary.footer.copyright_left} {new Date().getFullYear()} {dictionary.footer.copyright_right}
+                    {translate("footer.copyright_left")} {new Date().getFullYear()} {translate("footer.copyright_right")}
                 </p>
             </div>
         </footer>

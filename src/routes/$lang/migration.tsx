@@ -2,13 +2,13 @@ import { createFileRoute } from "@tanstack/react-router";
 import CompoundLayout from "@/components/layout/CompoundLayout";
 import MigrationEditor from "@/components/pages/migration/MigrationEditor";
 import PageLoading from "@/components/pages/PageLoading";
-import { LinkButton } from "@/components/ui/Button";
+import { Button } from "@/components/ui/Button";
 import { DashedPattern } from "@/components/ui/DashedPattern";
 import LineSetup from "@/components/ui/line/LineSetup";
 import ShiningStars from "@/components/ui/ShiningStars";
 import Star from "@/components/ui/Star";
 import Walkthrough from "@/components/ui/Walkthrough";
-import { useServerDictionary } from "@/lib/hook/useServerDictionary";
+import { t } from "@/lib/i18n/i18n";
 
 export const Route = createFileRoute("/$lang/migration")({
     component: MigrationPage,
@@ -17,20 +17,20 @@ export const Route = createFileRoute("/$lang/migration")({
 
 function MigrationPage() {
     const { lang } = Route.useParams();
-    const dictionary = useServerDictionary();
+    const translate = t(lang);
 
     const walkthroughSteps = [
         {
-            title: dictionary.migration.step1.title,
-            description: dictionary.migration.step1.description
+            title: translate("migration.step1.title"),
+            description: translate("migration.step1.description")
         },
         {
-            title: dictionary.migration.step2.title,
-            description: dictionary.migration.step2.description
+            title: translate("migration.step2.title"),
+            description: translate("migration.step2.description")
         },
         {
-            title: dictionary.migration.step3.title,
-            description: dictionary.migration.step3.description
+            title: translate("migration.step3.title"),
+            description: translate("migration.step3.description")
         }
     ];
 
@@ -64,13 +64,13 @@ function MigrationPage() {
                 <div className="w-3/4 mx-auto">
                     <div className="mb-16">
                         <h1 className="text-3xl md:text-5xl mb-4 font-semibold tracking-tight bg-clip-text text-transparent bg-linear-to-b from-white to-white/60">
-                            {dictionary.migration.home}
+                            {translate("migration.home")}
                         </h1>
-                        <p className="text-sm text-zinc-400 md:w-3/4 w-full mb-4">{dictionary.migration.home_description}</p>
+                        <p className="text-sm text-zinc-400 md:w-3/4 w-full mb-4">{translate("migration.home_description")}</p>
                         <ul className="list-disc list-inside text-sm text-zinc-400 w-3/4 mb-4">
-                            <li>{dictionary.migration.about.list.first}</li>
-                            <li>{dictionary.migration.about.list.second}</li>
-                            <li>{dictionary.migration.about.list.third}</li>
+                            <li>{translate("migration.about.list.first")}</li>
+                            <li>{translate("migration.about.list.second")}</li>
+                            <li>{translate("migration.about.list.third")}</li>
                         </ul>
                         <Star />
                     </div>
@@ -96,19 +96,19 @@ function MigrationPage() {
                 </div>
                 <div className="h-full w-full mx-auto relative">
                     <div className="size-full flex flex-col justify-center">
-                        <small className="text-pink-700 font-bold tracking-wide text-[16px]">{dictionary.generic.section}</small>
+                        <small className="text-pink-700 font-bold tracking-wide text-[16px]">{translate("generic.section")}</small>
                         <h1 className="text-white text-4xl md:text-6xl font-bold mt-4 text-balance">
-                            {dictionary.suggestions.studio.title}
+                            {translate("suggestions.studio.title")}
                         </h1>
-                        <p className="text-gray-300 mt-4">{dictionary.suggestions.studio.description}</p>
+                        <p className="text-gray-300 mt-4">{translate("suggestions.studio.description")}</p>
 
                         <div className="mt-8 flex flex-col md:flex-row gap-4">
-                            <LinkButton href={`/${lang}/studio`} size="xl" variant="primary" className="w-full md:w-auto">
-                                {dictionary.generic.start}
-                            </LinkButton>
-                            <LinkButton href={`/${lang}/studio`} size="xl" variant="ghost" className="w-full md:w-auto">
-                                {dictionary.generic.learn_more}
-                            </LinkButton>
+                            <Button href={`/${lang}/studio`} size="xl" variant="primary" className="w-full md:w-auto">
+                                {translate("generic.start")}
+                            </Button>
+                            <Button href={`/${lang}/studio`} size="xl" variant="ghost" className="w-full md:w-auto">
+                                {translate("generic.learn_more")}
+                            </Button>
                         </div>
                     </div>
                 </div>
@@ -121,17 +121,17 @@ function MigrationPage() {
                 <div className="h-full w-full mx-auto relative">
                     <div className="size-full flex flex-col justify-center">
                         <h1 className="text-white text-4xl md:text-6xl font-bold mt-4 text-balance">
-                            {dictionary.suggestions.converter.title}
+                            {translate("suggestions.converter.title")}
                         </h1>
-                        <p className="text-gray-300 mt-4">{dictionary.suggestions.converter.description}</p>
+                        <p className="text-gray-300 mt-4">{translate("suggestions.converter.description")}</p>
 
                         <div className="mt-8 flex flex-col md:flex-row gap-4">
-                            <LinkButton href={`/${lang}/studio`} size="xl" variant="shimmer" className="w-full md:w-auto">
-                                {dictionary.generic.take_a_look}
-                            </LinkButton>
-                            <LinkButton href={`/${lang}/studio`} size="xl" variant="ghost" className="w-full md:w-auto">
-                                {dictionary.generic.learn_more}
-                            </LinkButton>
+                            <Button href={`/${lang}/studio`} size="xl" variant="shimmer" className="w-full md:w-auto">
+                                {translate("generic.take_a_look")}
+                            </Button>
+                            <Button href={`/${lang}/studio`} size="xl" variant="ghost" className="w-full md:w-auto">
+                                {translate("generic.learn_more")}
+                            </Button>
                         </div>
                     </div>
                 </div>

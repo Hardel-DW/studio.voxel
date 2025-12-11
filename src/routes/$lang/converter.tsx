@@ -2,12 +2,12 @@ import { createFileRoute } from "@tanstack/react-router";
 import CompoundLayout from "@/components/layout/CompoundLayout";
 import ConverterEditor from "@/components/pages/converter/ConverterEditor";
 import PageLoading from "@/components/pages/PageLoading";
-import { LinkButton } from "@/components/ui/Button";
+import { Button } from "@/components/ui/Button";
 import { DashedPattern } from "@/components/ui/DashedPattern";
 import ShiningStars from "@/components/ui/ShiningStars";
 import Star from "@/components/ui/Star";
 import Walkthrough from "@/components/ui/Walkthrough";
-import { useServerDictionary } from "@/lib/hook/useServerDictionary";
+import { t } from "@/lib/i18n/i18n";
 
 export const Route = createFileRoute("/$lang/converter")({
     component: ConverterPage,
@@ -16,16 +16,16 @@ export const Route = createFileRoute("/$lang/converter")({
 
 function ConverterPage() {
     const { lang } = Route.useParams();
-    const dictionary = useServerDictionary();
+    const translate = t(lang);
 
     const walkthroughSteps = [
         {
-            title: dictionary.converter.step1.title,
-            description: dictionary.converter.step1.description
+            title: translate("converter.step1.title"),
+            description: translate("converter.step1.description")
         },
         {
-            title: dictionary.converter.step2.title,
-            description: dictionary.converter.step2.description
+            title: translate("converter.step2.title"),
+            description: translate("converter.step2.description")
         }
     ];
 
@@ -58,14 +58,14 @@ function ConverterPage() {
                 <div className="w-3/4 mx-auto">
                     <div className="mb-16">
                         <h1 className="text-3xl md:text-5xl mb-4 font-semibold tracking-tight bg-clip-text text-transparent bg-linear-to-b from-white to-white/60">
-                            {dictionary.converter.home}
+                            {translate("converter.home")}
                         </h1>
-                        <p className="text-sm text-zinc-400 md:w-3/4 w-full mb-4">{dictionary.converter.description}</p>
+                        <p className="text-sm text-zinc-400 md:w-3/4 w-full mb-4">{translate("converter.description")}</p>
                         <ul className="list-disc list-inside text-sm text-zinc-400 w-3/4 mb-4">
-                            <li>{dictionary.converter.description_list["1"]}</li>
-                            <li>{dictionary.converter.description_list["2"]}</li>
+                            <li>{translate("converter.description_list.1")}</li>
+                            <li>{translate("converter.description_list.2")}</li>
                         </ul>
-                        <p className="text-sm text-zinc-400 md:w-3/4 w-full mb-4">{dictionary.converter.instruction}</p>
+                        <p className="text-sm text-zinc-400 md:w-3/4 w-full mb-4">{translate("converter.instruction")}</p>
                         <Star />
                     </div>
 
@@ -90,19 +90,19 @@ function ConverterPage() {
                 </div>
                 <div className="h-full w-full mx-auto relative">
                     <div className="size-full flex flex-col justify-center">
-                        <small className="text-pink-700 font-bold tracking-wide text-[16px]">{dictionary.generic.section}</small>
+                        <small className="text-pink-700 font-bold tracking-wide text-[16px]">{translate("generic.section")}</small>
                         <h1 className="text-white text-4xl md:text-6xl font-bold mt-4 text-balance">
-                            {dictionary.suggestions.studio.title}
+                            {translate("suggestions.studio.title")}
                         </h1>
-                        <p className="text-gray-300 mt-4">{dictionary.suggestions.studio.description}</p>
+                        <p className="text-gray-300 mt-4">{translate("suggestions.studio.description")}</p>
 
                         <div className="mt-8 flex flex-col md:flex-row gap-4">
-                            <LinkButton href={`/${lang}/tools/studio`} size="xl" variant="primary" className="w-full md:w-auto">
-                                {dictionary.generic.start}
-                            </LinkButton>
-                            <LinkButton href={`/${lang}/tools/studio`} size="xl" variant="ghost" className="w-full md:w-auto">
-                                {dictionary.generic.learn_more}
-                            </LinkButton>
+                            <Button href={`/${lang}/tools/studio`} size="xl" variant="primary" className="w-full md:w-auto">
+                                {translate("generic.start")}
+                            </Button>
+                            <Button href={`/${lang}/tools/studio`} size="xl" variant="ghost" className="w-full md:w-auto">
+                                {translate("generic.learn_more")}
+                            </Button>
                         </div>
                     </div>
                 </div>
@@ -115,17 +115,17 @@ function ConverterPage() {
                 <div className="h-full w-full mx-auto relative">
                     <div className="size-full flex flex-col justify-center">
                         <h1 className="text-white text-4xl md:text-6xl font-bold mt-4 text-balance">
-                            {dictionary.suggestions.datapacks.title}
+                            {translate("suggestions.datapacks.title")}
                         </h1>
-                        <p className="text-gray-300 mt-4">{dictionary.suggestions.datapacks.description}</p>
+                        <p className="text-gray-300 mt-4">{translate("suggestions.datapacks.description")}</p>
 
                         <div className="mt-8 flex flex-col md:flex-row gap-4">
-                            <LinkButton href={`/${lang}/tools/studio`} size="xl" variant="shimmer" className="w-full md:w-auto">
-                                {dictionary.generic.take_a_look}
-                            </LinkButton>
-                            <LinkButton href={`/${lang}/tools/studio`} size="xl" variant="ghost" className="w-full md:w-auto">
-                                {dictionary.generic.learn_more}
-                            </LinkButton>
+                            <Button href={`/${lang}/tools/studio`} size="xl" variant="shimmer" className="w-full md:w-auto">
+                                {translate("generic.take_a_look")}
+                            </Button>
+                            <Button href={`/${lang}/tools/studio`} size="xl" variant="ghost" className="w-full md:w-auto">
+                                {translate("generic.learn_more")}
+                            </Button>
                         </div>
                     </div>
                 </div>

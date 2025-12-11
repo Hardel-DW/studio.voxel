@@ -16,14 +16,7 @@ const Box = ({ image, loading, className, children, ...props }: Props) => {
             )}
             {...props}>
             <div className="flex justify-center h-full">
-                <img
-                    loading={loading}
-                    width="500"
-                    height="500"
-                    src={image}
-                    alt="404"
-                    className="size-48 pixelated select-none self-center group-hover:animate-levitate duration-200"
-                />
+                <img loading={loading} width="500" height="500" src={image} alt="404" className="size-48 pixelated select-none self-center group-hover:animate-levitate duration-200" />
             </div>
 
             <div>

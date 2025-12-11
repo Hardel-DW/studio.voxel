@@ -49,14 +49,33 @@ function RecipeLayout() {
         <div className="flex size-full overflow-hidden relative z-10 isolate">
             <EditorSidebar title="recipe:overview.title" icon={RECIPE_ICON} linkTo="/$lang/studio/editor/recipe/overview">
                 <div className="space-y-1 mt-4">
-                    <SidebarButton icon="/icons/pencil.svg" count={modifiedCount} disabled={modifiedCount === 0} to="/$lang/studio/editor/recipe/changes" params={{ lang }}> Updated</SidebarButton>
-                    <SidebarButton icon="/icons/search.svg" count={tree.count} isActive={filterPath === ""} onClick={() => setFilterPath("")}> All</SidebarButton>
+                    <SidebarButton
+                        icon="/icons/pencil.svg"
+                        count={modifiedCount}
+                        disabled={modifiedCount === 0}
+                        to="/$lang/studio/editor/recipe/changes"
+                        params={{ lang }}>
+                        Updated
+                    </SidebarButton>
+                    <SidebarButton
+                        icon="/icons/search.svg"
+                        count={tree.count}
+                        isActive={filterPath === ""}
+                        onClick={() => setFilterPath("")}>
+                        All
+                    </SidebarButton>
                     <FileTree tree={tree} activePath={filterPath} onSelect={handleTreeSelect} folderIcons={RECIPE_FOLDER_ICONS} />
                 </div>
             </EditorSidebar>
 
             <main className="flex-1 flex flex-col min-w-0 min-h-0 overflow-hidden relative bg-zinc-950">
-                <EditorHeader fallbackTitle="Recipe" identifier={recipe?.identifier} filterPath={filterPath} isOverview={isOverview} onBack={handleBack} />
+                <EditorHeader
+                    fallbackTitle="Recipe"
+                    identifier={recipe?.identifier}
+                    filterPath={filterPath}
+                    isOverview={isOverview}
+                    onBack={handleBack}
+                />
                 <Outlet />
             </main>
         </div>

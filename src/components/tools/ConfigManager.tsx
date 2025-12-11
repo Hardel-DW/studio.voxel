@@ -1,7 +1,7 @@
 import { useParams } from "@tanstack/react-router";
 import type { PropsWithChildren } from "react";
 import { useConfiguratorStore } from "@/components/tools/Store";
-import { LinkButton } from "@/components/ui/Button";
+import { Button } from "@/components/ui/Button";
 import Translate from "@/components/ui/Translate";
 import RestoreLastSession from "./RestoreLastSession";
 
@@ -25,9 +25,9 @@ export default function ConfigManager(props: PropsWithChildren) {
             </div>
             <div className="flex gap-4">
                 <RestoreLastSession />
-                <LinkButton variant="ghost_border" size="sm" href={`/${lang}/studio`}>
+                <Button variant="ghost_border" size="sm" href={`/${lang}/studio`}>
                     <Translate content="back" />
-                </LinkButton>
+                </Button>
             </div>
         </div>
     );

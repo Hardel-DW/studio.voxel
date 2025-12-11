@@ -1,5 +1,5 @@
 import type { ToolRevealCardData } from "@/components/tools/elements/ToolReveal";
-import { LinkButton } from "@/components/ui/Button";
+import { Button } from "@/components/ui/Button";
 import Translate from "@/components/ui/Translate";
 import { cn } from "@/lib/utils";
 
@@ -20,7 +20,7 @@ const ToolRevealElement = function ToolRevealElement({ element, isSelected, onSe
             onKeyDown={handleClick}
             className="transition-all stack group cursor-pointer rounded-2xl border border-zinc-800">
             <div className="relative z-50 self-start justify-self-end p-4">
-                <LinkButton
+                <Button
                     variant="shimmer"
                     href={element.href}
                     target="_blank"
@@ -29,7 +29,7 @@ const ToolRevealElement = function ToolRevealElement({ element, isSelected, onSe
                         "opacity-50 hover:opacity-50": element.soon
                     })}>
                     <Translate content={element.soon ? "soon" : "more"} />
-                </LinkButton>
+                </Button>
             </div>
             <div className="bg-shadow-bottom rounded-2xl relative z-10" />
             <div

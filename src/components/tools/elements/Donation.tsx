@@ -1,4 +1,4 @@
-import { LinkButton } from "@/components/ui/Button";
+import { Button } from "@/components/ui/Button";
 import type { TranslateTextType } from "@/components/ui/Translate";
 import Translate from "@/components/ui/Translate";
 import type { BaseComponent } from "@/lib/hook/useBreezeElement";
@@ -53,15 +53,15 @@ export default function Donation(props: ToolDonationType) {
                             </ul>
                         </div>
                         <div className="flex lg:flex-row flex-col lg:flex-none self-end relative z-10 gap-4 pt-8">
-                            <LinkButton
+                            <Button
                                 className="w-full flex-1 px-8"
                                 target="_blank"
                                 rel="noreferrer"
                                 href={props.tipText.link}
                                 variant="shimmer">
                                 <Translate content={props.tipText.text} />
-                            </LinkButton>
-                            <LinkButton
+                            </Button>
+                            <Button
                                 className="w-full flex-1 px-8"
                                 variant="patreon"
                                 href={props.patreon.link}
@@ -69,7 +69,7 @@ export default function Donation(props: ToolDonationType) {
                                 rel="noreferrer">
                                 <img src="/icons/company/patreon.svg" alt="Patreon" className="w-4 h-4" />
                                 <Translate content={props.patreon.text} />
-                            </LinkButton>
+                            </Button>
                         </div>
                     </div>
                 </div>
