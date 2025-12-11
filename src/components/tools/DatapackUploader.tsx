@@ -45,7 +45,9 @@ export default function DatapackUploader() {
                 <p className="text-zinc-200 font-medium text-xl group-hover:text-white transition-colors">
                     {translate("studio.upload.start")}
                 </p>
-                <p className="text-sm text-zinc-500 group-hover:text-zinc-400 transition-colors">{translate("studio.upload.description")}</p>
+                <p className="text-sm text-zinc-500 group-hover:text-zinc-400 transition-colors">
+                    {translate("studio.upload.description")}
+                </p>
             </div>
         </Dropzone>
     );

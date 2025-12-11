@@ -41,7 +41,6 @@ const questions = (lang: string) => {
             answer: translate("studio.questions.values.5.answer")
         }
     ];
-
 };
 
 function StudioLayout() {

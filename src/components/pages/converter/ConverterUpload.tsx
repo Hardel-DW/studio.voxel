@@ -1,6 +1,6 @@
+import { useParams } from "@tanstack/react-router";
 import Dropzone from "@/components/ui/Dropzone";
 import { t } from "@/lib/i18n/i18n";
-import { useParams } from "@tanstack/react-router";
 
 interface ConverterUploadProps {
     onFileUpload: (files: FileList) => void;

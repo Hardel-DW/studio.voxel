@@ -7,7 +7,6 @@ export const Route = createFileRoute("/$lang")({
 });
 
 function LangLayout() {
-
     return (
         <div className="antialiased">
             <Outlet />

@@ -19,7 +19,9 @@ export default function SimpleLayout({ children }: { children: React.ReactNode }
             <LineSetup />
 
             <div className="-z-10 absolute inset-0 scale-110">
-                <svg className="size-full stroke-white/10 [stroke-dasharray:5_6] [stroke-dashoffset:10] stroke-2" style={{ transform: "skewY(-12deg)" }}>
+                <svg
+                    className="size-full stroke-white/10 [stroke-dasharray:5_6] [stroke-dashoffset:10] stroke-2"
+                    style={{ transform: "skewY(-12deg)" }}>
                     <defs>
                         <pattern id="grid" viewBox="0 0 64 64" width="32" height="32" patternUnits="userSpaceOnUse" x="0" y="0">
                             <path d="M64 0H0V64" fill="none" />

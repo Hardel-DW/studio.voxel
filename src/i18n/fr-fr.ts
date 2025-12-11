@@ -13,7 +13,8 @@ export const frFr = {
     "generic.zoom_in": "Zoomer",
     "generic.zoom_out": "Dézoomer",
     "generic.error_occurred": "Une erreur est survenue",
-    "generic.something_went_wrong": "Une erreur est survenue, veuillez revenir à la page d'accueil ou contacter le support si vous pensez que c'est une erreur.",
+    "generic.something_went_wrong":
+        "Une erreur est survenue, veuillez revenir à la page d'accueil ou contacter le support si vous pensez que c'est une erreur.",
     "generic.go_to_home": "Retour à l'accueil",
     "generic.unexpected_error": "Une erreur inattendue est survenue",
     "repository.loading": "Chargement des repositories...",
@@ -35,20 +36,25 @@ export const frFr = {
     "auth.success.title": "Succès",
     "auth.success.description": "Vous pouvez fermer cet onglet",
     "home.title": "Prend le contrôle",
-    "home.description": "est un projet qui offre des outils de personnalisation pour le contenu Minecraft avec des interfaces intuitives, pour le tout public.",
+    "home.description":
+        "est un projet qui offre des outils de personnalisation pour le contenu Minecraft avec des interfaces intuitives, pour le tout public.",
     "home.subtitle": "est pour tous, joueurs, créateurs, développeurs...",
     "home.marketplace.title": "Marketplace",
-    "home.marketplace.description": "Un marketplace pour le contenu Minecraft, avec une interface simple et intuitive, pour le tout public.",
+    "home.marketplace.description":
+        "Un marketplace pour le contenu Minecraft, avec une interface simple et intuitive, pour le tout public.",
     "home.button.start": "Commencer",
     "home.button.learn_more": "En savoir plus",
     "home.migration.title": "Migration de Datapack",
     "home.migration.description": "Migre ton contenu modifié par le configurateur vers une versions différente du même contenu.",
     "home.configurator.title": "Voxel Studio",
-    "home.configurator.description": "Un outil pour modifier le contenu des DATAPACKS avec l'interface la plus simple et intuitive qui nécessite aucune connaissance en développement.",
+    "home.configurator.description":
+        "Un outil pour modifier le contenu des DATAPACKS avec l'interface la plus simple et intuitive qui nécessite aucune connaissance en développement.",
     "home.converter.title": "Convertisseur Datapack/Mods",
-    "home.converter.description": "Convertissez vos datapacks en mods Forge, Fabric, Quilt et NeoForge facilement avec notre outil en ligne.",
+    "home.converter.description":
+        "Convertissez vos datapacks en mods Forge, Fabric, Quilt et NeoForge facilement avec notre outil en ligne.",
     "home.copilot.title": "Bientôt",
-    "home.copilot.description": "Cette fonctionnalité arrivera bientôt, elle permettra d'obtenir un wikis automatique pour le contenu d'un mods ou d'un datapack sans avoir besoin de l'installer.",
+    "home.copilot.description":
+        "Cette fonctionnalité arrivera bientôt, elle permettra d'obtenir un wikis automatique pour le contenu d'un mods ou d'un datapack sans avoir besoin de l'installer.",
     "navbar.logout": "Se déconnecter",
     "navbar.item.blog": "Blog",
     "navbar.item.data_pack": "Datapacks",
@@ -62,7 +68,8 @@ export const frFr = {
     "navbar.datapack.yggdrasil.title": "Yggdrasil",
     "navbar.datapack.yggdrasil.description": "Explorez des structures d'une difficulté extrême",
     "navbar.resources.studio.title": "Voxel Studio - Configurator",
-    "navbar.resources.studio.description": "Prenez des datapacks existants ou des mods et configurez-les avec une interface simple et conviviale",
+    "navbar.resources.studio.description":
+        "Prenez des datapacks existants ou des mods et configurez-les avec une interface simple et conviviale",
     "navbar.resources.harmonization.title": "Harmonisation",
     "navbar.resources.harmonization.description": "Un outil pour harmoniser les couleurs des textures",
     "navbar.resources.asset.title": "Marketplace",
@@ -78,8 +85,10 @@ export const frFr = {
     "harmonization.thumbnail": "Miniature {index}",
     "harmonization.remove_image": "Supprimer l'image {index}",
     "harmonization.title": "Harmonisation",
-    "harmonization.description": "Cet outil vous permet d'harmoniser une texture en extrayant ses couleurs et en quantifiant l'image pour réduire la palette.",
-    "harmonization.small": "Par exemple, vous pouvez utiliser cet outil pour améliorer le résultat d'une texture générée par un modèle génératif.",
+    "harmonization.description":
+        "Cet outil vous permet d'harmoniser une texture en extrayant ses couleurs et en quantifiant l'image pour réduire la palette.",
+    "harmonization.small":
+        "Par exemple, vous pouvez utiliser cet outil pour améliorer le résultat d'une texture générée par un modèle génératif.",
     "harmonization.no_images": "Aucune image n'a été déposée",
     "harmonization.drop": "Déposez votre image ici ou cliquez pour en sélectionner une",
     "harmonization.similarity": "Seuil de similarité :",
@@ -91,7 +100,8 @@ export const frFr = {
     "harmonization.drop_description": "PNG, JPG, WEBP • Max 5MB",
     "studio.section": "- VOXEL",
     "studio.title": "Voxel Studio",
-    "studio.description": "Un outil pour modifier le contenu des DATAPACKS avec l'interface la plus simple et intuitive qui nécessite aucune connaissance en développement.",
+    "studio.description":
+        "Un outil pour modifier le contenu des DATAPACKS avec l'interface la plus simple et intuitive qui nécessite aucune connaissance en développement.",
     "studio.latest_update": "Voir les dernières mises à jour",
     "studio.faq": "FAQ",
     "studio.success.loaded": "Succès lors du chargement de {file}",
@@ -114,29 +124,38 @@ export const frFr = {
     "studio.upload.drop": "ou glissez et déposez",
     "studio.upload.description": "Glissez votre contenu ici pour commencer à configurer",
     "studio.questions.values.0.question": "Pour quoi cet outil ?",
-    "studio.questions.values.0.answer": "Cet outil est conçu pour modifier les enchantements des contenus existants, tels que NeoEnchant+, Dungeons & Taverns, ou tout autre pack, avec l'interface la plus simple et intuitive qui nécessite aucune connaissance en développement.",
+    "studio.questions.values.0.answer":
+        "Cet outil est conçu pour modifier les enchantements des contenus existants, tels que NeoEnchant+, Dungeons & Taverns, ou tout autre pack, avec l'interface la plus simple et intuitive qui nécessite aucune connaissance en développement.",
     "studio.questions.values.1.question": "Minecraft Java Edition ou Bedrock Edition ?",
     "studio.questions.values.1.answer": "Cet outil est conçu pour Minecraft Java Edition. Bedrock Edition n'est pas supporté.",
     "studio.questions.values.2.question": "Comment m'y prendre ?",
-    "studio.questions.values.2.answer": "Glissez simplement du contenu existant dans la zone grise. Vous pouvez également modifier le contenu de base de Minecraft en utilisant le bouton blanc.",
+    "studio.questions.values.2.answer":
+        "Glissez simplement du contenu existant dans la zone grise. Vous pouvez également modifier le contenu de base de Minecraft en utilisant le bouton blanc.",
     "studio.questions.values.3.question": "Mods ou Datapacks ?",
-    "studio.questions.values.3.answer": "Cet outil est conçu pour supporter à la fois les datapacks et les mods (Forge, Fabric, NeoForge, Quilt).",
+    "studio.questions.values.3.answer":
+        "Cet outil est conçu pour supporter à la fois les datapacks et les mods (Forge, Fabric, NeoForge, Quilt).",
     "studio.questions.values.4.question": "Comment télécharger le contenu modifié ?",
-    "studio.questions.values.4.answer": "Lorsque vous êtes dans l'interface de configuration, dans le coin inférieur gauche, vous trouverez un bouton de téléchargement blanc.",
+    "studio.questions.values.4.answer":
+        "Lorsque vous êtes dans l'interface de configuration, dans le coin inférieur gauche, vous trouverez un bouton de téléchargement blanc.",
     "studio.questions.values.5.question": "Si le contenu est mis à jour, dois-je tout refaire ?",
-    "studio.questions.values.5.answer": "Si vous souhaitez mettre à jour votre configuration vers une version différente du travail original, il existe un outil de migration.",
+    "studio.questions.values.5.answer":
+        "Si vous souhaitez mettre à jour votre configuration vers une version différente du travail original, il existe un outil de migration.",
     "converter.seo.title": "Convertisseur Datapack/Mods · Voxel",
-    "converter.seo.description": "Convertissez vos datapacks en mods Forge, Fabric, Quilt et NeoForge facilement avec notre outil en ligne.",
+    "converter.seo.description":
+        "Convertissez vos datapacks en mods Forge, Fabric, Quilt et NeoForge facilement avec notre outil en ligne.",
     "converter.home": "Convertisseur Datapack/Mods",
-    "converter.description": "Cet outil vous permet de convertir facilement vos datapacks Minecraft en mods pour différentes plateformes : Forge, Fabric, Quilt et NeoForge. Déposez simplement votre fichier ZIP et choisissez les plateformes cibles.",
+    "converter.description":
+        "Cet outil vous permet de convertir facilement vos datapacks Minecraft en mods pour différentes plateformes : Forge, Fabric, Quilt et NeoForge. Déposez simplement votre fichier ZIP et choisissez les plateformes cibles.",
     "converter.instruction": "Déposez votre fichier ZIP de datapack ici.",
     "converter.dropzone": "Déposez votre datapack dans le format ZIP ici",
     "converter.description_list.1": "Déposez votre fichier ZIP ici.",
-    "converter.description_list.2": "Le fichier .jar sera téléchargé et utilisable sur toutes les plateformes. (Forge, Fabric, Quilt, NeoForge)",
+    "converter.description_list.2":
+        "Le fichier .jar sera téléchargé et utilisable sur toutes les plateformes. (Forge, Fabric, Quilt, NeoForge)",
     "converter.step1.title": "Déposez votre fichier ZIP de datapack",
     "converter.step1.description": "Déposez votre fichier ZIP de datapack ici, il sera analysé et converti automatiquement.",
     "converter.step2.title": "Le téléchargement commence automatiquement",
-    "converter.step2.description": "Le fichier .jar sera téléchargé et utilisable sur toutes les plateformes. (Forge, Fabric, Quilt, NeoForge)",
+    "converter.step2.description":
+        "Le fichier .jar sera téléchargé et utilisable sur toutes les plateformes. (Forge, Fabric, Quilt, NeoForge)",
     "converter.error": "Une erreur est survenue lors de la conversion",
     "converter.form.name": "Nom",
     "converter.form.description": "Description",
@@ -150,16 +169,19 @@ export const frFr = {
     "converter.form.change_file": "Changer le fichier",
     "converter.form.converting": "Conversion en cours...",
     "converter.form.advanced": "Options avancées",
-    "converter.form.advanced_description": "Cette information sera affichée dans la liste du mod sur Modrinth/CurseForge et dans le menu du mod de Minecraft.",
+    "converter.form.advanced_description":
+        "Cette information sera affichée dans la liste du mod sur Modrinth/CurseForge et dans le menu du mod de Minecraft.",
     "converter.form.download": "Télécharger le mod",
     "converter.form.download_disabled": "Conversion en cours...",
     "converter.form.authors_placeholder": "Tapez et appuyez sur Entrée pour ajouter",
     "migration.seo.title": "Migration de Datapack · Voxel",
-    "migration.seo.description": "Migrez votre mods ou datapacks, modifiés par le configurateur, vers une version différente, tout en gardant vos modifications actives.",
+    "migration.seo.description":
+        "Migrez votre mods ou datapacks, modifiés par le configurateur, vers une version différente, tout en gardant vos modifications actives.",
     "migration.box.success": "Succès",
     "migration.box.error": "Erreur",
     "migration.home": "Migration de Datapack",
-    "migration.home_description": "Migrez votre mods ou datapacks, modifiés par le configurateur, vers une version différente, tout en gardant vos modifications actives.",
+    "migration.home_description":
+        "Migrez votre mods ou datapacks, modifiés par le configurateur, vers une version différente, tout en gardant vos modifications actives.",
     "migration.source": "Votre datapack personnalisé par le configurateur",
     "migration.target": "Le datapack que vous voulez mettre à jour",
     "migration.drop.source": "Déposez votre datapack personnalisé par le configurateur dans cette case",
@@ -173,24 +195,31 @@ export const frFr = {
     "migration.error_types.no_logs": "Aucun fichier de migration n'a été trouvé dans le contenu",
     "migration.success_message": "Migration terminée avec succès",
     "migration.change": "Changer le Datapack/Mods",
-    "migration.success_info.additional_info": "Conseil rapide : Vous pouvez renommer n'importe quel mod ou datapack, cela n'affectera rien !",
-    "migration.about.text": "Cet outil vous permet de migrer d'un datapack/mods que vous avez personnalisé avec le configurateur vers une autre version du même projet, en gardant vos modifications actives sur la dernière version.",
+    "migration.success_info.additional_info":
+        "Conseil rapide : Vous pouvez renommer n'importe quel mod ou datapack, cela n'affectera rien !",
+    "migration.about.text":
+        "Cet outil vous permet de migrer d'un datapack/mods que vous avez personnalisé avec le configurateur vers une autre version du même projet, en gardant vos modifications actives sur la dernière version.",
     "migration.about.list.first": "Vous pouvez migrer vers n'importe quelle version, qu'elle soit nouvelle ou ancienne.",
     "migration.about.list.second": "Vous pouvez migrer d'un datapack vers un mods, ou vice versa.",
     "migration.about.list.third": "Cela fonctionne avec n'importe quel mods ou datapack.",
     "migration.about.title": "Explorez nos datapacks",
-    "migration.about.description": "Sur Modrinth, retrouvez tous nos datapacks, comme NeoEnchant qui ajoute des enchantements, Yggdrasil qui ajoute une histoire nordique avec des tonnes de structures !",
+    "migration.about.description":
+        "Sur Modrinth, retrouvez tous nos datapacks, comme NeoEnchant qui ajoute des enchantements, Yggdrasil qui ajoute une histoire nordique avec des tonnes de structures !",
     "migration.step1.title": "Déposez votre datapack modifié par le configurateur",
-    "migration.step1.description": "Déposez le datapack que vous avez modifié avec le configurateur ici, il sera automatiquement analysé et migré.",
+    "migration.step1.description":
+        "Déposez le datapack que vous avez modifié avec le configurateur ici, il sera automatiquement analysé et migré.",
     "migration.step2.title": "Déposez le datapack que vous voulez mettre à jour",
-    "migration.step2.description": "Déposez le datapack que vous voulez mettre à jour ici, et la configuration sera automatiquement appliquée à partir du pack que vous avez déposé à gauche.",
+    "migration.step2.description":
+        "Déposez le datapack que vous voulez mettre à jour ici, et la configuration sera automatiquement appliquée à partir du pack que vous avez déposé à gauche.",
     "migration.step3.title": "Migration terminée",
     "migration.step3.description": "Une fois la migration terminée, le datapack se télécharge automatiquement dans votre navigateur",
     "migration.error.failed_to_apply_changes": "Erreur lors de l'application des modifications de migration",
     "harmonization.no_image_selected": "Aucune image sélectionnée",
-    "harmonization.no_image_selected_description": "Téléchargez une image de votre appareil ou sélectionnez une image depuis la galerie pour commencer à harmoniser les couleurs.",
+    "harmonization.no_image_selected_description":
+        "Téléchargez une image de votre appareil ou sélectionnez une image depuis la galerie pour commencer à harmoniser les couleurs.",
     "harmonization.processing": "Traitement en cours...",
-    "footer.description": "VOXEL, qu'est-ce que c'est ? Ce sont des guides en français, du niveau débutant à avancé, pour apprendre à développer des mods ou enrichir vos connaissances existantes.",
+    "footer.description":
+        "VOXEL, qu'est-ce que c'est ? Ce sont des guides en français, du niveau débutant à avancé, pour apprendre à développer des mods ou enrichir vos connaissances existantes.",
     "footer.copyright_left": "Copyright ©",
     "footer.copyright_right": "Tous droits réservés.",
     "footer.social.github": "Github",
@@ -212,12 +241,15 @@ export const frFr = {
     "footer.content.support.legal": "Mentions légales",
     "footer.content.support.privacy": "Politique de confidentialité",
     "suggestions.studio.title": "Personnalisez votre expérience",
-    "suggestions.studio.description": "Découvrez le configurateur voxel pour personnaliser votre expérience de jeu. Il fonctionne avec n'importe quel packs, mais aussi avec n'importe quel mods.",
+    "suggestions.studio.description":
+        "Découvrez le configurateur voxel pour personnaliser votre expérience de jeu. Il fonctionne avec n'importe quel packs, mais aussi avec n'importe quel mods.",
     "suggestions.studio.button": "Personnaliser",
     "suggestions.converter.title": "Convertissez vos datapacks en mods",
-    "suggestions.converter.description": "Convertissez vos datapacks en mods Forge, Fabric, Quilt et NeoForge facilement avec notre outil en ligne.",
+    "suggestions.converter.description":
+        "Convertissez vos datapacks en mods Forge, Fabric, Quilt et NeoForge facilement avec notre outil en ligne.",
     "suggestions.converter.button": "Convertir",
     "suggestions.datapacks.title": "Explorez nos datapacks",
-    "suggestions.datapacks.description": "Sur Modrinth, trouvez tous nos datapacks, comme NeoEnchant qui ajoute des enchantements, Yggdrasil qui ajoute une histoire nordique avec des tonnes de structures !",
+    "suggestions.datapacks.description":
+        "Sur Modrinth, trouvez tous nos datapacks, comme NeoEnchant qui ajoute des enchantements, Yggdrasil qui ajoute une histoire nordique avec des tonnes de structures !",
     "suggestions.datapacks.button": "Explorer"
 } as const;

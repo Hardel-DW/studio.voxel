@@ -1,3 +1,4 @@
+import { useParams } from "@tanstack/react-router";
 import type { ModMetadata } from "@voxelio/converter";
 import { convertDatapack, ModPlatforms } from "@voxelio/converter";
 import { useState } from "react";
@@ -6,7 +7,6 @@ import { t } from "@/lib/i18n/i18n";
 import { cn } from "@/lib/utils";
 import { downloadFile } from "@/lib/utils/download";
 import { trackEvent } from "@/lib/utils/telemetry";
-import { useParams } from "@tanstack/react-router";
 
 interface Props {
     file: File;
@@ -96,7 +96,10 @@ export default function ConverterForm({ file, onFileChange, initialMetadata, ico
                             <h3 className="text-lg font-semibold text-white">{file.name}</h3>
                             <p className="text-sm text-zinc-500">{(file.size / 1024 / 1024).toFixed(2)} MB</p>
                         </div>
-                        <button type="button" onClick={onFileChange} className="text-xs font-medium text-zinc-400 hover:text-white bg-white/5 hover:bg-white/10 px-3 py-1.5 rounded-full transition-colors">
+                        <button
+                            type="button"
+                            onClick={onFileChange}
+                            className="text-xs font-medium text-zinc-400 hover:text-white bg-white/5 hover:bg-white/10 px-3 py-1.5 rounded-full transition-colors">
                             {translate("converter.form.change_file")}
                         </button>
                     </div>
@@ -166,7 +169,15 @@ export default function ConverterForm({ file, onFileChange, initialMetadata, ico
                                                 type="button"
                                                 onClick={() => removeAuthor(author)}
                                                 className="text-pink-300/50 hover:text-pink-300 cursor-pointer">
-                                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                                <svg
+                                                    width="14"
+                                                    height="14"
+                                                    viewBox="0 0 24 24"
+                                                    fill="none"
+                                                    stroke="currentColor"
+                                                    strokeWidth="2"
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round">
                                                     <line x1="18" y1="6" x2="6" y2="18" />
                                                     <line x1="6" y1="6" x2="18" y2="18" />
                                                 </svg>
@@ -216,7 +227,15 @@ export default function ConverterForm({ file, onFileChange, initialMetadata, ico
                     <div className="flex flex-col gap-1">
                         {error ? (
                             <p className="text-sm text-red-400 flex items-center gap-2">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="2"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round">
                                     <circle cx="12" cy="12" r="10" />
                                     <line x1="12" y1="8" x2="12" y2="12" />
                                     <line x1="12" y1="16" x2="12.01" y2="16" />
@@ -237,8 +256,20 @@ export default function ConverterForm({ file, onFileChange, initialMetadata, ico
                         {isConverting ? (
                             <span className="flex items-center gap-2">
                                 <svg className="animate-spin size-4" viewBox="0 0 24 24">
-                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
-                                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                                    <circle
+                                        className="opacity-25"
+                                        cx="12"
+                                        cy="12"
+                                        r="10"
+                                        stroke="currentColor"
+                                        strokeWidth="4"
+                                        fill="none"
+                                    />
+                                    <path
+                                        className="opacity-75"
+                                        fill="currentColor"
+                                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                                    />
                                 </svg>
                                 {translate("converter.form.converting")}
                             </span>

@@ -67,9 +67,7 @@ export default function RepositoryOpener() {
                 onClick={() => login({ redirect: true })}
                 className="w-full mt-8 flex items-center gap-x-2 shimmer-zinc-950 border border-zinc-800 text-white">
                 <img src="/icons/company/github.svg" alt="GitHub" className="size-4 invert" />
-                <span className="text-sm">
-                    {translate("repository.login_to_github")}
-                </span>
+                <span className="text-sm">{translate("repository.login_to_github")}</span>
             </Button>
         );
 
@@ -81,9 +79,7 @@ export default function RepositoryOpener() {
                     disabled={isLoggingIn || isLoadingRepos}
                     className="w-full mt-8 flex items-center gap-x-2">
                     <img src="/icons/company/github.svg" alt="GitHub" className="size-4" />
-                    <span className="text-sm">
-                        {translate(isLoggingIn ? "repository.loading" : "repository.open")}
-                    </span>
+                    <span className="text-sm">{translate(isLoggingIn ? "repository.loading" : "repository.open")}</span>
                 </Button>
             </DialogTrigger>
 
@@ -93,12 +89,8 @@ export default function RepositoryOpener() {
                         <div className="flex items-center gap-x-4">
                             <img src="/icons/company/github.svg" alt="GitHub" className="size-6 invert" />
                             <div className="flex flex-col">
-                                <span className="text-xl font-medium text-zinc-200">
-                                    {translate("repository.select")}
-                                </span>
-                                <p className="text-zinc-500 text-sm">
-                                    {translate("repository.select_description")}
-                                </p>
+                                <span className="text-xl font-medium text-zinc-200">{translate("repository.select")}</span>
+                                <p className="text-zinc-500 text-sm">{translate("repository.select_description")}</p>
                             </div>
                         </div>
                     </DialogTitle>
@@ -147,9 +139,7 @@ export default function RepositoryOpener() {
                 <DialogBody className="mt-4">
                     <div className="space-y-3">
                         {filteredRepositories.length === 0 ? (
-                            <div className="text-center py-8 text-zinc-400 text-sm">
-                                {translate("repository.no_results")}
-                            </div>
+                            <div className="text-center py-8 text-zinc-400 text-sm">{translate("repository.no_results")}</div>
                         ) : (
                             filteredRepositories.map((repo) => (
                                 <div
@@ -199,9 +189,7 @@ export default function RepositoryOpener() {
                         </DialogCloseButton>
                     </div>
 
-                    <DialogCloseButton variant="ghost">
-                        {translate("generic.close")}
-                    </DialogCloseButton>
+                    <DialogCloseButton variant="ghost">{translate("generic.close")}</DialogCloseButton>
                 </DialogFooter>
             </DialogContent>
         </Dialog>

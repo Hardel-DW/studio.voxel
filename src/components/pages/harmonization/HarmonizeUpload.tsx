@@ -1,7 +1,7 @@
+import { useParams } from "@tanstack/react-router";
 import Dropzone from "@/components/ui/Dropzone";
 import { t } from "@/lib/i18n/i18n";
 import { cn } from "@/lib/utils";
-import { useParams } from "@tanstack/react-router";
 
 interface HarmonizeUploadProps {
     onFileUpload: (files: FileList) => void;
@@ -29,7 +29,9 @@ export default function HarmonizeUpload({ onFileUpload, isCompact = false }: Har
                     <p className="text-zinc-200 font-medium text-lg group-hover:text-white transition-colors">
                         {translate("harmonization.drop")}
                     </p>
-                    <p className="text-sm text-zinc-500 group-hover:text-zinc-400 transition-colors">{translate("harmonization.drop_description")}</p>
+                    <p className="text-sm text-zinc-500 group-hover:text-zinc-400 transition-colors">
+                        {translate("harmonization.drop_description")}
+                    </p>
                 </div>
             </Dropzone>
         </div>

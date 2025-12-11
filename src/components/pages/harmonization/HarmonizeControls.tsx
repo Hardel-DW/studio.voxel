@@ -1,7 +1,7 @@
+import { useParams } from "@tanstack/react-router";
 import Range from "@/components/ui/Range";
 import { t } from "@/lib/i18n/i18n";
 import { type RGB, sortPaletteByHue } from "@/lib/utils/color";
-import { useParams } from "@tanstack/react-router";
 
 interface HarmonizeControlsProps {
     similarityThreshold?: number;

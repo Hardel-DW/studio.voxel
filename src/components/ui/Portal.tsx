@@ -6,7 +6,5 @@ function PortalContent({ children, container }: { children: ReactNode; container
 }
 
 export default function Portal({ children, container }: { children: ReactNode; container?: HTMLElement }) {
-    return (
-        <PortalContent container={container}>{children}</PortalContent>
-    );
+    return <PortalContent container={container}>{children}</PortalContent>;
 }

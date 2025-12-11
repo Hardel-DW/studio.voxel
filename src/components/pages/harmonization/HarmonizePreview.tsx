@@ -1,5 +1,5 @@
-import { type RefObject, useState } from "react";
 import { useParams } from "@tanstack/react-router";
+import { type RefObject, useState } from "react";
 import { t } from "@/lib/i18n/i18n";
 
 interface HarmonizePreviewProps {
@@ -40,7 +40,9 @@ export default function HarmonizePreview({ canvasRef, isLoading, hasData, hasIma
                 <div className="absolute inset-0 flex items-center justify-center z-20">
                     <div className="flex flex-col items-center gap-4 bg-black/40 backdrop-blur-xl p-8 rounded-3xl border border-white/10 shadow-2xl animate-in fade-in zoom-in duration-300">
                         <div className="size-12 border-4 border-white/10 border-t-pink-500 rounded-full animate-spin" />
-                        <p className="text-base font-medium text-white tracking-wide animate-pulse">{translate("harmonization.processing")}</p>
+                        <p className="text-base font-medium text-white tracking-wide animate-pulse">
+                            {translate("harmonization.processing")}
+                        </p>
                     </div>
                 </div>
             )}
@@ -54,9 +56,7 @@ export default function HarmonizePreview({ canvasRef, isLoading, hasData, hasIma
                         </div>
                         <div className="space-y-2">
                             <h3 className="text-xl font-semibold text-zinc-300">{translate("harmonization.no_image_selected")}</h3>
-                            <p className="text-sm text-zinc-500">
-                                {translate("harmonization.no_image_selected_description")}
-                            </p>
+                            <p className="text-sm text-zinc-500">{translate("harmonization.no_image_selected_description")}</p>
                         </div>
                     </div>
                 </div>

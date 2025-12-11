@@ -1,7 +1,7 @@
 import { DatapackDownloader } from "@voxelio/breeze";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import SettingsDialog from "@/components/tools/sidebar/SettingsDialog";
-import { Button, Button } from "@/components/ui/Button";
+import { Button } from "@/components/ui/Button";
 import {
     Dialog,
     DialogCloseButton,
@@ -59,11 +59,7 @@ export default function DownloadButton() {
                         <DialogCloseButton variant="ghost">
                             <Translate content="close" />
                         </DialogCloseButton>
-                        <Button
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            href="https://streamelements.com/hardoudou/tip"
-                            variant="patreon">
+                        <Button target="_blank" rel="noopener noreferrer" href="https://streamelements.com/hardoudou/tip" variant="patreon">
                             <Translate content="donate" />
                         </Button>
                     </div>

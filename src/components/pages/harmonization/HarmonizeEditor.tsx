@@ -1,3 +1,4 @@
+import { useParams } from "@tanstack/react-router";
 import { useRef, useState } from "react";
 import HarmonizeControls from "@/components/pages/harmonization/HarmonizeControls";
 import HarmonizeGallery from "@/components/pages/harmonization/HarmonizeGallery";
@@ -5,10 +6,9 @@ import HarmonizePreview from "@/components/pages/harmonization/HarmonizePreview"
 import HarmonizeUpload from "@/components/pages/harmonization/HarmonizeUpload";
 import useFileManager from "@/lib/hook/useFileManager";
 import useImageProcessor from "@/lib/hook/useImageProcessor";
+import { t } from "@/lib/i18n/i18n";
 import { cleanPalette, loadImage, quantizeImage, type RGB } from "@/lib/utils/color";
 import { downloadCanvas } from "@/lib/utils/download";
-import { t } from "@/lib/i18n/i18n";
-import { useParams } from "@tanstack/react-router";
 
 export default function HarmonizeEditor() {
     const [similarityThreshold, setSimilarityThreshold] = useState<number>(30);
@@ -157,7 +157,9 @@ export default function HarmonizeEditor() {
                 <div className="bg-zinc-900/60 backdrop-blur-md rounded-3xl border border-white/5 p-6 shadow-xl flex flex-col gap-6 min-h-[300px]">
                     {!hasImage ? (
                         <div className="flex-1 flex flex-col">
-                            <p className="text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-3 px-1">{translate("harmonization.uploaded_images")}</p>
+                            <p className="text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-3 px-1">
+                                {translate("harmonization.uploaded_images")}
+                            </p>
                             <HarmonizeUpload onFileUpload={handleFileUpload} />
                         </div>
                     ) : (

@@ -36,11 +36,23 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     size?: keyof typeof variants.size;
     href?: string;
     to?: string;
+    target?: string;
     params?: Record<string, string>;
     search?: Record<string, unknown>;
 }
 
-export function Button({ variant = "default", size = "default", className, href, to, params, search, children, ...rest }: ButtonProps) {
+export function Button({
+    variant = "default",
+    size = "default",
+    className,
+    href,
+    to,
+    params,
+    search,
+    target,
+    children,
+    ...rest
+}: ButtonProps) {
     const baseClassName = cn([
         "rounded-xl inline-flex items-center justify-center whitespace-nowrap cursor-pointer truncate text-sm font-medium ring-offset-background transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
         variants.variant[variant],
@@ -58,7 +70,7 @@ export function Button({ variant = "default", size = "default", className, href,
 
     if (href) {
         return (
-            <a href={href} className={baseClassName} {...(rest as React.AnchorHTMLAttributes<HTMLAnchorElement>)}>
+            <a href={href} target={target} className={baseClassName} {...(rest as React.AnchorHTMLAttributes<HTMLAnchorElement>)}>
                 {children}
             </a>
         );

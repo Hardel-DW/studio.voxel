@@ -1,6 +1,6 @@
 import { useRouterState } from "@tanstack/react-router";
+import { type Locale, supportedLocales } from "@/lib/i18n/i18n";
 import { cn } from "@/lib/utils";
-import { Locale, supportedLocales } from "@/lib/i18n/i18n";
 
 export default function Internalization() {
     const routerState = useRouterState();

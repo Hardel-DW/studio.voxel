@@ -1,8 +1,8 @@
+import { useParams } from "@tanstack/react-router";
 import { getMinecraftVersion } from "@voxelio/breeze";
 import { Button } from "@/components/ui/Button";
 import { t } from "@/lib/i18n/i18n";
 import { cn } from "@/lib/utils";
-import { useParams } from "@tanstack/react-router";
 
 interface StatusBoxProps {
     files: FileList;

@@ -1,3 +1,4 @@
+import { useParams } from "@tanstack/react-router";
 import { compileDatapack, Datapack, DatapackDownloader, Logger } from "@voxelio/breeze";
 import { useRef, useState } from "react";
 import MigrationStatus from "@/components/pages/migration/MigrationStatus";
@@ -17,7 +18,6 @@ import { useConfetti } from "@/lib/hook/useConfetti";
 import { t } from "@/lib/i18n/i18n";
 import { downloadFile } from "@/lib/utils/download";
 import { trackEvent } from "@/lib/utils/telemetry";
-import { useParams } from "@tanstack/react-router";
 
 interface DatapackInfo {
     version: number;

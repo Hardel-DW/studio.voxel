@@ -1,5 +1,5 @@
-import type { FileState } from "@/lib/hook/useFileManager";
 import { useParams } from "@tanstack/react-router";
+import type { FileState } from "@/lib/hook/useFileManager";
 import { t } from "@/lib/i18n/i18n";
 
 interface HarmonizeGalleryProps {
@@ -15,7 +15,9 @@ export default function HarmonizeGallery({ files, onSelect, onDelete }: Harmoniz
 
     return (
         <div className="w-full overflow-hidden">
-            <p className="text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-3 px-1">{translate("harmonization.uploaded_images")}</p>
+            <p className="text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-3 px-1">
+                {translate("harmonization.uploaded_images")}
+            </p>
             <div className="flex gap-3 overflow-x-auto pb-4 min-h-24 items-center scrollbar-thin scrollbar-thumb-zinc-700 scrollbar-track-transparent px-1">
                 {files.items.map((file, index) => {
                     const key = file.name + file.lastModified;
@@ -27,9 +29,10 @@ export default function HarmonizeGallery({ files, onSelect, onDelete }: Harmoniz
                             key={key}
                             className={`
                                 relative group shrink-0 rounded-xl overflow-hidden transition-all duration-300 border
-                                ${isActive
-                                    ? "border-white/80 shadow-[0_0_15px_-3px_rgba(255,255,255,0.3)] scale-100 ring-1 ring-white/50"
-                                    : "border-white/10 hover:border-white/30 opacity-60 hover:opacity-100 scale-95 hover:scale-100"
+                                ${
+                                    isActive
+                                        ? "border-white/80 shadow-[0_0_15px_-3px_rgba(255,255,255,0.3)] scale-100 ring-1 ring-white/50"
+                                        : "border-white/10 hover:border-white/30 opacity-60 hover:opacity-100 scale-95 hover:scale-100"
                                 }
                             `}>
                             <button
