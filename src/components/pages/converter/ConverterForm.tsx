@@ -8,6 +8,24 @@ import { cn } from "@/lib/utils";
 import { downloadFile } from "@/lib/utils/download";
 import { trackEvent } from "@/lib/utils/telemetry";
 
+function InputGroup({ label, children, className }: { label: string; children: React.ReactNode; className?: string }) {
+    return (
+        <div className={cn("flex flex-col gap-2", className)}>
+            <span className="text-xs font-medium text-zinc-400 ml-1">{label}</span>
+            {children}
+        </div>
+    );
+}
+
+function StyledInput(props: React.InputHTMLAttributes<HTMLInputElement>) {
+    return (
+        <input
+            {...props}
+            className="w-full bg-zinc-950/50 border border-white/5 rounded-xl px-4 py-3 text-sm text-zinc-200 focus:outline-none focus:ring-2 focus:ring-pink-500/20 focus:border-pink-500/50 transition-all placeholder:text-zinc-600"
+        />
+    );
+}
+
 interface Props {
     file: File;
     onFileChange: () => void;
@@ -64,22 +82,8 @@ export default function ConverterForm({ file, onFileChange, initialMetadata, ico
         }
     };
 
-    const InputGroup = ({ label, children, className }: { label: string; children: React.ReactNode; className?: string }) => (
-        <div className={cn("flex flex-col gap-2", className)}>
-            <span className="text-xs font-medium text-zinc-400 ml-1">{label}</span>
-            {children}
-        </div>
-    );
-
-    const StyledInput = (props: React.InputHTMLAttributes<HTMLInputElement>) => (
-        <input
-            {...props}
-            className="w-full bg-zinc-950/50 border border-white/5 rounded-xl px-4 py-3 text-sm text-zinc-200 focus:outline-none focus:ring-2 focus:ring-pink-500/20 focus:border-pink-500/50 transition-all placeholder:text-zinc-600"
-        />
-    );
-
     return (
-        <div className="w-full max-w-2xl mx-auto space-y-8">
+        <div className="w-full max-w-2xl mx-auto space-y-8 bg-zinc-900/50 backdrop-blur-md rounded-3xl border border-white/5 p-8 shadow-xl">
             {/* Header Card */}
             <div className="bg-zinc-900/60 backdrop-blur-md rounded-3xl border border-white/5 p-6 shadow-xl flex items-start gap-6">
                 <div className="shrink-0 size-24 rounded-2xl bg-zinc-950/50 border border-white/5 flex items-center justify-center overflow-hidden">

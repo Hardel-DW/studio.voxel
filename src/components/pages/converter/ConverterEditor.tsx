@@ -1,51 +1,101 @@
-import { DEFAULT_MOD_METADATA, extractMetadata } from "@voxelio/converter";
+import type { ModMetadata } from "@voxelio/converter";
+import { extractMetadata } from "@voxelio/converter";
+import { extractZip } from "@voxelio/zip";
 import { useState } from "react";
 import ConverterForm from "@/components/pages/converter/ConverterForm";
 import ConverterUpload from "@/components/pages/converter/ConverterUpload";
 
+interface PackData {
+    id: string;
+    file: File;
+    iconUrl: string | null;
+    initialMetadata: ModMetadata;
+}
+
+async function processFile(uploadedFile: File): Promise<PackData> {
+    const fileName = uploadedFile.name.replace(/\.zip$/i, "");
+    const extractedMetadata = await extractMetadata(uploadedFile, fileName);
+    const extractedFiles = await extractZip(new Uint8Array(await uploadedFile.arrayBuffer()));
+
+    let iconUrl: string | null = null;
+    const iconData = extractedFiles["pack.png"];
+    if (iconData) {
+        const iconBlob = new Blob([new Uint8Array(iconData)], { type: "image/png" });
+        iconUrl = URL.createObjectURL(iconBlob);
+    }
+
+    return {
+        id: crypto.randomUUID(),
+        file: uploadedFile,
+        iconUrl,
+        initialMetadata: extractedMetadata
+    };
+}
+
 export default function ConverterEditor() {
-    const [file, setFile] = useState<File | null>(null);
-    const [iconUrl, setIconUrl] = useState<string | null>(null);
-    const [initialMetadata, setInitialMetadata] = useState(DEFAULT_MOD_METADATA);
+    const [packs, setPacks] = useState<PackData[]>([]);
 
     const handleFileUpload = async (files: FileList) => {
-        const uploadedFile = files[0];
-        if (!uploadedFile) return;
-
-        try {
-            const fileName = uploadedFile.name.replace(/\.zip$/i, "");
-            const extractedMetadata = await extractMetadata(uploadedFile, fileName);
-
-            if (extractedMetadata.icon) {
-                const iconBlob = new Blob([uploadedFile], { type: "image/png" });
-                setIconUrl(URL.createObjectURL(iconBlob));
-            }
-
-            setInitialMetadata(extractedMetadata);
-            setFile(uploadedFile);
-        } catch (error) {
-            console.error("Error reading datapack:", error);
-        }
+        const fileArray = Array.from(files);
+        const processedPacks = await Promise.all(fileArray.map(processFile));
+        setPacks((prev) => [...prev, ...processedPacks]);
     };
 
-    const handleClear = () => {
-        if (iconUrl) URL.revokeObjectURL(iconUrl);
-        setFile(null);
-        setIconUrl(null);
-        setInitialMetadata(DEFAULT_MOD_METADATA);
+    const handleRemovePack = (id: string) => {
+        setPacks((prev) => {
+            const pack = prev.find((p) => p.id === id);
+            if (pack?.iconUrl) URL.revokeObjectURL(pack.iconUrl);
+            return prev.filter((p) => p.id !== id);
+        });
     };
+
+    if (packs.length === 0) {
+        return (
+            <div className="relative w-full min-h-[500px]">
+                <div className="max-w-2xl mx-auto h-[400px]">
+                    <ConverterUpload onFileUpload={handleFileUpload} multiple />
+                </div>
+            </div>
+        );
+    }
+
+    if (packs.length === 1) {
+        const pack = packs[0];
+        return (
+            <div className="relative w-full space-y-8">
+                <div className="max-w-2xl mx-auto animate-in fade-in zoom-in duration-300">
+                    <ConverterForm
+                        file={pack.file}
+                        onFileChange={() => handleRemovePack(pack.id)}
+                        initialMetadata={pack.initialMetadata}
+                        iconUrl={pack.iconUrl}
+                    />
+                </div>
+                <div className="max-w-md mx-auto h-[200px]">
+                    <ConverterUpload onFileUpload={handleFileUpload} multiple compact />
+                </div>
+            </div>
+        );
+    }
 
     return (
-        <div className="relative w-full min-h-[500px]">
-            {!file ? (
-                <div className="max-w-2xl mx-auto h-[400px]">
-                    <ConverterUpload onFileUpload={handleFileUpload} />
-                </div>
-            ) : (
-                <div className="animate-in fade-in zoom-in duration-300">
-                    <ConverterForm file={file} onFileChange={handleClear} initialMetadata={initialMetadata} iconUrl={iconUrl} />
-                </div>
-            )}
+        <div className="relative w-full space-y-8">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                {packs.map((pack) => (
+                    <div key={pack.id} className="animate-in fade-in zoom-in duration-300">
+                        <ConverterForm
+                            file={pack.file}
+                            onFileChange={() => handleRemovePack(pack.id)}
+                            initialMetadata={pack.initialMetadata}
+                            iconUrl={pack.iconUrl}
+                        />
+                    </div>
+                ))}
+            </div>
+
+            <div className="max-w-md mx-auto h-[200px]">
+                <ConverterUpload onFileUpload={handleFileUpload} multiple compact />
+            </div>
         </div>
     );
 }

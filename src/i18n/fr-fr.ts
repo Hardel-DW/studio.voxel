@@ -152,6 +152,7 @@ export const frFr = {
     "studio.questions.values.5.question": "Si le contenu est mis à jour, dois-je tout refaire ?",
     "studio.questions.values.5.answer":
         "Si vous souhaitez mettre à jour votre configuration vers une version différente du travail original, il existe un outil de migration.",
+    "converter.dropzone_add": "Ajouter un datapack",
     "converter.seo.title": "Convertisseur Datapack/Mods · Voxel",
     "converter.seo.description":
         "Convertissez vos datapacks en mods Forge, Fabric, Quilt et NeoForge facilement avec notre outil en ligne.",

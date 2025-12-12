@@ -1,31 +1,42 @@
 import { useParams } from "@tanstack/react-router";
 import Dropzone from "@/components/ui/Dropzone";
 import { t } from "@/lib/i18n/i18n";
+import { cn } from "@/lib/utils";
 
 interface ConverterUploadProps {
     onFileUpload: (files: FileList) => void;
+    multiple?: boolean;
+    compact?: boolean;
 }
 
-export default function ConverterUpload({ onFileUpload }: ConverterUploadProps) {
+export default function ConverterUpload({ onFileUpload, multiple, compact }: ConverterUploadProps) {
     const { lang } = useParams({ from: "/$lang" });
     const translate = t(lang);
 
     return (
-        <div className="w-full h-full min-h-[300px] flex flex-col">
+        <div className={cn("w-full h-full flex flex-col", compact ? "min-h-[150px]" : "min-h-[300px]")}>
             <Dropzone
-                dropzone={{ accept: "application/zip", maxSize: 10000000, multiple: false }}
+                dropzone={{ accept: "application/zip", maxSize: 10000000, multiple: multiple ?? false }}
                 onFileUpload={onFileUpload}
-                className="gap-6 p-12">
-                <div className="size-20 rounded-2xl bg-zinc-800/50 flex items-center justify-center border border-zinc-700 shadow-inner group-hover:scale-110 transition-transform duration-300">
+                className={cn("gap-6", compact ? "p-6" : "p-12")}>
+                <div
+                    className={cn(
+                        "rounded-2xl bg-zinc-800/50 flex items-center justify-center border border-zinc-700 shadow-inner group-hover:scale-110 transition-transform duration-300",
+                        compact ? "size-12" : "size-20"
+                    )}>
                     <img
                         src="/icons/upload.svg"
-                        className="size-10 opacity-50 group-hover:opacity-100 transition-opacity invert"
+                        className={cn("opacity-50 group-hover:opacity-100 transition-opacity invert", compact ? "size-6" : "size-10")}
                         alt="Upload"
                     />
                 </div>
                 <div className="text-center space-y-2">
-                    <p className="text-zinc-200 font-medium text-xl group-hover:text-white transition-colors">
-                        {translate("converter.dropzone")}
+                    <p
+                        className={cn(
+                            "text-zinc-200 font-medium group-hover:text-white transition-colors",
+                            compact ? "text-base" : "text-xl"
+                        )}>
+                        {compact ? translate("converter.dropzone_add") : translate("converter.dropzone")}
                     </p>
                     <p className="text-sm text-zinc-500 group-hover:text-zinc-400 transition-colors">.zip files up to 10MB</p>
                 </div>
