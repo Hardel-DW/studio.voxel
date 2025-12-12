@@ -103,10 +103,10 @@ function MigrationPage() {
                         <p className="text-gray-300 mt-4">{translate("suggestions.studio.description")}</p>
 
                         <div className="mt-8 flex flex-col md:flex-row gap-4">
-                            <Button href={`/${lang}/studio`} size="xl" variant="primary" className="w-full md:w-auto">
+                            <Button to="/$lang/studio" params={{ lang }} size="xl" variant="primary" className="w-full md:w-auto">
                                 {translate("generic.start")}
                             </Button>
-                            <Button href={`/${lang}/studio`} size="xl" variant="ghost" className="w-full md:w-auto">
+                            <Button to="/$lang/studio" params={{ lang }} size="xl" variant="ghost" className="w-full md:w-auto">
                                 {translate("generic.learn_more")}
                             </Button>
                         </div>
@@ -126,10 +126,10 @@ function MigrationPage() {
                         <p className="text-gray-300 mt-4">{translate("suggestions.converter.description")}</p>
 
                         <div className="mt-8 flex flex-col md:flex-row gap-4">
-                            <Button href={`/${lang}/studio`} size="xl" variant="shimmer" className="w-full md:w-auto">
+                            <Button to="/$lang/converter" params={{ lang }} size="xl" variant="shimmer" className="w-full md:w-auto">
                                 {translate("generic.take_a_look")}
                             </Button>
-                            <Button href={`/${lang}/studio`} size="xl" variant="ghost" className="w-full md:w-auto">
+                            <Button to="/$lang/converter" params={{ lang }} size="xl" variant="ghost" className="w-full md:w-auto">
                                 {translate("generic.learn_more")}
                             </Button>
                         </div>

@@ -43,6 +43,8 @@ const questions = (lang: string) => {
     ];
 };
 
+const DISABLE_MAINTENANCE = true;
+
 function StudioLayout() {
     const { lang } = Route.useParams();
     const translate = t(lang);
@@ -63,20 +65,62 @@ function StudioLayout() {
                         <p className="text-gray-300 mt-4">{translate("studio.description")}</p>
 
                         <div className="flex items-center flex-col sm:flex-row gap-4 mt-8">
-                            <VanillaImportButton />
-                            <RestoreLastSession className="shimmer-zinc-950 text-zinc-200 border border-zinc-800" />
-                            <a
-                                href="https://voxel.hardel.io/en-us/update/enchant-configurator"
-                                className="inline-flex h-10 items-center justify-center rounded-md px-4 font-medium text-slate-400 transition-colors hover:text-zinc-300 text-sm">
-                                {translate("studio.latest_update")} &rarr;
-                            </a>
+                            {DISABLE_MAINTENANCE ? (
+                                <div>
+                                    <p className="text-zinc-400 text-sm">{translate("studio.maintenance.description")}</p>
+                                    <p className="text-zinc-500 text-xs">
+                                        {translate("studio.maintenance.date", {
+                                            date: new Intl.DateTimeFormat(lang, { dateStyle: "long" }).format(new Date("2025-12-15"))
+                                        })}
+                                    </p>
+                                </div>
+                            ) : (
+                                <>
+                                    <VanillaImportButton />
+                                    <RestoreLastSession className="shimmer-zinc-950 text-zinc-200 border border-zinc-800" />
+                                    <a
+                                        href="https://voxel.hardel.io/en-us/update/studio"
+                                        className="inline-flex h-10 items-center justify-center rounded-md px-4 font-medium text-slate-400 transition-colors hover:text-zinc-300 text-sm">
+                                        {translate("studio.latest_update")} &rarr;
+                                    </a>
+                                </>
+                            )}
                         </div>
                     </div>
                 </div>
                 <div className="relative w-full flex justify-center items-center">
                     <div className="w-full max-w-md">
-                        <DatapackUploader />
-                        <RepositoryOpener />
+                        {DISABLE_MAINTENANCE ? (
+                            <div className="gap-6 p-12 min-h-[300px] flex flex-col items-center justify-center w-full rounded-3xl border-2 border-dashed border-zinc-700/50 bg-zinc-900/20 backdrop-blur-sm">
+                                <div className="size-20 rounded-2xl bg-zinc-800/50 flex items-center justify-center border border-zinc-700 shadow-inner">
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 24 24"
+                                        fill="currentColor"
+                                        className="size-10 opacity-50 text-zinc-400">
+                                        <path
+                                            fillRule="evenodd"
+                                            d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zM12.75 6a.75.75 0 00-1.5 0v6c0 .414.336.75.75.75h4.5a.75.75 0 000-1.5h-3.75V6z"
+                                            clipRule="evenodd"
+                                        />
+                                    </svg>
+                                </div>
+                                <div className="text-center space-y-2">
+                                    <p className="text-zinc-200 font-medium text-xl">{translate("studio.maintenance.title")}</p>
+                                    <p className="text-sm text-zinc-500">{translate("studio.maintenance.description")}</p>
+                                    <p className="text-xs text-zinc-600">
+                                        {translate("studio.maintenance.date", {
+                                            date: new Intl.DateTimeFormat(lang, { dateStyle: "long" }).format(new Date("2025-12-15"))
+                                        })}
+                                    </p>
+                                </div>
+                            </div>
+                        ) : (
+                            <>
+                                <DatapackUploader />
+                                <RepositoryOpener />
+                            </>
+                        )}
                     </div>
                     <img className="absolute -z-10 opacity-10 select-none" src="/icons/circle.svg" alt="box" />
                 </div>

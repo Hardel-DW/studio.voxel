@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import Footer from "@/components/layout/Footer";
 import Navbar from "@/components/layout/Navbar";
 import Box from "@/components/ui/Box";
@@ -7,6 +7,7 @@ import ImageCard from "@/components/ui/ImageCard";
 import LineSetup from "@/components/ui/line/LineSetup";
 import { t } from "@/lib/i18n/i18n";
 
+const baseVoxelPath = import.meta.env.VITE_BASE_VOXEL_PATH;
 export const Route = createFileRoute("/$lang/")({
     component: Page,
     head: () => ({
@@ -52,24 +53,25 @@ function Page() {
                     <ImageCard
                         className="shrink-0 rotate-6 translate-y-1/2 s:translate-x-2/3 s:w-1/2 lg:translate-x-1/4 lg:w-auto"
                         image="/images/background/tools/configurator.webp"
-                        href={`/${lang}/studio`}
-                        title={translate("home.configurator.title")}
-                        button={translate("generic.start_now")}
-                    />
+                        to="/$lang/studio"
+                        params={{ lang }}
+                        title={translate("home.configurator.title")}>
+                        {translate("generic.start_now")}
+                    </ImageCard>
                     <ImageCard
                         className="shrink-0 -rotate-3 s:-translate-y-1/2 s:w-1/2 lg:-translate-x-1/4 lg:translate-y-0 lg:w-auto"
                         image="/images/background/marketplace.webp"
-                        href={`https://voxel.hardel.io/${lang}/marketplace`}
-                        title={translate("home.marketplace.title")}
-                        button={translate("generic.start_now")}
-                    />
+                        href={`${baseVoxelPath}/${lang}/marketplace`}
+                        title={translate("home.marketplace.title")}>
+                        {translate("generic.start_now")}
+                    </ImageCard>
                     <ImageCard
                         className="shrink-0 rotate-6 s:-translate-x-2/3 s:w-1/2 lg:-translate-y-1/2 lg:translate-x-0 lg:w-auto"
                         image="/images/background/copilot.webp"
                         href="#"
-                        title={translate("home.copilot.title")}
-                        button={translate("generic.soon")}
-                    />
+                        title={translate("home.copilot.title")}>
+                        {translate("generic.soon")}
+                    </ImageCard>
                 </div>
 
                 <div className="grid gap-12 lg:order-first s:self-end xl:p-12 lg:p-8">
@@ -84,14 +86,15 @@ function Page() {
                         </p>
 
                         <div className="mt-12 flex flex-wrap gap-4">
-                            <a
-                                href={`/${lang}/studio`}
+                            <Link
+                                to="/$lang/studio"
+                                params={{ lang }}
                                 className="bg-white text-lg cursor-pointer text-zinc-800 font-semibold py-3 px-8 rounded-lg hover:bg-zinc-300 hover:text-zinc-800 transition-all">
                                 {translate("home.button.start")}
-                            </a>
+                            </Link>
 
                             <a
-                                href={`https://voxel.hardel.io/${lang}/blog/enchant-configurator`}
+                                href={`${baseVoxelPath}/${lang}/blog/enchant-configurator`}
                                 className="w-full lg:w-fit text-center border border-zinc-200 text-lg cursor-pointer text-white font-semibold py-3 px-6 rounded-lg hover:bg-zinc-200 hover:text-zinc-800 transition-all">
                                 {translate("home.button.learn_more")}
                             </a>
@@ -105,10 +108,14 @@ function Page() {
                     <h2 className="text-white text-xl md:text-2xl font-bold line-clamp-1 pt-8">{translate("home.configurator.title")}</h2>
                     <p className="text-zinc-400 text-sm md:text-base mt-2 line-clamp-3">{translate("home.configurator.description")}</p>
                     <div className="flex flex-wrap gap-2 mt-6">
-                        <Button className="w-full xl:w-fit" href={`/${lang}/studio`} size="sm" variant="shimmer">
+                        <Button className="w-full xl:w-fit" to="/$lang/studio" params={{ lang }} size="sm" variant="shimmer">
                             {translate("generic.start_now")}
                         </Button>
-                        <Button className="w-full xl:w-fit" href={`/${lang}/blog/enchant-configurator`} size="sm" variant="transparent">
+                        <Button
+                            className="w-full xl:w-fit"
+                            href={`${baseVoxelPath}/${lang}/blog/enchant-configurator`}
+                            size="sm"
+                            variant="transparent">
                             {translate("generic.learn_more")}
                         </Button>
                     </div>
@@ -119,10 +126,10 @@ function Page() {
                     </h2>
                     <p className="text-zinc-400 text-sm md:text-base mt-2 line-clamp-3">{translate("home.converter.description")}</p>
                     <div className="flex flex-wrap gap-2 mt-6">
-                        <Button className="w-full xl:w-fit" href={`/${lang}/converter`} size="sm" variant="shimmer">
+                        <Button className="w-full xl:w-fit" to="/$lang/converter" params={{ lang }} size="sm" variant="shimmer">
                             {translate("generic.start_now")}
                         </Button>
-                        <Button className="w-full xl:w-fit" href={`/${lang}/converter`} size="sm" variant="transparent">
+                        <Button className="w-full xl:w-fit" to="/$lang/converter" params={{ lang }} size="sm" variant="transparent">
                             {translate("generic.learn_more")}
                         </Button>
                     </div>
@@ -133,10 +140,10 @@ function Page() {
                     </h2>
                     <p className="text-zinc-400 text-sm md:text-base mt-2 line-clamp-3">{translate("home.migration.description")}</p>
                     <div className="flex flex-wrap gap-2 mt-6">
-                        <Button className="w-full xl:w-fit" href={`/${lang}/migration`} size="sm" variant="shimmer">
+                        <Button className="w-full xl:w-fit" to="/$lang/migration" params={{ lang }} size="sm" variant="shimmer">
                             {translate("generic.start_now")}
                         </Button>
-                        <Button className="w-full xl:w-fit" href={`/${lang}/migration`} size="sm" variant="transparent">
+                        <Button className="w-full xl:w-fit" to="/$lang/migration" params={{ lang }} size="sm" variant="transparent">
                             {translate("generic.learn_more")}
                         </Button>
                     </div>

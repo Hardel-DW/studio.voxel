@@ -26,7 +26,7 @@ function SocialLinks() {
                 <a key={social.name} href={social.href} target="_blank" rel="noopener noreferrer" aria-label={social.label}>
                     <img
                         src={`/icons/company/${social.name}.svg`}
-                        alt=""
+                        alt="Social icon"
                         className="w-6 h-6 invert mx-1 cursor-pointer opacity-70 hover:opacity-100 transition-opacity duration-150 ease-linear"
                     />
                 </a>
@@ -42,8 +42,9 @@ export default function Navbar() {
 
     const links = [
         { name: translate("navbar.item.blog"), href: `${baseVoxelPath}/${lang}/blog` },
-        { name: translate("navbar.item.data_pack"), href: `${baseVoxelPath}/${lang}/datapacks/neoenchant` },
-        { name: translate("navbar.item.resources"), href: `${baseVoxelPath}/${lang}/soon` },
+        { name: translate("navbar.item.patchnote"), href: `${baseVoxelPath}/${lang}/patchnote/neoenchant` },
+        { name: translate("navbar.item.data_pack"), href: `${baseVoxelPath}/${lang}/packs/neoenchant` },
+        { name: translate("navbar.item.resources"), to: "/$lang/studio" },
         { name: translate("navbar.item.contact"), href: `${baseVoxelPath}/${lang}/contact` }
     ];
 
@@ -70,6 +71,31 @@ export default function Navbar() {
                                     </a>
                                 </li>
 
+                                <NavigationDropdown label={translate("navbar.item.patchnote")}>
+                                    <div className="p-6 space-y-6 md:w-[400px] lg:w-[500px]">
+                                        <HeroCard
+                                            href={`${baseVoxelPath}/${lang}/patchnote/neoenchant`}
+                                            title={translate("navbar.patchnote.neoenchant.title")}
+                                            description={translate("navbar.patchnote.neoenchant.description")}
+                                            image="/images/background/tools/hero-ne.webp"
+                                        />
+                                        <ul className="grid gap-3 mt-3">
+                                            <ListItem
+                                                href={`${baseVoxelPath}/${lang}/patchnote/neoenchant`}
+                                                title={translate("navbar.patchnote.neoenchant.title")}
+                                                image="/images/features/title/ne.png">
+                                                {translate("navbar.patchnote.neoenchant.description")}
+                                            </ListItem>
+                                            <ListItem
+                                                href={`${baseVoxelPath}/${lang}/patchnote/yggdrasil`}
+                                                title={translate("navbar.patchnote.yggdrasil.title")}
+                                                image="/images/features/title/yg.webp">
+                                                {translate("navbar.patchnote.yggdrasil.description")}
+                                            </ListItem>
+                                        </ul>
+                                    </div>
+                                </NavigationDropdown>
+
                                 <NavigationDropdown label={translate("navbar.item.data_pack")}>
                                     <div className="p-6 space-y-6 md:w-[400px] lg:w-[500px]">
                                         <HeroCard
@@ -82,13 +108,13 @@ export default function Navbar() {
                                         />
                                         <ul className="grid gap-3 mt-3">
                                             <ListItem
-                                                href={`${baseVoxelPath}/${lang}/datapacks/neoenchant`}
+                                                href={`${baseVoxelPath}/${lang}/packs/neoenchant`}
                                                 title={translate("navbar.datapack.neoenchant.title")}
                                                 image="/images/features/title/ne.png">
                                                 {translate("navbar.datapack.neoenchant.description")}
                                             </ListItem>
                                             <ListItem
-                                                href={`${baseVoxelPath}/${lang}/datapacks/yggdrasil`}
+                                                href={`${baseVoxelPath}/${lang}/packs/yggdrasil`}
                                                 title={translate("navbar.datapack.yggdrasil.title")}
                                                 image="/images/features/title/yg.webp">
                                                 {translate("navbar.datapack.yggdrasil.description")}
@@ -100,14 +126,16 @@ export default function Navbar() {
                                 <NavigationDropdown label={translate("navbar.item.resources")}>
                                     <div className="p-6 md:w-[400px] lg:w-[500px]">
                                         <HeroCard
-                                            href={`/${lang}/studio`}
+                                            to="/$lang/studio"
+                                            params={{ lang }}
                                             title={translate("navbar.resources.studio.title")}
                                             description={translate("navbar.resources.studio.description")}
                                             image="/images/background/tools/configurator.webp"
                                         />
                                         <ul className="grid gap-3 mt-3 lg:grid-cols-[.75fr_1fr]">
                                             <ListItem
-                                                href={`/${lang}/harmonization`}
+                                                to="/$lang/harmonization"
+                                                params={{ lang }}
                                                 title={translate("navbar.resources.harmonization.title")}>
                                                 {translate("navbar.resources.harmonization.description")}
                                             </ListItem>
@@ -116,10 +144,16 @@ export default function Navbar() {
                                                 title={translate("navbar.resources.asset.title")}>
                                                 {translate("navbar.resources.asset.description")}
                                             </ListItem>
-                                            <ListItem href={`/${lang}/converter`} title={translate("navbar.resources.converter.title")}>
+                                            <ListItem
+                                                to="/$lang/converter"
+                                                params={{ lang }}
+                                                title={translate("navbar.resources.converter.title")}>
                                                 {translate("navbar.resources.converter.description")}
                                             </ListItem>
-                                            <ListItem href={`/${lang}/migration`} title={translate("navbar.resources.migration.title")}>
+                                            <ListItem
+                                                to="/$lang/migration"
+                                                params={{ lang }}
+                                                title={translate("navbar.resources.migration.title")}>
                                                 {translate("navbar.resources.migration.description")}
                                             </ListItem>
                                         </ul>
@@ -197,13 +231,7 @@ export default function Navbar() {
                 <div className="size-full flex flex-col gap-y-2">
                     <div className="py-2">
                         {links.map((item) => (
-                            <a
-                                key={item.href}
-                                href={item.href}
-                                className="rounded-3xl px-4 py-3 leading-none flex justify-between transition-colors text-zinc-400 hover:bg-zinc-700/10 hover:text-white">
-                                <span>{item.name}</span>
-                                <img src="/icons/chevron-right.svg" alt="" className="w-4 h-4 invert" />
-                            </a>
+                            <NavbarLink key={item.name} name={item.name} href={item.href} to={item.to} lang={lang} />
                         ))}
                     </div>
                     <div className="mb-4 flex justify-center gap-x-4 sm:gap-x-8 pt-2 border-t border-zinc-700/50">
@@ -217,3 +245,28 @@ export default function Navbar() {
         </header>
     );
 }
+
+const NavbarLink = ({ name, href, to, lang }: { name: string; href?: string; to?: string; lang: string }) => {
+    const className =
+        "rounded-3xl px-4 py-3 leading-none flex justify-between transition-colors text-zinc-400 hover:bg-zinc-700/10 hover:text-white";
+
+    const content = (
+        <div className="contents">
+            <span>{name}</span>
+            <img src="/icons/chevron-right.svg" alt="" className="w-4 h-4 invert" />
+        </div>
+    );
+
+    if (to) {
+        return (
+            <Link to={to} params={{ lang }} className={className}>
+                {content}
+            </Link>
+        );
+    }
+    return (
+        <a href={href} className={className}>
+            {content}
+        </a>
+    );
+};

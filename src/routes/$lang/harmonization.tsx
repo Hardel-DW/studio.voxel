@@ -40,7 +40,6 @@ function HarmonizationPage() {
 
             <section className="pt-32 md:pt-48 pb-24 min-h-screen relative flex flex-col items-center">
                 <div className="w-full px-6 md:px-12 lg:px-16 max-w-[1920px] mx-auto flex flex-col gap-12">
-                    {/* Header Section */}
                     <div className="text-center space-y-6 relative z-10 max-w-3xl mx-auto">
                         <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight text-white">
                             {translate("harmonization.title")}

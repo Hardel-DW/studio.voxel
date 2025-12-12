@@ -1,6 +1,7 @@
 import { Link, useParams } from "@tanstack/react-router";
 import { t } from "@/lib/i18n/i18n";
 
+const baseVoxelPath = import.meta.env.VITE_BASE_VOXEL_PATH;
 export default function Footer() {
     const { lang } = useParams({ from: "/$lang" });
     const translate = t(lang);
@@ -14,19 +15,11 @@ export default function Footer() {
                 },
                 {
                     title: translate("footer.content.navigation.datapacks"),
-                    to: "/$lang/datapacks/neoenchant"
-                },
-                {
-                    title: translate("footer.content.navigation.guides"),
-                    to: "/$lang/soon"
-                },
-                {
-                    title: translate("footer.content.navigation.enchantment_tool"),
-                    to: "/$lang/studio"
+                    href: `${baseVoxelPath}/${lang}/packs/neoenchant`
                 },
                 {
                     title: translate("footer.content.navigation.contact"),
-                    to: "/$lang/contact"
+                    href: `${baseVoxelPath}/${lang}/contact`
                 }
             ]
         },
@@ -35,15 +28,15 @@ export default function Footer() {
             links: [
                 {
                     title: translate("footer.content.other.news"),
-                    to: "/$lang/blog"
+                    href: `${baseVoxelPath}/${lang}/blog`
                 },
                 {
                     title: translate("footer.content.other.faq"),
-                    to: "/$lang"
+                    href: `${baseVoxelPath}/${lang}`
                 },
                 {
                     title: translate("footer.content.other.about"),
-                    to: "/$lang/soon"
+                    href: `${baseVoxelPath}/${lang}/soon`
                 }
             ]
         },
@@ -52,19 +45,40 @@ export default function Footer() {
             links: [
                 {
                     title: translate("footer.content.support.help_center"),
-                    to: "/$lang/contact"
+                    href: `${baseVoxelPath}/${lang}/contact`
                 },
                 {
                     title: translate("footer.content.support.term_of_service"),
-                    to: "/terms"
+                    href: `${baseVoxelPath}/${lang}/terms`
                 },
                 {
                     title: translate("footer.content.support.legal"),
-                    to: "/legal"
+                    href: `${baseVoxelPath}/${lang}/legal`
                 },
                 {
                     title: translate("footer.content.support.privacy"),
-                    to: "/privacy"
+                    href: `${baseVoxelPath}/${lang}/privacy`
+                }
+            ]
+        },
+        {
+            name: translate("footer.content.voxel_studio"),
+            links: [
+                {
+                    title: translate("footer.content.voxel_studio.studio"),
+                    to: "/$lang/studio"
+                },
+                {
+                    title: translate("footer.content.voxel_studio.harmonization"),
+                    to: "/$lang/harmonization"
+                },
+                {
+                    title: translate("footer.content.voxel_studio.converter"),
+                    to: "/$lang/converter"
+                },
+                {
+                    title: translate("footer.content.voxel_studio.migration"),
+                    to: "/$lang/migration"
                 }
             ]
         }
@@ -90,7 +104,7 @@ export default function Footer() {
 
     return (
         <footer className="w-full px-4 pb-4 bg-linear-to-b from-transparent to-black/70">
-            <div className="max-w-(--breakpoint-2xl) mx-auto border-t border-zinc-900 pt-8 grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 px-6 md:px-20">
+            <div className="max-w-(--breakpoint-2xl) mx-auto border-t border-zinc-900 pt-8 grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 px-6 md:px-20">
                 <div className="sm:col-span-2 md:col-span-3 lg:col-span-2">
                     <Link to="/$lang" params={{ lang }} className="text-lg flex items-center">
                         <img loading="lazy" src="/icons/logo.svg" alt="Voxel Logo" className="w-6 h-6 brightness-90 mr-2" />
@@ -121,13 +135,7 @@ export default function Footer() {
                         <h3 className="font-medium text-sm text-zinc-200">{section.name}</h3>
                         <div className="flex flex-col mt-2">
                             {section.links.map((link) => (
-                                <Link
-                                    key={link.title}
-                                    to={link.to}
-                                    params={{ lang }}
-                                    className="py-1 text-sm text-zinc-400 hover:text-zinc-200">
-                                    {link.title}
-                                </Link>
+                                <FooterLink key={link.title} {...link} lang={lang} />
                             ))}
                         </div>
                     </div>
@@ -142,3 +150,19 @@ export default function Footer() {
         </footer>
     );
 }
+
+const FooterLink = ({ title, href, lang, to }: { title: string; href?: string; lang: string; to?: string }) => {
+    if (to) {
+        return (
+            <Link to={to} params={{ lang }} className="py-1 text-sm text-zinc-400 hover:text-zinc-200">
+                {title}
+            </Link>
+        );
+    }
+
+    return (
+        <a href={href} className="py-1 text-sm text-zinc-400 hover:text-zinc-200">
+            {title}
+        </a>
+    );
+};

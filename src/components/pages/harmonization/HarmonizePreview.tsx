@@ -52,7 +52,7 @@ export default function HarmonizePreview({ canvasRef, isLoading, hasData, hasIma
                 <div className="absolute inset-0 flex flex-col items-center justify-center z-10">
                     <div className="text-center p-12 text-zinc-600 flex flex-col items-center gap-6 max-w-md">
                         <div className="size-24 rounded-4xl bg-linear-to-br from-zinc-800 to-zinc-900 flex items-center justify-center border border-zinc-700 shadow-2xl shadow-black/50 rotate-3 hover:rotate-0 transition-transform duration-500">
-                            <img src="/icons/image.svg" className="size-10 opacity-30 invert" alt="" />
+                            <img src="/icons/logo.svg" className="size-10 opacity-30" alt="" />
                         </div>
                         <div className="space-y-2">
                             <h3 className="text-xl font-semibold text-zinc-300">{translate("harmonization.no_image_selected")}</h3>

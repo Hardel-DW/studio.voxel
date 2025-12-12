@@ -187,7 +187,6 @@ export default function MigrationEditor() {
                 {/* Arrow Indicator */}
                 <div className="col-span-1 flex flex-col items-center justify-center gap-4 opacity-50">
                     <div className="hidden lg:flex flex-col items-center gap-2">
-                        <div className="w-full h-px bg-linear-to-r from-transparent via-white/20 to-transparent absolute left-1/2 -translate-x-1/2" />
                         <img src="/icons/arrow-right.svg" alt="Arrow" className="size-8 invert opacity-50" />
                     </div>
                     <div className="flex lg:hidden flex-col items-center gap-2">
