@@ -25,6 +25,7 @@ import { Route as LangStudioEditorLoot_tableRouteImport } from './routes/$lang/s
 import { Route as LangStudioEditorEnchantmentRouteImport } from './routes/$lang/studio/editor/enchantment'
 import { Route as LangStudioEditorRecipeOverviewRouteImport } from './routes/$lang/studio/editor/recipe/overview'
 import { Route as LangStudioEditorRecipeMainRouteImport } from './routes/$lang/studio/editor/recipe/main'
+import { Route as LangStudioEditorLoot_tablePoolsRouteImport } from './routes/$lang/studio/editor/loot_table/pools'
 import { Route as LangStudioEditorLoot_tableOverviewRouteImport } from './routes/$lang/studio/editor/loot_table/overview'
 import { Route as LangStudioEditorLoot_tableMainRouteImport } from './routes/$lang/studio/editor/loot_table/main'
 import { Route as LangStudioEditorEnchantmentTechnicalRouteImport } from './routes/$lang/studio/editor/enchantment/technical'
@@ -120,6 +121,12 @@ const LangStudioEditorRecipeMainRoute =
     path: '/main',
     getParentRoute: () => LangStudioEditorRecipeRoute,
   } as any)
+const LangStudioEditorLoot_tablePoolsRoute =
+  LangStudioEditorLoot_tablePoolsRouteImport.update({
+    id: '/pools',
+    path: '/pools',
+    getParentRoute: () => LangStudioEditorLoot_tableRoute,
+  } as any)
 const LangStudioEditorLoot_tableOverviewRoute =
   LangStudioEditorLoot_tableOverviewRouteImport.update({
     id: '/overview',
@@ -206,6 +213,7 @@ export interface FileRoutesByFullPath {
   '/$lang/studio/editor/enchantment/technical': typeof LangStudioEditorEnchantmentTechnicalRoute
   '/$lang/studio/editor/loot_table/main': typeof LangStudioEditorLoot_tableMainRoute
   '/$lang/studio/editor/loot_table/overview': typeof LangStudioEditorLoot_tableOverviewRoute
+  '/$lang/studio/editor/loot_table/pools': typeof LangStudioEditorLoot_tablePoolsRoute
   '/$lang/studio/editor/recipe/main': typeof LangStudioEditorRecipeMainRoute
   '/$lang/studio/editor/recipe/overview': typeof LangStudioEditorRecipeOverviewRoute
 }
@@ -231,6 +239,7 @@ export interface FileRoutesByTo {
   '/$lang/studio/editor/enchantment/technical': typeof LangStudioEditorEnchantmentTechnicalRoute
   '/$lang/studio/editor/loot_table/main': typeof LangStudioEditorLoot_tableMainRoute
   '/$lang/studio/editor/loot_table/overview': typeof LangStudioEditorLoot_tableOverviewRoute
+  '/$lang/studio/editor/loot_table/pools': typeof LangStudioEditorLoot_tablePoolsRoute
   '/$lang/studio/editor/recipe/main': typeof LangStudioEditorRecipeMainRoute
   '/$lang/studio/editor/recipe/overview': typeof LangStudioEditorRecipeOverviewRoute
 }
@@ -260,6 +269,7 @@ export interface FileRoutesById {
   '/$lang/studio/editor/enchantment/technical': typeof LangStudioEditorEnchantmentTechnicalRoute
   '/$lang/studio/editor/loot_table/main': typeof LangStudioEditorLoot_tableMainRoute
   '/$lang/studio/editor/loot_table/overview': typeof LangStudioEditorLoot_tableOverviewRoute
+  '/$lang/studio/editor/loot_table/pools': typeof LangStudioEditorLoot_tablePoolsRoute
   '/$lang/studio/editor/recipe/main': typeof LangStudioEditorRecipeMainRoute
   '/$lang/studio/editor/recipe/overview': typeof LangStudioEditorRecipeOverviewRoute
 }
@@ -290,6 +300,7 @@ export interface FileRouteTypes {
     | '/$lang/studio/editor/enchantment/technical'
     | '/$lang/studio/editor/loot_table/main'
     | '/$lang/studio/editor/loot_table/overview'
+    | '/$lang/studio/editor/loot_table/pools'
     | '/$lang/studio/editor/recipe/main'
     | '/$lang/studio/editor/recipe/overview'
   fileRoutesByTo: FileRoutesByTo
@@ -315,6 +326,7 @@ export interface FileRouteTypes {
     | '/$lang/studio/editor/enchantment/technical'
     | '/$lang/studio/editor/loot_table/main'
     | '/$lang/studio/editor/loot_table/overview'
+    | '/$lang/studio/editor/loot_table/pools'
     | '/$lang/studio/editor/recipe/main'
     | '/$lang/studio/editor/recipe/overview'
   id:
@@ -343,6 +355,7 @@ export interface FileRouteTypes {
     | '/$lang/studio/editor/enchantment/technical'
     | '/$lang/studio/editor/loot_table/main'
     | '/$lang/studio/editor/loot_table/overview'
+    | '/$lang/studio/editor/loot_table/pools'
     | '/$lang/studio/editor/recipe/main'
     | '/$lang/studio/editor/recipe/overview'
   fileRoutesById: FileRoutesById
@@ -467,6 +480,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LangStudioEditorRecipeMainRouteImport
       parentRoute: typeof LangStudioEditorRecipeRoute
     }
+    '/$lang/studio/editor/loot_table/pools': {
+      id: '/$lang/studio/editor/loot_table/pools'
+      path: '/pools'
+      fullPath: '/$lang/studio/editor/loot_table/pools'
+      preLoaderRoute: typeof LangStudioEditorLoot_tablePoolsRouteImport
+      parentRoute: typeof LangStudioEditorLoot_tableRoute
+    }
     '/$lang/studio/editor/loot_table/overview': {
       id: '/$lang/studio/editor/loot_table/overview'
       path: '/overview'
@@ -577,6 +597,7 @@ const LangStudioEditorEnchantmentRouteWithChildren =
 interface LangStudioEditorLoot_tableRouteChildren {
   LangStudioEditorLoot_tableMainRoute: typeof LangStudioEditorLoot_tableMainRoute
   LangStudioEditorLoot_tableOverviewRoute: typeof LangStudioEditorLoot_tableOverviewRoute
+  LangStudioEditorLoot_tablePoolsRoute: typeof LangStudioEditorLoot_tablePoolsRoute
 }
 
 const LangStudioEditorLoot_tableRouteChildren: LangStudioEditorLoot_tableRouteChildren =
@@ -584,6 +605,7 @@ const LangStudioEditorLoot_tableRouteChildren: LangStudioEditorLoot_tableRouteCh
     LangStudioEditorLoot_tableMainRoute: LangStudioEditorLoot_tableMainRoute,
     LangStudioEditorLoot_tableOverviewRoute:
       LangStudioEditorLoot_tableOverviewRoute,
+    LangStudioEditorLoot_tablePoolsRoute: LangStudioEditorLoot_tablePoolsRoute,
   }
 
 const LangStudioEditorLoot_tableRouteWithChildren =

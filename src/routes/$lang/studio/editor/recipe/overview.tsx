@@ -31,7 +31,7 @@ function Page() {
                 <TextInput value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search recipes..." />
             </div>
 
-            <div className="flex-1 overflow-y-auto px-8 py-6 custom-scrollbar bg-zinc-950/50">
+            <div className="flex-1 overflow-y-auto px-8 py-6 bg-zinc-950/50">
                 {visibleItems.length === 0 ? (
                     <div className="h-full flex flex-col items-center justify-center pb-20 opacity-60">
                         <div className="size-24 bg-zinc-900/50 rounded-full flex items-center justify-center mb-6 border border-zinc-800">

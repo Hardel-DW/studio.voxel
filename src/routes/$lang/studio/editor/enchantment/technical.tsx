@@ -30,7 +30,7 @@ function EnchantmentTechnicalPage() {
     if (!currentElementId) return null;
 
     return (
-        <div className="p-8 h-full overflow-y-auto custom-scrollbar">
+        <div className="p-8 h-full overflow-y-auto">
             <ToolSection id="technical_behaviour" title="enchantment:section.technical.description">
                 <div className="grid lg:grid-cols-2 grid-cols-1 gap-4">
                     {FIELDS.map((field) => (

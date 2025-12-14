@@ -19,7 +19,7 @@ function EnchantmentSlotsPage() {
     ];
 
     return (
-        <div className="p-8 h-full overflow-y-auto custom-scrollbar">
+        <div className="p-8 h-full overflow-y-auto">
             <ToolSection id="slots" title="enchantment:section.slots.description">
                 {groupedSlots.map((group) => (
                     <ToolGrid key={group.map((config) => config.id).join(",")}>

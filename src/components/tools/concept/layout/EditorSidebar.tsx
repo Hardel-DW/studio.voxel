@@ -25,7 +25,7 @@ export function EditorSidebar({ title, icon, linkTo, children }: EditorSidebarPr
                 <p className="text-xs text-zinc-500 pl-7">Explorer</p>
             </div>
 
-            <div className="flex-1 overflow-y-auto px-3 custom-scrollbar">{children}</div>
+            <div className="flex-1 overflow-y-auto px-3">{children}</div>
 
             <div className="p-4 border-t border-zinc-800/50 bg-zinc-950/90">
                 <a

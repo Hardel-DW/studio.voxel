@@ -18,11 +18,11 @@ importers:
         specifier: ^1.141.2
         version: 1.141.2(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       '@voxelio/breeze':
-        specifier: ^1.10.26
-        version: 1.10.26
+        specifier: ^1.10.28
+        version: 1.10.28
       '@voxelio/converter':
-        specifier: ^1.0.38
-        version: 1.0.38
+        specifier: ^1.0.40
+        version: 1.0.40
       '@voxelio/zip':
         specifier: ^3.2.3
         version: 3.2.3
@@ -44,13 +44,13 @@ importers:
         version: 2.3.8
       '@tailwindcss/vite':
         specifier: ^4.1.18
-        version: 4.1.18(vite@8.0.0-beta.0(@types/node@24.10.3)(esbuild@0.25.12)(jiti@2.6.1)(tsx@4.21.0))
+        version: 4.1.18(vite@8.0.0-beta.0(@types/node@24.10.4)(esbuild@0.25.12)(jiti@2.6.1)(tsx@4.21.0))
       '@tanstack/router-plugin':
         specifier: ^1.141.2
-        version: 1.141.2(@tanstack/react-router@1.141.2(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(vite@8.0.0-beta.0(@types/node@24.10.3)(esbuild@0.25.12)(jiti@2.6.1)(tsx@4.21.0))
+        version: 1.141.2(@tanstack/react-router@1.141.2(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(vite@8.0.0-beta.0(@types/node@24.10.4)(esbuild@0.25.12)(jiti@2.6.1)(tsx@4.21.0))
       '@types/node':
-        specifier: ^24.10.3
-        version: 24.10.3
+        specifier: ^24.10.4
+        version: 24.10.4
       '@types/react':
         specifier: ^19.2.7
         version: 19.2.7
@@ -62,7 +62,7 @@ importers:
         version: 7.0.0-dev.20251203.1
       '@vitejs/plugin-react':
         specifier: ^5.1.2
-        version: 5.1.2(vite@8.0.0-beta.0(@types/node@24.10.3)(esbuild@0.25.12)(jiti@2.6.1)(tsx@4.21.0))
+        version: 5.1.2(vite@8.0.0-beta.0(@types/node@24.10.4)(esbuild@0.25.12)(jiti@2.6.1)(tsx@4.21.0))
       babel-plugin-react-compiler:
         specifier: 1.0.0
         version: 1.0.0
@@ -71,7 +71,7 @@ importers:
         version: 4.1.18
       vite:
         specifier: 8.0.0-beta.0
-        version: 8.0.0-beta.0(@types/node@24.10.3)(esbuild@0.25.12)(jiti@2.6.1)(tsx@4.21.0)
+        version: 8.0.0-beta.0(@types/node@24.10.4)(esbuild@0.25.12)(jiti@2.6.1)(tsx@4.21.0)
       wrangler:
         specifier: ^4.54.0
         version: 4.54.0
@@ -1199,8 +1199,8 @@ packages:
   '@types/babel__traverse@7.28.0':
     resolution: {integrity: sha512-8PvcXf70gTDZBgt9ptxJ8elBeBjcLOAcOtoO/mPJjtji1+CdGbHgm77om1GrsPxsiE+uXIpNSK64UYaIwQXd4Q==}
 
-  '@types/node@24.10.3':
-    resolution: {integrity: sha512-gqkrWUsS8hcm0r44yn7/xZeV1ERva/nLgrLxFRUGb7aoNMIJfZJ3AC261zDQuOAKC7MiXai1WCpYc48jAHoShQ==}
+  '@types/node@24.10.4':
+    resolution: {integrity: sha512-vnDVpYPMzs4wunl27jHrfmwojOGKya0xyM3sH+UE5iv5uPS6vX7UIoh6m+vQc5LGBq52HBKPIn/zcSZVzeDEZg==}
 
   '@types/react-dom@19.2.3':
     resolution: {integrity: sha512-jp2L/eY6fn+KgVVQAOqYItbF0VY/YApe5Mz2F0aykSO8gx31bYCZyvSeYxCHKvzHG5eZjc+zyaS5BrBWya2+kQ==}
@@ -1255,11 +1255,11 @@ packages:
     peerDependencies:
       vite: ^4.2.0 || ^5.0.0 || ^6.0.0 || ^7.0.0
 
-  '@voxelio/breeze@1.10.26':
-    resolution: {integrity: sha512-rR0ZIXf8MTVHiC9InrcchhqeVSuYPdw91h+xWORQ5NZVTFMy30YQlen3rkMwVImTLK9sNUL+lnuXMzfklzfVBg==}
+  '@voxelio/breeze@1.10.28':
+    resolution: {integrity: sha512-QO3tOkkkfG5FeoRT5NdxMChcnvxctQnME8+NYwMAcMFlP2MQjki00QiUYQQwA/aPcGBLlbCMU4/l5CYUY9KuYA==}
 
-  '@voxelio/converter@1.0.38':
-    resolution: {integrity: sha512-dAXx2b1ZToBm6vVSZYLX4Uqh9PXjTFaq35z7Sen+WDsv0KaBIRhDVz3XAZYU3545qlfqzrDAjkXGYFn6EusRQQ==}
+  '@voxelio/converter@1.0.40':
+    resolution: {integrity: sha512-tohPK1iTvwGKDAu2dOsKDWE/PuEDu6DpMYMfw5w0yJNyPFffJUozwYoNabCVG4nLmsU2nv/SK85NDARrcEQfKA==}
 
   '@voxelio/diff@1.0.7':
     resolution: {integrity: sha512-xjXz8YARb25VgDbxv0u581hana8vu1jvJST4+PSBLNmjXpMORCqpqSBb3fUFcIi0YnfRYqsFIREC8y6WcJ22cg==}
@@ -2596,12 +2596,12 @@ snapshots:
       '@tailwindcss/oxide-win32-arm64-msvc': 4.1.18
       '@tailwindcss/oxide-win32-x64-msvc': 4.1.18
 
-  '@tailwindcss/vite@4.1.18(vite@8.0.0-beta.0(@types/node@24.10.3)(esbuild@0.25.12)(jiti@2.6.1)(tsx@4.21.0))':
+  '@tailwindcss/vite@4.1.18(vite@8.0.0-beta.0(@types/node@24.10.4)(esbuild@0.25.12)(jiti@2.6.1)(tsx@4.21.0))':
     dependencies:
       '@tailwindcss/node': 4.1.18
       '@tailwindcss/oxide': 4.1.18
       tailwindcss: 4.1.18
-      vite: 8.0.0-beta.0(@types/node@24.10.3)(esbuild@0.25.12)(jiti@2.6.1)(tsx@4.21.0)
+      vite: 8.0.0-beta.0(@types/node@24.10.4)(esbuild@0.25.12)(jiti@2.6.1)(tsx@4.21.0)
 
   '@tanstack/history@1.141.0': {}
 
@@ -2653,7 +2653,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@tanstack/router-plugin@1.141.2(@tanstack/react-router@1.141.2(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(vite@8.0.0-beta.0(@types/node@24.10.3)(esbuild@0.25.12)(jiti@2.6.1)(tsx@4.21.0))':
+  '@tanstack/router-plugin@1.141.2(@tanstack/react-router@1.141.2(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(vite@8.0.0-beta.0(@types/node@24.10.4)(esbuild@0.25.12)(jiti@2.6.1)(tsx@4.21.0))':
     dependencies:
       '@babel/core': 7.28.5
       '@babel/plugin-syntax-jsx': 7.27.1(@babel/core@7.28.5)
@@ -2671,7 +2671,7 @@ snapshots:
       zod: 3.25.76
     optionalDependencies:
       '@tanstack/react-router': 1.141.2(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      vite: 8.0.0-beta.0(@types/node@24.10.3)(esbuild@0.25.12)(jiti@2.6.1)(tsx@4.21.0)
+      vite: 8.0.0-beta.0(@types/node@24.10.4)(esbuild@0.25.12)(jiti@2.6.1)(tsx@4.21.0)
     transitivePeerDependencies:
       - supports-color
 
@@ -2718,7 +2718,7 @@ snapshots:
     dependencies:
       '@babel/types': 7.28.5
 
-  '@types/node@24.10.3':
+  '@types/node@24.10.4':
     dependencies:
       undici-types: 7.16.0
 
@@ -2761,7 +2761,7 @@ snapshots:
       '@typescript/native-preview-win32-arm64': 7.0.0-dev.20251203.1
       '@typescript/native-preview-win32-x64': 7.0.0-dev.20251203.1
 
-  '@vitejs/plugin-react@5.1.2(vite@8.0.0-beta.0(@types/node@24.10.3)(esbuild@0.25.12)(jiti@2.6.1)(tsx@4.21.0))':
+  '@vitejs/plugin-react@5.1.2(vite@8.0.0-beta.0(@types/node@24.10.4)(esbuild@0.25.12)(jiti@2.6.1)(tsx@4.21.0))':
     dependencies:
       '@babel/core': 7.28.5
       '@babel/plugin-transform-react-jsx-self': 7.27.1(@babel/core@7.28.5)
@@ -2769,18 +2769,18 @@ snapshots:
       '@rolldown/pluginutils': 1.0.0-beta.53
       '@types/babel__core': 7.20.5
       react-refresh: 0.18.0
-      vite: 8.0.0-beta.0(@types/node@24.10.3)(esbuild@0.25.12)(jiti@2.6.1)(tsx@4.21.0)
+      vite: 8.0.0-beta.0(@types/node@24.10.4)(esbuild@0.25.12)(jiti@2.6.1)(tsx@4.21.0)
     transitivePeerDependencies:
       - supports-color
 
-  '@voxelio/breeze@1.10.26':
+  '@voxelio/breeze@1.10.28':
     dependencies:
       '@voxelio/diff': 1.0.7
       '@voxelio/zip': 3.2.3
 
-  '@voxelio/converter@1.0.38':
+  '@voxelio/converter@1.0.40':
     dependencies:
-      '@voxelio/breeze': 1.10.26
+      '@voxelio/breeze': 1.10.28
       '@voxelio/zip': 3.2.3
 
   '@voxelio/diff@1.0.7': {}
@@ -3285,7 +3285,7 @@ snapshots:
     dependencies:
       react: 19.2.3
 
-  vite@8.0.0-beta.0(@types/node@24.10.3)(esbuild@0.25.12)(jiti@2.6.1)(tsx@4.21.0):
+  vite@8.0.0-beta.0(@types/node@24.10.4)(esbuild@0.25.12)(jiti@2.6.1)(tsx@4.21.0):
     dependencies:
       '@oxc-project/runtime': 0.101.0
       fdir: 6.5.0(picomatch@4.0.3)
@@ -3295,7 +3295,7 @@ snapshots:
       rolldown: 1.0.0-beta.53
       tinyglobby: 0.2.15
     optionalDependencies:
-      '@types/node': 24.10.3
+      '@types/node': 24.10.4
       esbuild: 0.25.12
       fsevents: 2.3.3
       jiti: 2.6.1

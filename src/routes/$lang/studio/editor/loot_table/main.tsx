@@ -1,11 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { isVoxel, LootTableAction } from "@voxelio/breeze";
+import { isVoxel, LootTableAction, type LootItem } from "@voxelio/breeze";
 import { useState } from "react";
+import LootItemEditDialog, { type LootItemChanges } from "@/components/tools/concept/loot/LootItemEditDialog";
 import RewardItem from "@/components/tools/concept/loot/RewardItem";
 import { getCurrentElement, useConfiguratorStore } from "@/components/tools/Store";
 import { TextInput } from "@/components/ui/TextInput";
 import Translate from "@/components/ui/Translate";
 import { useFlattenedLootItems } from "@/lib/hook/useFlattenedLootItems";
+import { Toolbar } from "@/components/tools/floatingbar/Toolbar";
+import { ToolbarButton } from "@/components/tools/floatingbar/ToolbarButton";
 
 export const Route = createFileRoute("/$lang/studio/editor/loot_table/main")({
     component: LootMainPage
@@ -13,6 +16,7 @@ export const Route = createFileRoute("/$lang/studio/editor/loot_table/main")({
 
 function LootMainPage() {
     const [searchValue, setSearchValue] = useState("");
+    const [editingItem, setEditingItem] = useState<LootItem | null>(null);
     const currentElement = useConfiguratorStore((state) => getCurrentElement(state));
     const handleChange = useConfiguratorStore((state) => state.handleChange);
     const currentElementId = useConfiguratorStore((state) => state.currentElementId);
@@ -29,6 +33,28 @@ function LootMainPage() {
         handleChange(action, currentElementId, id);
     };
 
+    const handleEdit = (id: string) => {
+        const item = lootTable.items.find((i) => i.id === id);
+        if (item) setEditingItem(item);
+    };
+
+    const handleSaveEdit = (changes: LootItemChanges) => {
+        if (!currentElementId || !editingItem) return;
+
+        if (changes.name) {
+            const action = LootTableAction.modifyLootItem(editingItem.id, "name", changes.name);
+            handleChange(action, currentElementId, changes.name);
+        }
+        if (changes.weight !== undefined) {
+            const action = LootTableAction.modifyLootItem(editingItem.id, "weight", changes.weight);
+            handleChange(action, currentElementId, changes.weight);
+        }
+        if (changes.count) {
+            const action = LootTableAction.setItemCount(editingItem.id, changes.count);
+            handleChange(action, currentElementId, changes.count);
+        }
+    };
+
     if (isLoading || items.length === 0) {
         return (
             <div className="p-8 text-sm text-zinc-400">
@@ -38,7 +64,11 @@ function LootMainPage() {
     }
 
     return (
-        <div className="relative w-full min-h-full">
+        <div className="h-full overflow-y-auto flex flex-col">
+            <Toolbar>
+                <ToolbarButton icon="/icons/tools/overview/edit.svg" tooltip="loot:pools.item.edit" onClick={() => { }} />
+            </Toolbar>
+
             <div className="max-w-xl sticky top-0 z-30 px-8 py-4 bg-zinc-950/75 backdrop-blur-md border-b border-zinc-800/50 flex items-center gap-4">
                 <TextInput value={searchValue} onChange={(e) => setSearchValue(e.target.value)} placeholder="Search items..." />
             </div>
@@ -63,6 +93,7 @@ function LootMainPage() {
                             {...reward}
                             normalizedProbability={totalProbability > 0 ? reward.probability / totalProbability : undefined}
                             onDelete={reward.id ? handleDelete : undefined}
+                            onEdit={reward.id ? handleEdit : undefined}
                         />
                     ))}
                 </ul>
@@ -74,6 +105,14 @@ function LootMainPage() {
             <div className="absolute inset-0 -z-10 brightness-30 rotate-180">
                 <img src="/images/shine.avif" alt="Shine" loading="lazy" />
             </div>
+
+            <LootItemEditDialog
+                key={editingItem?.id}
+                item={editingItem}
+                open={editingItem !== null}
+                onClose={() => setEditingItem(null)}
+                onSave={handleSaveEdit}
+            />
         </div>
     );
 }

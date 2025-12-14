@@ -43,7 +43,7 @@ const questions = (lang: string) => {
     ];
 };
 
-const DISABLE_MAINTENANCE = true;
+const DISABLE_MAINTENANCE = false;
 
 function StudioLayout() {
     const { lang } = Route.useParams();
@@ -60,7 +60,7 @@ function StudioLayout() {
                     </div>
 
                     <div className="size-full flex flex-col justify-center">
-                        <small className="text-pink-700 font-bold tracking-wide text-[16px]">{translate("studio.section")}</small>
+                        <small className="text-zinc-400 font-bold tracking-wide text-[16px]">{translate("studio.section")}</small>
                         <h1 className="text-white text-4xl md:text-6xl font-bold mt-4 text-balance">{translate("studio.title")}</h1>
                         <p className="text-gray-300 mt-4">{translate("studio.description")}</p>
 

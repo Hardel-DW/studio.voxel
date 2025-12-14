@@ -68,8 +68,13 @@ export const CONCEPTS: Concept[] = [
         tabs: [
             {
                 id: "main",
-                text: "loot_table:section.main",
+                text: "loot:section.main",
                 url: "/$lang/studio/editor/loot_table/main"
+            },
+            {
+                id: "pools",
+                text: "loot:section.pools",
+                url: "/$lang/studio/editor/loot_table/pools"
             }
         ]
     },

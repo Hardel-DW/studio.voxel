@@ -28,7 +28,7 @@ function EnchantmentItemsPage() {
     };
 
     return (
-        <div className="p-8 h-full overflow-y-auto custom-scrollbar">
+        <div className="p-8 h-full overflow-y-auto">
             <ToolSectionSelector
                 id="slots"
                 title="enchantment:section.supported.description"

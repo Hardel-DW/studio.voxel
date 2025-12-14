@@ -8,7 +8,7 @@ export const Route = createFileRoute("/$lang/studio/editor/recipe/main")({
 
 function RecipeMainPage() {
     return (
-        <div className="p-8 h-full overflow-y-auto custom-scrollbar">
+        <div className="p-8 h-full overflow-y-auto">
             <div className="grid grid-cols-2 gap-8 items-start">
                 <RecipeSection />
                 <RecipeInventory />

@@ -103,3 +103,13 @@ Rules:
 - useEffect and useLayoutEffect is completely prohibited; you must ask for permission to use it. https://react.dev/learn/you-might-not-need-an-effect
 - useMemo, useCallback are deprecated and are automacly done by React 19.
 - useForwardRef is deprecated, use ref as props.
+- no .foreach prefer for of or any loop or new set/map ECMAScript 2025 syntax.
+
+It's not mandatory but you can use modern syntax ES2024 like Map.groupby or other thing.
+Map -> groupBy()
+Object -> map().filter().find().findLast().sort().toSorted().toReversed().fromEntries().groupBy()
+Array -> findLast().toSorted().toReversed().with().toSpliced().fromAsync()
+Set -> intersection().union().difference().symmetricDifference().isSubsetOf().isSupersetOf().isDisjointFrom()
+Nullish Coalescing -> ??
+Logical Assignment -> ||=
+Float16Array

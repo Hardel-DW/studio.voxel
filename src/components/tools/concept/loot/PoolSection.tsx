@@ -1,0 +1,102 @@
+import type { LootItem, PoolData } from "@voxelio/breeze";
+import PoolItemCard from "@/components/tools/concept/loot/PoolItemCard";
+import { Button } from "@/components/ui/Button";
+import Translate from "@/components/ui/Translate";
+
+interface PoolSectionProps {
+    poolIndex: number;
+    poolData?: PoolData;
+    items: LootItem[];
+    onAddItem: (poolIndex: number) => void;
+    onEditItem: (id: string) => void;
+    onDeleteItem: (id: string) => void;
+    onWeightChange: (id: string, weight: number) => void;
+    onBalanceWeights: (poolIndex: number) => void;
+    onNavigate?: (name: string) => void;
+}
+
+function formatRolls(rolls: unknown): string {
+    if (typeof rolls === "number") return String(rolls);
+    if (typeof rolls === "object" && rolls !== null) {
+        const r = rolls as { min?: number; max?: number; type?: string; value?: number };
+        if (r.type === "minecraft:uniform" && r.min !== undefined && r.max !== undefined) {
+            return `${r.min}-${r.max}`;
+        }
+        if (r.type === "minecraft:constant" && r.value !== undefined) {
+            return String(r.value);
+        }
+    }
+    return "1";
+}
+
+export default function PoolSection({
+    poolIndex,
+    poolData,
+    items,
+    onAddItem,
+    onEditItem,
+    onDeleteItem,
+    onWeightChange,
+    onBalanceWeights,
+    onNavigate
+}: PoolSectionProps) {
+    const rollsDisplay = poolData ? formatRolls(poolData.rolls) : "1";
+    const bonusRollsDisplay = poolData?.bonus_rolls ? formatRolls(poolData.bonus_rolls) : "0";
+    const totalWeight = items.reduce((sum, item) => sum + (item.weight ?? 1), 0);
+
+    return (
+        <div className="bg-zinc-900/30 border border-zinc-800 rounded-xl overflow-hidden">
+            <div className="flex items-center justify-between px-6 py-4 border-b border-zinc-800 bg-zinc-900/50">
+                <div className="flex items-center gap-6">
+                    <h3 className="text-lg font-semibold text-white">
+                        <Translate content="loot:pools.pool_title" replace={[String(poolIndex)]} />
+                    </h3>
+                    <div className="flex items-center gap-4">
+                        <div className="flex items-center gap-2 px-3 py-1.5 bg-zinc-800/50 rounded-lg">
+                            <span className="text-xs text-zinc-500 uppercase">
+                                <Translate content="loot:pools.rolls" />
+                            </span>
+                            <span className="text-sm text-white font-medium">{rollsDisplay}</span>
+                        </div>
+                        <div className="flex items-center gap-2 px-3 py-1.5 bg-zinc-800/50 rounded-lg">
+                            <span className="text-xs text-zinc-500 uppercase">
+                                <Translate content="loot:pools.bonus_rolls" />
+                            </span>
+                            <span className="text-sm text-white font-medium">{bonusRollsDisplay}</span>
+                        </div>
+                    </div>
+                </div>
+                <div className="flex items-center gap-2">
+                    <Button variant="ghost_border" size="sm" onClick={() => onBalanceWeights(poolIndex)}>
+                        <Translate content="loot:pools.balance" />
+                    </Button>
+                    <Button variant="default" size="sm" onClick={() => onAddItem(poolIndex)}>
+                        <Translate content="loot:pools.add_item" />
+                    </Button>
+                </div>
+            </div>
+
+            <div className="p-6">
+                {items.length === 0 ? (
+                    <p className="text-sm text-zinc-500 text-center py-8">
+                        <Translate content="loot:pools.empty" />
+                    </p>
+                ) : (
+                    <div className="grid grid-cols-4 gap-4">
+                        {items.map((item) => (
+                            <PoolItemCard
+                                key={item.id}
+                                item={item}
+                                totalWeight={totalWeight}
+                                onEdit={onEditItem}
+                                onDelete={onDeleteItem}
+                                onWeightChange={onWeightChange}
+                                onNavigate={onNavigate}
+                            />
+                        ))}
+                    </div>
+                )}
+            </div>
+        </div>
+    );
+}

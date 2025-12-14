@@ -97,7 +97,7 @@ function ConverterPage() {
                         <p className="text-gray-300 mt-4">{translate("suggestions.studio.description")}</p>
 
                         <div className="mt-8 flex flex-col md:flex-row gap-4">
-                            <Button to="/$lang/studio" params={{ lang }} size="xl" variant="primary" className="w-full md:w-auto">
+                            <Button to="/$lang/studio" params={{ lang }} size="xl" variant="default" className="w-full md:w-auto">
                                 {translate("generic.start")}
                             </Button>
                             <Button to="/$lang/studio" params={{ lang }} size="xl" variant="ghost" className="w-full md:w-auto">

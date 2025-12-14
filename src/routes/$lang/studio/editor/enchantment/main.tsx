@@ -15,7 +15,7 @@ export const Route = createFileRoute("/$lang/studio/editor/enchantment/main")({
 
 function EnchantmentMainPage() {
     return (
-        <div className="py-4 px-8 h-full overflow-y-auto custom-scrollbar flex flex-col gap-8">
+        <div className="py-4 px-8 h-full overflow-y-auto flex flex-col gap-8">
             <ToolSection id="main" title="enchantment:section.global.description">
                 <ToolGrid>
                     {["maxLevel", "weight", "anvilCost"].map((key, index) => (

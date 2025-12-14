@@ -65,7 +65,7 @@ export const Route = createFileRoute("/$lang/studio/editor/enchantment/find")({
 
 function EnchantmentFindPage() {
     return (
-        <div className="p-8 h-full overflow-y-auto custom-scrollbar">
+        <div className="p-8 h-full overflow-y-auto">
             <ToolSection id="behaviour" title="enchantment:section.find">
                 <ToolGrid size="350px">
                     {iterationValues.map((value) => (

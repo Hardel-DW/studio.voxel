@@ -17,7 +17,7 @@ function EnchantmentExclusivePage() {
     const [mode, setMode] = useState<string>(elements[0].id);
 
     return (
-        <div className="p-8 h-full overflow-y-auto custom-scrollbar">
+        <div className="p-8 h-full overflow-y-auto">
             <div className="flex items flex-col pt-4 h-full">
                 <ToolSectionSelector
                     id="exclusive"

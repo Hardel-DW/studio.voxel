@@ -7,6 +7,7 @@ import { useClickOutside } from "@/lib/hook/useClickOutside";
 interface RewardItemProps extends FlattenedLootItem {
     normalizedProbability?: number;
     onDelete?: (id: string) => void;
+    onEdit?: (id: string) => void;
 }
 
 export default function RewardItem(props: RewardItemProps) {
@@ -18,7 +19,7 @@ export default function RewardItem(props: RewardItemProps) {
     });
 
     const handleClick = () => {
-        if (!props.id || !props.onDelete) return;
+        if (!props.id) return;
 
         expand(
             <div ref={clickOutsideRef} className="flex items-center gap-4">
@@ -27,16 +28,30 @@ export default function RewardItem(props: RewardItemProps) {
                     <span className="text-sm font-medium">{Identifier.toDisplay(props.name)}</span>
                 </div>
                 <div className="flex items-center gap-2">
-                    <ToolbarButton
-                        icon="/icons/tools/overview/delete.svg"
-                        tooltip="loot:main.item.delete"
-                        onClick={() => {
-                            if (props.id && props.onDelete) {
-                                props.onDelete(props.id);
-                                collapse();
-                            }
-                        }}
-                    />
+                    {props.onEdit && (
+                        <ToolbarButton
+                            icon="/icons/tools/overview/edit.svg"
+                            tooltip="loot:main.item.edit"
+                            onClick={() => {
+                                if (props.id && props.onEdit) {
+                                    props.onEdit(props.id);
+                                    collapse();
+                                }
+                            }}
+                        />
+                    )}
+                    {props.onDelete && (
+                        <ToolbarButton
+                            icon="/icons/tools/overview/delete.svg"
+                            tooltip="loot:main.item.delete"
+                            onClick={() => {
+                                if (props.id && props.onDelete) {
+                                    props.onDelete(props.id);
+                                    collapse();
+                                }
+                            }}
+                        />
+                    )}
                     <ToolbarButton icon="/icons/tools/overview/close.svg" tooltip="loot:main.item.close" onClick={collapse} />
                 </div>
             </div>
