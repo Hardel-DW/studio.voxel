@@ -69,19 +69,17 @@ export function Toolbar({ children }: ToolbarProps) {
             <div
                 role="toolbar"
                 data-expanded={isExpanded}
+                data-size={size}
                 className={clsx(
                     "dynamic-island fixed z-1000 bg-zinc-950/50 backdrop-blur-lg border border-zinc-800 shadow-2xl flex flex-col",
                     !position && "bottom-8 left-1/2 -translate-x-1/2",
-                    isExpanded && size === "large" && "w-[50vw] h-[50vh] rounded-3xl p-6",
-                    isExpanded && size === "fit" && "w-fit h-fit rounded-3xl p-6",
-                    !isExpanded && "w-fit h-15 rounded-4xl p-2 justify-end cursor-move"
+                    isExpanded && "rounded-3xl p-6",
+                    !isExpanded && "rounded-4xl p-2 justify-end cursor-move"
                 )}
                 style={position ? { left: `${position.x}px`, top: `${position.y}px`, transform: "none" } : undefined}
                 onMouseDown={handleMouseDown}>
                 {isExpanded ? (
-                    <div key={size} className="dynamic-island-content size-full overflow-hidden">
-                        {state.content}
-                    </div>
+                    <div className="dynamic-island-content size-full overflow-hidden">{state.content}</div>
                 ) : (
                     <div className="flex items-center gap-4 h-full">{children}</div>
                 )}

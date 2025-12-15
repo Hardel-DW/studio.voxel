@@ -4,9 +4,10 @@ import ItemSelector from "@/components/tools/elements/gui/ItemSelector";
 import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer";
 import { useDynamicIsland } from "@/components/tools/floatingbar/FloatingBarContext";
 import { useConfiguratorStore } from "@/components/tools/Store";
-import { Button } from "@/components/ui/Button";
+import Counter from "@/components/ui/Counter";
 import { useClickOutside } from "@/lib/hook/useClickOutside";
 import useRegistry from "@/lib/hook/useRegistry";
+import { cn } from "@/lib/utils";
 
 interface LootItemEditorProps {
     item: LootItem;
@@ -40,20 +41,25 @@ export default function LootItemEditor({ item }: LootItemEditorProps) {
     };
 
     const handleWeightChange = (newWeight: number) => {
-        const value = Math.max(1, newWeight);
-        setWeight(value);
+        setWeight(newWeight);
         if (!currentElementId) return;
-        handleChange(LootTableAction.modifyLootItem(item.id, "weight", value), currentElementId, value);
+        handleChange(LootTableAction.modifyLootItem(item.id, "weight", newWeight), currentElementId, newWeight);
     };
 
-    const handleCountChange = (min: number, max: number) => {
-        const validMin = Math.max(1, min);
-        const validMax = Math.max(validMin, max);
-        setCountMin(validMin);
+    const handleCountMinChange = (min: number) => {
+        const validMax = Math.max(min, countMax);
+        setCountMin(min);
         setCountMax(validMax);
         if (!currentElementId) return;
-        handleChange(LootTableAction.setItemCount(item.id, { min: validMin, max: validMax }), currentElementId, {
-            min: validMin,
+        handleChange(LootTableAction.setItemCount(item.id, { min, max: validMax }), currentElementId, { min, max: validMax });
+    };
+
+    const handleCountMaxChange = (max: number) => {
+        const validMax = Math.max(countMin, max);
+        setCountMax(validMax);
+        if (!currentElementId) return;
+        handleChange(LootTableAction.setItemCount(item.id, { min: countMin, max: validMax }), currentElementId, {
+            min: countMin,
             max: validMax
         });
     };
@@ -68,14 +74,25 @@ export default function LootItemEditor({ item }: LootItemEditorProps) {
         return <ItemSelector currentItem={name} onItemSelect={handleNameChange} items={items} />;
     }
 
+    const identifier = Identifier.of(name, "item");
+
     return (
-        <div ref={ref} className="flex flex-col gap-4 h-full">
-            <div className="flex items-center justify-between">
-                <h3 className="text-sm font-medium text-zinc-300">Edit Loot Item</h3>
+        <div ref={ref} className="flex flex-col gap-6 h-full min-w-80">
+            <div className="flex items-center justify-between border-b border-zinc-800/50 pb-4">
+                <div className="flex items-center gap-3">
+                    <div className="size-8 rounded-lg bg-zinc-800/50 flex items-center justify-center">
+                        <img src="/icons/tools/loot.svg" alt="" className="size-4 invert opacity-60" />
+                    </div>
+                    <div>
+                        <h3 className="text-sm font-semibold text-zinc-100">Edit Loot Item</h3>
+                        <p className="text-xs text-zinc-500">{identifier.toResourceName()}</p>
+                    </div>
+                </div>
                 <button
                     type="button"
                     onClick={handleDelete}
-                    className="p-2 text-zinc-400 hover:text-red-500 hover:bg-red-500/10 rounded-lg transition-colors cursor-pointer">
+                    className="size-9 flex items-center justify-center text-zinc-500 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-colors cursor-pointer"
+                    title="Delete item">
                     <svg className="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                         <path d="M3 6h18M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6h14zM10 11v6m4-6v6" />
                     </svg>
@@ -86,66 +103,52 @@ export default function LootItemEditor({ item }: LootItemEditorProps) {
                 <button
                     type="button"
                     onClick={openItemSelector}
-                    className="flex flex-col items-center gap-2 p-3 bg-zinc-900/50 border border-zinc-800 rounded-xl hover:border-zinc-700 transition-colors cursor-pointer group">
-                    <TextureRenderer id={name} size={48} className="size-12" />
-                    <span className="text-xs text-zinc-500 group-hover:text-zinc-400 transition-colors">Change</span>
+                    className={cn(
+                        "group relative flex flex-col items-center justify-center gap-2 p-4",
+                        "bg-gradient-to-b from-zinc-800/30 to-zinc-900/50",
+                        "border border-zinc-800 rounded-xl",
+                        "hover:border-zinc-600 hover:from-zinc-700/30 hover:to-zinc-800/50",
+                        "transition-all cursor-pointer"
+                    )}>
+                    <div className="relative">
+                        <div className="absolute inset-0 bg-purple-500/10 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity" />
+                        <TextureRenderer id={name} size={64} className="size-16 relative" />
+                    </div>
+                    <span className="text-xs text-zinc-500 group-hover:text-zinc-300 transition-colors font-medium">Change</span>
                 </button>
 
-                <div className="flex flex-col gap-4 flex-1">
-                    <div className="flex flex-col gap-1.5">
-                        <span className="text-xs text-zinc-500 uppercase tracking-wider">Weight</span>
-                        <div className="flex items-center bg-zinc-900/50 border border-zinc-800 rounded-lg overflow-hidden">
-                            <button
-                                type="button"
-                                onClick={() => handleWeightChange(weight - 1)}
-                                className="px-3 py-2 hover:bg-zinc-800 transition-colors text-zinc-400 cursor-pointer">
-                                -
-                            </button>
-                            <input
-                                type="number"
-                                value={weight}
-                                onChange={(e) => handleWeightChange(Number(e.target.value))}
-                                min={1}
-                                className="flex-1 px-2 py-2 bg-transparent text-white text-center text-sm focus:outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                            />
-                            <button
-                                type="button"
-                                onClick={() => handleWeightChange(weight + 1)}
-                                className="px-3 py-2 hover:bg-zinc-800 transition-colors text-zinc-400 cursor-pointer">
-                                +
-                            </button>
+                <div className="flex flex-col gap-5 flex-1">
+                    <div className="flex items-center justify-between">
+                        <div className="flex flex-col">
+                            <span className="text-sm font-medium text-zinc-200">Weight</span>
+                            <span className="text-xs text-zinc-500">Drop priority</span>
                         </div>
+                        <Counter value={weight} min={1} max={999} step={1} onChange={handleWeightChange} />
                     </div>
 
-                    <div className="flex gap-3">
-                        <div className="flex flex-col gap-1.5 flex-1">
-                            <span className="text-xs text-zinc-500 uppercase tracking-wider">Count Min</span>
-                            <input
-                                type="number"
-                                value={countMin}
-                                onChange={(e) => handleCountChange(Number(e.target.value), countMax)}
-                                min={1}
-                                className="w-full px-3 py-2 bg-zinc-900/50 border border-zinc-800 rounded-lg text-white text-sm focus:outline-none focus:border-zinc-700 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                            />
+                    <div className="h-px bg-zinc-800/50" />
+
+                    <div className="flex items-center justify-between gap-4">
+                        <div className="flex flex-col">
+                            <span className="text-sm font-medium text-zinc-200">Count</span>
+                            <span className="text-xs text-zinc-500">Min / Max quantity</span>
                         </div>
-                        <div className="flex flex-col gap-1.5 flex-1">
-                            <span className="text-xs text-zinc-500 uppercase tracking-wider">Count Max</span>
-                            <input
-                                type="number"
-                                value={countMax}
-                                onChange={(e) => handleCountChange(countMin, Number(e.target.value))}
-                                min={countMin}
-                                className="w-full px-3 py-2 bg-zinc-900/50 border border-zinc-800 rounded-lg text-white text-sm focus:outline-none focus:border-zinc-700 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                            />
+                        <div className="flex items-center gap-2">
+                            <Counter value={countMin} min={1} max={64} step={1} onChange={handleCountMinChange} />
+                            <span className="text-zinc-600 text-sm">—</span>
+                            <Counter value={countMax} min={1} max={64} step={1} onChange={handleCountMaxChange} />
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div className="flex justify-end mt-auto pt-4 border-t border-zinc-800">
-                <Button onClick={collapse} variant="ghost_border" size="sm">
+            <div className="flex justify-end mt-auto pt-4 border-t border-zinc-800/50">
+                <button
+                    type="button"
+                    onClick={collapse}
+                    className="px-4 py-2 text-sm text-zinc-400 hover:text-zinc-200 bg-zinc-900/50 hover:bg-zinc-800 border border-zinc-800 rounded-lg transition-colors cursor-pointer">
                     Close
-                </Button>
+                </button>
             </div>
         </div>
     );
