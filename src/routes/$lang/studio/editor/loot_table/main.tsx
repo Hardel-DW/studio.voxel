@@ -1,13 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { isVoxel, LootTableAction, type LootItem } from "@voxelio/breeze";
+import { isVoxel, LootTableAction } from "@voxelio/breeze";
 import { useState } from "react";
-import LootItemEditDialog, { type LootItemChanges } from "@/components/tools/concept/loot/LootItemEditDialog";
+import LootItemEditor from "@/components/tools/concept/loot/LootItemEditor";
 import RewardItem from "@/components/tools/concept/loot/RewardItem";
+import { useDynamicIsland } from "@/components/tools/floatingbar/FloatingBarContext";
+import { Toolbar } from "@/components/tools/floatingbar/Toolbar";
+import { ToolbarSearch } from "@/components/tools/floatingbar/ToolbarSearch";
 import { getCurrentElement, useConfiguratorStore } from "@/components/tools/Store";
 import Translate from "@/components/ui/Translate";
 import { useFlattenedLootItems } from "@/lib/hook/useFlattenedLootItems";
-import { Toolbar } from "@/components/tools/floatingbar/Toolbar";
-import { ToolbarSearch } from "@/components/tools/floatingbar/ToolbarSearch";
 
 export const Route = createFileRoute("/$lang/studio/editor/loot_table/main")({
     component: LootMainPage
@@ -15,7 +16,7 @@ export const Route = createFileRoute("/$lang/studio/editor/loot_table/main")({
 
 function LootMainPage() {
     const [searchValue, setSearchValue] = useState("");
-    const [editingItem, setEditingItem] = useState<LootItem | null>(null);
+    const { expand } = useDynamicIsland();
     const currentElement = useConfiguratorStore((state) => getCurrentElement(state));
     const handleChange = useConfiguratorStore((state) => state.handleChange);
     const currentElementId = useConfiguratorStore((state) => state.currentElementId);
@@ -34,24 +35,7 @@ function LootMainPage() {
 
     const handleEdit = (id: string) => {
         const item = lootTable.items.find((i) => i.id === id);
-        if (item) setEditingItem(item);
-    };
-
-    const handleSaveEdit = (changes: LootItemChanges) => {
-        if (!currentElementId || !editingItem) return;
-
-        if (changes.name) {
-            const action = LootTableAction.modifyLootItem(editingItem.id, "name", changes.name);
-            handleChange(action, currentElementId, changes.name);
-        }
-        if (changes.weight !== undefined) {
-            const action = LootTableAction.modifyLootItem(editingItem.id, "weight", changes.weight);
-            handleChange(action, currentElementId, changes.weight);
-        }
-        if (changes.count) {
-            const action = LootTableAction.setItemCount(editingItem.id, changes.count);
-            handleChange(action, currentElementId, changes.count);
-        }
+        if (item) expand(<LootItemEditor item={item} />, "fit");
     };
 
     if (isLoading || items.length === 0) {
@@ -100,14 +84,6 @@ function LootMainPage() {
             <div className="absolute inset-0 -z-10 brightness-30 rotate-180">
                 <img src="/images/shine.avif" alt="Shine" loading="lazy" />
             </div>
-
-            <LootItemEditDialog
-                key={editingItem?.id}
-                item={editingItem}
-                open={editingItem !== null}
-                onClose={() => setEditingItem(null)}
-                onSave={handleSaveEdit}
-            />
         </div>
     );
 }

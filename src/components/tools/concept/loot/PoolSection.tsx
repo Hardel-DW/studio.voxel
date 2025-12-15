@@ -59,7 +59,6 @@ export default function PoolSection({ poolIndex, poolData, items }: { poolIndex:
     );
 }
 
-
 function formatRolls(rolls: unknown): string {
     if (typeof rolls === "number") return String(rolls);
     if (typeof rolls === "object" && rolls !== null) {

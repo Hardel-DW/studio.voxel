@@ -1,23 +1,22 @@
 import { createFileRoute, useNavigate, useParams } from "@tanstack/react-router";
-import { Identifier, isVoxel, LootTableAction, type LootItem } from "@voxelio/breeze";
-import { useState } from "react";
-import LootItemEditDialog, { type LootItemChanges } from "@/components/tools/concept/loot/LootItemEditDialog";
+import { Identifier, isVoxel, LootTableAction } from "@voxelio/breeze";
+import LootItemEditor from "@/components/tools/concept/loot/LootItemEditor";
 import { LootPoolContext } from "@/components/tools/concept/loot/LootPoolContext";
 import PoolSection from "@/components/tools/concept/loot/PoolSection";
 import ItemSelector from "@/components/tools/elements/gui/ItemSelector";
-import { getCurrentElement, useConfiguratorStore } from "@/components/tools/Store";
 import { useDynamicIsland } from "@/components/tools/floatingbar/FloatingBarContext";
-import { Button } from "@/components/ui/Button";
-import Translate from "@/components/ui/Translate";
 import { Toolbar } from "@/components/tools/floatingbar/Toolbar";
 import { ToolbarButton } from "@/components/tools/floatingbar/ToolbarButton";
+import { getCurrentElement, useConfiguratorStore } from "@/components/tools/Store";
+import { Button } from "@/components/ui/Button";
+import Translate from "@/components/ui/Translate";
+import useRegistry from "@/lib/hook/useRegistry";
 
 export const Route = createFileRoute("/$lang/studio/editor/loot_table/pools")({
     component: PoolsPage
 });
 
 function PoolsPage() {
-    const [editingItem, setEditingItem] = useState<LootItem | null>(null);
     const { lang } = useParams({ from: "/$lang" });
     const navigate = useNavigate();
     const currentElement = useConfiguratorStore((state) => getCurrentElement(state));
@@ -26,17 +25,21 @@ function PoolsPage() {
     const getRegistry = useConfiguratorStore((state) => state.getRegistry);
     const setCurrentElementId = useConfiguratorStore((state) => state.setCurrentElementId);
     const { expand, collapse } = useDynamicIsland();
-
+    const { data } = useRegistry<string[]>("registry", "item");
     const lootTable = currentElement && isVoxel(currentElement, "loot_table") ? currentElement : undefined;
     const lootTables = getRegistry("loot_table");
     if (!lootTable) return null;
 
-    const poolCount = Math.max(...lootTable.items.map((i) => i.poolIndex + 1), ...lootTable.groups.map((g) => g.poolIndex + 1), lootTable.pools?.length ?? 0, 1);
+    const poolCount = Math.max(
+        ...lootTable.items.map((i) => i.poolIndex + 1),
+        ...lootTable.groups.map((g) => g.poolIndex + 1),
+        lootTable.pools?.length ?? 0,
+        1
+    );
     const itemsByPool = Map.groupBy(lootTable.items, (item) => item.poolIndex);
+    const items = data?.filter((i) => i !== "air").map((i) => Identifier.of(i, "item").toString());
 
     const onAddItem = (poolIndex: number) => {
-        const getItems = () => getRegistry("item").map((el) => el.identifier.toString());
-
         expand(
             <ItemSelector
                 currentItem=""
@@ -46,14 +49,14 @@ function PoolsPage() {
                     handleChange(action, currentElementId, itemName);
                     collapse();
                 }}
-                items={getItems}
+                items={items}
             />
         );
     };
 
     const onEditItem = (id: string) => {
         const item = lootTable.items.find((i) => i.id === id);
-        if (item) setEditingItem(item);
+        if (item) expand(<LootItemEditor item={item} />, "fit");
     };
 
     const onDeleteItem = (id: string) => {
@@ -72,23 +75,6 @@ function PoolsPage() {
         if (!currentElementId) return;
         const action = LootTableAction.balanceWeights(poolIndex);
         handleChange(action, currentElementId, poolIndex);
-    };
-
-    const handleSaveEdit = (changes: LootItemChanges) => {
-        if (!currentElementId || !editingItem) return;
-
-        if (changes.name) {
-            const action = LootTableAction.modifyLootItem(editingItem.id, "name", changes.name);
-            handleChange(action, currentElementId, changes.name);
-        }
-        if (changes.weight !== undefined) {
-            const action = LootTableAction.modifyLootItem(editingItem.id, "weight", changes.weight);
-            handleChange(action, currentElementId, changes.weight);
-        }
-        if (changes.count) {
-            const action = LootTableAction.setItemCount(editingItem.id, changes.count);
-            handleChange(action, currentElementId, changes.count);
-        }
     };
 
     const handleAddPool = () => {
@@ -110,7 +96,7 @@ function PoolsPage() {
         <LootPoolContext value={{ onAddItem, onEditItem, onDeleteItem, onWeightChange, onBalanceWeights, onNavigate }}>
             <div className="h-full overflow-y-auto flex flex-col">
                 <Toolbar>
-                    <ToolbarButton icon="/icons/tools/overview/edit.svg" tooltip="loot:pools.item.edit" onClick={() => { }} />
+                    <ToolbarButton icon="/icons/tools/overview/edit.svg" tooltip="loot:pools.item.edit" onClick={() => {}} />
                 </Toolbar>
 
                 <div className="absolute inset-0 -z-10 brightness-30">
@@ -130,11 +116,9 @@ function PoolsPage() {
                     {Array.from({ length: poolCount }, (_, poolIndex) => {
                         const poolItems = itemsByPool.get(poolIndex) ?? [];
                         const poolData = lootTable.pools?.find((p) => p.poolIndex === poolIndex);
-                        return <PoolSection key={poolIndex.toString()} poolIndex={poolIndex} poolData={poolData} items={poolItems} />
+                        return <PoolSection key={poolIndex.toString()} poolIndex={poolIndex} poolData={poolData} items={poolItems} />;
                     })}
                 </div>
-
-                <LootItemEditDialog key={editingItem?.id} item={editingItem} open={editingItem !== null} onClose={() => setEditingItem(null)} onSave={handleSaveEdit} />
             </div>
         </LootPoolContext>
     );

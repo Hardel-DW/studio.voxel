@@ -5,17 +5,13 @@ import ItemSelector from "./ItemSelector";
 interface MinecraftSlotProps {
     id: string;
     count: number;
-    onItemChange?: (itemId: string) => void;
-    items?: () => string[];
+    onItemChange: (itemId: string) => void;
+    items: () => string[];
 }
 
 export default function MinecraftSlot({ id, count, onItemChange, items }: MinecraftSlotProps) {
     const { expand } = useDynamicIsland();
-    const handleSlotClick = () => {
-        if (onItemChange) {
-            expand(<ItemSelector currentItem={id} onItemSelect={onItemChange} items={items} />);
-        }
-    };
+    const handleSlotClick = () => expand(<ItemSelector currentItem={id} onItemSelect={onItemChange} items={items()} />);
 
     return (
         <button

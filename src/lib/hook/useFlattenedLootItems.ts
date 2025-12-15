@@ -14,14 +14,6 @@ import { useConfiguratorStore } from "@/components/tools/Store";
 import useRegistry, { type FetchedRegistry } from "@/lib/hook/useRegistry";
 import { mergeRegistries } from "@/lib/registry";
 
-let cachedResult: Map<string, FlattenedLootItem[]> = new Map();
-let cacheKey = "";
-
-function buildCacheKey(lootTables: LootTableProps[], vanillaLoaded: boolean, tagsCount: number): string {
-    const ids = lootTables.map((t) => `${t.identifier.namespace}:${t.identifier.resource}`).join("|");
-    return `${ids}:${vanillaLoaded}:${tagsCount}`;
-}
-
 function computeAllFlattened(
     lootTables: LootTableProps[],
     vanillaLootTables: FetchedRegistry<MinecraftLootTable> | undefined,
@@ -64,27 +56,17 @@ export function useFlattenedLootCache(): { itemsMap: Map<string, FlattenedLootIt
 
     const isLoading = tagsLoading || lootLoading;
     if (isLoading) {
-        return { itemsMap: cachedResult, isLoading: true };
+        return { itemsMap: new Map(), isLoading: true };
     }
 
     const mergedTags = vanillaTags ? mergeRegistries(vanillaTags, datapackTags, "tags/item") : datapackTags;
-    const newKey = buildCacheKey(lootTables, !!vanillaLootTables, mergedTags.length);
-
-    if (newKey !== cacheKey) {
-        cacheKey = newKey;
-        cachedResult = computeAllFlattened(lootTables, vanillaLootTables, mergedTags);
-        console.log("[LootCache] Computed", cachedResult.size, "tables. Keys:", Array.from(cachedResult.keys()).slice(0, 5));
-    }
-
-    return { itemsMap: cachedResult, isLoading: false };
+    const itemsMap = computeAllFlattened(lootTables, vanillaLootTables, mergedTags);
+    return { itemsMap, isLoading: false };
 }
 
 export function useFlattenedLootItems(table: LootTableProps | undefined): { items: FlattenedLootItem[]; isLoading: boolean } {
     const { itemsMap, isLoading } = useFlattenedLootCache();
-
-    if (!table) {
-        return { items: [], isLoading };
-    }
+    if (!table) return { items: [], isLoading };
 
     const key = new Identifier(table.identifier).toString();
     return { items: itemsMap.get(key) ?? [], isLoading };

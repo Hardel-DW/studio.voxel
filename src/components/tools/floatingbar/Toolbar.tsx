@@ -27,38 +27,23 @@ export function Toolbar({ children }: ToolbarProps) {
     const handleMouseDown = (e: React.MouseEvent) => {
         if (state.type !== "COLLAPSED") return;
 
-        const startX = e.clientX;
-        const startY = e.clientY;
         const rect = e.currentTarget.getBoundingClientRect();
-        const offsetX = startX - rect.left;
-        const offsetY = startY - rect.top;
+        const offsetX = e.clientX - rect.left;
+        const offsetY = e.clientY - rect.top;
 
         const handleMouseMove = (e: MouseEvent) => {
             const padding = 16;
-            let x = e.clientX - offsetX;
-            let y = e.clientY - offsetY;
-            x = Math.max(padding, Math.min(x, window.innerWidth - 300 - padding));
-            y = Math.max(padding, Math.min(y, window.innerHeight - 60 - padding));
-            const currentPos = { x, y };
-            const nearDefault = isNearDefaultPosition(currentPos);
-            setShowSnapZone(nearDefault);
-            setPosition(currentPos);
+            const x = Math.max(padding, Math.min(e.clientX - offsetX, window.innerWidth - 300 - padding));
+            const y = Math.max(padding, Math.min(e.clientY - offsetY, window.innerHeight - 60 - padding));
+            setShowSnapZone(isNearDefaultPosition({ x, y }));
+            setPosition({ x, y });
         };
 
         const handleMouseUp = (e: MouseEvent) => {
             const padding = 16;
-            let x = e.clientX - offsetX;
-            let y = e.clientY - offsetY;
-            x = Math.max(padding, Math.min(x, window.innerWidth - 300 - padding));
-            y = Math.max(padding, Math.min(y, window.innerHeight - 60 - padding));
-
-            const finalPos = { x, y };
-            if (isNearDefaultPosition(finalPos)) {
-                setPosition(null);
-            } else {
-                setPosition(finalPos);
-            }
-
+            const x = Math.max(padding, Math.min(e.clientX - offsetX, window.innerWidth - 300 - padding));
+            const y = Math.max(padding, Math.min(e.clientY - offsetY, window.innerHeight - 60 - padding));
+            setPosition(isNearDefaultPosition({ x, y }) ? null : { x, y });
             setShowSnapZone(false);
             document.removeEventListener("mousemove", handleMouseMove);
             document.removeEventListener("mouseup", handleMouseUp);
@@ -70,28 +55,33 @@ export function Toolbar({ children }: ToolbarProps) {
 
     if (!portalRef.current) return null;
 
+    const isExpanded = state.type === "EXPANDED";
+    const size = isExpanded ? state.size : null;
+
     return (
         <Portal container={portalRef.current}>
             {showSnapZone && (
-                <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 z-999" style={{ width: "300px", height: "60px" }}>
-                    <div className="w-full h-full border-2 border-dashed border-zinc-400/50 bg-zinc-400/10 rounded-full animate-pulse" />
+                <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-999 w-[300px] h-[60px]">
+                    <div className="size-full border-2 border-dashed border-zinc-400/50 bg-zinc-400/10 rounded-full animate-pulse" />
                 </div>
             )}
 
             <div
                 role="toolbar"
+                data-expanded={isExpanded}
                 className={clsx(
-                    "fixed z-1000 transition-[width,height,opacity,border-radius,padding] duration-700 ease-[cubic-bezier(0.15,1.25,0.65,1)] bg-zinc-950/50 backdrop-blur-lg border border-zinc-800 shadow-2xl flex flex-col",
+                    "dynamic-island fixed z-1000 bg-zinc-950/50 backdrop-blur-lg border border-zinc-800 shadow-2xl flex flex-col",
                     !position && "bottom-8 left-1/2 -translate-x-1/2",
-                    state.type === "EXPANDED" || state.type === "EXPANDING"
-                        ? "w-[50vw] h-[50vh] rounded-3xl cursor-default p-6"
-                        : "w-fit h-15 rounded-4xl cursor-move p-2 justify-end",
-                    state.type === "EXPANDING" || state.type === "COLLAPSING" ? "opacity-75" : "opacity-100"
+                    isExpanded && size === "large" && "w-[50vw] h-[50vh] rounded-3xl p-6",
+                    isExpanded && size === "fit" && "w-fit h-fit rounded-3xl p-6",
+                    !isExpanded && "w-fit h-15 rounded-4xl p-2 justify-end cursor-move"
                 )}
-                style={position ? { left: `${position.x}px`, top: `${position.y}px`, transform: "none" } : {}}
+                style={position ? { left: `${position.x}px`, top: `${position.y}px`, transform: "none" } : undefined}
                 onMouseDown={handleMouseDown}>
-                {state.type === "EXPANDED" || state.type === "EXPANDING" ? (
-                    <div className="w-full h-full">{state.content}</div>
+                {isExpanded ? (
+                    <div key={size} className="dynamic-island-content size-full overflow-hidden">
+                        {state.content}
+                    </div>
                 ) : (
                     <div className="flex items-center gap-4 h-full">{children}</div>
                 )}

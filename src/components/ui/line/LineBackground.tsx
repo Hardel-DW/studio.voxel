@@ -1,7 +1,6 @@
 import { useEffect, useRef } from "react";
 import { animateLines, createLine, type Line } from "@/components/ui/line/LineAnimationUtils";
 
-
 export default function LineBackground() {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const linesRef = useRef<Line[]>([]);

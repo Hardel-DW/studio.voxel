@@ -20,14 +20,21 @@ export default function RewardItem(props: RewardItemProps) {
             <div className="flex items-center gap-x-4">
                 <TextureRenderer id={props.name} className="size-10" />
                 <div className="flex flex-col">
-                    <h2 className="text-base font-extralight text-zinc-200 font-seven -tracking-wide">{Identifier.toDisplay(props.name)}</h2>
+                    <h2 className="text-base font-extralight text-zinc-200 font-seven -tracking-wide">
+                        {Identifier.toDisplay(props.name)}
+                    </h2>
                     <p className="text-xs text-zinc-400">{props.name}</p>
                 </div>
             </div>
 
             <div className="flex items-center gap-x-4">
                 <button onClick={handleDelete} type="button" className="p-1.5 cursor-pointer hidden group-hover/reward:block">
-                    <svg className="size-4 hover:text-red-500 transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <svg
+                        className="size-4 hover:text-red-500 transition-colors"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2">
                         <path d="M3 6h18M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6h14zM10 11v6m4-6v6" />
                     </svg>
                 </button>

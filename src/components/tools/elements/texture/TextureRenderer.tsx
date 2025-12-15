@@ -33,10 +33,9 @@ export default function TextureRenderer(props: { id: string; className?: string;
     if (isLoading) {
         return <div className="h-full w-full relative shrink-0 bg-gray-200 animate-pulse rounded-md" />;
     }
-
     if (error || !data || !(processId in data)) {
         return (
-            <div className="h-full w-full relative shrink-0 border-2 border-red-500 rounded-md flex items-center justify-center">
+            <div className={cn("size-full relative flex items-center justify-center shrink-0", props.className)}>
                 <img src="/icons/toast/error.svg" alt="Error" width={24} height={24} />
             </div>
         );

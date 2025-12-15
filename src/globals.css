@@ -180,6 +180,42 @@
             grid-area: 1 / 1 / 2 / 2;
         }
     }
+
+    .dynamic-island {
+        interpolate-size: allow-keywords;
+        transition-property: width, height, padding, border-radius, opacity;
+        transition-duration: 500ms;
+        transition-timing-function: cubic-bezier(0.32, 0.72, 0, 1);
+    }
+
+    .dynamic-island[data-expanded="true"] {
+        opacity: 1;
+    }
+
+    .dynamic-island[data-expanded="false"] {
+        opacity: 1;
+    }
+
+    @starting-style {
+        .dynamic-island[data-expanded="true"] {
+            opacity: 0.8;
+        }
+    }
+
+    .dynamic-island-content {
+        animation: island-content-in 400ms cubic-bezier(0.32, 0.72, 0, 1) forwards;
+    }
+
+    @keyframes island-content-in {
+        from {
+            opacity: 0;
+            scale: 0.96;
+        }
+        to {
+            opacity: 1;
+            scale: 1;
+        }
+    }
 }
 
 html,

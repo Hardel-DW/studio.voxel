@@ -1,16 +1,17 @@
 import { createContext, type ReactNode, useContext, useRef, useState } from "react";
 
+export type ToolbarSize = "large" | "fit";
+
 type FloatingBarState =
     | { type: "COLLAPSED" }
-    | { type: "EXPANDING"; content: ReactNode }
-    | { type: "EXPANDED"; content: ReactNode }
-    | { type: "COLLAPSING"; content: ReactNode };
+    | { type: "EXPANDED"; content: ReactNode; size: ToolbarSize };
 
 interface FloatingBarContextValue {
     portalRef: React.RefObject<HTMLDivElement | null>;
     state: FloatingBarState;
-    expand: (content: ReactNode) => void;
+    expand: (content: ReactNode, size?: ToolbarSize) => void;
     collapse: () => void;
+    resize: (size: ToolbarSize) => void;
 }
 
 const FloatingBarContext = createContext<FloatingBarContextValue | null>(null);
@@ -19,22 +20,22 @@ export function FloatingBarProvider({ children }: { children: ReactNode }) {
     const portalRef = useRef<HTMLDivElement>(null);
     const [state, setState] = useState<FloatingBarState>({ type: "COLLAPSED" });
 
-    const expand = (content: ReactNode) => {
-        if (state.type !== "COLLAPSED") return;
-        setState({ type: "EXPANDING", content });
-        requestAnimationFrame(() => {
-            setState({ type: "EXPANDED", content });
-        });
+    const expand = (content: ReactNode, size: ToolbarSize = "large") => {
+        setState({ type: "EXPANDED", content, size });
     };
 
     const collapse = () => {
         if (state.type !== "EXPANDED") return;
-        setState((prev) => ({ type: "COLLAPSING", content: prev.type === "EXPANDED" ? prev.content : null }));
-        setTimeout(() => setState({ type: "COLLAPSED" }), 700);
+        setState({ type: "COLLAPSED" });
+    };
+
+    const resize = (size: ToolbarSize) => {
+        if (state.type !== "EXPANDED") return;
+        setState((prev) => (prev.type === "EXPANDED" ? { ...prev, size } : prev));
     };
 
     return (
-        <FloatingBarContext.Provider value={{ portalRef, state, expand, collapse }}>
+        <FloatingBarContext.Provider value={{ portalRef, state, expand, collapse, resize }}>
             {children}
             <div ref={portalRef} id="floating-bar-portal" />
         </FloatingBarContext.Provider>
@@ -55,8 +56,9 @@ export function useDynamicIsland() {
         throw new Error("useDynamicIsland must be used within FloatingBarProvider");
     }
     return {
-        isExpanded: context.state.type === "EXPANDED" || context.state.type === "EXPANDING",
+        isExpanded: context.state.type === "EXPANDED",
         expand: context.expand,
-        collapse: context.collapse
+        collapse: context.collapse,
+        resize: context.resize
     };
 }

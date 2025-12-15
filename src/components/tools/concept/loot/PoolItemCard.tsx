@@ -17,7 +17,9 @@ export default function PoolItemCard({ item, totalWeight }: { item: LootItem; to
             </div>
 
             <div className="flex items-center justify-between px-4 py-2 border-b border-zinc-800/50">
-                <span className="px-2 py-1 text-[10px] font-medium border border-zinc-600/80 text-zinc-300 rounded-md uppercase">{item.entryType && Identifier.toDisplay(item.entryType)}</span>
+                <span className="px-2 py-1 text-[10px] font-medium border border-zinc-600/80 text-zinc-300 rounded-md uppercase">
+                    {item.entryType && Identifier.toDisplay(item.entryType)}
+                </span>
                 <div className="flex items-center gap-1">
                     {isLootTable && (
                         <button
@@ -60,9 +62,7 @@ export default function PoolItemCard({ item, totalWeight }: { item: LootItem; to
                 <div className="flex flex-col w-full">
                     <span className="text-white text-sm font-medium truncate">{Identifier.toDisplay(item.name)}</span>
                     <div className="flex items-center justify-between gap-2 w-full">
-                        <span className="text-zinc-500 text-xs font-medium truncate">
-                            {item.name}
-                        </span>
+                        <span className="text-zinc-500 text-xs font-medium truncate">{item.name}</span>
                         {countRange.max > 1 && (
                             <span className="text-xs text-zinc-500 shrink-0">
                                 ×{countRange.min === countRange.max ? countRange.min : `${countRange.min}-${countRange.max}`}
