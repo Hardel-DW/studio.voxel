@@ -47,7 +47,7 @@ function LootTableLayout() {
                         icon="/icons/pencil.svg"
                         count={modifiedCount}
                         disabled={modifiedCount === 0}
-                        to="/$lang/studio/editor/recipe/changes"
+                        to="/$lang/studio/editor/loot_table/changes"
                         params={{ lang }}>
                         Updated
                     </SidebarButton>

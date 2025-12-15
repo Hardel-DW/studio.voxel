@@ -14,7 +14,7 @@ export default function LootDetailsPopover({ items, children }: LootDetailsPopov
     return (
         <Popover className="loot-popover">
             <PopoverTrigger>{children}</PopoverTrigger>
-            <PopoverContent className="max-h-120 relative">
+            <PopoverContent className="max-h-120 relative max-w-5xl">
                 <div className="absolute inset-0 -z-10 brightness-10">
                     <img src="/images/shine.avif" alt="Shine" loading="lazy" />
                 </div>

@@ -7,7 +7,7 @@ export default function HighlightSection(props: { children: string; language: st
     const lineTokens = processTokensIntoLines(tokens);
 
     return (
-        <pre className="text-gray-300 rounded-lg overflow-auto font-code leading-normal">
+        <pre className="text-gray-300 rounded-lg overflow-auto font-[Consolas] leading-normal">
             <div className="flex">
                 <div className="flex-none p-4 text-right select-none border-r border-zinc-900">
                     {lines.map((_, index) => (

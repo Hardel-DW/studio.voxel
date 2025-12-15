@@ -50,7 +50,7 @@ function RouteComponent() {
                     <div>
                         <div
                             className={cn(
-                                "grid gap-4",
+                                "overview-grid grid gap-4",
                                 viewMode === "grid" ? "grid-cols-[repeat(auto-fill,minmax(280px,1fr))]" : "grid-cols-1"
                             )}>
                             {visibleItems.map((element) => {

@@ -18,7 +18,12 @@ const getItems = async () => {
 
 type Response = Record<string, [number, number, number, number]>;
 
-export default function TextureRenderer(props: { id: string; className?: string }) {
+// TODO: Fetch from JSON metadata
+const ATLAS_WIDTH = 992;
+const ATLAS_HEIGHT = 1024;
+
+export default function TextureRenderer(props: { id: string; className?: string; size?: number }) {
+    const { size = 40 } = props;
     const processId = Identifier.of(props.id, "item").toString();
     const { data, isLoading, error } = useQuery<Response>({
         queryKey: ["items", version],
@@ -37,19 +42,19 @@ export default function TextureRenderer(props: { id: string; className?: string 
         );
     }
 
-    const asset = data[processId];
-    const maxSize = Math.max(asset[2], asset[3]);
-    const scale = 40 / maxSize;
+    const [x, y, w, h] = data[processId];
+    const scale = size / Math.max(w, h);
+
     return (
         <div className={cn("size-full relative flex items-center justify-center shrink-0", props.className)}>
             <div
-                className="atlas absolute pixelated"
+                className="absolute pixelated"
                 style={{
-                    backgroundPosition: `${-asset[0]}px ${-asset[1]}px`,
-                    width: `${asset[2]}px`,
-                    height: `${asset[3]}px`,
-                    transform: `scale(${scale})`,
-                    transformOrigin: "center"
+                    background: `url("/images/atlas.webp") no-repeat top left`,
+                    width: size,
+                    height: size,
+                    backgroundSize: `${ATLAS_WIDTH * scale}px ${ATLAS_HEIGHT * scale}px`,
+                    backgroundPosition: `${-x * scale}px ${-y * scale}px`
                 }}
             />
         </div>

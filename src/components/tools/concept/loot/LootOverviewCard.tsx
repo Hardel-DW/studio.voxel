@@ -48,9 +48,11 @@ export default function LootOverviewCard({ elementId, items, mode }: LootOvervie
                         ))}
                     </div>
                     <LootDetailsPopover items={items}>
-                        <span className="text-xs bg-zinc-900/60 border border-zinc-800 px-2 py-2 rounded-lg cursor-pointer hover:bg-zinc-800/60 transition-colors">
+                        <button
+                            type="button"
+                            className="text-xs bg-zinc-900/60 border border-zinc-800 px-2 py-2 rounded-lg cursor-pointer hover:bg-zinc-800/60 transition-colors">
                             See Details
-                        </span>
+                        </button>
                     </LootDetailsPopover>
                 </div>
             </div>
