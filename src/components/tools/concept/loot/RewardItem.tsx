@@ -1,8 +1,5 @@
 import { calculateItemCountRange, type FlattenedLootItem, Identifier } from "@voxelio/breeze";
 import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer";
-import { useDynamicIsland } from "@/components/tools/floatingbar/FloatingBarContext";
-import { ToolbarButton } from "@/components/tools/floatingbar/ToolbarButton";
-import { useClickOutside } from "@/lib/hook/useClickOutside";
 
 interface RewardItemProps extends FlattenedLootItem {
     normalizedProbability?: number;
@@ -13,55 +10,13 @@ interface RewardItemProps extends FlattenedLootItem {
 export default function RewardItem(props: RewardItemProps) {
     const countRange = calculateItemCountRange(props.functions);
     const probabilityPercentage = props.normalizedProbability ? (props.normalizedProbability * 100).toFixed(1) : null;
-    const { expand, collapse, isExpanded } = useDynamicIsland();
-    const clickOutsideRef = useClickOutside(() => {
-        if (isExpanded) collapse();
-    });
-
-    const handleClick = () => {
-        if (!props.id) return;
-
-        expand(
-            <div ref={clickOutsideRef} className="flex items-center gap-4">
-                <div className="flex items-center gap-2 text-zinc-300">
-                    <TextureRenderer id={props.name} className="w-6 h-6" />
-                    <span className="text-sm font-medium">{Identifier.toDisplay(props.name)}</span>
-                </div>
-                <div className="flex items-center gap-2">
-                    {props.onEdit && (
-                        <ToolbarButton
-                            icon="/icons/tools/overview/edit.svg"
-                            tooltip="loot:main.item.edit"
-                            onClick={() => {
-                                if (props.id && props.onEdit) {
-                                    props.onEdit(props.id);
-                                    collapse();
-                                }
-                            }}
-                        />
-                    )}
-                    {props.onDelete && (
-                        <ToolbarButton
-                            icon="/icons/tools/overview/delete.svg"
-                            tooltip="loot:main.item.delete"
-                            onClick={() => {
-                                if (props.id && props.onDelete) {
-                                    props.onDelete(props.id);
-                                    collapse();
-                                }
-                            }}
-                        />
-                    )}
-                    <ToolbarButton icon="/icons/tools/overview/close.svg" tooltip="loot:main.item.close" onClick={collapse} />
-                </div>
-            </div>
-        );
-    };
+    const handleDelete = () => props.id && props.onDelete?.(props.id);
+    const handleEdit = () => props.id && props.onEdit?.(props.id);
 
     return (
         <li
-            onClick={handleClick}
-            className="relative overflow-hidden text-zinc-400 tracking-tighter text-xs bg-zinc-900/20 rounded-md border border-zinc-900 p-4 h-fit flex items-center justify-between gap-x-8 cursor-pointer hover:border-zinc-700 transition-colors">
+            onClick={handleEdit}
+            className="group/reward relative overflow-hidden text-zinc-400 tracking-tighter text-xs bg-zinc-900/20 rounded-md border border-zinc-900 p-2 pl-4 h-fit flex items-center justify-between gap-x-8 cursor-pointer hover:border-zinc-700 transition-colors">
             <div className="flex items-center gap-x-4">
                 <TextureRenderer id={props.name} className="size-10" />
                 <div className="flex flex-col">
@@ -70,12 +25,19 @@ export default function RewardItem(props: RewardItemProps) {
                 </div>
             </div>
 
-            <div className="flex items-center gap-x-4 text-right">
-                <div className="text-right">
-                    <p className="text-white font-bold text-lg">
-                        {countRange.min === countRange.max ? `×${countRange.min}` : `×${countRange.min}-${countRange.max}`}
-                    </p>
-                    {probabilityPercentage && <p className="text-xs text-zinc-400">{probabilityPercentage}% chance</p>}
+            <div className="flex items-center gap-x-4">
+                <button onClick={handleDelete} type="button" className="p-1.5 cursor-pointer hidden group-hover/reward:block">
+                    <svg className="size-4 hover:text-red-500 transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <path d="M3 6h18M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6h14zM10 11v6m4-6v6" />
+                    </svg>
+                </button>
+                <div className="flex items-center gap-x-4 text-right bg-zinc-900/70 rounded-md px-4 py-1">
+                    <div className="text-right">
+                        <p className="text-white font-bold text-lg">
+                            {countRange.min === countRange.max ? `×${countRange.min}` : `×${countRange.min}-${countRange.max}`}
+                        </p>
+                        {probabilityPercentage && <p className="text-xs text-zinc-400">{probabilityPercentage}% chance</p>}
+                    </div>
                 </div>
             </div>
             <div className="absolute inset-0 -z-10 brightness-30 hue-rotate-15">

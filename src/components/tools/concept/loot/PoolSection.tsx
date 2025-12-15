@@ -1,45 +1,11 @@
 import type { LootItem, PoolData } from "@voxelio/breeze";
+import { useLootPoolActions } from "@/components/tools/concept/loot/LootPoolContext";
 import PoolItemCard from "@/components/tools/concept/loot/PoolItemCard";
 import { Button } from "@/components/ui/Button";
 import Translate from "@/components/ui/Translate";
 
-interface PoolSectionProps {
-    poolIndex: number;
-    poolData?: PoolData;
-    items: LootItem[];
-    onAddItem: (poolIndex: number) => void;
-    onEditItem: (id: string) => void;
-    onDeleteItem: (id: string) => void;
-    onWeightChange: (id: string, weight: number) => void;
-    onBalanceWeights: (poolIndex: number) => void;
-    onNavigate?: (name: string) => void;
-}
-
-function formatRolls(rolls: unknown): string {
-    if (typeof rolls === "number") return String(rolls);
-    if (typeof rolls === "object" && rolls !== null) {
-        const r = rolls as { min?: number; max?: number; type?: string; value?: number };
-        if (r.type === "minecraft:uniform" && r.min !== undefined && r.max !== undefined) {
-            return `${r.min}-${r.max}`;
-        }
-        if (r.type === "minecraft:constant" && r.value !== undefined) {
-            return String(r.value);
-        }
-    }
-    return "1";
-}
-
-export default function PoolSection({
-    poolIndex,
-    poolData,
-    items,
-    onAddItem,
-    onEditItem,
-    onDeleteItem,
-    onWeightChange,
-    onBalanceWeights,
-    onNavigate
-}: PoolSectionProps) {
+export default function PoolSection({ poolIndex, poolData, items }: { poolIndex: number; poolData?: PoolData; items: LootItem[] }) {
+    const { onAddItem, onBalanceWeights } = useLootPoolActions();
     const rollsDisplay = poolData ? formatRolls(poolData.rolls) : "1";
     const bonusRollsDisplay = poolData?.bonus_rolls ? formatRolls(poolData.bonus_rolls) : "0";
     const totalWeight = items.reduce((sum, item) => sum + (item.weight ?? 1), 0);
@@ -84,19 +50,26 @@ export default function PoolSection({
                 ) : (
                     <div className="grid grid-cols-4 gap-4">
                         {items.map((item) => (
-                            <PoolItemCard
-                                key={item.id}
-                                item={item}
-                                totalWeight={totalWeight}
-                                onEdit={onEditItem}
-                                onDelete={onDeleteItem}
-                                onWeightChange={onWeightChange}
-                                onNavigate={onNavigate}
-                            />
+                            <PoolItemCard key={item.id} item={item} totalWeight={totalWeight} />
                         ))}
                     </div>
                 )}
             </div>
         </div>
     );
+}
+
+
+function formatRolls(rolls: unknown): string {
+    if (typeof rolls === "number") return String(rolls);
+    if (typeof rolls === "object" && rolls !== null) {
+        const r = rolls as { min?: number; max?: number; type?: string; value?: number };
+        if (r.type === "minecraft:uniform" && r.min !== undefined && r.max !== undefined) {
+            return `${r.min}-${r.max}`;
+        }
+        if (r.type === "minecraft:constant" && r.value !== undefined) {
+            return String(r.value);
+        }
+    }
+    return "1";
 }
