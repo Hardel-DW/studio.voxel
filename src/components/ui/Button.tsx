@@ -5,7 +5,6 @@ import { cn } from "@/lib/utils";
 const variants = {
     variant: {
         default: "bg-zinc-200 text-zinc-800 border-2 border-zinc-500 hover:bg-zinc-300",
-        primary: "bg-pink-700 text-zinc-200 hover:bg-pink-800",
         black: "bg-black text-zinc-200 border-2 border-zinc-500 hover:bg-zinc-900",
         ghost: "bg-transparent text-zinc-200 border-2 border-zinc-500 hover:bg-zinc-200 hover:text-zinc-800",
         ghost_border:

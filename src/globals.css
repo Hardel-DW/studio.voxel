@@ -81,7 +81,7 @@
     --text-s--line-height: 1.5rem; 
     --font-rubik: 'Rubik Variable', sans-serif;
     --font-minecraft: 'Minecraft', monospace;
-    --font-minecraft-seven: 'MinecraftSeven', monospace;
+    --font-seven: 'MinecraftSeven', monospace;
     --grid-template-columns-items: repeat(auto-fill, minmax(120px, 1fr));
     --grid-template-columns-items: repeat(auto-fill, minmax(52px, 1fr));
     --grid-template-rows-items: repeat(auto-fill, minmax(52px, 1fr)); 

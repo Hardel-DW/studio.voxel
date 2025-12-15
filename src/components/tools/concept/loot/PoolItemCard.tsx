@@ -17,7 +17,7 @@ export default function PoolItemCard({ item, totalWeight }: { item: LootItem; to
             </div>
 
             <div className="flex items-center justify-between px-4 py-2 border-b border-zinc-800/50">
-                <span className="px-2 py-1 text-[10px] font-medium border border-emerald-600/80 text-zinc-300 rounded-md uppercase">{item.entryType && Identifier.toDisplay(item.entryType)}</span>
+                <span className="px-2 py-1 text-[10px] font-medium border border-zinc-600/80 text-zinc-300 rounded-md uppercase">{item.entryType && Identifier.toDisplay(item.entryType)}</span>
                 <div className="flex items-center gap-1">
                     {isLootTable && (
                         <button

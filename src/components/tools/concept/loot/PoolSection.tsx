@@ -36,7 +36,7 @@ export default function PoolSection({ poolIndex, poolData, items }: { poolIndex:
                     <Button variant="ghost_border" size="sm" onClick={() => onBalanceWeights(poolIndex)}>
                         <Translate content="loot:pools.balance" />
                     </Button>
-                    <Button variant="default" size="sm" onClick={() => onAddItem(poolIndex)}>
+                    <Button variant="ghost" size="sm" onClick={() => onAddItem(poolIndex)}>
                         <Translate content="loot:pools.add_item" />
                     </Button>
                 </div>

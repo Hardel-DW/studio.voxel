@@ -4,11 +4,10 @@ import { useState } from "react";
 import LootItemEditDialog, { type LootItemChanges } from "@/components/tools/concept/loot/LootItemEditDialog";
 import RewardItem from "@/components/tools/concept/loot/RewardItem";
 import { getCurrentElement, useConfiguratorStore } from "@/components/tools/Store";
-import { TextInput } from "@/components/ui/TextInput";
 import Translate from "@/components/ui/Translate";
 import { useFlattenedLootItems } from "@/lib/hook/useFlattenedLootItems";
 import { Toolbar } from "@/components/tools/floatingbar/Toolbar";
-import { ToolbarButton } from "@/components/tools/floatingbar/ToolbarButton";
+import { ToolbarSearch } from "@/components/tools/floatingbar/ToolbarSearch";
 
 export const Route = createFileRoute("/$lang/studio/editor/loot_table/main")({
     component: LootMainPage
@@ -66,12 +65,8 @@ function LootMainPage() {
     return (
         <div className="h-full overflow-y-auto flex flex-col">
             <Toolbar>
-                <ToolbarButton icon="/icons/tools/overview/edit.svg" tooltip="loot:pools.item.edit" onClick={() => { }} />
+                <ToolbarSearch placeholder="Search items..." value={searchValue} onChange={setSearchValue} />
             </Toolbar>
-
-            <div className="max-w-xl sticky top-0 z-30 px-8 py-4 bg-zinc-950/75 backdrop-blur-md border-b border-zinc-800/50 flex items-center gap-4">
-                <TextInput value={searchValue} onChange={(e) => setSearchValue(e.target.value)} placeholder="Search items..." />
-            </div>
 
             <div className="col-span-5 flex flex-col gap-y-4 p-8">
                 <div>

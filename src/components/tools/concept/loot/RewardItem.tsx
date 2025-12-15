@@ -20,8 +20,8 @@ export default function RewardItem(props: RewardItemProps) {
             <div className="flex items-center gap-x-4">
                 <TextureRenderer id={props.name} className="size-10" />
                 <div className="flex flex-col">
-                    <h2 className="text-xl font-bold text-white">{Identifier.of(props.name, "not_a_registry").toResourceName()}</h2>
-                    <p className="text-sm text-zinc-400">{props.name}</p>
+                    <h2 className="text-base font-extralight text-zinc-200 font-seven -tracking-wide">{Identifier.toDisplay(props.name)}</h2>
+                    <p className="text-xs text-zinc-400">{props.name}</p>
                 </div>
             </div>
 
