@@ -46,7 +46,7 @@ function TreeNode({ name, path, node, elementIcon, folderIcons, depth }: TreeNod
     const hasChildren = node.children.size > 0;
     const isHighlighted = isElement ? node.elementId === currentElementId : !currentElementId && filterPath === path;
     const isEmpty = node.count === 0 && !isElement;
-    const hue = stringToColor(path);
+    const hue = stringToColor(isElement && node.elementId ? node.elementId : path);
 
     if (!isElement && !isOpen && hasActiveDescendant(node, currentElementId)) {
         setIsOpen(true);
