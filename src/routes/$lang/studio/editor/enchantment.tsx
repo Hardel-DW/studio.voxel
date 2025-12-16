@@ -38,10 +38,11 @@ function EnchantmentLayout() {
     const enchantment = currentElement && isVoxel(currentElement, "enchantment") ? currentElement : undefined;
     const isOverview = location.pathname.endsWith("/overview");
     const folderIcons = sidebarView === "slots" ? SLOT_FOLDER_ICONS : sidebarView === "items" ? ITEM_FOLDER_ICONS : undefined;
+    const disableAutoExpand = sidebarView === "slots";
 
     return (
         <TreeProvider
-            config={{ overviewRoute, detailRoute, changesRoute, tree, modifiedCount, elementIcon, folderIcons, disableAutoExpand: true }}>
+            config={{ overviewRoute, detailRoute, changesRoute, tree, modifiedCount, elementIcon, folderIcons, disableAutoExpand }}>
             <div className="flex size-full overflow-hidden relative z-10 isolate">
                 <EditorSidebar title="enchantment:overview.title" icon={elementIcon} linkTo="/$lang/studio/editor/enchantment/overview">
                     <ToggleGroup value={sidebarView} onChange={setSidebarView} className="mt-4">
