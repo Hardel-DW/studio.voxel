@@ -1,9 +1,10 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { isVoxel, LootTableAction } from "@voxelio/breeze";
+import { createFileRoute, useNavigate, useParams } from "@tanstack/react-router";
+import { Identifier, isVoxel, LootTableAction } from "@voxelio/breeze";
 import { useState } from "react";
 import LootItemEditor from "@/components/tools/concept/loot/LootItemEditor";
 import RewardItem from "@/components/tools/concept/loot/RewardItem";
 import { useDynamicIsland } from "@/components/tools/floatingbar/FloatingBarContext";
+import { ToolGrab } from "@/components/tools/floatingbar/ToolGrab";
 import { Toolbar } from "@/components/tools/floatingbar/Toolbar";
 import { ToolbarSearch } from "@/components/tools/floatingbar/ToolbarSearch";
 import { getCurrentElement, useConfiguratorStore } from "@/components/tools/Store";
@@ -16,11 +17,16 @@ export const Route = createFileRoute("/$lang/studio/editor/loot_table/main")({
 
 function LootMainPage() {
     const [searchValue, setSearchValue] = useState("");
+    const { lang } = useParams({ from: "/$lang" });
+    const navigate = useNavigate();
     const { expand } = useDynamicIsland();
     const currentElement = useConfiguratorStore((state) => getCurrentElement(state));
     const handleChange = useConfiguratorStore((state) => state.handleChange);
     const currentElementId = useConfiguratorStore((state) => state.currentElementId);
+    const getRegistry = useConfiguratorStore((state) => state.getRegistry);
+    const setCurrentElementId = useConfiguratorStore((state) => state.setCurrentElementId);
     const lootTable = currentElement && isVoxel(currentElement, "loot_table") ? currentElement : undefined;
+    const lootTables = getRegistry("loot_table");
     const { items, isLoading } = useFlattenedLootItems(lootTable);
     if (!lootTable) return null;
 
@@ -38,6 +44,14 @@ function LootMainPage() {
         if (item) expand(<LootItemEditor item={item} />, "fit");
     };
 
+    const handleNavigate = (name: string) => {
+        const targetId = Identifier.of(name, "loot_table");
+        const target = lootTables.find((lt) => new Identifier(lt.identifier).equals(targetId));
+        if (!target) return;
+        setCurrentElementId(new Identifier(target.identifier).toUniqueKey());
+        navigate({ to: "/$lang/studio/editor/loot_table/main", params: { lang } });
+    };
+
     if (isLoading || items.length === 0) {
         return (
             <div className="p-8 text-sm text-zinc-400">
@@ -49,6 +63,7 @@ function LootMainPage() {
     return (
         <div className="h-full overflow-y-auto flex flex-col">
             <Toolbar>
+                <ToolGrab />
                 <ToolbarSearch placeholder="Search items..." value={searchValue} onChange={setSearchValue} />
             </Toolbar>
 
@@ -73,6 +88,7 @@ function LootMainPage() {
                             normalizedProbability={totalProbability > 0 ? reward.probability / totalProbability : undefined}
                             onDelete={reward.id ? handleDelete : undefined}
                             onEdit={reward.id ? handleEdit : undefined}
+                            onNavigate={handleNavigate}
                         />
                     ))}
                 </ul>

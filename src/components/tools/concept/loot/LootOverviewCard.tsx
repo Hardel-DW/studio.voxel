@@ -6,6 +6,7 @@ import LootOverviewList from "@/components/tools/concept/loot/LootOverviewList";
 import SimpleSwitch from "@/components/tools/elements/SimpleSwitch";
 import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer";
 import { useConfiguratorStore } from "@/components/tools/Store";
+import { hueToHsl, stringToColor } from "@/lib/utils/color";
 
 interface LootOverviewCardProps {
     elementId: string;
@@ -15,18 +16,25 @@ interface LootOverviewCardProps {
 
 export default function LootOverviewCard({ elementId, items, mode }: LootOverviewCardProps) {
     const { lang } = useParams({ from: "/$lang" });
-    const resourceName = Identifier.fromUniqueKey(elementId).toResourceName();
+    const identifier = Identifier.fromUniqueKey(elementId);
+    const resourceName = identifier.toResourceName();
+    const pathParts = identifier.resource.split("/");
+    const parentPath = pathParts.length > 1 ? pathParts.slice(0, -1).join("/") : "";
+    const firstFolder = pathParts.length > 1 ? pathParts[0] : "";
+    const colorKey = firstFolder ? `${identifier.namespace}:${firstFolder}` : identifier.namespace;
+    const pathColor = hueToHsl(stringToColor(colorKey), 50, 50);
 
     const handleConfigure = () => useConfiguratorStore.getState().setCurrentElementId(elementId);
 
     if (mode === "list") {
-        return <LootOverviewList elementId={elementId} items={items} resourceName={resourceName} />;
+        return <LootOverviewList elementId={elementId} items={items} resourceName={resourceName} color={pathColor} />;
     }
 
     return (
         <div
             data-element-id={elementId}
-            className="overview-card bg-zinc-950/70 border border-zinc-900 select-none relative rounded-xl p-4 flex flex-col transition-transform duration-150 ease-out hover:-translate-y-0.5 isolate">
+            className="overview-card bg-zinc-950/70 border border-zinc-900 select-none relative rounded-xl p-4 flex flex-col transition-transform duration-150 ease-out hover:-translate-y-0.5 isolate overflow-hidden">
+            <span className="absolute h-0.5 top-0 left-0 right-0 opacity-35 rounded-full" style={{ background: `linear-gradient(180deg, transparent, ${pathColor}, transparent)` }} />
             <div className="absolute inset-0 -z-10 brightness-10">
                 <img src="/images/shine.avif" alt="Shine" loading="lazy" />
             </div>
@@ -34,7 +42,16 @@ export default function LootOverviewCard({ elementId, items, mode }: LootOvervie
             <div className="flex items-center justify-between pb-3">
                 <div className="flex flex-col justify-center flex-1 min-w-0">
                     <h3 className="text-sm font-semibold truncate">{resourceName}</h3>
-                    <p className="text-[10px] tracking-wider minecraft-font text-zinc-400">{items.length} items</p>
+                    {parentPath && (
+                        <p className="text-xs text-zinc-500 truncate font-rubik font-bold text-[10px] flex items-center gap-1">
+                            {parentPath.split("/").map((part, index, arr) => (
+                                <span key={part}>
+                                    {part.replace(/_/g, " ").replace(/\b\w/g, (l) => l.toUpperCase())}
+                                    {index < arr.length - 1 && <span className="text-zinc-700 mx-0.5">/</span>}
+                                </span>
+                            ))}
+                        </p>
+                    )}
                 </div>
 
                 <SimpleSwitch elementId={elementId} action={CoreAction.invertBoolean("disabled")} renderer={(el) => !el.disabled} />

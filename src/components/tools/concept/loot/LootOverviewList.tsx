@@ -9,18 +9,22 @@ interface LootOverviewListProps {
     elementId: string;
     items: FlattenedLootItem[];
     resourceName: string;
+    color: string;
 }
 
-export default function LootOverviewList({ elementId, items, resourceName }: LootOverviewListProps) {
+export default function LootOverviewList({ elementId, items, resourceName, color }: LootOverviewListProps) {
     const { lang } = useParams({ from: "/$lang" });
     const handleConfigure = () => useConfiguratorStore.getState().setCurrentElementId(elementId);
-    const fullIdentifier = Identifier.fromUniqueKey(elementId).toString();
+    const identifier = Identifier.fromUniqueKey(elementId);
+    const pathParts = identifier.resource.split("/");
+    const parentPath = pathParts.length > 1 ? pathParts.slice(0, -1).join("/") : "";
 
     return (
         <div
             data-element-id={elementId}
-            className="group flex items-center justify-between bg-zinc-950/30 hover:bg-zinc-900/60 border-b p-3 transition-colors first:border-t border-zinc-800/30">
-            <div className="flex items-center gap-4 flex-1 min-w-0">
+            className="group flex items-center justify-between bg-zinc-950/30 hover:bg-zinc-900/60 border-b p-3 transition-colors first:border-t border-zinc-800/30 relative overflow-hidden">
+            <span className="absolute left-0 top-0 bottom-0 w-0.5 opacity-35" style={{ background: `linear-gradient(180deg, transparent, ${color}, transparent)` }} />
+            <div className="flex items-center gap-4 flex-1 min-w-0 pl-2">
                 <LootDetailsPopover items={items}>
                     <div className="flex -space-x-2 relative group/preview shrink-0 items-center h-full cursor-pointer">
                         {items.slice(0, 1).map((item, index) => (
@@ -39,14 +43,24 @@ export default function LootOverviewList({ elementId, items, resourceName }: Loo
                 </LootDetailsPopover>
 
                 <div className="flex flex-col justify-center min-w-0">
-                    <h3 className="text-sm font-medium text-zinc-200 truncate group-hover:text-white transition-colors">{resourceName}</h3>
-                    <p className="text-xs text-zinc-500 truncate flex items-center gap-2">
-                        <span className="font-mono text-[10px] opacity-60">{fullIdentifier}</span>
-                    </p>
+                    <div className="flex items-center gap-1.5">
+                        <h3 className="text-sm font-medium text-zinc-200 truncate group-hover:text-white transition-colors">{resourceName}</h3>
+                    </div>
+                    {parentPath && (
+                        <p className="text-xs text-zinc-500 truncate font-mono text-[10px] flex items-center gap-1">
+                            {parentPath.split("/").map((part, index, arr) => (
+                                <span key={part}>
+                                    {part.charAt(0).toUpperCase() + part.slice(1)}
+                                    {index < arr.length - 1 && <span className="text-zinc-700 mx-0.5">/</span>}
+                                </span>
+                            ))}
+                        </p>
+                    )}
                 </div>
             </div>
 
             <div className="flex items-center gap-2 shrink-0">
+                <kbd className="px-1 py-0.5 text-[10px] text-zinc-500 bg-zinc-900/50 border border-zinc-800/50 rounded mx-4">{identifier.namespace}</kbd>
                 <SimpleSwitch elementId={elementId} action={CoreAction.invertBoolean("disabled")} renderer={(el) => !el.disabled} />
 
                 <div className="h-4 w-px bg-zinc-800/50 mx-2" />
