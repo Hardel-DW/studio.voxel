@@ -1,21 +1,17 @@
 import { createFileRoute, Outlet, useLocation, useNavigate, useParams } from "@tanstack/react-router";
 import { Identifier, isVoxel } from "@voxelio/breeze";
 import { useEditorUiStore } from "@/components/tools/concept/EditorUiStore";
-import SidebarButton from "@/components/tools/concept/layout/EditorButton";
 import { EditorHeader } from "@/components/tools/concept/layout/EditorHeader";
 import { EditorSidebar } from "@/components/tools/concept/layout/EditorSidebar";
 import { buildRecipeTree } from "@/components/tools/concept/recipe/buildRecipeTree";
 import { RECIPE_BLOCKS } from "@/components/tools/concept/recipe/recipeConfig";
 import NotFoundStudio from "@/components/tools/NotFoundStudio";
 import { getCurrentElement, getModifiedElements, useConfiguratorStore } from "@/components/tools/Store";
-import { FileTree } from "@/components/ui/FileTree";
+import { TreeNavigationProvider } from "@/components/ui/TreeNavigationContext";
+import { TreeSidebar } from "@/components/ui/TreeSidebar";
 import { useElementsByType } from "@/lib/hook/useElementsByType";
 
-export const Route = createFileRoute("/$lang/studio/editor/recipe")({
-    component: RecipeLayout,
-    notFoundComponent: NotFoundStudio
-});
-
+const RECIPE_ICON = "/images/features/block/crafting_table.webp";
 const RECIPE_FOLDER_ICONS: Record<string, string> = Object.fromEntries(
     RECIPE_BLOCKS.filter((b) => !b.isSpecial).flatMap((b) => {
         const icon = `/images/features/block/${Identifier.of(b.id, "none").resource}.webp`;
@@ -23,61 +19,51 @@ const RECIPE_FOLDER_ICONS: Record<string, string> = Object.fromEntries(
     })
 );
 
-const RECIPE_ICON = "/images/features/block/crafting_table.webp";
+const TREE_CONFIG = {
+    overviewRoute: "/$lang/studio/editor/recipe/overview",
+    detailRoute: "/$lang/studio/editor/recipe/main"
+};
+
+export const Route = createFileRoute("/$lang/studio/editor/recipe")({
+    component: RecipeLayout,
+    notFoundComponent: NotFoundStudio
+});
 
 function RecipeLayout() {
     const { lang } = useParams({ from: "/$lang/studio/editor/recipe" });
-    const { filterPath, setFilterPath } = useEditorUiStore();
-    const elements = useElementsByType("recipe");
-    const modifiedCount = useConfiguratorStore((state) => getModifiedElements(state, "recipe").length);
-    const tree = buildRecipeTree(elements);
+    const { filterPath } = useEditorUiStore();
     const location = useLocation();
     const navigate = useNavigate();
-    const isOverview = location.pathname.endsWith("/overview");
-    const currentElement = useConfiguratorStore((state) => getCurrentElement(state));
+    const elements = useElementsByType("recipe");
+    const tree = buildRecipeTree(elements);
+    const modifiedCount = useConfiguratorStore((s) => getModifiedElements(s, "recipe").length);
+    const currentElement = useConfiguratorStore((s) => getCurrentElement(s));
     const recipe = currentElement && isVoxel(currentElement, "recipe") ? currentElement : undefined;
-
-    const handleBack = () => navigate({ to: "/$lang/studio/editor/recipe/overview", params: { lang } });
-    const handleTreeSelect = (path: string) => {
-        setFilterPath(path);
-        if (!isOverview) {
-            navigate({ to: "/$lang/studio/editor/recipe/overview", params: { lang } });
-        }
-    };
+    const isOverview = location.pathname.endsWith("/overview");
 
     return (
-        <div className="flex size-full overflow-hidden relative z-10 isolate">
-            <EditorSidebar title="recipe:overview.title" icon={RECIPE_ICON} linkTo="/$lang/studio/editor/recipe/overview">
-                <div className="space-y-1 mt-4">
-                    <SidebarButton
-                        icon="/icons/pencil.svg"
-                        count={modifiedCount}
-                        disabled={modifiedCount === 0}
-                        to="/$lang/studio/editor/recipe/changes"
-                        params={{ lang }}>
-                        Updated
-                    </SidebarButton>
-                    <SidebarButton
-                        icon="/icons/search.svg"
-                        count={tree.count}
-                        isActive={filterPath === ""}
-                        onClick={() => setFilterPath("")}>
-                        All
-                    </SidebarButton>
-                    <FileTree tree={tree} activePath={filterPath} onSelect={handleTreeSelect} folderIcons={RECIPE_FOLDER_ICONS} />
-                </div>
-            </EditorSidebar>
+        <TreeNavigationProvider config={TREE_CONFIG}>
+            <div className="flex size-full overflow-hidden relative z-10 isolate">
+                <EditorSidebar title="recipe:overview.title" icon={RECIPE_ICON} linkTo="/$lang/studio/editor/recipe/overview">
+                    <TreeSidebar
+                        tree={tree}
+                        modifiedCount={modifiedCount}
+                        changesRoute="/$lang/studio/editor/recipe/changes"
+                        folderIcons={RECIPE_FOLDER_ICONS}
+                    />
+                </EditorSidebar>
 
-            <main className="flex-1 flex flex-col min-w-0 min-h-0 overflow-hidden relative bg-zinc-950">
-                <EditorHeader
-                    fallbackTitle="Recipe"
-                    identifier={recipe?.identifier}
-                    filterPath={filterPath}
-                    isOverview={isOverview}
-                    onBack={handleBack}
-                />
-                <Outlet />
-            </main>
-        </div>
+                <main className="flex-1 flex flex-col min-w-0 min-h-0 overflow-hidden relative bg-zinc-950">
+                    <EditorHeader
+                        fallbackTitle="Recipe"
+                        identifier={recipe?.identifier}
+                        filterPath={filterPath}
+                        isOverview={isOverview}
+                        onBack={() => navigate({ to: "/$lang/studio/editor/recipe/overview", params: { lang } })}
+                    />
+                    <Outlet />
+                </main>
+            </div>
+        </TreeNavigationProvider>
     );
 }

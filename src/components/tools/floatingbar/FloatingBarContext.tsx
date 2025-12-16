@@ -2,9 +2,7 @@ import { createContext, type ReactNode, useContext, useRef, useState } from "rea
 
 export type ToolbarSize = "large" | "fit";
 
-type FloatingBarState =
-    | { type: "COLLAPSED" }
-    | { type: "EXPANDED"; content: ReactNode; size: ToolbarSize };
+type FloatingBarState = { type: "COLLAPSED" } | { type: "EXPANDED"; content: ReactNode; size: ToolbarSize };
 
 interface FloatingBarContextValue {
     portalRef: React.RefObject<HTMLDivElement | null>;

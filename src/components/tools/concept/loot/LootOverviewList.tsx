@@ -23,7 +23,10 @@ export default function LootOverviewList({ elementId, items, resourceName, color
         <div
             data-element-id={elementId}
             className="group flex items-center justify-between bg-zinc-950/30 hover:bg-zinc-900/60 border-b p-3 transition-colors first:border-t border-zinc-800/30 relative overflow-hidden">
-            <span className="absolute left-0 top-0 bottom-0 w-0.5 opacity-35" style={{ background: `linear-gradient(180deg, transparent, ${color}, transparent)` }} />
+            <span
+                className="absolute left-0 top-0 bottom-0 w-0.5 opacity-35"
+                style={{ background: `linear-gradient(180deg, transparent, ${color}, transparent)` }}
+            />
             <div className="flex items-center gap-4 flex-1 min-w-0 pl-2">
                 <LootDetailsPopover items={items}>
                     <div className="flex -space-x-2 relative group/preview shrink-0 items-center h-full cursor-pointer">
@@ -44,7 +47,9 @@ export default function LootOverviewList({ elementId, items, resourceName, color
 
                 <div className="flex flex-col justify-center min-w-0">
                     <div className="flex items-center gap-1.5">
-                        <h3 className="text-sm font-medium text-zinc-200 truncate group-hover:text-white transition-colors">{resourceName}</h3>
+                        <h3 className="text-sm font-medium text-zinc-200 truncate group-hover:text-white transition-colors">
+                            {resourceName}
+                        </h3>
                     </div>
                     {parentPath && (
                         <p className="text-xs text-zinc-500 truncate font-mono text-[10px] flex items-center gap-1">
@@ -60,7 +65,9 @@ export default function LootOverviewList({ elementId, items, resourceName, color
             </div>
 
             <div className="flex items-center gap-2 shrink-0">
-                <kbd className="px-1 py-0.5 text-[10px] text-zinc-500 bg-zinc-900/50 border border-zinc-800/50 rounded mx-4">{identifier.namespace}</kbd>
+                <kbd className="px-1 py-0.5 text-[10px] text-zinc-500 bg-zinc-900/50 border border-zinc-800/50 rounded mx-4">
+                    {identifier.namespace}
+                </kbd>
                 <SimpleSwitch elementId={elementId} action={CoreAction.invertBoolean("disabled")} renderer={(el) => !el.disabled} />
 
                 <div className="h-4 w-px bg-zinc-800/50 mx-2" />

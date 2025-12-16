@@ -1,15 +1,15 @@
 import { Identifier, type IdentifierObject } from "@voxelio/breeze";
 
-export interface TreeNode {
+export interface TreeNodeType {
     identifiers: IdentifierObject[];
-    children: Map<string, TreeNode>;
+    children: Map<string, TreeNodeType>;
     count: number;
     elementId?: string;
     isFolder?: boolean;
 }
 
-export function buildTree(identifiers: IdentifierObject[], includeElements = false): TreeNode {
-    const root: TreeNode = { identifiers: [], children: new Map(), count: 0 };
+export function buildTree(identifiers: IdentifierObject[], includeElements = false): TreeNodeType {
+    const root: TreeNodeType = { identifiers: [], children: new Map(), count: 0 };
     for (const id of identifiers) {
         const parts = id.resource.split("/");
         const folders = [id.namespace, ...parts.slice(0, -1)];
@@ -40,7 +40,7 @@ export function buildTree(identifiers: IdentifierObject[], includeElements = fal
         }
     }
 
-    const calculateCount = (node: TreeNode): number => {
+    const calculateCount = (node: TreeNodeType): number => {
         if (node.elementId) return 1;
         let count = 0;
         for (const child of node.children.values()) {
@@ -58,4 +58,13 @@ export function matchesPath(id: IdentifierObject, folderPath: string): boolean {
     if (!folderPath) return true;
     const elementPath = `${id.namespace}/${id.resource.split("/").slice(0, -1).join("/")}`;
     return elementPath === folderPath || elementPath.startsWith(`${folderPath}/`);
+}
+
+export function hasActiveDescendant(node: TreeNodeType, activeId: string | null | undefined): boolean {
+    if (!activeId) return false;
+    if (node.elementId === activeId) return true;
+    for (const child of node.children.values()) {
+        if (hasActiveDescendant(child, activeId)) return true;
+    }
+    return false;
 }

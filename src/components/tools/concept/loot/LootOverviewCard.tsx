@@ -34,7 +34,10 @@ export default function LootOverviewCard({ elementId, items, mode }: LootOvervie
         <div
             data-element-id={elementId}
             className="overview-card bg-zinc-950/70 border border-zinc-900 select-none relative rounded-xl p-4 flex flex-col transition-transform duration-150 ease-out hover:-translate-y-0.5 isolate overflow-hidden">
-            <span className="absolute h-0.5 top-0 left-0 right-0 opacity-35 rounded-full" style={{ background: `linear-gradient(180deg, transparent, ${pathColor}, transparent)` }} />
+            <span
+                className="absolute h-0.5 top-0 left-0 right-0 opacity-35 rounded-full"
+                style={{ background: `linear-gradient(180deg, transparent, ${pathColor}, transparent)` }}
+            />
             <div className="absolute inset-0 -z-10 brightness-10">
                 <img src="/images/shine.avif" alt="Shine" loading="lazy" />
             </div>

@@ -5,9 +5,9 @@ import { LootPoolContext } from "@/components/tools/concept/loot/LootPoolContext
 import PoolSection from "@/components/tools/concept/loot/PoolSection";
 import ItemSelector from "@/components/tools/elements/gui/ItemSelector";
 import { useDynamicIsland } from "@/components/tools/floatingbar/FloatingBarContext";
-import { ToolGrab } from "@/components/tools/floatingbar/ToolGrab";
 import { Toolbar } from "@/components/tools/floatingbar/Toolbar";
 import { ToolbarNavigation } from "@/components/tools/floatingbar/ToolbarNavigation";
+import { ToolGrab } from "@/components/tools/floatingbar/ToolGrab";
 import { getCurrentElement, useConfiguratorStore } from "@/components/tools/Store";
 import { Button } from "@/components/ui/Button";
 import Translate from "@/components/ui/Translate";
