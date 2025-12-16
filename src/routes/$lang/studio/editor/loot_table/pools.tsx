@@ -5,8 +5,9 @@ import { LootPoolContext } from "@/components/tools/concept/loot/LootPoolContext
 import PoolSection from "@/components/tools/concept/loot/PoolSection";
 import ItemSelector from "@/components/tools/elements/gui/ItemSelector";
 import { useDynamicIsland } from "@/components/tools/floatingbar/FloatingBarContext";
+import { ToolGrab } from "@/components/tools/floatingbar/ToolGrab";
 import { Toolbar } from "@/components/tools/floatingbar/Toolbar";
-import { ToolbarButton } from "@/components/tools/floatingbar/ToolbarButton";
+import { ToolbarNavigation } from "@/components/tools/floatingbar/ToolbarNavigation";
 import { getCurrentElement, useConfiguratorStore } from "@/components/tools/Store";
 import { Button } from "@/components/ui/Button";
 import Translate from "@/components/ui/Translate";
@@ -23,7 +24,7 @@ function PoolsPage() {
     const handleChange = useConfiguratorStore((state) => state.handleChange);
     const currentElementId = useConfiguratorStore((state) => state.currentElementId);
     const getRegistry = useConfiguratorStore((state) => state.getRegistry);
-    const setCurrentElementId = useConfiguratorStore((state) => state.setCurrentElementId);
+    const goto = useConfiguratorStore((state) => state.goto);
     const { expand, collapse } = useDynamicIsland();
     const { data } = useRegistry<string[]>("registry", "item");
     const lootTable = currentElement && isVoxel(currentElement, "loot_table") ? currentElement : undefined;
@@ -88,7 +89,7 @@ function PoolsPage() {
         const targetId = Identifier.of(name, "loot_table");
         const target = lootTables.find((lt) => new Identifier(lt.identifier).equals(targetId));
         if (!target) return;
-        setCurrentElementId(new Identifier(target.identifier).toUniqueKey());
+        goto(new Identifier(target.identifier).toUniqueKey());
         navigate({ to: "/$lang/studio/editor/loot_table/pools", params: { lang } });
     };
 
@@ -96,7 +97,8 @@ function PoolsPage() {
         <LootPoolContext value={{ onAddItem, onEditItem, onDeleteItem, onWeightChange, onBalanceWeights, onNavigate }}>
             <div className="h-full overflow-y-auto flex flex-col">
                 <Toolbar>
-                    <ToolbarButton icon="/icons/tools/overview/edit.svg" tooltip="loot:pools.item.edit" onClick={() => {}} />
+                    <ToolGrab />
+                    <ToolbarNavigation />
                 </Toolbar>
 
                 <div className="absolute inset-0 -z-10 brightness-30">

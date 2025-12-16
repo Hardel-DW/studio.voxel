@@ -6,6 +6,7 @@ import RewardItem from "@/components/tools/concept/loot/RewardItem";
 import { useDynamicIsland } from "@/components/tools/floatingbar/FloatingBarContext";
 import { ToolGrab } from "@/components/tools/floatingbar/ToolGrab";
 import { Toolbar } from "@/components/tools/floatingbar/Toolbar";
+import { ToolbarNavigation } from "@/components/tools/floatingbar/ToolbarNavigation";
 import { ToolbarSearch } from "@/components/tools/floatingbar/ToolbarSearch";
 import { getCurrentElement, useConfiguratorStore } from "@/components/tools/Store";
 import Translate from "@/components/ui/Translate";
@@ -24,7 +25,7 @@ function LootMainPage() {
     const handleChange = useConfiguratorStore((state) => state.handleChange);
     const currentElementId = useConfiguratorStore((state) => state.currentElementId);
     const getRegistry = useConfiguratorStore((state) => state.getRegistry);
-    const setCurrentElementId = useConfiguratorStore((state) => state.setCurrentElementId);
+    const goto = useConfiguratorStore((state) => state.goto);
     const lootTable = currentElement && isVoxel(currentElement, "loot_table") ? currentElement : undefined;
     const lootTables = getRegistry("loot_table");
     const { items, isLoading } = useFlattenedLootItems(lootTable);
@@ -48,7 +49,7 @@ function LootMainPage() {
         const targetId = Identifier.of(name, "loot_table");
         const target = lootTables.find((lt) => new Identifier(lt.identifier).equals(targetId));
         if (!target) return;
-        setCurrentElementId(new Identifier(target.identifier).toUniqueKey());
+        goto(new Identifier(target.identifier).toUniqueKey());
         navigate({ to: "/$lang/studio/editor/loot_table/main", params: { lang } });
     };
 
@@ -64,6 +65,7 @@ function LootMainPage() {
         <div className="h-full overflow-y-auto flex flex-col">
             <Toolbar>
                 <ToolGrab />
+                <ToolbarNavigation />
                 <ToolbarSearch placeholder="Search items..." value={searchValue} onChange={setSearchValue} />
             </Toolbar>
 

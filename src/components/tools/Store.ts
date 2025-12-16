@@ -19,6 +19,8 @@ export type RegistrySearchOptions = {
     excludeNamespaces?: string[];
 };
 
+const MAX_HISTORY_SIZE = 20;
+
 export interface ConfiguratorState<T extends keyof Analysers> {
     name: string;
     logger?: Logger;
@@ -30,6 +32,13 @@ export interface ConfiguratorState<T extends keyof Analysers> {
     sortedIdentifiers: Map<string, string[]>;
     registryCache: Map<string, DataDrivenRegistryElement<any>[]>;
     custom: Map<string, Uint8Array>;
+    // Navigation
+    navigationHistory: string[];
+    navigationIndex: number;
+    goto: (id: string) => void;
+    back: () => void;
+    forward: () => void;
+    // Actions
     addFile: (key: string, value: Uint8Array) => void;
     getSortedIdentifiers: (registry: string) => string[];
     setName: (name: string) => void;
@@ -53,6 +62,26 @@ const createConfiguratorStore = <T extends keyof Analysers>() =>
         version: null,
         sortedIdentifiers: new Map(),
         registryCache: new Map(),
+        navigationHistory: [],
+        navigationIndex: -1,
+        goto: (id) => {
+            const { navigationHistory, navigationIndex } = get();
+            const truncated = navigationHistory.slice(0, navigationIndex + 1);
+            const updated = [...truncated, id].slice(-MAX_HISTORY_SIZE);
+            set({ navigationHistory: updated, navigationIndex: updated.length - 1, currentElementId: id });
+        },
+        back: () => {
+            const { navigationHistory, navigationIndex } = get();
+            if (navigationIndex <= 0) return;
+            const newIndex = navigationIndex - 1;
+            set({ navigationIndex: newIndex, currentElementId: navigationHistory[newIndex] });
+        },
+        forward: () => {
+            const { navigationHistory, navigationIndex } = get();
+            if (navigationIndex >= navigationHistory.length - 1) return;
+            const newIndex = navigationIndex + 1;
+            set({ navigationIndex: newIndex, currentElementId: navigationHistory[newIndex] });
+        },
         addFile: (key, value) => set({ custom: get().custom.set(key, value) }),
         getSortedIdentifiers: (registry) => get().sortedIdentifiers.get(registry) ?? [],
         setName: (name) => {

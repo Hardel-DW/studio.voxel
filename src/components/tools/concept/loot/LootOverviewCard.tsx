@@ -24,7 +24,7 @@ export default function LootOverviewCard({ elementId, items, mode }: LootOvervie
     const colorKey = firstFolder ? `${identifier.namespace}:${firstFolder}` : identifier.namespace;
     const pathColor = hueToHsl(stringToColor(colorKey), 50, 50);
 
-    const handleConfigure = () => useConfiguratorStore.getState().setCurrentElementId(elementId);
+    const handleConfigure = () => useConfiguratorStore.getState().goto(elementId);
 
     if (mode === "list") {
         return <LootOverviewList elementId={elementId} items={items} resourceName={resourceName} color={pathColor} />;
