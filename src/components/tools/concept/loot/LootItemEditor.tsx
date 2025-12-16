@@ -77,11 +77,12 @@ export default function LootItemEditor({ item }: LootItemEditorProps) {
     const identifier = Identifier.of(name, "item");
 
     return (
-        <div ref={ref} className="flex flex-col gap-6 h-full min-w-80">
-            <div className="flex items-center justify-between border-b border-zinc-800/50 pb-4">
+        <div ref={ref} className="flex flex-col h-full">
+            {/* Header */}
+            <div className="flex items-center justify-between pb-4 border-b border-zinc-800/50">
                 <div className="flex items-center gap-3">
                     <div className="size-8 rounded-lg bg-zinc-800/50 flex items-center justify-center">
-                        <img src="/icons/tools/loot.svg" alt="" className="size-4 invert opacity-60" />
+                        <img src="/icons/pencil.svg" alt="" className="size-4 invert opacity-60" />
                     </div>
                     <div>
                         <h3 className="text-sm font-semibold text-zinc-100">Edit Loot Item</h3>
@@ -99,50 +100,55 @@ export default function LootItemEditor({ item }: LootItemEditorProps) {
                 </button>
             </div>
 
-            <div className="flex gap-6">
-                <button
-                    type="button"
-                    onClick={openItemSelector}
-                    className={cn(
-                        "group relative flex flex-col items-center justify-center gap-2 p-4",
-                        "bg-gradient-to-b from-zinc-800/30 to-zinc-900/50",
-                        "border border-zinc-800 rounded-xl",
-                        "hover:border-zinc-600 hover:from-zinc-700/30 hover:to-zinc-800/50",
-                        "transition-all cursor-pointer"
-                    )}>
-                    <div className="relative">
-                        <div className="absolute inset-0 bg-purple-500/10 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity" />
-                        <TextureRenderer id={name} size={64} className="size-16 relative" />
-                    </div>
-                    <span className="text-xs text-zinc-500 group-hover:text-zinc-300 transition-colors font-medium">Change</span>
-                </button>
-
-                <div className="flex flex-col gap-5 flex-1">
-                    <div className="flex items-center justify-between">
-                        <div className="flex flex-col">
-                            <span className="text-sm font-medium text-zinc-200">Weight</span>
-                            <span className="text-xs text-zinc-500">Drop priority</span>
+            {/* Body */}
+            <div className="flex-1 py-4">
+                <div className="flex gap-6">
+                    <button
+                        type="button"
+                        onClick={openItemSelector}
+                        className={cn(
+                            "group relative size-28 flex flex-col items-center justify-center gap-1",
+                            "bg-linear-to-b from-zinc-800/30 to-zinc-900/50",
+                            "border border-zinc-800 rounded-xl",
+                            "hover:border-zinc-600 hover:from-zinc-700/30 hover:to-zinc-800/50",
+                            "transition-all cursor-pointer shrink-0"
+                        )}>
+                        <div className="relative">
+                            <div className="absolute inset-0 bg-purple-500/10 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity" />
+                            <TextureRenderer id={name} size={48} className="size-12 relative" />
                         </div>
-                        <Counter value={weight} min={1} max={999} step={1} onChange={handleWeightChange} />
-                    </div>
+                        <span className="text-xs text-zinc-500 group-hover:text-zinc-300 transition-colors font-medium">Change</span>
+                    </button>
 
-                    <div className="h-px bg-zinc-800/50" />
-
-                    <div className="flex items-center justify-between gap-4">
-                        <div className="flex flex-col">
-                            <span className="text-sm font-medium text-zinc-200">Count</span>
-                            <span className="text-xs text-zinc-500">Min / Max quantity</span>
+                    <div className="flex flex-col gap-5 flex-1">
+                        <div className="flex items-center justify-between">
+                            <div className="flex flex-col">
+                                <span className="text-sm font-medium text-zinc-200">Weight</span>
+                                <span className="text-xs text-zinc-500">Drop priority</span>
+                            </div>
+                            <Counter value={weight} min={1} max={999} step={1} onChange={handleWeightChange} />
                         </div>
-                        <div className="flex items-center gap-2">
-                            <Counter value={countMin} min={1} max={64} step={1} onChange={handleCountMinChange} />
-                            <span className="text-zinc-600 text-sm">—</span>
-                            <Counter value={countMax} min={1} max={64} step={1} onChange={handleCountMaxChange} />
+
+                        <div className="h-px bg-zinc-800/50" />
+
+                        <div className="flex items-center justify-between gap-4">
+                            <div className="flex flex-col">
+                                <span className="text-sm font-medium text-zinc-200">Count</span>
+                                <span className="text-xs text-zinc-500">Min / Max quantity</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <Counter value={countMin} min={1} max={64} step={1} onChange={handleCountMinChange} />
+                                <span className="text-zinc-600 text-sm">—</span>
+                                <Counter value={countMax} min={1} max={64} step={1} onChange={handleCountMaxChange} />
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div className="flex justify-end mt-auto pt-4 border-t border-zinc-800/50">
+            {/* Footer */}
+            <div className="pt-4 border-t border-zinc-800/50 flex justify-between items-center">
+                <span className="text-xs font-medium text-zinc-400">Edit item properties</span>
                 <button
                     type="button"
                     onClick={collapse}

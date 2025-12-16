@@ -79,7 +79,7 @@ export function Toolbar({ children }: ToolbarProps) {
                 style={position ? { left: `${position.x}px`, top: `${position.y}px`, transform: "none" } : undefined}
                 onMouseDown={handleMouseDown}>
                 {isExpanded ? (
-                    <div className="dynamic-island-content size-full overflow-hidden">{state.content}</div>
+                    <div className="dynamic-island-content">{state.content}</div>
                 ) : (
                     <div className="flex items-center gap-4 h-full">{children}</div>
                 )}

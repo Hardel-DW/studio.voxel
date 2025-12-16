@@ -4,6 +4,7 @@ import { useDynamicIsland } from "@/components/tools/floatingbar/FloatingBarCont
 import { Button } from "@/components/ui/Button";
 import { TextInput } from "@/components/ui/TextInput";
 import { useClickOutside } from "@/lib/hook/useClickOutside";
+import { useInfiniteScroll } from "@/lib/hook/useInfiniteScroll";
 import { clsx } from "@/lib/utils";
 
 interface ItemSelectorProps {
@@ -15,33 +16,51 @@ interface ItemSelectorProps {
 export default function ItemSelector({ currentItem, onItemSelect, items }: ItemSelectorProps) {
     const [searchTerm, setSearchTerm] = useState("");
     const { collapse } = useDynamicIsland();
-    const ref = useClickOutside(collapse);
-    const filteredItems = items?.filter((item) => item.toLowerCase().includes(searchTerm.toLowerCase()));
+    const containerRef = useClickOutside(collapse);
+    const filteredItems = items?.filter((item) => item.toLowerCase().includes(searchTerm.toLowerCase())) ?? [];
+    const { visibleItems, hasMore, ref: loadMoreRef } = useInfiniteScroll(filteredItems, 150, [searchTerm]);
     const handleValidate = (itemId: string) => onItemSelect?.(itemId);
 
     return (
-        <div className="flex flex-col h-full" ref={ref}>
-            <TextInput placeholder="Rechercher un item..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
-
-            <div className="grid grid-cols-items gap-2 mt-4 flex-1 overflow-y-auto -mr-1 pr-1 content-start">
-                {filteredItems?.map((itemId) => (
-                    <button
-                        key={itemId}
-                        type="button"
-                        onClick={() => handleValidate(itemId)}
-                        className={clsx(
-                            "size-14 relative flex items-center justify-center cursor-pointer border-2 rounded transition-colors",
-                            currentItem === itemId ? "border-zinc-600 bg-white/5" : "border-zinc-800 hover:border-zinc-600"
-                        )}>
-                        <TextureRenderer id={itemId} />
-                    </button>
-                ))}
+        <div ref={containerRef} className="grid grid-rows-[auto_1fr_auto] h-full overflow-hidden">
+            {/* Header */}
+            <div className="pb-4 border-b border-zinc-800/50">
+                <TextInput placeholder="Search item..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
             </div>
 
-            <div className="flex justify-between items-end mt-auto pt-4 border-t border-zinc-800">
-                <h3 className="text-xs font-medium text-zinc-400">Sélectionner un item</h3>
+            {/* Body - scrollable */}
+            <div className="overflow-y-auto py-4 -mx-1 px-1 min-h-0">
+                <div className="grid grid-cols-items gap-2 content-start">
+                    {visibleItems.map((itemId) => (
+                        <button
+                            key={itemId}
+                            type="button"
+                            onClick={() => handleValidate(itemId)}
+                            className={clsx(
+                                "size-14 relative flex items-center justify-center cursor-pointer border-2 rounded transition-colors",
+                                currentItem === itemId ? "border-zinc-600 bg-white/5" : "border-zinc-800 hover:border-zinc-600"
+                            )}>
+                            <TextureRenderer id={itemId} />
+                        </button>
+                    ))}
+                </div>
+
+                {hasMore && (
+                    <div ref={loadMoreRef} className="flex justify-center items-center py-4">
+                        <div className="flex items-center gap-2 text-zinc-500 text-xs">
+                            <span className="size-1.5 bg-zinc-600 rounded-full animate-bounce" style={{ animationDelay: "0ms" }} />
+                            <span className="size-1.5 bg-zinc-600 rounded-full animate-bounce" style={{ animationDelay: "150ms" }} />
+                            <span className="size-1.5 bg-zinc-600 rounded-full animate-bounce" style={{ animationDelay: "300ms" }} />
+                        </div>
+                    </div>
+                )}
+            </div>
+
+            {/* Footer */}
+            <div className="pt-4 border-t border-zinc-800/50 flex justify-between items-center">
+                <span className="text-xs font-medium text-zinc-400">Select an item</span>
                 <Button onClick={collapse} variant="ghost_border" size="sm">
-                    Annuler
+                    Cancel
                 </Button>
             </div>
         </div>
