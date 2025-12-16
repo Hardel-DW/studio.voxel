@@ -1,19 +1,15 @@
-import type { IdentifierObject } from "@voxelio/breeze";
+import { Identifier, type IdentifierObject } from "@voxelio/breeze";
 
 export interface TreeNode {
     identifiers: IdentifierObject[];
     children: Map<string, TreeNode>;
     count: number;
     elementId?: string;
+    isFolder?: boolean;
 }
 
-export function buildTree(identifiers: IdentifierObject[]): TreeNode {
-    const root: TreeNode = {
-        identifiers: [],
-        children: new Map(),
-        count: 0
-    };
-
+export function buildTree(identifiers: IdentifierObject[], includeElements = false): TreeNode {
+    const root: TreeNode = { identifiers: [], children: new Map(), count: 0 };
     for (const id of identifiers) {
         const parts = id.resource.split("/");
         const folders = [id.namespace, ...parts.slice(0, -1)];
@@ -21,16 +17,32 @@ export function buildTree(identifiers: IdentifierObject[]): TreeNode {
         let current = root;
         for (const folder of folders) {
             if (!current.children.has(folder)) {
-                current.children.set(folder, { identifiers: [], children: new Map(), count: 0 });
+                current.children.set(folder, { identifiers: [], children: new Map(), count: 0, isFolder: true });
             }
-            current = current.children.get(folder) ?? { identifiers: [], children: new Map(), count: 0 };
+
+            const next = current.children.get(folder);
+            if (!next) {
+                throw new Error(`Unexpected: folder "${folder}" not found in children`);
+            }
+
+            current = next;
         }
 
         current.identifiers.push(id);
+
+        if (includeElements) {
+            const elementName = parts[parts.length - 1];
+            const elementId = new Identifier(id).toUniqueKey();
+            const existing = current.children.get(elementName);
+            if (!existing || !existing.isFolder) {
+                current.children.set(elementName, { identifiers: [id], children: new Map(), count: 1, elementId });
+            }
+        }
     }
 
     const calculateCount = (node: TreeNode): number => {
-        let count = node.identifiers.length;
+        if (node.elementId) return 1;
+        let count = 0;
         for (const child of node.children.values()) {
             count += calculateCount(child);
         }

@@ -20,20 +20,27 @@ function LootTableLayout() {
     const { lang } = useParams({ from: "/$lang/studio/editor/loot_table" });
     const { filterPath, setFilterPath, viewMode, setViewMode } = useEditorUiStore();
     const elements = useElementsByType("loot_table");
-    const tree = buildTree(elements.map((e) => e.identifier));
+    const tree = buildTree(elements.map((e) => e.identifier), true);
     const location = useLocation();
     const navigate = useNavigate();
     const isOverview = location.pathname.endsWith("/overview");
     const modifiedCount = useConfiguratorStore((state) => getModifiedElements(state, "loot_table").length);
+    const currentElementId = useConfiguratorStore((state) => state.currentElementId);
+    const goto = useConfiguratorStore((state) => state.goto);
     const currentElement = useConfiguratorStore((state) => getCurrentElement(state));
     const lootTable = currentElement && isVoxel(currentElement, "loot_table") ? currentElement : undefined;
 
     const handleBack = () => navigate({ to: "/$lang/studio/editor/loot_table/overview", params: { lang } });
     const handleTreeSelect = (path: string) => {
         setFilterPath(path);
+        useConfiguratorStore.getState().setCurrentElementId(null);
         if (!isOverview) {
             navigate({ to: "/$lang/studio/editor/loot_table/overview", params: { lang } });
         }
+    };
+    const handleElementSelect = (elementId: string) => {
+        goto(elementId);
+        navigate({ to: "/$lang/studio/editor/loot_table/main", params: { lang } });
     };
 
     return (
@@ -58,7 +65,13 @@ function LootTableLayout() {
                         onClick={() => setFilterPath("")}>
                         All
                     </SidebarButton>
-                    <FileTree tree={tree} activePath={filterPath} onSelect={handleTreeSelect} />
+                    <FileTree
+                        tree={tree}
+                        activePath={filterPath}
+                        activeElementId={currentElementId}
+                        onSelect={handleTreeSelect}
+                        onElementSelect={handleElementSelect}
+                    />
                 </div>
             </EditorSidebar>
 
