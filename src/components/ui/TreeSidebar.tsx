@@ -11,9 +11,10 @@ interface TreeSidebarProps {
     changesRoute: string;
     elementIcon?: string;
     folderIcons?: Record<string, string>;
+    disableAutoExpand?: boolean;
 }
 
-export function TreeSidebar({ tree, modifiedCount, changesRoute, elementIcon, folderIcons }: TreeSidebarProps) {
+export function TreeSidebar({ tree, modifiedCount, changesRoute, elementIcon, folderIcons, disableAutoExpand }: TreeSidebarProps) {
     const { lang } = useParams({ from: "/$lang" });
     const { isAllActive, selectAll, clearSelection } = useTreeNavigation();
 
@@ -31,7 +32,7 @@ export function TreeSidebar({ tree, modifiedCount, changesRoute, elementIcon, fo
             <SidebarButton icon="/icons/search.svg" count={tree.count} isActive={isAllActive} onClick={selectAll}>
                 All
             </SidebarButton>
-            <FileTree tree={tree} elementIcon={elementIcon} folderIcons={folderIcons} />
+            <FileTree tree={tree} elementIcon={elementIcon} folderIcons={folderIcons} disableAutoExpand={disableAutoExpand} />
         </div>
     );
 }

@@ -65,6 +65,7 @@ function EnchantmentLayout() {
                         changesRoute="/$lang/studio/editor/enchantment/changes"
                         elementIcon={ENCHANTMENT_ICON}
                         folderIcons={folderIcons}
+                        disableAutoExpand
                     />
                 </EditorSidebar>
 

@@ -9,6 +9,7 @@ interface FileTreeProps {
     tree: TreeNodeType;
     elementIcon?: string;
     folderIcons?: Record<string, string>;
+    disableAutoExpand?: boolean;
 }
 
 type TreeEntry = [string, TreeNodeType];
@@ -19,11 +20,11 @@ const sortedEntries = (children: Map<string, TreeNodeType>): TreeEntry[] =>
         return aName.localeCompare(bName);
     });
 
-export function FileTree({ tree, elementIcon, folderIcons }: FileTreeProps) {
+export function FileTree({ tree, elementIcon, folderIcons, disableAutoExpand }: FileTreeProps) {
     return (
         <div className="flex flex-col">
             {sortedEntries(tree.children).map(([name, node]) => (
-                <TreeNode key={name} name={name} path={name} node={node} elementIcon={elementIcon} folderIcons={folderIcons} depth={0} />
+                <TreeNode key={name} name={name} path={name} node={node} elementIcon={elementIcon} folderIcons={folderIcons} disableAutoExpand={disableAutoExpand} depth={0} />
             ))}
         </div>
     );
@@ -35,10 +36,11 @@ interface TreeNodeProps {
     node: TreeNodeType;
     elementIcon?: string;
     folderIcons?: Record<string, string>;
+    disableAutoExpand?: boolean;
     depth: number;
 }
 
-function TreeNode({ name, path, node, elementIcon, folderIcons, depth }: TreeNodeProps) {
+function TreeNode({ name, path, node, elementIcon, folderIcons, disableAutoExpand, depth }: TreeNodeProps) {
     const { filterPath, currentElementId, selectFolder, selectElement } = useTreeNavigation();
     const [isOpen, setIsOpen] = useState(false);
 
@@ -48,7 +50,7 @@ function TreeNode({ name, path, node, elementIcon, folderIcons, depth }: TreeNod
     const isEmpty = node.count === 0 && !isElement;
     const hue = stringToColor(isElement && node.elementId ? node.elementId : path);
 
-    if (!isElement && !isOpen && hasActiveDescendant(node, currentElementId)) {
+    if (!disableAutoExpand && !isElement && !isOpen && hasActiveDescendant(node, currentElementId)) {
         setIsOpen(true);
     }
 
@@ -131,6 +133,7 @@ function TreeNode({ name, path, node, elementIcon, folderIcons, depth }: TreeNod
                             node={childNode}
                             elementIcon={elementIcon}
                             folderIcons={folderIcons}
+                            disableAutoExpand={disableAutoExpand}
                             depth={depth + 1}
                         />
                     ))}
