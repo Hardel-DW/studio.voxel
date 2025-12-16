@@ -43,7 +43,7 @@ const questions = (lang: string) => {
     ];
 };
 
-const DISABLE_MAINTENANCE = false;
+const DISABLE_MAINTENANCE = true;
 
 function StudioLayout() {
     const { lang } = Route.useParams();
@@ -110,7 +110,7 @@ function StudioLayout() {
                                     <p className="text-sm text-zinc-500">{translate("studio.maintenance.description")}</p>
                                     <p className="text-xs text-zinc-600">
                                         {translate("studio.maintenance.date", {
-                                            date: new Intl.DateTimeFormat(lang, { dateStyle: "long" }).format(new Date("2025-12-15"))
+                                            date: new Intl.DateTimeFormat(lang, { dateStyle: "long" }).format(new Date("2025-12-17"))
                                         })}
                                     </p>
                                 </div>
