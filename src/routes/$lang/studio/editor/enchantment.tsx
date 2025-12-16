@@ -9,19 +9,17 @@ import NotFoundStudio from "@/components/tools/NotFoundStudio";
 import { getCurrentElement, getModifiedElements, useConfiguratorStore } from "@/components/tools/Store";
 import { ToggleGroup, ToggleGroupOption } from "@/components/ui/ToggleGroup";
 import Translate from "@/components/ui/Translate";
-import { TreeNavigationProvider } from "@/components/ui/TreeNavigationContext";
-import { TreeSidebar } from "@/components/ui/TreeSidebar";
+import { TreeProvider } from "@/components/ui/tree/TreeNavigationContext";
+import { TreeSidebar } from "@/components/ui/tree/TreeSidebar";
 import { enchantableKeys } from "@/lib/data/tags";
 import { useElementsByType } from "@/lib/hook/useElementsByType";
 
-const ENCHANTMENT_ICON = "/images/features/item/enchanted_book.webp";
+const overviewRoute = "/$lang/studio/editor/enchantment/overview";
+const detailRoute = "/$lang/studio/editor/enchantment/main";
+const changesRoute = "/$lang/studio/editor/enchantment/changes";
+const elementIcon = "/images/features/item/enchanted_book.webp";
 const SLOT_FOLDER_ICONS = Object.fromEntries(SLOT_CONFIGS.map((c) => [c.id, c.image]));
 const ITEM_FOLDER_ICONS = Object.fromEntries(enchantableKeys.map((k) => [k, `/images/features/item/${k}.webp`]));
-
-const TREE_CONFIG = {
-    overviewRoute: "/$lang/studio/editor/enchantment/overview",
-    detailRoute: "/$lang/studio/editor/enchantment/main"
-};
 
 export const Route = createFileRoute("/$lang/studio/editor/enchantment")({
     component: EnchantmentLayout,
@@ -42,12 +40,10 @@ function EnchantmentLayout() {
     const folderIcons = sidebarView === "slots" ? SLOT_FOLDER_ICONS : sidebarView === "items" ? ITEM_FOLDER_ICONS : undefined;
 
     return (
-        <TreeNavigationProvider config={TREE_CONFIG}>
+        <TreeProvider
+            config={{ overviewRoute, detailRoute, changesRoute, tree, modifiedCount, elementIcon, folderIcons, disableAutoExpand: true }}>
             <div className="flex size-full overflow-hidden relative z-10 isolate">
-                <EditorSidebar
-                    title="enchantment:overview.title"
-                    icon={ENCHANTMENT_ICON}
-                    linkTo="/$lang/studio/editor/enchantment/overview">
+                <EditorSidebar title="enchantment:overview.title" icon={elementIcon} linkTo="/$lang/studio/editor/enchantment/overview">
                     <ToggleGroup value={sidebarView} onChange={setSidebarView} className="mt-4">
                         <ToggleGroupOption value="slots">
                             <Translate content="enchantment:overview.sidebar.slots" />
@@ -59,14 +55,7 @@ function EnchantmentLayout() {
                             <Translate content="enchantment:overview.sidebar.exclusive" />
                         </ToggleGroupOption>
                     </ToggleGroup>
-                    <TreeSidebar
-                        tree={tree}
-                        modifiedCount={modifiedCount}
-                        changesRoute="/$lang/studio/editor/enchantment/changes"
-                        elementIcon={ENCHANTMENT_ICON}
-                        folderIcons={folderIcons}
-                        disableAutoExpand
-                    />
+                    <TreeSidebar />
                 </EditorSidebar>
 
                 <main className="flex-1 flex flex-col min-w-0 relative bg-zinc-950">
@@ -96,6 +85,6 @@ function EnchantmentLayout() {
                     <Outlet />
                 </main>
             </div>
-        </TreeNavigationProvider>
+        </TreeProvider>
     );
 }

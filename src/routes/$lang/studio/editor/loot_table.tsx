@@ -6,20 +6,18 @@ import { EditorSidebar } from "@/components/tools/concept/layout/EditorSidebar";
 import NotFoundStudio from "@/components/tools/NotFoundStudio";
 import { getCurrentElement, getModifiedElements, useConfiguratorStore } from "@/components/tools/Store";
 import { ToggleGroup, ToggleGroupOption } from "@/components/ui/ToggleGroup";
-import { TreeNavigationProvider } from "@/components/ui/TreeNavigationContext";
-import { TreeSidebar } from "@/components/ui/TreeSidebar";
+import { TreeProvider } from "@/components/ui/tree/TreeNavigationContext";
+import { TreeSidebar } from "@/components/ui/tree/TreeSidebar";
 import { useElementsByType } from "@/lib/hook/useElementsByType";
 import { buildTree } from "@/lib/utils/tree";
 
+const overviewRoute = "/$lang/studio/editor/loot_table/overview";
+const detailRoute = "/$lang/studio/editor/loot_table/main";
+const changesRoute = "/$lang/studio/editor/loot_table/changes";
 export const Route = createFileRoute("/$lang/studio/editor/loot_table")({
     component: LootTableLayout,
     notFoundComponent: NotFoundStudio
 });
-
-const TREE_CONFIG = {
-    overviewRoute: "/$lang/studio/editor/loot_table/overview",
-    detailRoute: "/$lang/studio/editor/loot_table/main"
-};
 
 function LootTableLayout() {
     const { lang } = useParams({ from: "/$lang/studio/editor/loot_table" });
@@ -37,13 +35,13 @@ function LootTableLayout() {
     const isOverview = location.pathname.endsWith("/overview");
 
     return (
-        <TreeNavigationProvider config={TREE_CONFIG}>
+        <TreeProvider config={{ overviewRoute, detailRoute, changesRoute, tree, modifiedCount }}>
             <div className="flex size-full overflow-hidden relative isolate">
                 <EditorSidebar
                     title="loot:overview.title"
                     icon="/images/features/item/bundle_close.webp"
                     linkTo="/$lang/studio/editor/loot_table/overview">
-                    <TreeSidebar tree={tree} modifiedCount={modifiedCount} changesRoute="/$lang/studio/editor/loot_table/changes" />
+                    <TreeSidebar />
                 </EditorSidebar>
 
                 <main className="flex-1 flex flex-col min-w-0 min-h-0 overflow-hidden relative bg-zinc-950">
@@ -67,6 +65,6 @@ function LootTableLayout() {
                     <Outlet />
                 </main>
             </div>
-        </TreeNavigationProvider>
+        </TreeProvider>
     );
 }

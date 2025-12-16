@@ -1,22 +1,12 @@
 import { Link, useParams } from "@tanstack/react-router";
+import { FileTree } from "@/components/ui/tree/FileTree";
+import { useTree } from "@/components/ui/tree/TreeNavigationContext";
 import { cn } from "@/lib/utils";
 import { hueToHsl, stringToColor } from "@/lib/utils/color";
-import type { TreeNodeType } from "@/lib/utils/tree";
-import { FileTree } from "./FileTree";
-import { useTreeNavigation } from "./TreeNavigationContext";
 
-interface TreeSidebarProps {
-    tree: TreeNodeType;
-    modifiedCount: number;
-    changesRoute: string;
-    elementIcon?: string;
-    folderIcons?: Record<string, string>;
-    disableAutoExpand?: boolean;
-}
-
-export function TreeSidebar({ tree, modifiedCount, changesRoute, elementIcon, folderIcons, disableAutoExpand }: TreeSidebarProps) {
+export function TreeSidebar() {
     const { lang } = useParams({ from: "/$lang" });
-    const { isAllActive, selectAll, clearSelection } = useTreeNavigation();
+    const { tree, modifiedCount, changesRoute, isAllActive, selectAll, clearSelection } = useTree();
 
     return (
         <div className="space-y-1 mt-4">
@@ -32,32 +22,33 @@ export function TreeSidebar({ tree, modifiedCount, changesRoute, elementIcon, fo
             <SidebarButton icon="/icons/search.svg" count={tree.count} isActive={isAllActive} onClick={selectAll}>
                 All
             </SidebarButton>
-            <FileTree tree={tree} elementIcon={elementIcon} folderIcons={folderIcons} disableAutoExpand={disableAutoExpand} />
+            <FileTree />
         </div>
     );
 }
 
-interface SidebarButtonProps {
+function SidebarButton({
+    icon,
+    count,
+    isActive,
+    onClick,
+    children
+}: {
     icon: string;
     count: number;
     isActive?: boolean;
-    disabled?: boolean;
     onClick: () => void;
     children: string;
-}
-
-function SidebarButton({ icon, count, isActive, disabled, onClick, children }: SidebarButtonProps) {
+}) {
     const hue = stringToColor(children.toLowerCase());
 
     return (
         <button
             type="button"
-            disabled={disabled}
             onClick={onClick}
             className={cn(
                 "flex items-center gap-2 px-3 py-2 rounded-lg cursor-pointer transition-colors relative group w-full text-left",
-                isActive ? "bg-zinc-800/80 text-white" : "text-zinc-400 hover:bg-zinc-900/50 hover:text-zinc-200",
-                disabled && "opacity-50 cursor-not-allowed"
+                isActive ? "bg-zinc-800/80 text-white" : "text-zinc-400 hover:bg-zinc-900/50 hover:text-zinc-200"
             )}>
             {isActive && (
                 <div
@@ -74,7 +65,15 @@ function SidebarButton({ icon, count, isActive, disabled, onClick, children }: S
     );
 }
 
-interface SidebarLinkProps {
+function SidebarLink({
+    to,
+    params,
+    icon,
+    count,
+    disabled,
+    onClick,
+    children
+}: {
     to: string;
     params: Record<string, string>;
     icon: string;
@@ -82,9 +81,7 @@ interface SidebarLinkProps {
     disabled?: boolean;
     onClick?: () => void;
     children: string;
-}
-
-function SidebarLink({ to, params, icon, count, disabled, onClick, children }: SidebarLinkProps) {
+}) {
     const content = (
         <div
             className={cn(

@@ -1,47 +1,32 @@
 import { Identifier } from "@voxelio/breeze";
 import { useState } from "react";
+import { useTree } from "@/components/ui/tree/TreeNavigationContext";
 import { cn } from "@/lib/utils";
 import { hueToHsl, stringToColor } from "@/lib/utils/color";
 import { hasActiveDescendant, type TreeNodeType } from "@/lib/utils/tree";
-import { useTreeNavigation } from "./TreeNavigationContext";
-
-interface FileTreeProps {
-    tree: TreeNodeType;
-    elementIcon?: string;
-    folderIcons?: Record<string, string>;
-    disableAutoExpand?: boolean;
-}
 
 type TreeEntry = [string, TreeNodeType];
 
 const sortedEntries = (children: Map<string, TreeNodeType>): TreeEntry[] =>
-    [...children.entries()].toSorted(([aName, aNode], [bName, bNode]) => {
-        if (!aNode.elementId !== !bNode.elementId) return aNode.elementId ? 1 : -1;
-        return aName.localeCompare(bName);
+    [...children.entries()].toSorted(([, a], [, b]) => {
+        if (!a.elementId !== !b.elementId) return a.elementId ? 1 : -1;
+        return 0;
     });
 
-export function FileTree({ tree, elementIcon, folderIcons, disableAutoExpand }: FileTreeProps) {
+export function FileTree() {
+    const { tree } = useTree();
+
     return (
         <div className="flex flex-col">
             {sortedEntries(tree.children).map(([name, node]) => (
-                <TreeNode key={name} name={name} path={name} node={node} elementIcon={elementIcon} folderIcons={folderIcons} disableAutoExpand={disableAutoExpand} depth={0} />
+                <TreeNode key={name} name={name} path={name} node={node} depth={0} />
             ))}
         </div>
     );
 }
 
-interface TreeNodeProps {
-    name: string;
-    path: string;
-    node: TreeNodeType;
-    elementIcon?: string;
-    folderIcons?: Record<string, string>;
-    disableAutoExpand?: boolean;
-    depth: number;
-}
-
-function TreeNode({ name, path, node, elementIcon, folderIcons, disableAutoExpand, depth }: TreeNodeProps) {
-    const { filterPath, currentElementId, selectFolder, selectElement } = useTreeNavigation();
+function TreeNode({ name, path, node, depth }: { name: string; path: string; node: TreeNodeType; depth: number }) {
+    const { filterPath, currentElementId, elementIcon, folderIcons, disableAutoExpand, selectFolder, selectElement } = useTree();
     const [isOpen, setIsOpen] = useState(false);
 
     const isElement = !!node.elementId;
@@ -49,6 +34,8 @@ function TreeNode({ name, path, node, elementIcon, folderIcons, disableAutoExpan
     const isHighlighted = isElement ? node.elementId === currentElementId : !currentElementId && filterPath === path;
     const isEmpty = node.count === 0 && !isElement;
     const hue = stringToColor(isElement && node.elementId ? node.elementId : path);
+    const icon = isElement ? (elementIcon ?? "/images/features/item/bundle_open.webp") : (folderIcons?.[name] ?? "/icons/folder.svg");
+    const isDefaultFolderIcon = !isElement && !folderIcons?.[name];
 
     if (!disableAutoExpand && !isElement && !isOpen && hasActiveDescendant(node, currentElementId)) {
         setIsOpen(true);
@@ -67,9 +54,6 @@ function TreeNode({ name, path, node, elementIcon, folderIcons, disableAutoExpan
         e.stopPropagation();
         setIsOpen((prev) => !prev);
     };
-
-    const icon = isElement ? (elementIcon ?? "/images/features/item/bundle_open.webp") : (folderIcons?.[name] ?? "/icons/folder.svg");
-    const isDefaultFolderIcon = !isElement && !folderIcons?.[name];
 
     return (
         <div className="w-full select-none">
@@ -126,16 +110,7 @@ function TreeNode({ name, path, node, elementIcon, folderIcons, disableAutoExpan
             {hasChildren && isOpen && (
                 <div className="flex flex-col border-zinc-800/50 my-1 pl-1 ml-3 border-l">
                     {sortedEntries(node.children).map(([childName, childNode]) => (
-                        <TreeNode
-                            key={childName}
-                            name={childName}
-                            path={`${path}/${childName}`}
-                            node={childNode}
-                            elementIcon={elementIcon}
-                            folderIcons={folderIcons}
-                            disableAutoExpand={disableAutoExpand}
-                            depth={depth + 1}
-                        />
+                        <TreeNode key={childName} name={childName} path={`${path}/${childName}`} node={childNode} depth={depth + 1} />
                     ))}
                 </div>
             )}
