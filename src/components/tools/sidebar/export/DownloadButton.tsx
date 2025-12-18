@@ -1,4 +1,5 @@
 import { DatapackDownloader } from "@voxelio/breeze";
+import { convertDatapack, extractMetadata, ModPlatforms } from "@voxelio/converter";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import SettingsDialog from "@/components/tools/sidebar/SettingsDialog";
 import { Button } from "@/components/ui/Button";
@@ -15,11 +16,31 @@ import {
 import Translate from "@/components/ui/Translate";
 import { downloadFile } from "@/lib/utils/download";
 
+const MOD_MANIFEST_FILES = ["fabric.mod.json", "quilt.mod.json", "META-INF/mods.toml", "META-INF/neoforge.mods.toml"];
+
+function hasModManifest(files: Record<string, Uint8Array>): boolean {
+    return MOD_MANIFEST_FILES.some((manifest) => manifest in files);
+}
+
 export default function DownloadButton() {
     const handleDownload = async () => {
-        const { logger, isModded, compile, name } = useConfiguratorStore.getState();
+        const { logger, isModded, compile, name, files } = useConfiguratorStore.getState();
         const response = await compile().generate(logger, isModded);
-        downloadFile(response, DatapackDownloader.getFileName(name, isModded));
+        const outputName = DatapackDownloader.getFileName(name, isModded);
+
+        if (isModded && !hasModManifest(files)) {
+            const blob = await response.blob();
+            const zipFile = new File([blob], `${name}.zip`, { type: "application/zip" });
+            const metadata = await extractMetadata(zipFile, name);
+            const platforms = [ModPlatforms.FORGE, ModPlatforms.FABRIC, ModPlatforms.QUILT, ModPlatforms.NEOFORGE];
+            const converted = await convertDatapack(zipFile, platforms, metadata);
+            if (converted) {
+                downloadFile(await converted.blob(), outputName);
+                return;
+            }
+        }
+
+        downloadFile(response, outputName);
     };
 
     return (
