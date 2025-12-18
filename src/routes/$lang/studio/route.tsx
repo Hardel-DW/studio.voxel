@@ -19,7 +19,6 @@ function StudioLayout() {
             <div className="fixed -z-50 -bottom-24 -right-24 size-60 rounded-full blur-3xl bg-linear-to-br from-purple-900/20 to-red-900/20" />
             <div className="fixed -z-50 -top-16 -left-16 size-100 rounded-full blur-3xl bg-linear-to-br from-pink-900/20 to-blue-900/20" />
 
-
             <div className="-z-10 absolute inset-0 overflow-hidden">
                 <svg
                     className="size-full stroke-white/15 [stroke-dasharray:5_6] [stroke-dashoffset:10] stroke-2 scale-110"

@@ -25,7 +25,7 @@ export function useGitHubAuth() {
         staleTime: Infinity,
         gcTime: 1000 * 60 * 60 * 24,
         retry: false,
-        enabled: typeof document !== "undefined" && document.cookie.includes("app-session=")
+        enabled: typeof document !== "undefined" && document.cookie.includes("has-session=")
     });
 
     const loginMutation = useMutation({
