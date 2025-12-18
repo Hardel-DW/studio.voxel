@@ -50,11 +50,22 @@ const iterationValues = [
         lock_value: "#minecraft:non_treasure"
     },
     {
-        title: "enchantment:find.price_doubled.title",
-        description: "enchantment:find.price_doubled.description",
-        image: "/images/features/title/doubled.webp",
-        tag: "#minecraft:double_trade_price",
-        lock_value: "#minecraft:treasure"
+        title: "enchantment:find.curse.title",
+        description: "enchantment:find.curse.description",
+        image: "/images/features/effect/curse.webp",
+        tag: "#minecraft:curse"
+    },
+    {
+        title: "enchantment:find.non_treasure.title",
+        description: "enchantment:find.non_treasure.description",
+        image: "/images/features/effect/non_treasure.webp",
+        tag: "#minecraft:non_treasure"
+    },
+    {
+        title: "enchantment:find.treasure.title",
+        description: "enchantment:find.treasure.description",
+        image: "/images/features/effect/treasure.webp",
+        tag: "#minecraft:treasure"
     }
 ];
 
@@ -77,7 +88,7 @@ function EnchantmentFindPage() {
                             lock={[
                                 new LockEntryBuilder()
                                     .addTextKey("enchantment:technical.lock.reason")
-                                    .addCondition((el: EnchantmentProps) => el.tags.includes(value.lock_value))
+                                    .addCondition((el: EnchantmentProps) => value.lock_value ? el.tags.includes(value.lock_value) : false)
                                     .build(),
                                 isMinecraft
                             ]}

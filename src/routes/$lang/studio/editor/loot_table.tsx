@@ -3,6 +3,7 @@ import { isVoxel } from "@voxelio/breeze";
 import { useEditorUiStore } from "@/components/tools/concept/EditorUiStore";
 import { EditorHeader } from "@/components/tools/concept/layout/EditorHeader";
 import { EditorSidebar } from "@/components/tools/concept/layout/EditorSidebar";
+import { CONCEPTS } from "@/components/tools/elements";
 import NotFoundStudio from "@/components/tools/NotFoundStudio";
 import { getCurrentElement, getModifiedElements, useConfiguratorStore } from "@/components/tools/Store";
 import { ToggleGroup, ToggleGroupOption } from "@/components/ui/ToggleGroup";
@@ -11,8 +12,11 @@ import { TreeSidebar } from "@/components/ui/tree/TreeSidebar";
 import { useElementsByType } from "@/lib/hook/useElementsByType";
 import { buildTree } from "@/lib/utils/tree";
 
-const overviewRoute = "/$lang/studio/editor/loot_table/overview";
-const detailRoute = "/$lang/studio/editor/loot_table/main";
+const concept = CONCEPTS.find((c) => c.registry === "loot_table");
+if (!concept) throw new Error("Loot table concept not found");
+const overviewRoute = concept.overview;
+const detailRoute = concept.tabs[0].url;
+const tabRoutes = concept.tabs.map((t) => t.url);
 const changesRoute = "/$lang/studio/editor/loot_table/changes";
 export const Route = createFileRoute("/$lang/studio/editor/loot_table")({
     component: LootTableLayout,
@@ -35,7 +39,7 @@ function LootTableLayout() {
     const isOverview = location.pathname.endsWith("/overview");
 
     return (
-        <TreeProvider config={{ overviewRoute, detailRoute, changesRoute, tree, modifiedCount }}>
+        <TreeProvider config={{ overviewRoute, detailRoute, changesRoute, tabRoutes, tree, modifiedCount }}>
             <div className="flex size-full overflow-hidden relative isolate">
                 <EditorSidebar
                     title="loot:overview.title"

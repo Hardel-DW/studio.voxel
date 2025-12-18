@@ -5,14 +5,18 @@ import { EditorHeader } from "@/components/tools/concept/layout/EditorHeader";
 import { EditorSidebar } from "@/components/tools/concept/layout/EditorSidebar";
 import { buildRecipeTree } from "@/components/tools/concept/recipe/buildRecipeTree";
 import { RECIPE_BLOCKS } from "@/components/tools/concept/recipe/recipeConfig";
+import { CONCEPTS } from "@/components/tools/elements";
 import NotFoundStudio from "@/components/tools/NotFoundStudio";
 import { getCurrentElement, getModifiedElements, useConfiguratorStore } from "@/components/tools/Store";
 import { TreeProvider } from "@/components/ui/tree/TreeNavigationContext";
 import { TreeSidebar } from "@/components/ui/tree/TreeSidebar";
 import { useElementsByType } from "@/lib/hook/useElementsByType";
 
-const overviewRoute = "/$lang/studio/editor/recipe/overview";
-const detailRoute = "/$lang/studio/editor/recipe/main";
+const concept = CONCEPTS.find((c) => c.registry === "recipe");
+if (!concept) throw new Error("Recipe concept not found");
+const overviewRoute = concept.overview;
+const detailRoute = concept.tabs[0].url;
+const tabRoutes = concept.tabs.map((t) => t.url);
 const changesRoute = "/$lang/studio/editor/recipe/changes";
 const RECIPE_ICON = "/images/features/block/crafting_table.webp";
 const folderIcons: Record<string, string> = Object.fromEntries(
@@ -40,7 +44,7 @@ function RecipeLayout() {
     const isOverview = location.pathname.endsWith("/overview");
 
     return (
-        <TreeProvider config={{ overviewRoute, detailRoute, changesRoute, tree, modifiedCount, folderIcons }}>
+        <TreeProvider config={{ overviewRoute, detailRoute, changesRoute, tabRoutes, tree, modifiedCount, folderIcons }}>
             <div className="flex size-full overflow-hidden relative z-10 isolate">
                 <EditorSidebar title="recipe:overview.title" icon={RECIPE_ICON} linkTo="/$lang/studio/editor/recipe/overview">
                     <TreeSidebar />

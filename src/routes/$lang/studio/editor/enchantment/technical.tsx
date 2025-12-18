@@ -14,14 +14,12 @@ export const Route = createFileRoute("/$lang/studio/editor/enchantment/technical
 });
 
 const FIELDS = [
-    "curse",
-    "non_treasure",
-    "treasure",
     "smelts_loot",
     "prevent_ice_melting",
     "prevent_infested_block_spawning",
     "prevent_bee_spawning",
-    "prevent_pot_shattering"
+    "prevent_pot_shattering",
+    "price_doubled"
 ];
 
 function EnchantmentTechnicalPage() {

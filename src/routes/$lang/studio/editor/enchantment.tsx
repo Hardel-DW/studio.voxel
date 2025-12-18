@@ -5,6 +5,7 @@ import { buildEnchantmentTree } from "@/components/tools/concept/enchantment/bui
 import { SLOT_CONFIGS } from "@/components/tools/concept/enchantment/slots";
 import { EditorHeader } from "@/components/tools/concept/layout/EditorHeader";
 import { EditorSidebar } from "@/components/tools/concept/layout/EditorSidebar";
+import { CONCEPTS } from "@/components/tools/elements";
 import NotFoundStudio from "@/components/tools/NotFoundStudio";
 import { getCurrentElement, getModifiedElements, useConfiguratorStore } from "@/components/tools/Store";
 import { ToggleGroup, ToggleGroupOption } from "@/components/ui/ToggleGroup";
@@ -14,8 +15,11 @@ import { TreeSidebar } from "@/components/ui/tree/TreeSidebar";
 import { getEnchantableKeys } from "@/lib/data/tags";
 import { useElementsByType } from "@/lib/hook/useElementsByType";
 
-const overviewRoute = "/$lang/studio/editor/enchantment/overview";
-const detailRoute = "/$lang/studio/editor/enchantment/main";
+const concept = CONCEPTS.find((c) => c.registry === "enchantment");
+if (!concept) throw new Error("Enchantment concept not found");
+const overviewRoute = concept.overview;
+const detailRoute = concept.tabs[0].url;
+const tabRoutes = concept.tabs.map((t) => t.url);
 const changesRoute = "/$lang/studio/editor/enchantment/changes";
 const elementIcon = "/images/features/item/enchanted_book.webp";
 const SLOT_FOLDER_ICONS = Object.fromEntries(SLOT_CONFIGS.map((c) => [c.id, c.image]));
@@ -43,7 +47,7 @@ function EnchantmentLayout() {
 
     return (
         <TreeProvider
-            config={{ overviewRoute, detailRoute, changesRoute, tree, modifiedCount, elementIcon, folderIcons, disableAutoExpand }}>
+            config={{ overviewRoute, detailRoute, changesRoute, tabRoutes, tree, modifiedCount, elementIcon, folderIcons, disableAutoExpand }}>
             <div className="flex size-full overflow-hidden relative z-10 isolate">
                 <EditorSidebar title="enchantment:overview.title" icon={elementIcon} linkTo="/$lang/studio/editor/enchantment/overview">
                     <ToggleGroup value={sidebarView} onChange={setSidebarView} className="mt-4">

@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "@tanstack/react-router";
+import { useMatches, useNavigate, useParams } from "@tanstack/react-router";
 import { createContext, use } from "react";
 import { useEditorUiStore } from "@/components/tools/concept/EditorUiStore";
 import { useConfiguratorStore } from "@/components/tools/Store";
@@ -8,6 +8,7 @@ interface TreeConfig {
     overviewRoute: string;
     detailRoute: string;
     changesRoute: string;
+    tabRoutes?: string[];
     tree: TreeNodeType;
     modifiedCount: number;
     elementIcon?: string;
@@ -38,13 +39,14 @@ const TreeContext = createContext<TreeContextValue | null>(null);
 
 export function TreeProvider({ config, children }: { config: TreeConfig; children: React.ReactNode }) {
     const { lang } = useParams({ from: "/$lang" });
+    const matches = useMatches();
     const navigate = useNavigate();
     const filterPath = useEditorUiStore((s) => s.filterPath);
     const setFilterPath = useEditorUiStore((s) => s.setFilterPath);
     const currentElementId = useConfiguratorStore((s) => s.currentElementId);
     const goto = useConfiguratorStore((s) => s.goto);
-
     const clearSelection = () => useConfiguratorStore.getState().setCurrentElementId(null);
+    const isOnTab = config.tabRoutes?.some((route) => matches.map((m) => m.routeId as string).includes(route));
 
     const selectFolder = (path: string) => {
         setFilterPath(path);
@@ -54,7 +56,9 @@ export function TreeProvider({ config, children }: { config: TreeConfig; childre
 
     const selectElement = (elementId: string) => {
         goto(elementId);
-        navigate({ to: config.detailRoute, params: { lang } });
+        if (!isOnTab) {
+            navigate({ to: config.detailRoute, params: { lang } });
+        }
     };
 
     const selectAll = () => {
