@@ -30,7 +30,7 @@ export interface UseInteractiveLogicProps<C extends BaseInteractiveComponent> {
 
 export function useRenderer<T = unknown>(renderer?: BaseRender, elementId?: string): T | null {
     const currentElementId = useConfiguratorStore((state) => elementId ?? state.currentElementId);
-    return useElementProperty(renderer ?? (() => null), currentElementId, !!currentElementId) as T;
+    return useElementProperty(renderer, currentElementId, !!currentElementId) as T;
 }
 
 export function useActionHandler(action: ActionOrBuilder | undefined, options?: UseActionHandlerOptions) {

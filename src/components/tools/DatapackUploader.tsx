@@ -20,7 +20,7 @@ export default function DatapackUploader() {
             const datapack = await Datapack.from(file);
             const result = datapack.parse();
 
-            useConfiguratorStore.getState().setup(result, file.name.endsWith(".zip"), file.name);
+            useConfiguratorStore.getState().setup(result, file.name.endsWith(".jar"), file.name);
             toast(translate("studio.success.loaded", { file: file.name }), TOAST.SUCCESS);
             navigate({ to: "/$lang/studio/editor", params: { lang } });
         } catch (e: unknown) {

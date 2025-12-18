@@ -8,7 +8,7 @@ import type {
     GetAnalyserVoxel,
     ParseDatapackResult
 } from "@voxelio/breeze";
-import { compileDatapack, isVoxelElement, Logger, sortElementsByRegistry, updateData } from "@voxelio/breeze";
+import { compileDatapack, Identifier, isVoxelElement, Logger, sortElementsByRegistry, updateData } from "@voxelio/breeze";
 import { create } from "zustand";
 import { saveSession, updateSessionData, updateSessionLogger } from "@/lib/utils/sessionPersistence";
 import type { CONCEPT_KEY } from "./elements";
@@ -44,6 +44,7 @@ export interface ConfiguratorState<T extends keyof Analysers> {
     getSortedIdentifiers: (registry: string) => string[];
     setName: (name: string) => void;
     setCurrentElementId: (id: string | null) => void;
+    setIsModded: (isModded: boolean) => void;
     handleChange: (action: Action, identifier?: string, value?: ActionValue) => void;
     setup: (updates: ParseDatapackResult<GetAnalyserVoxel<T>>, isModded: boolean, name: string) => void;
     compile: () => Datapack;
@@ -94,6 +95,10 @@ const createConfiguratorStore = <T extends keyof Analysers>() =>
             updateSessionData({ name });
         },
         setCurrentElementId: (currentElementId) => set({ currentElementId }),
+        setIsModded: (isModded) => {
+            set({ isModded });
+            updateSessionData({ isModded });
+        },
         handleChange: (action, identifier) => {
             const state = get();
             const elementId = identifier ?? state.currentElementId;
@@ -107,7 +112,7 @@ const createConfiguratorStore = <T extends keyof Analysers>() =>
             );
 
             if (!updatedElement || !isVoxelElement(updatedElement)) return;
-            set((state) => ({ elements: state.elements.set(elementId, updatedElement) }));
+            set((state) => ({ elements: state.elements.set(elementId, updatedElement), registryCache: new Map() }));
             updateSessionLogger(state.logger);
         },
         setup: (updates, isModded, name) => {
@@ -148,7 +153,7 @@ export const getModifiedElements = <T extends keyof Analysers>(state: Configurat
     const changeSets = state.logger?.getChangeSets() ?? [];
     return changeSets
         .filter((c) => c.identifier.registry === registry)
-        .map((c) => state.elements.get(`${c.identifier.namespace}:${c.identifier.resource}$${c.identifier.registry}`))
+        .map((c) => state.elements.get(new Identifier(c.identifier).toUniqueKey()))
         .filter((el): el is GetAnalyserVoxel<T> => !!el);
 };
 

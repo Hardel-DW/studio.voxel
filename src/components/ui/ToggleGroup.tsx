@@ -15,6 +15,7 @@ interface ToggleGroupOptionProps {
     value: string;
     icon?: ReactNode;
     children?: ReactNode;
+    className?: string;
 }
 
 export function ToggleGroup({ value, onChange, children, className }: ToggleGroupProps) {
@@ -25,10 +26,9 @@ export function ToggleGroup({ value, onChange, children, className }: ToggleGrou
     );
 }
 
-export function ToggleGroupOption({ value, icon, children }: ToggleGroupOptionProps) {
+export function ToggleGroupOption({ value, icon, children, className }: ToggleGroupOptionProps) {
     const ctx = use(ToggleContext);
     if (!ctx) throw new Error("ToggleGroupOption must be used within ToggleGroup");
-
     const isActive = ctx.value === value;
     const isIconOnly = icon && !children;
 
@@ -37,9 +37,10 @@ export function ToggleGroupOption({ value, icon, children }: ToggleGroupOptionPr
             type="button"
             onClick={() => ctx.onChange(value)}
             className={cn(
-                "rounded-md transition-all cursor-pointer",
+                "rounded-md transition-all cursor-pointer text-zinc-500 hover:text-zinc-300",
                 isIconOnly ? "p-2" : "flex-1 text-[10px] uppercase font-bold py-1.5 px-2",
-                isActive ? "bg-zinc-800 text-zinc-100 shadow-sm" : "text-zinc-500 hover:text-zinc-300"
+                isActive && "bg-zinc-800 text-zinc-100 shadow-sm hover:text-zinc-100 ",
+                className
             )}>
             {children ?? icon}
         </button>

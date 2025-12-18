@@ -18,7 +18,7 @@ import { downloadFile } from "@/lib/utils/download";
 export default function DownloadButton() {
     const handleDownload = async () => {
         const { logger, isModded, compile, name } = useConfiguratorStore.getState();
-        const response = await compile().generate(logger);
+        const response = await compile().generate(logger, isModded);
         downloadFile(response, DatapackDownloader.getFileName(name, isModded));
     };
 

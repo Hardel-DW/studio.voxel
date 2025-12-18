@@ -37,7 +37,7 @@ export const useElement = (elementId?: string | null, enabled: boolean = true) =
 };
 
 export const useElementProperty = <T>(
-    propertySelector: (element: VoxelElement) => T,
+    propertySelector?: (element: VoxelElement) => T,
     elementId?: string | null,
     enabled: boolean = true
 ) => {
@@ -45,7 +45,7 @@ export const useElementProperty = <T>(
         useShallow((state) => {
             if (!enabled) return null;
             const element = elementId ? state.elements.get(elementId) : getCurrentElement(state);
-            return element ? propertySelector(element) : null;
+            return element ? propertySelector?.(element) : null;
         })
     );
 };

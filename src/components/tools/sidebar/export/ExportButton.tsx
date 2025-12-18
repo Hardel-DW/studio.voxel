@@ -9,12 +9,15 @@ import RepositoryLoading from "@/components/tools/sidebar/export/RepositoryLoadi
 import UnauthView from "@/components/tools/sidebar/export/UnauthView";
 import { Button } from "@/components/ui/Button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/Popover";
+import { ToggleGroup, ToggleGroupOption } from "@/components/ui/ToggleGroup";
 import Translate from "@/components/ui/Translate";
 import { useGitHubAuth } from "@/lib/hook/useGitHubAuth";
 
 export default function ExportButton({ containerRef }: { containerRef?: RefObject<HTMLDivElement | null> }) {
     const { owner, repositoryName, isGitRepository } = useExportStore();
     const name = useConfiguratorStore((state) => state.name);
+    const isModded = useConfiguratorStore((state) => state.isModded);
+    const setIsModded = useConfiguratorStore((state) => state.setIsModded);
     const { isAuthenticated } = useGitHubAuth();
 
     return (
@@ -43,6 +46,20 @@ export default function ExportButton({ containerRef }: { containerRef?: RefObjec
                     </div>
                 </div>
                 <div className="relative rounded-2xl border border-zinc-800 bg-zinc-950 text-zinc-200 shadow-md z-20 flex flex-col p-2 pb-3 gap-3">
+                    <ToggleGroup value={isModded ? "jar" : "zip"} onChange={(v) => setIsModded(v === "jar")}>
+                        <ToggleGroupOption className="h-10" value="zip">
+                            <div className="flex gap-2 items-center justify-center">
+                                <span className="text-zinc-300">Datapack</span>
+                                <span className="text-zinc-500">(.zip)</span>
+                            </div>
+                        </ToggleGroupOption>
+                        <ToggleGroupOption className="h-10" value="jar">
+                            <div className="flex gap-2 items-center justify-center">
+                                <span className="text-zinc-300">Mod</span>
+                                <span className="text-zinc-500">(.jar)</span>
+                            </div>
+                        </ToggleGroupOption>
+                    </ToggleGroup>
                     <RepositoryLoading />
                     <div className="flex flex-col gap-1 bg-neutral-950 rounded-2xl p-2 border border-zinc-800">
                         {isGitRepository ? <GithubSender /> : <InitializeRepoButton />}
