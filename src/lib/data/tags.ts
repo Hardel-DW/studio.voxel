@@ -50,4 +50,3 @@ export function getEnchantableKeys(version: number) {
 export function getEnchantableEntries(version: number) {
     return Object.entries(getEnchantableItems(version));
 }
-

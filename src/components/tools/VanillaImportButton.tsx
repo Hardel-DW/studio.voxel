@@ -23,7 +23,9 @@ export default function VanillaImportButton() {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger>
-                <Button disabled variant="default">{translate("studio.import_vanilla.disabled")}</Button>
+                <Button disabled variant="default">
+                    {translate("studio.import_vanilla.disabled")}
+                </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
                 <DropdownMenuItem onClick={() => handleVanillaImport(88)}>Minecraft - Version 1.21.10</DropdownMenuItem>

@@ -63,7 +63,7 @@ function ActionItem(props: ToolListOptionAction & { elementId?: string; lock: { 
                     <Translate content={props.description} />
                 </span>
             </div>
-            <Switch id="action-switch" isChecked={isChecked ?? false} setIsChecked={() => { }} disabled={props.lock.isLocked} />
+            <Switch id="action-switch" isChecked={isChecked ?? false} setIsChecked={() => {}} disabled={props.lock.isLocked} />
         </label>
     );
 }
@@ -75,9 +75,8 @@ export default function ToolListOption(props: ToolListOptionType) {
     const isInList = useRenderer<boolean>(props.actions?.[1]?.renderer, props.elementId);
     const targetValue = useRenderer<boolean>(props.actions?.[0]?.renderer, props.elementId);
     const currentIdentifier = currentElementId ? Identifier.fromUniqueKey(currentElementId).toString() : null;
-    const displayValues = currentIdentifier && isInList && !props.values.includes(currentIdentifier)
-        ? [...props.values, currentIdentifier]
-        : props.values;
+    const displayValues =
+        currentIdentifier && isInList && !props.values.includes(currentIdentifier) ? [...props.values, currentIdentifier] : props.values;
 
     return (
         <RenderGuard condition={props.hide}>
@@ -115,13 +114,15 @@ export default function ToolListOption(props: ToolListOptionType) {
                         <>
                             <hr className="border-zinc-700 my-2" />
                             <div className="grid gap-1">
-                                {displayValues.slice(0, displayValues.length <= maxDisplayValues ? displayValues.length : maxDisplayValues).map((val) => (
-                                    <span
-                                        key={val}
-                                        className="text-zinc-400 tracking-tighter text-xs px-2 bg-zinc-900/20 py-0.5 rounded-md border border-zinc-900">
-                                        {Identifier.of(val, "minecraft").toResourceName()}
-                                    </span>
-                                ))}
+                                {displayValues
+                                    .slice(0, displayValues.length <= maxDisplayValues ? displayValues.length : maxDisplayValues)
+                                    .map((val) => (
+                                        <span
+                                            key={val}
+                                            className="text-zinc-400 tracking-tighter text-xs px-2 bg-zinc-900/20 py-0.5 rounded-md border border-zinc-900">
+                                            {Identifier.of(val, "minecraft").toResourceName()}
+                                        </span>
+                                    ))}
                             </div>
                         </>
                     )}

@@ -44,7 +44,6 @@ const questions = (lang: string) => {
     ];
 };
 
-
 function StudioLayout() {
     const { lang } = Route.useParams();
     const translate = t(lang);

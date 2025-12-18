@@ -88,7 +88,7 @@ function EnchantmentFindPage() {
                             lock={[
                                 new LockEntryBuilder()
                                     .addTextKey("enchantment:technical.lock.reason")
-                                    .addCondition((el: EnchantmentProps) => value.lock_value ? el.tags.includes(value.lock_value) : false)
+                                    .addCondition((el: EnchantmentProps) => (value.lock_value ? el.tags.includes(value.lock_value) : false))
                                     .build(),
                                 isMinecraft
                             ]}

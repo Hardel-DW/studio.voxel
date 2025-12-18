@@ -10,10 +10,10 @@ import type {
 } from "@voxelio/breeze";
 import { compileDatapack, Identifier, isVoxelElement, Logger, sortElementsByRegistry, updateData } from "@voxelio/breeze";
 import { create } from "zustand";
+import { encodeFilesRecord } from "@/lib/utils/encode";
 import { saveSession, updateSessionData, updateSessionLogger } from "@/lib/utils/sessionPersistence";
 import type { CONCEPT_KEY } from "./elements";
 import { useExportStore } from "./sidebar/ExportStore";
-import { encodeFilesRecord } from "@/lib/utils/encode";
 
 export type RegistrySearchOptions = {
     path?: string;
