@@ -49,9 +49,22 @@ function StudioLayout() {
     const translate = t(lang);
 
     return (
-        <main className="w-full">
+        <main className="relative w-full overflow-x-hidden">
             <Link to="/$lang/studio/editor" params={{ lang }} className="hidden" aria-hidden="true" />
             <Navbar />
+            <div className="pointer-events-none absolute inset-x-0 top-0 h-screen -z-10 overflow-hidden">
+                <svg
+                    className="size-full stroke-white/10 [stroke-dasharray:5_6] [stroke-dashoffset:10] stroke-2 scale-110 origin-center"
+                    style={{ transform: "skewY(-12deg)" }}>
+                    <title>Grid</title>
+                    <defs>
+                        <pattern id="grid" viewBox="0 0 64 64" width="32" height="32" patternUnits="userSpaceOnUse">
+                            <path d="M64 0H0V64" fill="none" />
+                        </pattern>
+                    </defs>
+                    <rect width="100%" height="100%" fill="url(#grid)" />
+                </svg>
+            </div>
             <section className="w-11/12 md:w-3/4 mx-auto flex flex-col justify-evenly xl:grid grid-cols-2 items-center relative gap-8 min-h-screen">
                 <div className="h-full w-[95%] md:w-full relative">
                     <div className="xl:invisible visible absolute flex justify-center items-center size-full -z-10">
