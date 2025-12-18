@@ -68,18 +68,24 @@ function ActionItem(props: ToolListOptionAction & { elementId?: string; lock: { 
     );
 }
 
+const maxDisplayValues = 3;
 export default function ToolListOption(props: ToolListOptionType) {
     const currentElementId = useConfiguratorStore((state) => props.elementId ?? state.currentElementId);
     const lock = useElementLocks(props.lock, currentElementId);
     const isInList = useRenderer<boolean>(props.actions?.[1]?.renderer, props.elementId);
     const targetValue = useRenderer<boolean>(props.actions?.[0]?.renderer, props.elementId);
+    const currentIdentifier = currentElementId ? Identifier.fromUniqueKey(currentElementId).toString() : null;
+    const displayValues = currentIdentifier && isInList && !props.values.includes(currentIdentifier)
+        ? [...props.values, currentIdentifier]
+        : props.values;
 
     return (
         <RenderGuard condition={props.hide}>
             <div
                 className={cn(
                     "bg-black/35 border border-zinc-900 transition-transform duration-150 ease-out hover:-translate-y-1 px-6 py-4 rounded-xl relative overflow-hidden w-full h-full text-left flex flex-col justify-between isolate",
-                    { "opacity-50 ring-1 ring-zinc-700": lock.isLocked }
+                    lock.isLocked && "opacity-50 ring-1 ring-zinc-700",
+                    targetValue && "ring-1 ring-zinc-600"
                 )}>
                 {isInList && (
                     <span className="absolute top-2 right-2">
@@ -105,11 +111,11 @@ export default function ToolListOption(props: ToolListOptionType) {
                         </div>
                     </div>
 
-                    {props.values.length > 0 && (
+                    {displayValues.length > 0 && (
                         <>
                             <hr className="border-zinc-700 my-2" />
                             <div className="grid gap-1">
-                                {props.values.slice(0, props.values.length <= 4 ? props.values.length : 3).map((val) => (
+                                {displayValues.slice(0, displayValues.length <= maxDisplayValues ? displayValues.length : maxDisplayValues).map((val) => (
                                     <span
                                         key={val}
                                         className="text-zinc-400 tracking-tighter text-xs px-2 bg-zinc-900/20 py-0.5 rounded-md border border-zinc-900">
@@ -123,16 +129,16 @@ export default function ToolListOption(props: ToolListOptionType) {
 
                 <div className="flex justify-between items-center mt-2">
                     <div>
-                        {props.values.length > 4 && (
+                        {displayValues.length > maxDisplayValues && (
                             <Popover>
                                 <PopoverTrigger>
                                     <span className="text-zinc-400 text-xs px-2 pt-2 hover:text-zinc-200 cursor-pointer transition-colors">
-                                        Voir plus ({props.values.length - 3})
+                                        Voir plus ({displayValues.length - maxDisplayValues})
                                     </span>
                                 </PopoverTrigger>
                                 <PopoverContent className="max-w-xs">
                                     <div className="grid gap-1">
-                                        {props.values.slice(3).map((val) => (
+                                        {displayValues.slice(maxDisplayValues).map((val) => (
                                             <span
                                                 key={val}
                                                 className="text-zinc-400 tracking-tighter text-xs px-2 bg-zinc-900/20 py-0.5 rounded-md border border-zinc-900">
