@@ -11,18 +11,17 @@ export type ToolInlineType = BaseInteractiveComponent & {
     image?: string;
 };
 
-export default function ToolInline(props: ToolInlineType & { index?: number }) {
+export default function ToolInline(props: ToolInlineType) {
     const { value, lock, handleChange } = useInteractiveLogic<ToolInlineType, boolean>({ component: props });
     if (value === null) return null;
-    const index = props.index ?? 0;
 
     return (
         <RenderGuard condition={props.hide}>
             <button
                 type="button"
                 className={cn(
-                    "bg-black/50 border-t-2 border-l-2 border-stone-900 ring-0 ring-zinc-900 transition-all hover:ring-1 px-6 py-4 rounded-xl cursor-pointer relative overflow-hidden w-full text-left",
-                    { "bg-black/25 ring-1 ring-zinc-600": value },
+                    "bg-black/35 border cursor-pointer border-zinc-900 select-none relative rounded-xl px-6 py-4 transition-transform duration-150 ease-out hover:-translate-y-1 isolate w-full text-left",
+                    { "bg-zinc-950/50 ring-1 ring-zinc-700": value },
                     { "opacity-50 ring-1 ring-zinc-700": lock.isLocked }
                 )}
                 onClick={() => handleChange(!value)}
@@ -57,8 +56,8 @@ export default function ToolInline(props: ToolInlineType & { index?: number }) {
                         {lock.isLocked && <img src="/icons/tools/lock.svg" alt="checkbox" className="w-6 h-6 invert" />}
                     </div>
                 </div>
-                <div className="absolute inset-0 -z-10 brightness-25" style={{ transform: `translateX(${index * 75}px)` }}>
-                    <img src="/images/shine.avif" alt="Shine" loading="lazy" />
+                <div className="absolute inset-0 -z-10 brightness-15 top-0">
+                    <img src="/images/shine.avif" alt="Shine" loading="lazy" className="h-1/2 w-full" />
                 </div>
             </button>
         </RenderGuard>

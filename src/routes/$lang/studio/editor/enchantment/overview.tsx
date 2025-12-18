@@ -4,6 +4,7 @@ import { useEditorUiStore } from "@/components/tools/concept/EditorUiStore";
 import EnchantmentCard from "@/components/tools/concept/enchantment/EnchantmentCard";
 import EnchantmentOverviewList from "@/components/tools/concept/enchantment/EnchantmentOverviewList";
 import { viewMatchers } from "@/components/tools/concept/enchantment/viewMatchers";
+import { useConfiguratorStore } from "@/components/tools/Store";
 import { TextInput } from "@/components/ui/TextInput";
 import Translate from "@/components/ui/Translate";
 import { useElementsByType } from "@/lib/hook/useElementsByType";
@@ -17,13 +18,14 @@ export const Route = createFileRoute("/$lang/studio/editor/enchantment/overview"
 function OverviewPage() {
     const { search, setSearch, sidebarView, filterPath, viewMode } = useEditorUiStore();
     const elements = useElementsByType("enchantment");
+    const version = useConfiguratorStore((s) => s.version) ?? 61;
 
     const filteredElements = elements.filter((el) => {
         if (search && !el.identifier.resource.toLowerCase().includes(search.toLowerCase())) return false;
         if (!filterPath) return true;
         const [category, leaf] = filterPath.split("/");
         if (leaf) return new Identifier(el.identifier).toResourceName() === leaf;
-        return viewMatchers[sidebarView]?.(el, category) ?? true;
+        return viewMatchers[sidebarView]?.(el, category, version) ?? true;
     });
 
     const { visibleItems, hasMore, ref } = useInfiniteScroll(filteredElements, 16, [viewMode, filterPath, search]);

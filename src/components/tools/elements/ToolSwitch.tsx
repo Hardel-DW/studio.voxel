@@ -11,14 +11,14 @@ export type ToolSwitchType = BaseInteractiveComponent & {
     description: TranslateTextType;
 };
 
-export default function ToolSwitch(props: ToolSwitchType & { index?: number }) {
+export default function ToolSwitch(props: ToolSwitchType) {
     const id = useId();
     const { value, lock, handleChange } = useInteractiveLogic<ToolSwitchType, boolean>({ component: props });
     if (value === null) return null;
 
     return (
         <RenderGuard condition={props.hide}>
-            <div className="bg-black/50 border-t-2 border-l-2 border-stone-900 ring-0 ring-zinc-800 transition-all hover:ring-1 p-6 rounded-xl relative overflow-hidden">
+            <div className="bg-black/35 border border-zinc-900 transition-transform duration-150 ease-out hover:-translate-y-1 p-6 rounded-xl relative overflow-hidden isolate">
                 <label htmlFor={id} className="flex items-center justify-between w-full cursor-pointer">
                     <div className="flex flex-col w-3/4">
                         <span className="text-white line-clamp-1">
@@ -38,8 +38,8 @@ export default function ToolSwitch(props: ToolSwitchType & { index?: number }) {
                         <Switch id={id} isChecked={value} setIsChecked={handleChange} disabled={lock.isLocked} />
                     </div>
                 </label>
-                <div className="absolute inset-0 -z-10 brightness-25" style={{ transform: `translateX(${props.index ?? 0 * 75}px)` }}>
-                    <img src="/images/shine.avif" alt="Shine" loading="lazy" />
+                <div className="absolute inset-0 -z-10 brightness-15">
+                    <img src="/images/shine.avif" alt="Shine" loading="lazy" className="h-1/2 w-full" />
                 </div>
             </div>
         </RenderGuard>

@@ -57,16 +57,14 @@ function TreeNode({ name, path, node, depth }: { name: string; path: string; nod
 
     return (
         <div className="w-full select-none">
-            <button
-                type="button"
+            <div
                 className={cn(
-                    "flex items-center gap-2 px-3 py-2 rounded-lg cursor-pointer transition-colors relative group w-full text-left",
+                    "flex items-center gap-2 px-3 py-2 rounded-lg transition-colors relative group w-full",
                     isHighlighted ? "bg-zinc-800/80 text-white" : "text-zinc-400 hover:bg-zinc-900/50 hover:text-zinc-200",
                     depth > 0 && "mt-0.5",
                     isEmpty && !isHighlighted && "opacity-50"
                 )}
-                style={{ paddingLeft: depth * 8 + 8 }}
-                onClick={handleClick}>
+                style={{ paddingLeft: depth * 8 + 8 }}>
                 {isHighlighted && (
                     <div
                         className="absolute left-0 top-2 bottom-2 w-1 rounded-r-full shadow-[0_0_8px_rgba(255,255,255,0.5)]"
@@ -78,7 +76,7 @@ function TreeNode({ name, path, node, depth }: { name: string; path: string; nod
                     <button
                         type="button"
                         onClick={handleChevronClick}
-                        className={cn("p-0.5 rounded-md transition-colors -ml-1", hasChildren && "hover:bg-zinc-700/50")}>
+                        className={cn("p-0.5 rounded-md transition-colors -ml-1 cursor-pointer", hasChildren && "hover:bg-zinc-700/50")}>
                         <img
                             src="/icons/chevron-down.svg"
                             className={cn("size-3 transition-transform invert", !isOpen && "-rotate-90", !hasChildren && "opacity-20")}
@@ -87,7 +85,7 @@ function TreeNode({ name, path, node, depth }: { name: string; path: string; nod
                     </button>
                 )}
 
-                <div className="flex items-center gap-2.5 flex-1 min-w-0">
+                <button type="button" onClick={handleClick} className="flex items-center gap-2.5 flex-1 min-w-0 cursor-pointer text-left">
                     <img
                         src={icon}
                         className={cn(
@@ -98,14 +96,14 @@ function TreeNode({ name, path, node, depth }: { name: string; path: string; nod
                         alt=""
                     />
                     <span className="truncate text-sm font-medium">{Identifier.toDisplay(name)}</span>
-                </div>
+                </button>
 
                 {!isElement && (
                     <span className="text-[10px] text-zinc-600 font-mono tabular-nums bg-zinc-900/50 px-1.5 rounded-sm border border-zinc-800 group-hover:border-zinc-700">
                         {node.count}
                     </span>
                 )}
-            </button>
+            </div>
 
             {hasChildren && isOpen && (
                 <div className="flex flex-col border-zinc-800/50 my-1 pl-1 ml-3 border-l">

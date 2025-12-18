@@ -6,7 +6,7 @@ import ToolGrid from "@/components/tools/elements/ToolGrid";
 import ToolSectionSelector from "@/components/tools/elements/ToolSectionSelector";
 import ToolSlot from "@/components/tools/elements/ToolSlot";
 import { useConfiguratorStore } from "@/components/tools/Store";
-import { enchantableEntries } from "@/lib/data/tags";
+import { getEnchantableEntries } from "@/lib/data/tags";
 import { VOXEL_TAGS } from "@/lib/data/voxel";
 
 const elements = [
@@ -21,6 +21,7 @@ export const Route = createFileRoute("/$lang/studio/editor/enchantment/items")({
 function EnchantmentItemsPage() {
     const [section, setSection] = useState<string>(elements[0].id);
     const addFile = useConfiguratorStore((state) => state.addFile);
+    const version = useConfiguratorStore((state) => state.version) ?? 61;
 
     const addTagIfExists = (identifier: { toFilePath: () => string }) => {
         const tagData = VOXEL_TAGS.get(identifier.toFilePath());
@@ -35,8 +36,8 @@ function EnchantmentItemsPage() {
                 elements={elements}
                 value={section}
                 setValue={setSection}>
-                <ToolGrid>
-                    {enchantableEntries.map(([key, identifier]) => {
+                <ToolGrid className="pb-4">
+                    {getEnchantableEntries(version).map(([key, identifier]) => {
                         const tag = identifier.toString();
                         return (
                             <ToolSlot

@@ -12,7 +12,7 @@ export default function RecipeOverviewCard(props: { element: RecipeProps; elemen
 
     return (
         <ErrorBoundary fallback={(e) => <ErrorPlaceholder error={e} />}>
-            <div className="bg-black/50 border-t-2 border-l-2 border-stone-900 select-none relative transition-all hover:ring-1 ring-zinc-900 rounded-xl p-4 flex flex-col">
+            <div className="bg-black/35 border-t-2 border-l-2 border-stone-900 select-none relative transition-all hover:ring-1 ring-zinc-900 rounded-xl p-4 flex flex-col">
                 <div className="flex-1 flex flex-col">
                     <RecipeRenderer element={props.element} />
 

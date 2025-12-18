@@ -1,6 +1,6 @@
 import type { EnchantmentProps } from "@voxelio/breeze";
 import { Identifier } from "@voxelio/breeze";
-import { enchantableEntries } from "@/lib/data/tags";
+import { getEnchantableEntries } from "@/lib/data/tags";
 import { toArray } from "@/lib/utils";
 import { SLOT_CONFIGS } from "./slots";
 
@@ -9,8 +9,8 @@ const matchesSlot = (el: EnchantmentProps, category: string) => {
     return config ? el.slots.some((s) => config.slots.includes(s)) : false;
 };
 
-const matchesItem = (el: EnchantmentProps, category: string) => {
-    const entry = enchantableEntries.find(([k]) => k === category);
+const matchesItem = (el: EnchantmentProps, category: string, version: number) => {
+    const entry = getEnchantableEntries(version).find(([k]) => k === category);
     if (!entry) return false;
     const tag = entry[1].toString();
     const allTags = [...toArray(el.supportedItems), ...toArray(el.primaryItems), ...toArray(el.tags)];
@@ -22,7 +22,9 @@ const matchesExclusive = (el: EnchantmentProps, category: string) => {
     return sets.some((s) => (s.startsWith("#") ? s : Identifier.toDisplay(s)) === category);
 };
 
-export const viewMatchers: Record<string, (el: EnchantmentProps, cat: string) => boolean> = {
+export type ViewMatcher = (el: EnchantmentProps, cat: string, version: number) => boolean;
+
+export const viewMatchers: Record<string, ViewMatcher> = {
     slots: matchesSlot,
     items: matchesItem,
     exclusive: matchesExclusive

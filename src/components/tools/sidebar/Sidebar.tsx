@@ -15,7 +15,6 @@ export default function StudioSidebar() {
     const getLengthByRegistry = useConfiguratorStore((state) => state.getLengthByRegistry);
     const buttonsContainerRef = useRef<HTMLDivElement>(null);
     const [disableEffects, setDisableEffects] = useLocalStorage("studio:disable-effects", false);
-    const [disableLight, setDisableLight] = useLocalStorage("studio:disable-light", false);
     if (!hasElements) return null;
 
     const handleDebugModalOpen = () => {
@@ -78,18 +77,6 @@ export default function StudioSidebar() {
                                     </span>
                                 </div>
                                 <Switch isChecked={disableEffects ?? true} setIsChecked={setDisableEffects} />
-                            </div>
-
-                            <div className="group flex items-center justify-between p-3 rounded-xl hover:bg-white/5 transition-all duration-200 cursor-pointer border border-transparent hover:border-white/5">
-                                <div className="flex flex-col gap-0.5">
-                                    <span className="text-sm font-medium text-zinc-200 group-hover:text-white transition-colors">
-                                        Lighting
-                                    </span>
-                                    <span className="text-xs text-zinc-500 group-hover:text-zinc-400 transition-colors">
-                                        Disable ambient light
-                                    </span>
-                                </div>
-                                <Switch isChecked={disableLight ?? true} setIsChecked={setDisableLight} />
                             </div>
                         </div>
 

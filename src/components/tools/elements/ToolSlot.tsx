@@ -26,8 +26,8 @@ export default function ToolSlot(props: ToolSlotType & { index?: number }) {
         <button
             type="button"
             className={cn(
-                "bg-black/50 border-t-2 border-l-2 border-stone-900 ring-0 ring-zinc-900 select-none cursor-pointer relative transition-all hover:ring-1 p-6 rounded-xl",
-                { "bg-zinc-950/25 ring-1 ring-zinc-600": value },
+                "bg-black/35 border cursor-pointer border-zinc-900 select-none relative rounded-xl p-4 flex flex-col transition-transform duration-150 ease-out hover:-translate-y-1 isolate",
+                { "bg-zinc-950/50 ring-1 ring-zinc-700": value },
                 { "opacity-50 ring-1 ring-zinc-700": lock.isLocked }
             )}
             onClick={handleClick}
@@ -80,8 +80,8 @@ export default function ToolSlot(props: ToolSlotType & { index?: number }) {
                     }}
                 />
             </div>
-            <div className="absolute inset-0 -z-10 brightness-30">
-                <img src="/images/shine.avif" alt="Shine" loading="lazy" />
+            <div className="absolute inset-0 -z-10 brightness-15 top-0">
+                <img src="/images/shine.avif" alt="Shine" loading="lazy" className="h-1/2 w-full" />
             </div>
         </button>
     );

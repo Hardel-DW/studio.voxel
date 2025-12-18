@@ -109,6 +109,7 @@ export const enUs = {
     "studio.faq": "FAQ",
     "studio.success.loaded": "Successfully loaded {file}",
     "studio.import_vanilla": "Import Vanilla",
+    "studio.import_vanilla.disabled": "New Project - Coming soon",
     "studio.import_repository.downloading": "Downloading {repo.name}...",
     "studio.import_repository.success": "Successfully imported {repo.name}",
     "studio.error.no_version": "No pack format found",

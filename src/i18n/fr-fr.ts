@@ -118,6 +118,7 @@ export const frFr = {
     "studio.faq": "FAQ",
     "studio.success.loaded": "Succès lors du chargement de {file}",
     "studio.import_vanilla": "Importer les éléments vanilla",
+    "studio.import_vanilla.disabled": "Nouveau Projet - Bientôt",
     "studio.import_repository.downloading": "Téléchargement de {repo.name}...",
     "studio.import_repository.success": "Import de {repo.name} réussi",
     "studio.error.no_version": "Aucune version de pack trouvée",

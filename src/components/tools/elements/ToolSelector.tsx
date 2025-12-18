@@ -17,7 +17,7 @@ export default function ToolSelector(props: ToolSelectorType & { index?: number 
 
     return (
         <RenderGuard condition={props.hide}>
-            <div className="bg-black/50 border-t-2 border-l-2 border-stone-900 ring-0 ring-zinc-800 hover:ring-1 backdrop-blur-2xl cursor-pointer relative overflow-hidden transition-all  p-6 rounded-xl">
+            <div className="bg-black/35 border border-zinc-900 cursor-pointer relative overflow-hidden transition-transform duration-150 ease-out hover:-translate-y-1 p-6 rounded-xl isolate">
                 <div className="flex flex-col gap-4 h-full px-6">
                     <div className="flex justify-between items-center w-full gap-4">
                         <div className="flex flex-col flex-1">
@@ -50,7 +50,7 @@ export default function ToolSelector(props: ToolSelectorType & { index?: number 
                     </div>
                 </div>
                 <div className="absolute inset-0 -z-10 brightness-15">
-                    <img src="/images/shine.avif" alt="Shine" loading="lazy" />
+                    <img src="/images/shine.avif" alt="Shine" loading="lazy" className="h-1/2 w-full" />
                 </div>
             </div>
         </RenderGuard>

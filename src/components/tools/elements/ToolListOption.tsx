@@ -26,7 +26,6 @@ export type ToolListOptionType = {
     description: TranslateTextType;
     image?: string;
     values: string[];
-    index?: number;
     hide?: Condition;
     lock?: Lock[];
     elementId?: string;
@@ -64,7 +63,7 @@ function ActionItem(props: ToolListOptionAction & { elementId?: string; lock: { 
                     <Translate content={props.description} />
                 </span>
             </div>
-            <Switch id="action-switch" isChecked={isChecked ?? false} setIsChecked={() => {}} disabled={props.lock.isLocked} />
+            <Switch id="action-switch" isChecked={isChecked ?? false} setIsChecked={() => { }} disabled={props.lock.isLocked} />
         </label>
     );
 }
@@ -79,7 +78,7 @@ export default function ToolListOption(props: ToolListOptionType) {
         <RenderGuard condition={props.hide}>
             <div
                 className={cn(
-                    "bg-black/50 border-t-2 border-l-2 border-stone-900 ring-0 ring-zinc-900 transition-all hover:ring-1 px-6 py-4 rounded-xl relative overflow-hidden w-full h-full text-left flex flex-col justify-between",
+                    "bg-black/35 border border-zinc-900 transition-transform duration-150 ease-out hover:-translate-y-1 px-6 py-4 rounded-xl relative overflow-hidden w-full h-full text-left flex flex-col justify-between isolate",
                     { "opacity-50 ring-1 ring-zinc-700": lock.isLocked }
                 )}>
                 {isInList && (
@@ -182,8 +181,8 @@ export default function ToolListOption(props: ToolListOptionType) {
                     </div>
                 </div>
 
-                <div className="absolute inset-0 -z-10 brightness-25" style={{ transform: `translateX(${props.index ?? 0 * 75}px)` }}>
-                    <img src="/images/shine.avif" alt="Shine" loading="lazy" />
+                <div className="absolute inset-0 -z-10 brightness-15">
+                    <img src="/images/shine.avif" alt="Shine" loading="lazy" className="h-1/2 w-full" />
                 </div>
             </div>
         </RenderGuard>

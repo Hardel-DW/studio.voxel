@@ -42,7 +42,7 @@ export default function ToolSectionSelector(props: ToolSectionSelectorSection) {
                             <hr className="m-0 absolute -bottom-2 left-0 right-0" />
                         </div>
                         {props.elements && (
-                            <div className="flex gap-x-2 py-2 px-2 items-center rounded-2xl p-1 bg-black/50 border-t-2 border-l-2 border-stone-900 shrink-0 relative overflow-hidden">
+                            <div className="flex gap-x-2 py-2 px-2 items-center rounded-2xl p-1 bg-black/35 border border-zinc-900 shrink-0 relative overflow-hidden isolate">
                                 {props.elements.map((element) => (
                                     <button
                                         type="button"
@@ -58,8 +58,8 @@ export default function ToolSectionSelector(props: ToolSectionSelectorSection) {
                                     </button>
                                 ))}
 
-                                <div className="absolute inset-0 -z-10 brightness-30">
-                                    <img src="/images/shine.avif" alt="Shine" loading="lazy" />
+                                <div className="absolute inset-0 -z-10 brightness-15">
+                                    <img src="/images/shine.avif" alt="Shine" loading="lazy" className="h-1/2 w-full" />
                                 </div>
                             </div>
                         )}

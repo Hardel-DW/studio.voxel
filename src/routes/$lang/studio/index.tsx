@@ -8,6 +8,7 @@ import RestoreLastSession from "@/components/tools/RestoreLastSession";
 import VanillaImportButton from "@/components/tools/VanillaImportButton";
 import { t } from "@/lib/i18n/i18n";
 
+const DISABLE_MAINTENANCE = false;
 export const Route = createFileRoute("/$lang/studio/")({
     component: StudioLayout,
     pendingComponent: StudioLoading
@@ -43,7 +44,6 @@ const questions = (lang: string) => {
     ];
 };
 
-const DISABLE_MAINTENANCE = true;
 
 function StudioLayout() {
     const { lang } = Route.useParams();

@@ -1,5 +1,5 @@
 import { Identifier } from "@voxelio/breeze";
-import { enchantableEntries } from "@/lib/data/tags";
+import { getEnchantableEntries } from "@/lib/data/tags";
 import type { TreeNodeType } from "@/lib/utils/tree";
 import { SLOT_CONFIGS } from "./slots";
 
@@ -12,12 +12,12 @@ type EnchantmentElement = {
     exclusiveSet?: string | string[];
 };
 
-export function buildEnchantmentTree(elements: EnchantmentElement[], view: string): TreeNodeType {
+export function buildEnchantmentTree(elements: EnchantmentElement[], view: string, version: number): TreeNodeType {
     const root: TreeNodeType = { count: elements.length, children: new Map(), identifiers: [] };
     const builders: Record<string, () => void> = {
         tree: () => {},
         slots: () => buildBySlots(root, elements),
-        items: () => buildByItems(root, elements),
+        items: () => buildByItems(root, elements, version),
         exclusive: () => buildByExclusive(root, elements)
     };
 
@@ -34,8 +34,8 @@ function buildBySlots(root: TreeNodeType, elements: EnchantmentElement[]) {
     }
 }
 
-function buildByItems(root: TreeNodeType, elements: EnchantmentElement[]) {
-    for (const [key, identifier] of enchantableEntries) {
+function buildByItems(root: TreeNodeType, elements: EnchantmentElement[], version: number) {
+    for (const [key, identifier] of getEnchantableEntries(version)) {
         const tag = identifier.toString();
         const matching = elements.filter((el) => {
             const supported = Array.isArray(el.supportedItems) ? el.supportedItems : [el.supportedItems];

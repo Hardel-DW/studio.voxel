@@ -11,7 +11,7 @@ import { ToggleGroup, ToggleGroupOption } from "@/components/ui/ToggleGroup";
 import Translate from "@/components/ui/Translate";
 import { TreeProvider } from "@/components/ui/tree/TreeNavigationContext";
 import { TreeSidebar } from "@/components/ui/tree/TreeSidebar";
-import { enchantableKeys } from "@/lib/data/tags";
+import { getEnchantableKeys } from "@/lib/data/tags";
 import { useElementsByType } from "@/lib/hook/useElementsByType";
 
 const overviewRoute = "/$lang/studio/editor/enchantment/overview";
@@ -19,7 +19,6 @@ const detailRoute = "/$lang/studio/editor/enchantment/main";
 const changesRoute = "/$lang/studio/editor/enchantment/changes";
 const elementIcon = "/images/features/item/enchanted_book.webp";
 const SLOT_FOLDER_ICONS = Object.fromEntries(SLOT_CONFIGS.map((c) => [c.id, c.image]));
-const ITEM_FOLDER_ICONS = Object.fromEntries(enchantableKeys.map((k) => [k, `/images/features/item/${k}.webp`]));
 
 export const Route = createFileRoute("/$lang/studio/editor/enchantment")({
     component: EnchantmentLayout,
@@ -32,12 +31,14 @@ function EnchantmentLayout() {
     const location = useLocation();
     const navigate = useNavigate();
     const elements = useElementsByType("enchantment");
-    const tree = buildEnchantmentTree(elements, sidebarView);
+    const version = useConfiguratorStore((s) => s.version) ?? 61;
+    const tree = buildEnchantmentTree(elements, sidebarView, version);
     const modifiedCount = useConfiguratorStore((s) => getModifiedElements(s, "enchantment").length);
     const currentElement = useConfiguratorStore((s) => getCurrentElement(s));
     const enchantment = currentElement && isVoxel(currentElement, "enchantment") ? currentElement : undefined;
     const isOverview = location.pathname.endsWith("/overview");
-    const folderIcons = sidebarView === "slots" ? SLOT_FOLDER_ICONS : sidebarView === "items" ? ITEM_FOLDER_ICONS : undefined;
+    const itemFolderIcons = Object.fromEntries(getEnchantableKeys(version).map((k) => [k, `/images/features/item/${k}.webp`]));
+    const folderIcons = sidebarView === "slots" ? SLOT_FOLDER_ICONS : sidebarView === "items" ? itemFolderIcons : undefined;
     const disableAutoExpand = sidebarView === "slots";
 
     return (

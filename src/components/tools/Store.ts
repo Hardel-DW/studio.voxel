@@ -13,6 +13,7 @@ import { create } from "zustand";
 import { saveSession, updateSessionData, updateSessionLogger } from "@/lib/utils/sessionPersistence";
 import type { CONCEPT_KEY } from "./elements";
 import { useExportStore } from "./sidebar/ExportStore";
+import { encodeFilesRecord } from "@/lib/utils/encode";
 
 export type RegistrySearchOptions = {
     path?: string;
@@ -82,7 +83,11 @@ const createConfiguratorStore = <T extends keyof Analysers>() =>
             const newIndex = navigationIndex + 1;
             set({ navigationIndex: newIndex, currentElementId: navigationHistory[newIndex] });
         },
-        addFile: (key, value) => set({ custom: get().custom.set(key, value) }),
+        addFile: (key, value) => {
+            const custom = get().custom.set(key, value);
+            set({ custom, registryCache: new Map() });
+            updateSessionData({ files: encodeFilesRecord({ ...get().files, ...Object.fromEntries(custom) }) });
+        },
         getSortedIdentifiers: (registry) => get().sortedIdentifiers.get(registry) ?? [],
         setName: (name) => {
             set({ name });
