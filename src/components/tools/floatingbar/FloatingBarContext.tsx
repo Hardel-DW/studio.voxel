@@ -6,17 +6,46 @@ type FloatingBarState = { type: "COLLAPSED" } | { type: "EXPANDED"; content: Rea
 
 interface FloatingBarContextValue {
     portalRef: React.RefObject<HTMLDivElement | null>;
+    containerCenter: number | null;
     state: FloatingBarState;
     expand: (content: ReactNode, size?: ToolbarSize) => void;
     collapse: () => void;
     resize: (size: ToolbarSize) => void;
+    setContainerRef: (element: HTMLElement | null) => void;
 }
 
 const FloatingBarContext = createContext<FloatingBarContextValue | null>(null);
 
 export function FloatingBarProvider({ children }: { children: ReactNode }) {
     const portalRef = useRef<HTMLDivElement>(null);
+    const containerRef = useRef<HTMLElement | null>(null);
+    const observerRef = useRef<ResizeObserver | null>(null);
     const [state, setState] = useState<FloatingBarState>({ type: "COLLAPSED" });
+    const [containerCenter, setContainerCenter] = useState<number | null>(null);
+
+    const computeCenter = (element: HTMLElement) => {
+        const rect = element.getBoundingClientRect();
+        return rect.left + rect.width / 2;
+    };
+
+    const setContainerRef = (element: HTMLElement | null) => {
+        if (observerRef.current) {
+            observerRef.current.disconnect();
+            observerRef.current = null;
+        }
+
+        containerRef.current = element;
+
+        if (element) {
+            setContainerCenter(computeCenter(element));
+            observerRef.current = new ResizeObserver(() => {
+                setContainerCenter(computeCenter(element));
+            });
+            observerRef.current.observe(element);
+        } else {
+            setContainerCenter(null);
+        }
+    };
 
     const expand = (content: ReactNode, size: ToolbarSize = "large") => {
         setState({ type: "EXPANDED", content, size });
@@ -33,7 +62,7 @@ export function FloatingBarProvider({ children }: { children: ReactNode }) {
     };
 
     return (
-        <FloatingBarContext.Provider value={{ portalRef, state, expand, collapse, resize }}>
+        <FloatingBarContext.Provider value={{ portalRef, containerCenter, state, expand, collapse, resize, setContainerRef }}>
             {children}
             <div ref={portalRef} id="floating-bar-portal" />
         </FloatingBarContext.Provider>
@@ -57,6 +86,7 @@ export function useDynamicIsland() {
         isExpanded: context.state.type === "EXPANDED",
         expand: context.expand,
         collapse: context.collapse,
-        resize: context.resize
+        resize: context.resize,
+        setContainerRef: context.setContainerRef
     };
 }

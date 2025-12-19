@@ -8,19 +8,21 @@ interface ToolbarProps {
 }
 
 export function Toolbar({ children }: ToolbarProps) {
-    const { portalRef, state } = useFloatingBarPortal();
-    const [position, setPosition] = useState<{ x: number; y: number } | null>(null);
+    const { portalRef, containerCenter, state } = useFloatingBarPortal();
+    const [position, setPosition] = useState<{ centerX: number; edgeY: number; anchorBottom: boolean } | null>(null);
     const [showSnapZone, setShowSnapZone] = useState(false);
     const toolbarRef = useRef<HTMLDivElement>(null);
 
-    const getDefaultPosition = () => ({
-        x: window.innerWidth / 2 - 150,
+    const center = containerCenter ?? window.innerWidth / 2;
+
+    const getDefaultCenter = () => ({
+        x: center,
         y: window.innerHeight - 80
     });
 
-    const isNearDefaultPosition = (pos: { x: number; y: number }) => {
-        const defaultPos = getDefaultPosition();
-        const distance = Math.sqrt((pos.x - defaultPos.x) ** 2 + (pos.y - defaultPos.y) ** 2);
+    const isNearDefaultPosition = (centerX: number, centerY: number) => {
+        const defaultCenter = getDefaultCenter();
+        const distance = Math.sqrt((centerX - defaultCenter.x) ** 2 + (centerY - defaultCenter.y) ** 2);
         return distance < 100;
     };
 
@@ -30,26 +32,32 @@ export function Toolbar({ children }: ToolbarProps) {
         if (!toolbar) return;
 
         const rect = toolbar.getBoundingClientRect();
-        const offsetX = e.clientX - rect.left;
-        const offsetY = e.clientY - rect.top;
+        const toolbarCenterX = rect.left + rect.width / 2;
+        const toolbarCenterY = rect.top + rect.height / 2;
+        const offsetX = e.clientX - toolbarCenterX;
+        const offsetY = e.clientY - toolbarCenterY;
+
+        const halfHeight = rect.height / 2;
+        const computePosition = (clientX: number, clientY: number) => {
+            const padding = 50;
+            const centerX = Math.max(padding, Math.min(clientX - offsetX, window.innerWidth - padding));
+            const centerY = Math.max(padding, Math.min(clientY - offsetY, window.innerHeight - padding));
+            const anchorBottom = centerY > window.innerHeight / 2;
+            const edgeY = anchorBottom
+                ? window.innerHeight - (centerY + halfHeight)
+                : centerY - halfHeight;
+            return { centerX, centerY, edgeY, anchorBottom };
+        };
 
         const handleMouseMove = (e: MouseEvent) => {
-            const padding = 16;
-            const width = toolbar.offsetWidth;
-            const height = toolbar.offsetHeight;
-            const x = Math.max(padding, Math.min(e.clientX - offsetX, window.innerWidth - width - padding));
-            const y = Math.max(padding, Math.min(e.clientY - offsetY, window.innerHeight - height - padding));
-            setShowSnapZone(isNearDefaultPosition({ x, y }));
-            setPosition({ x, y });
+            const { centerX, centerY, edgeY, anchorBottom } = computePosition(e.clientX, e.clientY);
+            setShowSnapZone(isNearDefaultPosition(centerX, centerY));
+            setPosition({ centerX, edgeY, anchorBottom });
         };
 
         const handleMouseUp = (e: MouseEvent) => {
-            const padding = 16;
-            const width = toolbar.offsetWidth;
-            const height = toolbar.offsetHeight;
-            const x = Math.max(padding, Math.min(e.clientX - offsetX, window.innerWidth - width - padding));
-            const y = Math.max(padding, Math.min(e.clientY - offsetY, window.innerHeight - height - padding));
-            setPosition(isNearDefaultPosition({ x, y }) ? null : { x, y });
+            const { centerX, centerY, edgeY, anchorBottom } = computePosition(e.clientX, e.clientY);
+            setPosition(isNearDefaultPosition(centerX, centerY) ? null : { centerX, edgeY, anchorBottom });
             setShowSnapZone(false);
             document.removeEventListener("mousemove", handleMouseMove);
             document.removeEventListener("mouseup", handleMouseUp);
@@ -64,10 +72,20 @@ export function Toolbar({ children }: ToolbarProps) {
     const isExpanded = state.type === "EXPANDED";
     const size = isExpanded ? state.size : null;
 
+    const getPositionStyle = (): React.CSSProperties => {
+        if (!position) return { left: `${center}px`, bottom: "32px", transform: "translateX(-50%)" };
+        const base = { left: `${position.centerX}px`, transform: "translateX(-50%)" };
+        return position.anchorBottom
+            ? { ...base, bottom: `${position.edgeY}px` }
+            : { ...base, top: `${position.edgeY}px` };
+    };
+
     return (
         <Portal container={portalRef.current}>
             {showSnapZone && (
-                <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-999 w-[300px] h-[60px]">
+                <div
+                    className="fixed bottom-8 z-999 w-[300px] h-[60px]"
+                    style={{ left: `${center}px`, transform: "translateX(-50%)" }}>
                     <div className="size-full border-2 border-dashed border-zinc-400/50 bg-zinc-400/10 rounded-full animate-pulse" />
                 </div>
             )}
@@ -79,11 +97,10 @@ export function Toolbar({ children }: ToolbarProps) {
                 data-size={size}
                 className={clsx(
                     "dynamic-island fixed z-1000 bg-zinc-950/50 backdrop-blur-lg border border-zinc-800 shadow-2xl flex flex-col",
-                    !position && "bottom-8 left-1/2 -translate-x-1/2",
                     isExpanded && "rounded-3xl",
                     !isExpanded && "rounded-4xl p-2 justify-end cursor-move"
                 )}
-                style={position ? { left: `${position.x}px`, top: `${position.y}px`, transform: "none" } : undefined}
+                style={getPositionStyle()}
                 onMouseDown={!isExpanded ? startDrag : undefined}>
                 {isExpanded ? (
                     <>

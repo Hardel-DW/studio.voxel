@@ -6,6 +6,7 @@ import { SLOT_CONFIGS } from "@/components/tools/concept/enchantment/slots";
 import { EditorHeader } from "@/components/tools/concept/layout/EditorHeader";
 import { EditorSidebar } from "@/components/tools/concept/layout/EditorSidebar";
 import { CONCEPTS } from "@/components/tools/elements";
+import { useDynamicIsland } from "@/components/tools/floatingbar/FloatingBarContext";
 import NotFoundStudio from "@/components/tools/NotFoundStudio";
 import { getCurrentElement, getModifiedElements, useConfiguratorStore } from "@/components/tools/Store";
 import { ToggleGroup, ToggleGroupOption } from "@/components/ui/ToggleGroup";
@@ -32,6 +33,7 @@ export const Route = createFileRoute("/$lang/studio/editor/enchantment")({
 function EnchantmentLayout() {
     const { lang } = useParams({ from: "/$lang/studio/editor/enchantment" });
     const { sidebarView, setSidebarView, filterPath, viewMode, setViewMode } = useEditorUiStore();
+    const { setContainerRef } = useDynamicIsland();
     const location = useLocation();
     const navigate = useNavigate();
     const elements = useElementsByType("enchantment");
@@ -46,18 +48,7 @@ function EnchantmentLayout() {
     const disableAutoExpand = sidebarView === "slots";
 
     return (
-        <TreeProvider
-            config={{
-                overviewRoute,
-                detailRoute,
-                changesRoute,
-                tabRoutes,
-                tree,
-                modifiedCount,
-                elementIcon,
-                folderIcons,
-                disableAutoExpand
-            }}>
+        <TreeProvider config={{ overviewRoute, detailRoute, changesRoute, tabRoutes, tree, modifiedCount, elementIcon, folderIcons, disableAutoExpand }}>
             <div className="flex size-full overflow-hidden relative z-10 isolate">
                 <EditorSidebar title="enchantment:overview.title" icon={elementIcon} linkTo="/$lang/studio/editor/enchantment/overview">
                     <ToggleGroup value={sidebarView} onChange={setSidebarView} className="mt-4">
@@ -74,7 +65,7 @@ function EnchantmentLayout() {
                     <TreeSidebar />
                 </EditorSidebar>
 
-                <main className="flex-1 flex flex-col min-w-0 relative bg-zinc-950">
+                <main ref={setContainerRef} className="flex-1 flex flex-col min-w-0 relative bg-zinc-950">
                     <EditorHeader
                         fallbackTitle="Enchantment"
                         identifier={enchantment?.identifier}

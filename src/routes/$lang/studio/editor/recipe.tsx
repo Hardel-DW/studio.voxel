@@ -11,6 +11,7 @@ import { getCurrentElement, getModifiedElements, useConfiguratorStore } from "@/
 import { TreeProvider } from "@/components/ui/tree/TreeNavigationContext";
 import { TreeSidebar } from "@/components/ui/tree/TreeSidebar";
 import { useElementsByType } from "@/lib/hook/useElementsByType";
+import { useDynamicIsland } from "@/components/tools/floatingbar/FloatingBarContext";
 
 const concept = CONCEPTS.find((c) => c.registry === "recipe");
 if (!concept) throw new Error("Recipe concept not found");
@@ -42,6 +43,7 @@ function RecipeLayout() {
     const currentElement = useConfiguratorStore((s) => getCurrentElement(s));
     const recipe = currentElement && isVoxel(currentElement, "recipe") ? currentElement : undefined;
     const isOverview = location.pathname.endsWith("/overview");
+    const { setContainerRef } = useDynamicIsland();
 
     return (
         <TreeProvider config={{ overviewRoute, detailRoute, changesRoute, tabRoutes, tree, modifiedCount, folderIcons }}>
@@ -50,7 +52,7 @@ function RecipeLayout() {
                     <TreeSidebar />
                 </EditorSidebar>
 
-                <main className="flex-1 flex flex-col min-w-0 min-h-0 overflow-hidden relative bg-zinc-950">
+                <main ref={setContainerRef} className="flex-1 flex flex-col min-w-0 min-h-0 overflow-hidden relative bg-zinc-950">
                     <EditorHeader
                         fallbackTitle="Recipe"
                         identifier={recipe?.identifier}

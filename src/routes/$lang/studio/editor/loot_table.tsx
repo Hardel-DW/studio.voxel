@@ -4,6 +4,7 @@ import { useEditorUiStore } from "@/components/tools/concept/EditorUiStore";
 import { EditorHeader } from "@/components/tools/concept/layout/EditorHeader";
 import { EditorSidebar } from "@/components/tools/concept/layout/EditorSidebar";
 import { CONCEPTS } from "@/components/tools/elements";
+import { useDynamicIsland } from "@/components/tools/floatingbar/FloatingBarContext";
 import NotFoundStudio from "@/components/tools/NotFoundStudio";
 import { getCurrentElement, getModifiedElements, useConfiguratorStore } from "@/components/tools/Store";
 import { ToggleGroup, ToggleGroupOption } from "@/components/ui/ToggleGroup";
@@ -26,13 +27,11 @@ export const Route = createFileRoute("/$lang/studio/editor/loot_table")({
 function LootTableLayout() {
     const { lang } = useParams({ from: "/$lang/studio/editor/loot_table" });
     const { filterPath, viewMode, setViewMode } = useEditorUiStore();
+    const { setContainerRef } = useDynamicIsland();
     const location = useLocation();
     const navigate = useNavigate();
     const elements = useElementsByType("loot_table");
-    const tree = buildTree(
-        elements.map((e) => e.identifier),
-        true
-    );
+    const tree = buildTree(elements.map((e) => e.identifier), true);
     const modifiedCount = useConfiguratorStore((s) => getModifiedElements(s, "loot_table").length);
     const currentElement = useConfiguratorStore((s) => getCurrentElement(s));
     const lootTable = currentElement && isVoxel(currentElement, "loot_table") ? currentElement : undefined;
@@ -48,7 +47,7 @@ function LootTableLayout() {
                     <TreeSidebar />
                 </EditorSidebar>
 
-                <main className="flex-1 flex flex-col min-w-0 min-h-0 overflow-hidden relative bg-zinc-950">
+                <main ref={setContainerRef} className="flex-1 flex flex-col min-w-0 min-h-0 overflow-hidden relative bg-zinc-950">
                     <EditorHeader
                         fallbackTitle="Loot Table"
                         identifier={lootTable?.identifier}
