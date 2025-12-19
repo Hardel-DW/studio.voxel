@@ -2,6 +2,7 @@ import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { createFileRoute, Outlet } from "@tanstack/react-router";
 import EditorLoading from "@/components/pages/studio/EditorLoading";
 import ConfigManager from "@/components/tools/ConfigManager";
+import StudioDialog from "@/components/tools/concept/home/StudioDialog";
 import ItemTooltip from "@/components/tools/elements/gui/ItemTooltip";
 import NotFoundStudio from "@/components/tools/NotFoundStudio";
 import StudioSidebar from "@/components/tools/sidebar/Sidebar";
@@ -60,6 +61,7 @@ function EditorLayout() {
                         <ConfigManager>
                             <Outlet />
                             <ItemTooltip />
+                            <StudioDialog />
                         </ConfigManager>
                     </HydrationBoundary>
                 </div>

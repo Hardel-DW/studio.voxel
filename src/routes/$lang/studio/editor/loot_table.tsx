@@ -31,7 +31,10 @@ function LootTableLayout() {
     const location = useLocation();
     const navigate = useNavigate();
     const elements = useElementsByType("loot_table");
-    const tree = buildTree(elements.map((e) => e.identifier), true);
+    const tree = buildTree(
+        elements.map((e) => e.identifier),
+        true
+    );
     const modifiedCount = useConfiguratorStore((s) => getModifiedElements(s, "loot_table").length);
     const currentElement = useConfiguratorStore((s) => getCurrentElement(s));
     const lootTable = currentElement && isVoxel(currentElement, "loot_table") ? currentElement : undefined;

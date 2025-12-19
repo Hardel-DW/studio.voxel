@@ -1,5 +1,4 @@
-import type { ReactNode } from "react";
-import { createContext, useContext, useState } from "react";
+import { Children, createContext, type ReactElement, type ReactNode, useContext, useState } from "react";
 import { cn } from "@/lib/utils";
 
 const MultiStepContext = createContext<{
@@ -10,12 +9,17 @@ const MultiStepContext = createContext<{
     prev: () => void;
 } | null>(null);
 
+const isMultiStepItem = (child: ReactNode): child is ReactElement =>
+    child !== null &&
+    typeof child === "object" &&
+    "type" in child &&
+    (child.type as { displayName?: string })?.displayName === "MultiStepItem";
+
 export function MultiStep({ children }: { children: ReactNode }) {
     const [currentStep, setCurrentStep] = useState(0);
-
-    const childrenArray = Array.isArray(children) ? children : [children];
-    const stepItems = childrenArray.filter((child) => child?.type?.displayName === "MultiStepItem");
-    const otherChildren = childrenArray.filter((child) => child?.type?.displayName !== "MultiStepItem");
+    const childrenArray = Children.toArray(children);
+    const stepItems = childrenArray.filter(isMultiStepItem);
+    const otherChildren = childrenArray.filter((child) => !isMultiStepItem(child));
     const totalSteps = stepItems.length;
 
     const value = {

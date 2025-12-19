@@ -48,7 +48,18 @@ function EnchantmentLayout() {
     const disableAutoExpand = sidebarView === "slots";
 
     return (
-        <TreeProvider config={{ overviewRoute, detailRoute, changesRoute, tabRoutes, tree, modifiedCount, elementIcon, folderIcons, disableAutoExpand }}>
+        <TreeProvider
+            config={{
+                overviewRoute,
+                detailRoute,
+                changesRoute,
+                tabRoutes,
+                tree,
+                modifiedCount,
+                elementIcon,
+                folderIcons,
+                disableAutoExpand
+            }}>
             <div className="flex size-full overflow-hidden relative z-10 isolate">
                 <EditorSidebar title="enchantment:overview.title" icon={elementIcon} linkTo="/$lang/studio/editor/enchantment/overview">
                     <ToggleGroup value={sidebarView} onChange={setSidebarView} className="mt-4">

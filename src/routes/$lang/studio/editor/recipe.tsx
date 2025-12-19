@@ -6,12 +6,12 @@ import { EditorSidebar } from "@/components/tools/concept/layout/EditorSidebar";
 import { buildRecipeTree } from "@/components/tools/concept/recipe/buildRecipeTree";
 import { RECIPE_BLOCKS } from "@/components/tools/concept/recipe/recipeConfig";
 import { CONCEPTS } from "@/components/tools/elements";
+import { useDynamicIsland } from "@/components/tools/floatingbar/FloatingBarContext";
 import NotFoundStudio from "@/components/tools/NotFoundStudio";
 import { getCurrentElement, getModifiedElements, useConfiguratorStore } from "@/components/tools/Store";
 import { TreeProvider } from "@/components/ui/tree/TreeNavigationContext";
 import { TreeSidebar } from "@/components/ui/tree/TreeSidebar";
 import { useElementsByType } from "@/lib/hook/useElementsByType";
-import { useDynamicIsland } from "@/components/tools/floatingbar/FloatingBarContext";
 
 const concept = CONCEPTS.find((c) => c.registry === "recipe");
 if (!concept) throw new Error("Recipe concept not found");

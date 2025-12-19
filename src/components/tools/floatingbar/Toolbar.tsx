@@ -43,9 +43,7 @@ export function Toolbar({ children }: ToolbarProps) {
             const centerX = Math.max(padding, Math.min(clientX - offsetX, window.innerWidth - padding));
             const centerY = Math.max(padding, Math.min(clientY - offsetY, window.innerHeight - padding));
             const anchorBottom = centerY > window.innerHeight / 2;
-            const edgeY = anchorBottom
-                ? window.innerHeight - (centerY + halfHeight)
-                : centerY - halfHeight;
+            const edgeY = anchorBottom ? window.innerHeight - (centerY + halfHeight) : centerY - halfHeight;
             return { centerX, centerY, edgeY, anchorBottom };
         };
 
@@ -75,17 +73,13 @@ export function Toolbar({ children }: ToolbarProps) {
     const getPositionStyle = (): React.CSSProperties => {
         if (!position) return { left: `${center}px`, bottom: "32px", transform: "translateX(-50%)" };
         const base = { left: `${position.centerX}px`, transform: "translateX(-50%)" };
-        return position.anchorBottom
-            ? { ...base, bottom: `${position.edgeY}px` }
-            : { ...base, top: `${position.edgeY}px` };
+        return position.anchorBottom ? { ...base, bottom: `${position.edgeY}px` } : { ...base, top: `${position.edgeY}px` };
     };
 
     return (
         <Portal container={portalRef.current}>
             {showSnapZone && (
-                <div
-                    className="fixed bottom-8 z-999 w-[300px] h-[60px]"
-                    style={{ left: `${center}px`, transform: "translateX(-50%)" }}>
+                <div className="fixed bottom-8 z-999 w-[300px] h-[60px]" style={{ left: `${center}px`, transform: "translateX(-50%)" }}>
                     <div className="size-full border-2 border-dashed border-zinc-400/50 bg-zinc-400/10 rounded-full animate-pulse" />
                 </div>
             )}
