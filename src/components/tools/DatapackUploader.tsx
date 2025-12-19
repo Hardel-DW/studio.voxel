@@ -22,7 +22,7 @@ export default function DatapackUploader() {
 
             useConfiguratorStore.getState().setup(result, file.name.endsWith(".jar"), file.name);
             toast(translate("studio.success.loaded", { file: file.name }), TOAST.SUCCESS);
-            navigate({ to: "/$lang/studio/editor", params: { lang } });
+            navigate({ to: "/$lang/studio/editor/enchantment/overview", params: { lang } });
         } catch (e: unknown) {
             const errorMessage = e instanceof Error ? e.message : translate("studio.error.failed_to_upload");
             toast(translate("generic.dialog.error"), TOAST.ERROR, errorMessage);

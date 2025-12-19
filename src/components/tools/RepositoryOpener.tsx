@@ -53,7 +53,7 @@ export default function RepositoryOpener() {
             useConfiguratorStore.getState().setup(datapack, false, repo.name);
             useExportStore.getState().setGitRepository(repo.owner.login, repo.name, repo.default_branch, token || "");
             toast(translate("studio.import_repository.success", { name: repo.name }), TOAST.SUCCESS);
-            navigate({ to: "/$lang/studio/editor", params: { lang } });
+            navigate({ to: "/$lang/studio/editor/enchantment/overview", params: { lang } });
         },
         onError: (e: unknown) => {
             const errorMessage = e instanceof Error ? e.message : translate("studio.error.failed_to_import_repository");

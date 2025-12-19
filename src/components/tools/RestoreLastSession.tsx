@@ -35,7 +35,7 @@ export default function RestoreLastSession({ className }: { className?: string }
             useExportStore.getState().setInitializing(session.isInitializing);
 
             toast("Session restored successfully", TOAST.SUCCESS);
-            navigate({ to: "/$lang/studio/editor", params: { lang } });
+            navigate({ to: "/$lang/studio/editor/enchantment/overview", params: { lang } });
         } catch (e: unknown) {
             const errorMessage = e instanceof Error ? e.message : "Failed to restore session";
             toast("Error", TOAST.ERROR, errorMessage);

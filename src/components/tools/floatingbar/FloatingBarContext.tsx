@@ -19,7 +19,6 @@ const FloatingBarContext = createContext<FloatingBarContextValue | null>(null);
 export function FloatingBarProvider({ children }: { children: ReactNode }) {
     const portalRef = useRef<HTMLDivElement>(null);
     const containerRef = useRef<HTMLElement | null>(null);
-    const observerRef = useRef<ResizeObserver | null>(null);
     const [state, setState] = useState<FloatingBarState>({ type: "COLLAPSED" });
     const [containerCenter, setContainerCenter] = useState<number | null>(null);
 
@@ -29,22 +28,8 @@ export function FloatingBarProvider({ children }: { children: ReactNode }) {
     };
 
     const setContainerRef = (element: HTMLElement | null) => {
-        if (observerRef.current) {
-            observerRef.current.disconnect();
-            observerRef.current = null;
-        }
-
         containerRef.current = element;
-
-        if (element) {
-            setContainerCenter(computeCenter(element));
-            observerRef.current = new ResizeObserver(() => {
-                setContainerCenter(computeCenter(element));
-            });
-            observerRef.current.observe(element);
-        } else {
-            setContainerCenter(null);
-        }
+        setContainerCenter(element ? computeCenter(element) : null);
     };
 
     const expand = (content: ReactNode, size: ToolbarSize = "large") => {

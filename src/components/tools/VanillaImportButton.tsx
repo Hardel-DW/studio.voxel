@@ -17,7 +17,7 @@ export default function VanillaImportButton() {
         const logger = new Logger(files);
 
         useConfiguratorStore.getState().setup({ files, elements, version, logger }, false, "Change This Name - Voxel Configurator");
-        navigate({ to: "/$lang/studio/editor", params: { lang } });
+        navigate({ to: "/$lang/studio/editor/enchantment/overview", params: { lang } });
     };
 
     return (

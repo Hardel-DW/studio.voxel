@@ -1,5 +1,4 @@
 import { createFileRoute, Outlet } from "@tanstack/react-router";
-import QueryProvider from "@/components/QueryProvider";
 import DebugPanel from "@/components/tools/debug/DebugPanel";
 import { FloatingBarProvider } from "@/components/tools/floatingbar/FloatingBarContext";
 import ShiningStars from "@/components/ui/ShiningStars";
@@ -25,12 +24,10 @@ function StudioLayout() {
                 </div>
             )}
 
-            <QueryProvider>
-                <DebugPanel />
-                <FloatingBarProvider>
-                    <Outlet />
-                </FloatingBarProvider>
-            </QueryProvider>
+            <DebugPanel />
+            <FloatingBarProvider>
+                <Outlet />
+            </FloatingBarProvider>
         </div>
     );
 }
