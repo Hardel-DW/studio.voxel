@@ -1,5 +1,5 @@
 import { Identifier } from "@voxelio/breeze";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useTree } from "@/components/ui/tree/TreeNavigationContext";
 import { cn } from "@/lib/utils";
 import { hueToHsl, stringToColor } from "@/lib/utils/color";
@@ -28,6 +28,7 @@ export function FileTree() {
 function TreeNode({ name, path, node, depth }: { name: string; path: string; node: TreeNodeType; depth: number }) {
     const { filterPath, currentElementId, elementIcon, folderIcons, disableAutoExpand, selectFolder, selectElement } = useTree();
     const [isOpen, setIsOpen] = useState(false);
+    const prevElementIdRef = useRef(currentElementId);
 
     const isElement = !!node.elementId;
     const hasChildren = node.children.size > 0;
@@ -37,8 +38,11 @@ function TreeNode({ name, path, node, depth }: { name: string; path: string; nod
     const icon = isElement ? (elementIcon ?? "/images/features/item/bundle_open.webp") : (folderIcons?.[name] ?? "/icons/folder.svg");
     const isDefaultFolderIcon = !isElement && !folderIcons?.[name];
 
-    if (!disableAutoExpand && !isElement && !isOpen && hasActiveDescendant(node, currentElementId)) {
-        setIsOpen(true);
+    if (currentElementId !== prevElementIdRef.current) {
+        prevElementIdRef.current = currentElementId;
+        if (!disableAutoExpand && !isElement && !isOpen && hasActiveDescendant(node, currentElementId)) {
+            setIsOpen(true);
+        }
     }
 
     const handleClick = () => {

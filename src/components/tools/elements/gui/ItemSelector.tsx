@@ -19,7 +19,10 @@ export default function ItemSelector({ currentItem, onItemSelect, items }: ItemS
     const containerRef = useClickOutside(collapse);
     const filteredItems = items?.filter((item) => item.toLowerCase().includes(searchTerm.toLowerCase())) ?? [];
     const { visibleItems, hasMore, ref: loadMoreRef } = useInfiniteScroll(filteredItems, 150, [searchTerm]);
-    const handleValidate = (itemId: string) => onItemSelect?.(itemId);
+    const handleValidate = (itemId: string) => {
+        onItemSelect?.(itemId);
+        collapse();
+    };
 
     return (
         <div ref={containerRef} className="grid grid-rows-[auto_1fr_auto] h-full overflow-hidden">
