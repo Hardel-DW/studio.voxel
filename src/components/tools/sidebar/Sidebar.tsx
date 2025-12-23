@@ -1,18 +1,17 @@
 import { useRef } from "react";
 import { useDebugStore } from "@/components/tools/debug/DebugStore";
 import { CONCEPTS } from "@/components/tools/elements";
+import Internalization from "@/components/tools/Internalization";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import ExportButton from "@/components/tools/sidebar/export/ExportButton";
 import SidebarCard from "@/components/tools/sidebar/SidebarCard";
 import { Button } from "@/components/ui/Button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/Popover";
 import { Switch } from "@/components/ui/Switch";
-import Translate from "@/components/ui/Translate";
 import { useLocalStorage } from "@/lib/hook/useLocalStorage";
 
 export default function StudioSidebar() {
     const hasElements = useConfiguratorStore((state) => Object.keys(state.files).length > 0);
-    const getLengthByRegistry = useConfiguratorStore((state) => state.getLengthByRegistry);
     const buttonsContainerRef = useRef<HTMLDivElement>(null);
     const [disableEffects, setDisableEffects] = useLocalStorage("studio:disable-effects", false);
     if (!hasElements) return null;
@@ -25,33 +24,21 @@ export default function StudioSidebar() {
 
     return (
         <div className="flex flex-col pb-4 size-full">
-            <div className="overflow-y-auto overflow-x-hidden flex-1 scrollbar-thin flex flex-col items-center in-data-pinned:items-stretch">
+            <div className="overflow-y-auto overflow-x-hidden flex-1 scrollbar-thin flex flex-col items-center">
                 <div className="flex flex-col gap-3 mt-4 w-full max-w-[280px] mx-auto">
-                    {CONCEPTS.map((concept, index) => (
-                        <SidebarCard
-                            key={concept.title}
-                            title={concept.title}
-                            image={concept.image}
-                            index={index}
-                            registry={concept.registry}
-                            overview={concept.overview}>
-                            {getLengthByRegistry(concept.registry)} <Translate content="elements" />
-                        </SidebarCard>
+                    {CONCEPTS.map((concept) => (
+                        <SidebarCard key={concept.registry} image={concept.image} registry={concept.registry} overview={concept.overview} />
                     ))}
                 </div>
             </div>
 
             <div
                 ref={buttonsContainerRef}
-                className="shrink-0 flex flex-col-reverse items-center gap-2 in-data-pinned:flex-row in-data-pinned:gap-2 mt-2 transition-all duration-300 w-full justify-center max-w-[280px] mx-auto">
+                className="shrink-0 flex flex-col-reverse items-center gap-2 mt-2 transition-all duration-300 w-full justify-center max-w-[280px] mx-auto">
                 <ExportButton containerRef={buttonsContainerRef} />
                 <Popover>
                     <PopoverTrigger>
-                        <Button
-                            type="button"
-                            variant="transparent"
-                            size="square"
-                            className="in-data-pinned:bg-zinc-900 in-data-pinned:border in-data-pinned:border-zinc-800 border-0 select-none aspect-square shrink-0">
+                        <Button type="button" variant="transparent" size="square" className="border-0 select-none aspect-square shrink-0">
                             <img src="/icons/settings.svg" alt="settings" className="size-6 invert opacity-70" />
                         </Button>
                     </PopoverTrigger>
@@ -77,6 +64,18 @@ export default function StudioSidebar() {
                                     </span>
                                 </div>
                                 <Switch isChecked={disableEffects ?? true} setIsChecked={setDisableEffects} />
+                            </div>
+
+                            <div className="group flex items-center justify-between p-3 rounded-xl hover:bg-white/5 transition-all duration-200 cursor-pointer border border-transparent hover:border-white/5">
+                                <div className="flex flex-col gap-0.5">
+                                    <span className="text-sm font-medium text-zinc-200 group-hover:text-white transition-colors">
+                                        Language
+                                    </span>
+                                    <span className="text-xs text-zinc-500 group-hover:text-zinc-400 transition-colors">
+                                        Change the language of the application
+                                    </span>
+                                </div>
+                                <Internalization />
                             </div>
                         </div>
 
