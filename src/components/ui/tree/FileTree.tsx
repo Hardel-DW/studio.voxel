@@ -1,6 +1,6 @@
 import { Identifier } from "@voxelio/breeze";
 import { useRef, useState } from "react";
-import { useTree } from "@/components/ui/tree/TreeNavigationContext";
+import { useTree } from "@/components/ui/tree/useTree";
 import { cn } from "@/lib/utils";
 import { hueToHsl, stringToColor } from "@/lib/utils/color";
 import { hasActiveDescendant, type TreeNodeType } from "@/lib/utils/tree";
@@ -29,7 +29,6 @@ function TreeNode({ name, path, node, depth }: { name: string; path: string; nod
     const { filterPath, currentElementId, elementIcon, folderIcons, disableAutoExpand, selectFolder, selectElement } = useTree();
     const [isOpen, setIsOpen] = useState(false);
     const prevElementIdRef = useRef(currentElementId);
-
     const isElement = !!node.elementId;
     const hasChildren = node.children.size > 0;
     const isHighlighted = isElement ? node.elementId === currentElementId : !currentElementId && filterPath === path;
@@ -48,10 +47,11 @@ function TreeNode({ name, path, node, depth }: { name: string; path: string; nod
     const handleClick = () => {
         if (isElement && node.elementId) {
             selectElement(node.elementId);
-        } else {
-            setIsOpen((prev) => !prev);
-            selectFolder(path);
+            return;
         }
+
+        setIsOpen((prev) => !prev);
+        selectFolder(path);
     };
 
     const handleChevronClick = (e: React.MouseEvent) => {
@@ -63,7 +63,7 @@ function TreeNode({ name, path, node, depth }: { name: string; path: string; nod
         <div className="w-full select-none">
             <div
                 className={cn(
-                    "flex items-center gap-2 px-3 py-2 rounded-lg transition-colors relative group w-full",
+                    "flex items-center gap-2 rounded-lg transition-colors relative group w-full",
                     isHighlighted ? "bg-zinc-800/80 text-white" : "text-zinc-400 hover:bg-zinc-900/50 hover:text-zinc-200",
                     depth > 0 && "mt-0.5",
                     isEmpty && !isHighlighted && "opacity-50"
@@ -84,12 +84,12 @@ function TreeNode({ name, path, node, depth }: { name: string; path: string; nod
                         <img
                             src="/icons/chevron-down.svg"
                             className={cn("size-3 transition-transform invert", !isOpen && "-rotate-90", !hasChildren && "opacity-20")}
-                            alt=""
+                            alt="Toggle folder"
                         />
                     </button>
                 )}
 
-                <button type="button" onClick={handleClick} className="flex items-center gap-2.5 flex-1 min-w-0 cursor-pointer text-left">
+                <button type="button" onClick={handleClick} className="flex items-center gap-2.5 flex-1 min-w-0 cursor-pointer text-left px-3 py-2">
                     <img
                         src={icon}
                         className={cn(
@@ -97,7 +97,7 @@ function TreeNode({ name, path, node, depth }: { name: string; path: string; nod
                             isDefaultFolderIcon && "invert opacity-60",
                             isDefaultFolderIcon && isHighlighted && "opacity-100"
                         )}
-                        alt=""
+                        alt="Redirect to an element"
                     />
                     <span className="truncate text-sm font-medium">{Identifier.toDisplay(name)}</span>
                 </button>

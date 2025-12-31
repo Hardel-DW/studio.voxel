@@ -1,5 +1,6 @@
 import { Link, useParams } from "@tanstack/react-router";
 import StudioSidebar from "@/components/tools/sidebar/Sidebar";
+import EditorTabs from "@/components/tools/EditorTabs";
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
     const { lang } = useParams({ from: "/$lang" });
@@ -16,6 +17,9 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             </aside>
 
             <div className="flex-1 flex flex-col min-w-0">
+                <header data-tauri-drag-region className="shrink-0 h-12 select-none flex items-center gap-4 pl-4">
+                    <EditorTabs />
+                </header>
                 <main className="flex-1 relative min-h-0 h-full ml-0 bg-content overflow-hidden border-t border-l border-zinc-900 rounded-tl-3xl">
                     {children}
                 </main>

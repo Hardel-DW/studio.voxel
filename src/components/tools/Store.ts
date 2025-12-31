@@ -15,12 +15,19 @@ import { saveSession, updateSessionData, updateSessionLogger } from "@/lib/utils
 import type { CONCEPT_KEY } from "./elements";
 import { useExportStore } from "./sidebar/ExportStore";
 
+export interface OpenTab {
+    elementId: string;
+    route: string;
+    label: string;
+}
+
 export type RegistrySearchOptions = {
     path?: string;
     excludeNamespaces?: string[];
 };
 
 const MAX_HISTORY_SIZE = 20;
+const MAX_TABS = 10;
 
 export interface ConfiguratorState<T extends keyof Analysers> {
     name: string;
@@ -39,6 +46,12 @@ export interface ConfiguratorState<T extends keyof Analysers> {
     goto: (id: string) => void;
     back: () => void;
     forward: () => void;
+    //tabs
+    openTabs: OpenTab[];
+    activeTabIndex: number;
+    openTab: (elementId: string, route: string, label: string) => void;
+    closeTab: (index: number) => void;
+    switchTab: (index: number) => void;
     // Actions
     addFile: (key: string, value: Uint8Array) => void;
     getSortedIdentifiers: (registry: string) => string[];
@@ -62,6 +75,8 @@ const createConfiguratorStore = <T extends keyof Analysers>() =>
         elements: new Map(),
         isModded: false,
         version: null,
+        openTabs: [],
+        activeTabIndex: -1,
         sortedIdentifiers: new Map(),
         registryCache: new Map(),
         navigationHistory: [],
@@ -99,6 +114,39 @@ const createConfiguratorStore = <T extends keyof Analysers>() =>
             set({ isModded });
             updateSessionData({ isModded });
         },
+        openTab: (elementId, route, label) => {
+            const { openTabs } = get();
+            const existingIndex = openTabs.findIndex((tab) => tab.elementId === elementId);
+            if (existingIndex !== -1) {
+                set({ activeTabIndex: existingIndex, currentElementId: elementId });
+                return;
+            }
+            const newTab: OpenTab = { elementId, route, label };
+            const updatedTabs = [...openTabs, newTab].slice(-MAX_TABS);
+            set({ openTabs: updatedTabs, activeTabIndex: updatedTabs.length - 1, currentElementId: elementId });
+        },
+        closeTab: (index) => {
+            const { openTabs, activeTabIndex } = get();
+            if (index < 0 || index >= openTabs.length) return;
+            const updatedTabs = openTabs.toSpliced(index, 1);
+            if (updatedTabs.length === 0) {
+                set({ openTabs: [], activeTabIndex: -1, currentElementId: null });
+                return;
+            }
+
+            const newActiveIndex = index === activeTabIndex
+                ? Math.min(index, updatedTabs.length - 1)
+                : index < activeTabIndex ? activeTabIndex - 1 : activeTabIndex;
+
+            const newCurrentElement = updatedTabs[newActiveIndex]?.elementId ?? null;
+            set({ openTabs: updatedTabs, activeTabIndex: newActiveIndex, currentElementId: newCurrentElement });
+        },
+        switchTab: (index) => {
+            const { openTabs } = get();
+            if (index < 0 || index >= openTabs.length) return;
+            const tab = openTabs[index];
+            set({ activeTabIndex: index, currentElementId: tab.elementId });
+        },
         handleChange: (action, identifier) => {
             const state = get();
             const elementId = identifier ?? state.currentElementId;
@@ -116,7 +164,7 @@ const createConfiguratorStore = <T extends keyof Analysers>() =>
             updateSessionLogger(state.logger);
         },
         setup: (updates, isModded, name) => {
-            set({ ...updates, sortedIdentifiers: sortElementsByRegistry(updates.elements), isModded, name });
+            set({ ...updates, sortedIdentifiers: sortElementsByRegistry(updates.elements), isModded, name, openTabs: [], activeTabIndex: -1 });
             const exportState = useExportStore.getState();
             saveSession(get(), exportState);
         },

@@ -1,6 +1,6 @@
 import { Link, useParams } from "@tanstack/react-router";
 import { FileTree } from "@/components/ui/tree/FileTree";
-import { useTree } from "@/components/ui/tree/TreeNavigationContext";
+import { useTree } from "@/components/ui/tree/useTree";
 import { cn } from "@/lib/utils";
 import { hueToHsl, stringToColor } from "@/lib/utils/color";
 

@@ -1,5 +1,5 @@
 import { Link, useParams } from "@tanstack/react-router";
-import type { RecipeProps } from "@voxelio/breeze";
+import { Identifier, type RecipeProps } from "@voxelio/breeze";
 import RecipeRenderer from "@/components/tools/concept/recipe/RecipeRenderer";
 import ErrorPlaceholder from "@/components/tools/elements/error/ErrorPlaceholder";
 import { useConfiguratorStore } from "@/components/tools/Store";
@@ -8,7 +8,8 @@ import Translate from "@/components/ui/Translate";
 
 export default function RecipeOverviewCard(props: { element: RecipeProps; elementId: string }) {
     const { lang } = useParams({ from: "/$lang" });
-    const handleConfigure = () => useConfiguratorStore.getState().setCurrentElementId(props.elementId);
+    const label = Identifier.fromUniqueKey(props.elementId).resource;
+    const handleConfigure = () => useConfiguratorStore.getState().openTab(props.elementId, "/editor/recipe/main", label);
 
     return (
         <ErrorBoundary fallback={(e) => <ErrorPlaceholder error={e} />}>
