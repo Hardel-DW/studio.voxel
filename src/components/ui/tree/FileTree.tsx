@@ -89,7 +89,10 @@ function TreeNode({ name, path, node, depth }: { name: string; path: string; nod
                     </button>
                 )}
 
-                <button type="button" onClick={handleClick} className="flex items-center gap-2.5 flex-1 min-w-0 cursor-pointer text-left px-3 py-2">
+                <button
+                    type="button"
+                    onClick={handleClick}
+                    className="flex items-center gap-2.5 flex-1 min-w-0 cursor-pointer text-left px-3 py-2">
                     <img
                         src={icon}
                         className={cn(

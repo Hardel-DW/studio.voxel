@@ -1,14 +1,14 @@
 import { useNavigate } from "@tanstack/react-router";
 import { Identifier } from "@voxelio/breeze";
 import { CONCEPTS } from "@/components/tools/elements";
-import { useConfiguratorStore, type OpenTab } from "@/components/tools/Store";
+import { type OpenTab, useConfiguratorStore } from "@/components/tools/Store";
 import { cn } from "@/lib/utils";
 
 function TabItem({ tab, index, isActive }: { tab: OpenTab; index: number; isActive: boolean }) {
     const navigate = useNavigate();
     const switchTab = useConfiguratorStore((state) => state.switchTab);
     const closeTab = useConfiguratorStore((state) => state.closeTab);
-    const icon = CONCEPTS.find((c) => tab.route.includes(`/editor/${c.registry}`))?.image.src
+    const icon = CONCEPTS.find((c) => tab.route.includes(`/editor/${c.registry}`))?.image.src;
 
     const handleClick = () => {
         switchTab(index);
@@ -17,7 +17,21 @@ function TabItem({ tab, index, isActive }: { tab: OpenTab; index: number; isActi
 
     const handleClose = (e: React.KeyboardEvent<HTMLButtonElement> | React.MouseEvent<HTMLButtonElement>) => {
         e.stopPropagation();
+        const openTabs = useConfiguratorStore.getState().openTabs;
+        const activeTabIndex = useConfiguratorStore.getState().activeTabIndex;
         closeTab(index);
+
+        const updatedTabs = openTabs.toSpliced(index, 1);
+        if (updatedTabs.length === 0) return;
+        const newActiveIndex =
+            index === activeTabIndex
+                ? Math.min(index, updatedTabs.length - 1)
+                : index < activeTabIndex
+                  ? activeTabIndex - 1
+                  : activeTabIndex;
+
+        const nextTab = updatedTabs[newActiveIndex];
+        if (nextTab) navigate({ to: nextTab.route });
     };
 
     return (

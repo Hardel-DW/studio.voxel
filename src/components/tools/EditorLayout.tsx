@@ -1,6 +1,6 @@
 import { Link, useParams } from "@tanstack/react-router";
-import StudioSidebar from "@/components/tools/sidebar/Sidebar";
 import EditorTabs from "@/components/tools/EditorTabs";
+import StudioSidebar from "@/components/tools/sidebar/Sidebar";
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
     const { lang } = useParams({ from: "/$lang" });

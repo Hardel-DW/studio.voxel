@@ -14,7 +14,7 @@ interface LootOverviewListProps {
 
 export default function LootOverviewList({ elementId, items, resourceName, color }: LootOverviewListProps) {
     const { lang } = useParams({ from: "/$lang" });
-    const handleConfigure = () => useConfiguratorStore.getState().openTab(elementId, "/editor/loot_table/main", resourceName);
+    const handleConfigure = () => useConfiguratorStore.getState().openTab(elementId, "/$lang/studio/editor/loot_table/main", resourceName);
     const identifier = Identifier.fromUniqueKey(elementId);
     const pathParts = identifier.resource.split("/");
     const parentPath = pathParts.length > 1 ? pathParts.slice(0, -1).join("/") : "";

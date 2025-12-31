@@ -25,7 +25,7 @@ export default function LootOverviewCard({ elementId, items, mode }: LootOvervie
     const pathColor = hueToHsl(stringToColor(colorKey), 50, 50);
     const isVanilla = identifier.namespace === "minecraft";
 
-    const handleConfigure = () => useConfiguratorStore.getState().openTab(elementId, "/editor/loot_table/main", resourceName);
+    const handleConfigure = () => useConfiguratorStore.getState().openTab(elementId, "/$lang/studio/editor/loot_table/main", resourceName);
 
     if (mode === "list") {
         return <LootOverviewList elementId={elementId} items={items} resourceName={resourceName} color={pathColor} />;

@@ -9,7 +9,7 @@ import Translate from "@/components/ui/Translate";
 export default function RecipeOverviewCard(props: { element: RecipeProps; elementId: string }) {
     const { lang } = useParams({ from: "/$lang" });
     const label = Identifier.fromUniqueKey(props.elementId).resource;
-    const handleConfigure = () => useConfiguratorStore.getState().openTab(props.elementId, "/editor/recipe/main", label);
+    const handleConfigure = () => useConfiguratorStore.getState().openTab(props.elementId, "/$lang/studio/editor/recipe/main", label);
 
     return (
         <ErrorBoundary fallback={(e) => <ErrorPlaceholder error={e} />}>

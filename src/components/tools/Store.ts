@@ -134,9 +134,12 @@ const createConfiguratorStore = <T extends keyof Analysers>() =>
                 return;
             }
 
-            const newActiveIndex = index === activeTabIndex
-                ? Math.min(index, updatedTabs.length - 1)
-                : index < activeTabIndex ? activeTabIndex - 1 : activeTabIndex;
+            const newActiveIndex =
+                index === activeTabIndex
+                    ? Math.min(index, updatedTabs.length - 1)
+                    : index < activeTabIndex
+                      ? activeTabIndex - 1
+                      : activeTabIndex;
 
             const newCurrentElement = updatedTabs[newActiveIndex]?.elementId ?? null;
             set({ openTabs: updatedTabs, activeTabIndex: newActiveIndex, currentElementId: newCurrentElement });
@@ -164,7 +167,14 @@ const createConfiguratorStore = <T extends keyof Analysers>() =>
             updateSessionLogger(state.logger);
         },
         setup: (updates, isModded, name) => {
-            set({ ...updates, sortedIdentifiers: sortElementsByRegistry(updates.elements), isModded, name, openTabs: [], activeTabIndex: -1 });
+            set({
+                ...updates,
+                sortedIdentifiers: sortElementsByRegistry(updates.elements),
+                isModded,
+                name,
+                openTabs: [],
+                activeTabIndex: -1
+            });
             const exportState = useExportStore.getState();
             saveSession(get(), exportState);
         },
