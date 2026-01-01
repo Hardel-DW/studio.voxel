@@ -97,7 +97,7 @@ export default function Footer() {
         },
         {
             name: translate("footer.social.discord"),
-            path: "https://discord.gg/8z3tkQhay7",
+            path: "https://discord.gg/TAmVFvkHep",
             icon: "discord.svg"
         }
     ];
