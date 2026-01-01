@@ -1,18 +1,7 @@
 import { DatapackDownloader } from "@voxelio/breeze";
 import { convertDatapack, extractMetadata, ModPlatforms } from "@voxelio/converter";
 import { useConfiguratorStore } from "@/components/tools/Store";
-import SettingsDialog from "@/components/tools/sidebar/SettingsDialog";
 import { Button } from "@/components/ui/Button";
-import {
-    Dialog,
-    DialogCloseButton,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger
-} from "@/components/ui/Dialog";
 import Translate from "@/components/ui/Translate";
 import { downloadFile } from "@/lib/utils/download";
 
@@ -22,7 +11,7 @@ function hasModManifest(files: Record<string, Uint8Array>): boolean {
     return MOD_MANIFEST_FILES.some((manifest) => manifest in files);
 }
 
-export default function DownloadButton() {
+export default function DownloadButton({ onSuccess }: { onSuccess?: () => void }) {
     const handleDownload = async () => {
         const { logger, isModded, compile, name, files } = useConfiguratorStore.getState();
         const response = await compile().generate(logger, isModded);
@@ -36,56 +25,26 @@ export default function DownloadButton() {
             const converted = await convertDatapack(zipFile, platforms, metadata);
             if (converted) {
                 downloadFile(await converted.blob(), outputName);
+                onSuccess?.();
                 return;
             }
         }
 
         downloadFile(response, outputName);
+        onSuccess?.();
     };
 
     return (
-        <Dialog id="download-success-modal">
-            <DialogTrigger>
-                <Button type="button" variant="aurora" onClick={handleDownload}>
+        <Button
+            type="button"
+            className="w-full h-14 bg-zinc-100 text-zinc-950 font-bold hover:bg-white hover:scale-[1.01] transition-all shadow-lg shadow-white/5"
+            onClick={handleDownload}>
+            <div className="flex items-center gap-3">
+                <span className="text-base tracking-wide">
                     <Translate content="export.download" />
-                    <img src="/icons/download.svg" alt="download" className="size-4 invert-75" />
-                </Button>
-            </DialogTrigger>
-
-            <DialogContent className="sm:max-w-[525px] p-4">
-                <DialogHeader>
-                    <DialogTitle className="flex items-center gap-x-2">
-                        <img src="/icons/success.svg" alt="zip" className="size-6" />
-                        <span className="text-xl font-medium text-zinc-200">
-                            <Translate content="success" />
-                        </span>
-                    </DialogTitle>
-                    <DialogDescription>
-                        <Translate content="modification_success" />
-                        <SettingsDialog />
-                    </DialogDescription>
-                </DialogHeader>
-                <DialogFooter className="pt-4 flex items-end justify-between">
-                    <div>
-                        <a
-                            href="https://discord.gg/TAmVFvkHep"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            aria-label="discord"
-                            className="hover:opacity-50 transition">
-                            <img src="/icons/company/discord.svg" alt="Discord" className="size-6 invert" />
-                        </a>
-                    </div>
-                    <div className="flex items-end justify-between gap-4">
-                        <DialogCloseButton variant="ghost">
-                            <Translate content="close" />
-                        </DialogCloseButton>
-                        <Button target="_blank" rel="noopener noreferrer" href="https://streamelements.com/hardoudou/tip" variant="patreon">
-                            <Translate content="donate" />
-                        </Button>
-                    </div>
-                </DialogFooter>
-            </DialogContent>
-        </Dialog>
+                </span>
+                <img src="/icons/download.svg" alt="download" className="size-5" />
+            </div>
+        </Button>
     );
 }

@@ -95,7 +95,7 @@ export default function StudioSidebar() {
                                 </div>
                             </div>
                         </DialogBody>
-                        <div className="absolute top-0 right-0 w-full h-32 bg-gradient-to-b from-white/5 to-transparent pointer-events-none" />
+                        <div className="absolute top-0 right-0 w-full h-32 bg-linear-to-b from-white/5 to-transparent pointer-events-none" />
                     </DialogContent>
                 </Dialog>
             </div>
