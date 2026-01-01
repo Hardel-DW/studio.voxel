@@ -35,6 +35,7 @@ export function ToggleGroupOption({ value, icon, children, className }: ToggleGr
     return (
         <button
             type="button"
+            data-state={isActive ? "on" : "off"}
             onClick={() => ctx.onChange(value)}
             className={cn(
                 "rounded-md transition-all cursor-pointer text-zinc-500 hover:text-zinc-300",

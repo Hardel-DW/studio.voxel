@@ -1,28 +1,17 @@
-import type { RefObject } from "react";
 import { useConfiguratorStore } from "@/components/tools/Store";
-import { useExportStore } from "@/components/tools/sidebar/ExportStore";
-import AuthView from "@/components/tools/sidebar/export/AuthView";
 import DownloadButton from "@/components/tools/sidebar/export/DownloadButton";
-import GithubSender from "@/components/tools/sidebar/export/GithubSender";
-import InitializeRepoButton from "@/components/tools/sidebar/export/InitializeRepoButton";
-import RepositoryLoading from "@/components/tools/sidebar/export/RepositoryLoading";
-import UnauthView from "@/components/tools/sidebar/export/UnauthView";
 import { Button } from "@/components/ui/Button";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/Popover";
+import { Dialog, DialogBody, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/Dialog";
 import { ToggleGroup, ToggleGroupOption } from "@/components/ui/ToggleGroup";
 import Translate from "@/components/ui/Translate";
-import { useGitHubAuth } from "@/lib/hook/useGitHubAuth";
 
-export default function ExportButton({ containerRef }: { containerRef?: RefObject<HTMLDivElement | null> }) {
-    const { owner, repositoryName, isGitRepository } = useExportStore();
-    const name = useConfiguratorStore((state) => state.name);
+export default function ExportButton() {
     const isModded = useConfiguratorStore((state) => state.isModded);
     const setIsModded = useConfiguratorStore((state) => state.setIsModded);
-    const { isAuthenticated } = useGitHubAuth();
 
     return (
-        <Popover className="in-data-pinned:w-full">
-            <PopoverTrigger className="size-10 in-data-pinned:w-full in-data-pinned:flex-1">
+        <Dialog id="export-dialog">
+            <DialogTrigger className="size-10 in-data-pinned:w-full in-data-pinned:flex-1">
                 <Button
                     type="button"
                     className="size-full p-0 in-data-pinned:w-full in-data-pinned:items-center in-data-pinned:gap-2"
@@ -33,48 +22,62 @@ export default function ExportButton({ containerRef }: { containerRef?: RefObjec
                         <Translate content="export" />
                     </span>
                 </Button>
-            </PopoverTrigger>
+            </DialogTrigger>
 
-            <PopoverContent
-                containerRef={containerRef}
-                spacing={20}
-                className="rounded-none border-none shadow-none p-0 bg-transparent space-y-2">
-                <div className="relative rounded-2xl border border-zinc-800 bg-zinc-950 text-zinc-200 shadow-md z-20 p-4">
-                    <div className="relative">{isAuthenticated ? <AuthView /> : <UnauthView />}</div>
-                    <div className="absolute inset-0 -z-10 brightness-30">
-                        <img src="/images/shine.avif" alt="Shine" loading="lazy" />
+            <DialogContent className="w-full max-w-xl min-w-0 bg-zinc-950 border border-zinc-800 p-0 overflow-hidden gap-0">
+                <DialogHeader className="px-6 pt-6 pb-2">
+                    <DialogTitle className="flex items-center gap-x-3 text-xl">
+                        <div className="size-10 rounded-full bg-zinc-900 flex items-center justify-center border border-zinc-800 shadow-inner">
+                            <img src="/icons/upload.svg" alt="Export" className="size-5 invert opacity-75" />
+                        </div>
+                        <span className="text-zinc-100 font-semibold tracking-tight">
+                            <Translate content="export" />
+                        </span>
+                    </DialogTitle>
+                    <DialogDescription className="text-zinc-400 text-sm">
+                        <Translate content="export.description" />
+                    </DialogDescription>
+                </DialogHeader>
+
+                <DialogBody className="p-6 space-y-6">
+                    {/* Format Selection */}
+                    <div className="space-y-3">
+                        <label className="text-xs font-semibold text-zinc-500 uppercase tracking-wider ml-1">Format</label>
+                        <ToggleGroup
+                            value={isModded ? "jar" : "zip"}
+                            onChange={(v) => setIsModded(v === "jar")}
+                            className="w-full grid grid-cols-2 gap-2 bg-transparent border-0 p-0">
+                            <ToggleGroupOption
+                                className="h-14 w-full justify-center bg-zinc-900/30 border border-zinc-800 data-[state=on]:bg-zinc-800 data-[state=on]:border-zinc-700 data-[state=on]:text-zinc-100"
+                                value="zip">
+                                <div className="flex items-center gap-2">
+                                    <span className="text-zinc-300 font-medium">Datapack</span>
+                                    <span className="text-zinc-500 text-xs font-mono bg-zinc-950 px-1.5 py-0.5 rounded border border-zinc-800/50">
+                                        .ZIP
+                                    </span>
+                                </div>
+                            </ToggleGroupOption>
+                            <ToggleGroupOption
+                                className="h-14 w-full justify-center bg-zinc-900/30 border border-zinc-800 data-[state=on]:bg-zinc-800 data-[state=on]:border-zinc-700 data-[state=on]:text-zinc-100"
+                                value="jar">
+                                <div className="flex items-center gap-2">
+                                    <span className="text-zinc-300 font-medium">Mod</span>
+                                    <span className="text-zinc-500 text-xs font-mono bg-zinc-950 px-1.5 py-0.5 rounded border border-zinc-800/50">
+                                        .JAR
+                                    </span>
+                                </div>
+                            </ToggleGroupOption>
+                        </ToggleGroup>
                     </div>
-                </div>
-                <div className="relative rounded-2xl border border-zinc-800 bg-zinc-950 text-zinc-200 shadow-md z-20 flex flex-col p-2 pb-3 gap-3">
-                    <ToggleGroup value={isModded ? "jar" : "zip"} onChange={(v) => setIsModded(v === "jar")}>
-                        <ToggleGroupOption className="h-10" value="zip">
-                            <div className="flex gap-2 items-center justify-center">
-                                <span className="text-zinc-300">Datapack</span>
-                                <span className="text-zinc-500">(.zip)</span>
-                            </div>
-                        </ToggleGroupOption>
-                        <ToggleGroupOption className="h-10" value="jar">
-                            <div className="flex gap-2 items-center justify-center">
-                                <span className="text-zinc-300">Mod</span>
-                                <span className="text-zinc-500">(.jar)</span>
-                            </div>
-                        </ToggleGroupOption>
-                    </ToggleGroup>
-                    <RepositoryLoading />
-                    <div className="flex flex-col gap-1 bg-neutral-950 rounded-2xl p-2 border border-zinc-800">
-                        {isGitRepository ? <GithubSender /> : <InitializeRepoButton />}
+
+                    <div className="h-px w-full bg-zinc-800/50" />
+
+                    {/* Download */}
+                    <div>
                         <DownloadButton />
                     </div>
-
-                    <div className="px-2 flex items-center justify-between text-xs text-zinc-400">
-                        <span className="leading-none text-s text-zinc-500">{isGitRepository ? `${owner}/${repositoryName}` : name}</span>
-                    </div>
-
-                    <div className="absolute inset-0 -z-10 brightness-30">
-                        <img src="/images/shine.avif" alt="Shine" loading="lazy" />
-                    </div>
-                </div>
-            </PopoverContent>
-        </Popover>
+                </DialogBody>
+            </DialogContent>
+        </Dialog>
     );
 }
