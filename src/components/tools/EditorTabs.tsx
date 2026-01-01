@@ -1,10 +1,11 @@
-import { useNavigate } from "@tanstack/react-router";
+import { useNavigate, useParams } from "@tanstack/react-router";
 import { Identifier } from "@voxelio/breeze";
 import { CONCEPTS } from "@/components/tools/elements";
 import { type OpenTab, useConfiguratorStore } from "@/components/tools/Store";
 import { cn } from "@/lib/utils";
 
 function TabItem({ tab, index, isActive }: { tab: OpenTab; index: number; isActive: boolean }) {
+    const { lang } = useParams({ from: "/$lang" });
     const navigate = useNavigate();
     const switchTab = useConfiguratorStore((state) => state.switchTab);
     const closeTab = useConfiguratorStore((state) => state.closeTab);
@@ -22,13 +23,17 @@ function TabItem({ tab, index, isActive }: { tab: OpenTab; index: number; isActi
         closeTab(index);
 
         const updatedTabs = openTabs.toSpliced(index, 1);
-        if (updatedTabs.length === 0) return;
+        if (updatedTabs.length === 0) {
+            navigate({ to: "/$lang/studio/editor/enchantment/overview", params: { lang } });
+            return;
+        }
+
         const newActiveIndex =
             index === activeTabIndex
                 ? Math.min(index, updatedTabs.length - 1)
                 : index < activeTabIndex
-                  ? activeTabIndex - 1
-                  : activeTabIndex;
+                    ? activeTabIndex - 1
+                    : activeTabIndex;
 
         const nextTab = updatedTabs[newActiveIndex];
         if (nextTab) navigate({ to: nextTab.route });

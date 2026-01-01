@@ -1,9 +1,11 @@
 import { Link, useParams } from "@tanstack/react-router";
 import EditorTabs from "@/components/tools/EditorTabs";
+import { useConfiguratorStore } from "@/components/tools/Store";
 import StudioSidebar from "@/components/tools/sidebar/Sidebar";
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
     const { lang } = useParams({ from: "/$lang" });
+    const hasTabs = useConfiguratorStore((state) => state.openTabs.length > 0);
 
     return (
         <div className="flex h-dvh w-full overflow-hidden bg-editor">
@@ -17,9 +19,11 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             </aside>
 
             <div className="flex-1 flex flex-col min-w-0">
-                <header data-tauri-drag-region className="shrink-0 h-12 select-none flex items-center gap-4 pl-4">
-                    <EditorTabs />
-                </header>
+                {hasTabs && (
+                    <header data-tauri-drag-region className="shrink-0 h-12 select-none flex items-center gap-4 pl-4">
+                        <EditorTabs />
+                    </header>
+                )}
                 <main className="flex-1 relative min-h-0 h-full ml-0 bg-content overflow-hidden border-t border-l border-zinc-900 rounded-tl-3xl">
                     {children}
                 </main>
