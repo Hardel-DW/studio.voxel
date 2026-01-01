@@ -1,87 +1,111 @@
-import { Fragment } from "react";
+function Skeleton({ className }: { className?: string }) {
+    return <div className={`animate-pulse bg-zinc-800/50 rounded ${className ?? ""}`} />;
+}
 
-export default function EditorLoading() {
+function StudioSidebarSkeleton() {
     return (
-        <Fragment>
-            <div
-                id="collapse-menu"
-                className="@container shrink-0 overflow-hidden transition-all duration-500 ease-in-out peer-checked:w-62.5 xl:peer-checked:w-80 w-0 max-md:absolute max-md:inset-0 max-md:bg-linear-to-br max-md:from-guides-gradient-from max-md:to-guides-gradient-to max-md:z-50 max-md:py-4 max-md:rounded-r-2xl max-md:border max-md:border-zinc-700">
-                <div className="w-62.5 xl:w-80 flex flex-col h-full relative z-100 px-4 md:pl-0 @sm:pl-0">
-                    <div className="flex w-full items-center justify-between">
-                        <div className="flex items-center">
-                            <div className="w-6 h-6 bg-zinc-700 rounded animate-pulse mx-2" />
-                            <div className="h-5 w-16 bg-zinc-700 rounded animate-pulse" />
-                        </div>
-                        <div className="w-6 h-6 bg-zinc-700 rounded animate-pulse block md:hidden" />
-                    </div>
+        <aside className="shrink-0 w-16 flex flex-col bg-editor">
+            <div className="h-16 flex items-center justify-center">
+                <Skeleton className="size-5" />
+            </div>
+            <div className="flex flex-col items-center gap-3 mt-4 flex-1">
+                {Array.from({ length: 4 }).map((_, i) => (
+                    <Skeleton key={`concept-${i.toString()}`} className="size-10 rounded-xl" />
+                ))}
+            </div>
+            <div className="flex flex-col items-center gap-2 pb-4">
+                <Skeleton className="size-10 rounded-xl" />
+                <Skeleton className="size-10 rounded-xl" />
+            </div>
+        </aside>
+    );
+}
 
-                    <div className="flex flex-col h-full pb-4 mt-4">
-                        <div className="overflow-hidden flex-1">
-                            <div className="overflow-y-auto overflow-x-hidden h-full pb-16">
-                                <div className="flex space-x-px border-b border-zinc-700 mb-4">
-                                    <div className="h-8 basis-1/2 rounded-t-sm bg-zinc-700 animate-pulse py-2 px-3" />
-                                    <div className="h-8 basis-1/2 rounded-t-sm bg-zinc-800 animate-pulse py-2 px-3" />
-                                </div>
+function EditorSidebarSkeleton() {
+    return (
+        <aside className="w-72 shrink-0 border-r border-zinc-800/50 bg-zinc-950/75 flex flex-col">
+            <div className="px-6 pt-6">
+                <div className="flex items-center gap-2 mb-1">
+                    <Skeleton className="size-5 rounded" />
+                    <Skeleton className="h-5 w-32" />
+                </div>
+                <Skeleton className="h-3 w-16 ml-7" />
+            </div>
 
-                                <div className="space-y-4 px-1">
-                                    <div className="space-y-2">
-                                        <div className="h-4 w-1/3 rounded bg-zinc-600 animate-pulse" />
-                                        <div className="h-8 w-full rounded-md bg-zinc-700 animate-pulse" />
-                                    </div>
-                                    <div className="space-y-2">
-                                        <div className="h-4 w-1/4 rounded bg-zinc-600 animate-pulse" />
-                                        <div className="h-12 w-full rounded-md bg-zinc-700 animate-pulse" />
-                                    </div>
-                                    <div className="h-8 w-full rounded-md bg-zinc-700 animate-pulse" />
-                                    <div className="h-8 w-5/6 rounded-md bg-zinc-700 animate-pulse" />
-                                    <div className="h-8 w-full rounded-md bg-zinc-700 animate-pulse" />
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="absolute bottom-0 left-0 right-0 max-md:px-4 pr-4 flex items-center gap-2">
-                            <div className="h-9 w-full rounded-md bg-zinc-700 animate-pulse" />
-                            <div className="h-9 w-9 rounded-md bg-zinc-700 animate-pulse shrink-0" />
-                        </div>
-                    </div>
+            <div className="flex-1 px-3 mt-6 space-y-2">
+                <Skeleton className="h-9 w-full rounded-lg" />
+                <div className="space-y-1 pt-4">
+                    {Array.from({ length: 8 }).map((_, i) => (
+                        <Skeleton key={`sidebar-${i.toString()}`} className="h-8 w-full rounded-md" />
+                    ))}
                 </div>
             </div>
 
-            <div
-                id="content-container"
-                className="overflow-x-hidden stack flex bg-content md:border md:border-zinc-900 md:rounded-2xl w-full relative z-20">
-                <main className="contents">
-                    <div className="size-full pt-4 pb-8">
-                        <div className="flex absolute inset-0 p-4 justify-between items-center select-none h-fit gap-x-4">
-                            <div className="w-6 h-6 rounded-md bg-zinc-700 animate-pulse" />
-                            <div className="h-4 w-32 rounded-md bg-zinc-700 animate-pulse" />
-                            <div className="flex items-center gap-x-6">
-                                <div className="w-8 h-8 bg-zinc-700 rounded-md animate-pulse" />
-                                <div className="w-6 h-6 rounded-full bg-zinc-700 animate-pulse" />
-                            </div>
+            <div className="p-4 border-t border-zinc-800/50">
+                <Skeleton className="h-14 w-full rounded-lg" />
+            </div>
+        </aside>
+    );
+}
+
+function HeaderSkeleton() {
+    return (
+        <header className="relative shrink-0 overflow-hidden border-b border-zinc-800/50 bg-zinc-900/50">
+            <div className="absolute inset-0 bg-linear-to-t from-zinc-950 via-zinc-950/80 to-transparent" />
+            <div className="relative z-10 flex flex-col justify-end p-8 pb-6">
+                <div className="flex items-end justify-between gap-8">
+                    <div className="space-y-2">
+                        <div className="flex items-center gap-2 mb-1">
+                            <Skeleton className="h-3 w-20" />
+                            <Skeleton className="h-3 w-3 rounded-full" />
+                            <Skeleton className="h-4 w-16 rounded-md" />
                         </div>
+                        <Skeleton className="h-10 w-48" />
+                        <Skeleton className="h-px w-24 mt-3" />
+                    </div>
+                    <div className="flex items-center gap-3">
+                        <Skeleton className="h-9 w-24 rounded-lg" />
+                        <Skeleton className="h-9 w-20 rounded-lg" />
+                    </div>
+                </div>
 
-                        <div className="px-8 lg:px-0 pt-12 h-full transition w-full md:w-[95%] justify-self-center">
-                            <div className="flex flex-col h-full">
-                                <div className="absolute w-full -z-10 inset-0 shadow-2xl bg-linear-to-r from-[#401727] to-[#311e7696] opacity-20 rounded-full blur-3xl" />
+                <nav className="flex items-center gap-1 mt-6 -mb-2">
+                    {Array.from({ length: 4 }).map((_, i) => (
+                        <Skeleton key={`tab-${i.toString()}`} className="h-9 w-20 rounded-t-lg" />
+                    ))}
+                </nav>
+            </div>
+        </header>
+    );
+}
 
-                                <div className="size-full flex items-center justify-center flex-col gap-y-4">
-                                    <div className="flex items-center justify-center mb-2">
-                                        <div className="w-12 h-12 bg-zinc-700 rounded animate-pulse" />
-                                    </div>
-                                    <div className="h-8 w-64 bg-zinc-700 rounded animate-pulse" />
-                                    <div className="space-y-2 text-center">
-                                        <div className="h-4 w-80 bg-zinc-700 rounded animate-pulse mx-auto" />
-                                        <div className="h-4 w-96 bg-zinc-700 rounded animate-pulse mx-auto" />
-                                    </div>
-                                    <div className="w-48 h-px bg-zinc-700 animate-pulse" />
-                                    <div className="h-9 w-32 bg-zinc-700 rounded animate-pulse" />
-                                </div>
-                            </div>
+function ContentSkeleton() {
+    return (
+        <div className="flex-1 p-6 space-y-4 overflow-hidden">
+            <div className="grid grid-cols-4 gap-4">
+                {Array.from({ length: 12 }).map((_, i) => (
+                    <Skeleton key={`content-${i.toString()}`} className="h-24 rounded-xl" />
+                ))}
+            </div>
+        </div>
+    );
+}
+
+export default function EditorLoading() {
+    return (
+        <div className="flex h-dvh w-full overflow-hidden bg-editor">
+            <StudioSidebarSkeleton />
+            <div className="flex-1 flex flex-col min-w-0">
+                <main className="flex-1 relative min-h-0 h-full bg-content overflow-hidden border-t border-l border-zinc-900 rounded-tl-3xl">
+                    <div className="flex size-full overflow-hidden relative z-10 isolate">
+                        <EditorSidebarSkeleton />
+                        <div className="flex-1 flex flex-col min-w-0 relative bg-zinc-950">
+                            <HeaderSkeleton />
+                            <ContentSkeleton />
                         </div>
                     </div>
                 </main>
             </div>
-        </Fragment>
+        </div>
     );
 }
