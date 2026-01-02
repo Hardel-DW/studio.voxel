@@ -1,8 +1,16 @@
 import { createFileRoute, Outlet, useRouterState } from "@tanstack/react-router";
+import { useMutation } from "@tanstack/react-query";
 import { DatapackDownloader } from "@voxelio/breeze";
+import { useState } from "react";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import { useExportStore } from "@/components/tools/sidebar/ExportStore";
+import { Button } from "@/components/ui/Button";
+import { TOAST, toast } from "@/components/ui/Toast";
 import { GitFileTree } from "@/components/ui/tree/GitFileTree";
+import { GitHub } from "@/lib/github/GitHub";
+import { useClientDictionary } from "@/lib/hook/useClientDictionary";
+import { encodeToBase64 } from "@/lib/utils/encode";
+import { TextInput } from "@/components/ui/TextInput";
 
 export const Route = createFileRoute("/$lang/studio/editor/github")({
     component: GithubLayout
@@ -11,10 +19,29 @@ export const Route = createFileRoute("/$lang/studio/editor/github")({
 function GithubLayout() {
     const search = useRouterState({ select: (s) => s.location.search as { file?: string } });
     const selectedFile = search.file;
-    const { isGitRepository } = useExportStore();
+    const { isGitRepository, owner, repositoryName, branch, token } = useExportStore();
     const files = useConfiguratorStore.getState().files;
     const compiledFiles = useConfiguratorStore.getState().compile().getFiles();
     const diff = isGitRepository ? new DatapackDownloader(compiledFiles).getDiff(files) : new Map();
+    const t = useClientDictionary("github");
+    const [message, setMessage] = useState("");
+
+    const pushMutation = useMutation({
+        mutationFn: () => {
+            const compiled = useConfiguratorStore.getState().compile().getFiles();
+            const filesToPush = Object.fromEntries(
+                Array.from(diff).map(([path, status]) => [path, status === "deleted" ? null : encodeToBase64(compiled[path])])
+            );
+            return new GitHub({ token }).send(owner, repositoryName, branch, "push", filesToPush);
+        },
+        onSuccess: () => {
+            toast(t["push.success"], TOAST.SUCCESS);
+            setMessage("");
+        },
+        onError: (error: Error) => {
+            toast(t["push.error"], TOAST.ERROR, error.message);
+        }
+    });
 
     return (
         <div className="flex size-full overflow-hidden relative isolate">
@@ -24,11 +51,37 @@ function GithubLayout() {
                         <img src="/icons/company/github.svg" className="size-5 invert opacity-80" alt="" />
                         <span>Source Control</span>
                     </div>
-                    <p className="text-xs text-zinc-500 pl-7">{diff.size} changes</p>
+                    {isGitRepository && (
+                        <p className="text-xs text-zinc-500 pl-7 flex items-center gap-1.5">
+                            <span className="text-zinc-400 font-sm font-mono">{owner}/{repositoryName}</span>
+                            <span className="opacity-30">•</span>
+                            <span>{branch}</span>
+                        </p>
+                    )}
                 </div>
 
+                {isGitRepository && (
+                    <div className="px-3 mt-4 space-y-2">
+                        <TextInput className="rounded-lg" disableIcon value={message} onChange={(e) => setMessage(e.target.value)} placeholder="Commit message..." />
+                        <Button
+                            variant="default"
+                            className="w-full"
+                            onClick={() => pushMutation.mutate()}
+                            disabled={pushMutation.isPending || diff.size === 0 || !message.trim()}>
+                            {pushMutation.isPending ? "Pushing..." : `Commit & Push`}
+                        </Button>
+                    </div>
+                )}
+
                 <div className="flex-1 overflow-y-auto px-3 mt-4">
-                    <GitFileTree diff={diff} selectedFile={selectedFile} />
+                    {isGitRepository ? (
+                        <GitFileTree diff={diff} selectedFile={selectedFile} />
+                    ) : (
+                        <div className="flex flex-col items-center justify-center py-12 text-zinc-600 gap-2">
+                            <img src="/icons/company/github.svg" className="size-8 opacity-20 invert" alt="" />
+                            <span className="text-xs text-center">Initialize a repository to start tracking changes</span>
+                        </div>
+                    )}
                 </div>
 
                 <div className="p-4 border-t border-zinc-800/50 bg-zinc-950/90">
