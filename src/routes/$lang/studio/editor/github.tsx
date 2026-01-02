@@ -11,6 +11,7 @@ import { GitHub } from "@/lib/github/GitHub";
 import { useClientDictionary } from "@/lib/hook/useClientDictionary";
 import { encodeToBase64 } from "@/lib/utils/encode";
 import { TextInput } from "@/components/ui/TextInput";
+import Translate from "@/components/ui/Translate";
 
 export const Route = createFileRoute("/$lang/studio/editor/github")({
     component: GithubLayout
@@ -48,8 +49,8 @@ function GithubLayout() {
             <aside className="w-72 shrink-0 border-r border-zinc-800/50 bg-zinc-950/75 flex flex-col">
                 <div className="px-6 pt-6">
                     <div className="text-lg font-bold text-zinc-100 flex items-center gap-2 mb-1">
-                        <img src="/icons/company/github.svg" className="size-5 invert opacity-80" alt="" />
-                        <span>Source Control</span>
+                        <img src="/icons/company/github.svg" className="size-5 invert opacity-80" alt="Icon of a GitHub repository" />
+                        <span><Translate content="github:layout.title" /></span>
                     </div>
                     {isGitRepository && (
                         <p className="text-xs text-zinc-500 pl-7 flex items-center gap-1.5">
@@ -62,13 +63,13 @@ function GithubLayout() {
 
                 {isGitRepository && (
                     <div className="px-3 mt-4 space-y-2">
-                        <TextInput className="rounded-lg" disableIcon value={message} onChange={(e) => setMessage(e.target.value)} placeholder="Commit message..." />
+                        <TextInput className="rounded-lg" disableIcon value={message} onChange={(e) => setMessage(e.target.value)} placeholder={t["layout.commit.placeholder"]} />
                         <Button
                             variant="default"
                             className="w-full"
                             onClick={() => pushMutation.mutate()}
                             disabled={pushMutation.isPending || diff.size === 0 || !message.trim()}>
-                            {pushMutation.isPending ? "Pushing..." : `Commit & Push`}
+                            {pushMutation.isPending ? t["layout.commit.button.pushing"] : t["layout.commit.button.push"]}
                         </Button>
                     </div>
                 )}
@@ -78,8 +79,8 @@ function GithubLayout() {
                         <GitFileTree diff={diff} selectedFile={selectedFile} />
                     ) : (
                         <div className="flex flex-col items-center justify-center py-12 text-zinc-600 gap-2">
-                            <img src="/icons/company/github.svg" className="size-8 opacity-20 invert" alt="" />
-                            <span className="text-xs text-center">Initialize a repository to start tracking changes</span>
+                            <img src="/icons/company/github.svg" className="size-8 opacity-20 invert" alt="Icon of a GitHub repository" />
+                            <span className="text-xs text-center"><Translate content="github:layout.empty.init" /></span>
                         </div>
                     )}
                 </div>
@@ -89,10 +90,12 @@ function GithubLayout() {
                         href="https://discord.gg/8z3tkQhay7"
                         className="bg-zinc-900/30 rounded-lg p-3 border border-zinc-800/50 flex items-center gap-3 group hover:border-zinc-700/50 transition-colors">
                         <div className="flex-1">
-                            <div className="text-sm font-medium text-zinc-300 group-hover:text-white transition-colors">Need help?</div>
+                            <div className="text-sm font-medium text-zinc-300 group-hover:text-white transition-colors">
+                                <Translate content="common.help.discord" />
+                            </div>
                         </div>
                         <div className="size-8 rounded-full bg-zinc-800/50 flex items-center justify-center group-hover:bg-zinc-800 transition-colors">
-                            <img src="/icons/company/discord.svg" className="size-4 invert opacity-30 group-hover:opacity-50 transition-opacity" alt="" />
+                            <img src="/icons/company/discord.svg" className="size-4 invert opacity-30 group-hover:opacity-50 transition-opacity" alt="Icon of a Discord server" />
                         </div>
                     </a>
                 </div>

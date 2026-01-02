@@ -35,7 +35,7 @@ function Page() {
 
             <section className="min-h-screen flex flex-col justify-center s:justify-start lg:grid lg:grid-cols-2 gap-8 lg:gap-12 relative">
                 <div className="-z-10 absolute inset-0">
-                    <div className="rotate-45 w-[85vw] h-[70vh] bg-radial from-zinc-900/20 to-stone-500/20 rounded-3xl blur-3xl" />
+                    <div className="rotate-45 w-[85vw] h-[70vh] bg-radial from-zinc-900/20 to-zinc-500/20 rounded-3xl blur-3xl" />
                 </div>
                 <div className="-z-10 absolute inset-0">
                     <svg className="size-full stroke-white/10 mask-[radial-gradient(white,transparent_50%)] [stroke-dasharray:5_6] [stroke-dashoffset:10] lg:stroke-4">

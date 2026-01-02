@@ -124,7 +124,7 @@ export function DialogTitle(props: BaseDialogProps & { description?: ReactNode }
     const { setOpen } = useDisclosure();
 
     return (
-        <div className="flex shrink-0 items-center justify-between">
+        <div className={cn("flex shrink-0 items-center justify-between", props.className)}>
             {props.children}
             <button
                 type="button"

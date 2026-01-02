@@ -85,7 +85,7 @@ export default function RepositoryOpener() {
 
             <DialogContent className="sm:max-w-5xl w-full p-6 popover:flex popover:flex-col h-[80vh]">
                 <DialogHeader className="border-b border-zinc-900 shrink-0">
-                    <DialogTitle>
+                    <DialogTitle className="mb-3">
                         <div className="flex items-center gap-x-4">
                             <img src="/icons/company/github.svg" alt="GitHub" className="size-6 invert" />
                             <div className="flex flex-col">

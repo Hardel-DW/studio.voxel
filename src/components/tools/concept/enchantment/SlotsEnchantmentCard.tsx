@@ -54,11 +54,11 @@ export default function SlotsEnchantmentCard({ element }: SlotsEnchantmentCardPr
     return (
         <div
             data-element-id={elementId}
-            className="overview-card bg-black/35 border-t-2 border-l-2 shadow-xl shadow-black/30 border-stone-900 select-none relative transition-all hover:ring-2 ring-zinc-900 rounded-xl p-4 h-full group flex flex-col">
+            className="overview-card bg-black/35 border-t-2 border-l-2 shadow-xl shadow-black/30 border-zinc-900 select-none relative transition-all hover:ring-2 ring-zinc-900 rounded-xl p-4 h-full group flex flex-col">
             <div className="flex items-center justify-between pb-4">
                 <div className="flex items-center gap-3 flex-1 min-w-0">
                     {items.length === 0 ? (
-                        <div className="w-6 h-6 bg-stone-900 rounded-full animate-pulse shrink-0" />
+                        <div className="w-6 h-6 bg-zinc-900 rounded-full animate-pulse shrink-0" />
                     ) : (
                         <div className="shrink-0">
                             <TextureRenderer id={items[0]} className="size-10" />

@@ -28,5 +28,21 @@
     "init.error.validation": "Too much File or Size",
     "init.error.validation.desc": "It's better to use git or github.com to create the repository",
     "init.confirm": "Create Repository",
-    "init.button": "Initialize Repository"
+    "init.button": "Initialize Repository",
+    "main.title": "Initialize Repository",
+    "main.description": "Create a new GitHub repository to start versioning your project.",
+    "main.label": "Repository Name",
+    "main.button.creating": "Creating Repository...",
+    "main.button.create": "Create Repository",
+    "emptystate.title": "Select a file",
+    "emptystate.description": "Choose a file from the sidebar to view the differences between the original and modified versions.",
+    "diff.title": "Select a file to view changes",
+    "diff.description": "Choose a file from the sidebar to view the differences between the original and modified versions.",
+    "diff.preview.title": "Preview not available for this file type",
+    "layout.title": "Source Control",
+    "layout.commit.placeholder": "Commit message...",
+    "layout.commit.button.pushing": "Pushing...",
+    "layout.commit.button.push": "Commit & Push",
+    "layout.empty.init": "Initialize a repository to start tracking changes",
+    "layout.help.title": "Need help?"
 }

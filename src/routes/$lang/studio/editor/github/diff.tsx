@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Identifier } from "@voxelio/breeze";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import CodeDiff from "@/components/ui/codeblock/CodeDiff";
+import Translate from "@/components/ui/Translate";
 
 export const Route = createFileRoute("/$lang/studio/editor/github/diff")({
     component: GithubDiffPage,
@@ -31,8 +32,10 @@ function GithubDiffPage() {
     if (!file) {
         return (
             <div className="flex-1 flex items-center justify-center text-zinc-500 flex-col gap-4">
-                <img src="/icons/search.svg" className="size-12 opacity-20 invert" alt="" />
-                <p className="text-sm">Select a file to view changes</p>
+                <img src="/icons/search.svg" className="size-12 opacity-20 invert" alt="Icon of a search" />
+                <p className="text-sm">
+                    <Translate content="github:diff.title" />
+                </p>
             </div>
         );
     }
@@ -40,8 +43,8 @@ function GithubDiffPage() {
     if (!file.endsWith(".json")) {
         return (
             <div className="flex-1 flex items-center justify-center text-zinc-500 flex-col gap-4">
-                <img src="/icons/tools/crafting/code.svg" className="size-12 opacity-20 invert" alt="" />
-                <p className="text-sm">Preview not available for this file type</p>
+                <img src="/icons/tools/crafting/code.svg" className="size-12 opacity-20 invert" alt="Icon of a code file" />
+                <p className="text-sm"><Translate content="github:diff.preview.title" /></p>
                 <p className="text-xs text-zinc-600">{file}</p>
             </div>
         );
@@ -50,7 +53,6 @@ function GithubDiffPage() {
     const identifier = parseFilePath(file);
     const originalData = files[file];
     const compiledData = compiledFiles[file];
-
     const original = originalData ? JSON.stringify(JSON.parse(new TextDecoder().decode(originalData)), null, 4) : "";
     const compiled = compiledData ? JSON.stringify(JSON.parse(new TextDecoder().decode(compiledData)), null, 4) : "";
 
@@ -58,7 +60,7 @@ function GithubDiffPage() {
         <div className="flex flex-col h-full">
             <div className="h-12 border-b border-zinc-800 flex items-center px-6 justify-between bg-zinc-900/30 shrink-0">
                 <div className="flex items-center gap-3">
-                    <img src="/icons/tools/crafting/code.svg" className="size-4 invert opacity-50" alt="" />
+                    <img src="/icons/tools/crafting/code.svg" className="size-4 invert opacity-50" alt="Icon of a code file" />
                     <span className="font-mono text-sm text-zinc-300">{identifier?.toFileName(true) ?? file.split("/").pop()}</span>
                 </div>
                 <span className="text-xs text-zinc-600 font-mono">{file}</span>

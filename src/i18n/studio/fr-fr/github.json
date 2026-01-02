@@ -28,5 +28,21 @@
     "init.progress.sidebar": "Creating repository with %s files",
     "init.progress.count": "Le dépôt sera créé avec %s fichiers",
     "init.confirm": "Créer le dépôt",
-    "init.button": "Initialiser le dépôt"
+    "init.button": "Initialiser le dépôt",
+    "main.title": "Initialiser le dépôt",
+    "main.description": "Créer un nouveau dépôt GitHub pour commencer à versionner votre projet.",
+    "main.label": "Nom du dépôt",
+    "main.button.creating": "Création du dépôt...",
+    "main.button.create": "Créer le dépôt",
+    "emptystate.title": "Sélectionner un fichier",
+    "emptystate.description": "Choisissez un fichier dans la sidebar pour voir les différences entre la version originale et la version modifiée.",
+    "diff.title": "Sélectionner un fichier pour voir les changements",
+    "diff.description": "Choisissez un fichier dans la sidebar pour voir les différences entre la version originale et la version modifiée.",
+    "diff.preview.title": "Aperçu non disponible pour ce type de fichier",
+    "layout.title": "Contrôle de version",
+    "layout.commit.placeholder": "Message de commit...",
+    "layout.commit.button.pushing": "Envoi...",
+    "layout.commit.button.push": "Valider & Envoyer",
+    "layout.empty.init": "Initialiser un dépôt pour commencer à suivre les changements",
+    "layout.help.title": "Besoin d'aide ?"
 }

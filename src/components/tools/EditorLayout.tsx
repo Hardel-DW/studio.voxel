@@ -8,7 +8,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
     const hasTabs = useConfiguratorStore((state) => state.openTabs.length > 0);
 
     return (
-        <div className="flex h-dvh w-full overflow-hidden bg-editor">
+        <div className="flex h-dvh w-full overflow-hidden bg-sidebar">
             <aside className="shrink-0 w-16 flex flex-col">
                 <div className="h-16 flex items-center justify-center">
                     <Link to="/$lang/studio" params={{ lang }} className="hover:opacity-80 transition-opacity">

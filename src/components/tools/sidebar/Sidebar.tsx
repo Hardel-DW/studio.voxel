@@ -40,7 +40,7 @@ export default function StudioSidebar() {
                     </DialogTrigger>
                     <DialogContent className="w-full max-w-xl min-w-0 bg-zinc-950 border border-zinc-800 p-0">
                         <DialogHeader className="px-6 pt-6 pb-2">
-                            <DialogTitle className="flex items-center gap-x-3 text-xl">
+                            <DialogTitle className="mb-3">
                                 <div className="size-10 rounded-full bg-zinc-900 flex items-center justify-center border border-zinc-800 shadow-inner">
                                     <img src="/icons/settings.svg" alt="Settings" className="size-5 invert opacity-75" />
                                 </div>
@@ -55,7 +55,6 @@ export default function StudioSidebar() {
 
                         <DialogBody className="p-6 pt-2 space-y-6">
                             <div className="flex flex-col gap-4">
-                                {/* Language Section */}
                                 <div>
                                     <h4 className="text-xs font-semibold text-zinc-500 uppercase tracking-wider mb-3 ml-1">
                                         Language
@@ -69,7 +68,6 @@ export default function StudioSidebar() {
                                     </div>
                                 </div>
 
-                                {/* Debug Section */}
                                 <div>
                                     <h4 className="text-xs font-semibold text-zinc-500 uppercase tracking-wider mb-3 ml-1">
                                         Advanced

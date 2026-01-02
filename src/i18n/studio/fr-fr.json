@@ -122,5 +122,7 @@
     "welcome.help.discord": "Rejoindre Discord",
     "common.help.discord": "Besoin d'aide ?",
     "common.back": "Retour",
-    "common.explorer": "Explorateur"
+    "common.explorer": "Explorateur",
+    "export.description": "Téléchargez votre datapack ou mods modifiés avec Voxel Studio, si vous avez fournie un Datapacks, vous pouvez le convertir en mods.",
+    "settings.description": "Configurez les paramètres de Voxel Studio, ou accédez au outils de developpement."
 }

@@ -22,8 +22,8 @@ export const Route = createFileRoute("/$lang/studio/editor/github/main")({
 function GithubMainPage() {
     const { isGitRepository, token, isInitializing } = useExportStore();
     const name = useConfiguratorStore((state) => state.name);
-    const t = useClientDictionary("github");
     const [repoName, setRepoName] = useState("");
+    const t = useClientDictionary("github");
 
     const initMutation = useMutation({
         mutationFn: () => {
@@ -58,7 +58,6 @@ function GithubMainPage() {
                 <svg
                     className="size-full stroke-white/10 [stroke-dasharray:5_6] [stroke-dashoffset:10] stroke-2"
                     style={{ transform: "skewY(-12deg)" }}>
-                    <title>Grid</title>
                     <defs>
                         <pattern id="grid" viewBox="0 0 64 64" width="32" height="32" patternUnits="userSpaceOnUse" x="0" y="0">
                             <path d="M64 0H0V64" fill="none" />
@@ -75,13 +74,13 @@ function GithubMainPage() {
                             <div className="size-16 rounded-2xl bg-zinc-900 border border-zinc-800 flex items-center justify-center mx-auto shadow-xl mb-6">
                                 <img src="/icons/company/github.svg" className="size-8 invert opacity-80" alt="" />
                             </div>
-                            <h1 className="text-3xl font-bold text-white tracking-tight">Initialize Repository</h1>
-                            <p className="text-zinc-400">Create a new GitHub repository to start versioning your project.</p>
+                            <h1 className="text-3xl font-bold text-white tracking-tight"><Translate content="github:init.title" /></h1>
+                            <p className="text-zinc-400"><Translate content="github:init.description" /></p>
                         </div>
                         <div className="space-y-4 bg-sidebar p-6 rounded-2xl border border-zinc-800/50 relative">
                             <div className="space-y-2">
                                 <label htmlFor="repoName" className="text-xs font-semibold text-zinc-500 uppercase tracking-wider ml-1">
-                                    Repository Name
+                                    <Translate content="github:init.label" />
                                 </label>
                                 <input
                                     type="text"
@@ -104,13 +103,13 @@ function GithubMainPage() {
                                 onClick={() => initMutation.mutate()}
                                 disabled={initMutation.isPending || !repoName}
                                 className="w-full h-12 bg-white text-black font-bold hover:bg-zinc-200 rounded-xl transition-all shadow-lg shadow-white/5 disabled:opacity-50 disabled:cursor-not-allowed">
-                                {initMutation.isPending ? "Creating Repository..." : "Create Repository"}
+                                {initMutation.isPending ? <Translate content="github:main.button.creating" /> : <Translate content="github:main.button.create" />}
                             </Button>
                         </div>
                     </div>
                 </div>
             ) : (
-                <EmptyState icon="/icons/search.svg" title="Select a file" description="Choose a file from the sidebar to view the differences between the original and modified versions." />
+                <EmptyState icon="/icons/search.svg" title={t["emptystate.title"]} description={t["emptystate.description"]} />
             )}
         </div>
     );

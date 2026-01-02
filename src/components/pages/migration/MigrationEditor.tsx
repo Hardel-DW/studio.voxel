@@ -119,7 +119,7 @@ export default function MigrationEditor() {
             <Dialog id="migration-success-modal">
                 <DialogContent ref={dialogRef} className="sm:max-w-[525px] bg-zinc-900/90 backdrop-blur-xl border border-white/10">
                     <DialogHeader>
-                        <DialogTitle className="flex items-center gap-x-2">
+                        <DialogTitle className="mb-3">
                             <img src="/icons/success.svg" alt="zip" className="size-6" />
                             <span className="text-xl font-medium text-zinc-200">{translate("generic.dialog.success")}</span>
                         </DialogTitle>

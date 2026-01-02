@@ -32,7 +32,7 @@ export default function RecipeSection() {
     };
 
     return (
-        <div className="relative overflow-hidden bg-black/35 border-t-2 border-l-2 border-stone-900 ring-0 ring-zinc-900 transition-all hover:ring-1 rounded-xl p-6">
+        <div className="relative overflow-hidden bg-black/35 border-t-2 border-l-2 border-zinc-900 ring-0 ring-zinc-900 transition-all hover:ring-1 rounded-xl p-6">
             <div className="px-6 flex justify-between items-center gap-4">
                 <div>
                     <h2 className="text-xl font-bold text-white">Recipe</h2>
