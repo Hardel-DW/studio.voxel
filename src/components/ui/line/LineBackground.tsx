@@ -1,7 +1,10 @@
 import { useEffect, useRef } from "react";
 import { animateLines, createLine, type Line } from "@/components/ui/line/LineAnimationUtils";
+interface LineBackgroundProps {
+    frequency?: number;
+}
 
-export default function LineBackground() {
+export default function LineBackground({ frequency = 1500 }: LineBackgroundProps) {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const linesRef = useRef<Line[]>([]);
     const lastFrameTimeRef = useRef(0);
@@ -26,10 +29,10 @@ export default function LineBackground() {
 
         const animate = (timestamp: number) => {
             if (document.hidden) return;
-
             if (lastFrameTimeRef.current && timestamp - lastFrameTimeRef.current > 100) {
                 linesRef.current = [];
             }
+
             lastFrameTimeRef.current = timestamp;
 
             animateLines(ctx, canvas, linesRef.current);
@@ -47,7 +50,8 @@ export default function LineBackground() {
         const scheduleNextLine = () => {
             clearTimeout(timeoutId);
             if (document.hidden) return;
-            timeoutId = setTimeout(createNewLine, Math.random() * 2000 + 500);
+            const delay = frequency + (Math.random() * frequency - frequency / 2);
+            timeoutId = setTimeout(createNewLine, delay);
         };
 
         const handleVisibilityChange = () => {
@@ -72,7 +76,7 @@ export default function LineBackground() {
             cancelAnimationFrame(animationFrameId);
             clearTimeout(timeoutId);
         };
-    }, []);
+    }, [frequency]);
 
     return <canvas ref={canvasRef} className="w-full h-full absolute inset-0" />;
 }

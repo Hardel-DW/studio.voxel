@@ -49,7 +49,7 @@ function LootTableLayout() {
                     linkTo="/$lang/studio/editor/loot_table/overview">
                     <TreeSidebar />
                 </EditorSidebar>
-
+ 
                 <main ref={setContainerRef} className="flex-1 flex flex-col min-w-0 min-h-0 overflow-hidden relative bg-zinc-950">
                     <EditorHeader
                         fallbackTitle="Loot Table"

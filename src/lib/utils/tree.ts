@@ -1,4 +1,4 @@
-import { Identifier, type IdentifierObject } from "@voxelio/breeze";
+import { Identifier, type IdentifierObject, type FileStatus } from "@voxelio/breeze";
 
 export interface TreeNodeType {
     identifiers: IdentifierObject[];
@@ -6,6 +6,46 @@ export interface TreeNodeType {
     count: number;
     elementId?: string;
     isFolder?: boolean;
+}
+
+export interface FileTreeNode {
+    children: Map<string, FileTreeNode>;
+    count: number;
+    filePath?: string;
+    status?: FileStatus;
+}
+
+export function buildFileTree(diff: Map<string, FileStatus>): FileTreeNode {
+    const root: FileTreeNode = { children: new Map(), count: 0 };
+
+    for (const [path, status] of diff) {
+        const parts = path.split("/");
+        let current = root;
+
+        for (let i = 0; i < parts.length - 1; i++) {
+            const folder = parts[i];
+            if (!current.children.has(folder)) {
+                current.children.set(folder, { children: new Map(), count: 0 });
+            }
+            current = current.children.get(folder)!;
+        }
+
+        const fileName = parts.at(-1)!;
+        current.children.set(fileName, { children: new Map(), count: 1, filePath: path, status });
+    }
+
+    const calculateCount = (node: FileTreeNode): number => {
+        if (node.filePath) return 1;
+        let count = 0;
+        for (const child of node.children.values()) {
+            count += calculateCount(child);
+        }
+        node.count = count;
+        return count;
+    };
+
+    calculateCount(root);
+    return root;
 }
 
 export function buildTree(identifiers: IdentifierObject[], includeElements = false): TreeNodeType {

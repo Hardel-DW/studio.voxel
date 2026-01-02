@@ -6,19 +6,19 @@ export interface Token {
 export function getTokenColor(type: Token["type"]): string {
     switch (type) {
         case "string":
-            return "#d43dab";
+            return "#98c379";
         case "number":
-            return "#f08d49";
+            return "#d19a66";
         case "boolean":
-            return "#4177e5";
+            return "#56b6c2";
         case "null":
-            return "#4177e5";
+            return "#c678dd";
         case "property":
-            return "#d89600";
+            return "#61afef";
         case "punctuation":
-            return "#ccc";
+            return "#abb2bf";
         default:
-            return "#ccc";
+            return "#abb2bf";
     }
 }
 
