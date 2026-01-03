@@ -39,7 +39,6 @@ function Page() {
                 </div>
                 <div className="-z-10 absolute inset-0">
                     <svg className="size-full stroke-white/10 mask-[radial-gradient(white,transparent_50%)] [stroke-dasharray:5_6] [stroke-dashoffset:10] lg:stroke-4">
-                        <title>Grid</title>
                         <defs>
                             <pattern id="grid" viewBox="0 0 64 64" width="32" height="32" patternUnits="userSpaceOnUse" x="0" y="0">
                                 <path d="M64 0H0V64" fill="none" />
