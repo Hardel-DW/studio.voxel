@@ -2,10 +2,10 @@ import { useParams } from "@tanstack/react-router";
 import { Button } from "@/components/ui/Button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/Dialog";
 import { useGitHubAuth } from "@/lib/hook/useGitHubAuth";
-import { t, useI18n } from "@/lib/i18n";
+import { useTranslate } from "@/lib/i18n";
 
 export default function GitButton() {
-    useI18n((state) => state.locale);
+    const t = useTranslate();
     const { lang } = useParams({ from: "/$lang" });
     const { isAuthenticated, login } = useGitHubAuth();
 

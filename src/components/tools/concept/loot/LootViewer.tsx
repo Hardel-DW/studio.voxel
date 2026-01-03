@@ -1,7 +1,7 @@
 import type { FlattenedLootItem, LootTableProps } from "@voxelio/breeze";
 import RewardItem from "@/components/tools/concept/loot/RewardItem";
 import { type BaseInteractiveComponent, useInteractiveLogic } from "@/lib/hook/useInteractiveLogic";
-import { t, useI18n } from "@/lib/i18n";
+import { useTranslate } from "@/lib/i18n";
 
 export type LootViewerProps = BaseInteractiveComponent & {
     title: string;
@@ -10,7 +10,7 @@ export type LootViewerProps = BaseInteractiveComponent & {
 };
 
 export default function LootViewer(props: LootViewerProps) {
-    useI18n((state) => state.locale);
+    const t = useTranslate();
     const { handleChange } = useInteractiveLogic<LootViewerProps, boolean>({ component: props });
     const totalProbability = props.data.reduce((sum, reward) => sum + reward.probability, 0);
 

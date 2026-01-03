@@ -10,13 +10,14 @@ import { ToolbarSearch } from "@/components/tools/floatingbar/ToolbarSearch";
 import { ToolGrab } from "@/components/tools/floatingbar/ToolGrab";
 import { getCurrentElement, useConfiguratorStore } from "@/components/tools/Store";
 import { useFlattenedLootItems } from "@/lib/hook/useFlattenedLootItems";
-import { t } from "@/lib/i18n";
+import { useTranslate } from "@/lib/i18n";
 
 export const Route = createFileRoute("/$lang/studio/editor/loot_table/main")({
     component: LootMainPage
 });
 
 function LootMainPage() {
+    const t = useTranslate();
     const [searchValue, setSearchValue] = useState("");
     const { lang } = Route.useParams();
     const navigate = useNavigate();

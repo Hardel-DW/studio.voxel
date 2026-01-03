@@ -1,6 +1,6 @@
 import type { BaseInteractiveComponent } from "@/lib/hook/useInteractiveLogic";
 import { useInteractiveLogic } from "@/lib/hook/useInteractiveLogic";
-import { t, useI18n } from "@/lib/i18n";
+import { useTranslate } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
 export type ToolSlotType = BaseInteractiveComponent & {
@@ -13,7 +13,7 @@ export type ToolSlotType = BaseInteractiveComponent & {
 };
 
 export default function ToolSlot(props: ToolSlotType & { index?: number }) {
-    useI18n((state) => state.locale);
+    const t = useTranslate();
     const { value, lock, handleChange } = useInteractiveLogic<ToolSlotType, boolean>({ component: props });
     if (value === null) return null;
 

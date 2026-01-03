@@ -8,7 +8,7 @@ import LineSetup from "@/components/ui/line/LineSetup";
 import ShiningStars from "@/components/ui/ShiningStars";
 import Star from "@/components/ui/Star";
 import Walkthrough from "@/components/ui/Walkthrough";
-import { t } from "@/lib/i18n";
+import { useTranslate } from "@/lib/i18n";
 
 export const Route = createFileRoute("/$lang/migration")({
     component: MigrationPage,
@@ -17,6 +17,8 @@ export const Route = createFileRoute("/$lang/migration")({
 
 function MigrationPage() {
     const { lang } = Route.useParams();
+    const t = useTranslate();
+
     const walkthroughSteps = [
         {
             title: t("migration.step1.title"),

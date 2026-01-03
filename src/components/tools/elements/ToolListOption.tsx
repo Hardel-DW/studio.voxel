@@ -7,7 +7,7 @@ import { Switch } from "@/components/ui/Switch";
 import { useElementLocks } from "@/lib/hook/useBreezeElement";
 import type { ActionOrBuilder, BaseRender } from "@/lib/hook/useInteractiveLogic";
 import { useActionHandler, useRenderer } from "@/lib/hook/useInteractiveLogic";
-import { t, useI18n } from "@/lib/i18n";
+import { useTranslate } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 import type { Condition, Lock } from "@/lib/utils/lock";
 
@@ -34,6 +34,7 @@ export type ToolListOptionType = {
 function ActionItem(props: ToolListOptionAction & { elementId?: string; lock: { isLocked: boolean } }) {
     const actionHandler = useActionHandler(props.action, { elementId: props.elementId });
     const isChecked = useRenderer<boolean>(props.renderer, props.elementId);
+    const t = useTranslate();
 
     const handleAction = (e: React.MouseEvent) => {
         e.preventDefault();
@@ -58,14 +59,14 @@ function ActionItem(props: ToolListOptionAction & { elementId?: string; lock: { 
                 </div>
                 <span className="text-xs text-zinc-500">{t(props.description)}</span>
             </div>
-            <Switch id="action-switch" isChecked={isChecked ?? false} setIsChecked={() => { }} disabled={props.lock.isLocked} />
+            <Switch id="action-switch" isChecked={isChecked ?? false} setIsChecked={() => {}} disabled={props.lock.isLocked} />
         </label>
     );
 }
 
 const maxDisplayValues = 3;
 export default function ToolListOption(props: ToolListOptionType) {
-    useI18n((state) => state.locale);
+    const t = useTranslate();
     const currentElementId = useConfiguratorStore((state) => props.elementId ?? state.currentElementId);
     const lock = useElementLocks(props.lock, currentElementId);
     const isInList = useRenderer<boolean>(props.actions?.[1]?.renderer, props.elementId);

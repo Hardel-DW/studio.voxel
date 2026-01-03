@@ -1,5 +1,5 @@
 import Dropzone from "@/components/ui/Dropzone";
-import { t, useI18n } from "@/lib/i18n";
+import { useTranslate } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
 interface HarmonizeUploadProps {
@@ -8,7 +8,7 @@ interface HarmonizeUploadProps {
 }
 
 export default function HarmonizeUpload({ onFileUpload, isCompact = false }: HarmonizeUploadProps) {
-    useI18n((state) => state.locale);
+    const t = useTranslate();
     return (
         <div className="w-full h-full min-h-[200px] flex flex-col">
             <Dropzone

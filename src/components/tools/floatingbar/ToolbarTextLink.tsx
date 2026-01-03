@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { t } from "@/lib/i18n";
+import { useTranslate } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
 interface ToolbarTextLinkProps extends Omit<React.HTMLAttributes<HTMLAnchorElement>, "onClick" | "to" | "lang"> {
@@ -13,6 +13,8 @@ interface ToolbarTextLinkProps extends Omit<React.HTMLAttributes<HTMLAnchorEleme
 }
 
 export function ToolbarTextLink(props: ToolbarTextLinkProps) {
+    const t = useTranslate();
+
     return (
         <Link
             {...props}

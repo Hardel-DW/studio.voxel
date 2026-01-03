@@ -1,7 +1,7 @@
 import RenderGuard from "@/components/tools/elements/RenderGuard";
 import type { BaseInteractiveComponent } from "@/lib/hook/useInteractiveLogic";
 import { useInteractiveLogic } from "@/lib/hook/useInteractiveLogic";
-import { t, useI18n } from "@/lib/i18n";
+import { useTranslate } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
 export type ToolInlineType = BaseInteractiveComponent & {
@@ -11,7 +11,7 @@ export type ToolInlineType = BaseInteractiveComponent & {
 };
 
 export default function ToolInline(props: ToolInlineType) {
-    useI18n((state) => state.locale);
+    const t = useTranslate();
     const { value, lock, handleChange } = useInteractiveLogic<ToolInlineType, boolean>({ component: props });
     if (value === null) return null;
 

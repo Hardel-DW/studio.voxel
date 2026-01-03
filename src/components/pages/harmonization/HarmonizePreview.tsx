@@ -1,5 +1,5 @@
 import { type RefObject, useState } from "react";
-import { t, useI18n } from "@/lib/i18n";
+import { useTranslate } from "@/lib/i18n";
 
 interface HarmonizePreviewProps {
     canvasRef: RefObject<HTMLCanvasElement | null>;
@@ -10,7 +10,7 @@ interface HarmonizePreviewProps {
 }
 
 export default function HarmonizePreview({ canvasRef, isLoading, hasData, hasImage, onDownload }: HarmonizePreviewProps) {
-    useI18n((state) => state.locale);
+    const t = useTranslate();
     const [zoom, setZoom] = useState(1);
     const handleZoomIn = () => setZoom((prev) => Math.min(prev + 0.5, 5));
     const handleZoomOut = () => setZoom((prev) => Math.max(prev - 0.5, 0.5));

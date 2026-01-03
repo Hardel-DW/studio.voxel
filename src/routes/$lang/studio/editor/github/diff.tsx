@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Identifier } from "@voxelio/breeze";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import CodeDiff from "@/components/ui/codeblock/CodeDiff";
-import { t } from "@/lib/i18n";
+import { useTranslate } from "@/lib/i18n";
 
 export const Route = createFileRoute("/$lang/studio/editor/github/diff")({
     component: GithubDiffPage,
@@ -25,6 +25,7 @@ function parseFilePath(path: string): Identifier | null {
 }
 
 function GithubDiffPage() {
+    const t = useTranslate();
     const { file } = Route.useSearch();
     const { files } = useConfiguratorStore.getState();
     const compiledFiles = useConfiguratorStore.getState().compile().getFiles();

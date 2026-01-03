@@ -6,7 +6,7 @@ import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer
 import { useConfiguratorStore } from "@/components/tools/Store";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/Popover";
 import useRegistry, { type FetchedRegistry } from "@/lib/hook/useRegistry";
-import { t, useI18n } from "@/lib/i18n";
+import { useTranslate } from "@/lib/i18n";
 import SlotGrid from "./SlotGrid";
 
 const SLOT_IMAGES = {
@@ -28,7 +28,7 @@ interface SlotsEnchantmentCardProps {
 }
 
 export default function SlotsEnchantmentCard({ element }: SlotsEnchantmentCardProps) {
-    useI18n((state) => state.locale);
+    const t = useTranslate();
     const { lang } = useParams({ from: "/$lang" });
     const { data } = useRegistry<FetchedRegistry<TagType>>("summary", "tags/item");
     const datapackTags = useConfiguratorStore((state) => state.getRegistry<TagType>("tags/item"));

@@ -1,5 +1,5 @@
 import { Identifier, type IdentifierObject } from "@voxelio/breeze";
-import { t } from "@/lib/i18n";
+import { useTranslate } from "@/lib/i18n";
 
 interface BreadcrumbSegment {
     label: string;
@@ -15,6 +15,7 @@ interface EditorBreadcrumbProps {
 }
 
 export function EditorBreadcrumb(props: EditorBreadcrumbProps) {
+    const t = useTranslate();
     const segments = buildSegments(props);
 
     return (

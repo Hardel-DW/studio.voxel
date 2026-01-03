@@ -1,9 +1,10 @@
 import type { SlotRegistryType } from "@voxelio/breeze";
-import { t } from "@/lib/i18n";
+import { useTranslate } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 import type { SLOT_CONFIGS } from "./slots";
 
 export function SlotButton(props: { slot: (typeof SLOT_CONFIGS)[0]; isActive: boolean; onToggle: (slotId: SlotRegistryType) => void }) {
+    const t = useTranslate();
     return (
         <button
             type="button"

@@ -1,5 +1,5 @@
 import Range from "@/components/ui/Range";
-import { t, useI18n } from "@/lib/i18n";
+import { useTranslate } from "@/lib/i18n";
 import { type RGB, sortPaletteByHue } from "@/lib/utils/color";
 
 interface HarmonizeControlsProps {
@@ -19,7 +19,7 @@ export default function HarmonizeControls({
     isLoading = false,
     disabled = false
 }: HarmonizeControlsProps) {
-    useI18n((state) => state.locale);
+    const t = useTranslate();
     const sortedAndGroupedPalette = palette.length ? sortPaletteByHue(palette) : [];
 
     return (

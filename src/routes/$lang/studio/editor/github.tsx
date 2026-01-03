@@ -9,7 +9,7 @@ import { TextInput } from "@/components/ui/TextInput";
 import { TOAST, toast } from "@/components/ui/Toast";
 import { GitFileTree } from "@/components/ui/tree/GitFileTree";
 import { GitHub } from "@/lib/github/GitHub";
-import { t, useI18n } from "@/lib/i18n";
+import { useTranslate } from "@/lib/i18n";
 import { encodeToBase64 } from "@/lib/utils/encode";
 
 export const Route = createFileRoute("/$lang/studio/editor/github")({
@@ -17,7 +17,7 @@ export const Route = createFileRoute("/$lang/studio/editor/github")({
 });
 
 function GithubLayout() {
-    useI18n((state) => state.locale);
+    const t = useTranslate();
     const search = useRouterState({ select: (s) => s.location.search as { file?: string } });
     const selectedFile = search.file;
     const { isGitRepository, owner, repositoryName, branch, token } = useExportStore();

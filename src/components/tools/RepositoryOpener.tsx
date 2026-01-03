@@ -21,11 +21,11 @@ import { TOAST, toast } from "@/components/ui/Toast";
 import { GitHub, type Repository } from "@/lib/github/GitHub";
 import { RepositoryManager } from "@/lib/github/RepositoryManager";
 import { useGitHubAuth, useGitHubRepos } from "@/lib/hook/useGitHubAuth";
-import { t, useI18n } from "@/lib/i18n";
+import { useTranslate } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
 export default function RepositoryOpener() {
-    useI18n((state) => state.locale);
+    const t = useTranslate();
     const navigate = useNavigate();
     const { lang } = useParams({ from: "/$lang" });
     const [selectedAccount, setSelectedAccount] = useState<string>("");

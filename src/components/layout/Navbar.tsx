@@ -10,7 +10,7 @@ import NavigationDropdown from "@/components/layout/navbar/NavigationDropdown";
 import NavigationList from "@/components/layout/navbar/NavigationList";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/Popover";
 import { useGitHubAuth } from "@/lib/hook/useGitHubAuth";
-import { t, useI18n } from "@/lib/i18n";
+import { useTranslate } from "@/lib/i18n";
 import { Route } from "@/routes/$lang";
 
 const baseVoxelPath = import.meta.env.VITE_BASE_VOXEL_PATH;
@@ -37,7 +37,7 @@ function SocialLinks() {
 }
 
 export default function Navbar() {
-    useI18n((state) => state.locale);
+    const t = useTranslate();
     const { isAuthenticated, user, logout } = useGitHubAuth();
     const { lang } = Route.useParams();
 

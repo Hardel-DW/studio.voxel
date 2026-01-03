@@ -8,7 +8,7 @@ import { useConfiguratorStore } from "@/components/tools/Store";
 import { TextInput } from "@/components/ui/TextInput";
 import { useElementsByType } from "@/lib/hook/useElementsByType";
 import { useInfiniteScroll } from "@/lib/hook/useInfiniteScroll";
-import { t } from "@/lib/i18n";
+import { useTranslate } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/$lang/studio/editor/enchantment/overview")({
@@ -16,6 +16,7 @@ export const Route = createFileRoute("/$lang/studio/editor/enchantment/overview"
 });
 
 function OverviewPage() {
+    const t = useTranslate();
     const { search, setSearch, sidebarView, filterPath, viewMode } = useEditorUiStore();
     const elements = useElementsByType("enchantment");
     const version = useConfiguratorStore((s) => s.version) ?? 61;

@@ -11,13 +11,14 @@ import { ToolGrab } from "@/components/tools/floatingbar/ToolGrab";
 import { getCurrentElement, useConfiguratorStore } from "@/components/tools/Store";
 import { Button } from "@/components/ui/Button";
 import useRegistry from "@/lib/hook/useRegistry";
-import { t } from "@/lib/i18n";
+import { useTranslate } from "@/lib/i18n";
 
 export const Route = createFileRoute("/$lang/studio/editor/loot_table/pools")({
     component: PoolsPage
 });
 
 function PoolsPage() {
+    const t = useTranslate();
     const { lang } = Route.useParams();
     const navigate = useNavigate();
     const currentElement = useConfiguratorStore((state) => getCurrentElement(state));

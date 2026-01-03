@@ -2,7 +2,7 @@ import { type FlattenedLootItem, Identifier } from "@voxelio/breeze";
 import type { ReactElement } from "react";
 import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/Popover";
-import { t, useI18n } from "@/lib/i18n";
+import { useTranslate } from "@/lib/i18n";
 
 interface LootDetailsPopoverProps {
     items: FlattenedLootItem[];
@@ -10,7 +10,7 @@ interface LootDetailsPopoverProps {
 }
 
 export default function LootDetailsPopover({ items, children }: LootDetailsPopoverProps) {
-    useI18n((state) => state.locale);
+    const t = useTranslate();
     const itemsCount = items.length;
 
     return (

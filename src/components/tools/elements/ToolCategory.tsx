@@ -1,7 +1,7 @@
 import type React from "react";
 import RenderGuard from "@/components/tools/elements/RenderGuard";
 import type { BaseComponent } from "@/lib/hook/useBreezeElement";
-import { t, useI18n } from "@/lib/i18n";
+import { useTranslate } from "@/lib/i18n";
 
 export type ToolCategoryType = BaseComponent & {
     title: string;
@@ -9,7 +9,8 @@ export type ToolCategoryType = BaseComponent & {
 };
 
 export default function ToolCategory(props: ToolCategoryType) {
-    useI18n((state) => state.locale);
+    const t = useTranslate();
+
     return (
         <RenderGuard condition={props.hide}>
             <div className="not-first:mt-8">

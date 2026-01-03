@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/Button";
 import type { BaseComponent } from "@/lib/hook/useBreezeElement";
-import { t, useI18n } from "@/lib/i18n";
+import { useTranslate } from "@/lib/i18n";
 import RenderGuard from "./RenderGuard";
 
 // Type defined locally
@@ -21,7 +21,8 @@ export type ToolDonationType = BaseComponent & {
 };
 
 export default function Donation(props: ToolDonationType) {
-    useI18n((state) => state.locale);
+    const t = useTranslate();
+
     return (
         <RenderGuard condition={props.hide}>
             <div className="bg-black/35 border-t-2 border-l-2 rounded-2xl border-stone-900 ring-0 ring-zinc-800 overflow-hidden backdrop-blur-2xl relative mt-auto">

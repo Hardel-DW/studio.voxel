@@ -6,13 +6,14 @@ import { canBlockHandleRecipeType } from "@/components/tools/concept/recipe/reci
 import { TextInput } from "@/components/ui/TextInput";
 import { useElementsByType } from "@/lib/hook/useElementsByType";
 import { useInfiniteScroll } from "@/lib/hook/useInfiniteScroll";
-import { t } from "@/lib/i18n";
+import { useTranslate } from "@/lib/i18n";
 
 export const Route = createFileRoute("/$lang/studio/editor/recipe/overview")({
     component: Page
 });
 
 function Page() {
+    const t = useTranslate();
     const { search, setSearch, filterPath } = useEditorUiStore();
     const recipeElements = useElementsByType("recipe");
     const filteredElements = recipeElements.filter((el) => {

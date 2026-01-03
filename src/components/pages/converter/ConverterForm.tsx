@@ -2,7 +2,7 @@ import type { ModMetadata } from "@voxelio/converter";
 import { convertDatapack, ModPlatforms } from "@voxelio/converter";
 import { useState } from "react";
 import { Button } from "@/components/ui/Button";
-import { t, useI18n } from "@/lib/i18n";
+import { useTranslate } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 import { downloadFile } from "@/lib/utils/download";
 import { trackEvent } from "@/lib/utils/telemetry";
@@ -33,7 +33,7 @@ interface Props {
 }
 
 export default function ConverterForm({ file, onFileChange, initialMetadata, iconUrl }: Props) {
-    useI18n((state) => state.locale);
+    const t = useTranslate();
     const [metadata, setMetadata] = useState<ModMetadata>(initialMetadata);
     const [isConverting, setIsConverting] = useState(false);
     const [error, setError] = useState<string | null>(null);

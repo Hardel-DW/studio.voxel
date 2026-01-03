@@ -1,12 +1,12 @@
 import type { PropsWithChildren } from "react";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import { Button } from "@/components/ui/Button";
-import { t, useI18n } from "@/lib/i18n";
+import { useTranslate } from "@/lib/i18n";
 import { Route } from "@/routes/$lang";
 import RestoreLastSession from "./RestoreLastSession";
 
 export default function ConfigManager(props: PropsWithChildren) {
-    useI18n((state) => state.locale);
+    const t = useTranslate();
     const { lang } = Route.useParams();
     const hasElements = useConfiguratorStore((state) => Object.keys(state.files).length > 0);
     if (hasElements) return props.children;

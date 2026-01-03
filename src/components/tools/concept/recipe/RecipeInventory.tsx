@@ -1,10 +1,10 @@
 import { useState } from "react";
 import ToolInventory from "@/components/tools/elements/ToolInventory";
 import { TextInput } from "@/components/ui/TextInput";
-import { t, useI18n } from "@/lib/i18n";
+import { useTranslate } from "@/lib/i18n";
 
 export default function RecipeInventory() {
-    useI18n((state) => state.locale);
+    const t = useTranslate();
     const [search, setSearch] = useState("");
 
     return (

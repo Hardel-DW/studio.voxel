@@ -1,10 +1,10 @@
 import { Link } from "@tanstack/react-router";
-import { t, useI18n } from "@/lib/i18n";
+import { useTranslate } from "@/lib/i18n";
 import { Route } from "@/routes/$lang";
 
 const baseVoxelPath = import.meta.env.VITE_BASE_VOXEL_PATH;
 export default function Footer() {
-    useI18n((state) => state.locale);
+    const t = useTranslate();
     const { lang } = Route.useParams();
 
     const footerContent = [

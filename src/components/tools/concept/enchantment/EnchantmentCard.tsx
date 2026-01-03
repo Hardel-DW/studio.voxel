@@ -6,7 +6,7 @@ import SimpleSwitch from "@/components/tools/elements/SimpleSwitch";
 import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import useRegistry, { type FetchedRegistry } from "@/lib/hook/useRegistry";
-import { t, useI18n } from "@/lib/i18n";
+import { useTranslate } from "@/lib/i18n";
 
 const findOptions = [
     {
@@ -42,7 +42,7 @@ const findOptions = [
 ];
 
 export default function EnchantmentCard({ element }: { element: EnchantmentProps }) {
-    useI18n((state) => state.locale);
+    const t = useTranslate();
     const { lang } = useParams({ from: "/$lang" });
     const { data } = useRegistry<FetchedRegistry<TagType>>("summary", "tags/item");
     const datapackTags = useConfiguratorStore((state) => state.getRegistry<TagType>("tags/item"));

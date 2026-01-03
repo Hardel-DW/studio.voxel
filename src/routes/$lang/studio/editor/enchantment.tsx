@@ -14,7 +14,7 @@ import { TreeProvider } from "@/components/ui/tree/TreeNavigationContext";
 import { TreeSidebar } from "@/components/ui/tree/TreeSidebar";
 import { getEnchantableKeys } from "@/lib/data/tags";
 import { useElementsByType } from "@/lib/hook/useElementsByType";
-import { t } from "@/lib/i18n";
+import { useTranslate } from "@/lib/i18n";
 
 const concept = CONCEPTS.find((c) => c.registry === "enchantment");
 if (!concept) throw new Error("Enchantment concept not found");
@@ -31,6 +31,7 @@ export const Route = createFileRoute("/$lang/studio/editor/enchantment")({
 });
 
 function EnchantmentLayout() {
+    const t = useTranslate();
     const { sidebarView, setSidebarView, filterPath, viewMode, setViewMode } = useEditorUiStore();
     const { setContainerRef } = useDynamicIsland();
     const location = useLocation();

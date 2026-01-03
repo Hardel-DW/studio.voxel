@@ -6,7 +6,7 @@ import DatapackUploader from "@/components/tools/DatapackUploader";
 import RepositoryOpener from "@/components/tools/RepositoryOpener";
 import RestoreLastSession from "@/components/tools/RestoreLastSession";
 import VanillaImportButton from "@/components/tools/VanillaImportButton";
-import { t } from "@/lib/i18n";
+import { useTranslate } from "@/lib/i18n";
 
 const DISABLE_MAINTENANCE = false;
 export const Route = createFileRoute("/$lang/studio/")({
@@ -14,37 +14,14 @@ export const Route = createFileRoute("/$lang/studio/")({
     pendingComponent: StudioLoading
 });
 
-const questions = () => {
-    return [
-        {
-            question: t("studio.questions.values.0.question"),
-            answer: t("studio.questions.values.0.answer")
-        },
-        {
-            question: t("studio.questions.values.1.question"),
-            answer: t("studio.questions.values.1.answer")
-        },
-        {
-            question: t("studio.questions.values.2.question"),
-            answer: t("studio.questions.values.2.answer")
-        },
-        {
-            question: t("studio.questions.values.3.question"),
-            answer: t("studio.questions.values.3.answer")
-        },
-        {
-            question: t("studio.questions.values.4.question"),
-            answer: t("studio.questions.values.4.answer")
-        },
-        {
-            question: t("studio.questions.values.5.question"),
-            answer: t("studio.questions.values.5.answer")
-        }
-    ];
-};
-
 function StudioLayout() {
     const { lang } = Route.useParams();
+    const t = useTranslate();
+    const questions = Array.from({ length: 6 }, (_, i) => ({
+        question: t(`studio.questions.values.${i}.question`),
+        answer: t(`studio.questions.values.${i}.answer`)
+    }));
+
     return (
         <main className="relative w-full overflow-x-hidden">
             <div className="fixed -z-50 -top-16 -right-16 size-72 rounded-full blur-3xl bg-linear-to-br from-red-900/20 to-blue-900/20" />
@@ -148,7 +125,7 @@ function StudioLayout() {
                         <div className="h-1 w-1/2 bg-linear-to-r from-rose-900 to-fuchsia-900 rounded-full mt-4" />
                     </div>
                     <div className="grid divide-y divide-zinc-700 z-20">
-                        {questions().map((item: { question: string; answer: string }) => (
+                        {questions.map((item) => (
                             <div className="py-5" key={item.question}>
                                 <details className="group relative">
                                     <summary className="flex justify-between items-center gap-x-10 font-medium cursor-pointer list-none group-open:before:absolute group-open:before:inset-0 group-open:before:cursor-pointer">

@@ -2,7 +2,7 @@ import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer
 import { BoxHovered, BoxHoveredContent, BoxHoveredTrigger } from "@/components/ui/BoxHovered";
 import { Button } from "@/components/ui/Button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/Dropdown";
-import { t } from "@/lib/i18n";
+import { useTranslate } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 import { getAllBlockIds, getDisplayBlockId, getDisplayName } from "./recipeConfig";
 
@@ -32,6 +32,7 @@ export default function RecipeSelector(props: {
     recipeCounts: Map<string, number>;
     selectMode?: boolean;
 }) {
+    const t = useTranslate();
     const blockIds = getAllBlockIds(true);
     const displayBlockId = getDisplayBlockId(props.value);
     const displayName = getDisplayName(props.value);

@@ -3,6 +3,7 @@ import enUsDefault from "@/i18n/en-us.json";
 
 export type Locale = "en-us" | "fr-fr";
 export type TranslationParams = Record<string, string | number>;
+export const supportedLocales: Locale[] = ["en-us", "fr-fr"];
 
 interface I18nStore {
     locale: Locale;
@@ -11,7 +12,8 @@ interface I18nStore {
     setLocale: (locale: Locale) => Promise<void>;
 }
 
-const loadLocaleData = async (locale: Locale): Promise<Record<string, string>> => locale === "en-us" ? enUsDefault : (await import(`@/i18n/${locale}.json`)).default;
+const loadLocaleData = async (locale: Locale): Promise<Record<string, string>> =>
+    locale === "en-us" ? enUsDefault : (await import(`@/i18n/${locale}.json`)).default;
 const initTranslations = (data: Record<string, string>): Map<string, string> => new Map(Object.entries(data));
 const interpolate = (str: string, params: TranslationParams): string => str.replace(/\{(\w+)\}/g, (_, k) => String(params[k] ?? `{${k}}`));
 export const useI18n = create<I18nStore>((set, get) => ({

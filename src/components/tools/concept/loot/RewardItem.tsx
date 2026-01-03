@@ -1,6 +1,6 @@
 import { calculateItemCountRange, type FlattenedLootItem, Identifier } from "@voxelio/breeze";
 import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer";
-import { t, useI18n } from "@/lib/i18n";
+import { useTranslate } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
 interface RewardItemProps extends FlattenedLootItem {
@@ -11,7 +11,7 @@ interface RewardItemProps extends FlattenedLootItem {
 }
 
 export default function RewardItem(props: RewardItemProps) {
-    useI18n((state) => state.locale);
+    const t = useTranslate();
     const countRange = calculateItemCountRange(props.functions);
     const probabilityPercentage = props.normalizedProbability ? (props.normalizedProbability * 100).toFixed(1) : null;
     const handleDelete = () => props.id && props.onDelete?.(props.id);

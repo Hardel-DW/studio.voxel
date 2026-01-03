@@ -7,7 +7,7 @@ import { DashedPattern } from "@/components/ui/DashedPattern";
 import ShiningStars from "@/components/ui/ShiningStars";
 import Star from "@/components/ui/Star";
 import Walkthrough from "@/components/ui/Walkthrough";
-import { t } from "@/lib/i18n";
+import { useTranslate } from "@/lib/i18n";
 
 export const Route = createFileRoute("/$lang/converter")({
     component: ConverterPage,
@@ -16,6 +16,8 @@ export const Route = createFileRoute("/$lang/converter")({
 
 function ConverterPage() {
     const { lang } = Route.useParams();
+    const t = useTranslate();
+
     const walkthroughSteps = [
         {
             title: t("converter.step1.title"),

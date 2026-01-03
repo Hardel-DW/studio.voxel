@@ -2,10 +2,10 @@ import type { LootItem, PoolData } from "@voxelio/breeze";
 import { useLootPoolActions } from "@/components/tools/concept/loot/LootPoolContext";
 import PoolItemCard from "@/components/tools/concept/loot/PoolItemCard";
 import { Button } from "@/components/ui/Button";
-import { t, useI18n } from "@/lib/i18n";
+import { useTranslate } from "@/lib/i18n";
 
 export default function PoolSection({ poolIndex, poolData, items }: { poolIndex: number; poolData?: PoolData; items: LootItem[] }) {
-    useI18n((state) => state.locale);
+    const t = useTranslate();
     const { onAddItem, onBalanceWeights } = useLootPoolActions();
     const rollsDisplay = poolData ? formatRolls(poolData.rolls) : "1";
     const bonusRollsDisplay = poolData?.bonus_rolls ? formatRolls(poolData.bonus_rolls) : "0";

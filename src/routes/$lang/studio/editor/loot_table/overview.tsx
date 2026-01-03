@@ -6,7 +6,7 @@ import { TextInput } from "@/components/ui/TextInput";
 import { useElementsByType } from "@/lib/hook/useElementsByType";
 import { useFlattenedLootCache } from "@/lib/hook/useFlattenedLootItems";
 import { useInfiniteScroll } from "@/lib/hook/useInfiniteScroll";
-import { t } from "@/lib/i18n";
+import { useTranslate } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 import { matchesPath } from "@/lib/utils/tree";
 
@@ -15,6 +15,7 @@ export const Route = createFileRoute("/$lang/studio/editor/loot_table/overview")
 });
 
 function RouteComponent() {
+    const t = useTranslate();
     const { filterPath, search, setSearch, viewMode } = useEditorUiStore();
     const elements = useElementsByType("loot_table");
     const { itemsMap, isLoading: cacheLoading } = useFlattenedLootCache();

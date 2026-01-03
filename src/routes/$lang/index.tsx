@@ -5,7 +5,7 @@ import Box from "@/components/ui/Box";
 import { Button } from "@/components/ui/Button";
 import ImageCard from "@/components/ui/ImageCard";
 import LineSetup from "@/components/ui/line/LineSetup";
-import { t } from "@/lib/i18n";
+import { useTranslate } from "@/lib/i18n";
 
 const baseVoxelPath = import.meta.env.VITE_BASE_VOXEL_PATH;
 export const Route = createFileRoute("/$lang/")({
@@ -21,6 +21,8 @@ export const Route = createFileRoute("/$lang/")({
 
 function Page() {
     const { lang } = Route.useParams();
+    const t = useTranslate();
+
     return (
         <div className="relative">
             <div className="fixed -z-50 -top-16 -right-16 size-72 rounded-full blur-3xl bg-linear-to-br from-red-900/20 to-blue-900/20" />

@@ -3,11 +3,11 @@ import { Datapack } from "@voxelio/breeze";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import Dropzone from "@/components/ui/Dropzone";
 import { TOAST, toast } from "@/components/ui/Toast";
-import { t, useI18n } from "@/lib/i18n";
+import { useTranslate } from "@/lib/i18n";
 import { Route } from "@/routes/$lang";
 
 export default function DatapackUploader() {
-    useI18n((state) => state.locale);
+    const t = useTranslate();
     const navigate = useNavigate();
     const { lang } = Route.useParams();
 

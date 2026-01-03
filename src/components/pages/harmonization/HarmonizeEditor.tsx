@@ -5,12 +5,12 @@ import HarmonizePreview from "@/components/pages/harmonization/HarmonizePreview"
 import HarmonizeUpload from "@/components/pages/harmonization/HarmonizeUpload";
 import useFileManager from "@/lib/hook/useFileManager";
 import useImageProcessor from "@/lib/hook/useImageProcessor";
-import { t, useI18n } from "@/lib/i18n";
+import { useTranslate } from "@/lib/i18n";
 import { cleanPalette, loadImage, quantizeImage, type RGB } from "@/lib/utils/color";
 import { downloadCanvas } from "@/lib/utils/download";
 
 export default function HarmonizeEditor() {
-    useI18n((state) => state.locale);
+    const t = useTranslate();
     const [similarityThreshold, setSimilarityThreshold] = useState<number>(30);
     const outputCanvasRef = useRef<HTMLCanvasElement>(null);
     const { files, actions: fileActions } = useFileManager();

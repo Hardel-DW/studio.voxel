@@ -1,14 +1,7 @@
 import { useNavigate } from "@tanstack/react-router";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/Dropdown";
-import { type Locale, useI18n } from "@/lib/i18n";
+import { type Locale, supportedLocales, useI18n } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
-
-const supportedLocales: Locale[] = ["en-us", "fr-fr"];
-
-const getLanguageName = (locale: Locale): string => {
-    const displayNames = new Intl.DisplayNames([locale], { type: "language" });
-    return displayNames.of(locale.split("-")[0]) ?? locale;
-};
 
 export default function Internalization() {
     const locale = useI18n((state) => state.locale);
@@ -36,7 +29,7 @@ export default function Internalization() {
                         key={lang}
                         onClick={() => handleLanguageChange(lang)}
                         className={cn("flex-row justify-between gap-4", lang === locale && "text-white")}>
-                        <span>{getLanguageName(lang)}</span>
+                        <span>{new Intl.DisplayNames([lang], { type: "language" }).of(lang.split("-")[0]) ?? lang}</span>
                         {lang === locale && (
                             <svg className="size-4" viewBox="0 0 12 12" fill="none">
                                 <path

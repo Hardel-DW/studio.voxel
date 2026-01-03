@@ -5,13 +5,14 @@ import { SLOT_CONFIGS } from "@/components/tools/concept/enchantment/slots";
 import ToolGrid from "@/components/tools/elements/ToolGrid";
 import ToolSection from "@/components/tools/elements/ToolSection";
 import ToolSlot from "@/components/tools/elements/ToolSlot";
-import { t } from "@/lib/i18n";
+import { useTranslate } from "@/lib/i18n";
 
 export const Route = createFileRoute("/$lang/studio/editor/enchantment/slots")({
     component: EnchantmentSlotsPage
 });
 
 function EnchantmentSlotsPage() {
+    const t = useTranslate();
     const groupedSlots = [
         SLOT_CONFIGS.filter((config) => ["mainhand", "offhand"].includes(config.id)),
         SLOT_CONFIGS.filter((config) => ["body", "saddle"].includes(config.id)),

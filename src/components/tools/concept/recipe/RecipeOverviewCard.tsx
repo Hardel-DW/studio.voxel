@@ -4,10 +4,10 @@ import RecipeRenderer from "@/components/tools/concept/recipe/RecipeRenderer";
 import ErrorPlaceholder from "@/components/tools/elements/error/ErrorPlaceholder";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import ErrorBoundary from "@/components/ui/ErrorBoundary";
-import { t, useI18n } from "@/lib/i18n";
+import { useTranslate } from "@/lib/i18n";
 
 export default function RecipeOverviewCard(props: { element: RecipeProps; elementId: string }) {
-    useI18n((state) => state.locale);
+    const t = useTranslate();
     const { lang } = useParams({ from: "/$lang" });
     const label = Identifier.fromUniqueKey(props.elementId).resource;
     const handleConfigure = () => useConfiguratorStore.getState().openTab(props.elementId, "/$lang/studio/editor/recipe/main", label);

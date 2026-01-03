@@ -1,4 +1,4 @@
-import { t } from "@/lib/i18n";
+import { useTranslate } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
 interface ToolbarTextButtonProps extends Omit<React.HTMLAttributes<HTMLButtonElement>, "onClick"> {
@@ -10,6 +10,8 @@ interface ToolbarTextButtonProps extends Omit<React.HTMLAttributes<HTMLButtonEle
 }
 
 export function ToolbarTextButton({ icon, tooltip, onClick, disabled, labelText, className, ...props }: ToolbarTextButtonProps) {
+    const t = useTranslate();
+
     return (
         <button
             type="button"

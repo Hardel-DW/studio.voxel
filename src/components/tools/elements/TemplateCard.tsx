@@ -1,5 +1,5 @@
 import SimpleCard from "@/components/tools/elements/SimpleCard";
-import { t, useI18n } from "@/lib/i18n";
+import { useTranslate } from "@/lib/i18n";
 
 export default function TemplateCard(props: {
     image: string;
@@ -8,7 +8,8 @@ export default function TemplateCard(props: {
     short?: string;
     children: React.ReactNode;
 }) {
-    useI18n((state) => state.locale);
+    const t = useTranslate();
+
     return (
         <SimpleCard>
             <div className="flex items-center justify-between w-full gap-4">

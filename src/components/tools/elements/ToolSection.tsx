@@ -2,7 +2,7 @@ import type React from "react";
 import RenderGuard from "@/components/tools/elements/RenderGuard";
 import { Button } from "@/components/ui/Button";
 import type { BaseComponent } from "@/lib/hook/useBreezeElement";
-import { t, useI18n } from "@/lib/i18n";
+import { useTranslate } from "@/lib/i18n";
 
 export type ToolSectionType = BaseComponent & {
     id: string;
@@ -12,7 +12,7 @@ export type ToolSectionType = BaseComponent & {
 };
 
 export default function ToolSection(props: ToolSectionType) {
-    useI18n((state) => state.locale);
+    const t = useTranslate();
     return (
         <RenderGuard condition={props.hide}>
             <div className="not-first:mt-16">

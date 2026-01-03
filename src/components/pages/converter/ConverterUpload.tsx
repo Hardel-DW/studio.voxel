@@ -1,5 +1,5 @@
 import Dropzone from "@/components/ui/Dropzone";
-import { t, useI18n } from "@/lib/i18n";
+import { useTranslate } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
 interface ConverterUploadProps {
@@ -9,7 +9,7 @@ interface ConverterUploadProps {
 }
 
 export default function ConverterUpload({ onFileUpload, multiple, compact }: ConverterUploadProps) {
-    useI18n((state) => state.locale);
+    const t = useTranslate();
     return (
         <div className={cn("w-full h-full flex flex-col", compact ? "min-h-[150px]" : "min-h-[300px]")}>
             <Dropzone

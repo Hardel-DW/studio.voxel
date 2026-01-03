@@ -3,7 +3,7 @@ import RenderGuard from "@/components/tools/elements/RenderGuard";
 import { Switch } from "@/components/ui/Switch";
 import type { BaseInteractiveComponent } from "@/lib/hook/useInteractiveLogic";
 import { useInteractiveLogic } from "@/lib/hook/useInteractiveLogic";
-import { t, useI18n } from "@/lib/i18n";
+import { useTranslate } from "@/lib/i18n";
 
 export type ToolSwitchType = BaseInteractiveComponent & {
     title: string;
@@ -11,7 +11,7 @@ export type ToolSwitchType = BaseInteractiveComponent & {
 };
 
 export default function ToolSwitch(props: ToolSwitchType) {
-    useI18n((state) => state.locale);
+    const t = useTranslate();
     const id = useId();
     const { value, lock, handleChange } = useInteractiveLogic<ToolSwitchType, boolean>({ component: props });
     if (value === null) return null;

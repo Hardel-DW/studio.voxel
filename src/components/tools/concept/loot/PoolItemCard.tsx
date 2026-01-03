@@ -1,10 +1,10 @@
 import { calculateItemCountRange, Identifier, type LootItem } from "@voxelio/breeze";
 import { useLootPoolActions } from "@/components/tools/concept/loot/LootPoolContext";
 import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer";
-import { t, useI18n } from "@/lib/i18n";
+import { useTranslate } from "@/lib/i18n";
 
 export default function PoolItemCard({ item, totalWeight }: { item: LootItem; totalWeight: number }) {
-    useI18n((state) => state.locale);
+    const t = useTranslate();
     const { onEditItem, onDeleteItem, onWeightChange, onNavigate } = useLootPoolActions();
     const isLootTable = item.entryType === "minecraft:loot_table";
     const countRange = calculateItemCountRange(item.functions);

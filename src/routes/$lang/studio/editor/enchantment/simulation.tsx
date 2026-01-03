@@ -25,7 +25,7 @@ import {
 import { MultiStep, MultiStepControl, MultiStepItem } from "@/components/ui/MultiStep";
 import { Switch } from "@/components/ui/Switch";
 import useRegistry, { type FetchedRegistry } from "@/lib/hook/useRegistry";
-import { t } from "@/lib/i18n";
+import { useTranslate } from "@/lib/i18n";
 import { mergeRegistries } from "@/lib/registry";
 import { cn } from "@/lib/utils";
 
@@ -34,6 +34,7 @@ export const Route = createFileRoute("/$lang/studio/editor/enchantment/simulatio
 });
 
 function RouteComponent() {
+    const t = useTranslate();
     const defaultCount = 15;
     const dialogRef = useRef<DialogHandle>(null);
     const params = useParams({ from: "/$lang/studio/editor" });

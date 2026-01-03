@@ -2,7 +2,7 @@ import RenderGuard from "@/components/tools/elements/RenderGuard";
 import { Tabs, TabsTrigger } from "@/components/ui/Tabs";
 import type { BaseInteractiveComponent } from "@/lib/hook/useInteractiveLogic";
 import { useInteractiveLogic } from "@/lib/hook/useInteractiveLogic";
-import { t, useI18n } from "@/lib/i18n";
+import { useTranslate } from "@/lib/i18n";
 
 export type ToolSelectorType = BaseInteractiveComponent & {
     title: string;
@@ -11,7 +11,7 @@ export type ToolSelectorType = BaseInteractiveComponent & {
 };
 
 export default function ToolSelector(props: ToolSelectorType & { index?: number }) {
-    useI18n((state) => state.locale);
+    const t = useTranslate();
     const { value, lock, handleChange } = useInteractiveLogic<ToolSelectorType, string>({ component: props });
     if (value === null) return null;
 

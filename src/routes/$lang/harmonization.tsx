@@ -3,7 +3,7 @@ import CompoundLayout from "@/components/layout/CompoundLayout";
 import HarmonizeEditor from "@/components/pages/harmonization/HarmonizeEditor";
 import PageLoading from "@/components/pages/PageLoading";
 import LineSetup from "@/components/ui/line/LineSetup";
-import { t } from "@/lib/i18n";
+import { useTranslate } from "@/lib/i18n";
 
 export const Route = createFileRoute("/$lang/harmonization")({
     component: HarmonizationPage,
@@ -11,6 +11,8 @@ export const Route = createFileRoute("/$lang/harmonization")({
 });
 
 function HarmonizationPage() {
+    const t = useTranslate();
+
     return (
         <CompoundLayout>
             <div className="fixed inset-0 -z-50 overflow-hidden pointer-events-none bg-zinc-950">

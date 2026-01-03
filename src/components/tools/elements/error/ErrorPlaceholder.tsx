@@ -1,11 +1,12 @@
-import { t, useI18n } from "@/lib/i18n";
+import { useTranslate } from "@/lib/i18n";
 
 interface ErrorPlaceholderProps {
     error?: Error;
 }
 
 export default function ErrorPlaceholder({ error }: ErrorPlaceholderProps) {
-    useI18n((state) => state.locale);
+    const t = useTranslate();
+
     return (
         <div className="bg-blue-50/5 ring-0 ring-zinc-700 relative transition-all p-6 rounded-xl">
             <div className="flex flex-col items-center justify-between gap-4 h-full">

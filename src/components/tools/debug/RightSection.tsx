@@ -1,7 +1,7 @@
 import { CodeSection } from "@/components/tools/debug/CodeSection";
 import { useDebugStore } from "@/components/tools/debug/DebugStore";
 import { useConfiguratorStore } from "@/components/tools/Store";
-import { t } from "@/lib/i18n";
+import { useTranslate } from "@/lib/i18n";
 
 interface RightSectionProps {
     uniqueKey: string | undefined;
@@ -10,6 +10,7 @@ interface RightSectionProps {
 export function RightSection({ uniqueKey }: RightSectionProps) {
     const { name, version } = useConfiguratorStore.getState();
     const { closeDebugModal } = useDebugStore();
+    const t = useTranslate();
 
     const calculateStoreSize = () => {
         const store = useConfiguratorStore.getState();

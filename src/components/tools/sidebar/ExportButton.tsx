@@ -13,7 +13,7 @@ import {
     DialogTrigger
 } from "@/components/ui/Dialog";
 import { ToggleGroup, ToggleGroupOption } from "@/components/ui/ToggleGroup";
-import { t, useI18n } from "@/lib/i18n";
+import { useTranslate } from "@/lib/i18n";
 import { downloadFile } from "@/lib/utils/download";
 
 const MOD_MANIFEST_FILES = ["fabric.mod.json", "quilt.mod.json", "META-INF/mods.toml", "META-INF/neoforge.mods.toml"];
@@ -22,7 +22,7 @@ function hasModManifest(files: Record<string, Uint8Array>): boolean {
 }
 
 export default function ExportButton() {
-    useI18n((state) => state.locale);
+    const t = useTranslate();
     const isModded = useConfiguratorStore((state) => state.isModded);
     const setIsModded = useConfiguratorStore((state) => state.setIsModded);
 

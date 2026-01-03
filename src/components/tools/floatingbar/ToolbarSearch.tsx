@@ -1,5 +1,5 @@
 import { TextInput } from "@/components/ui/TextInput";
-import { t, useI18n } from "@/lib/i18n";
+import { useTranslate } from "@/lib/i18n";
 
 interface ToolbarSearchProps {
     placeholder?: string;
@@ -9,7 +9,7 @@ interface ToolbarSearchProps {
 }
 
 export function ToolbarSearch({ placeholder = "search.placeholder", value, onChange, onSubmit }: ToolbarSearchProps) {
-    useI18n((state) => state.locale);
+    const t = useTranslate();
     const translatedPlaceholder = t(placeholder);
 
     return (

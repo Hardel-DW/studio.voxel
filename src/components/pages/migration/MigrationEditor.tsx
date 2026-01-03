@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/Dialog";
 import { toast } from "@/components/ui/Toast";
 import { useConfetti } from "@/lib/hook/useConfetti";
-import { t, useI18n } from "@/lib/i18n";
+import { useTranslate } from "@/lib/i18n";
 import { downloadFile } from "@/lib/utils/download";
 import { trackEvent } from "@/lib/utils/telemetry";
 
@@ -34,7 +34,7 @@ interface UploadState {
 }
 
 export default function MigrationEditor() {
-    useI18n((state) => state.locale);
+    const t = useTranslate();
     const [uploads, setUploads] = useState<Record<UploadType, UploadState>>({
         source: { files: null },
         target: { files: null }

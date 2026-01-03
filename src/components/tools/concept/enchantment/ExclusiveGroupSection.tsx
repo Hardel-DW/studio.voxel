@@ -8,10 +8,11 @@ import { useConfiguratorStore } from "@/components/tools/Store";
 import Loader from "@/components/ui/Loader";
 import { exclusiveSetGroups } from "@/lib/data/exclusive";
 import useRegistry, { type FetchedRegistry } from "@/lib/hook/useRegistry";
-import { t } from "@/lib/i18n";
+import { useTranslate } from "@/lib/i18n";
 import { isMinecraft } from "@/lib/utils/lock";
 
 export function ExclusiveGroupSection() {
+    const t = useTranslate();
     const { data, isLoading, isError } = useRegistry<FetchedRegistry<TagType>>("summary", "tags/enchantment");
     const currentElementId = useConfiguratorStore((state) => state.currentElementId);
     const getRegistry = useConfiguratorStore((state) => state.getRegistry);

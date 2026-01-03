@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/Dropdown";
-import { t } from "@/lib/i18n";
+import { useTranslate } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
 interface ToolbarDropdownOption {
@@ -22,6 +22,7 @@ interface ToolbarDropdownProps {
 }
 
 export function ToolbarDropdown({ icon, tooltip, value, options, onChange, disabled, className, params }: ToolbarDropdownProps) {
+    const t = useTranslate();
     const selectedOption = options.find((opt) => opt.value === value);
 
     return (

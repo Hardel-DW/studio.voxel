@@ -2,7 +2,7 @@ import { useSearch } from "@tanstack/react-router";
 import type React from "react";
 import RenderGuard from "@/components/tools/elements/RenderGuard";
 import type { BaseComponent } from "@/lib/hook/useBreezeElement";
-import { t, useI18n } from "@/lib/i18n";
+import { useTranslate } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
 export type ToolSectionSelectorSection = BaseComponent & {
@@ -21,7 +21,7 @@ export type ToolSectionSelectorSection = BaseComponent & {
 };
 
 export default function ToolSectionSelector(props: ToolSectionSelectorSection) {
-    useI18n((state) => state.locale);
+    const t = useTranslate();
     const search = useSearch({ from: "/$lang/studio/editor" }) as Record<string, string | undefined>;
     const urlValue = props.searchParam && props.useUrlSync ? search[props.searchParam] : null;
     const currentValue = urlValue || props.value || props.defaultValue || props.elements?.[0]?.id || "";

@@ -1,6 +1,6 @@
 import { Link, useParams } from "@tanstack/react-router";
 import type { ReactNode } from "react";
-import { t } from "@/lib/i18n";
+import { useTranslate } from "@/lib/i18n";
 
 interface EditorSidebarProps {
     title: string;
@@ -10,6 +10,7 @@ interface EditorSidebarProps {
 }
 
 export function EditorSidebar({ title, icon, linkTo, children }: EditorSidebarProps) {
+    const t = useTranslate();
     const { lang } = useParams({ from: "/$lang" });
 
     return (

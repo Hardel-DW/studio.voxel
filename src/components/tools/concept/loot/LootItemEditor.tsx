@@ -7,7 +7,7 @@ import { useConfiguratorStore } from "@/components/tools/Store";
 import Counter from "@/components/ui/Counter";
 import { useClickOutside } from "@/lib/hook/useClickOutside";
 import useRegistry from "@/lib/hook/useRegistry";
-import { t, useI18n } from "@/lib/i18n";
+import { useTranslate } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
 interface LootItemEditorProps {
@@ -15,7 +15,7 @@ interface LootItemEditorProps {
 }
 
 export default function LootItemEditor({ item }: LootItemEditorProps) {
-    useI18n((state) => state.locale);
+    const t = useTranslate();
     const countRange = calculateItemCountRange(item.functions);
     const [name, setName] = useState(item.name);
     const [weight, setWeight] = useState(item.weight ?? 1);

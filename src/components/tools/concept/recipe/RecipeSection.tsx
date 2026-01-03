@@ -6,7 +6,7 @@ import { getBlockByRecipeType, getFirstTypeFromSelection, RECIPE_BLOCKS } from "
 import ToolCounter from "@/components/tools/elements/ToolCounter";
 import { getCurrentElement, useConfiguratorStore } from "@/components/tools/Store";
 import { Tabs, TabsTrigger } from "@/components/ui/Tabs";
-import { t, useI18n } from "@/lib/i18n";
+import { useTranslate } from "@/lib/i18n";
 
 const TAB_CONFIGS = {
     "minecraft:crafting_table": [
@@ -20,7 +20,7 @@ const TAB_CONFIGS = {
     ]
 };
 export default function RecipeSection() {
-    useI18n((state) => state.locale);
+    const t = useTranslate();
     const currentElement = useConfiguratorStore((state) => getCurrentElement(state));
     const handleChange = useConfiguratorStore((state) => state.handleChange);
     const currentBlock = currentElement && isVoxel(currentElement, "recipe") ? getBlockByRecipeType(currentElement.type) : undefined;

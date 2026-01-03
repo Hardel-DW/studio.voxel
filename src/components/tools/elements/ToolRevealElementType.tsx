@@ -1,6 +1,6 @@
 import type { ToolRevealCardData } from "@/components/tools/elements/ToolReveal";
 import { Button } from "@/components/ui/Button";
-import { t } from "@/lib/i18n";
+import { useTranslate } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
 interface ToolRevealElementProps {
@@ -10,6 +10,7 @@ interface ToolRevealElementProps {
 }
 
 const ToolRevealElement = function ToolRevealElement({ element, isSelected, onSelect }: ToolRevealElementProps) {
+    const t = useTranslate();
     const handleClick = () => onSelect();
 
     return (

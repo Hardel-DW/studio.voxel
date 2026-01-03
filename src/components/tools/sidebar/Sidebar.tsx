@@ -7,10 +7,10 @@ import GitButton from "@/components/tools/sidebar/GitButton";
 import SidebarCard from "@/components/tools/sidebar/SidebarCard";
 import { Button } from "@/components/ui/Button";
 import { Dialog, DialogBody, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/Dialog";
-import { t, useI18n } from "@/lib/i18n";
+import { useTranslate } from "@/lib/i18n";
 
 export default function StudioSidebar() {
-    useI18n((state) => state.locale);
+    const t = useTranslate();
     const hasElements = useConfiguratorStore((state) => Object.keys(state.files).length > 0);
     if (!hasElements) return null;
 

@@ -9,7 +9,7 @@ import LineBackground from "@/components/ui/line/LineBackground";
 import { TOAST, toast } from "@/components/ui/Toast";
 import { GitHub } from "@/lib/github/GitHub";
 import { GithubRepoValidationError } from "@/lib/github/GitHubError";
-import { t } from "@/lib/i18n";
+import { useTranslate } from "@/lib/i18n";
 import { encodeToBase64 } from "@/lib/utils/encode";
 import { sanitizeRepoName } from "@/lib/utils/text";
 
@@ -19,6 +19,7 @@ export const Route = createFileRoute("/$lang/studio/editor/github/main")({
 });
 
 function GithubMainPage() {
+    const t = useTranslate();
     const { isGitRepository, token, isInitializing } = useExportStore();
     const name = useConfiguratorStore((state) => state.name);
     const [repoName, setRepoName] = useState("");
