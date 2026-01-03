@@ -6,6 +6,7 @@ import LootOverviewList from "@/components/tools/concept/loot/LootOverviewList";
 import SimpleSwitch from "@/components/tools/elements/SimpleSwitch";
 import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer";
 import { useConfiguratorStore } from "@/components/tools/Store";
+import Translate from "@/components/ui/Translate";
 import { hueToHsl, stringToColor } from "@/lib/utils/color";
 
 interface LootOverviewCardProps {
@@ -74,7 +75,7 @@ export default function LootOverviewCard({ elementId, items, mode }: LootOvervie
                         <button
                             type="button"
                             className="text-xs bg-zinc-900/60 border border-zinc-800 px-2 py-2 rounded-lg cursor-pointer hover:bg-zinc-800/60 transition-colors">
-                            See Details
+                            <Translate content="loot:card.see_details" />
                         </button>
                     </LootDetailsPopover>
                 </div>
@@ -86,7 +87,7 @@ export default function LootOverviewCard({ elementId, items, mode }: LootOvervie
                     params={{ lang }}
                     onClick={handleConfigure}
                     className="w-full cursor-pointer bg-zinc-900/40 hover:bg-zinc-800/50 border border-zinc-800/40 rounded-lg px-3 py-2 text-xs font-medium text-zinc-300 transition-[background-color] duration-150 block text-center">
-                    Configure
+                    <Translate content="loot:card.configure" />
                 </Link>
             </div>
         </div>

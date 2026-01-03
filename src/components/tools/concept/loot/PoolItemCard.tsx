@@ -1,6 +1,7 @@
 import { calculateItemCountRange, Identifier, type LootItem } from "@voxelio/breeze";
 import { useLootPoolActions } from "@/components/tools/concept/loot/LootPoolContext";
 import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer";
+import Translate from "@/components/ui/Translate";
 
 export default function PoolItemCard({ item, totalWeight }: { item: LootItem; totalWeight: number }) {
     const { onEditItem, onDeleteItem, onWeightChange, onNavigate } = useLootPoolActions();
@@ -25,23 +26,20 @@ export default function PoolItemCard({ item, totalWeight }: { item: LootItem; to
                         <button
                             type="button"
                             onClick={() => onNavigate(item.name)}
-                            className="text-[10px] font-medium text-zinc-300 uppercase border border-zinc-800 rounded-md px-2 py-1 hover:bg-zinc-800/50 transition-colors cursor-pointer"
-                            title="Go to Loot Table">
-                            Go To
+                            className="text-[10px] font-medium text-zinc-300 uppercase border border-zinc-800 rounded-md px-2 py-1 hover:bg-zinc-800/50 transition-colors cursor-pointer">
+                            <Translate content="loot:card.go_to" />
                         </button>
                     )}
                     <button
                         type="button"
                         onClick={() => onEditItem(item.id)}
-                        className="p-1.5 bg-zinc-900/40 hover:bg-zinc-800/50 border border-zinc-800/40 rounded transition-colors cursor-pointer"
-                        title="Edit">
+                        className="p-1.5 bg-zinc-900/40 hover:bg-zinc-800/50 border border-zinc-800/40 rounded transition-colors cursor-pointer">
                         <img src="/icons/tools/overview/edit.svg" alt="Edit" className="w-4 h-4 invert opacity-70" />
                     </button>
                     <button
                         type="button"
                         onClick={() => onDeleteItem(item.id)}
-                        className="p-1.5 bg-zinc-900/40 hover:bg-zinc-800/50 border border-zinc-800/40 rounded transition-colors cursor-pointer"
-                        title="Delete">
+                        className="p-1.5 bg-zinc-900/40 hover:bg-zinc-800/50 border border-zinc-800/40 rounded transition-colors cursor-pointer">
                         <img src="/icons/tools/overview/delete.svg" alt="Delete" className="w-4 h-4 invert opacity-70" />
                     </button>
                 </div>
@@ -74,14 +72,18 @@ export default function PoolItemCard({ item, totalWeight }: { item: LootItem; to
 
             <div className="flex items-end justify-between px-4 py-3 border-t border-zinc-800/50">
                 <div className="flex flex-col">
-                    <span className="text-[10px] uppercase tracking-wider text-zinc-500">Chance</span>
+                    <span className="text-[10px] uppercase tracking-wider text-zinc-500">
+                        <Translate content="loot:card.chance_label" />
+                    </span>
                     <span className="text-xl font-bold text-white">
                         {chance}
                         <span className="text-sm text-zinc-400">%</span>
                     </span>
                 </div>
                 <div className="flex items-center gap-2">
-                    <span className="text-[10px] text-zinc-500 uppercase">Weight</span>
+                    <span className="text-[10px] text-zinc-500 uppercase">
+                        <Translate content="loot:card.weight_label" />
+                    </span>
                     <div className="flex items-center bg-zinc-900/40 border border-zinc-800/40 rounded-lg overflow-hidden">
                         <button
                             type="button"

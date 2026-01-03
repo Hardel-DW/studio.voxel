@@ -1,4 +1,5 @@
 import { Identifier, type IdentifierObject } from "@voxelio/breeze";
+import Translate from "@/components/ui/Translate";
 
 interface BreadcrumbSegment {
     label: string;
@@ -23,8 +24,10 @@ export function EditorBreadcrumb(props: EditorBreadcrumbProps) {
                     type="button"
                     onClick={props.onBack}
                     className="cursor-pointer flex items-center gap-1.5 text-zinc-400 hover:text-white transition-colors mr-2">
-                    <img src="/icons/back.svg" className="size-3.5 invert opacity-50 group-hover:opacity-100" alt="" />
-                    <span className="text-xs font-medium">Back</span>
+                    <img src="/icons/back.svg" className="size-3.5 invert opacity-50 group-hover:opacity-100" alt="Back" />
+                    <span className="text-xs font-medium">
+                        <Translate content="back" />
+                    </span>
                 </button>
             )}
             <span className="opacity-50 text-xs uppercase tracking-wider font-medium">{props.rootLabel}</span>

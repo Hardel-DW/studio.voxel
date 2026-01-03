@@ -4,6 +4,7 @@ import LootDetailsPopover from "@/components/tools/concept/loot/LootDetailsPopov
 import SimpleSwitch from "@/components/tools/elements/SimpleSwitch";
 import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer";
 import { useConfiguratorStore } from "@/components/tools/Store";
+import Translate from "@/components/ui/Translate";
 
 interface LootOverviewListProps {
     elementId: string;
@@ -80,7 +81,7 @@ export default function LootOverviewList({ elementId, items, resourceName, color
                     params={{ lang }}
                     onClick={handleConfigure}
                     className="text-xs font-medium text-zinc-400 hover:text-white bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 rounded-lg px-3 py-1.5 transition-all text-center min-w-[80px]">
-                    Configure
+                    <Translate content="loot:card.configure" />
                 </Link>
             </div>
         </div>

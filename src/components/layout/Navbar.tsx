@@ -253,7 +253,7 @@ const NavbarLink = ({ name, href, to, lang }: { name: string; href?: string; to?
     const content = (
         <div className="contents">
             <span>{name}</span>
-            <img src="/icons/chevron-right.svg" alt="" className="w-4 h-4 invert" />
+            <img src="/icons/chevron-right.svg" alt="Chevron right" className="w-4 h-4 invert" />
         </div>
     );
 

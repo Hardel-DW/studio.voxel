@@ -54,7 +54,7 @@ export default function HarmonizeGallery({ files, onSelect, onDelete }: Harmoniz
                                 }}
                                 className="absolute top-1 right-1 p-1.5 rounded-lg bg-black/60 hover:bg-red-500/90 text-white opacity-0 group-hover:opacity-100 transition-all backdrop-blur-sm cursor-pointer shadow-sm"
                                 aria-label={translate("harmonization.remove_image", { index: index + 1 })}>
-                                <img src="/icons/close.svg" className="size-3 invert" alt="" />
+                                <img src="/icons/close.svg" className="size-3 invert" alt="Close" />
                             </button>
                         </div>
                     );

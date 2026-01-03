@@ -1,11 +1,19 @@
+import { DatapackDownloader } from "@voxelio/breeze";
+import { convertDatapack, extractMetadata, ModPlatforms } from "@voxelio/converter";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import { Button } from "@/components/ui/Button";
-import { Dialog, DialogBody, DialogCloseButton, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/Dialog";
+import {
+    Dialog,
+    DialogBody,
+    DialogCloseButton,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger
+} from "@/components/ui/Dialog";
 import { ToggleGroup, ToggleGroupOption } from "@/components/ui/ToggleGroup";
 import Translate from "@/components/ui/Translate";
-import { DatapackDownloader } from "@voxelio/breeze";
-import { extractMetadata, ModPlatforms } from "@voxelio/converter";
-import { convertDatapack } from "@voxelio/converter";
 import { downloadFile } from "@/lib/utils/download";
 
 const MOD_MANIFEST_FILES = ["fabric.mod.json", "quilt.mod.json", "META-INF/mods.toml", "META-INF/neoforge.mods.toml"];
@@ -69,17 +77,21 @@ export default function ExportButton() {
 
                 <DialogBody className="p-6 space-y-8">
                     <div className="space-y-3">
-                        <label htmlFor="format" className="text-xs font-semibold text-zinc-500 uppercase tracking-wider ml-1">Format</label>
-                        <ToggleGroup
-                            value={isModded ? "jar" : "zip"}
-                            onChange={(v) => setIsModded(v === "jar")}>
+                        <label htmlFor="format" className="text-xs font-semibold text-zinc-500 uppercase tracking-wider ml-1">
+                            <Translate content="export.format" />
+                        </label>
+                        <ToggleGroup value={isModded ? "jar" : "zip"} onChange={(v) => setIsModded(v === "jar")}>
                             <ToggleGroupOption value="zip" className="flex flex-col items-center gap-4">
                                 <div className="size-8 rounded-full border border-zinc-700 flex items-center justify-center">
                                     <img src="/icons/folder.svg" className="size-4 invert opacity-50" alt="Datapack" />
                                 </div>
                                 <div className="flex flex-col items-center">
-                                    <span className="text-zinc-300 font-medium">Datapack</span>
-                                    <span className="text-zinc-500 text-xs font-mono">.ZIP Archive</span>
+                                    <span className="text-zinc-300 font-medium">
+                                        <Translate content="export.format.datapack" />
+                                    </span>
+                                    <span className="text-zinc-500 text-xs font-mono">
+                                        <Translate content="export.format.datapack.extension" />
+                                    </span>
                                 </div>
                             </ToggleGroupOption>
                             <ToggleGroupOption value="jar" className="flex flex-col items-center gap-4">
@@ -87,8 +99,12 @@ export default function ExportButton() {
                                     <img src="/icons/tools/weight.svg" className="size-4 invert opacity-50" alt="Mod" />
                                 </div>
                                 <div className="flex flex-col items-center">
-                                    <span className="text-zinc-300 font-medium">Mod</span>
-                                    <span className="text-zinc-500 text-xs font-mono">.JAR File</span>
+                                    <span className="text-zinc-300 font-medium">
+                                        <Translate content="export.format.mod" />
+                                    </span>
+                                    <span className="text-zinc-500 text-xs font-mono">
+                                        <Translate content="export.format.mod.extension" />
+                                    </span>
                                 </div>
                             </ToggleGroupOption>
                         </ToggleGroup>
@@ -97,7 +113,7 @@ export default function ExportButton() {
 
                     <div className="flex flex-col gap-3">
                         <label htmlFor="support" className="text-xs font-semibold text-zinc-500 uppercase tracking-wider ml-1 text-center">
-                            Support the Development
+                            <Translate content="export.support.title" />
                         </label>
                         <div className="grid grid-cols-2 gap-3">
                             <a
@@ -105,14 +121,14 @@ export default function ExportButton() {
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="flex items-center justify-center gap-4 h-10 rounded-lg bg-[#5865F2]/10 text-[#5865F2] hover:bg-[#5865F2]/20 border border-[#5865F2]/20 transition-all font-medium text-sm">
-                                Join Discord
+                                <Translate content="export.support.discord" />
                             </a>
                             <a
                                 href="https://www.patreon.com/hardel"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="flex items-center justify-center gap-4 h-10 rounded-lg bg-orange-500/10 text-orange-500 hover:bg-orange-500/20 border border-orange-500/20 transition-all font-medium text-sm">
-                                Donate on Patreon
+                                <Translate content="export.support.patreon" />
                             </a>
                         </div>
                     </div>

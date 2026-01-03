@@ -1,18 +1,18 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { useMutation } from "@tanstack/react-query";
+import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import { useExportStore } from "@/components/tools/sidebar/ExportStore";
 import { Button } from "@/components/ui/Button";
+import EmptyState from "@/components/ui/EmptyState";
+import LineBackground from "@/components/ui/line/LineBackground";
 import { TOAST, toast } from "@/components/ui/Toast";
 import Translate from "@/components/ui/Translate";
-import LineBackground from "@/components/ui/line/LineBackground";
 import { GitHub } from "@/lib/github/GitHub";
 import { GithubRepoValidationError } from "@/lib/github/GitHubError";
 import { useClientDictionary } from "@/lib/hook/useClientDictionary";
 import { encodeToBase64 } from "@/lib/utils/encode";
 import { sanitizeRepoName } from "@/lib/utils/text";
-import EmptyState from "@/components/ui/EmptyState";
 
 const DESCRIPTION = "Minecraft datapack created with Voxel Studio";
 export const Route = createFileRoute("/$lang/studio/editor/github/main")({
@@ -72,10 +72,14 @@ function GithubMainPage() {
                     <div className="w-full max-w-md space-y-8">
                         <div className="text-center space-y-2">
                             <div className="size-16 rounded-2xl bg-zinc-900 border border-zinc-800 flex items-center justify-center mx-auto shadow-xl mb-6">
-                                <img src="/icons/company/github.svg" className="size-8 invert opacity-80" alt="" />
+                                <img src="/icons/company/github.svg" className="size-8 invert opacity-80" alt="GitHub" />
                             </div>
-                            <h1 className="text-3xl font-bold text-white tracking-tight"><Translate content="github:init.title" /></h1>
-                            <p className="text-zinc-400"><Translate content="github:init.description" /></p>
+                            <h1 className="text-3xl font-bold text-white tracking-tight">
+                                <Translate content="github:init.title" />
+                            </h1>
+                            <p className="text-zinc-400">
+                                <Translate content="github:init.description" />
+                            </p>
                         </div>
                         <div className="space-y-4 bg-sidebar p-6 rounded-2xl border border-zinc-800/50 relative">
                             <div className="space-y-2">
@@ -103,7 +107,11 @@ function GithubMainPage() {
                                 onClick={() => initMutation.mutate()}
                                 disabled={initMutation.isPending || !repoName}
                                 className="w-full h-12 bg-white text-black font-bold hover:bg-zinc-200 rounded-xl transition-all shadow-lg shadow-white/5 disabled:opacity-50 disabled:cursor-not-allowed">
-                                {initMutation.isPending ? <Translate content="github:main.button.creating" /> : <Translate content="github:main.button.create" />}
+                                {initMutation.isPending ? (
+                                    <Translate content="github:main.button.creating" />
+                                ) : (
+                                    <Translate content="github:main.button.create" />
+                                )}
                             </Button>
                         </div>
                     </div>

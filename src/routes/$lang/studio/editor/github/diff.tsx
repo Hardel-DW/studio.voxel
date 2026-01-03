@@ -44,7 +44,9 @@ function GithubDiffPage() {
         return (
             <div className="flex-1 flex items-center justify-center text-zinc-500 flex-col gap-4">
                 <img src="/icons/tools/crafting/code.svg" className="size-12 opacity-20 invert" alt="Icon of a code file" />
-                <p className="text-sm"><Translate content="github:diff.preview.title" /></p>
+                <p className="text-sm">
+                    <Translate content="github:diff.preview.title" />
+                </p>
                 <p className="text-xs text-zinc-600">{file}</p>
             </div>
         );

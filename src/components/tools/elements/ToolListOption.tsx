@@ -96,7 +96,7 @@ export default function ToolListOption(props: ToolListOptionType) {
                         <div className="flex items-center gap-4">
                             {props.image && (
                                 <div className="shrink-0">
-                                    <img src={props.image} alt="" className="w-8 h-8 object-contain pixelated" />
+                                    <img src={props.image} alt="Icon" className="w-8 h-8 object-contain pixelated" />
                                 </div>
                             )}
                             <div className="flex flex-col">

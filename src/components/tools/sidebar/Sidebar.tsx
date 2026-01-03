@@ -57,12 +57,16 @@ export default function StudioSidebar() {
                             <div className="flex flex-col gap-4">
                                 <div>
                                     <h4 className="text-xs font-semibold text-zinc-500 uppercase tracking-wider mb-3 ml-1">
-                                        Language
+                                        <Translate content="settings.language" />
                                     </h4>
                                     <div className="group flex items-center justify-between p-4 rounded-xl bg-zinc-900/30 border border-zinc-800 hover:border-zinc-700 transition-all duration-200">
                                         <div className="flex flex-col gap-0.5">
-                                            <span className="text-sm font-medium text-zinc-200">Language</span>
-                                            <span className="text-xs text-zinc-500">Change application language</span>
+                                            <span className="text-sm font-medium text-zinc-200">
+                                                <Translate content="settings.language" />
+                                            </span>
+                                            <span className="text-xs text-zinc-500">
+                                                <Translate content="settings.language.description" />
+                                            </span>
                                         </div>
                                         <Internalization />
                                     </div>
@@ -70,7 +74,7 @@ export default function StudioSidebar() {
 
                                 <div>
                                     <h4 className="text-xs font-semibold text-zinc-500 uppercase tracking-wider mb-3 ml-1">
-                                        Advanced
+                                        <Translate content="settings.advanced" />
                                     </h4>
                                     <Button
                                         variant="ghost"
@@ -82,7 +86,9 @@ export default function StudioSidebar() {
                                                 alt="Code"
                                                 className="size-4 invert opacity-50 group-hover:opacity-100 transition-opacity"
                                             />
-                                            <span className="font-medium text-sm">Code Viewer</span>
+                                            <span className="font-medium text-sm">
+                                                <Translate content="settings.code_viewer" />
+                                            </span>
                                         </span>
                                         <div className="flex items-center gap-2">
                                             <span className="text-[10px] font-mono text-zinc-500 bg-zinc-950 px-1.5 py-0.5 rounded border border-zinc-800 group-hover:border-zinc-700 transition-colors">

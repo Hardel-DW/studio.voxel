@@ -56,7 +56,7 @@ function SidebarButton({
                     style={{ backgroundColor: hueToHsl(hue) }}
                 />
             )}
-            <img src={icon} className="size-5 invert opacity-60" alt="" />
+            <img src={icon} className="size-5 invert opacity-60" alt="Icon" />
             <span className="truncate text-sm font-medium flex-1">{children}</span>
             <span className="text-[10px] text-zinc-600 font-mono tabular-nums bg-zinc-900/50 px-1.5 rounded-sm border border-zinc-800 group-hover:border-zinc-700">
                 {count}
@@ -89,7 +89,7 @@ function SidebarLink({
                 "text-zinc-400 hover:bg-zinc-900/50 hover:text-zinc-200",
                 disabled && "opacity-50 pointer-events-none"
             )}>
-            <img src={icon} className="size-5 invert opacity-60" alt="" />
+            <img src={icon} className="size-5 invert opacity-60" alt="Icon" />
             <span className="truncate text-sm font-medium flex-1">{children}</span>
             <span className="text-[10px] text-zinc-600 font-mono tabular-nums bg-zinc-900/50 px-1.5 rounded-sm border border-zinc-800 group-hover:border-zinc-700">
                 {count}

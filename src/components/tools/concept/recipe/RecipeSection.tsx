@@ -6,16 +6,17 @@ import { getBlockByRecipeType, getFirstTypeFromSelection, RECIPE_BLOCKS } from "
 import ToolCounter from "@/components/tools/elements/ToolCounter";
 import { getCurrentElement, useConfiguratorStore } from "@/components/tools/Store";
 import { Tabs, TabsTrigger } from "@/components/ui/Tabs";
+import Translate from "@/components/ui/Translate";
 
 const TAB_CONFIGS = {
     "minecraft:crafting_table": [
-        { label: "Shaped", value: "minecraft:crafting_shaped" },
-        { label: "Shapeless", value: "minecraft:crafting_shapeless" },
-        { label: "Transmute", value: "minecraft:crafting_transmute" }
+        { labelKey: "recipe:tab.shaped", value: "minecraft:crafting_shaped" },
+        { labelKey: "recipe:tab.shapeless", value: "minecraft:crafting_shapeless" },
+        { labelKey: "recipe:tab.transmute", value: "minecraft:crafting_transmute" }
     ],
     "minecraft:smithing_table": [
-        { label: "Transform", value: "minecraft:smithing_transform" },
-        { label: "Trim", value: "minecraft:smithing_trim" }
+        { labelKey: "recipe:tab.transform", value: "minecraft:smithing_transform" },
+        { labelKey: "recipe:tab.trim", value: "minecraft:smithing_trim" }
     ]
 };
 export default function RecipeSection() {
@@ -35,8 +36,12 @@ export default function RecipeSection() {
         <div className="relative overflow-hidden bg-black/35 border-t-2 border-l-2 border-zinc-900 ring-0 ring-zinc-900 transition-all hover:ring-1 rounded-xl p-6">
             <div className="px-6 flex justify-between items-center gap-4">
                 <div>
-                    <h2 className="text-xl font-bold text-white">Recipe</h2>
-                    <p className="text-sm text-zinc-400">Configure your recipe</p>
+                    <h2 className="text-xl font-bold text-white">
+                        <Translate content="recipe:section.title" />
+                    </h2>
+                    <p className="text-sm text-zinc-400">
+                        <Translate content="recipe:section.description" />
+                    </p>
                 </div>
                 <div className="relative">
                     <RecipeSelector
@@ -52,8 +57,12 @@ export default function RecipeSection() {
                 <div className="overflow-hidden mt-4 border rounded-lg border-zinc-900 p-4 flex flex-col gap-8 relative">
                     <div className="flex justify-between items-center">
                         <div>
-                            <p className="text-base font-semibold text-zinc-400">Result count</p>
-                            <p className="text-xs text-zinc-500">The number of items which will be produced by the recipe</p>
+                            <p className="text-base font-semibold text-zinc-400">
+                                <Translate content="recipe:section.result_count" />
+                            </p>
+                            <p className="text-xs text-zinc-500">
+                                <Translate content="recipe:section.result_count_description" />
+                            </p>
                         </div>
                         <ToolCounter
                             min={1}
@@ -65,8 +74,12 @@ export default function RecipeSection() {
                     </div>
                     <div className="flex justify-between items-center">
                         <div>
-                            <p className="text-base font-semibold text-zinc-400">Recipe type</p>
-                            <p className="text-xs text-zinc-500 pr-4">The type of recipe which will be used to craft the item</p>
+                            <p className="text-base font-semibold text-zinc-400">
+                                <Translate content="recipe:section.recipe_type" />
+                            </p>
+                            <p className="text-xs text-zinc-500 pr-4">
+                                <Translate content="recipe:section.recipe_type_description" />
+                            </p>
                         </div>
                         {currentBlock && TAB_CONFIGS[currentBlock.id as keyof typeof TAB_CONFIGS] && (
                             <Tabs
@@ -74,7 +87,7 @@ export default function RecipeSection() {
                                 onValueChange={(newType: string) => handleChange(RecipeAction.convertRecipeType(newType))}>
                                 {TAB_CONFIGS[currentBlock.id as keyof typeof TAB_CONFIGS].map((tab) => (
                                     <TabsTrigger key={tab.value} value={tab.value}>
-                                        {tab.label}
+                                        <Translate content={tab.labelKey} />
                                     </TabsTrigger>
                                 ))}
                             </Tabs>

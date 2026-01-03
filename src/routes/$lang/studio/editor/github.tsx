@@ -1,17 +1,17 @@
-import { createFileRoute, Outlet, useRouterState } from "@tanstack/react-router";
 import { useMutation } from "@tanstack/react-query";
+import { createFileRoute, Outlet, useRouterState } from "@tanstack/react-router";
 import { DatapackDownloader } from "@voxelio/breeze";
 import { useState } from "react";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import { useExportStore } from "@/components/tools/sidebar/ExportStore";
 import { Button } from "@/components/ui/Button";
+import { TextInput } from "@/components/ui/TextInput";
 import { TOAST, toast } from "@/components/ui/Toast";
+import Translate from "@/components/ui/Translate";
 import { GitFileTree } from "@/components/ui/tree/GitFileTree";
 import { GitHub } from "@/lib/github/GitHub";
 import { useClientDictionary } from "@/lib/hook/useClientDictionary";
 import { encodeToBase64 } from "@/lib/utils/encode";
-import { TextInput } from "@/components/ui/TextInput";
-import Translate from "@/components/ui/Translate";
 
 export const Route = createFileRoute("/$lang/studio/editor/github")({
     component: GithubLayout
@@ -50,11 +50,15 @@ function GithubLayout() {
                 <div className="px-6 pt-6">
                     <div className="text-lg font-bold text-zinc-100 flex items-center gap-2 mb-1">
                         <img src="/icons/company/github.svg" className="size-5 invert opacity-80" alt="Icon of a GitHub repository" />
-                        <span><Translate content="github:layout.title" /></span>
+                        <span>
+                            <Translate content="github:layout.title" />
+                        </span>
                     </div>
                     {isGitRepository && (
                         <p className="text-xs text-zinc-500 pl-7 flex items-center gap-1.5">
-                            <span className="text-zinc-400 font-sm font-mono">{owner}/{repositoryName}</span>
+                            <span className="text-zinc-400 font-sm font-mono">
+                                {owner}/{repositoryName}
+                            </span>
                             <span className="opacity-30">•</span>
                             <span>{branch}</span>
                         </p>
@@ -63,7 +67,13 @@ function GithubLayout() {
 
                 {isGitRepository && (
                     <div className="px-3 mt-4 space-y-2">
-                        <TextInput className="rounded-lg" disableIcon value={message} onChange={(e) => setMessage(e.target.value)} placeholder={t["layout.commit.placeholder"]} />
+                        <TextInput
+                            className="rounded-lg"
+                            disableIcon
+                            value={message}
+                            onChange={(e) => setMessage(e.target.value)}
+                            placeholder={t["layout.commit.placeholder"]}
+                        />
                         <Button
                             variant="default"
                             className="w-full"
@@ -80,7 +90,9 @@ function GithubLayout() {
                     ) : (
                         <div className="flex flex-col items-center justify-center py-12 text-zinc-600 gap-2">
                             <img src="/icons/company/github.svg" className="size-8 opacity-20 invert" alt="Icon of a GitHub repository" />
-                            <span className="text-xs text-center"><Translate content="github:layout.empty.init" /></span>
+                            <span className="text-xs text-center">
+                                <Translate content="github:layout.empty.init" />
+                            </span>
                         </div>
                     )}
                 </div>
@@ -95,7 +107,11 @@ function GithubLayout() {
                             </div>
                         </div>
                         <div className="size-8 rounded-full bg-zinc-800/50 flex items-center justify-center group-hover:bg-zinc-800 transition-colors">
-                            <img src="/icons/company/discord.svg" className="size-4 invert opacity-30 group-hover:opacity-50 transition-opacity" alt="Icon of a Discord server" />
+                            <img
+                                src="/icons/company/discord.svg"
+                                className="size-4 invert opacity-30 group-hover:opacity-50 transition-opacity"
+                                alt="Icon of a Discord server"
+                            />
                         </div>
                     </a>
                 </div>

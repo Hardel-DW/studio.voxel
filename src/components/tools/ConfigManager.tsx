@@ -25,8 +25,8 @@ export default function ConfigManager(props: PropsWithChildren) {
             </div>
             <div className="flex gap-4">
                 <RestoreLastSession />
-                <Button variant="ghost_border" size="sm" href={`/${lang}/studio`}>
-                    <Translate content="back" />
+                <Button variant="ghost_border" size="sm" to="/$lang/studio" params={{ lang }}>
+                    <Translate content="back_to_home" />
                 </Button>
             </div>
         </div>

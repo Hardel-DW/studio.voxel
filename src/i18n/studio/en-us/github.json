@@ -44,5 +44,8 @@
     "layout.commit.button.pushing": "Pushing...",
     "layout.commit.button.push": "Commit & Push",
     "layout.empty.init": "Initialize a repository to start tracking changes",
-    "layout.help.title": "Need help?"
+    "layout.help.title": "Need help?",
+    "unlock.cloud.sync.title": "Unlock Cloud Sync",
+    "unlock.cloud.sync.description": "Connect your GitHub account to backup your work, collaborate with others, and manage versions seamlessly.",
+    "unlock.cloud.sync.button": "Connect with GitHub"
 }

@@ -32,8 +32,8 @@ function TabItem({ tab, index, isActive }: { tab: OpenTab; index: number; isActi
             index === activeTabIndex
                 ? Math.min(index, updatedTabs.length - 1)
                 : index < activeTabIndex
-                    ? activeTabIndex - 1
-                    : activeTabIndex;
+                  ? activeTabIndex - 1
+                  : activeTabIndex;
 
         const nextTab = updatedTabs[newActiveIndex];
         if (nextTab) navigate({ to: nextTab.route });
@@ -51,7 +51,7 @@ function TabItem({ tab, index, isActive }: { tab: OpenTab; index: number; isActi
                 "hover:bg-zinc-800/50",
                 isActive ? "bg-zinc-800/80 text-zinc-100" : "text-zinc-400"
             )}>
-            {icon && <img src={icon} alt="" className="size-4" />}
+            {icon && <img src={icon} alt="Icon" className="size-4" />}
             <span className="truncate max-w-48">{Identifier.fromUniqueKey(tab.elementId).toResourcePath()}</span>
             <button
                 type="button"

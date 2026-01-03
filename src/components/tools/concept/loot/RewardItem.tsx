@@ -1,5 +1,6 @@
 import { calculateItemCountRange, type FlattenedLootItem, Identifier } from "@voxelio/breeze";
 import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer";
+import Translate from "@/components/ui/Translate";
 import { cn } from "@/lib/utils";
 
 interface RewardItemProps extends FlattenedLootItem {
@@ -39,10 +40,14 @@ export default function RewardItem(props: RewardItemProps) {
                         <svg className="size-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                             <path d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                         </svg>
-                        <span className="opacity-60">From:</span>
+                        <span className="opacity-60">
+                            <Translate content="loot:reward.from" />
+                        </span>
                         <span className="font-medium">{sourcePath?.toString()}</span>
                     </button>
-                    <span className="text-[10px] text-zinc-600 font-medium">Not Editable</span>
+                    <span className="text-[10px] text-zinc-600 font-medium">
+                        <Translate content="loot:reward.not_editable" />
+                    </span>
                 </div>
             )}
 
@@ -75,7 +80,11 @@ export default function RewardItem(props: RewardItemProps) {
                             <p className="text-white font-bold text-lg">
                                 {countRange.min === countRange.max ? `×${countRange.min}` : `×${countRange.min}-${countRange.max}`}
                             </p>
-                            {probabilityPercentage && <p className="text-xs text-zinc-400">{probabilityPercentage}% chance</p>}
+                            {probabilityPercentage && (
+                                <p className="text-xs text-zinc-400">
+                                    {probabilityPercentage}% <Translate content="loot:reward.chance" />
+                                </p>
+                            )}
                         </div>
                     </div>
                 </div>

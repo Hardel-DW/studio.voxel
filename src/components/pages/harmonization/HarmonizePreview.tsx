@@ -52,7 +52,7 @@ export default function HarmonizePreview({ canvasRef, isLoading, hasData, hasIma
                 <div className="absolute inset-0 flex flex-col items-center justify-center z-10">
                     <div className="text-center p-12 text-zinc-600 flex flex-col items-center gap-6 max-w-md">
                         <div className="size-24 rounded-4xl bg-linear-to-br from-zinc-800 to-zinc-900 flex items-center justify-center border border-zinc-700 shadow-2xl shadow-black/50 rotate-3 hover:rotate-0 transition-transform duration-500">
-                            <img src="/icons/logo.svg" className="size-10 opacity-30" alt="" />
+                            <img src="/icons/logo.svg" className="size-10 opacity-30" alt="Logo" />
                         </div>
                         <div className="space-y-2">
                             <h3 className="text-xl font-semibold text-zinc-300">{translate("harmonization.no_image_selected")}</h3>
@@ -118,7 +118,7 @@ export default function HarmonizePreview({ canvasRef, isLoading, hasData, hasIma
                         onClick={onDownload}
                         className="group flex items-center justify-center gap-0 px-4 py-4 hover:px-6 bg-white text-black rounded-full shadow-xl shadow-black/50 hover:scale-105 active:scale-95 transition-all duration-300 hover:bg-zinc-100 font-bold min-w-[56px] h-[56px] cursor-pointer"
                         title={translate("generic.download")}>
-                        <img src="/icons/download.svg" className="size-5 shrink-0" alt="" />
+                        <img src="/icons/download.svg" className="size-5 shrink-0" alt="Download" />
                         <span className="max-w-0 overflow-hidden group-hover:max-w-[100px] group-hover:ml-3 transition-all duration-500 whitespace-nowrap text-sm">
                             {translate("generic.download")}
                         </span>

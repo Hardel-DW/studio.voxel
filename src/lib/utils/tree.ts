@@ -1,4 +1,4 @@
-import { Identifier, type IdentifierObject, type FileStatus } from "@voxelio/breeze";
+import { type FileStatus, Identifier, type IdentifierObject } from "@voxelio/breeze";
 
 export interface TreeNodeType {
     identifiers: IdentifierObject[];
@@ -17,7 +17,6 @@ export interface FileTreeNode {
 
 export function buildFileTree(diff: Map<string, FileStatus>): FileTreeNode {
     const root: FileTreeNode = { children: new Map(), count: 0 };
-
     for (const [path, status] of diff) {
         const parts = path.split("/");
         let current = root;
@@ -27,10 +26,17 @@ export function buildFileTree(diff: Map<string, FileStatus>): FileTreeNode {
             if (!current.children.has(folder)) {
                 current.children.set(folder, { children: new Map(), count: 0 });
             }
-            current = current.children.get(folder)!;
+            const next = current.children.get(folder);
+            if (!next) {
+                throw new Error(`Unexpected: folder "${folder}" not found in children`);
+            }
+            current = next;
         }
 
-        const fileName = parts.at(-1)!;
+        const fileName = parts.at(-1);
+        if (!fileName) {
+            throw new Error(`Unexpected: path "${path}" has no file name`);
+        }
         current.children.set(fileName, { children: new Map(), count: 1, filePath: path, status });
     }
 

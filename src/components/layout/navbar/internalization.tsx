@@ -21,7 +21,7 @@ export default function Internalization() {
         <div className="relative group/langage">
             <button type="button" className="select-none mr-4 flex items-center gap-2 cursor-pointer hover:text-zinc-400 transition">
                 <span data-lang={currentLocale}>{currentLocaleName(currentLocale)}</span>
-                <img src="/icons/chevron-down.svg" alt="" className="w-4 h-4 invert" />
+                <img src="/icons/chevron-down.svg" alt="Chevron down" className="w-4 h-4 invert" />
             </button>
 
             <ul className="group-focus-within/langage:flex hover:flex hidden absolute top-8 right-0 w-56 bg-black p-2 flex-col gap-2 rounded-xl border border-zinc-800">

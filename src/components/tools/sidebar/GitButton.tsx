@@ -1,6 +1,7 @@
 import { useParams } from "@tanstack/react-router";
 import { Button } from "@/components/ui/Button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/Dialog";
+import Translate from "@/components/ui/Translate";
 import { useGitHubAuth } from "@/lib/hook/useGitHubAuth";
 
 export default function GitButton() {
@@ -9,7 +10,13 @@ export default function GitButton() {
 
     if (isAuthenticated) {
         return (
-            <Button type="button" variant="transparent" size="square" className="border-0 select-none aspect-square shrink-0" to="/$lang/studio/editor/github/main" params={{ lang }}>
+            <Button
+                type="button"
+                variant="transparent"
+                size="square"
+                className="border-0 select-none aspect-square shrink-0"
+                to="/$lang/studio/editor/github/main"
+                params={{ lang }}>
                 <img src="/icons/company/github.svg" alt="Git" className="size-6 invert opacity-70" />
             </Button>
         );
@@ -33,15 +40,17 @@ export default function GitButton() {
                             <img src="/icons/company/github.svg" alt="GitHub" className="size-10 invert" />
                         </div>
                         <div className="space-y-2 max-w-sm">
-                            <h3 className="text-2xl font-bold text-white tracking-tight">Unlock Cloud Sync</h3>
+                            <h3 className="text-2xl font-bold text-white tracking-tight">
+                                <Translate content="github:unlock.cloud.sync.title" />
+                            </h3>
                             <p className="text-zinc-400 text-sm leading-relaxed">
-                                Connect your GitHub account to backup your work, collaborate with others, and manage versions seamlessly.
+                                <Translate content="github:unlock.cloud.sync.description" />
                             </p>
                         </div>
                         <Button
                             onClick={() => login({ redirect: false })}
                             className="h-12 px-8 bg-white text-black font-bold hover:bg-zinc-200 transition-all rounded-full shadow-lg shadow-white/5">
-                            Connect with GitHub
+                            <Translate content="github:unlock.cloud.sync.button" />
                         </Button>
                     </div>
                 </div>

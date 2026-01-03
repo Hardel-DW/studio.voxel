@@ -49,7 +49,7 @@ function LootTableLayout() {
                     linkTo="/$lang/studio/editor/loot_table/overview">
                     <TreeSidebar />
                 </EditorSidebar>
- 
+
                 <main ref={setContainerRef} className="flex-1 flex flex-col min-w-0 min-h-0 overflow-hidden relative bg-zinc-950">
                     <EditorHeader
                         fallbackTitle="Loot Table"
@@ -60,11 +60,11 @@ function LootTableLayout() {
                         <ToggleGroup value={viewMode} onChange={setViewMode}>
                             <ToggleGroupOption
                                 value="grid"
-                                icon={<img src="/icons/tools/overview/grid.svg" className="size-4 invert" alt="" />}
+                                icon={<img src="/icons/tools/overview/grid.svg" className="size-4 invert" alt="Grid view" />}
                             />
                             <ToggleGroupOption
                                 value="list"
-                                icon={<img src="/icons/tools/overview/list.svg" className="size-4 invert" alt="" />}
+                                icon={<img src="/icons/tools/overview/list.svg" className="size-4 invert" alt="List view" />}
                             />
                         </ToggleGroup>
                     </EditorHeader>

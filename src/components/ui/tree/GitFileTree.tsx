@@ -2,7 +2,7 @@ import { Link, useParams } from "@tanstack/react-router";
 import type { FileStatus } from "@voxelio/breeze";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
-import { type FileTreeNode, buildFileTree } from "@/lib/utils/tree";
+import { buildFileTree, type FileTreeNode } from "@/lib/utils/tree";
 
 interface GitFileTreeProps {
     diff: Map<string, FileStatus>;
@@ -15,7 +15,7 @@ export function GitFileTree({ diff, selectedFile }: GitFileTreeProps) {
     if (diff.size === 0) {
         return (
             <div className="flex flex-col items-center justify-center py-12 text-zinc-600 gap-2">
-                <img src="/icons/check.svg" className="size-6 opacity-20 invert" alt="" />
+                <img src="/icons/check.svg" className="size-6 opacity-20 invert" alt="No changes detected" />
                 <span className="text-xs">No changes detected</span>
             </div>
         );
@@ -59,7 +59,9 @@ function GitTreeNode({ name, node, depth, selectedFile }: { name: string; node: 
                 depth > 0 && "mt-0.5"
             )}
             style={{ paddingLeft: depth * 12 + 8 }}>
-            {isSelected && <div className="absolute left-0 top-2 bottom-2 w-1 rounded-r-full bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.5)]" />}
+            {isSelected && (
+                <div className="absolute left-0 top-2 bottom-2 w-1 rounded-r-full bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.5)]" />
+            )}
 
             {!isFile && (
                 <button
@@ -69,7 +71,7 @@ function GitTreeNode({ name, node, depth, selectedFile }: { name: string; node: 
                     <img
                         src="/icons/chevron-down.svg"
                         className={cn("size-3 transition-transform invert", !isOpen && "-rotate-90", !hasChildren && "opacity-20")}
-                        alt=""
+                        alt="Chevron down"
                     />
                 </button>
             )}
@@ -78,7 +80,7 @@ function GitTreeNode({ name, node, depth, selectedFile }: { name: string; node: 
                 {isFile ? (
                     <span className={cn("text-[10px] font-bold w-3 text-center shrink-0", statusColor)}>{statusLabel}</span>
                 ) : (
-                    <img src="/icons/folder.svg" className="size-4 invert opacity-60 shrink-0" alt="" />
+                    <img src="/icons/folder.svg" className="size-4 invert opacity-60 shrink-0" alt="Folder" />
                 )}
                 <span className="truncate text-xs font-mono">{name}</span>
             </div>

@@ -7,5 +7,21 @@
     "overview.search.placeholder": "Rechercher un recipe...",
     "overview.scroll.more": "Faire défiler pour plus de résultats",
     "overview.no.recipes.found": "Aucun recipe trouvé",
-    "overview.try.adjusting.search.or.filter": "Essayez de modifier votre recherche ou filtre"
+    "overview.try.adjusting.search.or.filter": "Essayez de modifier votre recherche ou filtre",
+    "inventory.title": "Inventaire",
+    "inventory.description": "Sélectionnez des objets pour votre recette",
+    "inventory.search.placeholder": "Rechercher",
+    "section.title": "Recette",
+    "section.description": "Configurez votre recette",
+    "section.result_count": "Nombre de résultats",
+    "section.result_count_description": "Le nombre d'objets qui seront produits par la recette",
+    "section.recipe_type": "Type de recette",
+    "section.recipe_type_description": "Le type de recette qui sera utilisé pour fabriquer l'objet",
+    "tab.shaped": "Avec Motif",
+    "tab.shapeless": "Sans Motif",
+    "tab.transmute": "Transmutation",
+    "tab.transform": "Transformation",
+    "tab.trim": "Decoration",
+    "selector.title": "Sélectionner une Recette",
+    "selector.advanced": "Avancé"
 }

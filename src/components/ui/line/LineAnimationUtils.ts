@@ -76,7 +76,6 @@ export function animateLines(ctx: CanvasRenderingContext2D, canvas: HTMLCanvasEl
             ctx.stroke();
         }
 
-        // Vérifier si la ligne entière (y compris la traînée) est sortie de l'écran
         const isTrailOutside = line.trail.every(
             (point) => point.x < -50 || point.x > canvas.width + 50 || point.y < -50 || point.y > canvas.height + 50
         );

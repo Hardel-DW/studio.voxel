@@ -44,5 +44,8 @@
     "layout.commit.button.pushing": "Envoi...",
     "layout.commit.button.push": "Valider & Envoyer",
     "layout.empty.init": "Initialiser un dépôt pour commencer à suivre les changements",
-    "layout.help.title": "Besoin d'aide ?"
+    "layout.help.title": "Besoin d'aide ?",
+    "unlock.cloud.sync.title": "Débloquer le Cloud Sync",
+    "unlock.cloud.sync.description": "Connectez votre compte GitHub pour sauvegarder votre travail, collaborer avec d'autres personnes, et gérer les versions de manière transparente.",
+    "unlock.cloud.sync.button": "Se connecter avec GitHub"
 }

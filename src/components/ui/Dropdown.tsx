@@ -37,13 +37,10 @@ export function DropdownMenuContent(props: { children: ReactNode; className?: st
                 ref={(node) => {
                     positionRef(node);
                     if (clickOutsideRef) clickOutsideRef.current = node;
-                    if (node && typeof node.showPopover === "function") node.showPopover();
                 }}
-                popover="auto"
-                style={{ position: "absolute", margin: 0, inset: "unset" }}
+                style={{ margin: 0, inset: "unset" }}
                 className={cn(
-                    "min-w-32 max-h-75 overflow-y-auto rounded-2xl border border-zinc-700 bg-zinc-950 p-1 text-zinc-400 shadow-md outline-hidden",
-                    "duration-150 ease-bounce",
+                    "min-w-32 max-h-75 overflow-y-auto rounded-2xl border border-zinc-700 bg-zinc-950 p-1 text-zinc-400 shadow-md outline-hidden z-9999",
                     props.className
                 )}>
                 {props.children}

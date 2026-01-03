@@ -22,7 +22,9 @@ export function EditorSidebar({ title, icon, linkTo, children }: EditorSidebarPr
                     <img src={icon} className="size-5 opacity-80" alt="Title icon" />
                     <Translate content={title} />
                 </Link>
-                <p className="text-xs text-zinc-500 pl-7">Explorer</p>
+                <p className="text-xs text-zinc-500 pl-7">
+                    <Translate content="explore" />
+                </p>
             </div>
 
             <div className="flex-1 overflow-y-auto px-3">{children}</div>

@@ -7,5 +7,21 @@
     "overview.search.placeholder": "Search recipes...",
     "overview.scroll.more": "Scroll for more",
     "overview.no.recipes.found": "No recipes found",
-    "overview.try.adjusting.search.or.filter": "Try adjusting your search or filter"
+    "overview.try.adjusting.search.or.filter": "Try adjusting your search or filter",
+    "inventory.title": "Inventory",
+    "inventory.description": "Select items for your recipe",
+    "inventory.search.placeholder": "Search",
+    "section.title": "Recipe",
+    "section.description": "Configure your recipe",
+    "section.result_count": "Result count",
+    "section.result_count_description": "The number of items which will be produced by the recipe",
+    "section.recipe_type": "Recipe type",
+    "section.recipe_type_description": "The type of recipe which will be used to craft the item",
+    "tab.shaped": "Shaped",
+    "tab.shapeless": "Shapeless",
+    "tab.transmute": "Transmute",
+    "tab.transform": "Transform",
+    "tab.trim": "Trim",
+    "selector.title": "Select Recipe",
+    "selector.advanced": "Advanced"
 }

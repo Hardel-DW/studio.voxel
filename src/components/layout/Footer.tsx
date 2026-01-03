@@ -123,7 +123,7 @@ export default function Footer() {
                                 rel="noopener noreferrer"
                                 className="bg-zinc-950 hover:bg-zinc-900 rounded-xs w-6 h-6 inline-flex items-center justify-center text-zinc-200"
                                 aria-label={item.name}>
-                                <img loading="lazy" src={`/icons/company/${item.icon}`} alt="" className="w-8 h-8 invert" />
+                                <img loading="lazy" src={`/icons/company/${item.icon}`} alt={item.name} className="w-8 h-8 invert" />
                                 <span className="sr-only">{item.name}</span>
                             </a>
                         ))}

@@ -3,11 +3,7 @@ import type { CONCEPT_KEY } from "@/components/tools/elements";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import { cn } from "@/lib/utils";
 
-export default function SidebarCard(props: {
-    image: { src: string; alt: string };
-    registry: CONCEPT_KEY;
-    overview: string;
-}) {
+export default function SidebarCard(props: { image: { src: string; alt: string }; registry: CONCEPT_KEY; overview: string }) {
     const location = useLocation();
     const getConcept = useConfiguratorStore((state) => state.getConcept);
     const currentConcept = getConcept(location.pathname);

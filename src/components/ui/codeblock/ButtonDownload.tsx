@@ -20,7 +20,15 @@ export default function ButtonDownload(props: { snippet: string }) {
             {pending ? (
                 <img className="invert" alt="checked" src="/icons/check.svg" width={24} height={24} />
             ) : (
-                <img onKeyDown={download} onClick={download} className="invert" alt="download" src="/icons/download.svg" width={24} height={24} />
+                <img
+                    onKeyDown={download}
+                    onClick={download}
+                    className="invert"
+                    alt="download"
+                    src="/icons/download.svg"
+                    width={24}
+                    height={24}
+                />
             )}
         </div>
     );

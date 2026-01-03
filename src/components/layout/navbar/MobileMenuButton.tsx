@@ -6,7 +6,7 @@ export default function MobileMenuButton() {
 
     return (
         <Button size="icon" variant="link" aria-label="Menu" onClick={toggleMobileMenu} className="rounded-full">
-            <img src="/icons/menu.svg" alt="" className="w-6 h-6 invert cursor-pointer" />
+            <img src="/icons/menu.svg" alt="Menu" className="w-6 h-6 invert cursor-pointer" />
         </Button>
     );
 }

@@ -1,5 +1,5 @@
-import { getTokenColor, processTokensIntoLines, tokenizeJSON } from "@/lib/utils/json-tokenizer";
 import { cn } from "@/lib/utils";
+import { getTokenColor, processTokensIntoLines, tokenizeJSON } from "@/lib/utils/json-tokenizer";
 
 type DiffLineType = "unchanged" | "added" | "removed";
 
@@ -104,11 +104,7 @@ export default function CodeDiff({ original, modified }: CodeDiffProps) {
                     {diffLines.map((line, idx) => (
                         <div
                             key={`${idx}-${line.content}`}
-                            className={cn(
-                                "flex",
-                                line.type === "added" && "bg-green-500/10",
-                                line.type === "removed" && "bg-red-500/10"
-                            )}>
+                            className={cn("flex", line.type === "added" && "bg-green-500/10", line.type === "removed" && "bg-red-500/10")}>
                             <span
                                 className={cn(
                                     "w-12 shrink-0 select-none text-right pr-4 border-r border-zinc-800/50",

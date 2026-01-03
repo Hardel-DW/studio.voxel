@@ -92,11 +92,11 @@ function EnchantmentLayout() {
                         <ToggleGroup value={viewMode} onChange={setViewMode}>
                             <ToggleGroupOption
                                 value="grid"
-                                icon={<img src="/icons/tools/overview/grid.svg" className="size-4 invert" alt="" />}
+                                icon={<img src="/icons/tools/overview/grid.svg" className="size-4 invert" alt="Grid view" />}
                             />
                             <ToggleGroupOption
                                 value="list"
-                                icon={<img src="/icons/tools/overview/list.svg" className="size-4 invert" alt="" />}
+                                icon={<img src="/icons/tools/overview/list.svg" className="size-4 invert" alt="List view" />}
                             />
                         </ToggleGroup>
                     </EditorHeader>
