@@ -12,8 +12,13 @@ interface I18nStore {
     setLocale: (locale: Locale) => Promise<void>;
 }
 
-const loadLocaleData = async (locale: Locale): Promise<Record<string, string>> =>
-    locale === "en-us" ? enUsDefault : (await import(`@/i18n/${locale}.json`)).default;
+const loadLocaleData = async (locale: Locale): Promise<Record<string, string>> => {
+    switch (locale) {
+        case "en-us": return enUsDefault;
+        case "fr-fr": return (await import("@/i18n/fr-fr.json")).default;
+    }
+};
+
 const initTranslations = (data: Record<string, string>): Map<string, string> => new Map(Object.entries(data));
 const interpolate = (str: string, params: TranslationParams): string => str.replace(/\{(\w+)\}/g, (_, k) => String(params[k] ?? `{${k}}`));
 export const useI18n = create<I18nStore>((set, get) => ({
@@ -21,18 +26,10 @@ export const useI18n = create<I18nStore>((set, get) => ({
     translations: initTranslations(enUsDefault),
     isLoading: false,
     setLocale: async (locale: Locale) => {
-        const current = get().locale;
-        if (current === locale) return;
+        if (get().locale === locale) return;
         set({ isLoading: true });
-
-        try {
-            const data = await loadLocaleData(locale);
-            const translations = initTranslations(data);
-            set({ locale, translations, isLoading: false });
-        } catch (error) {
-            console.error(`Failed to load locale ${locale}`, error);
-            set({ isLoading: false });
-        }
+        const data = await loadLocaleData(locale);
+        set({ locale, translations: initTranslations(data), isLoading: false });
     }
 }));
 

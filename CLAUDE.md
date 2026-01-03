@@ -20,7 +20,7 @@ for routing and Zustand for state management. It's a Minecraft datapack/voxel
 editor studio application.
 
 ### Core Technologies
-- **Build Tool**: Vite with Rolldown
+- **Build Tool**: Vite 8 with Rolldown
 - **Framework**: React 19 with React Compiler
 - **Routing**: TanStack Router (file-based routing in `src/routes/`)
 - **State Management**: Zustand
@@ -44,7 +44,6 @@ src/
 │   └── ui/            # Reusable UI components (Not Shadcn)
 ├── lib/               # Utilities and hooks
 │   ├── hook/         # Custom React hooks
-│   ├── i18n/         # Internationalization containting i18nServer.ts (Server Side) and i18nStore.ts (Client Side)
 │   └── utils/        # General utilities
 ├── routes/           # TanStack Router file-based routes
 ├── i18n/             # Translation files containing en.json and fr.json
@@ -64,22 +63,11 @@ src/
 - **Query Provider**: TanStack Query for server state with persistence
 
 #### Routing Pattern
-
 - Uses TanStack Router with file-based routing
 - Parameterized routes like `/$lang/studio` for internationalization
 - Nested layouts with `Outlet` components
 
-#### Translation System
-- For Voxel Studio, we need to use <Translate> component. Take a string props "content". Put a translation key like: "registry:key_name".
-- We can use `useClientDictionary` hook. for get all key from a namespaces. (Usefull for functions, props, etc.)
-- We can also use `useTranslate` hook. for get a single translation key. (Usefull for text, etc.)
-- Registry is json file at `src/i18n/studio/<lang>/<registry>.json`.
-- If you don't provider a registry, i will use `src/i18n/studio/<lang>.json`.
-- For some special cases, you can use a hook like `useTranslate("registry:key_name");`.
-- For Server we have `useServerDictionary` hook. With no namespace system. Full typesafe.
-
 #### Element System
-
 - Powered by `@voxelio/breeze` library for Minecraft datapack operations
 - Elements stored in Map with identifier-based keys
 - Registry-based organization (recipes, loot tables, textures, etc.)
@@ -95,10 +83,10 @@ Rules:
 - No code redundancy.
 - No "any" type. For type "unknown", it is preferable to request authorization.
 - Avoid globalthis.
-- Prefer modern and standards logic 2024 abb 2025.
+- Prefer modern and standards logic 2024 and 2025.
 - Methods must be less than 10 lines of code and must do one thing correctly.
 - No Legacy or Deprecated support.
-- At the end of each sessions, check with `npm run lint`
+- At the end of each sessions, check with `npm run lint` (Unless there are two or three minor changes.)
 - Avoid unnecessary re-renders with zustand or React.
 - useEffect and useLayoutEffect is completely prohibited; you must ask for permission to use it. https://react.dev/learn/you-might-not-need-an-effect
 - useMemo, useCallback are deprecated and are automacly done by React 19.
