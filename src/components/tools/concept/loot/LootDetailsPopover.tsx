@@ -1,8 +1,8 @@
+import { t } from "@/lib/i18n";
 import { type FlattenedLootItem, Identifier } from "@voxelio/breeze";
 import type { ReactElement } from "react";
 import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/Popover";
-import Translate from "@/components/ui/Translate";
 
 interface LootDetailsPopoverProps {
     items: FlattenedLootItem[];
@@ -23,11 +23,11 @@ export default function LootDetailsPopover({ items, children }: LootDetailsPopov
                 <div className="flex flex-col gap-2">
                     <div className="flex items-center justify-between">
                         <p className="font-semibold leading-2">
-                            <Translate content="loot:details.title" />
+                            {t("loot:details.title")}
                         </p>
                         <div className="flex gap-2 items-center">
                             <span className="text-xs bg-zinc-900/50 border border-zinc-800 px-2 rounded-lg">
-                                {itemsCount} <Translate content="loot:details.items_count" />
+                                {itemsCount} {t("loot:details.items_count")}
                             </span>
                         </div>
                     </div>
@@ -53,12 +53,12 @@ export default function LootDetailsPopover({ items, children }: LootDetailsPopov
                                             )}
                                             {item.unresolved && (
                                                 <div className="text-xs text-amber-400">
-                                                    <Translate content="loot:details.unresolved" />
+                                                    {t("loot:details.unresolved")}
                                                 </div>
                                             )}
                                             {item.cycle && (
                                                 <div className="text-xs text-red-400">
-                                                    <Translate content="loot:details.cyclic" />
+                                                    {t("loot:details.cyclic")}
                                                 </div>
                                             )}
                                         </div>
@@ -68,7 +68,7 @@ export default function LootDetailsPopover({ items, children }: LootDetailsPopov
                         ) : (
                             <div className="text-center py-4 text-zinc-400">
                                 <div className="text-sm">
-                                    <Translate content="loot:details.empty" />
+                                    {t("loot:details.empty")}
                                 </div>
                             </div>
                         )}

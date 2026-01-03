@@ -1,7 +1,7 @@
+import { t } from "@/lib/i18n";
 import { calculateItemCountRange, Identifier, type LootItem } from "@voxelio/breeze";
 import { useLootPoolActions } from "@/components/tools/concept/loot/LootPoolContext";
 import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer";
-import Translate from "@/components/ui/Translate";
 
 export default function PoolItemCard({ item, totalWeight }: { item: LootItem; totalWeight: number }) {
     const { onEditItem, onDeleteItem, onWeightChange, onNavigate } = useLootPoolActions();
@@ -27,7 +27,7 @@ export default function PoolItemCard({ item, totalWeight }: { item: LootItem; to
                             type="button"
                             onClick={() => onNavigate(item.name)}
                             className="text-[10px] font-medium text-zinc-300 uppercase border border-zinc-800 rounded-md px-2 py-1 hover:bg-zinc-800/50 transition-colors cursor-pointer">
-                            <Translate content="loot:card.go_to" />
+                            {t("loot:card.go_to")}
                         </button>
                     )}
                     <button
@@ -73,7 +73,7 @@ export default function PoolItemCard({ item, totalWeight }: { item: LootItem; to
             <div className="flex items-end justify-between px-4 py-3 border-t border-zinc-800/50">
                 <div className="flex flex-col">
                     <span className="text-[10px] uppercase tracking-wider text-zinc-500">
-                        <Translate content="loot:card.chance_label" />
+                        {t("loot:card.chance_label")}
                     </span>
                     <span className="text-xl font-bold text-white">
                         {chance}
@@ -82,7 +82,7 @@ export default function PoolItemCard({ item, totalWeight }: { item: LootItem; to
                 </div>
                 <div className="flex items-center gap-2">
                     <span className="text-[10px] text-zinc-500 uppercase">
-                        <Translate content="loot:card.weight_label" />
+                        {t("loot:card.weight_label")}
                     </span>
                     <div className="flex items-center bg-zinc-900/40 border border-zinc-800/40 rounded-lg overflow-hidden">
                         <button

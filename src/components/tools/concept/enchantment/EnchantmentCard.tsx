@@ -1,3 +1,4 @@
+import { t } from "@/lib/i18n";
 import { Link, useParams } from "@tanstack/react-router";
 import type { EnchantmentProps, TagType } from "@voxelio/breeze";
 import { CoreAction, getItemFromMultipleOrOne, Identifier, TagsProcessor } from "@voxelio/breeze";
@@ -5,7 +6,6 @@ import OverviewCase from "@/components/tools/concept/enchantment/EnchantmentOver
 import SimpleSwitch from "@/components/tools/elements/SimpleSwitch";
 import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer";
 import { useConfiguratorStore } from "@/components/tools/Store";
-import Translate from "@/components/ui/Translate";
 import useRegistry, { type FetchedRegistry } from "@/lib/hook/useRegistry";
 
 const findOptions = [
@@ -82,7 +82,7 @@ export default function EnchantmentCard({ element }: { element: EnchantmentProps
                     <div className="flex flex-col justify-center flex-1 min-w-0">
                         <h3 className="text-sm font-semibold truncate">{resourceName}</h3>
                         <p className="text-[10px] tracking-wider minecraft-font text-zinc-400">
-                            <Translate content="enchantment:overview.level" /> {element.maxLevel}
+                            {t("enchantment:overview.level")} {element.maxLevel}
                         </p>
                     </div>
                 </div>
@@ -118,7 +118,7 @@ export default function EnchantmentCard({ element }: { element: EnchantmentProps
                     params={{ lang }}
                     onClick={handleConfigure}
                     className="w-full cursor-pointer bg-zinc-900/40 hover:bg-zinc-800/50 border border-zinc-800/40 rounded-lg px-3 py-2 text-xs font-medium text-zinc-300 transition-[background-color] duration-150 block text-center">
-                    <Translate content="configure" />
+                    {t("configure")}
                 </Link>
             </div>
         </div>

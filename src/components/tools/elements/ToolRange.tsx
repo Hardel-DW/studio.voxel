@@ -1,22 +1,22 @@
 import RenderGuard from "@/components/tools/elements/RenderGuard";
 import Range from "@/components/ui/Range";
-import type { TranslateTextType } from "@/components/ui/Translate";
+import { t, useI18n } from "@/lib/i18n";
 import type { BaseInteractiveComponent } from "@/lib/hook/useInteractiveLogic";
 import { useInteractiveLogic } from "@/lib/hook/useInteractiveLogic";
-import { useTranslate } from "@/lib/hook/useTranslation";
 
 // Type defined locally
 export type ToolRangeType = BaseInteractiveComponent & {
-    label: TranslateTextType;
+    label: string;
     min: number;
     max: number;
     step: number;
 };
 
 export default function ToolRange(props: ToolRangeType & { index?: number }) {
+    useI18n((state) => state.locale);
     const { value, lock, handleChange } = useInteractiveLogic<ToolRangeType, number>({ component: props });
-    const labelText = useTranslate(props.label);
-    const lockText = useTranslate(lock.text);
+    const labelText = t(props.label);
+    const lockText = t(lock.text);
 
     if (value === null) return null;
 

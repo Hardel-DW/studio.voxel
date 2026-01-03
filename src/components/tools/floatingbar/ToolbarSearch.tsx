@@ -1,16 +1,16 @@
 import { TextInput } from "@/components/ui/TextInput";
-import type { TranslateTextType } from "@/components/ui/Translate";
-import { useTranslate } from "@/lib/hook/useTranslation";
+import { t, useI18n } from "@/lib/i18n";
 
 interface ToolbarSearchProps {
-    placeholder?: TranslateTextType;
+    placeholder?: string;
     value?: string;
     onChange: (value: string) => void;
     onSubmit?: (value: string) => void;
 }
 
-export function ToolbarSearch({ placeholder, value, onChange, onSubmit }: ToolbarSearchProps) {
-    const translatedPlaceholder = useTranslate(typeof placeholder === "string" ? placeholder : "search.placeholder");
+export function ToolbarSearch({ placeholder = "search.placeholder", value, onChange, onSubmit }: ToolbarSearchProps) {
+    useI18n((state) => state.locale);
+    const translatedPlaceholder = t(placeholder);
 
     return (
         <div className="flex-1 relative">

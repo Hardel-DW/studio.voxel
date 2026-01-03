@@ -2,17 +2,16 @@ import { useSearch } from "@tanstack/react-router";
 import type React from "react";
 import { Children, cloneElement, createContext, isValidElement, type ReactNode, useContext, useState } from "react";
 import OriginalToolRevealCard from "@/components/tools/elements/ToolRevealElementType";
-import type { TranslateTextType } from "@/components/ui/Translate";
 import { cn } from "@/lib/utils";
 
 export type ToolRevealCardData = {
     id: string;
-    title: TranslateTextType;
-    soon?: TranslateTextType;
+    title: string;
+    soon?: string;
     image: string;
     logo: string;
     href: string;
-    description: TranslateTextType;
+    description: string;
 };
 
 type ToolRevealContextType = {

@@ -1,12 +1,12 @@
+import { t } from "@/lib/i18n";
 import { Link } from "@tanstack/react-router";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/Dropdown";
-import Translate, { type TranslateTextType } from "@/components/ui/Translate";
 import { cn } from "@/lib/utils";
 
 interface ToolbarDropdownOption {
     value: string;
-    label: TranslateTextType;
-    description?: TranslateTextType;
+    label: string;
+    description?: string;
     to?: string;
 }
 
@@ -38,7 +38,7 @@ export function ToolbarDropdown({ icon, tooltip, value, options, onChange, disab
                     )}>
                     <img src={icon} alt="Icon" className="w-4 h-4 invert opacity-75 select-none user-select-none" />
                     <span className="text-xs text-zinc-300 font-medium whitespace-nowrap">
-                        <Translate content={selectedOption?.label ? selectedOption.label : "select.label"} />
+                        {t(selectedOption?.label ? selectedOption.label : "select.label")}
                     </span>
                 </button>
             </DropdownMenuTrigger>
@@ -50,11 +50,11 @@ export function ToolbarDropdown({ icon, tooltip, value, options, onChange, disab
                             {value !== option.value && <div className="h-4 w-4 shrink-0" />}
                             <div className="flex flex-col">
                                 <span className="font-medium">
-                                    <Translate content={option.label} />
+                                    {t(option.label)}
                                 </span>
                                 {option.description && (
                                     <span className="text-xs text-zinc-400">
-                                        <Translate content={option.description} />
+                                        {t(option.description)}
                                     </span>
                                 )}
                             </div>

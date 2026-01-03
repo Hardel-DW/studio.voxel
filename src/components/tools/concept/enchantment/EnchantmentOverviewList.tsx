@@ -1,10 +1,10 @@
+import { t } from "@/lib/i18n";
 import { Link, useParams } from "@tanstack/react-router";
 import type { EnchantmentProps, TagType } from "@voxelio/breeze";
 import { CoreAction, getItemFromMultipleOrOne, Identifier, TagsProcessor } from "@voxelio/breeze";
 import SimpleSwitch from "@/components/tools/elements/SimpleSwitch";
 import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer";
 import { useConfiguratorStore } from "@/components/tools/Store";
-import Translate from "@/components/ui/Translate";
 import useRegistry, { type FetchedRegistry } from "@/lib/hook/useRegistry";
 
 interface EnchantmentOverviewListProps {
@@ -57,7 +57,7 @@ export default function EnchantmentOverviewList({ element }: EnchantmentOverview
                         <span className="font-mono text-[10px] opacity-60">{fullIdentifier}</span>
                         <span className="text-zinc-600">•</span>
                         <span className="text-[10px]">
-                            <Translate content="enchantment:overview.level" /> {element.maxLevel}
+                            {t("enchantment:overview.level")} {element.maxLevel}
                         </span>
                     </p>
                 </div>
@@ -79,7 +79,7 @@ export default function EnchantmentOverviewList({ element }: EnchantmentOverview
                     params={{ lang }}
                     onClick={handleConfigure}
                     className="text-xs font-medium text-zinc-400 hover:text-white bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 rounded-lg px-3 py-1.5 transition-all text-center min-w-[80px]">
-                    <Translate content="configure" />
+                    {t("configure")}
                 </Link>
             </div>
         </div>

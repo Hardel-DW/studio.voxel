@@ -1,8 +1,8 @@
+import { t } from "@/lib/i18n";
 import type { LootItem, PoolData } from "@voxelio/breeze";
 import { useLootPoolActions } from "@/components/tools/concept/loot/LootPoolContext";
 import PoolItemCard from "@/components/tools/concept/loot/PoolItemCard";
 import { Button } from "@/components/ui/Button";
-import Translate from "@/components/ui/Translate";
 
 export default function PoolSection({ poolIndex, poolData, items }: { poolIndex: number; poolData?: PoolData; items: LootItem[] }) {
     const { onAddItem, onBalanceWeights } = useLootPoolActions();
@@ -15,18 +15,18 @@ export default function PoolSection({ poolIndex, poolData, items }: { poolIndex:
             <div className="flex items-center justify-between px-6 py-4 border-b border-zinc-800 bg-zinc-900/50">
                 <div className="flex items-center gap-6">
                     <h3 className="text-lg font-semibold text-white">
-                        <Translate content="loot:pools.pool_title" replace={[String(poolIndex)]} />
+                        {t("loot:pools.pool_title", { index: poolIndex + 1 })}
                     </h3>
                     <div className="flex items-center gap-4">
                         <div className="flex items-center gap-2 px-3 py-1.5 bg-zinc-800/50 rounded-lg">
                             <span className="text-xs text-zinc-500 uppercase">
-                                <Translate content="loot:pools.rolls" />
+                                {t("loot:pools.rolls")}
                             </span>
                             <span className="text-sm text-white font-medium">{rollsDisplay}</span>
                         </div>
                         <div className="flex items-center gap-2 px-3 py-1.5 bg-zinc-800/50 rounded-lg">
                             <span className="text-xs text-zinc-500 uppercase">
-                                <Translate content="loot:pools.bonus_rolls" />
+                                {t("loot:pools.bonus_rolls")}
                             </span>
                             <span className="text-sm text-white font-medium">{bonusRollsDisplay}</span>
                         </div>
@@ -34,10 +34,10 @@ export default function PoolSection({ poolIndex, poolData, items }: { poolIndex:
                 </div>
                 <div className="flex items-center gap-2">
                     <Button variant="ghost_border" size="sm" onClick={() => onBalanceWeights(poolIndex)}>
-                        <Translate content="loot:pools.balance" />
+                        {t("loot:pools.balance")}
                     </Button>
                     <Button variant="ghost" size="sm" onClick={() => onAddItem(poolIndex)}>
-                        <Translate content="loot:pools.add_item" />
+                        {t("loot:pools.add_item")}
                     </Button>
                 </div>
             </div>
@@ -45,7 +45,7 @@ export default function PoolSection({ poolIndex, poolData, items }: { poolIndex:
             <div className="p-6">
                 {items.length === 0 ? (
                     <p className="text-sm text-zinc-500 text-center py-8">
-                        <Translate content="loot:pools.empty" />
+                        {t("loot:pools.empty")}
                     </p>
                 ) : (
                     <div className="grid grid-cols-4 gap-4">

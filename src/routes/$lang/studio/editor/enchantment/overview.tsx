@@ -1,3 +1,4 @@
+import { t } from "@/lib/i18n";
 import { createFileRoute } from "@tanstack/react-router";
 import { Identifier } from "@voxelio/breeze";
 import { useEditorUiStore } from "@/components/tools/concept/EditorUiStore";
@@ -6,7 +7,6 @@ import EnchantmentOverviewList from "@/components/tools/concept/enchantment/Ench
 import { viewMatchers } from "@/components/tools/concept/enchantment/viewMatchers";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import { TextInput } from "@/components/ui/TextInput";
-import Translate from "@/components/ui/Translate";
 import { useElementsByType } from "@/lib/hook/useElementsByType";
 import { useInfiniteScroll } from "@/lib/hook/useInfiniteScroll";
 import { cn } from "@/lib/utils";
@@ -43,10 +43,10 @@ function OverviewPage() {
                             <img src="/icons/search.svg" className="size-10 opacity-20 invert" alt="No results" />
                         </div>
                         <h3 className="text-xl font-medium text-zinc-300 mb-2">
-                            <Translate content="enchantment:items.no_results.title" />
+                            {t("enchantment:items.no_results.title")}
                         </h3>
                         <p className="text-zinc-500 max-w-sm text-center">
-                            <Translate content="enchantment:items.no_results.description" />
+                            {t("enchantment:items.no_results.description")}
                         </p>
                     </div>
                 ) : (

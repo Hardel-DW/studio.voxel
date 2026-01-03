@@ -1,3 +1,4 @@
+import { t } from "@/lib/i18n";
 import { CoreAction, isVoxel, RecipeAction, type RecipeProps } from "@voxelio/breeze";
 import { useState } from "react";
 import RecipeRenderer from "@/components/tools/concept/recipe/RecipeRenderer";
@@ -6,7 +7,6 @@ import { getBlockByRecipeType, getFirstTypeFromSelection, RECIPE_BLOCKS } from "
 import ToolCounter from "@/components/tools/elements/ToolCounter";
 import { getCurrentElement, useConfiguratorStore } from "@/components/tools/Store";
 import { Tabs, TabsTrigger } from "@/components/ui/Tabs";
-import Translate from "@/components/ui/Translate";
 
 const TAB_CONFIGS = {
     "minecraft:crafting_table": [
@@ -37,10 +37,10 @@ export default function RecipeSection() {
             <div className="px-6 flex justify-between items-center gap-4">
                 <div>
                     <h2 className="text-xl font-bold text-white">
-                        <Translate content="recipe:section.title" />
+                        {t("recipe:section.title")}
                     </h2>
                     <p className="text-sm text-zinc-400">
-                        <Translate content="recipe:section.description" />
+                        {t("recipe:section.description")}
                     </p>
                 </div>
                 <div className="relative">
@@ -58,10 +58,10 @@ export default function RecipeSection() {
                     <div className="flex justify-between items-center">
                         <div>
                             <p className="text-base font-semibold text-zinc-400">
-                                <Translate content="recipe:section.result_count" />
+                                {t("recipe:section.result_count")}
                             </p>
                             <p className="text-xs text-zinc-500">
-                                <Translate content="recipe:section.result_count_description" />
+                                {t("recipe:section.result_count_description")}
                             </p>
                         </div>
                         <ToolCounter
@@ -75,10 +75,10 @@ export default function RecipeSection() {
                     <div className="flex justify-between items-center">
                         <div>
                             <p className="text-base font-semibold text-zinc-400">
-                                <Translate content="recipe:section.recipe_type" />
+                                {t("recipe:section.recipe_type")}
                             </p>
                             <p className="text-xs text-zinc-500 pr-4">
-                                <Translate content="recipe:section.recipe_type_description" />
+                                {t("recipe:section.recipe_type_description")}
                             </p>
                         </div>
                         {currentBlock && TAB_CONFIGS[currentBlock.id as keyof typeof TAB_CONFIGS] && (
@@ -87,7 +87,7 @@ export default function RecipeSection() {
                                 onValueChange={(newType: string) => handleChange(RecipeAction.convertRecipeType(newType))}>
                                 {TAB_CONFIGS[currentBlock.id as keyof typeof TAB_CONFIGS].map((tab) => (
                                     <TabsTrigger key={tab.value} value={tab.value}>
-                                        <Translate content={tab.labelKey} />
+                                        {t(tab.labelKey)}
                                     </TabsTrigger>
                                 ))}
                             </Tabs>

@@ -1,8 +1,8 @@
+import { t } from "@/lib/i18n";
 import { useParams } from "@tanstack/react-router";
 import type { PropsWithChildren } from "react";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import { Button } from "@/components/ui/Button";
-import Translate from "@/components/ui/Translate";
 import RestoreLastSession from "./RestoreLastSession";
 
 export default function ConfigManager(props: PropsWithChildren) {
@@ -13,12 +13,12 @@ export default function ConfigManager(props: PropsWithChildren) {
     return (
         <div className="size-full flex items-center justify-center flex-col gap-y-4">
             <h1 className="text-zinc-400 text-2xl font-bold">
-                <Translate content="no_config.title" />
+                {t("no_config.title")}
             </h1>
             <div className="text-zinc-400 text-sm text-center">
-                <Translate content="no_config.description.1" />
+                {t("no_config.description.1")}
                 <br />
-                <Translate content="no_config.description.2" />
+                {t("no_config.description.2")}
             </div>
             <div className="w-1/2">
                 <hr />
@@ -26,7 +26,7 @@ export default function ConfigManager(props: PropsWithChildren) {
             <div className="flex gap-4">
                 <RestoreLastSession />
                 <Button variant="ghost_border" size="sm" to="/$lang/studio" params={{ lang }}>
-                    <Translate content="back_to_home" />
+                    {t("back_to_home")}
                 </Button>
             </div>
         </div>

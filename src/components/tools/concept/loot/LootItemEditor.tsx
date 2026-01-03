@@ -1,3 +1,4 @@
+import { t } from "@/lib/i18n";
 import { calculateItemCountRange, Identifier, type LootItem, LootTableAction } from "@voxelio/breeze";
 import { useState } from "react";
 import ItemSelector from "@/components/tools/elements/gui/ItemSelector";
@@ -5,7 +6,6 @@ import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer
 import { useDynamicIsland } from "@/components/tools/floatingbar/FloatingBarContext";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import Counter from "@/components/ui/Counter";
-import Translate from "@/components/ui/Translate";
 import { useClickOutside } from "@/lib/hook/useClickOutside";
 import useRegistry from "@/lib/hook/useRegistry";
 import { cn } from "@/lib/utils";
@@ -87,7 +87,7 @@ export default function LootItemEditor({ item }: LootItemEditorProps) {
                     </div>
                     <div>
                         <h3 className="text-sm font-semibold text-zinc-100">
-                            <Translate content="loot:editor.title" />
+                            {t("loot:editor.title")}
                         </h3>
                         <p className="text-xs text-zinc-500">{identifier.toResourceName()}</p>
                     </div>
@@ -120,7 +120,7 @@ export default function LootItemEditor({ item }: LootItemEditorProps) {
                             <TextureRenderer id={name} size={48} className="size-12 relative" />
                         </div>
                         <span className="text-xs text-zinc-500 group-hover:text-zinc-300 transition-colors font-medium">
-                            <Translate content="loot:editor.change_item" />
+                            {t("loot:editor.change_item")}
                         </span>
                     </button>
 
@@ -128,10 +128,10 @@ export default function LootItemEditor({ item }: LootItemEditorProps) {
                         <div className="flex items-center justify-between">
                             <div className="flex flex-col">
                                 <span className="text-sm font-medium text-zinc-200">
-                                    <Translate content="loot:editor.weight_label" />
+                                    {t("loot:editor.weight_label")}
                                 </span>
                                 <span className="text-xs text-zinc-500">
-                                    <Translate content="loot:editor.weight_description" />
+                                    {t("loot:editor.weight_description")}
                                 </span>
                             </div>
                             <Counter value={weight} min={1} max={999} step={1} onChange={handleWeightChange} />
@@ -142,10 +142,10 @@ export default function LootItemEditor({ item }: LootItemEditorProps) {
                         <div className="flex items-center justify-between gap-4">
                             <div className="flex flex-col">
                                 <span className="text-sm font-medium text-zinc-200">
-                                    <Translate content="loot:editor.count_label" />
+                                    {t("loot:editor.count_label")}
                                 </span>
                                 <span className="text-xs text-zinc-500">
-                                    <Translate content="loot:editor.count_description" />
+                                    {t("loot:editor.count_description")}
                                 </span>
                             </div>
                             <div className="flex items-center gap-2">
@@ -161,13 +161,13 @@ export default function LootItemEditor({ item }: LootItemEditorProps) {
             {/* Footer */}
             <div className="pt-4 border-t border-zinc-800/50 flex justify-between items-center">
                 <span className="text-xs font-medium text-zinc-400">
-                    <Translate content="loot:editor.footer_text" />
+                    {t("loot:editor.footer_text")}
                 </span>
                 <button
                     type="button"
                     onClick={collapse}
                     className="px-4 py-2 text-sm text-zinc-400 hover:text-zinc-200 bg-zinc-900/50 hover:bg-zinc-800 border border-zinc-800 rounded-lg transition-colors cursor-pointer">
-                    <Translate content="loot:editor.close" />
+                    {t("loot:editor.close")}
                 </button>
             </div>
         </div>

@@ -1,3 +1,4 @@
+import { t } from "@/lib/i18n";
 import { DatapackDownloader } from "@voxelio/breeze";
 import { convertDatapack, extractMetadata, ModPlatforms } from "@voxelio/converter";
 import { useConfiguratorStore } from "@/components/tools/Store";
@@ -13,7 +14,6 @@ import {
     DialogTrigger
 } from "@/components/ui/Dialog";
 import { ToggleGroup, ToggleGroupOption } from "@/components/ui/ToggleGroup";
-import Translate from "@/components/ui/Translate";
 import { downloadFile } from "@/lib/utils/download";
 
 const MOD_MANIFEST_FILES = ["fabric.mod.json", "quilt.mod.json", "META-INF/mods.toml", "META-INF/neoforge.mods.toml"];
@@ -55,7 +55,7 @@ export default function ExportButton() {
                     size="default">
                     <img src="/icons/upload.svg" alt="Export" className="size-5 block in-data-pinned:hidden" />
                     <span className="text-sm hidden in-data-pinned:block whitespace-nowrap">
-                        <Translate content="export" />
+                        {t("export")}
                     </span>
                 </Button>
             </DialogTrigger>
@@ -67,18 +67,18 @@ export default function ExportButton() {
                             <img src="/icons/upload.svg" alt="Export" className="size-5 invert opacity-75" />
                         </div>
                         <span className="text-zinc-100 font-semibold tracking-tight">
-                            <Translate content="export" />
+                            {t("export")}
                         </span>
                     </DialogTitle>
                     <DialogDescription className="text-zinc-400 text-sm">
-                        <Translate content="export.description" />
+                        {t("export.description")}
                     </DialogDescription>
                 </DialogHeader>
 
                 <DialogBody className="p-6 space-y-8">
                     <div className="space-y-3">
                         <label htmlFor="format" className="text-xs font-semibold text-zinc-500 uppercase tracking-wider ml-1">
-                            <Translate content="export.format" />
+                            {t("export.format")}
                         </label>
                         <ToggleGroup value={isModded ? "jar" : "zip"} onChange={(v) => setIsModded(v === "jar")}>
                             <ToggleGroupOption value="zip" className="flex flex-col items-center gap-4">
@@ -87,10 +87,10 @@ export default function ExportButton() {
                                 </div>
                                 <div className="flex flex-col items-center">
                                     <span className="text-zinc-300 font-medium">
-                                        <Translate content="export.format.datapack" />
+                                        {t("export.format.datapack")}
                                     </span>
                                     <span className="text-zinc-500 text-xs font-mono">
-                                        <Translate content="export.format.datapack.extension" />
+                                        {t("export.format.datapack.extension")}
                                     </span>
                                 </div>
                             </ToggleGroupOption>
@@ -100,10 +100,10 @@ export default function ExportButton() {
                                 </div>
                                 <div className="flex flex-col items-center">
                                     <span className="text-zinc-300 font-medium">
-                                        <Translate content="export.format.mod" />
+                                        {t("export.format.mod")}
                                     </span>
                                     <span className="text-zinc-500 text-xs font-mono">
-                                        <Translate content="export.format.mod.extension" />
+                                        {t("export.format.mod.extension")}
                                     </span>
                                 </div>
                             </ToggleGroupOption>
@@ -113,7 +113,7 @@ export default function ExportButton() {
 
                     <div className="flex flex-col gap-3">
                         <label htmlFor="support" className="text-xs font-semibold text-zinc-500 uppercase tracking-wider ml-1 text-center">
-                            <Translate content="export.support.title" />
+                            {t("export.support.title")}
                         </label>
                         <div className="grid grid-cols-2 gap-3">
                             <a
@@ -121,14 +121,14 @@ export default function ExportButton() {
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="flex items-center justify-center gap-4 h-10 rounded-lg bg-[#5865F2]/10 text-[#5865F2] hover:bg-[#5865F2]/20 border border-[#5865F2]/20 transition-all font-medium text-sm">
-                                <Translate content="export.support.discord" />
+                                {t("export.support.discord")}
                             </a>
                             <a
                                 href="https://www.patreon.com/hardel"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="flex items-center justify-center gap-4 h-10 rounded-lg bg-orange-500/10 text-orange-500 hover:bg-orange-500/20 border border-orange-500/20 transition-all font-medium text-sm">
-                                <Translate content="export.support.patreon" />
+                                {t("export.support.patreon")}
                             </a>
                         </div>
                     </div>
@@ -139,7 +139,7 @@ export default function ExportButton() {
                         onClick={handleDownload}>
                         <div className="flex items-center gap-3">
                             <span className="text-base tracking-wide">
-                                <Translate content="export.download" />
+                                {t("export.download")}
                             </span>
                             <img src="/icons/download.svg" alt="download" className="size-5" />
                         </div>

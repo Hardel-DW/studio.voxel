@@ -1,14 +1,13 @@
+import { t } from "@/lib/i18n";
 import { useId } from "react";
 import RenderGuard from "@/components/tools/elements/RenderGuard";
 import { Switch } from "@/components/ui/Switch";
-import type { TranslateTextType } from "@/components/ui/Translate";
-import Translate from "@/components/ui/Translate";
 import type { BaseInteractiveComponent } from "@/lib/hook/useInteractiveLogic";
 import { useInteractiveLogic } from "@/lib/hook/useInteractiveLogic";
 
 export type ToolSwitchType = BaseInteractiveComponent & {
-    title: TranslateTextType;
-    description: TranslateTextType;
+    title: string;
+    description: string;
 };
 
 export default function ToolSwitch(props: ToolSwitchType) {
@@ -22,15 +21,15 @@ export default function ToolSwitch(props: ToolSwitchType) {
                 <label htmlFor={id} className="flex items-center justify-between w-full cursor-pointer">
                     <div className="flex flex-col w-3/4">
                         <span className="text-white line-clamp-1">
-                            <Translate content={props.title} />
+                            {t(props.title)}
                         </span>
                         <span className="text-xs text-zinc-400 font-light line-clamp-2">
                             {lock.isLocked ? (
                                 <span className="text-xs text-zinc-400 font-light w-max">
-                                    <Translate content={lock.text} />
+                                    {t(lock.text)}
                                 </span>
                             ) : (
-                                <Translate content={props.description} />
+                                t(props.description)
                             )}
                         </span>
                     </div>

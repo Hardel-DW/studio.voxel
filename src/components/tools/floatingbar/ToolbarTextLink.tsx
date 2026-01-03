@@ -1,6 +1,6 @@
+import { t } from "@/lib/i18n";
 import { Link } from "@tanstack/react-router";
 import { cn } from "@/lib/utils";
-import Translate from "../../ui/Translate";
 
 interface ToolbarTextLinkProps extends Omit<React.HTMLAttributes<HTMLAnchorElement>, "onClick" | "to" | "lang"> {
     icon: string;
@@ -28,7 +28,7 @@ export function ToolbarTextLink(props: ToolbarTextLinkProps) {
             )}>
             <img src={props.icon} alt="Toolbar text link icon" className="w-4 h-4 invert opacity-75 select-none user-select-none" />
             <span className="text-xs text-zinc-300 font-medium whitespace-nowrap">
-                <Translate content={props.labelText} />
+                {t(props.labelText)}
             </span>
         </Link>
     );

@@ -1,3 +1,4 @@
+import { t } from "@/lib/i18n";
 import { Link, useParams } from "@tanstack/react-router";
 import type { EnchantmentProps, TagType } from "@voxelio/breeze";
 import { CoreAction, getItemFromMultipleOrOne, Identifier, SlotManager, TagsProcessor } from "@voxelio/breeze";
@@ -5,7 +6,6 @@ import SimpleSwitch from "@/components/tools/elements/SimpleSwitch";
 import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/Popover";
-import Translate from "@/components/ui/Translate";
 import useRegistry, { type FetchedRegistry } from "@/lib/hook/useRegistry";
 import SlotGrid from "./SlotGrid";
 
@@ -71,7 +71,7 @@ export default function SlotsEnchantmentCard({ element }: SlotsEnchantmentCardPr
                                 <div className="flex items-center gap-1">
                                     <img src="/icons/tools/maxLevel.svg" alt="Max Level" className="invert-70 w-3 h-3" />
                                     <span className="text-xs tracking-wider text-zinc-400 font-medium">
-                                        <Translate content="enchantment:overview.level" /> {element.maxLevel}
+                                        {t("enchantment:overview.level")} {element.maxLevel}
                                     </span>
                                 </div>
                             </div>
@@ -104,7 +104,7 @@ export default function SlotsEnchantmentCard({ element }: SlotsEnchantmentCardPr
 
                         {flattenedSlots.length === 0 && (
                             <span className="text-xs text-zinc-500 px-2 py-1 bg-zinc-800/50 rounded border border-zinc-700">
-                                <Translate content="enchantment:overview.no_slots" />
+                                {t("enchantment:overview.no_slots")}
                             </span>
                         )}
                     </div>
@@ -118,10 +118,10 @@ export default function SlotsEnchantmentCard({ element }: SlotsEnchantmentCardPr
                             <div className="flex flex-col gap-4 min-w-120">
                                 <div className="space-y-2 pt-2">
                                     <p className="font-semibold leading-2">
-                                        <Translate content="enchantment:slots.tooltip.title" />
+                                        {t("enchantment:slots.tooltip.title")}
                                     </p>
                                     <p className="text-xs text-zinc-400">
-                                        <Translate content="enchantment:slots.tooltip.description" />
+                                        {t("enchantment:slots.tooltip.description")}
                                     </p>
                                 </div>
 
@@ -143,7 +143,7 @@ export default function SlotsEnchantmentCard({ element }: SlotsEnchantmentCardPr
                     params={{ lang }}
                     onClick={handleConfigure}
                     className="w-full cursor-pointer bg-zinc-800/30 hover:bg-zinc-700/50 border border-zinc-700/50 rounded-lg px-3 py-2 text-xs font-medium text-zinc-300 transition-colors block text-center">
-                    <Translate content="configure" />
+                    {t("configure")}
                 </Link>
             </div>
 

@@ -1,6 +1,6 @@
+import { t } from "@/lib/i18n";
 import { calculateItemCountRange, type FlattenedLootItem, Identifier } from "@voxelio/breeze";
 import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer";
-import Translate from "@/components/ui/Translate";
 import { cn } from "@/lib/utils";
 
 interface RewardItemProps extends FlattenedLootItem {
@@ -41,12 +41,12 @@ export default function RewardItem(props: RewardItemProps) {
                             <path d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                         </svg>
                         <span className="opacity-60">
-                            <Translate content="loot:reward.from" />
+                            {t("loot:reward.from")}
                         </span>
                         <span className="font-medium">{sourcePath?.toString()}</span>
                     </button>
                     <span className="text-[10px] text-zinc-600 font-medium">
-                        <Translate content="loot:reward.not_editable" />
+                        {t("loot:reward.not_editable")}
                     </span>
                 </div>
             )}
@@ -82,7 +82,7 @@ export default function RewardItem(props: RewardItemProps) {
                             </p>
                             {probabilityPercentage && (
                                 <p className="text-xs text-zinc-400">
-                                    {probabilityPercentage}% <Translate content="loot:reward.chance" />
+                                    {probabilityPercentage}% {t("loot:reward.chance")}
                                 </p>
                             )}
                         </div>

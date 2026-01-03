@@ -1,9 +1,9 @@
+import { t } from "@/lib/i18n";
 import { createFileRoute } from "@tanstack/react-router";
 import { Identifier } from "@voxelio/breeze";
 import { useEditorUiStore } from "@/components/tools/concept/EditorUiStore";
 import LootOverviewCard from "@/components/tools/concept/loot/LootOverviewCard";
 import { TextInput } from "@/components/ui/TextInput";
-import Translate from "@/components/ui/Translate";
 import { useElementsByType } from "@/lib/hook/useElementsByType";
 import { useFlattenedLootCache } from "@/lib/hook/useFlattenedLootItems";
 import { useInfiniteScroll } from "@/lib/hook/useInfiniteScroll";
@@ -40,10 +40,10 @@ function RouteComponent() {
                             <img src="/icons/search.svg" className="size-10 opacity-20 invert" alt="No results" />
                         </div>
                         <h3 className="text-xl font-medium text-zinc-300 mb-2">
-                            <Translate content="loot:overview.empty.title" />
+                            {t("loot:overview.empty.title")}
                         </h3>
                         <p className="text-zinc-500 max-w-sm text-center mb-6">
-                            <Translate content="loot:overview.empty.description" />
+                            {t("loot:overview.empty.description")}
                         </p>
                     </div>
                 ) : (

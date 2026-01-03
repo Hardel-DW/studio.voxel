@@ -1,13 +1,12 @@
+import { t } from "@/lib/i18n";
 import RenderGuard from "@/components/tools/elements/RenderGuard";
-import type { TranslateTextType } from "@/components/ui/Translate";
-import Translate from "@/components/ui/Translate";
 import type { BaseInteractiveComponent } from "@/lib/hook/useInteractiveLogic";
 import { useInteractiveLogic } from "@/lib/hook/useInteractiveLogic";
 import { cn } from "@/lib/utils";
 
 export type ToolInlineType = BaseInteractiveComponent & {
-    title: TranslateTextType;
-    description: TranslateTextType;
+    title: string;
+    description: string;
     image?: string;
 };
 
@@ -38,10 +37,10 @@ export default function ToolInline(props: ToolInlineType) {
                         )}
                         <div className="flex flex-col">
                             <span className="text-white line-clamp-1">
-                                <Translate content={props.title} />
+                                {t(props.title)}
                             </span>
                             <span className="text-xs text-zinc-400 font-light line-clamp-2">
-                                <Translate content={props.description} />
+                                {t(props.description)}
                             </span>
                         </div>
                     </div>
@@ -49,7 +48,7 @@ export default function ToolInline(props: ToolInlineType) {
                     <div className="flex gap-4 items-center">
                         {lock.isLocked && (
                             <span className="text-xs text-zinc-400 font-light w-max flex items-center">
-                                <Translate content={lock.text} />
+                                {t(lock.text)}
                             </span>
                         )}
                         {value && !lock.isLocked && <img src="/icons/check.svg" alt="checkbox" className="w-6 h-6 invert" />}

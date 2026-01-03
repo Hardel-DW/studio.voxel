@@ -1,9 +1,8 @@
 import type { VoxelElement } from "@voxelio/breeze";
-import type { TranslateTextType } from "@/components/ui/Translate";
 
 export type Condition = (el: any) => boolean;
-export type Lock = { text: TranslateTextType; condition: Condition };
-export type LockRenderer = { isLocked: boolean; text?: TranslateTextType };
+export type Lock = { text: string; condition: Condition };
+export type LockRenderer = { isLocked: boolean; text?: string };
 
 export function checkLocks(locks: Lock[] | undefined, element: VoxelElement): LockRenderer {
     if (!locks) return { isLocked: false };
@@ -18,10 +17,10 @@ export function checkLocks(locks: Lock[] | undefined, element: VoxelElement): Lo
 }
 
 export class LockEntryBuilder {
-    private text: TranslateTextType | undefined;
+    private text: string | undefined;
     private condition: Condition | undefined;
 
-    public addText(text: TranslateTextType): this {
+    public addText(text: string): this {
         this.text = text;
         return this;
     }

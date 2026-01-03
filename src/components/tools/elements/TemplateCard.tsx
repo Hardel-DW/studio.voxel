@@ -1,11 +1,11 @@
+import { t } from "@/lib/i18n";
 import SimpleCard from "@/components/tools/elements/SimpleCard";
-import Translate, { type TranslateTextType } from "@/components/ui/Translate";
 
 export default function TemplateCard(props: {
     image: string;
-    title: TranslateTextType;
-    description: TranslateTextType;
-    short?: TranslateTextType;
+    title: string;
+    description: string;
+    short?: string;
     children: React.ReactNode;
 }) {
     return (
@@ -16,18 +16,18 @@ export default function TemplateCard(props: {
             </div>
             <div>
                 <h3 className="text-lg font-semibold mb-1">
-                    <Translate content={props.title} />
+                    {t(props.title)}
                 </h3>
                 {props.description && (
                     <p className="text-sm text-zinc-400">
-                        <Translate content={props.description} />
+                        {t(props.description)}
                     </p>
                 )}
             </div>
 
             {props.short && (
                 <p className="text-xs text-zinc-400 pt-4 mt-4 border-t border-zinc-700">
-                    <Translate content={props.short} />
+                    {t(props.short)}
                 </p>
             )}
         </SimpleCard>

@@ -1,10 +1,10 @@
+import { t } from "@/lib/i18n";
 import type { FlattenedLootItem, LootTableProps } from "@voxelio/breeze";
 import RewardItem from "@/components/tools/concept/loot/RewardItem";
-import Translate, { type TranslateTextType } from "@/components/ui/Translate";
 import { type BaseInteractiveComponent, useInteractiveLogic } from "@/lib/hook/useInteractiveLogic";
 
 export type LootViewerProps = BaseInteractiveComponent & {
-    title: TranslateTextType;
+    title: string;
     lootTable: LootTableProps;
     data: FlattenedLootItem[];
 };
@@ -19,10 +19,10 @@ export default function LootViewer(props: LootViewerProps) {
                 <div>
                     <div className="flex justify-between items-center gap-y-2">
                         <h1 className="text-2xl font-bold text-white">
-                            <Translate content="loot:main.title" />
+                            {t("loot:main.title")}
                         </h1>
                         <p className="text-sm text-zinc-400">
-                            <Translate content="loot:main.probability_mass" />: {totalProbability.toFixed(2)}
+                            {t("loot:main.probability_mass")}: {totalProbability.toFixed(2)}
                         </p>
                     </div>
                     <div className="w-full h-1 bg-zinc-700 rounded-full" />

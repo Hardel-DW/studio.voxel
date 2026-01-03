@@ -1,6 +1,6 @@
+import { t } from "@/lib/i18n";
 import type { ToolRevealCardData } from "@/components/tools/elements/ToolReveal";
 import { Button } from "@/components/ui/Button";
-import Translate from "@/components/ui/Translate";
 import { cn } from "@/lib/utils";
 
 interface ToolRevealElementProps {
@@ -28,7 +28,7 @@ const ToolRevealElement = function ToolRevealElement({ element, isSelected, onSe
                     className={cn({
                         "opacity-50 hover:opacity-50": element.soon
                     })}>
-                    <Translate content={element.soon ? "soon" : "more"} />
+                    {t(element.soon ? "soon" : "more")}
                 </Button>
             </div>
             <div className="bg-shadow-bottom rounded-2xl relative z-10" />
@@ -48,10 +48,10 @@ const ToolRevealElement = function ToolRevealElement({ element, isSelected, onSe
                 })}>
                 <div className="flex flex-col gap-2">
                     <h1 className="text-3xl font-semibold uppercase tracking-wider">
-                        <Translate content={element.title} />
+                        {t(element.title)}
                     </h1>
                     <p className="text-zinc-400 font-semibold text-xs">
-                        <Translate content={element.description} />
+                        {t(element.description)}
                     </p>
                 </div>
             </div>

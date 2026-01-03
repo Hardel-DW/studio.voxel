@@ -1,3 +1,4 @@
+import { t } from "@/lib/i18n";
 import { createFileRoute, useNavigate, useParams } from "@tanstack/react-router";
 import { Identifier, isVoxel, LootTableAction } from "@voxelio/breeze";
 import LootItemEditor from "@/components/tools/concept/loot/LootItemEditor";
@@ -10,7 +11,6 @@ import { ToolbarNavigation } from "@/components/tools/floatingbar/ToolbarNavigat
 import { ToolGrab } from "@/components/tools/floatingbar/ToolGrab";
 import { getCurrentElement, useConfiguratorStore } from "@/components/tools/Store";
 import { Button } from "@/components/ui/Button";
-import Translate from "@/components/ui/Translate";
 import useRegistry from "@/lib/hook/useRegistry";
 
 export const Route = createFileRoute("/$lang/studio/editor/loot_table/pools")({
@@ -107,10 +107,10 @@ function PoolsPage() {
 
                 <div className="sticky top-0 z-30 px-8 py-4 bg-zinc-950/75 backdrop-blur-md border-b border-zinc-800/50 flex items-center justify-between">
                     <h1 className="text-2xl font-bold text-white">
-                        <Translate content="loot:pools.title" />
+                        {t("loot:pools.title")}
                     </h1>
                     <Button variant="default" onClick={handleAddPool}>
-                        <Translate content="loot:pools.add_pool" />
+                        {t("loot:pools.add_pool")}
                     </Button>
                 </div>
 

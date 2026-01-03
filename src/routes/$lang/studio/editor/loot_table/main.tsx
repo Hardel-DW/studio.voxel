@@ -1,3 +1,4 @@
+import { t } from "@/lib/i18n";
 import { createFileRoute, useNavigate, useParams } from "@tanstack/react-router";
 import { Identifier, isVoxel, LootTableAction } from "@voxelio/breeze";
 import { useState } from "react";
@@ -9,7 +10,6 @@ import { ToolbarNavigation } from "@/components/tools/floatingbar/ToolbarNavigat
 import { ToolbarSearch } from "@/components/tools/floatingbar/ToolbarSearch";
 import { ToolGrab } from "@/components/tools/floatingbar/ToolGrab";
 import { getCurrentElement, useConfiguratorStore } from "@/components/tools/Store";
-import Translate from "@/components/ui/Translate";
 import { useFlattenedLootItems } from "@/lib/hook/useFlattenedLootItems";
 
 export const Route = createFileRoute("/$lang/studio/editor/loot_table/main")({
@@ -56,7 +56,7 @@ function LootMainPage() {
     if (isLoading || items.length === 0) {
         return (
             <div className="p-8 text-sm text-zinc-400">
-                <Translate content={isLoading ? "loot:main.loading" : "loot:main.empty"} />
+                {t(isLoading ? "loot:main.loading" : "loot:main.empty")}
             </div>
         );
     }
@@ -73,10 +73,10 @@ function LootMainPage() {
                 <div>
                     <div className="flex justify-between items-center gap-y-2">
                         <h1 className="text-2xl font-bold text-white">
-                            <Translate content="loot:main.title" />
+                            {t("loot:main.title")}
                         </h1>
                         <p className="text-sm text-zinc-400">
-                            <Translate content="loot:main.probability_mass" />: {totalProbability.toFixed(2)}
+                            {t("loot:main.probability_mass")}: {totalProbability.toFixed(2)}
                         </p>
                     </div>
                     <div className="w-full h-1 bg-zinc-700 rounded-full" />

@@ -1,9 +1,9 @@
+import { t } from "@/lib/i18n";
 import { Link } from "@tanstack/react-router";
 import { Identifier, type IdentifierObject } from "@voxelio/breeze";
 import type { ReactNode } from "react";
 import { EditorBreadcrumb } from "@/components/tools/concept/layout/EditorBreadcrumb";
 import type { Tab } from "@/components/tools/elements";
-import Translate from "@/components/ui/Translate";
 import { useActiveConcept } from "@/lib/hook/useActiveConcept";
 import { cn } from "@/lib/utils";
 import { hueToHsl, stringToColor } from "@/lib/utils/color";
@@ -84,7 +84,7 @@ const EditorHeaderTabs = ({ tab, lang, isActive }: { tab: Tab; lang: string; isA
                 "px-4 py-2 text-sm font-medium rounded-t-lg transition-all border-b-2 text-zinc-400 border-transparent disabled:opacity-40 disabled:cursor-not-allowed",
                 isActive ? "text-white border-white/60 bg-white/5" : "hover:text-zinc-200 hover:bg-white/5"
             )}>
-            <Translate content={tab.text} />
+            {t(tab.text)}
         </Link>
     );
 };

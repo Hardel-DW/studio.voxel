@@ -1,7 +1,7 @@
+import { t } from "@/lib/i18n";
 import { useState } from "react";
 import ToolInventory from "@/components/tools/elements/ToolInventory";
 import { TextInput } from "@/components/ui/TextInput";
-import Translate from "@/components/ui/Translate";
 
 export default function RecipeInventory() {
     const [search, setSearch] = useState("");
@@ -15,10 +15,10 @@ export default function RecipeInventory() {
                     <div className="flex justify-between items-center gap-4">
                         <div className="shrink-0">
                             <h2 className="text-xl font-bold text-white">
-                                <Translate content="recipe:inventory.title" />
+                                {t("recipe:inventory.title")}
                             </h2>
                             <p className="text-sm text-zinc-400">
-                                <Translate content="recipe:inventory.description" />
+                                {t("recipe:inventory.description")}
                             </p>
                         </div>
                         <TextInput className="min-w-64" placeholder="Search" value={search} onChange={(e) => setSearch(e.target.value)} />

@@ -1,18 +1,17 @@
+import { t } from "@/lib/i18n";
 import { useSearch } from "@tanstack/react-router";
 import type React from "react";
 import RenderGuard from "@/components/tools/elements/RenderGuard";
-import type { TranslateTextType } from "@/components/ui/Translate";
-import Translate from "@/components/ui/Translate";
 import type { BaseComponent } from "@/lib/hook/useBreezeElement";
 import { cn } from "@/lib/utils";
 
 export type ToolSectionSelectorSection = BaseComponent & {
     id: string;
-    title: TranslateTextType;
+    title: string;
     children: React.ReactNode;
     elements: {
         id: string;
-        title: TranslateTextType;
+        title: string;
     }[];
     value?: string;
     setValue?: (value: string) => void;
@@ -37,7 +36,7 @@ export default function ToolSectionSelector(props: ToolSectionSelectorSection) {
                     <div className="py-2 px-2 gap-4 flex flex-wrap justify-between items-center cursor-pointer shrink-0">
                         <div className="relative">
                             <h2 className="text-2xl font-semibold">
-                                <Translate content={props.title} />
+                                {t(props.title)}
                             </h2>
                             <hr className="m-0 absolute -bottom-2 left-0 right-0" />
                         </div>
@@ -53,7 +52,7 @@ export default function ToolSectionSelector(props: ToolSectionSelectorSection) {
                                         key={element.id}
                                         onClick={() => handleSetValue(element.id)}>
                                         <p className="font-semibold line-clamp-1 text-xs md:text-sm">
-                                            <Translate content={element.title} />
+                                            {t(element.title)}
                                         </p>
                                     </button>
                                 ))}

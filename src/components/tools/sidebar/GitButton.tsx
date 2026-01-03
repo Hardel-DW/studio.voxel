@@ -1,7 +1,7 @@
+import { t } from "@/lib/i18n";
 import { useParams } from "@tanstack/react-router";
 import { Button } from "@/components/ui/Button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/Dialog";
-import Translate from "@/components/ui/Translate";
 import { useGitHubAuth } from "@/lib/hook/useGitHubAuth";
 
 export default function GitButton() {
@@ -41,16 +41,16 @@ export default function GitButton() {
                         </div>
                         <div className="space-y-2 max-w-sm">
                             <h3 className="text-2xl font-bold text-white tracking-tight">
-                                <Translate content="github:unlock.cloud.sync.title" />
+                                {t("github:unlock.cloud.sync.title")}
                             </h3>
                             <p className="text-zinc-400 text-sm leading-relaxed">
-                                <Translate content="github:unlock.cloud.sync.description" />
+                                {t("github:unlock.cloud.sync.description")}
                             </p>
                         </div>
                         <Button
                             onClick={() => login({ redirect: false })}
                             className="h-12 px-8 bg-white text-black font-bold hover:bg-zinc-200 transition-all rounded-full shadow-lg shadow-white/5">
-                            <Translate content="github:unlock.cloud.sync.button" />
+                            {t("github:unlock.cloud.sync.button")}
                         </Button>
                     </div>
                 </div>

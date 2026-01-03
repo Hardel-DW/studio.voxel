@@ -1,10 +1,10 @@
+import { t } from "@/lib/i18n";
 import { createFileRoute } from "@tanstack/react-router";
 import { Identifier } from "@voxelio/breeze";
 import { useEditorUiStore } from "@/components/tools/concept/EditorUiStore";
 import RecipeOverviewCard from "@/components/tools/concept/recipe/RecipeOverviewCard";
 import { canBlockHandleRecipeType } from "@/components/tools/concept/recipe/recipeConfig";
 import { TextInput } from "@/components/ui/TextInput";
-import Translate from "@/components/ui/Translate";
 import { useElementsByType } from "@/lib/hook/useElementsByType";
 import { useInfiniteScroll } from "@/lib/hook/useInfiniteScroll";
 
@@ -38,10 +38,10 @@ function Page() {
                             <img src="/icons/search.svg" className="size-10 opacity-20 invert" alt="No results" />
                         </div>
                         <h3 className="text-xl font-medium text-zinc-300 mb-2">
-                            <Translate content="recipe:overview.no.recipes.found" />
+                            {t("recipe:overview.no.recipes.found")}
                         </h3>
                         <p className="text-zinc-500 max-w-sm text-center">
-                            <Translate content="recipe:overview.try.adjusting.search.or.filter" />
+                            {t("recipe:overview.try.adjusting.search.or.filter")}
                         </p>
                     </div>
                 ) : (

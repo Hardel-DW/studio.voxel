@@ -1,3 +1,4 @@
+import { t } from "@/lib/i18n";
 import { createFileRoute, Link, Outlet, useLocation, useNavigate, useParams } from "@tanstack/react-router";
 import { isVoxel } from "@voxelio/breeze";
 import { useEditorUiStore } from "@/components/tools/concept/EditorUiStore";
@@ -10,7 +11,6 @@ import { useDynamicIsland } from "@/components/tools/floatingbar/FloatingBarCont
 import NotFoundStudio from "@/components/tools/NotFoundStudio";
 import { getCurrentElement, getModifiedElements, useConfiguratorStore } from "@/components/tools/Store";
 import { ToggleGroup, ToggleGroupOption } from "@/components/ui/ToggleGroup";
-import Translate from "@/components/ui/Translate";
 import { TreeProvider } from "@/components/ui/tree/TreeNavigationContext";
 import { TreeSidebar } from "@/components/ui/tree/TreeSidebar";
 import { getEnchantableKeys } from "@/lib/data/tags";
@@ -64,13 +64,13 @@ function EnchantmentLayout() {
                 <EditorSidebar title="enchantment:overview.title" icon={elementIcon} linkTo="/$lang/studio/editor/enchantment/overview">
                     <ToggleGroup value={sidebarView} onChange={setSidebarView} className="mt-4">
                         <ToggleGroupOption value="slots">
-                            <Translate content="enchantment:overview.sidebar.slots" />
+                            {t("enchantment:overview.sidebar.slots")}
                         </ToggleGroupOption>
                         <ToggleGroupOption value="items">
-                            <Translate content="enchantment:overview.sidebar.items" />
+                            {t("enchantment:overview.sidebar.items")}
                         </ToggleGroupOption>
                         <ToggleGroupOption value="exclusive">
-                            <Translate content="enchantment:overview.sidebar.exclusive" />
+                            {t("enchantment:overview.sidebar.exclusive")}
                         </ToggleGroupOption>
                     </ToggleGroup>
                     <TreeSidebar />

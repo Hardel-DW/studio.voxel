@@ -1,3 +1,4 @@
+import { t } from "@/lib/i18n";
 import { createFileRoute } from "@tanstack/react-router";
 import type { EnchantmentProps } from "@voxelio/breeze";
 import { CoreAction, Identifier } from "@voxelio/breeze";
@@ -5,7 +6,6 @@ import ToolRange from "@/components/tools/elements/ToolRange";
 import ToolSection from "@/components/tools/elements/ToolSection";
 import ToolSwitch from "@/components/tools/elements/ToolSwitch";
 import { useConfiguratorStore } from "@/components/tools/Store";
-import Translate from "@/components/ui/Translate";
 import { useElementProperty } from "@/lib/hook/useBreezeElement";
 import { isMinecraft } from "@/lib/utils/lock";
 
@@ -78,7 +78,7 @@ function EnchantmentTechnicalPage() {
                     ))
                 ) : (
                     <h1 className="text-zinc-400 text-center py-4">
-                        <Translate content="enchantment:technical.empty_effects" />
+                        {t("enchantment:technical.empty_effects")}
                     </h1>
                 )}
             </ToolSection>

@@ -1,5 +1,5 @@
+import { t } from "@/lib/i18n";
 import type { SlotRegistryType } from "@voxelio/breeze";
-import Translate from "@/components/ui/Translate";
 import { cn } from "@/lib/utils";
 import type { SLOT_CONFIGS } from "./slots";
 
@@ -15,7 +15,7 @@ export function SlotButton(props: { slot: (typeof SLOT_CONFIGS)[0]; isActive: bo
             <div className="flex flex-col items-center justify-center h-full gap-2">
                 <img src={props.slot.image} alt={props.slot.name} className="pixelated" style={{ height: "24px" }} />
                 <span className="text-[10px] leading-tight text-center text-zinc-300">
-                    <Translate content={props.slot.name} />
+                    {t(props.slot.name)}
                 </span>
             </div>
 

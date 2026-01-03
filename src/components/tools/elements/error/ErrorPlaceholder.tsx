@@ -1,4 +1,4 @@
-import Translate from "@/components/ui/Translate";
+import { t } from "@/lib/i18n";
 
 interface ErrorPlaceholderProps {
     error?: Error;
@@ -10,17 +10,17 @@ export default function ErrorPlaceholder({ error }: ErrorPlaceholderProps) {
             <div className="flex flex-col items-center justify-between gap-4 h-full">
                 <div className="text-center">
                     <h3 className="text-lg font-semibold mb-1">
-                        <Translate content="error.title" />
+                        {t("error.title")}
                     </h3>
                     <p className="text-sm text-zinc-400">
-                        <Translate content="error.component" />
+                        {t("error.component")}
                     </p>
                 </div>
 
                 <div className="h-16 w-16 flex items-center justify-center">
                     <svg className="h-12 w-12 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <title>
-                            <Translate content="error" />
+                            {t("error")}
                         </title>
                         <path
                             strokeLinecap="round"
@@ -34,9 +34,9 @@ export default function ErrorPlaceholder({ error }: ErrorPlaceholderProps) {
                 <div className="w-full">
                     <details className="text-xs text-zinc-400 pt-4 mt-4 border-t border-zinc-700">
                         <summary className="cursor-pointer">
-                            <Translate content="error.details" />
+                            {t("error.details")}
                         </summary>
-                        <pre className="mt-2 whitespace-pre-wrap">{error?.message || <Translate content="error.component" />}</pre>
+                        <pre className="mt-2 whitespace-pre-wrap">{error?.message || t("error.component")}</pre>
                     </details>
                 </div>
             </div>

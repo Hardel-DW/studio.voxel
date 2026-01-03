@@ -1,6 +1,6 @@
+import { t } from "@/lib/i18n";
 import { Dialog, DialogCloseButton, DialogContent, DialogFooter, DialogHeader, DialogHero } from "@/components/ui/Dialog";
 import { MultiStep, MultiStepControl, MultiStepItem } from "@/components/ui/MultiStep";
-import Translate from "@/components/ui/Translate";
 
 const DIALOG_STEPS = [
     { id: "home", listCount: 3 },
@@ -24,16 +24,16 @@ export default function StudioDialog() {
                             <hr className="my-1" />
                             <div className="p-4">
                                 <h2 className="flex shrink-0 items-center justify-between text-xl font-medium text-zinc-200 mb-2">
-                                    <Translate content={`studio:dialog.${step.id}.title`} />
+                                    {t(`studio:dialog.${step.id}.title`)}
                                 </h2>
                                 <div className="relative leading-normal text-zinc-400 font-light">
                                     <p>
-                                        <Translate content={`studio:dialog.${step.id}.body`} />
+                                        {t(`studio:dialog.${step.id}.body`)}
                                     </p>
                                     <ul className="list-disc list-inside ml-4 mt-4 text-zinc-500 text-sm">
                                         {Array.from({ length: step.listCount }, (_, i) => (
                                             <li key={`${step.id}-${i}`}>
-                                                <Translate content={`studio:dialog.${step.id}.list.${i + 1}`} />
+                                                {t(`studio:dialog.${step.id}.list.${i + 1}`)}
                                             </li>
                                         ))}
                                     </ul>
@@ -44,7 +44,7 @@ export default function StudioDialog() {
 
                     <DialogFooter className="flex items-end justify-between">
                         <DialogCloseButton variant="ghost_border">
-                            <Translate content="close" />
+                            {t("close")}
                         </DialogCloseButton>
                         <MultiStepControl />
                     </DialogFooter>

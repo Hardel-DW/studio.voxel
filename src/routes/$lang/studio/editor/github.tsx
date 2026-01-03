@@ -1,3 +1,4 @@
+import { t, useI18n } from "@/lib/i18n";
 import { useMutation } from "@tanstack/react-query";
 import { createFileRoute, Outlet, useRouterState } from "@tanstack/react-router";
 import { DatapackDownloader } from "@voxelio/breeze";
@@ -7,10 +8,8 @@ import { useExportStore } from "@/components/tools/sidebar/ExportStore";
 import { Button } from "@/components/ui/Button";
 import { TextInput } from "@/components/ui/TextInput";
 import { TOAST, toast } from "@/components/ui/Toast";
-import Translate from "@/components/ui/Translate";
 import { GitFileTree } from "@/components/ui/tree/GitFileTree";
 import { GitHub } from "@/lib/github/GitHub";
-import { useClientDictionary } from "@/lib/hook/useClientDictionary";
 import { encodeToBase64 } from "@/lib/utils/encode";
 
 export const Route = createFileRoute("/$lang/studio/editor/github")({
@@ -18,13 +17,13 @@ export const Route = createFileRoute("/$lang/studio/editor/github")({
 });
 
 function GithubLayout() {
+    useI18n((state) => state.locale);
     const search = useRouterState({ select: (s) => s.location.search as { file?: string } });
     const selectedFile = search.file;
     const { isGitRepository, owner, repositoryName, branch, token } = useExportStore();
     const files = useConfiguratorStore.getState().files;
     const compiledFiles = useConfiguratorStore.getState().compile().getFiles();
     const diff = isGitRepository ? new DatapackDownloader(compiledFiles).getDiff(files) : new Map();
-    const t = useClientDictionary("github");
     const [message, setMessage] = useState("");
 
     const pushMutation = useMutation({
@@ -36,11 +35,11 @@ function GithubLayout() {
             return new GitHub({ token }).send(owner, repositoryName, branch, "push", filesToPush);
         },
         onSuccess: () => {
-            toast(t["push.success"], TOAST.SUCCESS);
+            toast(t("github:push.success"), TOAST.SUCCESS);
             setMessage("");
         },
         onError: (error: Error) => {
-            toast(t["push.error"], TOAST.ERROR, error.message);
+            toast(t("github:push.error"), TOAST.ERROR, error.message);
         }
     });
 
@@ -51,7 +50,7 @@ function GithubLayout() {
                     <div className="text-lg font-bold text-zinc-100 flex items-center gap-2 mb-1">
                         <img src="/icons/company/github.svg" className="size-5 invert opacity-80" alt="Icon of a GitHub repository" />
                         <span>
-                            <Translate content="github:layout.title" />
+                            {t("github:layout.title")}
                         </span>
                     </div>
                     {isGitRepository && (
@@ -72,14 +71,14 @@ function GithubLayout() {
                             disableIcon
                             value={message}
                             onChange={(e) => setMessage(e.target.value)}
-                            placeholder={t["layout.commit.placeholder"]}
+                            placeholder={t("github:layout.commit.placeholder")}
                         />
                         <Button
                             variant="default"
                             className="w-full"
                             onClick={() => pushMutation.mutate()}
                             disabled={pushMutation.isPending || diff.size === 0 || !message.trim()}>
-                            {pushMutation.isPending ? t["layout.commit.button.pushing"] : t["layout.commit.button.push"]}
+                            {pushMutation.isPending ? t("github:layout.commit.button.pushing") : t("github:layout.commit.button.push")}
                         </Button>
                     </div>
                 )}
@@ -91,7 +90,7 @@ function GithubLayout() {
                         <div className="flex flex-col items-center justify-center py-12 text-zinc-600 gap-2">
                             <img src="/icons/company/github.svg" className="size-8 opacity-20 invert" alt="Icon of a GitHub repository" />
                             <span className="text-xs text-center">
-                                <Translate content="github:layout.empty.init" />
+                                {t("github:layout.empty.init")}
                             </span>
                         </div>
                     )}
@@ -103,7 +102,7 @@ function GithubLayout() {
                         className="bg-zinc-900/30 rounded-lg p-3 border border-zinc-800/50 flex items-center gap-3 group hover:border-zinc-700/50 transition-colors">
                         <div className="flex-1">
                             <div className="text-sm font-medium text-zinc-300 group-hover:text-white transition-colors">
-                                <Translate content="common.help.discord" />
+                                {t("common.help.discord")}
                             </div>
                         </div>
                         <div className="size-8 rounded-full bg-zinc-800/50 flex items-center justify-center group-hover:bg-zinc-800 transition-colors">

@@ -1,10 +1,10 @@
+import { t } from "@/lib/i18n";
 import { Link, useParams } from "@tanstack/react-router";
 import { Identifier, type RecipeProps } from "@voxelio/breeze";
 import RecipeRenderer from "@/components/tools/concept/recipe/RecipeRenderer";
 import ErrorPlaceholder from "@/components/tools/elements/error/ErrorPlaceholder";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import ErrorBoundary from "@/components/ui/ErrorBoundary";
-import Translate from "@/components/ui/Translate";
 
 export default function RecipeOverviewCard(props: { element: RecipeProps; elementId: string }) {
     const { lang } = useParams({ from: "/$lang" });
@@ -23,7 +23,7 @@ export default function RecipeOverviewCard(props: { element: RecipeProps; elemen
                             params={{ lang }}
                             onClick={handleConfigure}
                             className="w-full cursor-pointer bg-zinc-800/30 hover:bg-zinc-700/50 border border-zinc-700/50 rounded-lg px-3 py-2 text-xs font-medium text-zinc-300 transition-colors block text-center">
-                            <Translate content="configure" />
+                            {t("configure")}
                         </Link>
                     </div>
                 </div>

@@ -1,11 +1,10 @@
+import { t } from "@/lib/i18n";
 import type React from "react";
 import RenderGuard from "@/components/tools/elements/RenderGuard";
-import type { TranslateTextType } from "@/components/ui/Translate";
-import Translate from "@/components/ui/Translate";
 import type { BaseComponent } from "@/lib/hook/useBreezeElement";
 
 export type ToolCategoryType = BaseComponent & {
-    title: TranslateTextType;
+    title: string;
     children: React.ReactNode;
 };
 
@@ -16,7 +15,7 @@ export default function ToolCategory(props: ToolCategoryType) {
                 <div className="flex items-center gap-x-4 mb-8">
                     <div className="h-1 flex-1 bg-zinc-700" />
                     <h2 className="text-2xl font-semibold px-4">
-                        <Translate content={props.title} />
+                        {t(props.title)}
                     </h2>
                     <div className="h-1 flex-1 bg-zinc-700" />
                 </div>

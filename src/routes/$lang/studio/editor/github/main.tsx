@@ -1,3 +1,4 @@
+import { t } from "@/lib/i18n";
 import { useMutation } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
@@ -7,10 +8,8 @@ import { Button } from "@/components/ui/Button";
 import EmptyState from "@/components/ui/EmptyState";
 import LineBackground from "@/components/ui/line/LineBackground";
 import { TOAST, toast } from "@/components/ui/Toast";
-import Translate from "@/components/ui/Translate";
 import { GitHub } from "@/lib/github/GitHub";
 import { GithubRepoValidationError } from "@/lib/github/GitHubError";
-import { useClientDictionary } from "@/lib/hook/useClientDictionary";
 import { encodeToBase64 } from "@/lib/utils/encode";
 import { sanitizeRepoName } from "@/lib/utils/text";
 
@@ -23,7 +22,6 @@ function GithubMainPage() {
     const { isGitRepository, token, isInitializing } = useExportStore();
     const name = useConfiguratorStore((state) => state.name);
     const [repoName, setRepoName] = useState("");
-    const t = useClientDictionary("github");
 
     const initMutation = useMutation({
         mutationFn: () => {
@@ -33,15 +31,15 @@ function GithubMainPage() {
             return new GitHub({ token }).initializeRepository(repoName, DESCRIPTION, false, true, files);
         },
         onSuccess: (data) => {
-            toast(t["init.success"], TOAST.SUCCESS);
+            toast(t("github:init.success"), TOAST.SUCCESS);
             const [newOwner, newRepoName] = data.fullName.split("/");
             useExportStore.setState({ owner: newOwner, repositoryName: newRepoName, branch: data.defaultBranch, isGitRepository: true });
         },
         onError: (error: Error) => {
             if (error instanceof GithubRepoValidationError) {
-                return toast(t["init.error.validation"], TOAST.ERROR);
+                return toast(t("github:init.error.validation"), TOAST.ERROR);
             }
-            toast(t["init.error"], TOAST.ERROR, error.message);
+            toast(t("github:init.error"), TOAST.ERROR, error.message);
         },
         onSettled: () => useExportStore.getState().setInitializing(null)
     });
@@ -75,16 +73,16 @@ function GithubMainPage() {
                                 <img src="/icons/company/github.svg" className="size-8 invert opacity-80" alt="GitHub" />
                             </div>
                             <h1 className="text-3xl font-bold text-white tracking-tight">
-                                <Translate content="github:init.title" />
+                                {t("github:init.title")}
                             </h1>
                             <p className="text-zinc-400">
-                                <Translate content="github:init.description" />
+                                {t("github:init.description")}
                             </p>
                         </div>
                         <div className="space-y-4 bg-sidebar p-6 rounded-2xl border border-zinc-800/50 relative">
                             <div className="space-y-2">
                                 <label htmlFor="repoName" className="text-xs font-semibold text-zinc-500 uppercase tracking-wider ml-1">
-                                    <Translate content="github:init.label" />
+                                    {t("github:init.label")}
                                 </label>
                                 <input
                                     type="text"
@@ -99,7 +97,7 @@ function GithubMainPage() {
                                 <div className="absolute inset-0 flex items-center flex-col justify-center bg-zinc-950/50 rounded-2xl z-10 backdrop-blur-sm">
                                     <div className="size-8 border-4 border-zinc-900 border-t-zinc-400 rounded-full animate-spin" />
                                     <span className="text-sm text-zinc-400 mt-4">
-                                        <Translate content="github:init.progress.sidebar" replace={[isInitializing.toString()]} />
+                                        {t("github:init.progress.sidebar", { count: isInitializing })}
                                     </span>
                                 </div>
                             )}
@@ -107,17 +105,13 @@ function GithubMainPage() {
                                 onClick={() => initMutation.mutate()}
                                 disabled={initMutation.isPending || !repoName}
                                 className="w-full h-12 bg-white text-black font-bold hover:bg-zinc-200 rounded-xl transition-all shadow-lg shadow-white/5 disabled:opacity-50 disabled:cursor-not-allowed">
-                                {initMutation.isPending ? (
-                                    <Translate content="github:main.button.creating" />
-                                ) : (
-                                    <Translate content="github:main.button.create" />
-                                )}
+                                {initMutation.isPending ? t("github:init.confirm") : t("github:init.confirm")}
                             </Button>
                         </div>
                     </div>
                 </div>
             ) : (
-                <EmptyState icon="/icons/search.svg" title={t["emptystate.title"]} description={t["emptystate.description"]} />
+                <EmptyState icon="/icons/search.svg" title={t("github:emptystate.title")} description={t("github:emptystate.description")} />
             )}
         </div>
     );

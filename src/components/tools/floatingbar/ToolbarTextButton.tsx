@@ -1,5 +1,5 @@
+import { t } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
-import Translate from "../../ui/Translate";
 
 interface ToolbarTextButtonProps extends Omit<React.HTMLAttributes<HTMLButtonElement>, "onClick"> {
     icon: string;
@@ -24,7 +24,7 @@ export function ToolbarTextButton({ icon, tooltip, onClick, disabled, labelText,
             )}>
             <img src={icon} alt="Toolbar text button icon" className="w-4 h-4 invert opacity-75 select-none user-select-none" />
             <span className="text-xs text-zinc-300 font-medium whitespace-nowrap">
-                <Translate content={labelText} />
+                {t(labelText)}
             </span>
         </button>
     );

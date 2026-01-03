@@ -1,12 +1,11 @@
-import type { TranslateTextType } from "@/components/ui/Translate";
-import Translate from "@/components/ui/Translate";
+import { t } from "@/lib/i18n";
 import type { BaseInteractiveComponent } from "@/lib/hook/useInteractiveLogic";
 import { useInteractiveLogic } from "@/lib/hook/useInteractiveLogic";
 import { cn } from "@/lib/utils";
 
 export type ToolSlotType = BaseInteractiveComponent & {
-    description?: TranslateTextType;
-    title: TranslateTextType;
+    description?: string;
+    title: string;
     image: string;
     size?: number;
     align?: "left" | "center" | "right";
@@ -49,7 +48,7 @@ export default function ToolSlot(props: ToolSlotType & { index?: number }) {
 
             {lock.isLocked && (
                 <span className="absolute p-4 bottom-0 right-0 text-xs text-zinc-400 font-light">
-                    <Translate content={lock.text} />
+                    {t(lock.text)}
                 </span>
             )}
 
@@ -62,11 +61,11 @@ export default function ToolSlot(props: ToolSlotType & { index?: number }) {
                         { "text-right px-4": props.align === "right" }
                     )}>
                     <h3 className="text-lg font-semibold mb-1">
-                        <Translate content={props.title} />
+                        {t(props.title)}
                     </h3>
                     {props.description && (
                         <p className="text-sm text-zinc-400">
-                            <Translate content={props.description} />
+                            {t(props.description)}
                         </p>
                     )}
                 </div>

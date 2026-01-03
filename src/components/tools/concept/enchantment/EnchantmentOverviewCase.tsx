@@ -1,13 +1,12 @@
+import { t } from "@/lib/i18n";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/Popover";
-import type { TranslateTextType } from "@/components/ui/Translate";
-import Translate from "@/components/ui/Translate";
 import type { BaseInteractiveComponent } from "@/lib/hook/useInteractiveLogic";
 import { useInteractiveLogic } from "@/lib/hook/useInteractiveLogic";
 
 type OverviewCaseProps = BaseInteractiveComponent & {
     image: string;
     tag: string;
-    title: TranslateTextType;
+    title: string;
 };
 
 export default function OverviewCase(props: OverviewCaseProps) {
@@ -22,7 +21,7 @@ export default function OverviewCase(props: OverviewCaseProps) {
             <PopoverContent>
                 <div className="flex flex-col gap-2">
                     <p className="text-sm text-zinc-400">
-                        <Translate content={props.title} />
+                        {t(props.title)}
                     </p>
                 </div>
             </PopoverContent>

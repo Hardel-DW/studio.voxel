@@ -1,3 +1,4 @@
+import { t } from "@/lib/i18n";
 import type { TagType } from "@voxelio/breeze";
 import { CoreAction, Identifier, Tags, TagsProcessor } from "@voxelio/breeze";
 import ErrorPlaceholder from "@/components/tools/elements/error/ErrorPlaceholder";
@@ -6,7 +7,6 @@ import ToolGrid from "@/components/tools/elements/ToolGrid";
 import ToolListOption, { type ToolListOptionAction } from "@/components/tools/elements/ToolListOption";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import Loader from "@/components/ui/Loader";
-import Translate from "@/components/ui/Translate";
 import { exclusiveSetGroups } from "@/lib/data/exclusive";
 import useRegistry, { type FetchedRegistry } from "@/lib/hook/useRegistry";
 import { isMinecraft } from "@/lib/utils/lock";
@@ -73,7 +73,7 @@ export function ExclusiveGroupSection() {
             <ToolCategory title="enchantment:exclusive.custom.title">
                 {merge.filter((tag) => tag.identifier.namespace !== "minecraft").length === 0 && (
                     <p className="text-zinc-400 p-4">
-                        <Translate content="enchantment:exclusive.custom.fallback" />
+                        {t("enchantment:exclusive.custom.fallback")}
                     </p>
                 )}
 

@@ -1,3 +1,4 @@
+import { t } from "@/lib/i18n";
 import { createFileRoute, useParams } from "@tanstack/react-router";
 import type { EnchantmentOption, EnchantmentStats, SlotLevelRange, TagType } from "@voxelio/breeze";
 import { type Enchantment, EnchantmentSimulator, Identifier, TagsProcessor, toRoman } from "@voxelio/breeze";
@@ -24,7 +25,6 @@ import {
 } from "@/components/ui/Dialog";
 import { MultiStep, MultiStepControl, MultiStepItem } from "@/components/ui/MultiStep";
 import { Switch } from "@/components/ui/Switch";
-import Translate from "@/components/ui/Translate";
 import useRegistry, { type FetchedRegistry } from "@/lib/hook/useRegistry";
 import { mergeRegistries } from "@/lib/registry";
 import { cn } from "@/lib/utils";
@@ -116,21 +116,21 @@ function RouteComponent() {
                             <hr className="my-1" />
                             <div className="p-4">
                                 <h2 className="flex shrink-0 items-center justify-between text-xl font-medium text-zinc-200 mb-2">
-                                    <Translate content="enchantment:simulation.dialog.usage.title" />
+                                    {t("enchantment:simulation.dialog.usage.title")}
                                 </h2>
                                 <div className="relative leading-normal text-zinc-400 font-light">
                                     <p>
-                                        <Translate content="enchantment:simulation.dialog.usage.body" />
+                                        {t("enchantment:simulation.dialog.usage.body")}
                                     </p>
                                     <ul className="list-disc list-inside ml-4 mt-4 text-zinc-500 text-sm">
                                         <li>
-                                            <Translate content="enchantment:simulation.dialog.usage.list.1" />
+                                            {t("enchantment:simulation.dialog.usage.list.1")}
                                         </li>
                                         <li>
-                                            <Translate content="enchantment:simulation.dialog.usage.list.2" />
+                                            {t("enchantment:simulation.dialog.usage.list.2")}
                                         </li>
                                         <li>
-                                            <Translate content="enchantment:simulation.dialog.usage.list.3" />
+                                            {t("enchantment:simulation.dialog.usage.list.3")}
                                         </li>
                                     </ul>
                                 </div>
@@ -143,21 +143,21 @@ function RouteComponent() {
                             <hr className="my-1" />
                             <div className="p-4">
                                 <h2 className="flex shrink-0 items-center justify-between text-xl font-medium text-zinc-200 mb-2">
-                                    <Translate content="enchantment:simulation.dialog.stats.title" />
+                                    {t("enchantment:simulation.dialog.stats.title")}
                                 </h2>
                                 <div className="relative leading-normal text-zinc-400 font-light">
                                     <p>
-                                        <Translate content="enchantment:simulation.dialog.stats.body" />
+                                        {t("enchantment:simulation.dialog.stats.body")}
                                     </p>
                                     <ul className="list-disc list-inside ml-4 mt-4 text-zinc-500 text-sm">
                                         <li>
-                                            <Translate content="enchantment:simulation.dialog.stats.list.1" />
+                                            {t("enchantment:simulation.dialog.stats.list.1")}
                                         </li>
                                         <li>
-                                            <Translate content="enchantment:simulation.dialog.stats.list.2" />
+                                            {t("enchantment:simulation.dialog.stats.list.2")}
                                         </li>
                                         <li>
-                                            <Translate content="enchantment:simulation.dialog.stats.list.3" />
+                                            {t("enchantment:simulation.dialog.stats.list.3")}
                                         </li>
                                     </ul>
                                 </div>
@@ -170,18 +170,18 @@ function RouteComponent() {
                             <hr className="my-1" />
                             <div className="p-4">
                                 <h2 className="flex shrink-0 items-center justify-between text-xl font-medium text-zinc-200 mb-2">
-                                    <Translate content="enchantment:simulation.dialog.results.title" />
+                                    {t("enchantment:simulation.dialog.results.title")}
                                 </h2>
                                 <div className="relative leading-normal text-zinc-400 font-light">
                                     <p>
-                                        <Translate content="enchantment:simulation.dialog.results.body" />
+                                        {t("enchantment:simulation.dialog.results.body")}
                                     </p>
                                     <ul className="list-disc list-inside ml-4 mt-4 text-zinc-500 text-sm">
                                         <li>
-                                            <Translate content="enchantment:simulation.dialog.results.list.1" />
+                                            {t("enchantment:simulation.dialog.results.list.1")}
                                         </li>
                                         <li>
-                                            <Translate content="enchantment:simulation.dialog.results.list.2" />
+                                            {t("enchantment:simulation.dialog.results.list.2")}
                                         </li>
                                     </ul>
                                 </div>
@@ -194,21 +194,21 @@ function RouteComponent() {
                             <hr className="my-1" />
                             <div className="p-4">
                                 <h2 className="flex shrink-0 items-center justify-between text-xl font-medium text-zinc-200 mb-2">
-                                    <Translate content="enchantment:simulation.dialog.item_selection.title" />
+                                    {t("enchantment:simulation.dialog.item_selection.title")}
                                 </h2>
                                 <div className="relative leading-normal text-zinc-400 font-light">
                                     <p>
-                                        <Translate content="enchantment:simulation.dialog.item_selection.body" />
+                                        {t("enchantment:simulation.dialog.item_selection.body")}
                                     </p>
                                     <ul className="list-disc list-inside ml-4 mt-4 text-zinc-500 text-sm">
                                         <li>
-                                            <Translate content="enchantment:simulation.dialog.item_selection.list.1" />
+                                            {t("enchantment:simulation.dialog.item_selection.list.1")}
                                         </li>
                                         <li>
-                                            <Translate content="enchantment:simulation.dialog.item_selection.list.2" />
+                                            {t("enchantment:simulation.dialog.item_selection.list.2")}
                                         </li>
                                         <li>
-                                            <Translate content="enchantment:simulation.dialog.item_selection.list.3" />
+                                            {t("enchantment:simulation.dialog.item_selection.list.3")}
                                         </li>
                                     </ul>
                                 </div>
@@ -217,7 +217,7 @@ function RouteComponent() {
 
                         <DialogFooter className="flex items-end justify-between">
                             <DialogCloseButton variant="ghost_border">
-                                <Translate content="close" />
+                                {t("close")}
                             </DialogCloseButton>
                             <MultiStepControl />
                         </DialogFooter>
@@ -241,17 +241,17 @@ function RouteComponent() {
                     />
                 </div>
                 <Button onClick={() => runSimulation(0)} className="rounded-full">
-                    <Translate content="enchantment:simulation.toolbar.run" />
+                    {t("enchantment:simulation.toolbar.run")}
                 </Button>
             </Toolbar>
 
             <div className="flex-1 overflow-y-auto px-8 py-6">
                 <div className="relative mb-6">
                     <h1 className="text-2xl font-semibold">
-                        <Translate content="enchantment:simulation.title" />
+                        {t("enchantment:simulation.title")}
                     </h1>
                     <p className="text-zinc-400 text-sm">
-                        <Translate content="enchantment:simulation.description" />
+                        {t("enchantment:simulation.description")}
                     </p>
                 </div>
 
@@ -261,10 +261,10 @@ function RouteComponent() {
                             <div className="flex items-center gap-3 border-b border-zinc-800/50 pb-4">
                                 <div>
                                     <h3 className="text-lg font-semibold text-zinc-100">
-                                        <Translate content="enchantment:simulation.enchant_label" />
+                                        {t("enchantment:simulation.enchant_label")}
                                     </h3>
                                     <p className="text-xs text-zinc-500">
-                                        <Translate content="enchantment:simulation.enchant_sublabel" />
+                                        {t("enchantment:simulation.enchant_sublabel")}
                                     </p>
                                 </div>
                             </div>
@@ -309,7 +309,7 @@ function RouteComponent() {
                                             className="group relative flex items-center justify-between px-4 py-3 rounded-lg border transition-all cursor-pointer bg-zinc-900/50 border-zinc-800 hover:bg-purple-950/30 hover:border-purple-800/50">
                                             <div className="flex items-center gap-3">
                                                 <span className="text-zinc-300 text-sm font-medium">
-                                                    <Translate content={`enchantment:simulation.slot.${index + 1}`} />
+                                                    {t(`enchantment:simulation.slot.${index + 1}`)}
                                                 </span>
                                             </div>
                                             {slotRanges[index] && (
@@ -334,10 +334,10 @@ function RouteComponent() {
                             <div className="flex items-center justify-between w-full">
                                 <div className="flex flex-col w-3/4">
                                     <span className="text-lg font-medium text-zinc-200 tracking-wide">
-                                        <Translate content="enchantment:simulation.enchantability.title" />
+                                        {t("enchantment:simulation.enchantability.title")}
                                     </span>
                                     <span className="text-sm text-zinc-500">
-                                        <Translate content="enchantment:simulation.enchantability.description" />
+                                        {t("enchantment:simulation.enchantability.description")}
                                     </span>
                                 </div>
                                 <Counter max={15} min={0} step={1} value={enchantability} onChange={setEnchantability} />
@@ -345,10 +345,10 @@ function RouteComponent() {
                             <div className="flex items-center justify-between w-full">
                                 <div className="flex flex-col w-3/4">
                                     <span className="text-lg font-medium text-zinc-200 tracking-wide">
-                                        <Translate content="enchantment:simulation.vanilla.title" />
+                                        {t("enchantment:simulation.vanilla.title")}
                                     </span>
                                     <span className="text-sm text-zinc-500">
-                                        <Translate content="enchantment:simulation.vanilla.description" />
+                                        {t("enchantment:simulation.vanilla.description")}
                                     </span>
                                 </div>
                                 <label htmlFor="include-vanilla" className="cursor-pointer flex">
@@ -358,10 +358,10 @@ function RouteComponent() {
                             <div className="flex items-center justify-between w-full">
                                 <div className="flex flex-col w-3/4">
                                     <span className="text-lg font-medium text-zinc-200 tracking-wide">
-                                        <Translate content="enchantment:simulation.tooltip.title" />
+                                        {t("enchantment:simulation.tooltip.title")}
                                     </span>
                                     <span className="text-sm text-zinc-500">
-                                        <Translate content="enchantment:simulation.tooltip.description" />
+                                        {t("enchantment:simulation.tooltip.description")}
                                     </span>
                                 </div>
                                 <label htmlFor="tooltip" className="cursor-pointer flex">
@@ -375,14 +375,14 @@ function RouteComponent() {
                 <div className="mt-12 mb-20">
                     <div className="relative mb-8">
                         <h2 className="text-2xl font-semibold mb-1">
-                            <Translate content="enchantment:simulation.results.title" />
+                            {t("enchantment:simulation.results.title")}
                         </h2>
                         <ul className="text-zinc-400 text-sm list-disc list-inside space-y-1">
                             <li>
-                                <Translate content="enchantment:simulation.results.description.1" />
+                                {t("enchantment:simulation.results.description.1")}
                             </li>
                             <li>
-                                <Translate content="enchantment:simulation.results.description.2" />
+                                {t("enchantment:simulation.results.description.2")}
                             </li>
                         </ul>
                         <hr className="absolute -bottom-2 left-0 right-0" />
@@ -393,16 +393,16 @@ function RouteComponent() {
                                 <thead className="bg-black/50">
                                     <tr>
                                         <th className="px-6 py-4 text-left text-sm font-semibold text-zinc-200">
-                                            <Translate content="enchantment:simulation.results.table.enchantment" />
+                                            {t("enchantment:simulation.results.table.enchantment")}
                                         </th>
                                         <th className="px-6 py-4 text-left text-sm font-semibold text-zinc-200">
-                                            <Translate content="enchantment:simulation.results.table.probability" />
+                                            {t("enchantment:simulation.results.table.probability")}
                                         </th>
                                         <th className="px-6 py-4 text-left text-sm font-semibold text-zinc-200">
-                                            <Translate content="enchantment:simulation.results.table.average_level" />
+                                            {t("enchantment:simulation.results.table.average_level")}
                                         </th>
                                         <th className="px-6 py-4 text-left text-sm font-semibold text-zinc-200">
-                                            <Translate content="enchantment:simulation.results.table.level_range" />
+                                            {t("enchantment:simulation.results.table.level_range")}
                                         </th>
                                     </tr>
                                 </thead>
@@ -419,10 +419,10 @@ function RouteComponent() {
                                                         />
                                                     </div>
                                                     <h3 className="text-lg font-medium text-zinc-300 mb-1">
-                                                        <Translate content="enchantment:simulation.results.empty.title" />
+                                                        {t("enchantment:simulation.results.empty.title")}
                                                     </h3>
                                                     <p className="text-zinc-500 text-sm max-w-sm text-center">
-                                                        <Translate content="enchantment:simulation.results.empty.description" />
+                                                        {t("enchantment:simulation.results.empty.description")}
                                                     </p>
                                                 </div>
                                             </td>
@@ -444,7 +444,7 @@ function RouteComponent() {
                                                         <>
                                                             <span className="font-medium text-zinc-300">{toRoman(stat.minLevel)}</span>
                                                             <span className="font-light text-sm text-zinc-400 px-1.5">
-                                                                <Translate content="enchantment:simulation.results.level_range.to" />
+                                                                {t("enchantment:simulation.results.level_range.to")}
                                                             </span>
                                                             <span className="font-medium text-zinc-300">{toRoman(stat.maxLevel)}</span>
                                                         </>

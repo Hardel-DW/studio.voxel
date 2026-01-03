@@ -1,11 +1,10 @@
+import { t } from "@/lib/i18n";
 import { Identifier } from "@voxelio/breeze";
 import RenderGuard from "@/components/tools/elements/RenderGuard";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import { Button } from "@/components/ui/Button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/Popover";
 import { Switch } from "@/components/ui/Switch";
-import type { TranslateTextType } from "@/components/ui/Translate";
-import Translate from "@/components/ui/Translate";
 import { useElementLocks } from "@/lib/hook/useBreezeElement";
 import type { ActionOrBuilder, BaseRender } from "@/lib/hook/useInteractiveLogic";
 import { useActionHandler, useRenderer } from "@/lib/hook/useInteractiveLogic";
@@ -13,17 +12,17 @@ import { cn } from "@/lib/utils";
 import type { Condition, Lock } from "@/lib/utils/lock";
 
 export type ToolListOptionAction = {
-    title: TranslateTextType;
-    subtitle?: TranslateTextType;
-    description: TranslateTextType;
+    title: string;
+    subtitle?: string;
+    description: string;
     action: ActionOrBuilder;
     renderer?: BaseRender;
     type?: "toggle" | "action";
 };
 
 export type ToolListOptionType = {
-    title: TranslateTextType;
-    description: TranslateTextType;
+    title: string;
+    description: string;
     image?: string;
     values: string[];
     hide?: Condition;
@@ -51,16 +50,16 @@ function ActionItem(props: ToolListOptionAction & { elementId?: string; lock: { 
             <div className="flex flex-col flex-1">
                 <div className="text-sm text-zinc-200 flex items-center gap-2">
                     <span className="text-sm text-zinc-200">
-                        <Translate content={props.title} />
+                        {t(props.title)}
                     </span>
                     {props.subtitle && (
                         <span className="text-[10px] text-zinc-500 bg-zinc-900/20 px-1 py-0.5 rounded-md border border-zinc-900">
-                            <Translate content={props.subtitle} />
+                            {t(props.subtitle)}
                         </span>
                     )}
                 </div>
                 <span className="text-xs text-zinc-500">
-                    <Translate content={props.description} />
+                    {t(props.description)}
                 </span>
             </div>
             <Switch id="action-switch" isChecked={isChecked ?? false} setIsChecked={() => {}} disabled={props.lock.isLocked} />
@@ -101,10 +100,10 @@ export default function ToolListOption(props: ToolListOptionType) {
                             )}
                             <div className="flex flex-col">
                                 <span className="text-white line-clamp-1">
-                                    <Translate content={props.title} />
+                                    {t(props.title)}
                                 </span>
                                 <span className="text-xs text-zinc-400 font-light line-clamp-2">
-                                    <Translate content={props.description} />
+                                    {t(props.description)}
                                 </span>
                             </div>
                         </div>
