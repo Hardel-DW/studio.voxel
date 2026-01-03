@@ -1,7 +1,7 @@
-import { t } from "@/lib/i18n";
 import { CodeSection } from "@/components/tools/debug/CodeSection";
 import { useDebugStore } from "@/components/tools/debug/DebugStore";
 import { useConfiguratorStore } from "@/components/tools/Store";
+import { t } from "@/lib/i18n";
 
 interface RightSectionProps {
     uniqueKey: string | undefined;

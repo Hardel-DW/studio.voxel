@@ -1,5 +1,4 @@
-import { t } from "@/lib/i18n";
-import { createFileRoute, useNavigate, useParams } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Identifier, isVoxel, LootTableAction } from "@voxelio/breeze";
 import { useState } from "react";
 import LootItemEditor from "@/components/tools/concept/loot/LootItemEditor";
@@ -11,6 +10,7 @@ import { ToolbarSearch } from "@/components/tools/floatingbar/ToolbarSearch";
 import { ToolGrab } from "@/components/tools/floatingbar/ToolGrab";
 import { getCurrentElement, useConfiguratorStore } from "@/components/tools/Store";
 import { useFlattenedLootItems } from "@/lib/hook/useFlattenedLootItems";
+import { t } from "@/lib/i18n";
 
 export const Route = createFileRoute("/$lang/studio/editor/loot_table/main")({
     component: LootMainPage
@@ -18,7 +18,7 @@ export const Route = createFileRoute("/$lang/studio/editor/loot_table/main")({
 
 function LootMainPage() {
     const [searchValue, setSearchValue] = useState("");
-    const { lang } = useParams({ from: "/$lang" });
+    const { lang } = Route.useParams();
     const navigate = useNavigate();
     const { expand } = useDynamicIsland();
     const currentElement = useConfiguratorStore((state) => getCurrentElement(state));
@@ -54,11 +54,7 @@ function LootMainPage() {
     };
 
     if (isLoading || items.length === 0) {
-        return (
-            <div className="p-8 text-sm text-zinc-400">
-                {t(isLoading ? "loot:main.loading" : "loot:main.empty")}
-            </div>
-        );
+        return <div className="p-8 text-sm text-zinc-400">{t(isLoading ? "loot:main.loading" : "loot:main.empty")}</div>;
     }
 
     return (
@@ -72,9 +68,7 @@ function LootMainPage() {
             <div className="col-span-5 flex flex-col gap-y-4 p-8">
                 <div>
                     <div className="flex justify-between items-center gap-y-2">
-                        <h1 className="text-2xl font-bold text-white">
-                            {t("loot:main.title")}
-                        </h1>
+                        <h1 className="text-2xl font-bold text-white">{t("loot:main.title")}</h1>
                         <p className="text-sm text-zinc-400">
                             {t("loot:main.probability_mass")}: {totalProbability.toFixed(2)}
                         </p>

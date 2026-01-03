@@ -21,10 +21,11 @@ import { TOAST, toast } from "@/components/ui/Toast";
 import { GitHub, type Repository } from "@/lib/github/GitHub";
 import { RepositoryManager } from "@/lib/github/RepositoryManager";
 import { useGitHubAuth, useGitHubRepos } from "@/lib/hook/useGitHubAuth";
-import { t } from "@/lib/i18n/i18n";
+import { t, useI18n } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
 export default function RepositoryOpener() {
+    useI18n((state) => state.locale);
     const navigate = useNavigate();
     const { lang } = useParams({ from: "/$lang" });
     const [selectedAccount, setSelectedAccount] = useState<string>("");
@@ -33,18 +34,16 @@ export default function RepositoryOpener() {
     const queryClient = useQueryClient();
     const { isAuthenticated, user, token, login, isLoggingIn } = useGitHubAuth();
     const { data, isLoading: isLoadingRepos, isFetching } = useGitHubRepos(token);
-    const translate = t(lang);
-
     const manager = new RepositoryManager(user, data);
     const accounts = manager.getAccounts();
     const selectedAccountData = manager.findAccount(selectedAccount);
-    const selectedAccountLabel = selectedAccountData?.label ?? translate("repository.select_account");
+    const selectedAccountLabel = selectedAccountData?.label ?? t("repository.select_account");
     const filteredRepositories = manager.getFilteredRepositories(selectedAccount, searchQuery);
     const handleRefresh = () => queryClient.invalidateQueries({ queryKey: [["github", "repos"], token] });
 
     const { mutate, isPending } = useMutation({
         mutationFn: async (repo: Repository) => {
-            toast(translate("studio.import_repository.downloading", { name: repo.name }), TOAST.INFO);
+            toast(t("studio.import_repository.downloading", { name: repo.name }), TOAST.INFO);
             const files = await new GitHub({ token }).clone(repo.owner.login, repo.name, repo.default_branch, true);
             const datapack = new Datapack(files).parse();
             return { datapack, repo };
@@ -52,12 +51,12 @@ export default function RepositoryOpener() {
         onSuccess: ({ datapack, repo }) => {
             useConfiguratorStore.getState().setup(datapack, false, repo.name);
             useExportStore.getState().setGitRepository(repo.owner.login, repo.name, repo.default_branch, token || "");
-            toast(translate("studio.import_repository.success", { name: repo.name }), TOAST.SUCCESS);
+            toast(t("studio.import_repository.success", { name: repo.name }), TOAST.SUCCESS);
             navigate({ to: "/$lang/studio/editor/enchantment/overview", params: { lang } });
         },
         onError: (e: unknown) => {
-            const errorMessage = e instanceof Error ? e.message : translate("studio.error.failed_to_import_repository");
-            toast(translate("generic.dialog.error"), TOAST.ERROR, errorMessage);
+            const errorMessage = e instanceof Error ? e.message : t("studio.error.failed_to_import_repository");
+            toast(t("generic.dialog.error"), TOAST.ERROR, errorMessage);
         }
     });
 
@@ -67,7 +66,7 @@ export default function RepositoryOpener() {
                 onClick={() => login({ redirect: true })}
                 className="w-full mt-8 flex items-center gap-x-2 shimmer-zinc-950 border border-zinc-800 text-white">
                 <img src="/icons/company/github.svg" alt="GitHub" className="size-4 invert" />
-                <span className="text-sm">{translate("repository.login_to_github")}</span>
+                <span className="text-sm">{t("repository.login_to_github")}</span>
             </Button>
         );
 
@@ -79,7 +78,7 @@ export default function RepositoryOpener() {
                     disabled={isLoggingIn || isLoadingRepos}
                     className="w-full mt-8 flex items-center gap-x-2">
                     <img src="/icons/company/github.svg" alt="GitHub" className="size-4" />
-                    <span className="text-sm">{translate(isLoggingIn ? "repository.loading" : "repository.open")}</span>
+                    <span className="text-sm">{t(isLoggingIn ? "repository.loading" : "repository.open")}</span>
                 </Button>
             </DialogTrigger>
 
@@ -89,8 +88,8 @@ export default function RepositoryOpener() {
                         <div className="flex items-center gap-x-4">
                             <img src="/icons/company/github.svg" alt="GitHub" className="size-6 invert" />
                             <div className="flex flex-col">
-                                <span className="text-xl font-medium text-zinc-200">{translate("repository.select")}</span>
-                                <p className="text-zinc-500 text-sm">{translate("repository.select_description")}</p>
+                                <span className="text-xl font-medium text-zinc-200">{t("repository.select")}</span>
+                                <p className="text-zinc-500 text-sm">{t("repository.select_description")}</p>
                             </div>
                         </div>
                     </DialogTitle>
@@ -119,8 +118,8 @@ export default function RepositoryOpener() {
                                     onClick={() => setSelectedAccount(account.value)}
                                     description={
                                         account.type === "user"
-                                            ? translate("repository.personal_repositories")
-                                            : translate("repository.organization_repositories", { org: account.label })
+                                            ? t("repository.personal_repositories")
+                                            : t("repository.organization_repositories", { org: account.label })
                                     }
                                     className={selectedAccount === account.value ? "bg-zinc-900 text-zinc-200" : ""}>
                                     {account.label}
@@ -130,7 +129,7 @@ export default function RepositoryOpener() {
                     </DropdownMenu>
 
                     <TextInput
-                        placeholder={translate("repository.search_placeholder")}
+                        placeholder={t("repository.search_placeholder")}
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                     />
@@ -139,7 +138,7 @@ export default function RepositoryOpener() {
                 <DialogBody className="mt-4">
                     <div className="space-y-3">
                         {filteredRepositories.length === 0 ? (
-                            <div className="text-center py-8 text-zinc-400 text-sm">{translate("repository.no_results")}</div>
+                            <div className="text-center py-8 text-zinc-400 text-sm">{t("repository.no_results")}</div>
                         ) : (
                             filteredRepositories.map((repo) => (
                                 <div
@@ -152,12 +151,12 @@ export default function RepositoryOpener() {
                                                 <h3 className="text-sm font-semibold text-zinc-200 truncate">{repo.name}</h3>
                                                 {repo.private && (
                                                     <span className="text-s leading-4 px-2 py-0.5 bg-zinc-900 text-zinc-400 border border-zinc-800 rounded-md">
-                                                        {translate("repository.private")}
+                                                        {t("repository.private")}
                                                     </span>
                                                 )}
                                             </div>
                                             <p className="text-xs text-zinc-500 line-clamp-2">
-                                                {repo.description ? repo.description : translate("repository.no_description")}
+                                                {repo.description ? repo.description : t("repository.no_description")}
                                             </p>
                                         </div>
                                     </div>
@@ -167,7 +166,7 @@ export default function RepositoryOpener() {
                                         variant="default"
                                         disabled={isPending}
                                         className="shrink-0 text-xs px-3 py-2">
-                                        {translate("repository.import")}
+                                        {t("repository.import")}
                                     </Button>
                                 </div>
                             ))
@@ -180,16 +179,16 @@ export default function RepositoryOpener() {
                         <TextInput
                             disableIcon={true}
                             className="flex-1"
-                            placeholder={translate("repository.third_party_placeholder")}
+                            placeholder={t("repository.third_party_placeholder")}
                             value={thirdPartyUrl}
                             onChange={(e) => setThirdPartyUrl(e.target.value)}
                         />
                         <DialogCloseButton variant="ghost_border" className="text-xs px-4 py-2" disabled={!thirdPartyUrl.trim()}>
-                            {translate("repository.import")}
+                            {t("repository.import")}
                         </DialogCloseButton>
                     </div>
 
-                    <DialogCloseButton variant="ghost">{translate("generic.close")}</DialogCloseButton>
+                    <DialogCloseButton variant="ghost">{t("generic.close")}</DialogCloseButton>
                 </DialogFooter>
             </DialogContent>
         </Dialog>

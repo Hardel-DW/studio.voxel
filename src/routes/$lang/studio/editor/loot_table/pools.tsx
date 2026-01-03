@@ -1,5 +1,4 @@
-import { t } from "@/lib/i18n";
-import { createFileRoute, useNavigate, useParams } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Identifier, isVoxel, LootTableAction } from "@voxelio/breeze";
 import LootItemEditor from "@/components/tools/concept/loot/LootItemEditor";
 import { LootPoolContext } from "@/components/tools/concept/loot/LootPoolContext";
@@ -12,13 +11,14 @@ import { ToolGrab } from "@/components/tools/floatingbar/ToolGrab";
 import { getCurrentElement, useConfiguratorStore } from "@/components/tools/Store";
 import { Button } from "@/components/ui/Button";
 import useRegistry from "@/lib/hook/useRegistry";
+import { t } from "@/lib/i18n";
 
 export const Route = createFileRoute("/$lang/studio/editor/loot_table/pools")({
     component: PoolsPage
 });
 
 function PoolsPage() {
-    const { lang } = useParams({ from: "/$lang" });
+    const { lang } = Route.useParams();
     const navigate = useNavigate();
     const currentElement = useConfiguratorStore((state) => getCurrentElement(state));
     const handleChange = useConfiguratorStore((state) => state.handleChange);
@@ -106,9 +106,7 @@ function PoolsPage() {
                 </div>
 
                 <div className="sticky top-0 z-30 px-8 py-4 bg-zinc-950/75 backdrop-blur-md border-b border-zinc-800/50 flex items-center justify-between">
-                    <h1 className="text-2xl font-bold text-white">
-                        {t("loot:pools.title")}
-                    </h1>
+                    <h1 className="text-2xl font-bold text-white">{t("loot:pools.title")}</h1>
                     <Button variant="default" onClick={handleAddPool}>
                         {t("loot:pools.add_pool")}
                     </Button>

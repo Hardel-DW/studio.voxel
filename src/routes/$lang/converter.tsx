@@ -7,7 +7,7 @@ import { DashedPattern } from "@/components/ui/DashedPattern";
 import ShiningStars from "@/components/ui/ShiningStars";
 import Star from "@/components/ui/Star";
 import Walkthrough from "@/components/ui/Walkthrough";
-import { t } from "@/lib/i18n/i18n";
+import { t } from "@/lib/i18n";
 
 export const Route = createFileRoute("/$lang/converter")({
     component: ConverterPage,
@@ -16,16 +16,14 @@ export const Route = createFileRoute("/$lang/converter")({
 
 function ConverterPage() {
     const { lang } = Route.useParams();
-    const translate = t(lang);
-
     const walkthroughSteps = [
         {
-            title: translate("converter.step1.title"),
-            description: translate("converter.step1.description")
+            title: t("converter.step1.title"),
+            description: t("converter.step1.description")
         },
         {
-            title: translate("converter.step2.title"),
-            description: translate("converter.step2.description")
+            title: t("converter.step2.title"),
+            description: t("converter.step2.description")
         }
     ];
 
@@ -58,14 +56,14 @@ function ConverterPage() {
                 <div className="w-3/4 mx-auto">
                     <div className="mb-16">
                         <h1 className="text-3xl md:text-5xl mb-4 font-semibold tracking-tight bg-clip-text text-transparent bg-linear-to-b from-white to-white/60">
-                            {translate("converter.home")}
+                            {t("converter.home")}
                         </h1>
-                        <p className="text-sm text-zinc-400 md:w-3/4 w-full mb-4">{translate("converter.description")}</p>
+                        <p className="text-sm text-zinc-400 md:w-3/4 w-full mb-4">{t("converter.description")}</p>
                         <ul className="list-disc list-inside text-sm text-zinc-400 w-3/4 mb-4">
-                            <li>{translate("converter.description_list.1")}</li>
-                            <li>{translate("converter.description_list.2")}</li>
+                            <li>{t("converter.description_list.1")}</li>
+                            <li>{t("converter.description_list.2")}</li>
                         </ul>
-                        <p className="text-sm text-zinc-400 md:w-3/4 w-full mb-4">{translate("converter.instruction")}</p>
+                        <p className="text-sm text-zinc-400 md:w-3/4 w-full mb-4">{t("converter.instruction")}</p>
                         <Star />
                     </div>
 
@@ -90,18 +88,16 @@ function ConverterPage() {
                 </div>
                 <div className="h-full w-full mx-auto relative">
                     <div className="size-full flex flex-col justify-center">
-                        <small className="text-pink-700 font-bold tracking-wide text-[16px]">{translate("generic.section")}</small>
-                        <h1 className="text-white text-4xl md:text-6xl font-bold mt-4 text-balance">
-                            {translate("suggestions.studio.title")}
-                        </h1>
-                        <p className="text-gray-300 mt-4">{translate("suggestions.studio.description")}</p>
+                        <small className="text-pink-700 font-bold tracking-wide text-[16px]">{t("generic.section")}</small>
+                        <h1 className="text-white text-4xl md:text-6xl font-bold mt-4 text-balance">{t("suggestions.studio.title")}</h1>
+                        <p className="text-gray-300 mt-4">{t("suggestions.studio.description")}</p>
 
                         <div className="mt-8 flex flex-col md:flex-row gap-4">
                             <Button to="/$lang/studio" params={{ lang }} size="xl" variant="default" className="w-full md:w-auto">
-                                {translate("generic.start")}
+                                {t("generic.start")}
                             </Button>
                             <Button to="/$lang/studio" params={{ lang }} size="xl" variant="ghost" className="w-full md:w-auto">
-                                {translate("generic.learn_more")}
+                                {t("generic.learn_more")}
                             </Button>
                         </div>
                     </div>
@@ -114,17 +110,15 @@ function ConverterPage() {
 
                 <div className="h-full w-full mx-auto relative">
                     <div className="size-full flex flex-col justify-center">
-                        <h1 className="text-white text-4xl md:text-6xl font-bold mt-4 text-balance">
-                            {translate("suggestions.datapacks.title")}
-                        </h1>
-                        <p className="text-gray-300 mt-4">{translate("suggestions.datapacks.description")}</p>
+                        <h1 className="text-white text-4xl md:text-6xl font-bold mt-4 text-balance">{t("suggestions.datapacks.title")}</h1>
+                        <p className="text-gray-300 mt-4">{t("suggestions.datapacks.description")}</p>
 
                         <div className="mt-8 flex flex-col md:flex-row gap-4">
                             <Button to="/$lang/studio" params={{ lang }} size="xl" variant="shimmer" className="w-full md:w-auto">
-                                {translate("generic.take_a_look")}
+                                {t("generic.take_a_look")}
                             </Button>
                             <Button to="/$lang/studio" params={{ lang }} size="xl" variant="ghost" className="w-full md:w-auto">
-                                {translate("generic.learn_more")}
+                                {t("generic.learn_more")}
                             </Button>
                         </div>
                     </div>

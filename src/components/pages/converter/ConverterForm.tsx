@@ -1,9 +1,8 @@
-import { useParams } from "@tanstack/react-router";
 import type { ModMetadata } from "@voxelio/converter";
 import { convertDatapack, ModPlatforms } from "@voxelio/converter";
 import { useState } from "react";
 import { Button } from "@/components/ui/Button";
-import { t } from "@/lib/i18n/i18n";
+import { t, useI18n } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 import { downloadFile } from "@/lib/utils/download";
 import { trackEvent } from "@/lib/utils/telemetry";
@@ -34,14 +33,12 @@ interface Props {
 }
 
 export default function ConverterForm({ file, onFileChange, initialMetadata, iconUrl }: Props) {
-    const { lang } = useParams({ from: "/$lang" });
+    useI18n((state) => state.locale);
     const [metadata, setMetadata] = useState<ModMetadata>(initialMetadata);
     const [isConverting, setIsConverting] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [newAuthor, setNewAuthor] = useState("");
     const [showAdvanced, setShowAdvanced] = useState(false);
-    const translate = t(lang);
-
     const handleAddAuthor = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === "Enter" && newAuthor.trim()) {
             e.preventDefault();
@@ -76,7 +73,7 @@ export default function ConverterForm({ file, onFileChange, initialMetadata, ico
             await trackEvent("converted_datapack");
         } catch (error) {
             console.error("Conversion error:", error);
-            setError(error instanceof Error ? error.message : translate("converter.error"));
+            setError(error instanceof Error ? error.message : t("converter.error"));
         } finally {
             setIsConverting(false);
         }
@@ -104,18 +101,18 @@ export default function ConverterForm({ file, onFileChange, initialMetadata, ico
                             type="button"
                             onClick={onFileChange}
                             className="text-xs font-medium text-zinc-400 hover:text-white bg-white/5 hover:bg-white/10 px-3 py-1.5 rounded-full transition-colors">
-                            {translate("converter.form.change_file")}
+                            {t("converter.form.change_file")}
                         </button>
                     </div>
 
                     <div className="grid grid-cols-2 gap-4">
-                        <InputGroup label={translate("converter.form.name")}>
+                        <InputGroup label={t("converter.form.name")}>
                             <StyledInput
                                 value={metadata.name}
                                 onChange={(e) => setMetadata((prev) => ({ ...prev, name: e.target.value }))}
                             />
                         </InputGroup>
-                        <InputGroup label={translate("converter.form.version")}>
+                        <InputGroup label={t("converter.form.version")}>
                             <StyledInput
                                 value={metadata.version}
                                 onChange={(e) => setMetadata((prev) => ({ ...prev, version: e.target.value }))}
@@ -127,7 +124,7 @@ export default function ConverterForm({ file, onFileChange, initialMetadata, ico
 
             {/* Main Form */}
             <div className="bg-zinc-900/60 backdrop-blur-md rounded-3xl border border-white/5 p-8 shadow-xl space-y-6">
-                <InputGroup label={translate("converter.form.description")}>
+                <InputGroup label={t("converter.form.description")}>
                     <textarea
                         value={metadata.description}
                         onChange={(e) => setMetadata((prev) => ({ ...prev, description: e.target.value }))}
@@ -136,7 +133,7 @@ export default function ConverterForm({ file, onFileChange, initialMetadata, ico
                 </InputGroup>
 
                 <div className="grid grid-cols-2 gap-6">
-                    <InputGroup label={translate("converter.form.id")}>
+                    <InputGroup label={t("converter.form.id")}>
                         <StyledInput value={metadata.id} onChange={(e) => setMetadata((prev) => ({ ...prev, id: e.target.value }))} />
                     </InputGroup>
 
@@ -145,7 +142,7 @@ export default function ConverterForm({ file, onFileChange, initialMetadata, ico
                             type="button"
                             onClick={() => setShowAdvanced(!showAdvanced)}
                             className="flex items-center justify-between w-full px-4 py-3 rounded-xl bg-white/5 hover:bg-white/10 text-sm text-zinc-300 transition-all border border-white/5">
-                            <span>{translate("converter.form.advanced")}</span>
+                            <span>{t("converter.form.advanced")}</span>
                             <span
                                 className={`transform transition-transform duration-200 text-zinc-500 ${showAdvanced ? "rotate-90" : ""}`}>
                                 ›
@@ -161,7 +158,7 @@ export default function ConverterForm({ file, onFileChange, initialMetadata, ico
                         "grid-rows-[0fr] opacity-0": !showAdvanced
                     })}>
                     <div className="overflow-hidden space-y-6 pt-2">
-                        <InputGroup label={translate("converter.form.authors")}>
+                        <InputGroup label={t("converter.form.authors")}>
                             <div className="space-y-3">
                                 <div className="flex flex-wrap gap-2">
                                     {metadata.authors.map((author) => (
@@ -193,13 +190,13 @@ export default function ConverterForm({ file, onFileChange, initialMetadata, ico
                                     value={newAuthor}
                                     onChange={(e) => setNewAuthor(e.target.value)}
                                     onKeyDown={handleAddAuthor}
-                                    placeholder={translate("converter.form.authors_placeholder")}
+                                    placeholder={t("converter.form.authors_placeholder")}
                                 />
                             </div>
                         </InputGroup>
 
                         <div className="grid grid-cols-2 gap-6">
-                            <InputGroup label={translate("converter.form.sources")}>
+                            <InputGroup label={t("converter.form.sources")}>
                                 <StyledInput
                                     type="url"
                                     value={metadata.sources}
@@ -214,7 +211,7 @@ export default function ConverterForm({ file, onFileChange, initialMetadata, ico
                                     placeholder="https://github.com/..."
                                 />
                             </InputGroup>
-                            <InputGroup label={translate("converter.form.homepage")}>
+                            <InputGroup label={t("converter.form.homepage")}>
                                 <StyledInput
                                     type="url"
                                     value={metadata.homepage}
@@ -247,7 +244,7 @@ export default function ConverterForm({ file, onFileChange, initialMetadata, ico
                                 {error}
                             </p>
                         ) : (
-                            <p className="text-xs text-zinc-500 max-w-xs">{translate("converter.form.advanced_description")}</p>
+                            <p className="text-xs text-zinc-500 max-w-xs">{t("converter.form.advanced_description")}</p>
                         )}
                     </div>
 
@@ -275,10 +272,10 @@ export default function ConverterForm({ file, onFileChange, initialMetadata, ico
                                         d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                                     />
                                 </svg>
-                                {translate("converter.form.converting")}
+                                {t("converter.form.converting")}
                             </span>
                         ) : (
-                            translate("converter.form.download")
+                            t("converter.form.download")
                         )}
                     </Button>
                 </div>

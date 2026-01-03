@@ -1,12 +1,13 @@
-import { t } from "@/lib/i18n";
 import { useParams } from "@tanstack/react-router";
 import { Button } from "@/components/ui/Button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/Dialog";
 import { useGitHubAuth } from "@/lib/hook/useGitHubAuth";
+import { t, useI18n } from "@/lib/i18n";
 
 export default function GitButton() {
-    const { isAuthenticated, login } = useGitHubAuth();
+    useI18n((state) => state.locale);
     const { lang } = useParams({ from: "/$lang" });
+    const { isAuthenticated, login } = useGitHubAuth();
 
     if (isAuthenticated) {
         return (
@@ -40,12 +41,8 @@ export default function GitButton() {
                             <img src="/icons/company/github.svg" alt="GitHub" className="size-10 invert" />
                         </div>
                         <div className="space-y-2 max-w-sm">
-                            <h3 className="text-2xl font-bold text-white tracking-tight">
-                                {t("github:unlock.cloud.sync.title")}
-                            </h3>
-                            <p className="text-zinc-400 text-sm leading-relaxed">
-                                {t("github:unlock.cloud.sync.description")}
-                            </p>
+                            <h3 className="text-2xl font-bold text-white tracking-tight">{t("github:unlock.cloud.sync.title")}</h3>
+                            <p className="text-zinc-400 text-sm leading-relaxed">{t("github:unlock.cloud.sync.description")}</p>
                         </div>
                         <Button
                             onClick={() => login({ redirect: false })}

@@ -3,7 +3,7 @@ import CompoundLayout from "@/components/layout/CompoundLayout";
 import HarmonizeEditor from "@/components/pages/harmonization/HarmonizeEditor";
 import PageLoading from "@/components/pages/PageLoading";
 import LineSetup from "@/components/ui/line/LineSetup";
-import { t } from "@/lib/i18n/i18n";
+import { t } from "@/lib/i18n";
 
 export const Route = createFileRoute("/$lang/harmonization")({
     component: HarmonizationPage,
@@ -11,9 +11,6 @@ export const Route = createFileRoute("/$lang/harmonization")({
 });
 
 function HarmonizationPage() {
-    const { lang } = Route.useParams();
-    const translate = t(lang);
-
     return (
         <CompoundLayout>
             <div className="fixed inset-0 -z-50 overflow-hidden pointer-events-none bg-zinc-950">
@@ -41,10 +38,8 @@ function HarmonizationPage() {
             <section className="pt-32 md:pt-48 pb-24 min-h-screen relative flex flex-col items-center">
                 <div className="w-full px-6 md:px-12 lg:px-16 max-w-[1920px] mx-auto flex flex-col gap-12">
                     <div className="text-center space-y-6 relative z-10 max-w-3xl mx-auto">
-                        <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight text-white">
-                            {translate("harmonization.title")}
-                        </h1>
-                        <p className="text-lg text-zinc-400 leading-relaxed">{translate("harmonization.description")}</p>
+                        <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight text-white">{t("harmonization.title")}</h1>
+                        <p className="text-lg text-zinc-400 leading-relaxed">{t("harmonization.description")}</p>
                     </div>
 
                     <HarmonizeEditor />

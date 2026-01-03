@@ -1,8 +1,8 @@
 import RenderGuard from "@/components/tools/elements/RenderGuard";
 import Range from "@/components/ui/Range";
-import { t, useI18n } from "@/lib/i18n";
 import type { BaseInteractiveComponent } from "@/lib/hook/useInteractiveLogic";
 import { useInteractiveLogic } from "@/lib/hook/useInteractiveLogic";
+import { t, useI18n } from "@/lib/i18n";
 
 // Type defined locally
 export type ToolRangeType = BaseInteractiveComponent & {

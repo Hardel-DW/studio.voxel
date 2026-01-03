@@ -1,5 +1,5 @@
-import { t } from "@/lib/i18n";
 import SimpleCard from "@/components/tools/elements/SimpleCard";
+import { t, useI18n } from "@/lib/i18n";
 
 export default function TemplateCard(props: {
     image: string;
@@ -8,6 +8,7 @@ export default function TemplateCard(props: {
     short?: string;
     children: React.ReactNode;
 }) {
+    useI18n((state) => state.locale);
     return (
         <SimpleCard>
             <div className="flex items-center justify-between w-full gap-4">
@@ -15,21 +16,11 @@ export default function TemplateCard(props: {
                 {props.children}
             </div>
             <div>
-                <h3 className="text-lg font-semibold mb-1">
-                    {t(props.title)}
-                </h3>
-                {props.description && (
-                    <p className="text-sm text-zinc-400">
-                        {t(props.description)}
-                    </p>
-                )}
+                <h3 className="text-lg font-semibold mb-1">{t(props.title)}</h3>
+                {props.description && <p className="text-sm text-zinc-400">{t(props.description)}</p>}
             </div>
 
-            {props.short && (
-                <p className="text-xs text-zinc-400 pt-4 mt-4 border-t border-zinc-700">
-                    {t(props.short)}
-                </p>
-            )}
+            {props.short && <p className="text-xs text-zinc-400 pt-4 mt-4 border-t border-zinc-700">{t(props.short)}</p>}
         </SimpleCard>
     );
 }

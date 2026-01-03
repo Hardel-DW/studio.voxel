@@ -1,4 +1,3 @@
-import { t, useI18n } from "@/lib/i18n";
 import { useMutation } from "@tanstack/react-query";
 import { createFileRoute, Outlet, useRouterState } from "@tanstack/react-router";
 import { DatapackDownloader } from "@voxelio/breeze";
@@ -10,6 +9,7 @@ import { TextInput } from "@/components/ui/TextInput";
 import { TOAST, toast } from "@/components/ui/Toast";
 import { GitFileTree } from "@/components/ui/tree/GitFileTree";
 import { GitHub } from "@/lib/github/GitHub";
+import { t, useI18n } from "@/lib/i18n";
 import { encodeToBase64 } from "@/lib/utils/encode";
 
 export const Route = createFileRoute("/$lang/studio/editor/github")({
@@ -49,9 +49,7 @@ function GithubLayout() {
                 <div className="px-6 pt-6">
                     <div className="text-lg font-bold text-zinc-100 flex items-center gap-2 mb-1">
                         <img src="/icons/company/github.svg" className="size-5 invert opacity-80" alt="Icon of a GitHub repository" />
-                        <span>
-                            {t("github:layout.title")}
-                        </span>
+                        <span>{t("github:layout.title")}</span>
                     </div>
                     {isGitRepository && (
                         <p className="text-xs text-zinc-500 pl-7 flex items-center gap-1.5">
@@ -89,9 +87,7 @@ function GithubLayout() {
                     ) : (
                         <div className="flex flex-col items-center justify-center py-12 text-zinc-600 gap-2">
                             <img src="/icons/company/github.svg" className="size-8 opacity-20 invert" alt="Icon of a GitHub repository" />
-                            <span className="text-xs text-center">
-                                {t("github:layout.empty.init")}
-                            </span>
+                            <span className="text-xs text-center">{t("github:layout.empty.init")}</span>
                         </div>
                     )}
                 </div>

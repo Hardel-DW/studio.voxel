@@ -1,4 +1,4 @@
-import { createFileRoute, Outlet, useLocation, useNavigate, useParams } from "@tanstack/react-router";
+import { createFileRoute, Outlet, useLocation, useNavigate } from "@tanstack/react-router";
 import { Identifier, isVoxel } from "@voxelio/breeze";
 import { useEditorUiStore } from "@/components/tools/concept/EditorUiStore";
 import { EditorHeader } from "@/components/tools/concept/layout/EditorHeader";
@@ -33,8 +33,8 @@ export const Route = createFileRoute("/$lang/studio/editor/recipe")({
 });
 
 function RecipeLayout() {
-    const { lang } = useParams({ from: "/$lang/studio/editor/recipe" });
     const { filterPath } = useEditorUiStore();
+    const { lang } = Route.useParams();
     const location = useLocation();
     const navigate = useNavigate();
     const elements = useElementsByType("recipe");

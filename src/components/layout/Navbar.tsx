@@ -1,16 +1,17 @@
-import { ClientOnly, Link, useParams } from "@tanstack/react-router";
+import { ClientOnly, Link } from "@tanstack/react-router";
+import HeroCard from "@/components/layout/navbar/HeroCard";
+import Internalization from "@/components/layout/navbar/internalization";
+import ListItem from "@/components/layout/navbar/ListItem";
+import MobileMenuButton from "@/components/layout/navbar/MobileMenuButton";
+import MobileNavigationContainer from "@/components/layout/navbar/MobileNavigationContainer";
+import NavbarScrollFade from "@/components/layout/navbar/NavbarScrollFade";
+import Navigation from "@/components/layout/navbar/Navigation";
+import NavigationDropdown from "@/components/layout/navbar/NavigationDropdown";
+import NavigationList from "@/components/layout/navbar/NavigationList";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/Popover";
 import { useGitHubAuth } from "@/lib/hook/useGitHubAuth";
-import { t } from "@/lib/i18n/i18n";
-import HeroCard from "./navbar/HeroCard";
-import Internalization from "./navbar/internalization";
-import ListItem from "./navbar/ListItem";
-import MobileMenuButton from "./navbar/MobileMenuButton";
-import MobileNavigationContainer from "./navbar/MobileNavigationContainer";
-import NavbarScrollFade from "./navbar/NavbarScrollFade";
-import Navigation from "./navbar/Navigation";
-import NavigationDropdown from "./navbar/NavigationDropdown";
-import NavigationList from "./navbar/NavigationList";
+import { t, useI18n } from "@/lib/i18n";
+import { Route } from "@/routes/$lang";
 
 const baseVoxelPath = import.meta.env.VITE_BASE_VOXEL_PATH;
 const socials = [
@@ -36,16 +37,16 @@ function SocialLinks() {
 }
 
 export default function Navbar() {
-    const { lang } = useParams({ from: "/$lang" });
-    const translate = t(lang);
+    useI18n((state) => state.locale);
     const { isAuthenticated, user, logout } = useGitHubAuth();
+    const { lang } = Route.useParams();
 
     const links = [
-        { name: translate("navbar.item.blog"), href: `${baseVoxelPath}/${lang}/blog` },
-        { name: translate("navbar.item.patchnote"), href: `${baseVoxelPath}/${lang}/patchnote/neoenchant` },
-        { name: translate("navbar.item.data_pack"), href: `${baseVoxelPath}/${lang}/packs/neoenchant` },
-        { name: translate("navbar.item.resources"), to: "/$lang/studio" },
-        { name: translate("navbar.item.contact"), href: `${baseVoxelPath}/${lang}/contact` }
+        { name: t("navbar.item.blog"), href: `${baseVoxelPath}/${lang}/blog` },
+        { name: t("navbar.item.patchnote"), href: `${baseVoxelPath}/${lang}/patchnote/neoenchant` },
+        { name: t("navbar.item.data_pack"), href: `${baseVoxelPath}/${lang}/packs/neoenchant` },
+        { name: t("navbar.item.resources"), to: "/$lang/studio" },
+        { name: t("navbar.item.contact"), href: `${baseVoxelPath}/${lang}/contact` }
     ];
 
     return (
@@ -67,40 +68,40 @@ export default function Navbar() {
                                     <a
                                         href={`${baseVoxelPath}/${lang}/blog`}
                                         className="px-4 py-2 rounded-3xl cursor-pointer text-[16px] tracking-wide transition text-zinc-400 hover:text-white inline-flex h-10 w-max items-center justify-center bg-transparent hover:bg-zinc-900 focus:bg-zinc-700 focus:text-white focus:outline-none disabled:pointer-events-none disabled:opacity-50">
-                                        {translate("navbar.item.blog")}
+                                        {t("navbar.item.blog")}
                                     </a>
                                 </li>
 
-                                <NavigationDropdown label={translate("navbar.item.patchnote")}>
+                                <NavigationDropdown label={t("navbar.item.patchnote")}>
                                     <div className="p-6 space-y-6 md:w-[400px] lg:w-[500px]">
                                         <HeroCard
                                             href={`${baseVoxelPath}/${lang}/patchnote/neoenchant`}
-                                            title={translate("navbar.patchnote.neoenchant.title")}
-                                            description={translate("navbar.patchnote.neoenchant.description")}
+                                            title={t("navbar.patchnote.neoenchant.title")}
+                                            description={t("navbar.patchnote.neoenchant.description")}
                                             image="/images/background/tools/hero-ne.webp"
                                         />
                                         <ul className="grid gap-3 mt-3">
                                             <ListItem
                                                 href={`${baseVoxelPath}/${lang}/patchnote/neoenchant`}
-                                                title={translate("navbar.patchnote.neoenchant.title")}
+                                                title={t("navbar.patchnote.neoenchant.title")}
                                                 image="/images/features/title/ne.png">
-                                                {translate("navbar.patchnote.neoenchant.description")}
+                                                {t("navbar.patchnote.neoenchant.description")}
                                             </ListItem>
                                             <ListItem
                                                 href={`${baseVoxelPath}/${lang}/patchnote/yggdrasil`}
-                                                title={translate("navbar.patchnote.yggdrasil.title")}
+                                                title={t("navbar.patchnote.yggdrasil.title")}
                                                 image="/images/features/title/yg.webp">
-                                                {translate("navbar.patchnote.yggdrasil.description")}
+                                                {t("navbar.patchnote.yggdrasil.description")}
                                             </ListItem>
                                         </ul>
                                     </div>
                                 </NavigationDropdown>
 
-                                <NavigationDropdown label={translate("navbar.item.data_pack")}>
+                                <NavigationDropdown label={t("navbar.item.data_pack")}>
                                     <div className="p-6 space-y-6 md:w-[400px] lg:w-[500px]">
                                         <HeroCard
-                                            title={translate("navbar.datapack.modrinth.title")}
-                                            description={translate("navbar.datapack.modrinth.description")}
+                                            title={t("navbar.datapack.modrinth.title")}
+                                            description={t("navbar.datapack.modrinth.description")}
                                             image="/images/background/modrinth.webp"
                                             href="https://modrinth.com/user/Hardel-DW"
                                             target="_blank"
@@ -109,52 +110,46 @@ export default function Navbar() {
                                         <ul className="grid gap-3 mt-3">
                                             <ListItem
                                                 href={`${baseVoxelPath}/${lang}/packs/neoenchant`}
-                                                title={translate("navbar.datapack.neoenchant.title")}
+                                                title={t("navbar.datapack.neoenchant.title")}
                                                 image="/images/features/title/ne.png">
-                                                {translate("navbar.datapack.neoenchant.description")}
+                                                {t("navbar.datapack.neoenchant.description")}
                                             </ListItem>
                                             <ListItem
                                                 href={`${baseVoxelPath}/${lang}/packs/yggdrasil`}
-                                                title={translate("navbar.datapack.yggdrasil.title")}
+                                                title={t("navbar.datapack.yggdrasil.title")}
                                                 image="/images/features/title/yg.webp">
-                                                {translate("navbar.datapack.yggdrasil.description")}
+                                                {t("navbar.datapack.yggdrasil.description")}
                                             </ListItem>
                                         </ul>
                                     </div>
                                 </NavigationDropdown>
 
-                                <NavigationDropdown label={translate("navbar.item.resources")}>
+                                <NavigationDropdown label={t("navbar.item.resources")}>
                                     <div className="p-6 md:w-[400px] lg:w-[500px]">
                                         <HeroCard
                                             to="/$lang/studio"
                                             params={{ lang }}
-                                            title={translate("navbar.resources.studio.title")}
-                                            description={translate("navbar.resources.studio.description")}
+                                            title={t("navbar.resources.studio.title")}
+                                            description={t("navbar.resources.studio.description")}
                                             image="/images/background/tools/configurator.webp"
                                         />
                                         <ul className="grid gap-3 mt-3 lg:grid-cols-[.75fr_1fr]">
                                             <ListItem
                                                 to="/$lang/harmonization"
                                                 params={{ lang }}
-                                                title={translate("navbar.resources.harmonization.title")}>
-                                                {translate("navbar.resources.harmonization.description")}
+                                                title={t("navbar.resources.harmonization.title")}>
+                                                {t("navbar.resources.harmonization.description")}
                                             </ListItem>
                                             <ListItem
                                                 href={`${baseVoxelPath}/${lang}/resources/asset`}
-                                                title={translate("navbar.resources.asset.title")}>
-                                                {translate("navbar.resources.asset.description")}
+                                                title={t("navbar.resources.asset.title")}>
+                                                {t("navbar.resources.asset.description")}
                                             </ListItem>
-                                            <ListItem
-                                                to="/$lang/converter"
-                                                params={{ lang }}
-                                                title={translate("navbar.resources.converter.title")}>
-                                                {translate("navbar.resources.converter.description")}
+                                            <ListItem to="/$lang/converter" params={{ lang }} title={t("navbar.resources.converter.title")}>
+                                                {t("navbar.resources.converter.description")}
                                             </ListItem>
-                                            <ListItem
-                                                to="/$lang/migration"
-                                                params={{ lang }}
-                                                title={translate("navbar.resources.migration.title")}>
-                                                {translate("navbar.resources.migration.description")}
+                                            <ListItem to="/$lang/migration" params={{ lang }} title={t("navbar.resources.migration.title")}>
+                                                {t("navbar.resources.migration.description")}
                                             </ListItem>
                                         </ul>
                                     </div>
@@ -164,7 +159,7 @@ export default function Navbar() {
                                     <a
                                         href={`${baseVoxelPath}/${lang}/contact`}
                                         className="px-4 py-2 rounded-3xl cursor-pointer text-[16px] tracking-wide transition text-zinc-400 hover:text-white inline-flex h-10 w-max items-center justify-center bg-transparent hover:bg-zinc-900 focus:bg-zinc-700 focus:text-white focus:outline-none disabled:pointer-events-none disabled:opacity-50">
-                                        {translate("navbar.item.contact")}
+                                        {t("navbar.item.contact")}
                                     </a>
                                 </li>
                             </NavigationList>
@@ -201,7 +196,7 @@ export default function Navbar() {
                                                     type="button"
                                                     onClick={() => logout()}
                                                     className="w-full px-3 py-2 cursor-pointer text-sm text-zinc-200 hover:bg-zinc-700/20 rounded-lg transition-colors flex items-center justify-between">
-                                                    {translate("navbar.logout")}
+                                                    {t("navbar.logout")}
                                                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                         <path
                                                             strokeLinecap="round"

@@ -1,4 +1,3 @@
-import { useParams } from "@tanstack/react-router";
 import { compileDatapack, Datapack, DatapackDownloader, Logger } from "@voxelio/breeze";
 import { useRef, useState } from "react";
 import MigrationStatus from "@/components/pages/migration/MigrationStatus";
@@ -15,7 +14,7 @@ import {
 } from "@/components/ui/Dialog";
 import { toast } from "@/components/ui/Toast";
 import { useConfetti } from "@/lib/hook/useConfetti";
-import { t } from "@/lib/i18n/i18n";
+import { t, useI18n } from "@/lib/i18n";
 import { downloadFile } from "@/lib/utils/download";
 import { trackEvent } from "@/lib/utils/telemetry";
 
@@ -35,19 +34,18 @@ interface UploadState {
 }
 
 export default function MigrationEditor() {
+    useI18n((state) => state.locale);
     const [uploads, setUploads] = useState<Record<UploadType, UploadState>>({
         source: { files: null },
         target: { files: null }
     });
     const { addConfetti, renderConfetti } = useConfetti();
-    const { lang } = useParams({ from: "/$lang" });
-    const translate = t(lang);
     const dialogRef = useRef<DialogHandle>(null);
 
     const handleMigration = async () => {
         const { source, target } = uploads;
         if (!source.files || !target.files) return;
-        toast(translate("migration.processing"), "info");
+        toast(t("migration.processing"), "info");
 
         const targetData = await Datapack.from(target.files[0]);
         const targetDataResult = targetData.parse();
@@ -70,7 +68,7 @@ export default function MigrationEditor() {
             const newFilename = DatapackDownloader.getFileName(filename, isModded);
             downloadFile(response, newFilename);
 
-            toast(translate("migration.success_message"), "success");
+            toast(t("migration.success_message"), "success");
             await trackEvent("migrated_datapack");
             dialogRef.current?.open();
 
@@ -78,13 +76,13 @@ export default function MigrationEditor() {
             setTimeout(() => setUploads({ source: { files: null }, target: { files: null } }), 3000);
         } catch (error) {
             console.error("Migration failed:", error);
-            toast(translate("migration.error.failed_to_apply_changes"), "error");
+            toast(t("migration.error.failed_to_apply_changes"), "error");
         }
     };
 
     const validators: Record<UploadType, (result: Exclude<Awaited<ReturnType<Datapack["parse"]>>, string>) => string | null> = {
-        source: (result) => (!result.files["voxel/logs.json"] ? translate("migration.error_types.no_logs") : null),
-        target: (result) => (result.elements.size === 0 ? translate("migration.error_types.invalid_datapack") : null)
+        source: (result) => (!result.files["voxel/logs.json"] ? t("migration.error_types.no_logs") : null),
+        target: (result) => (result.elements.size === 0 ? t("migration.error_types.invalid_datapack") : null)
     };
 
     const handleUpload = async (files: FileList, type: UploadType) => {
@@ -94,7 +92,7 @@ export default function MigrationEditor() {
         const isModded = filename.endsWith(".jar");
 
         if (typeof result === "string") {
-            toast(translate(result), "error");
+            toast(t(result), "error");
             return;
         }
 
@@ -121,10 +119,10 @@ export default function MigrationEditor() {
                     <DialogHeader>
                         <DialogTitle className="mb-3">
                             <img src="/icons/success.svg" alt="zip" className="size-6" />
-                            <span className="text-xl font-medium text-zinc-200">{translate("generic.dialog.success")}</span>
+                            <span className="text-xl font-medium text-zinc-200">{t("generic.dialog.success")}</span>
                         </DialogTitle>
                         <DialogDescription className="text-zinc-400">
-                            {translate("migration.success_message")}
+                            {t("migration.success_message")}
                             <div className="py-2">
                                 <span className="font-semibold text-zinc-200">
                                     {uploads.target.data && `${uploads.target.data.name}.${uploads.target.data.isModded ? "jar" : "zip"}`}
@@ -132,10 +130,10 @@ export default function MigrationEditor() {
                             </div>
                             <div className="h-px w-full bg-white/10 my-4" />
                             <div className="space-y-2">
-                                <h4 className="font-semibold text-zinc-200">{translate("migration.success_info.additional_info")}</h4>
+                                <h4 className="font-semibold text-zinc-200">{t("migration.success_info.additional_info")}</h4>
                                 <ul className="list-disc list-inside text-sm pl-2">
                                     <li>
-                                        <span className="font-light">{translate("migration.success_info.additional_info")}</span>
+                                        <span className="font-light">{t("migration.success_info.additional_info")}</span>
                                     </li>
                                 </ul>
                             </div>
@@ -158,7 +156,7 @@ export default function MigrationEditor() {
                             href="https://streamelements.com/hardoudou/tip"
                             variant="shimmer"
                             className="cursor-pointer">
-                            {translate("generic.donate")}
+                            {t("generic.donate")}
                         </Button>
                     </DialogFooter>
                 </DialogContent>
@@ -170,8 +168,8 @@ export default function MigrationEditor() {
                         <MigrationUpload
                             id="source-dropzone"
                             onFileUpload={(files) => handleUpload(files, "source")}
-                            title={translate("migration.source")}
-                            description={translate("migration.drop.source")}
+                            title={t("migration.source")}
+                            description={t("migration.drop.source")}
                         />
                     ) : (
                         <MigrationStatus
@@ -200,8 +198,8 @@ export default function MigrationEditor() {
                         <MigrationUpload
                             id="target-dropzone"
                             onFileUpload={(files) => handleUpload(files, "target")}
-                            title={translate("migration.target")}
-                            description={translate("migration.drop.target")}
+                            title={t("migration.target")}
+                            description={t("migration.drop.target")}
                         />
                     ) : (
                         <MigrationStatus

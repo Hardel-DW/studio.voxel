@@ -1,6 +1,6 @@
-import { t } from "@/lib/i18n";
 import { calculateItemCountRange, type FlattenedLootItem, Identifier } from "@voxelio/breeze";
 import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer";
+import { t, useI18n } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
 interface RewardItemProps extends FlattenedLootItem {
@@ -11,6 +11,7 @@ interface RewardItemProps extends FlattenedLootItem {
 }
 
 export default function RewardItem(props: RewardItemProps) {
+    useI18n((state) => state.locale);
     const countRange = calculateItemCountRange(props.functions);
     const probabilityPercentage = props.normalizedProbability ? (props.normalizedProbability * 100).toFixed(1) : null;
     const handleDelete = () => props.id && props.onDelete?.(props.id);
@@ -40,14 +41,10 @@ export default function RewardItem(props: RewardItemProps) {
                         <svg className="size-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                             <path d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                         </svg>
-                        <span className="opacity-60">
-                            {t("loot:reward.from")}
-                        </span>
+                        <span className="opacity-60">{t("loot:reward.from")}</span>
                         <span className="font-medium">{sourcePath?.toString()}</span>
                     </button>
-                    <span className="text-[10px] text-zinc-600 font-medium">
-                        {t("loot:reward.not_editable")}
-                    </span>
+                    <span className="text-[10px] text-zinc-600 font-medium">{t("loot:reward.not_editable")}</span>
                 </div>
             )}
 

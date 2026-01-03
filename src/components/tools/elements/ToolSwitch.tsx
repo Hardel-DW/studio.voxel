@@ -1,9 +1,9 @@
-import { t } from "@/lib/i18n";
 import { useId } from "react";
 import RenderGuard from "@/components/tools/elements/RenderGuard";
 import { Switch } from "@/components/ui/Switch";
 import type { BaseInteractiveComponent } from "@/lib/hook/useInteractiveLogic";
 import { useInteractiveLogic } from "@/lib/hook/useInteractiveLogic";
+import { t, useI18n } from "@/lib/i18n";
 
 export type ToolSwitchType = BaseInteractiveComponent & {
     title: string;
@@ -11,6 +11,7 @@ export type ToolSwitchType = BaseInteractiveComponent & {
 };
 
 export default function ToolSwitch(props: ToolSwitchType) {
+    useI18n((state) => state.locale);
     const id = useId();
     const { value, lock, handleChange } = useInteractiveLogic<ToolSwitchType, boolean>({ component: props });
     if (value === null) return null;
@@ -20,14 +21,10 @@ export default function ToolSwitch(props: ToolSwitchType) {
             <div className="bg-black/35 border border-zinc-900 transition-transform duration-150 ease-out hover:-translate-y-1 p-6 rounded-xl relative overflow-hidden isolate">
                 <label htmlFor={id} className="flex items-center justify-between w-full cursor-pointer">
                     <div className="flex flex-col w-3/4">
-                        <span className="text-white line-clamp-1">
-                            {t(props.title)}
-                        </span>
+                        <span className="text-white line-clamp-1">{t(props.title)}</span>
                         <span className="text-xs text-zinc-400 font-light line-clamp-2">
                             {lock.isLocked ? (
-                                <span className="text-xs text-zinc-400 font-light w-max">
-                                    {t(lock.text)}
-                                </span>
+                                <span className="text-xs text-zinc-400 font-light w-max">{t(lock.text)}</span>
                             ) : (
                                 t(props.description)
                             )}

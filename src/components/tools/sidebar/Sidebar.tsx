@@ -1,4 +1,3 @@
-import { t } from "@/lib/i18n";
 import { useDebugStore } from "@/components/tools/debug/DebugStore";
 import { CONCEPTS } from "@/components/tools/elements";
 import Internalization from "@/components/tools/Internalization";
@@ -8,8 +7,10 @@ import GitButton from "@/components/tools/sidebar/GitButton";
 import SidebarCard from "@/components/tools/sidebar/SidebarCard";
 import { Button } from "@/components/ui/Button";
 import { Dialog, DialogBody, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/Dialog";
+import { t, useI18n } from "@/lib/i18n";
 
 export default function StudioSidebar() {
+    useI18n((state) => state.locale);
     const hasElements = useConfiguratorStore((state) => Object.keys(state.files).length > 0);
     if (!hasElements) return null;
 
@@ -44,13 +45,9 @@ export default function StudioSidebar() {
                                 <div className="size-10 rounded-full bg-zinc-900 flex items-center justify-center border border-zinc-800 shadow-inner">
                                     <img src="/icons/settings.svg" alt="Settings" className="size-5 invert opacity-75" />
                                 </div>
-                                <span className="text-zinc-100 font-semibold tracking-tight">
-                                    {t("settings")}
-                                </span>
+                                <span className="text-zinc-100 font-semibold tracking-tight">{t("settings")}</span>
                             </DialogTitle>
-                            <DialogDescription className="text-zinc-400 text-sm">
-                                {t("settings.description")}
-                            </DialogDescription>
+                            <DialogDescription className="text-zinc-400 text-sm">{t("settings.description")}</DialogDescription>
                         </DialogHeader>
 
                         <DialogBody className="p-6 pt-2 space-y-6">
@@ -61,12 +58,8 @@ export default function StudioSidebar() {
                                     </h4>
                                     <div className="group flex items-center justify-between p-4 rounded-xl bg-zinc-900/30 border border-zinc-800 hover:border-zinc-700 transition-all duration-200">
                                         <div className="flex flex-col gap-0.5">
-                                            <span className="text-sm font-medium text-zinc-200">
-                                                {t("settings.language")}
-                                            </span>
-                                            <span className="text-xs text-zinc-500">
-                                                {t("settings.language.description")}
-                                            </span>
+                                            <span className="text-sm font-medium text-zinc-200">{t("settings.language")}</span>
+                                            <span className="text-xs text-zinc-500">{t("settings.language.description")}</span>
                                         </div>
                                         <Internalization />
                                     </div>
@@ -86,9 +79,7 @@ export default function StudioSidebar() {
                                                 alt="Code"
                                                 className="size-4 invert opacity-50 group-hover:opacity-100 transition-opacity"
                                             />
-                                            <span className="font-medium text-sm">
-                                                {t("settings.code_viewer")}
-                                            </span>
+                                            <span className="font-medium text-sm">{t("settings.code_viewer")}</span>
                                         </span>
                                         <div className="flex items-center gap-2">
                                             <span className="text-[10px] font-mono text-zinc-500 bg-zinc-950 px-1.5 py-0.5 rounded border border-zinc-800 group-hover:border-zinc-700 transition-colors">

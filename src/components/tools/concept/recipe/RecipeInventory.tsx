@@ -1,9 +1,10 @@
-import { t } from "@/lib/i18n";
 import { useState } from "react";
 import ToolInventory from "@/components/tools/elements/ToolInventory";
 import { TextInput } from "@/components/ui/TextInput";
+import { t, useI18n } from "@/lib/i18n";
 
 export default function RecipeInventory() {
+    useI18n((state) => state.locale);
     const [search, setSearch] = useState("");
 
     return (
@@ -14,12 +15,8 @@ export default function RecipeInventory() {
                 <div className="px-6 pt-6 shrink-0">
                     <div className="flex justify-between items-center gap-4">
                         <div className="shrink-0">
-                            <h2 className="text-xl font-bold text-white">
-                                {t("recipe:inventory.title")}
-                            </h2>
-                            <p className="text-sm text-zinc-400">
-                                {t("recipe:inventory.description")}
-                            </p>
+                            <h2 className="text-xl font-bold text-white">{t("recipe:inventory.title")}</h2>
+                            <p className="text-sm text-zinc-400">{t("recipe:inventory.description")}</p>
                         </div>
                         <TextInput className="min-w-64" placeholder="Search" value={search} onChange={(e) => setSearch(e.target.value)} />
                     </div>

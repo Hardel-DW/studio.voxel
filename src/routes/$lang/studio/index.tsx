@@ -6,7 +6,7 @@ import DatapackUploader from "@/components/tools/DatapackUploader";
 import RepositoryOpener from "@/components/tools/RepositoryOpener";
 import RestoreLastSession from "@/components/tools/RestoreLastSession";
 import VanillaImportButton from "@/components/tools/VanillaImportButton";
-import { t } from "@/lib/i18n/i18n";
+import { t } from "@/lib/i18n";
 
 const DISABLE_MAINTENANCE = false;
 export const Route = createFileRoute("/$lang/studio/")({
@@ -14,40 +14,37 @@ export const Route = createFileRoute("/$lang/studio/")({
     pendingComponent: StudioLoading
 });
 
-const questions = (lang: string) => {
-    const translate = t(lang);
+const questions = () => {
     return [
         {
-            question: translate("studio.questions.values.0.question"),
-            answer: translate("studio.questions.values.0.answer")
+            question: t("studio.questions.values.0.question"),
+            answer: t("studio.questions.values.0.answer")
         },
         {
-            question: translate("studio.questions.values.1.question"),
-            answer: translate("studio.questions.values.1.answer")
+            question: t("studio.questions.values.1.question"),
+            answer: t("studio.questions.values.1.answer")
         },
         {
-            question: translate("studio.questions.values.2.question"),
-            answer: translate("studio.questions.values.2.answer")
+            question: t("studio.questions.values.2.question"),
+            answer: t("studio.questions.values.2.answer")
         },
         {
-            question: translate("studio.questions.values.3.question"),
-            answer: translate("studio.questions.values.3.answer")
+            question: t("studio.questions.values.3.question"),
+            answer: t("studio.questions.values.3.answer")
         },
         {
-            question: translate("studio.questions.values.4.question"),
-            answer: translate("studio.questions.values.4.answer")
+            question: t("studio.questions.values.4.question"),
+            answer: t("studio.questions.values.4.answer")
         },
         {
-            question: translate("studio.questions.values.5.question"),
-            answer: translate("studio.questions.values.5.answer")
+            question: t("studio.questions.values.5.question"),
+            answer: t("studio.questions.values.5.answer")
         }
     ];
 };
 
 function StudioLayout() {
     const { lang } = Route.useParams();
-    const translate = t(lang);
-
     return (
         <main className="relative w-full overflow-x-hidden">
             <div className="fixed -z-50 -top-16 -right-16 size-72 rounded-full blur-3xl bg-linear-to-br from-red-900/20 to-blue-900/20" />
@@ -77,16 +74,16 @@ function StudioLayout() {
                     </div>
 
                     <div className="size-full flex flex-col justify-center">
-                        <small className="text-zinc-400 font-bold tracking-wide text-[16px]">{translate("studio.section")}</small>
-                        <h1 className="text-white text-4xl md:text-6xl font-bold mt-4 text-balance">{translate("studio.title")}</h1>
-                        <p className="text-gray-300 mt-4">{translate("studio.description")}</p>
+                        <small className="text-zinc-400 font-bold tracking-wide text-[16px]">{t("studio.section")}</small>
+                        <h1 className="text-white text-4xl md:text-6xl font-bold mt-4 text-balance">{t("studio.title")}</h1>
+                        <p className="text-gray-300 mt-4">{t("studio.description")}</p>
 
                         <div className="flex items-center flex-col sm:flex-row gap-4 mt-8">
                             {DISABLE_MAINTENANCE ? (
                                 <div>
-                                    <p className="text-zinc-400 text-sm">{translate("studio.maintenance.description")}</p>
+                                    <p className="text-zinc-400 text-sm">{t("studio.maintenance.description")}</p>
                                     <p className="text-zinc-500 text-xs">
-                                        {translate("studio.maintenance.date", {
+                                        {t("studio.maintenance.date", {
                                             date: new Intl.DateTimeFormat(lang, { dateStyle: "long" }).format(new Date("2025-12-15"))
                                         })}
                                     </p>
@@ -98,7 +95,7 @@ function StudioLayout() {
                                     <a
                                         href="https://voxel.hardel.io/en-us/update/studio"
                                         className="inline-flex h-10 items-center justify-center rounded-md px-4 font-medium text-slate-400 transition-colors hover:text-zinc-300 text-sm">
-                                        {translate("studio.latest_update")} &rarr;
+                                        {t("studio.latest_update")} &rarr;
                                     </a>
                                 </>
                             )}
@@ -123,10 +120,10 @@ function StudioLayout() {
                                     </svg>
                                 </div>
                                 <div className="text-center space-y-2">
-                                    <p className="text-zinc-200 font-medium text-xl">{translate("studio.maintenance.title")}</p>
-                                    <p className="text-sm text-zinc-500">{translate("studio.maintenance.description")}</p>
+                                    <p className="text-zinc-200 font-medium text-xl">{t("studio.maintenance.title")}</p>
+                                    <p className="text-sm text-zinc-500">{t("studio.maintenance.description")}</p>
                                     <p className="text-xs text-zinc-600">
-                                        {translate("studio.maintenance.date", {
+                                        {t("studio.maintenance.date", {
                                             date: new Intl.DateTimeFormat(lang, { dateStyle: "long" }).format(new Date("2025-12-17"))
                                         })}
                                     </p>
@@ -147,11 +144,11 @@ function StudioLayout() {
                 <div className="max-w-5xl mx-auto relative">
                     <div className="absolute size-full bg-linear-to-r from-pink-950 to-blue-950 opacity-10 rounded-full shadow-2xl blur-[5rem]" />
                     <div className="mb-16 w-fit relative z-20">
-                        <h1 className="text-4xl font-bold text-balance">{translate("studio.faq")}</h1>
+                        <h1 className="text-4xl font-bold text-balance">{t("studio.faq")}</h1>
                         <div className="h-1 w-1/2 bg-linear-to-r from-rose-900 to-fuchsia-900 rounded-full mt-4" />
                     </div>
                     <div className="grid divide-y divide-zinc-700 z-20">
-                        {questions(lang).map((item: { question: string; answer: string }) => (
+                        {questions().map((item: { question: string; answer: string }) => (
                             <div className="py-5" key={item.question}>
                                 <details className="group relative">
                                     <summary className="flex justify-between items-center gap-x-10 font-medium cursor-pointer list-none group-open:before:absolute group-open:before:inset-0 group-open:before:cursor-pointer">

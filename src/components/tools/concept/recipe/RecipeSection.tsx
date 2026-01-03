@@ -1,4 +1,3 @@
-import { t } from "@/lib/i18n";
 import { CoreAction, isVoxel, RecipeAction, type RecipeProps } from "@voxelio/breeze";
 import { useState } from "react";
 import RecipeRenderer from "@/components/tools/concept/recipe/RecipeRenderer";
@@ -7,6 +6,7 @@ import { getBlockByRecipeType, getFirstTypeFromSelection, RECIPE_BLOCKS } from "
 import ToolCounter from "@/components/tools/elements/ToolCounter";
 import { getCurrentElement, useConfiguratorStore } from "@/components/tools/Store";
 import { Tabs, TabsTrigger } from "@/components/ui/Tabs";
+import { t, useI18n } from "@/lib/i18n";
 
 const TAB_CONFIGS = {
     "minecraft:crafting_table": [
@@ -20,6 +20,7 @@ const TAB_CONFIGS = {
     ]
 };
 export default function RecipeSection() {
+    useI18n((state) => state.locale);
     const currentElement = useConfiguratorStore((state) => getCurrentElement(state));
     const handleChange = useConfiguratorStore((state) => state.handleChange);
     const currentBlock = currentElement && isVoxel(currentElement, "recipe") ? getBlockByRecipeType(currentElement.type) : undefined;
@@ -36,12 +37,8 @@ export default function RecipeSection() {
         <div className="relative overflow-hidden bg-black/35 border-t-2 border-l-2 border-zinc-900 ring-0 ring-zinc-900 transition-all hover:ring-1 rounded-xl p-6">
             <div className="px-6 flex justify-between items-center gap-4">
                 <div>
-                    <h2 className="text-xl font-bold text-white">
-                        {t("recipe:section.title")}
-                    </h2>
-                    <p className="text-sm text-zinc-400">
-                        {t("recipe:section.description")}
-                    </p>
+                    <h2 className="text-xl font-bold text-white">{t("recipe:section.title")}</h2>
+                    <p className="text-sm text-zinc-400">{t("recipe:section.description")}</p>
                 </div>
                 <div className="relative">
                     <RecipeSelector
@@ -57,12 +54,8 @@ export default function RecipeSection() {
                 <div className="overflow-hidden mt-4 border rounded-lg border-zinc-900 p-4 flex flex-col gap-8 relative">
                     <div className="flex justify-between items-center">
                         <div>
-                            <p className="text-base font-semibold text-zinc-400">
-                                {t("recipe:section.result_count")}
-                            </p>
-                            <p className="text-xs text-zinc-500">
-                                {t("recipe:section.result_count_description")}
-                            </p>
+                            <p className="text-base font-semibold text-zinc-400">{t("recipe:section.result_count")}</p>
+                            <p className="text-xs text-zinc-500">{t("recipe:section.result_count_description")}</p>
                         </div>
                         <ToolCounter
                             min={1}
@@ -74,12 +67,8 @@ export default function RecipeSection() {
                     </div>
                     <div className="flex justify-between items-center">
                         <div>
-                            <p className="text-base font-semibold text-zinc-400">
-                                {t("recipe:section.recipe_type")}
-                            </p>
-                            <p className="text-xs text-zinc-500 pr-4">
-                                {t("recipe:section.recipe_type_description")}
-                            </p>
+                            <p className="text-base font-semibold text-zinc-400">{t("recipe:section.recipe_type")}</p>
+                            <p className="text-xs text-zinc-500 pr-4">{t("recipe:section.recipe_type_description")}</p>
                         </div>
                         {currentBlock && TAB_CONFIGS[currentBlock.id as keyof typeof TAB_CONFIGS] && (
                             <Tabs

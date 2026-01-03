@@ -1,4 +1,3 @@
-import { t } from "@/lib/i18n";
 import { calculateItemCountRange, Identifier, type LootItem, LootTableAction } from "@voxelio/breeze";
 import { useState } from "react";
 import ItemSelector from "@/components/tools/elements/gui/ItemSelector";
@@ -8,6 +7,7 @@ import { useConfiguratorStore } from "@/components/tools/Store";
 import Counter from "@/components/ui/Counter";
 import { useClickOutside } from "@/lib/hook/useClickOutside";
 import useRegistry from "@/lib/hook/useRegistry";
+import { t, useI18n } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
 interface LootItemEditorProps {
@@ -15,6 +15,7 @@ interface LootItemEditorProps {
 }
 
 export default function LootItemEditor({ item }: LootItemEditorProps) {
+    useI18n((state) => state.locale);
     const countRange = calculateItemCountRange(item.functions);
     const [name, setName] = useState(item.name);
     const [weight, setWeight] = useState(item.weight ?? 1);
@@ -86,9 +87,7 @@ export default function LootItemEditor({ item }: LootItemEditorProps) {
                         <img src="/icons/pencil.svg" alt="Pencil" className="size-4 invert opacity-60" />
                     </div>
                     <div>
-                        <h3 className="text-sm font-semibold text-zinc-100">
-                            {t("loot:editor.title")}
-                        </h3>
+                        <h3 className="text-sm font-semibold text-zinc-100">{t("loot:editor.title")}</h3>
                         <p className="text-xs text-zinc-500">{identifier.toResourceName()}</p>
                     </div>
                 </div>
@@ -127,12 +126,8 @@ export default function LootItemEditor({ item }: LootItemEditorProps) {
                     <div className="flex flex-col gap-5 flex-1">
                         <div className="flex items-center justify-between">
                             <div className="flex flex-col">
-                                <span className="text-sm font-medium text-zinc-200">
-                                    {t("loot:editor.weight_label")}
-                                </span>
-                                <span className="text-xs text-zinc-500">
-                                    {t("loot:editor.weight_description")}
-                                </span>
+                                <span className="text-sm font-medium text-zinc-200">{t("loot:editor.weight_label")}</span>
+                                <span className="text-xs text-zinc-500">{t("loot:editor.weight_description")}</span>
                             </div>
                             <Counter value={weight} min={1} max={999} step={1} onChange={handleWeightChange} />
                         </div>
@@ -141,12 +136,8 @@ export default function LootItemEditor({ item }: LootItemEditorProps) {
 
                         <div className="flex items-center justify-between gap-4">
                             <div className="flex flex-col">
-                                <span className="text-sm font-medium text-zinc-200">
-                                    {t("loot:editor.count_label")}
-                                </span>
-                                <span className="text-xs text-zinc-500">
-                                    {t("loot:editor.count_description")}
-                                </span>
+                                <span className="text-sm font-medium text-zinc-200">{t("loot:editor.count_label")}</span>
+                                <span className="text-xs text-zinc-500">{t("loot:editor.count_description")}</span>
                             </div>
                             <div className="flex items-center gap-2">
                                 <Counter value={countMin} min={1} max={64} step={1} onChange={handleCountMinChange} />
@@ -160,9 +151,7 @@ export default function LootItemEditor({ item }: LootItemEditorProps) {
 
             {/* Footer */}
             <div className="pt-4 border-t border-zinc-800/50 flex justify-between items-center">
-                <span className="text-xs font-medium text-zinc-400">
-                    {t("loot:editor.footer_text")}
-                </span>
+                <span className="text-xs font-medium text-zinc-400">{t("loot:editor.footer_text")}</span>
                 <button
                     type="button"
                     onClick={collapse}

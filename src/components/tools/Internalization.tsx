@@ -1,6 +1,6 @@
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/Dropdown";
-import { useI18n, type Locale } from "@/lib/i18n";
 import { useNavigate } from "@tanstack/react-router";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/Dropdown";
+import { type Locale, useI18n } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
 const supportedLocales: Locale[] = ["en-us", "fr-fr"];

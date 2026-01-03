@@ -5,7 +5,7 @@ import Box from "@/components/ui/Box";
 import { Button } from "@/components/ui/Button";
 import ImageCard from "@/components/ui/ImageCard";
 import LineSetup from "@/components/ui/line/LineSetup";
-import { t } from "@/lib/i18n/i18n";
+import { t } from "@/lib/i18n";
 
 const baseVoxelPath = import.meta.env.VITE_BASE_VOXEL_PATH;
 export const Route = createFileRoute("/$lang/")({
@@ -21,8 +21,6 @@ export const Route = createFileRoute("/$lang/")({
 
 function Page() {
     const { lang } = Route.useParams();
-    const translate = t(lang);
-
     return (
         <div className="relative">
             <div className="fixed -z-50 -top-16 -right-16 size-72 rounded-full blur-3xl bg-linear-to-br from-red-900/20 to-blue-900/20" />
@@ -55,34 +53,34 @@ function Page() {
                         image="/images/background/tools/configurator.webp"
                         to="/$lang/studio"
                         params={{ lang }}
-                        title={translate("home.configurator.title")}>
-                        {translate("generic.start_now")}
+                        title={t("home.configurator.title")}>
+                        {t("generic.start_now")}
                     </ImageCard>
                     <ImageCard
                         className="shrink-0 -rotate-3 s:-translate-y-1/2 s:w-1/2 lg:-translate-x-1/4 lg:translate-y-0 lg:w-auto"
                         image="/images/background/marketplace.webp"
                         href={`${baseVoxelPath}/${lang}/marketplace`}
-                        title={translate("home.marketplace.title")}>
-                        {translate("generic.start_now")}
+                        title={t("home.marketplace.title")}>
+                        {t("generic.start_now")}
                     </ImageCard>
                     <ImageCard
                         className="shrink-0 rotate-6 s:-translate-x-2/3 s:w-1/2 lg:-translate-y-1/2 lg:translate-x-0 lg:w-auto"
                         image="/images/background/copilot.webp"
                         href="#"
-                        title={translate("home.copilot.title")}>
-                        {translate("generic.soon")}
+                        title={t("home.copilot.title")}>
+                        {t("generic.soon")}
                     </ImageCard>
                 </div>
 
                 <div className="grid gap-12 lg:order-first s:self-end xl:p-12 lg:p-8">
                     <div className="flex flex-col py-8 px-8 sm:px-12 lg:px-16 self-center">
-                        <h1 className="text-5xl font-bold">{translate("home.title")}</h1>
+                        <h1 className="text-5xl font-bold">{t("home.title")}</h1>
                         <p className="text-xl mt-4 text-zinc-200">
-                            <b>Voxel Labs</b> {translate("home.description")}
+                            <b>Voxel Labs</b> {t("home.description")}
                         </p>
 
                         <p className="pt-4 text-base text-zinc-400">
-                            <b>Voxel Labs</b> {translate("home.subtitle")}
+                            <b>Voxel Labs</b> {t("home.subtitle")}
                         </p>
 
                         <div className="mt-12 flex flex-wrap gap-4">
@@ -90,13 +88,13 @@ function Page() {
                                 to="/$lang/studio"
                                 params={{ lang }}
                                 className="bg-white text-lg cursor-pointer text-zinc-800 font-semibold py-3 px-8 rounded-lg hover:bg-zinc-300 hover:text-zinc-800 transition-all">
-                                {translate("home.button.start")}
+                                {t("home.button.start")}
                             </Link>
 
                             <a
                                 href={`${baseVoxelPath}/${lang}/blog/enchant-configurator`}
                                 className="w-full lg:w-fit text-center border border-zinc-200 text-lg cursor-pointer text-white font-semibold py-3 px-6 rounded-lg hover:bg-zinc-200 hover:text-zinc-800 transition-all">
-                                {translate("home.button.learn_more")}
+                                {t("home.button.learn_more")}
                             </a>
                         </div>
                     </div>
@@ -105,60 +103,54 @@ function Page() {
 
             <section className="my-32 md:my-52 px-8 w-full md:w-3/4 mx-auto grid md:grid-cols-2 gap-8">
                 <Box loading="eager" image="/images/features/dev.webp">
-                    <h2 className="text-white text-xl md:text-2xl font-bold line-clamp-1 pt-8">{translate("home.configurator.title")}</h2>
-                    <p className="text-zinc-400 text-sm md:text-base mt-2 line-clamp-3">{translate("home.configurator.description")}</p>
+                    <h2 className="text-white text-xl md:text-2xl font-bold line-clamp-1 pt-8">{t("home.configurator.title")}</h2>
+                    <p className="text-zinc-400 text-sm md:text-base mt-2 line-clamp-3">{t("home.configurator.description")}</p>
                     <div className="flex flex-wrap gap-2 mt-6">
                         <Button className="w-full xl:w-fit" to="/$lang/studio" params={{ lang }} size="sm" variant="shimmer">
-                            {translate("generic.start_now")}
+                            {t("generic.start_now")}
                         </Button>
                         <Button
                             className="w-full xl:w-fit"
                             href={`${baseVoxelPath}/${lang}/blog/enchant-configurator`}
                             size="sm"
                             variant="transparent">
-                            {translate("generic.learn_more")}
+                            {t("generic.learn_more")}
                         </Button>
                     </div>
                 </Box>
                 <Box loading="lazy" image="/images/features/title/cycle.webp">
-                    <h2 className="text-white text-xl md:text-2xl font-bold text-left line-clamp-1 pt-8">
-                        {translate("home.converter.title")}
-                    </h2>
-                    <p className="text-zinc-400 text-sm md:text-base mt-2 line-clamp-3">{translate("home.converter.description")}</p>
+                    <h2 className="text-white text-xl md:text-2xl font-bold text-left line-clamp-1 pt-8">{t("home.converter.title")}</h2>
+                    <p className="text-zinc-400 text-sm md:text-base mt-2 line-clamp-3">{t("home.converter.description")}</p>
                     <div className="flex flex-wrap gap-2 mt-6">
                         <Button className="w-full xl:w-fit" to="/$lang/converter" params={{ lang }} size="sm" variant="shimmer">
-                            {translate("generic.start_now")}
+                            {t("generic.start_now")}
                         </Button>
                         <Button className="w-full xl:w-fit" to="/$lang/converter" params={{ lang }} size="sm" variant="transparent">
-                            {translate("generic.learn_more")}
+                            {t("generic.learn_more")}
                         </Button>
                     </div>
                 </Box>
                 <Box loading="lazy" image="/images/branding/voxel_white.webp">
-                    <h2 className="text-white text-xl md:text-2xl font-bold text-left line-clamp-1 pt-8">
-                        {translate("home.migration.title")}
-                    </h2>
-                    <p className="text-zinc-400 text-sm md:text-base mt-2 line-clamp-3">{translate("home.migration.description")}</p>
+                    <h2 className="text-white text-xl md:text-2xl font-bold text-left line-clamp-1 pt-8">{t("home.migration.title")}</h2>
+                    <p className="text-zinc-400 text-sm md:text-base mt-2 line-clamp-3">{t("home.migration.description")}</p>
                     <div className="flex flex-wrap gap-2 mt-6">
                         <Button className="w-full xl:w-fit" to="/$lang/migration" params={{ lang }} size="sm" variant="shimmer">
-                            {translate("generic.start_now")}
+                            {t("generic.start_now")}
                         </Button>
                         <Button className="w-full xl:w-fit" to="/$lang/migration" params={{ lang }} size="sm" variant="transparent">
-                            {translate("generic.learn_more")}
+                            {t("generic.learn_more")}
                         </Button>
                     </div>
                 </Box>
                 <Box loading="lazy" image="/images/features/title/question_mark.webp">
-                    <h2 className="text-white text-xl md:text-2xl font-bold text-left line-clamp-1 pt-8">
-                        {translate("home.copilot.title")}
-                    </h2>
-                    <p className="text-zinc-400 text-sm md:text-base mt-2 line-clamp-3">{translate("home.copilot.description")}</p>
+                    <h2 className="text-white text-xl md:text-2xl font-bold text-left line-clamp-1 pt-8">{t("home.copilot.title")}</h2>
+                    <p className="text-zinc-400 text-sm md:text-base mt-2 line-clamp-3">{t("home.copilot.description")}</p>
                     <div className="flex flex-wrap gap-2 mt-6">
                         <Button className="w-full xl:w-fit" href="#" size="sm" variant="shimmer">
-                            {translate("generic.start_now")}
+                            {t("generic.start_now")}
                         </Button>
                         <Button className="w-full xl:w-fit" href="#" size="sm" variant="transparent">
-                            {translate("generic.learn_more")}
+                            {t("generic.learn_more")}
                         </Button>
                     </div>
                 </Box>

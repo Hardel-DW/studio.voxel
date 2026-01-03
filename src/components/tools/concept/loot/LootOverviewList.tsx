@@ -1,10 +1,10 @@
-import { t } from "@/lib/i18n";
 import { Link, useParams } from "@tanstack/react-router";
 import { CoreAction, type FlattenedLootItem, Identifier } from "@voxelio/breeze";
 import LootDetailsPopover from "@/components/tools/concept/loot/LootDetailsPopover";
 import SimpleSwitch from "@/components/tools/elements/SimpleSwitch";
 import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer";
 import { useConfiguratorStore } from "@/components/tools/Store";
+import { t, useI18n } from "@/lib/i18n";
 
 interface LootOverviewListProps {
     elementId: string;
@@ -14,6 +14,7 @@ interface LootOverviewListProps {
 }
 
 export default function LootOverviewList({ elementId, items, resourceName, color }: LootOverviewListProps) {
+    useI18n((state) => state.locale);
     const { lang } = useParams({ from: "/$lang" });
     const handleConfigure = () => useConfiguratorStore.getState().openTab(elementId, "/$lang/studio/editor/loot_table/main", resourceName);
     const identifier = Identifier.fromUniqueKey(elementId);

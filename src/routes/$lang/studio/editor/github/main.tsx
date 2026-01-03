@@ -1,4 +1,3 @@
-import { t } from "@/lib/i18n";
 import { useMutation } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
@@ -10,6 +9,7 @@ import LineBackground from "@/components/ui/line/LineBackground";
 import { TOAST, toast } from "@/components/ui/Toast";
 import { GitHub } from "@/lib/github/GitHub";
 import { GithubRepoValidationError } from "@/lib/github/GitHubError";
+import { t } from "@/lib/i18n";
 import { encodeToBase64 } from "@/lib/utils/encode";
 import { sanitizeRepoName } from "@/lib/utils/text";
 
@@ -72,12 +72,8 @@ function GithubMainPage() {
                             <div className="size-16 rounded-2xl bg-zinc-900 border border-zinc-800 flex items-center justify-center mx-auto shadow-xl mb-6">
                                 <img src="/icons/company/github.svg" className="size-8 invert opacity-80" alt="GitHub" />
                             </div>
-                            <h1 className="text-3xl font-bold text-white tracking-tight">
-                                {t("github:init.title")}
-                            </h1>
-                            <p className="text-zinc-400">
-                                {t("github:init.description")}
-                            </p>
+                            <h1 className="text-3xl font-bold text-white tracking-tight">{t("github:init.title")}</h1>
+                            <p className="text-zinc-400">{t("github:init.description")}</p>
                         </div>
                         <div className="space-y-4 bg-sidebar p-6 rounded-2xl border border-zinc-800/50 relative">
                             <div className="space-y-2">
@@ -111,7 +107,11 @@ function GithubMainPage() {
                     </div>
                 </div>
             ) : (
-                <EmptyState icon="/icons/search.svg" title={t("github:emptystate.title")} description={t("github:emptystate.description")} />
+                <EmptyState
+                    icon="/icons/search.svg"
+                    title={t("github:emptystate.title")}
+                    description={t("github:emptystate.description")}
+                />
             )}
         </div>
     );

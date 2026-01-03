@@ -1,10 +1,10 @@
-import { t } from "@/lib/i18n";
 import { Link } from "@tanstack/react-router";
 import { Identifier, type IdentifierObject } from "@voxelio/breeze";
 import type { ReactNode } from "react";
 import { EditorBreadcrumb } from "@/components/tools/concept/layout/EditorBreadcrumb";
 import type { Tab } from "@/components/tools/elements";
 import { useActiveConcept } from "@/lib/hook/useActiveConcept";
+import { t } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 import { hueToHsl, stringToColor } from "@/lib/utils/color";
 

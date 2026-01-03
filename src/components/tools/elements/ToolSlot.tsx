@@ -1,6 +1,6 @@
-import { t } from "@/lib/i18n";
 import type { BaseInteractiveComponent } from "@/lib/hook/useInteractiveLogic";
 import { useInteractiveLogic } from "@/lib/hook/useInteractiveLogic";
+import { t, useI18n } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
 export type ToolSlotType = BaseInteractiveComponent & {
@@ -13,6 +13,7 @@ export type ToolSlotType = BaseInteractiveComponent & {
 };
 
 export default function ToolSlot(props: ToolSlotType & { index?: number }) {
+    useI18n((state) => state.locale);
     const { value, lock, handleChange } = useInteractiveLogic<ToolSlotType, boolean>({ component: props });
     if (value === null) return null;
 
@@ -46,11 +47,7 @@ export default function ToolSlot(props: ToolSlotType & { index?: number }) {
                 </div>
             )}
 
-            {lock.isLocked && (
-                <span className="absolute p-4 bottom-0 right-0 text-xs text-zinc-400 font-light">
-                    {t(lock.text)}
-                </span>
-            )}
+            {lock.isLocked && <span className="absolute p-4 bottom-0 right-0 text-xs text-zinc-400 font-light">{t(lock.text)}</span>}
 
             <div className="flex flex-col items-center justify-between h-full">
                 <div
@@ -60,14 +57,8 @@ export default function ToolSlot(props: ToolSlotType & { index?: number }) {
                         { "text-center px-4": props.align === "center" },
                         { "text-right px-4": props.align === "right" }
                     )}>
-                    <h3 className="text-lg font-semibold mb-1">
-                        {t(props.title)}
-                    </h3>
-                    {props.description && (
-                        <p className="text-sm text-zinc-400">
-                            {t(props.description)}
-                        </p>
-                    )}
+                    <h3 className="text-lg font-semibold mb-1">{t(props.title)}</h3>
+                    {props.description && <p className="text-sm text-zinc-400">{t(props.description)}</p>}
                 </div>
 
                 <img

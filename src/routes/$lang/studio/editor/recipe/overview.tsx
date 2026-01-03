@@ -1,4 +1,3 @@
-import { t } from "@/lib/i18n";
 import { createFileRoute } from "@tanstack/react-router";
 import { Identifier } from "@voxelio/breeze";
 import { useEditorUiStore } from "@/components/tools/concept/EditorUiStore";
@@ -7,6 +6,7 @@ import { canBlockHandleRecipeType } from "@/components/tools/concept/recipe/reci
 import { TextInput } from "@/components/ui/TextInput";
 import { useElementsByType } from "@/lib/hook/useElementsByType";
 import { useInfiniteScroll } from "@/lib/hook/useInfiniteScroll";
+import { t } from "@/lib/i18n";
 
 export const Route = createFileRoute("/$lang/studio/editor/recipe/overview")({
     component: Page
@@ -37,12 +37,8 @@ function Page() {
                         <div className="size-24 bg-zinc-900/50 rounded-full flex items-center justify-center mb-6 border border-zinc-800">
                             <img src="/icons/search.svg" className="size-10 opacity-20 invert" alt="No results" />
                         </div>
-                        <h3 className="text-xl font-medium text-zinc-300 mb-2">
-                            {t("recipe:overview.no.recipes.found")}
-                        </h3>
-                        <p className="text-zinc-500 max-w-sm text-center">
-                            {t("recipe:overview.try.adjusting.search.or.filter")}
-                        </p>
+                        <h3 className="text-xl font-medium text-zinc-300 mb-2">{t("recipe:overview.no.recipes.found")}</h3>
+                        <p className="text-zinc-500 max-w-sm text-center">{t("recipe:overview.try.adjusting.search.or.filter")}</p>
                     </div>
                 ) : (
                     <div className="grid gap-4 grid-cols-[repeat(auto-fill,minmax(320px,1fr))]">

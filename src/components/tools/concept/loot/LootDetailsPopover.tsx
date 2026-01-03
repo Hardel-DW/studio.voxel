@@ -1,8 +1,8 @@
-import { t } from "@/lib/i18n";
 import { type FlattenedLootItem, Identifier } from "@voxelio/breeze";
 import type { ReactElement } from "react";
 import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/Popover";
+import { t, useI18n } from "@/lib/i18n";
 
 interface LootDetailsPopoverProps {
     items: FlattenedLootItem[];
@@ -10,6 +10,7 @@ interface LootDetailsPopoverProps {
 }
 
 export default function LootDetailsPopover({ items, children }: LootDetailsPopoverProps) {
+    useI18n((state) => state.locale);
     const itemsCount = items.length;
 
     return (
@@ -22,9 +23,7 @@ export default function LootDetailsPopover({ items, children }: LootDetailsPopov
 
                 <div className="flex flex-col gap-2">
                     <div className="flex items-center justify-between">
-                        <p className="font-semibold leading-2">
-                            {t("loot:details.title")}
-                        </p>
+                        <p className="font-semibold leading-2">{t("loot:details.title")}</p>
                         <div className="flex gap-2 items-center">
                             <span className="text-xs bg-zinc-900/50 border border-zinc-800 px-2 rounded-lg">
                                 {itemsCount} {t("loot:details.items_count")}
@@ -52,24 +51,16 @@ export default function LootDetailsPopover({ items, children }: LootDetailsPopov
                                                 <div className="text-[10px] text-zinc-500 truncate">{item.path.join(" → ")}</div>
                                             )}
                                             {item.unresolved && (
-                                                <div className="text-xs text-amber-400">
-                                                    {t("loot:details.unresolved")}
-                                                </div>
+                                                <div className="text-xs text-amber-400">{t("loot:details.unresolved")}</div>
                                             )}
-                                            {item.cycle && (
-                                                <div className="text-xs text-red-400">
-                                                    {t("loot:details.cyclic")}
-                                                </div>
-                                            )}
+                                            {item.cycle && <div className="text-xs text-red-400">{t("loot:details.cyclic")}</div>}
                                         </div>
                                     </div>
                                 ))}
                             </div>
                         ) : (
                             <div className="text-center py-4 text-zinc-400">
-                                <div className="text-sm">
-                                    {t("loot:details.empty")}
-                                </div>
+                                <div className="text-sm">{t("loot:details.empty")}</div>
                             </div>
                         )}
                     </div>

@@ -5,10 +5,10 @@ import { type OpenTab, useConfiguratorStore } from "@/components/tools/Store";
 import { cn } from "@/lib/utils";
 
 function TabItem({ tab, index, isActive }: { tab: OpenTab; index: number; isActive: boolean }) {
-    const { lang } = useParams({ from: "/$lang" });
     const navigate = useNavigate();
     const switchTab = useConfiguratorStore((state) => state.switchTab);
     const closeTab = useConfiguratorStore((state) => state.closeTab);
+    const { lang } = useParams({ from: "/$lang" });
     const icon = CONCEPTS.find((c) => tab.route.includes(`/editor/${c.registry}`))?.image.src;
 
     const handleClick = () => {

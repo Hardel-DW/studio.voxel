@@ -1,6 +1,5 @@
-import { useParams } from "@tanstack/react-router";
 import Range from "@/components/ui/Range";
-import { t } from "@/lib/i18n/i18n";
+import { t, useI18n } from "@/lib/i18n";
 import { type RGB, sortPaletteByHue } from "@/lib/utils/color";
 
 interface HarmonizeControlsProps {
@@ -20,8 +19,7 @@ export default function HarmonizeControls({
     isLoading = false,
     disabled = false
 }: HarmonizeControlsProps) {
-    const { lang } = useParams({ from: "/$lang" });
-    const translate = t(lang);
+    useI18n((state) => state.locale);
     const sortedAndGroupedPalette = palette.length ? sortPaletteByHue(palette) : [];
 
     return (
@@ -31,9 +29,9 @@ export default function HarmonizeControls({
                 <div className="flex justify-between items-end">
                     <div className="flex flex-col gap-1">
                         <label htmlFor="threshold" className="text-sm font-medium text-zinc-200">
-                            {translate("harmonization.similarity")}
+                            {t("harmonization.similarity")}
                         </label>
-                        <p className="text-xs text-zinc-500">{translate("harmonization.merge_similar_colors")}</p>
+                        <p className="text-xs text-zinc-500">{t("harmonization.merge_similar_colors")}</p>
                     </div>
                     <span className="text-sm font-bold text-white bg-white/10 px-3 py-1 rounded-full border border-white/5 min-w-[3ch] text-center">
                         {similarityThreshold}
@@ -54,9 +52,9 @@ export default function HarmonizeControls({
             <div className="h-px w-full bg-linear-to-r from-transparent via-white/10 to-transparent" />
             <div className="space-y-4">
                 <div className="flex justify-between items-center">
-                    <p className="text-sm font-medium text-zinc-200">{translate("harmonization.colors")}</p>
+                    <p className="text-sm font-medium text-zinc-200">{t("harmonization.colors")}</p>
                     <span className="text-xs text-zinc-500 bg-black/20 px-2 py-0.5 rounded-full border border-white/5">
-                        {palette.length} {translate("harmonization.active")}
+                        {palette.length} {t("harmonization.active")}
                     </span>
                 </div>
 
@@ -71,11 +69,11 @@ export default function HarmonizeControls({
                                     type="button"
                                     onClick={() => onDeleteColor(color)}
                                     className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition-all duration-200 backdrop-blur-[1px] cursor-pointer"
-                                    title={translate("harmonization.remove_color")}>
+                                    title={t("harmonization.remove_color")}>
                                     <img
                                         src="/icons/close.svg"
                                         className="w-4 h-4 invert opacity-80 hover:opacity-100 scale-75 group-hover:scale-100 transition-transform"
-                                        alt={translate("harmonization.remove_color")}
+                                        alt={t("harmonization.remove_color")}
                                     />
                                 </button>
                             )}
@@ -88,7 +86,7 @@ export default function HarmonizeControls({
                 </div>
                 {palette.length === 0 && !disabled && (
                     <div className="text-center py-6 border-2 border-dashed border-zinc-800/50 rounded-xl bg-zinc-900/20">
-                        <p className="text-xs text-zinc-600">{translate("harmonization.no_colors_extracted")}</p>
+                        <p className="text-xs text-zinc-600">{t("harmonization.no_colors_extracted")}</p>
                     </div>
                 )}
             </div>

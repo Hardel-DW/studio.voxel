@@ -1,9 +1,10 @@
-import { t } from "@/lib/i18n";
 import { calculateItemCountRange, Identifier, type LootItem } from "@voxelio/breeze";
 import { useLootPoolActions } from "@/components/tools/concept/loot/LootPoolContext";
 import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer";
+import { t, useI18n } from "@/lib/i18n";
 
 export default function PoolItemCard({ item, totalWeight }: { item: LootItem; totalWeight: number }) {
+    useI18n((state) => state.locale);
     const { onEditItem, onDeleteItem, onWeightChange, onNavigate } = useLootPoolActions();
     const isLootTable = item.entryType === "minecraft:loot_table";
     const countRange = calculateItemCountRange(item.functions);
@@ -72,18 +73,14 @@ export default function PoolItemCard({ item, totalWeight }: { item: LootItem; to
 
             <div className="flex items-end justify-between px-4 py-3 border-t border-zinc-800/50">
                 <div className="flex flex-col">
-                    <span className="text-[10px] uppercase tracking-wider text-zinc-500">
-                        {t("loot:card.chance_label")}
-                    </span>
+                    <span className="text-[10px] uppercase tracking-wider text-zinc-500">{t("loot:card.chance_label")}</span>
                     <span className="text-xl font-bold text-white">
                         {chance}
                         <span className="text-sm text-zinc-400">%</span>
                     </span>
                 </div>
                 <div className="flex items-center gap-2">
-                    <span className="text-[10px] text-zinc-500 uppercase">
-                        {t("loot:card.weight_label")}
-                    </span>
+                    <span className="text-[10px] text-zinc-500 uppercase">{t("loot:card.weight_label")}</span>
                     <div className="flex items-center bg-zinc-900/40 border border-zinc-800/40 rounded-lg overflow-hidden">
                         <button
                             type="button"

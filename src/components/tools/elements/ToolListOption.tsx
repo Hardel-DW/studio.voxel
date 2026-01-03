@@ -1,4 +1,3 @@
-import { t } from "@/lib/i18n";
 import { Identifier } from "@voxelio/breeze";
 import RenderGuard from "@/components/tools/elements/RenderGuard";
 import { useConfiguratorStore } from "@/components/tools/Store";
@@ -8,6 +7,7 @@ import { Switch } from "@/components/ui/Switch";
 import { useElementLocks } from "@/lib/hook/useBreezeElement";
 import type { ActionOrBuilder, BaseRender } from "@/lib/hook/useInteractiveLogic";
 import { useActionHandler, useRenderer } from "@/lib/hook/useInteractiveLogic";
+import { t, useI18n } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 import type { Condition, Lock } from "@/lib/utils/lock";
 
@@ -49,18 +49,14 @@ function ActionItem(props: ToolListOptionAction & { elementId?: string; lock: { 
             onClick={handleAction}>
             <div className="flex flex-col flex-1">
                 <div className="text-sm text-zinc-200 flex items-center gap-2">
-                    <span className="text-sm text-zinc-200">
-                        {t(props.title)}
-                    </span>
+                    <span className="text-sm text-zinc-200">{t(props.title)}</span>
                     {props.subtitle && (
                         <span className="text-[10px] text-zinc-500 bg-zinc-900/20 px-1 py-0.5 rounded-md border border-zinc-900">
                             {t(props.subtitle)}
                         </span>
                     )}
                 </div>
-                <span className="text-xs text-zinc-500">
-                    {t(props.description)}
-                </span>
+                <span className="text-xs text-zinc-500">{t(props.description)}</span>
             </div>
             <Switch id="action-switch" isChecked={isChecked ?? false} setIsChecked={() => {}} disabled={props.lock.isLocked} />
         </label>
@@ -69,6 +65,7 @@ function ActionItem(props: ToolListOptionAction & { elementId?: string; lock: { 
 
 const maxDisplayValues = 3;
 export default function ToolListOption(props: ToolListOptionType) {
+    useI18n((state) => state.locale);
     const currentElementId = useConfiguratorStore((state) => props.elementId ?? state.currentElementId);
     const lock = useElementLocks(props.lock, currentElementId);
     const isInList = useRenderer<boolean>(props.actions?.[1]?.renderer, props.elementId);
@@ -99,12 +96,8 @@ export default function ToolListOption(props: ToolListOptionType) {
                                 </div>
                             )}
                             <div className="flex flex-col">
-                                <span className="text-white line-clamp-1">
-                                    {t(props.title)}
-                                </span>
-                                <span className="text-xs text-zinc-400 font-light line-clamp-2">
-                                    {t(props.description)}
-                                </span>
+                                <span className="text-white line-clamp-1">{t(props.title)}</span>
+                                <span className="text-xs text-zinc-400 font-light line-clamp-2">{t(props.description)}</span>
                             </div>
                         </div>
                     </div>

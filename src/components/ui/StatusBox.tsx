@@ -1,7 +1,6 @@
-import { useParams } from "@tanstack/react-router";
 import { getMinecraftVersion } from "@voxelio/breeze";
 import { Button } from "@/components/ui/Button";
-import { t } from "@/lib/i18n/i18n";
+import { t } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
 interface StatusBoxProps {
@@ -13,9 +12,6 @@ interface StatusBoxProps {
 }
 
 export function StatusBox({ files, version, onResetAction, variant = "success", reason }: StatusBoxProps) {
-    const { lang } = useParams({ from: "/$lang" });
-    const translate = t(lang);
-
     const variants = {
         success: {
             container: "border-green-500 bg-green-950/50",
@@ -25,7 +21,7 @@ export function StatusBox({ files, version, onResetAction, variant = "success", 
             button: "text-green-600 border-green-700 hover:bg-green-700/10",
             icon: (
                 <svg className="w-full h-full text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <title>{translate("migration.box.success")}</title>
+                    <title>{t("migration.box.success")}</title>
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
             )
@@ -38,7 +34,7 @@ export function StatusBox({ files, version, onResetAction, variant = "success", 
             button: "text-red-400 border-red-900 hover:bg-red-700/10",
             icon: (
                 <svg className="w-full h-full text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <title>{translate("migration.box.error")}</title>
+                    <title>{t("migration.box.error")}</title>
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 </svg>
             )
@@ -74,7 +70,7 @@ export function StatusBox({ files, version, onResetAction, variant = "success", 
                 </div>
 
                 <Button type="button" onClick={onResetAction} variant="default" className={cn("bg-transparent", currentVariant.button)}>
-                    {translate("migration.change")}
+                    {t("migration.change")}
                 </Button>
             </div>
         </div>

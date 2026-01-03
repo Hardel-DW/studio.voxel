@@ -1,8 +1,8 @@
-import { t } from "@/lib/i18n";
 import { createFileRoute } from "@tanstack/react-router";
 import { Identifier } from "@voxelio/breeze";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import CodeDiff from "@/components/ui/codeblock/CodeDiff";
+import { t } from "@/lib/i18n";
 
 export const Route = createFileRoute("/$lang/studio/editor/github/diff")({
     component: GithubDiffPage,
@@ -33,9 +33,7 @@ function GithubDiffPage() {
         return (
             <div className="flex-1 flex items-center justify-center text-zinc-500 flex-col gap-4">
                 <img src="/icons/search.svg" className="size-12 opacity-20 invert" alt="Icon of a search" />
-                <p className="text-sm">
-                    {t("github:diff.title")}
-                </p>
+                <p className="text-sm">{t("github:diff.title")}</p>
             </div>
         );
     }
@@ -44,9 +42,7 @@ function GithubDiffPage() {
         return (
             <div className="flex-1 flex items-center justify-center text-zinc-500 flex-col gap-4">
                 <img src="/icons/tools/crafting/code.svg" className="size-12 opacity-20 invert" alt="Icon of a code file" />
-                <p className="text-sm">
-                    {t("github:diff.preview.title")}
-                </p>
+                <p className="text-sm">{t("github:diff.preview.title")}</p>
                 <p className="text-xs text-zinc-600">{file}</p>
             </div>
         );

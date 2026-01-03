@@ -1,6 +1,6 @@
-import { t } from "@/lib/i18n";
 import type { ToolRevealCardData } from "@/components/tools/elements/ToolReveal";
 import { Button } from "@/components/ui/Button";
+import { t } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
 interface ToolRevealElementProps {
@@ -47,12 +47,8 @@ const ToolRevealElement = function ToolRevealElement({ element, isSelected, onSe
                     "opacity-50": !isSelected
                 })}>
                 <div className="flex flex-col gap-2">
-                    <h1 className="text-3xl font-semibold uppercase tracking-wider">
-                        {t(element.title)}
-                    </h1>
-                    <p className="text-zinc-400 font-semibold text-xs">
-                        {t(element.description)}
-                    </p>
+                    <h1 className="text-3xl font-semibold uppercase tracking-wider">{t(element.title)}</h1>
+                    <p className="text-zinc-400 font-semibold text-xs">{t(element.description)}</p>
                 </div>
             </div>
         </button>

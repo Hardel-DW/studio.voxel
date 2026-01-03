@@ -1,4 +1,3 @@
-import { t } from "@/lib/i18n";
 import { Link, useParams } from "@tanstack/react-router";
 import type { EnchantmentProps, TagType } from "@voxelio/breeze";
 import { CoreAction, getItemFromMultipleOrOne, Identifier, TagsProcessor } from "@voxelio/breeze";
@@ -6,12 +5,14 @@ import SimpleSwitch from "@/components/tools/elements/SimpleSwitch";
 import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import useRegistry, { type FetchedRegistry } from "@/lib/hook/useRegistry";
+import { t, useI18n } from "@/lib/i18n";
 
 interface EnchantmentOverviewListProps {
     element: EnchantmentProps;
 }
 
 export default function EnchantmentOverviewList({ element }: EnchantmentOverviewListProps) {
+    useI18n((state) => state.locale);
     const { lang } = useParams({ from: "/$lang" });
     const { data } = useRegistry<FetchedRegistry<TagType>>("summary", "tags/item");
     const datapackTags = useConfiguratorStore((state) => state.getRegistry<TagType>("tags/item"));

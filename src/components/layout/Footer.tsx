@@ -1,83 +1,85 @@
-import { Link, useParams } from "@tanstack/react-router";
-import { t } from "@/lib/i18n/i18n";
+import { Link } from "@tanstack/react-router";
+import { t, useI18n } from "@/lib/i18n";
+import { Route } from "@/routes/$lang";
 
 const baseVoxelPath = import.meta.env.VITE_BASE_VOXEL_PATH;
 export default function Footer() {
-    const { lang } = useParams({ from: "/$lang" });
-    const translate = t(lang);
+    useI18n((state) => state.locale);
+    const { lang } = Route.useParams();
+
     const footerContent = [
         {
-            name: translate("footer.content.navigation.self"),
+            name: t("footer.content.navigation.self"),
             links: [
                 {
-                    title: translate("footer.content.navigation.home"),
+                    title: t("footer.content.navigation.home"),
                     to: "/$lang"
                 },
                 {
-                    title: translate("footer.content.navigation.datapacks"),
+                    title: t("footer.content.navigation.datapacks"),
                     href: `${baseVoxelPath}/${lang}/packs/neoenchant`
                 },
                 {
-                    title: translate("footer.content.navigation.contact"),
+                    title: t("footer.content.navigation.contact"),
                     href: `${baseVoxelPath}/${lang}/contact`
                 }
             ]
         },
         {
-            name: translate("footer.content.other.self"),
+            name: t("footer.content.other.self"),
             links: [
                 {
-                    title: translate("footer.content.other.news"),
+                    title: t("footer.content.other.news"),
                     href: `${baseVoxelPath}/${lang}/blog`
                 },
                 {
-                    title: translate("footer.content.other.faq"),
+                    title: t("footer.content.other.faq"),
                     href: `${baseVoxelPath}/${lang}`
                 },
                 {
-                    title: translate("footer.content.other.about"),
+                    title: t("footer.content.other.about"),
                     href: `${baseVoxelPath}/${lang}/soon`
                 }
             ]
         },
         {
-            name: translate("footer.content.support.self"),
+            name: t("footer.content.support.self"),
             links: [
                 {
-                    title: translate("footer.content.support.help_center"),
+                    title: t("footer.content.support.help_center"),
                     href: `${baseVoxelPath}/${lang}/contact`
                 },
                 {
-                    title: translate("footer.content.support.term_of_service"),
+                    title: t("footer.content.support.term_of_service"),
                     href: `${baseVoxelPath}/${lang}/terms`
                 },
                 {
-                    title: translate("footer.content.support.legal"),
+                    title: t("footer.content.support.legal"),
                     href: `${baseVoxelPath}/${lang}/legal`
                 },
                 {
-                    title: translate("footer.content.support.privacy"),
+                    title: t("footer.content.support.privacy"),
                     href: `${baseVoxelPath}/${lang}/privacy`
                 }
             ]
         },
         {
-            name: translate("footer.content.voxel_studio"),
+            name: t("footer.content.voxel_studio"),
             links: [
                 {
-                    title: translate("footer.content.voxel_studio.studio"),
+                    title: t("footer.content.voxel_studio.studio"),
                     to: "/$lang/studio"
                 },
                 {
-                    title: translate("footer.content.voxel_studio.harmonization"),
+                    title: t("footer.content.voxel_studio.harmonization"),
                     to: "/$lang/harmonization"
                 },
                 {
-                    title: translate("footer.content.voxel_studio.converter"),
+                    title: t("footer.content.voxel_studio.converter"),
                     to: "/$lang/converter"
                 },
                 {
-                    title: translate("footer.content.voxel_studio.migration"),
+                    title: t("footer.content.voxel_studio.migration"),
                     to: "/$lang/migration"
                 }
             ]
@@ -86,17 +88,17 @@ export default function Footer() {
 
     const socialLinks = [
         {
-            name: translate("footer.social.github"),
+            name: t("footer.social.github"),
             path: "https://github.com/Hardel-DW",
             icon: "github.svg"
         },
         {
-            name: translate("footer.social.twitter"),
+            name: t("footer.social.twitter"),
             path: "https://x.com/Hardel7401",
             icon: "x.svg"
         },
         {
-            name: translate("footer.social.discord"),
+            name: t("footer.social.discord"),
             path: "https://discord.gg/TAmVFvkHep",
             icon: "discord.svg"
         }
@@ -113,7 +115,7 @@ export default function Footer() {
                             <span className="text-s text-zinc-300 font-semibold">Labs</span>
                         </div>
                     </Link>
-                    <p className="mt-4 text-sm text-zinc-400 tracking-tight font-light max-w-xs">{translate("footer.description")}</p>
+                    <p className="mt-4 text-sm text-zinc-400 tracking-tight font-light max-w-xs">{t("footer.description")}</p>
                     <div className="flex gap-3 mt-4 items-center">
                         {socialLinks.map((item) => (
                             <a
@@ -144,7 +146,7 @@ export default function Footer() {
 
             <div className="mt-8 text-center text-zinc-400 text-sm">
                 <p className="text-sm mt-2 tracking-tight">
-                    {translate("footer.copyright_left")} {new Date().getFullYear()} {translate("footer.copyright_right")}
+                    {t("footer.copyright_left")} {new Date().getFullYear()} {t("footer.copyright_right")}
                 </p>
             </div>
         </footer>

@@ -1,13 +1,14 @@
-import { t } from "@/lib/i18n";
 import { useNavigate, useParams } from "@tanstack/react-router";
 import { Datapack } from "@voxelio/breeze";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import { useExportStore } from "@/components/tools/sidebar/ExportStore";
 import { Button } from "@/components/ui/Button";
+import { t, useI18n } from "@/lib/i18n";
 import { hasSession, restoreSession } from "@/lib/utils/sessionPersistence";
 import { TOAST, toast } from "../ui/Toast";
 
 export default function RestoreLastSession({ className }: { className?: string }) {
+    useI18n((state) => state.locale);
     const { lang } = useParams({ from: "/$lang" });
     const navigate = useNavigate();
     if (!hasSession()) return null;

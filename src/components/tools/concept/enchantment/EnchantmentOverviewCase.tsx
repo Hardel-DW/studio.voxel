@@ -1,7 +1,7 @@
-import { t } from "@/lib/i18n";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/Popover";
 import type { BaseInteractiveComponent } from "@/lib/hook/useInteractiveLogic";
 import { useInteractiveLogic } from "@/lib/hook/useInteractiveLogic";
+import { t, useI18n } from "@/lib/i18n";
 
 type OverviewCaseProps = BaseInteractiveComponent & {
     image: string;
@@ -10,6 +10,7 @@ type OverviewCaseProps = BaseInteractiveComponent & {
 };
 
 export default function OverviewCase(props: OverviewCaseProps) {
+    useI18n((state) => state.locale);
     const { value } = useInteractiveLogic<OverviewCaseProps, boolean>({ component: props }, props.elementId);
     if (value === false) return null;
 
@@ -20,9 +21,7 @@ export default function OverviewCase(props: OverviewCaseProps) {
             </PopoverTrigger>
             <PopoverContent>
                 <div className="flex flex-col gap-2">
-                    <p className="text-sm text-zinc-400">
-                        {t(props.title)}
-                    </p>
+                    <p className="text-sm text-zinc-400">{t(props.title)}</p>
                 </div>
             </PopoverContent>
         </Popover>

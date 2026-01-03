@@ -1,4 +1,4 @@
-import { createFileRoute, Outlet, useLocation, useNavigate, useParams } from "@tanstack/react-router";
+import { createFileRoute, Outlet, useLocation, useNavigate } from "@tanstack/react-router";
 import { isVoxel } from "@voxelio/breeze";
 import { useEditorUiStore } from "@/components/tools/concept/EditorUiStore";
 import { EditorHeader } from "@/components/tools/concept/layout/EditorHeader";
@@ -25,7 +25,7 @@ export const Route = createFileRoute("/$lang/studio/editor/loot_table")({
 });
 
 function LootTableLayout() {
-    const { lang } = useParams({ from: "/$lang/studio/editor/loot_table" });
+    const { lang } = Route.useParams();
     const { filterPath, viewMode, setViewMode } = useEditorUiStore();
     const { setContainerRef } = useDynamicIsland();
     const location = useLocation();

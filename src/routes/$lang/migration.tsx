@@ -8,7 +8,7 @@ import LineSetup from "@/components/ui/line/LineSetup";
 import ShiningStars from "@/components/ui/ShiningStars";
 import Star from "@/components/ui/Star";
 import Walkthrough from "@/components/ui/Walkthrough";
-import { t } from "@/lib/i18n/i18n";
+import { t } from "@/lib/i18n";
 
 export const Route = createFileRoute("/$lang/migration")({
     component: MigrationPage,
@@ -17,20 +17,18 @@ export const Route = createFileRoute("/$lang/migration")({
 
 function MigrationPage() {
     const { lang } = Route.useParams();
-    const translate = t(lang);
-
     const walkthroughSteps = [
         {
-            title: translate("migration.step1.title"),
-            description: translate("migration.step1.description")
+            title: t("migration.step1.title"),
+            description: t("migration.step1.description")
         },
         {
-            title: translate("migration.step2.title"),
-            description: translate("migration.step2.description")
+            title: t("migration.step2.title"),
+            description: t("migration.step2.description")
         },
         {
-            title: translate("migration.step3.title"),
-            description: translate("migration.step3.description")
+            title: t("migration.step3.title"),
+            description: t("migration.step3.description")
         }
     ];
 
@@ -64,13 +62,13 @@ function MigrationPage() {
                 <div className="w-3/4 mx-auto">
                     <div className="mb-16">
                         <h1 className="text-3xl md:text-5xl mb-4 font-semibold tracking-tight bg-clip-text text-transparent bg-linear-to-b from-white to-white/60">
-                            {translate("migration.home")}
+                            {t("migration.home")}
                         </h1>
-                        <p className="text-sm text-zinc-400 md:w-3/4 w-full mb-4">{translate("migration.home_description")}</p>
+                        <p className="text-sm text-zinc-400 md:w-3/4 w-full mb-4">{t("migration.home_description")}</p>
                         <ul className="list-disc list-inside text-sm text-zinc-400 w-3/4 mb-4">
-                            <li>{translate("migration.about.list.first")}</li>
-                            <li>{translate("migration.about.list.second")}</li>
-                            <li>{translate("migration.about.list.third")}</li>
+                            <li>{t("migration.about.list.first")}</li>
+                            <li>{t("migration.about.list.second")}</li>
+                            <li>{t("migration.about.list.third")}</li>
                         </ul>
                         <Star />
                     </div>
@@ -96,18 +94,16 @@ function MigrationPage() {
                 </div>
                 <div className="h-full w-full mx-auto relative">
                     <div className="size-full flex flex-col justify-center">
-                        <small className="text-pink-700 font-bold tracking-wide text-[16px]">{translate("generic.section")}</small>
-                        <h1 className="text-white text-4xl md:text-6xl font-bold mt-4 text-balance">
-                            {translate("suggestions.studio.title")}
-                        </h1>
-                        <p className="text-gray-300 mt-4">{translate("suggestions.studio.description")}</p>
+                        <small className="text-pink-700 font-bold tracking-wide text-[16px]">{t("generic.section")}</small>
+                        <h1 className="text-white text-4xl md:text-6xl font-bold mt-4 text-balance">{t("suggestions.studio.title")}</h1>
+                        <p className="text-gray-300 mt-4">{t("suggestions.studio.description")}</p>
 
                         <div className="mt-8 flex flex-col md:flex-row gap-4">
                             <Button to="/$lang/studio" params={{ lang }} size="xl" variant="default" className="w-full md:w-auto">
-                                {translate("generic.start")}
+                                {t("generic.start")}
                             </Button>
                             <Button to="/$lang/studio" params={{ lang }} size="xl" variant="ghost" className="w-full md:w-auto">
-                                {translate("generic.learn_more")}
+                                {t("generic.learn_more")}
                             </Button>
                         </div>
                     </div>
@@ -120,17 +116,15 @@ function MigrationPage() {
 
                 <div className="h-full w-full mx-auto relative">
                     <div className="size-full flex flex-col justify-center">
-                        <h1 className="text-white text-4xl md:text-6xl font-bold mt-4 text-balance">
-                            {translate("suggestions.converter.title")}
-                        </h1>
-                        <p className="text-gray-300 mt-4">{translate("suggestions.converter.description")}</p>
+                        <h1 className="text-white text-4xl md:text-6xl font-bold mt-4 text-balance">{t("suggestions.converter.title")}</h1>
+                        <p className="text-gray-300 mt-4">{t("suggestions.converter.description")}</p>
 
                         <div className="mt-8 flex flex-col md:flex-row gap-4">
                             <Button to="/$lang/converter" params={{ lang }} size="xl" variant="shimmer" className="w-full md:w-auto">
-                                {translate("generic.take_a_look")}
+                                {t("generic.take_a_look")}
                             </Button>
                             <Button to="/$lang/converter" params={{ lang }} size="xl" variant="ghost" className="w-full md:w-auto">
-                                {translate("generic.learn_more")}
+                                {t("generic.learn_more")}
                             </Button>
                         </div>
                     </div>

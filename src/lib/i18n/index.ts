@@ -25,8 +25,7 @@ const initTranslations = (data: Record<string, string>): Map<string, string> => 
     return map;
 };
 
-const interpolate = (str: string, params: TranslationParams): string =>
-    str.replace(/\{(\w+)\}/g, (_, k) => String(params[k] ?? `{${k}}`));
+const interpolate = (str: string, params: TranslationParams): string => str.replace(/\{(\w+)\}/g, (_, k) => String(params[k] ?? `{${k}}`));
 
 export const useI18n = create<I18nStore>((set, get) => ({
     locale: "en-us",

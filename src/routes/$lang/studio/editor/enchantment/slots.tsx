@@ -1,4 +1,3 @@
-import { t } from "@/lib/i18n";
 import { createFileRoute } from "@tanstack/react-router";
 import type { EnchantmentProps, SlotRegistryType } from "@voxelio/breeze";
 import { EnchantmentAction } from "@voxelio/breeze";
@@ -6,6 +5,7 @@ import { SLOT_CONFIGS } from "@/components/tools/concept/enchantment/slots";
 import ToolGrid from "@/components/tools/elements/ToolGrid";
 import ToolSection from "@/components/tools/elements/ToolSection";
 import ToolSlot from "@/components/tools/elements/ToolSlot";
+import { t } from "@/lib/i18n";
 
 export const Route = createFileRoute("/$lang/studio/editor/enchantment/slots")({
     component: EnchantmentSlotsPage
@@ -36,17 +36,11 @@ function EnchantmentSlotsPage() {
                 ))}
 
                 <div className="flex flex-col gap-4 p-4">
-                    <p className="text-zinc-300">
-                        {t("enchantment:slots.explanation.title")}
-                    </p>
+                    <p className="text-zinc-300">{t("enchantment:slots.explanation.title")}</p>
                     <div>
                         <ul className="list-disc list-inside space-y-2">
-                            <li className="text-zinc-400">
-                                {t("enchantment:slots.explanation.list.1")}
-                            </li>
-                            <li className="text-zinc-400">
-                                {t("enchantment:slots.explanation.list.2")}
-                            </li>
+                            <li className="text-zinc-400">{t("enchantment:slots.explanation.list.1")}</li>
+                            <li className="text-zinc-400">{t("enchantment:slots.explanation.list.2")}</li>
                         </ul>
                     </div>
                 </div>

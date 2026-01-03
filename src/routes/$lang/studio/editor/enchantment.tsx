@@ -1,5 +1,4 @@
-import { t } from "@/lib/i18n";
-import { createFileRoute, Link, Outlet, useLocation, useNavigate, useParams } from "@tanstack/react-router";
+import { createFileRoute, Link, Outlet, useLocation, useNavigate } from "@tanstack/react-router";
 import { isVoxel } from "@voxelio/breeze";
 import { useEditorUiStore } from "@/components/tools/concept/EditorUiStore";
 import { buildEnchantmentTree } from "@/components/tools/concept/enchantment/buildEnchantmentTree";
@@ -15,6 +14,7 @@ import { TreeProvider } from "@/components/ui/tree/TreeNavigationContext";
 import { TreeSidebar } from "@/components/ui/tree/TreeSidebar";
 import { getEnchantableKeys } from "@/lib/data/tags";
 import { useElementsByType } from "@/lib/hook/useElementsByType";
+import { t } from "@/lib/i18n";
 
 const concept = CONCEPTS.find((c) => c.registry === "enchantment");
 if (!concept) throw new Error("Enchantment concept not found");
@@ -31,11 +31,11 @@ export const Route = createFileRoute("/$lang/studio/editor/enchantment")({
 });
 
 function EnchantmentLayout() {
-    const { lang } = useParams({ from: "/$lang/studio/editor/enchantment" });
     const { sidebarView, setSidebarView, filterPath, viewMode, setViewMode } = useEditorUiStore();
     const { setContainerRef } = useDynamicIsland();
     const location = useLocation();
     const navigate = useNavigate();
+    const { lang } = Route.useParams();
     const elements = useElementsByType("enchantment");
     const version = useConfiguratorStore((s) => s.version) ?? 61;
     const tree = buildEnchantmentTree(elements, sidebarView, version);
@@ -63,15 +63,9 @@ function EnchantmentLayout() {
             <div className="flex size-full overflow-hidden relative z-10 isolate">
                 <EditorSidebar title="enchantment:overview.title" icon={elementIcon} linkTo="/$lang/studio/editor/enchantment/overview">
                     <ToggleGroup value={sidebarView} onChange={setSidebarView} className="mt-4">
-                        <ToggleGroupOption value="slots">
-                            {t("enchantment:overview.sidebar.slots")}
-                        </ToggleGroupOption>
-                        <ToggleGroupOption value="items">
-                            {t("enchantment:overview.sidebar.items")}
-                        </ToggleGroupOption>
-                        <ToggleGroupOption value="exclusive">
-                            {t("enchantment:overview.sidebar.exclusive")}
-                        </ToggleGroupOption>
+                        <ToggleGroupOption value="slots">{t("enchantment:overview.sidebar.slots")}</ToggleGroupOption>
+                        <ToggleGroupOption value="items">{t("enchantment:overview.sidebar.items")}</ToggleGroupOption>
+                        <ToggleGroupOption value="exclusive">{t("enchantment:overview.sidebar.exclusive")}</ToggleGroupOption>
                     </ToggleGroup>
                     <TreeSidebar />
                 </EditorSidebar>

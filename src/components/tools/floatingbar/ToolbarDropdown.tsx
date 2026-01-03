@@ -1,6 +1,6 @@
-import { t } from "@/lib/i18n";
 import { Link } from "@tanstack/react-router";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/Dropdown";
+import { t } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
 interface ToolbarDropdownOption {
@@ -49,14 +49,8 @@ export function ToolbarDropdown({ icon, tooltip, value, options, onChange, disab
                             {value === option.value && <img src="/icons/valid.svg" alt="Selected" className="h-4 w-4 shrink-0" />}
                             {value !== option.value && <div className="h-4 w-4 shrink-0" />}
                             <div className="flex flex-col">
-                                <span className="font-medium">
-                                    {t(option.label)}
-                                </span>
-                                {option.description && (
-                                    <span className="text-xs text-zinc-400">
-                                        {t(option.description)}
-                                    </span>
-                                )}
+                                <span className="font-medium">{t(option.label)}</span>
+                                {option.description && <span className="text-xs text-zinc-400">{t(option.description)}</span>}
                             </div>
                         </div>
                     );

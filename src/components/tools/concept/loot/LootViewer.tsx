@@ -1,7 +1,7 @@
-import { t } from "@/lib/i18n";
 import type { FlattenedLootItem, LootTableProps } from "@voxelio/breeze";
 import RewardItem from "@/components/tools/concept/loot/RewardItem";
 import { type BaseInteractiveComponent, useInteractiveLogic } from "@/lib/hook/useInteractiveLogic";
+import { t, useI18n } from "@/lib/i18n";
 
 export type LootViewerProps = BaseInteractiveComponent & {
     title: string;
@@ -10,6 +10,7 @@ export type LootViewerProps = BaseInteractiveComponent & {
 };
 
 export default function LootViewer(props: LootViewerProps) {
+    useI18n((state) => state.locale);
     const { handleChange } = useInteractiveLogic<LootViewerProps, boolean>({ component: props });
     const totalProbability = props.data.reduce((sum, reward) => sum + reward.probability, 0);
 
@@ -18,9 +19,7 @@ export default function LootViewer(props: LootViewerProps) {
             <div className="overflow-y-auto col-span-5 flex flex-col gap-y-4 p-8">
                 <div>
                     <div className="flex justify-between items-center gap-y-2">
-                        <h1 className="text-2xl font-bold text-white">
-                            {t("loot:main.title")}
-                        </h1>
+                        <h1 className="text-2xl font-bold text-white">{t("loot:main.title")}</h1>
                         <p className="text-sm text-zinc-400">
                             {t("loot:main.probability_mass")}: {totalProbability.toFixed(2)}
                         </p>

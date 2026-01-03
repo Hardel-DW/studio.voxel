@@ -1,4 +1,3 @@
-import { t } from "@/lib/i18n";
 import { createFileRoute } from "@tanstack/react-router";
 import type { EnchantmentProps } from "@voxelio/breeze";
 import { CoreAction, Identifier } from "@voxelio/breeze";
@@ -7,6 +6,7 @@ import ToolSection from "@/components/tools/elements/ToolSection";
 import ToolSwitch from "@/components/tools/elements/ToolSwitch";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import { useElementProperty } from "@/lib/hook/useBreezeElement";
+import { t } from "@/lib/i18n";
 import { isMinecraft } from "@/lib/utils/lock";
 
 export const Route = createFileRoute("/$lang/studio/editor/enchantment/technical")({
@@ -77,9 +77,7 @@ function EnchantmentTechnicalPage() {
                         />
                     ))
                 ) : (
-                    <h1 className="text-zinc-400 text-center py-4">
-                        {t("enchantment:technical.empty_effects")}
-                    </h1>
+                    <h1 className="text-zinc-400 text-center py-4">{t("enchantment:technical.empty_effects")}</h1>
                 )}
             </ToolSection>
         </div>

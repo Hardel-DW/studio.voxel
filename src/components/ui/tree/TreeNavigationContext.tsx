@@ -38,7 +38,6 @@ interface TreeContextValue {
 
 export const TreeContext = createContext<TreeContextValue | null>(null);
 export function TreeProvider({ config, children }: { config: TreeConfig; children: React.ReactNode }) {
-    const { lang } = useParams({ from: "/$lang" });
     const matches = useMatches();
     const navigate = useNavigate();
     const filterPath = useEditorUiStore((s) => s.filterPath);
@@ -47,6 +46,7 @@ export function TreeProvider({ config, children }: { config: TreeConfig; childre
     const openTab = useConfiguratorStore((s) => s.openTab);
     const clearSelection = () => useConfiguratorStore.getState().setCurrentElementId(null);
     const isOnTab = config.tabRoutes?.some((route) => matches.map((m) => m.routeId as string).includes(route));
+    const { lang } = useParams({ from: "/$lang" });
 
     const selectFolder = (path: string) => {
         setFilterPath(path);

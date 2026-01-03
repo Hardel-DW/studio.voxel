@@ -2,13 +2,13 @@ import { useNavigate, useParams } from "@tanstack/react-router";
 import { Datapack, Logger } from "@voxelio/breeze";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/Dropdown";
-import { t } from "@/lib/i18n/i18n";
+import { t, useI18n } from "@/lib/i18n";
 import { Button } from "../ui/Button";
 
 export default function VanillaImportButton() {
-    const { lang } = useParams({ from: "/$lang" });
-    const translate = t(lang);
+    useI18n((state) => state.locale);
     const navigate = useNavigate();
+    const { lang } = useParams({ from: "/$lang" });
 
     const handleVanillaImport = async (version: number) => {
         const mcmeta = { pack: { pack_format: version, description: "No Description, please change this - Voxel Configurator" } };
@@ -24,7 +24,7 @@ export default function VanillaImportButton() {
         <DropdownMenu>
             <DropdownMenuTrigger>
                 <Button disabled variant="default">
-                    {translate("studio.import_vanilla.disabled")}
+                    {t("studio.import_vanilla.disabled")}
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>

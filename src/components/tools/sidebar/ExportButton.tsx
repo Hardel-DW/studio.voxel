@@ -1,4 +1,3 @@
-import { t } from "@/lib/i18n";
 import { DatapackDownloader } from "@voxelio/breeze";
 import { convertDatapack, extractMetadata, ModPlatforms } from "@voxelio/converter";
 import { useConfiguratorStore } from "@/components/tools/Store";
@@ -14,6 +13,7 @@ import {
     DialogTrigger
 } from "@/components/ui/Dialog";
 import { ToggleGroup, ToggleGroupOption } from "@/components/ui/ToggleGroup";
+import { t, useI18n } from "@/lib/i18n";
 import { downloadFile } from "@/lib/utils/download";
 
 const MOD_MANIFEST_FILES = ["fabric.mod.json", "quilt.mod.json", "META-INF/mods.toml", "META-INF/neoforge.mods.toml"];
@@ -22,6 +22,7 @@ function hasModManifest(files: Record<string, Uint8Array>): boolean {
 }
 
 export default function ExportButton() {
+    useI18n((state) => state.locale);
     const isModded = useConfiguratorStore((state) => state.isModded);
     const setIsModded = useConfiguratorStore((state) => state.setIsModded);
 
@@ -54,9 +55,7 @@ export default function ExportButton() {
                     variant="shimmer"
                     size="default">
                     <img src="/icons/upload.svg" alt="Export" className="size-5 block in-data-pinned:hidden" />
-                    <span className="text-sm hidden in-data-pinned:block whitespace-nowrap">
-                        {t("export")}
-                    </span>
+                    <span className="text-sm hidden in-data-pinned:block whitespace-nowrap">{t("export")}</span>
                 </Button>
             </DialogTrigger>
 
@@ -66,13 +65,9 @@ export default function ExportButton() {
                         <div className="size-10 rounded-full bg-zinc-900 flex items-center justify-center border border-zinc-800 shadow-inner">
                             <img src="/icons/upload.svg" alt="Export" className="size-5 invert opacity-75" />
                         </div>
-                        <span className="text-zinc-100 font-semibold tracking-tight">
-                            {t("export")}
-                        </span>
+                        <span className="text-zinc-100 font-semibold tracking-tight">{t("export")}</span>
                     </DialogTitle>
-                    <DialogDescription className="text-zinc-400 text-sm">
-                        {t("export.description")}
-                    </DialogDescription>
+                    <DialogDescription className="text-zinc-400 text-sm">{t("export.description")}</DialogDescription>
                 </DialogHeader>
 
                 <DialogBody className="p-6 space-y-8">
@@ -86,12 +81,8 @@ export default function ExportButton() {
                                     <img src="/icons/folder.svg" className="size-4 invert opacity-50" alt="Datapack" />
                                 </div>
                                 <div className="flex flex-col items-center">
-                                    <span className="text-zinc-300 font-medium">
-                                        {t("export.format.datapack")}
-                                    </span>
-                                    <span className="text-zinc-500 text-xs font-mono">
-                                        {t("export.format.datapack.extension")}
-                                    </span>
+                                    <span className="text-zinc-300 font-medium">{t("export.format.datapack")}</span>
+                                    <span className="text-zinc-500 text-xs font-mono">{t("export.format.datapack.extension")}</span>
                                 </div>
                             </ToggleGroupOption>
                             <ToggleGroupOption value="jar" className="flex flex-col items-center gap-4">
@@ -99,12 +90,8 @@ export default function ExportButton() {
                                     <img src="/icons/tools/weight.svg" className="size-4 invert opacity-50" alt="Mod" />
                                 </div>
                                 <div className="flex flex-col items-center">
-                                    <span className="text-zinc-300 font-medium">
-                                        {t("export.format.mod")}
-                                    </span>
-                                    <span className="text-zinc-500 text-xs font-mono">
-                                        {t("export.format.mod.extension")}
-                                    </span>
+                                    <span className="text-zinc-300 font-medium">{t("export.format.mod")}</span>
+                                    <span className="text-zinc-500 text-xs font-mono">{t("export.format.mod.extension")}</span>
                                 </div>
                             </ToggleGroupOption>
                         </ToggleGroup>
@@ -138,9 +125,7 @@ export default function ExportButton() {
                         className="w-full h-14 bg-zinc-100 text-zinc-950 font-bold hover:bg-white hover:scale-[1.01] transition-all shadow-lg shadow-white/5"
                         onClick={handleDownload}>
                         <div className="flex items-center gap-3">
-                            <span className="text-base tracking-wide">
-                                {t("export.download")}
-                            </span>
+                            <span className="text-base tracking-wide">{t("export.download")}</span>
                             <img src="/icons/download.svg" alt="download" className="size-5" />
                         </div>
                     </DialogCloseButton>

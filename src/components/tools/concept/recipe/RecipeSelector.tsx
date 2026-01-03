@@ -1,8 +1,8 @@
-import { t } from "@/lib/i18n";
 import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer";
 import { BoxHovered, BoxHoveredContent, BoxHoveredTrigger } from "@/components/ui/BoxHovered";
 import { Button } from "@/components/ui/Button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/Dropdown";
+import { t } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 import { getAllBlockIds, getDisplayBlockId, getDisplayName } from "./recipeConfig";
 
@@ -54,9 +54,7 @@ export default function RecipeSelector(props: {
                 <div className="flex flex-col gap-2 relative z-20">
                     <div className="flex items-center justify-between gap-16">
                         <div className="grid">
-                            <p className="text-lg font-bold">
-                                {t("recipe:selector.title")}
-                            </p>
+                            <p className="text-lg font-bold">{t("recipe:selector.title")}</p>
                             <span className="text-xs text-zinc-400">{displayName}</span>
                         </div>
                         <div className="size-12">
@@ -95,9 +93,7 @@ export default function RecipeSelector(props: {
                         <DropdownMenu>
                             <DropdownMenuTrigger>
                                 <Button variant="ghost_border" className="justify-between w-full">
-                                    <span>
-                                        {t("recipe:selector.advanced")}
-                                    </span>
+                                    <span>{t("recipe:selector.advanced")}</span>
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         width="24"

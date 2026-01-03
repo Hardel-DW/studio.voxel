@@ -1,4 +1,3 @@
-import { useParams } from "@tanstack/react-router";
 import { useRef, useState } from "react";
 import HarmonizeControls from "@/components/pages/harmonization/HarmonizeControls";
 import HarmonizeGallery from "@/components/pages/harmonization/HarmonizeGallery";
@@ -6,18 +5,16 @@ import HarmonizePreview from "@/components/pages/harmonization/HarmonizePreview"
 import HarmonizeUpload from "@/components/pages/harmonization/HarmonizeUpload";
 import useFileManager from "@/lib/hook/useFileManager";
 import useImageProcessor from "@/lib/hook/useImageProcessor";
-import { t } from "@/lib/i18n/i18n";
+import { t, useI18n } from "@/lib/i18n";
 import { cleanPalette, loadImage, quantizeImage, type RGB } from "@/lib/utils/color";
 import { downloadCanvas } from "@/lib/utils/download";
 
 export default function HarmonizeEditor() {
+    useI18n((state) => state.locale);
     const [similarityThreshold, setSimilarityThreshold] = useState<number>(30);
     const outputCanvasRef = useRef<HTMLCanvasElement>(null);
     const { files, actions: fileActions } = useFileManager();
     const { palette, imageState, actions: imageActions } = useImageProcessor();
-    const { lang } = useParams({ from: "/$lang" });
-    const translate = t(lang);
-
     const drawCanvas = (imageData: ImageData | null) => {
         const canvas = outputCanvasRef.current;
         if (!canvas) return;
@@ -158,7 +155,7 @@ export default function HarmonizeEditor() {
                     {!hasImage ? (
                         <div className="flex-1 flex flex-col">
                             <p className="text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-3 px-1">
-                                {translate("harmonization.uploaded_images")}
+                                {t("harmonization.uploaded_images")}
                             </p>
                             <HarmonizeUpload onFileUpload={handleFileUpload} />
                         </div>

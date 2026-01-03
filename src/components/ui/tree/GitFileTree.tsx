@@ -37,8 +37,8 @@ const sortedEntries = (children: Map<string, FileTreeNode>): [string, FileTreeNo
     });
 
 function GitTreeNode({ name, node, depth, selectedFile }: { name: string; node: FileTreeNode; depth: number; selectedFile?: string }) {
-    const { lang } = useParams({ from: "/$lang" });
     const [isOpen, setIsOpen] = useState(depth < 2);
+    const { lang } = useParams({ from: "/$lang" });
     const isFile = !!node.filePath;
     const hasChildren = node.children.size > 0;
     const isSelected = isFile && node.filePath === selectedFile;

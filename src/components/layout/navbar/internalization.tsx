@@ -1,8 +1,12 @@
 import { useRouterState } from "@tanstack/react-router";
-import { type Locale, supportedLocales } from "@/lib/i18n/i18n";
+import { type Locale, useI18n } from "@/lib/i18n";
+
+const supportedLocales: Locale[] = ["en-us", "fr-fr"];
+
 import { cn } from "@/lib/utils";
 
 export default function Internalization() {
+    useI18n((state) => state.locale);
     const routerState = useRouterState();
     const pathname = routerState.location.pathname;
     const pathWithoutLocale = pathname.split("/").slice(2).join("/");

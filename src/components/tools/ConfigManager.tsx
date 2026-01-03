@@ -1,20 +1,19 @@
-import { t } from "@/lib/i18n";
-import { useParams } from "@tanstack/react-router";
 import type { PropsWithChildren } from "react";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import { Button } from "@/components/ui/Button";
+import { t, useI18n } from "@/lib/i18n";
+import { Route } from "@/routes/$lang";
 import RestoreLastSession from "./RestoreLastSession";
 
 export default function ConfigManager(props: PropsWithChildren) {
-    const { lang } = useParams({ from: "/$lang" });
+    useI18n((state) => state.locale);
+    const { lang } = Route.useParams();
     const hasElements = useConfiguratorStore((state) => Object.keys(state.files).length > 0);
     if (hasElements) return props.children;
 
     return (
         <div className="size-full flex items-center justify-center flex-col gap-y-4">
-            <h1 className="text-zinc-400 text-2xl font-bold">
-                {t("no_config.title")}
-            </h1>
+            <h1 className="text-zinc-400 text-2xl font-bold">{t("no_config.title")}</h1>
             <div className="text-zinc-400 text-sm text-center">
                 {t("no_config.description.1")}
                 <br />

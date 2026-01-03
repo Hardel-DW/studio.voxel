@@ -1,6 +1,5 @@
-import { useParams } from "@tanstack/react-router";
 import Dropzone from "@/components/ui/Dropzone";
-import { t } from "@/lib/i18n/i18n";
+import { t, useI18n } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
 interface ConverterUploadProps {
@@ -10,9 +9,7 @@ interface ConverterUploadProps {
 }
 
 export default function ConverterUpload({ onFileUpload, multiple, compact }: ConverterUploadProps) {
-    const { lang } = useParams({ from: "/$lang" });
-    const translate = t(lang);
-
+    useI18n((state) => state.locale);
     return (
         <div className={cn("w-full h-full flex flex-col", compact ? "min-h-[150px]" : "min-h-[300px]")}>
             <Dropzone
@@ -36,7 +33,7 @@ export default function ConverterUpload({ onFileUpload, multiple, compact }: Con
                             "text-zinc-200 font-medium group-hover:text-white transition-colors",
                             compact ? "text-base" : "text-xl"
                         )}>
-                        {compact ? translate("converter.dropzone_add") : translate("converter.dropzone")}
+                        {compact ? t("converter.dropzone_add") : t("converter.dropzone")}
                     </p>
                     <p className="text-sm text-zinc-500 group-hover:text-zinc-400 transition-colors">.zip files up to 10MB</p>
                 </div>

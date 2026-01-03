@@ -1,6 +1,6 @@
-import { t } from "@/lib/i18n";
 import { Link, useParams } from "@tanstack/react-router";
 import type { ReactNode } from "react";
+import { t } from "@/lib/i18n";
 
 interface EditorSidebarProps {
     title: string;
@@ -10,7 +10,7 @@ interface EditorSidebarProps {
 }
 
 export function EditorSidebar({ title, icon, linkTo, children }: EditorSidebarProps) {
-    const { lang } = useParams({ strict: false }) as { lang: string };
+    const { lang } = useParams({ from: "/$lang" });
 
     return (
         <aside className="w-72 shrink-0 border-r border-zinc-800/50 bg-zinc-950/75 flex flex-col z-20">
@@ -22,9 +22,7 @@ export function EditorSidebar({ title, icon, linkTo, children }: EditorSidebarPr
                     <img src={icon} className="size-5 opacity-80" alt="Title icon" />
                     {t(title)}
                 </Link>
-                <p className="text-xs text-zinc-500 pl-7">
-                    {t("explore")}
-                </p>
+                <p className="text-xs text-zinc-500 pl-7">{t("explore")}</p>
             </div>
 
             <div className="flex-1 overflow-y-auto px-3">{children}</div>

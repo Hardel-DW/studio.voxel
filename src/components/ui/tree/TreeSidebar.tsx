@@ -5,8 +5,8 @@ import { cn } from "@/lib/utils";
 import { hueToHsl, stringToColor } from "@/lib/utils/color";
 
 export function TreeSidebar() {
-    const { lang } = useParams({ from: "/$lang" });
     const { tree, modifiedCount, changesRoute, isAllActive, selectAll, clearSelection } = useTree();
+    const { lang } = useParams({ from: "/$lang" });
 
     return (
         <div className="space-y-1 mt-4">
