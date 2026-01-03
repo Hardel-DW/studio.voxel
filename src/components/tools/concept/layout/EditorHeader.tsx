@@ -24,8 +24,8 @@ export function EditorHeader({ fallbackTitle, identifier, filterPath, isOverview
             ? Identifier.toDisplay(filterPath.split("/").pop() || "")
             : "All"
         : identifier
-          ? new Identifier(identifier).toResourceName()
-          : fallbackTitle;
+            ? new Identifier(identifier).toResourceName()
+            : fallbackTitle;
 
     const colorKey = isOverview ? filterPath || "all" : identifier ? new Identifier(identifier).toUniqueKey() : fallbackTitle;
     const bgColor = hueToHsl(stringToColor(colorKey));

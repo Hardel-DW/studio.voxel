@@ -11,22 +11,9 @@ interface I18nStore {
     setLocale: (locale: Locale) => Promise<void>;
 }
 
-const loadLocaleData = async (locale: Locale): Promise<Record<string, string>> => {
-    if (locale === "en-us") return enUsDefault;
-    const module = await import(`@/i18n/${locale}.json`);
-    return module.default;
-};
-
-const initTranslations = (data: Record<string, string>): Map<string, string> => {
-    const map = new Map<string, string>();
-    for (const [k, v] of Object.entries(data)) {
-        map.set(k, v);
-    }
-    return map;
-};
-
+const loadLocaleData = async (locale: Locale): Promise<Record<string, string>> => locale === "en-us" ? enUsDefault : (await import(`@/i18n/${locale}.json`)).default;
+const initTranslations = (data: Record<string, string>): Map<string, string> => new Map(Object.entries(data));
 const interpolate = (str: string, params: TranslationParams): string => str.replace(/\{(\w+)\}/g, (_, k) => String(params[k] ?? `{${k}}`));
-
 export const useI18n = create<I18nStore>((set, get) => ({
     locale: "en-us",
     translations: initTranslations(enUsDefault),
@@ -34,16 +21,12 @@ export const useI18n = create<I18nStore>((set, get) => ({
     setLocale: async (locale: Locale) => {
         const current = get().locale;
         if (current === locale) return;
-
         set({ isLoading: true });
 
         try {
             const data = await loadLocaleData(locale);
-            set({
-                locale,
-                translations: initTranslations(data),
-                isLoading: false
-            });
+            const translations = initTranslations(data);
+            set({ locale, translations, isLoading: false });
         } catch (error) {
             console.error(`Failed to load locale ${locale}`, error);
             set({ isLoading: false });
@@ -51,10 +34,12 @@ export const useI18n = create<I18nStore>((set, get) => ({
     }
 }));
 
-export const t = (key: string | undefined, params?: TranslationParams): string => {
-    if (!key) return "";
-    const { translations } = useI18n.getState();
-    const translation = translations.get(key);
-    if (!translation) return key;
-    return params ? interpolate(translation, params) : translation;
+export const useTranslate = () => {
+    const translations = useI18n((state) => state.translations);
+    return (key: string | undefined, params?: TranslationParams): string => {
+        if (!key) return "";
+        const translation = translations.get(key);
+        if (!translation) return key;
+        return params ? interpolate(translation, params) : translation;
+    };
 };

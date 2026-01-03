@@ -25,10 +25,9 @@ export default function HarmonizeGallery({ files, onSelect, onDelete }: Harmoniz
                             key={key}
                             className={`
                                 relative group shrink-0 rounded-xl overflow-hidden transition-all duration-300 border
-                                ${
-                                    isActive
-                                        ? "border-white/80 shadow-[0_0_15px_-3px_rgba(255,255,255,0.3)] scale-100 ring-1 ring-white/50"
-                                        : "border-white/10 hover:border-white/30 opacity-60 hover:opacity-100 scale-95 hover:scale-100"
+                                ${isActive
+                                    ? "border-white/80 shadow-[0_0_15px_-3px_rgba(255,255,255,0.3)] scale-100 ring-1 ring-white/50"
+                                    : "border-white/10 hover:border-white/30 opacity-60 hover:opacity-100 scale-95 hover:scale-100"
                                 }
                             `}>
                             <button
