@@ -14,8 +14,10 @@ interface I18nStore {
 
 const loadLocaleData = async (locale: Locale): Promise<Record<string, string>> => {
     switch (locale) {
-        case "en-us": return enUsDefault;
-        case "fr-fr": return (await import("@/i18n/fr-fr.json")).default;
+        case "en-us":
+            return enUsDefault;
+        case "fr-fr":
+            return (await import("@/i18n/fr-fr.json")).default;
     }
 };
 
