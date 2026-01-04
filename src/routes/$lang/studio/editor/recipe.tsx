@@ -1,12 +1,12 @@
 import { createFileRoute, Outlet, useLocation, useNavigate } from "@tanstack/react-router";
-import { Identifier, isVoxel } from "@voxelio/breeze";
+import { Identifier } from "@voxelio/breeze";
 import { useEditorUiStore } from "@/components/tools/concept/EditorUiStore";
 import { EditorHeader } from "@/components/tools/concept/layout/EditorHeader";
 import { EditorSidebar } from "@/components/tools/concept/layout/EditorSidebar";
 import { buildRecipeTree } from "@/components/tools/concept/recipe/buildRecipeTree";
 import { useDynamicIsland } from "@/components/tools/floatingbar/FloatingBarContext";
 import NotFoundStudio from "@/components/tools/NotFoundStudio";
-import { getCurrentElement, getModifiedElements, useConfiguratorStore } from "@/components/tools/Store";
+import { getModifiedElements, useConfiguratorStore } from "@/components/tools/Store";
 import { TreeProvider } from "@/components/ui/tree/TreeNavigationContext";
 import { TreeSidebar } from "@/components/ui/tree/TreeSidebar";
 import { CONCEPTS } from "@/lib/data/elements";
@@ -40,8 +40,8 @@ function RecipeLayout() {
     const elements = useElementsByType("recipe");
     const tree = buildRecipeTree(elements);
     const modifiedCount = useConfiguratorStore((s) => getModifiedElements(s, "recipe").length);
-    const currentElement = useConfiguratorStore((s) => getCurrentElement(s));
-    const recipe = currentElement && isVoxel(currentElement, "recipe") ? currentElement : undefined;
+    const currentElement = useConfiguratorStore((s) => s.currentElementId);
+    const identifier = currentElement ? Identifier.fromUniqueKey(currentElement) : undefined;
     const isOverview = location.pathname.endsWith("/overview");
     const { setContainerRef } = useDynamicIsland();
 
@@ -55,7 +55,7 @@ function RecipeLayout() {
                 <main ref={setContainerRef} className="flex-1 flex flex-col min-w-0 min-h-0 overflow-hidden relative bg-zinc-950">
                     <EditorHeader
                         fallbackTitle="Recipe"
-                        identifier={recipe?.identifier}
+                        identifier={identifier ? { namespace: identifier.namespace, registry: identifier.registry, resource: identifier.resource } : undefined}
                         filterPath={filterPath}
                         isOverview={isOverview}
                         onBack={() => navigate({ to: "/$lang/studio/editor/recipe/overview", params: { lang } })}

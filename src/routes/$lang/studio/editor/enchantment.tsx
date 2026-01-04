@@ -1,12 +1,12 @@
 import { createFileRoute, Link, Outlet, useLocation, useNavigate } from "@tanstack/react-router";
-import { isVoxel } from "@voxelio/breeze";
+import { Identifier } from "@voxelio/breeze";
 import { useEditorUiStore } from "@/components/tools/concept/EditorUiStore";
 import { buildEnchantmentTree } from "@/components/tools/concept/enchantment/buildEnchantmentTree";
 import { EditorHeader } from "@/components/tools/concept/layout/EditorHeader";
 import { EditorSidebar } from "@/components/tools/concept/layout/EditorSidebar";
 import { useDynamicIsland } from "@/components/tools/floatingbar/FloatingBarContext";
 import NotFoundStudio from "@/components/tools/NotFoundStudio";
-import { getCurrentElement, getModifiedElements, useConfiguratorStore } from "@/components/tools/Store";
+import { getModifiedElements, useConfiguratorStore } from "@/components/tools/Store";
 import { ToggleGroup, ToggleGroupOption } from "@/components/ui/ToggleGroup";
 import { TreeProvider } from "@/components/ui/tree/TreeNavigationContext";
 import { TreeSidebar } from "@/components/ui/tree/TreeSidebar";
@@ -41,8 +41,8 @@ function EnchantmentLayout() {
     const version = useConfiguratorStore((s) => s.version) ?? 61;
     const tree = buildEnchantmentTree(elements, sidebarView, version);
     const modifiedCount = useConfiguratorStore((s) => getModifiedElements(s, "enchantment").length);
-    const currentElement = useConfiguratorStore((s) => getCurrentElement(s));
-    const enchantment = currentElement && isVoxel(currentElement, "enchantment") ? currentElement : undefined;
+    const currentElement = useConfiguratorStore((s) => s.currentElementId);
+    const identifier = currentElement ? Identifier.fromUniqueKey(currentElement) : undefined;
     const isOverview = location.pathname.endsWith("/overview");
     const itemFolderIcons = Object.fromEntries(getEnchantableKeys(version).map((k) => [k, `/images/features/item/${k}.webp`]));
     const folderIcons = sidebarView === "slots" ? SLOT_FOLDER_ICONS : sidebarView === "items" ? itemFolderIcons : undefined;
@@ -74,7 +74,7 @@ function EnchantmentLayout() {
                 <main ref={setContainerRef} className="flex-1 flex flex-col min-w-0 relative bg-zinc-950">
                     <EditorHeader
                         fallbackTitle="Enchantment"
-                        identifier={enchantment?.identifier}
+                        identifier={identifier ? { namespace: identifier.namespace, registry: identifier.registry, resource: identifier.resource } : undefined}
                         filterPath={filterPath}
                         isOverview={isOverview}
                         onBack={() => navigate({ to: "/$lang/studio/editor/enchantment/overview", params: { lang } })}>
