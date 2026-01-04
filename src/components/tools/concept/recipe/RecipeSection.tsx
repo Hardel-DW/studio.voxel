@@ -2,7 +2,7 @@ import { CoreAction, isVoxel, RecipeAction, type RecipeProps } from "@voxelio/br
 import { useState } from "react";
 import RecipeRenderer from "@/components/tools/concept/recipe/RecipeRenderer";
 import RecipeSelector from "@/components/tools/concept/recipe/RecipeSelector";
-import { getBlockByRecipeType, getFirstTypeFromSelection, RECIPE_BLOCKS } from "@/components/tools/concept/recipe/recipeConfig";
+import { getAllRecipeTypes, getBlockByRecipeType, getBlockConfig, RECIPE_BLOCKS } from "@/components/tools/concept/recipe/recipeConfig";
 import ToolCounter from "@/components/tools/elements/ToolCounter";
 import { getCurrentElement, useConfiguratorStore } from "@/components/tools/Store";
 import { Tabs, TabsTrigger } from "@/components/ui/Tabs";
@@ -28,7 +28,7 @@ export default function RecipeSection() {
     if (!currentElement || !isVoxel(currentElement, "recipe")) return null;
 
     const handleSelectionChange = (newSelection: string) => {
-        const newRecipeType = getFirstTypeFromSelection(newSelection);
+        const newRecipeType = selection === "minecraft:barrier" ? getAllRecipeTypes()[0] : getBlockConfig(selection)?.recipeTypes[0] || selection;
         handleChange(RecipeAction.convertRecipeType(newRecipeType));
         setSelection(newSelection);
     };

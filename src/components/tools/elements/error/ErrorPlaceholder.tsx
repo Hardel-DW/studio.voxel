@@ -17,7 +17,6 @@ export default function ErrorPlaceholder({ error }: ErrorPlaceholderProps) {
 
                 <div className="h-16 w-16 flex items-center justify-center">
                     <svg className="h-12 w-12 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <title>{t("error")}</title>
                         <path
                             strokeLinecap="round"
                             strokeLinejoin="round"

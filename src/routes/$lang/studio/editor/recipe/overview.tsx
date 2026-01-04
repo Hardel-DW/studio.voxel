@@ -29,7 +29,7 @@ function Page() {
     return (
         <div className="flex flex-col size-full">
             <div className="max-w-xl sticky top-0 z-30 px-8 py-4 bg-zinc-950/75 backdrop-blur-md border-b border-zinc-800/50">
-                <TextInput value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search recipes..." />
+                <TextInput value={search} onChange={(e) => setSearch(e.target.value)} placeholder={t("recipe:overview.search")} />
             </div>
 
             <div className="flex-1 overflow-y-auto px-8 py-6 bg-zinc-950/50">

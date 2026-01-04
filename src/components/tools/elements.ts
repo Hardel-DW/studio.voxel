@@ -18,7 +18,7 @@ export type Tab = {
 export const CONCEPTS: Concept[] = [
     {
         registry: "enchantment",
-        title: "Enchantment",
+        title: "studio.concept.enchantment",
         image: {
             src: "/images/features/item/enchanted_book.webp",
             alt: "Enchantment"
@@ -59,7 +59,7 @@ export const CONCEPTS: Concept[] = [
     },
     {
         registry: "loot_table",
-        title: "Loot Table",
+        title: "studio.concept.loot_table",
         image: {
             src: "/images/features/item/bundle_close.webp",
             alt: "Loot Table"
@@ -80,7 +80,7 @@ export const CONCEPTS: Concept[] = [
     },
     {
         registry: "recipe",
-        title: "Recipe",
+        title: "studio.concept.recipe",
         image: {
             src: "/images/features/block/crafting_table.webp",
             alt: "Recipe"
@@ -96,7 +96,7 @@ export const CONCEPTS: Concept[] = [
     },
     {
         registry: "structure",
-        title: "Structure",
+        title: "studio.concept.structure",
         image: {
             src: "/images/features/block/jigsaw.webp",
             alt: "Structure"

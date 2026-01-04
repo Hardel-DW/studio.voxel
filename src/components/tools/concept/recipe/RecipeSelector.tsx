@@ -4,7 +4,8 @@ import { Button } from "@/components/ui/Button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/Dropdown";
 import { useTranslate } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
-import { getAllBlockIds, getDisplayBlockId, getDisplayName } from "./recipeConfig";
+import { getAllBlockIds, getBlockByRecipeType, getBlockConfig, isBlockId } from "./recipeConfig";
+import { Identifier } from "@voxelio/breeze";
 
 const CRAFTING_TYPES = {
     crafting_shaped: { name: "Shaped", description: "Craft with a specific pattern" },
@@ -34,8 +35,8 @@ export default function RecipeSelector(props: {
 }) {
     const t = useTranslate();
     const blockIds = getAllBlockIds(true);
-    const displayBlockId = getDisplayBlockId(props.value);
-    const displayName = getDisplayName(props.value);
+    const displayBlockId = isBlockId(props.value) ? props.value : getBlockByRecipeType(props.value).id;
+    const displayName = isBlockId(props.value) ? t(getBlockConfig(props.value)?.name) : Identifier.toDisplay(props.value);
 
     return (
         <BoxHovered>

@@ -3,9 +3,11 @@ import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer
 import { useDragAndDrop } from "@/lib/hook/useDragAndDrop";
 import { useInfiniteScroll } from "@/lib/hook/useInfiniteScroll";
 import useRegistry from "@/lib/hook/useRegistry";
+import { useTranslate } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
 export default function ToolInventory({ search }: { search: string }) {
+    const t = useTranslate();
     const { data: allItems, isLoading, isError } = useRegistry<string[]>("registry", "item");
     const { handleDragStart, handleDragEnd, draggedItem } = useDragAndDrop();
     const filteredItems = allItems?.filter((item) => item !== "air" && item.toLowerCase().includes(search.toLowerCase())) ?? [];
@@ -16,7 +18,7 @@ export default function ToolInventory({ search }: { search: string }) {
         return (
             <div className="flex flex-col items-center justify-center h-full text-zinc-400">
                 <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-zinc-700 mb-4" />
-                <p className="text-sm">Loading items...</p>
+                <p className="text-sm">{t("inventory.loading")}</p>
             </div>
         );
     }
@@ -24,7 +26,7 @@ export default function ToolInventory({ search }: { search: string }) {
     if (isError) {
         return (
             <div className="flex flex-col items-center justify-center h-full text-zinc-400">
-                <p className="text-sm">Error loading items</p>
+                <p className="text-sm">{t("inventory.error")}</p>
             </div>
         );
     }
@@ -65,14 +67,14 @@ export default function ToolInventory({ search }: { search: string }) {
 
                 {visibleItems.length === 0 && search.length === 0 && (
                     <div className="col-span-full flex flex-col items-center justify-center text-zinc-400 p-8">
-                        <p className="text-sm">Start typing to search items...</p>
+                        <p className="text-sm">{t("inventory.search_start")}</p>
                     </div>
                 )}
             </div>
 
             {hasMore && (
                 <div ref={ref} className="flex justify-center items-center py-4 text-xs text-zinc-500">
-                    Loading more items…
+                    {t("inventory.loading_more")}
                 </div>
             )}
         </div>

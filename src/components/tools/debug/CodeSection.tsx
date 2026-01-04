@@ -9,20 +9,20 @@ interface CodeSectionProps {
 
 const tabs = {
     original: {
-        title: "Source",
-        description: "Original datapack files"
+        title: "debug:tab.source.title",
+        description: "debug:tab.source.description"
     },
     voxel: {
-        title: "Modified",
-        description: "Elements in Voxel format"
+        title: "debug:tab.modified.title",
+        description: "debug:tab.modified.description"
     },
     datapack: {
-        title: "Output",
-        description: "Files as they will be in the final datapack"
+        title: "debug:tab.output.title",
+        description: "debug:tab.output.description"
     },
     logs: {
-        title: "Logs",
-        description: "Logs related to modifications"
+        title: "debug:tab.logs.title",
+        description: "debug:tab.logs.description"
     }
 };
 
@@ -60,11 +60,11 @@ export function CodeSection({ uniqueKey }: CodeSectionProps) {
         <div className="h-full flex flex-col">
             <CodeBlock
                 language="json"
-                title={title ? identifier.toFileName() : "This element has been deleted"}
+                title={title ? identifier.toFileName() : "debug:element.deleted"}
                 tabs={tabs}
                 defaultTab={format}
                 onTabChange={(tab) => setFormat(tab as keyof typeof tabs)}>
-                {title ? JSON.stringify(codeToDisplay, null, 4) : "This element is not modified or deleted"}
+                {title ? JSON.stringify(codeToDisplay, null, 4) : "debug:element.not_modified"}
             </CodeBlock>
         </div>
     );

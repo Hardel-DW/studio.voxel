@@ -1,3 +1,4 @@
+import { useTranslate } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 import { getTokenColor, processTokensIntoLines, tokenizeJSON } from "@/lib/utils/json-tokenizer";
 
@@ -80,6 +81,7 @@ function DiffLineContent({ content, type }: { content: string; type: DiffLineTyp
 }
 
 export default function CodeDiff({ original, modified }: CodeDiffProps) {
+    const t = useTranslate();
     const diffLines = computeLineDiff(original, modified);
     const addedCount = diffLines.filter((l) => l.type === "added").length;
     const removedCount = diffLines.filter((l) => l.type === "removed").length;
@@ -95,7 +97,7 @@ export default function CodeDiff({ original, modified }: CodeDiffProps) {
                 <div className="flex items-center gap-3 ml-4 text-xs font-mono">
                     {addedCount > 0 && <span className="text-green-400">+{addedCount}</span>}
                     {removedCount > 0 && <span className="text-red-400">-{removedCount}</span>}
-                    {addedCount === 0 && removedCount === 0 && <span className="text-zinc-500">No changes</span>}
+                    {addedCount === 0 && removedCount === 0 && <span className="text-zinc-500">{t("code_diff.no_changes")}</span>}
                 </div>
             </div>
 

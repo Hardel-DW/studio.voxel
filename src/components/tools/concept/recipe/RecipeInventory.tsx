@@ -18,7 +18,7 @@ export default function RecipeInventory() {
                             <h2 className="text-xl font-bold text-white">{t("recipe:inventory.title")}</h2>
                             <p className="text-sm text-zinc-400">{t("recipe:inventory.description")}</p>
                         </div>
-                        <TextInput className="min-w-64" placeholder="Search" value={search} onChange={(e) => setSearch(e.target.value)} />
+                        <TextInput className="min-w-64" placeholder={t("recipe:inventory.search")} value={search} onChange={(e) => setSearch(e.target.value)} />
                     </div>
                     <hr className="my-4" />
                 </div>

@@ -1,6 +1,7 @@
 import { Link, useParams } from "@tanstack/react-router";
 import type { FileStatus } from "@voxelio/breeze";
 import { useState } from "react";
+import { useTranslate } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 import { buildFileTree, type FileTreeNode } from "@/lib/utils/tree";
 
@@ -10,13 +11,14 @@ interface GitFileTreeProps {
 }
 
 export function GitFileTree({ diff, selectedFile }: GitFileTreeProps) {
+    const t = useTranslate();
     const tree = buildFileTree(diff);
 
     if (diff.size === 0) {
         return (
             <div className="flex flex-col items-center justify-center py-12 text-zinc-600 gap-2">
                 <img src="/icons/check.svg" className="size-6 opacity-20 invert" alt="No changes detected" />
-                <span className="text-xs">No changes detected</span>
+                <span className="text-xs">{t("git.no_changes")}</span>
             </div>
         );
     }

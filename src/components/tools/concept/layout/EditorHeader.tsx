@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import { EditorBreadcrumb } from "@/components/tools/concept/layout/EditorBreadcrumb";
 import { EditorHeaderTabs } from "@/components/tools/concept/layout/EditorHeaderTabs";
 import { useActiveConcept } from "@/lib/hook/useActiveConcept";
+import { useTranslate } from "@/lib/i18n";
 import { hueToHsl, stringToColor } from "@/lib/utils/color";
 
 interface EditorHeaderProps {
@@ -15,11 +16,12 @@ interface EditorHeaderProps {
 }
 
 export function EditorHeader({ fallbackTitle, identifier, filterPath, isOverview, onBack, children }: EditorHeaderProps) {
+    const t = useTranslate();
     const { tabs, activeTab, lang, showTabs } = useActiveConcept();
     const title = isOverview
         ? filterPath
             ? Identifier.toDisplay(filterPath.split("/").pop() || "")
-            : "All"
+            : t("editor.all")
         : identifier
           ? new Identifier(identifier).toResourceName()
           : fallbackTitle;

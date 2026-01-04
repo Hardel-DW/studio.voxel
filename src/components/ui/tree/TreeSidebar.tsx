@@ -1,10 +1,12 @@
 import { Link, useParams } from "@tanstack/react-router";
 import { FileTree } from "@/components/ui/tree/FileTree";
 import { useTree } from "@/components/ui/tree/useTree";
+import { useTranslate } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 import { hueToHsl, stringToColor } from "@/lib/utils/color";
 
 export function TreeSidebar() {
+    const t = useTranslate();
     const { tree, modifiedCount, changesRoute, isAllActive, selectAll, clearSelection } = useTree();
     const { lang } = useParams({ from: "/$lang" });
 
@@ -17,10 +19,10 @@ export function TreeSidebar() {
                 count={modifiedCount}
                 disabled={modifiedCount === 0}
                 onClick={clearSelection}>
-                Updated
+                {t("tree.updated")}
             </SidebarLink>
             <SidebarButton icon="/icons/search.svg" count={tree.count} isActive={isAllActive} onClick={selectAll}>
-                All
+                {t("tree.all")}
             </SidebarButton>
             <FileTree />
         </div>

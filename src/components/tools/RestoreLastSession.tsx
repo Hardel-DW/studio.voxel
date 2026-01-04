@@ -5,7 +5,7 @@ import { useExportStore } from "@/components/tools/sidebar/ExportStore";
 import { Button } from "@/components/ui/Button";
 import { useTranslate } from "@/lib/i18n";
 import { hasSession, restoreSession } from "@/lib/utils/sessionPersistence";
-import { TOAST, toast } from "../ui/Toast";
+import { TOAST, toast } from "@/components/ui/Toast";
 
 export default function RestoreLastSession({ className }: { className?: string }) {
     const t = useTranslate();

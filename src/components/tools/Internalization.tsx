@@ -1,14 +1,13 @@
-import { useNavigate } from "@tanstack/react-router";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/Dropdown";
 import { type Locale, supportedLocales, useI18n } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
 export default function Internalization() {
     const locale = useI18n((state) => state.locale);
-    const navigate = useNavigate();
+    const setLocale = useI18n((state) => state.setLocale);
 
-    const handleLanguageChange = (newLang: Locale) => {
-        navigate({ params: { lang: newLang } as never });
+    const handleLanguageChange = async (newLang: Locale) => {
+        await setLocale(newLang);
     };
 
     return (

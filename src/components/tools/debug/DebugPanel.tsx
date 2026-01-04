@@ -5,10 +5,12 @@ import { RightSection } from "@/components/tools/debug/RightSection";
 import { Button } from "@/components/ui/Button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/Dropdown";
 import { TextInput } from "@/components/ui/TextInput";
+import { useTranslate } from "@/lib/i18n";
 import { ruwsc } from "@/lib/utils/text";
 import { useConfiguratorStore } from "../Store";
 
 export default function DebugPanel() {
+    const t = useTranslate();
     const {
         selectedElement,
         selectedRegistry,
@@ -66,7 +68,7 @@ export default function DebugPanel() {
                                 className="w-4 h-4 invert-50 hover:invert-100 transition-colors cursor-pointer"
                                 onClick={showStoreData}
                             />
-                            <TextInput placeholder="Search" value={search} onChange={(e) => setSearch(e.target.value)} />
+                            <TextInput placeholder={t("debug.search")} value={search} onChange={(e) => setSearch(e.target.value)} />
                         </div>
                     </div>
 

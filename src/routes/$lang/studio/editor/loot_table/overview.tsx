@@ -31,7 +31,7 @@ function RouteComponent() {
     return (
         <div className="flex flex-col flex-1 min-h-0">
             <div className="max-w-xl sticky top-0 px-8 py-4 bg-zinc-950/75 backdrop-blur-md border-b border-zinc-800/50">
-                <TextInput value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search tables..." />
+                <TextInput value={search} onChange={(e) => setSearch(e.target.value)} placeholder={t("loot:overview.search")} />
             </div>
 
             <div className="flex-1 overflow-y-auto px-8 py-6 bg-zinc-950/50">
