@@ -1,9 +1,8 @@
 import type { TagType } from "@voxelio/breeze";
 import { CoreAction, Identifier, Tags, TagsProcessor } from "@voxelio/breeze";
+import EnchantmentTags, { type ToolListOptionAction } from "@/components/tools/concept/enchantment/EnchantmentTags";
 import ErrorPlaceholder from "@/components/tools/elements/error/ErrorPlaceholder";
 import ToolCategory from "@/components/tools/elements/ToolCategory";
-import ToolGrid from "@/components/tools/elements/ToolGrid";
-import ToolListOption, { type ToolListOptionAction } from "@/components/tools/elements/ToolListOption";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import Loader from "@/components/ui/Loader";
 import { exclusiveSetGroups } from "@/lib/data/exclusive";
@@ -49,7 +48,7 @@ export function ExclusiveGroupSection() {
     return (
         <>
             <ToolCategory title="enchantment:exclusive.vanilla.title">
-                <ToolGrid>
+                <div className="grid max-xl:grid-cols-1 gap-4 grid-auto-64">
                     {exclusiveSetGroups.map(({ id, image, value }) => {
                         const tagData = merge.find((tag) =>
                             new Identifier(tag.identifier).equals(Identifier.of(value, "tags/enchantment"))
@@ -57,7 +56,7 @@ export function ExclusiveGroupSection() {
                         const values = tagData && Tags.isTag(tagData.data) ? new Tags(tagData.data).fromRegistry() : [];
 
                         return (
-                            <ToolListOption
+                            <EnchantmentTags
                                 key={id}
                                 title={`enchantment:exclusive.set.${id}.title`}
                                 description={`enchantment:exclusive.set.${id}.description`}
@@ -68,7 +67,7 @@ export function ExclusiveGroupSection() {
                             />
                         );
                     })}
-                </ToolGrid>
+                </div>
             </ToolCategory>
 
             <ToolCategory title="enchantment:exclusive.custom.title">
@@ -77,7 +76,7 @@ export function ExclusiveGroupSection() {
                 )}
 
                 {merge.filter((tag) => tag.identifier.namespace !== "minecraft").length > 0 && (
-                    <ToolGrid>
+                    <div className="grid max-xl:grid-cols-1 gap-4 grid-auto-64">
                         {merge
                             .filter((tag) => tag.identifier.namespace !== "minecraft")
                             .map((tagEntry) => {
@@ -86,7 +85,7 @@ export function ExclusiveGroupSection() {
                                 const identifierString = identifier.toString();
 
                                 return (
-                                    <ToolListOption
+                                    <EnchantmentTags
                                         key={identifier.toUniqueKey()}
                                         title={identifier.toResourceName()}
                                         description={identifier.toResourcePath()}
@@ -96,7 +95,7 @@ export function ExclusiveGroupSection() {
                                     />
                                 );
                             })}
-                    </ToolGrid>
+                    </div>
                 )}
             </ToolCategory>
 

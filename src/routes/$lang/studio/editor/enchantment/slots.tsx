@@ -2,7 +2,6 @@ import { createFileRoute } from "@tanstack/react-router";
 import type { EnchantmentProps, SlotRegistryType } from "@voxelio/breeze";
 import { EnchantmentAction } from "@voxelio/breeze";
 import { SLOT_CONFIGS } from "@/components/tools/concept/enchantment/slots";
-import ToolGrid from "@/components/tools/elements/ToolGrid";
 import ToolSection from "@/components/tools/elements/ToolSection";
 import ToolSlot from "@/components/tools/elements/ToolSlot";
 import { useTranslate } from "@/lib/i18n";
@@ -21,19 +20,21 @@ function EnchantmentSlotsPage() {
 
     return (
         <div className="p-8 h-full overflow-y-auto">
-            <ToolSection id="slots" title="enchantment:section.slots.description">
+            <ToolSection id="slots" title={t("enchantment:section.slots.description")}>
                 {groupedSlots.map((group) => (
-                    <ToolGrid key={group.map((config) => config.id).join(",")}>
+                    <div
+                        key={group.map((config) => config.id).join(",")}
+                        className="grid max-xl:grid-cols-1 gap-4 grid-auto-64">
                         {group.map((config) => (
                             <ToolSlot
                                 key={config.id}
-                                title={config.name}
+                                title={t(config.name)}
                                 image={config.image}
                                 action={EnchantmentAction.setComputedSlot("slots", config.id as SlotRegistryType)}
                                 renderer={(el: EnchantmentProps) => el.slots.some((slot) => config.slots.includes(slot))}
                             />
                         ))}
-                    </ToolGrid>
+                    </div>
                 ))}
 
                 <div className="flex flex-col gap-4 p-4">

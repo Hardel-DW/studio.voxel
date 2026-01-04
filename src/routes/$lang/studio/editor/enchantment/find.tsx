@@ -1,17 +1,10 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link, useParams } from "@tanstack/react-router";
 import type { EnchantmentProps } from "@voxelio/breeze";
 import { CoreAction } from "@voxelio/breeze";
-import { lazy, Suspense } from "react";
-import ToolGrid from "@/components/tools/elements/ToolGrid";
-import ToolReveal, { ToolRevealElement } from "@/components/tools/elements/ToolReveal";
 import ToolSection from "@/components/tools/elements/ToolSection";
 import ToolSlot from "@/components/tools/elements/ToolSlot";
-import Loader from "@/components/ui/Loader";
+import { useTranslate } from "@/lib/i18n";
 import { isMinecraft, LockEntryBuilder } from "@/lib/utils/lock";
-
-// Lazy load page components
-const EnchantDNTSection = lazy(() => import("@/components/tools/concept/enchantment/EnchantDNTSection"));
-const EnchantYggdrasilSection = lazy(() => import("@/components/tools/concept/enchantment/EnchantYggdrasilSection"));
 
 const iterationValues = [
     {
@@ -70,15 +63,17 @@ const iterationValues = [
 ];
 
 export const Route = createFileRoute("/$lang/studio/editor/enchantment/find")({
-    validateSearch: (search: Record<string, unknown>) => ({ tab: search.tab as "dnt" | "yggdrasil" | undefined }),
     component: EnchantmentFindPage
 });
 
 function EnchantmentFindPage() {
+    const t = useTranslate();
+    const params = useParams({ from: "/$lang" });
+
     return (
         <div className="p-8 h-full overflow-y-auto">
-            <ToolSection id="behaviour" title="enchantment:section.find">
-                <ToolGrid size="350px">
+            <ToolSection id="behaviour" title={t("enchantment:section.find")}>
+                <div className="grid max-xl:grid-cols-1 gap-4 grid-auto-88">
                     {iterationValues.map((value) => (
                         <ToolSlot
                             align="left"
@@ -92,38 +87,52 @@ function EnchantmentFindPage() {
                                     .build(),
                                 isMinecraft
                             ]}
-                            title={value.title}
+                            title={t(value.title)}
                             image={value.image}
-                            description={value.description}
+                            description={t(value.description)}
                         />
                     ))}
-                </ToolGrid>
+                </div>
             </ToolSection>
-            <ToolSection id="addons" title="enchantment:addons.description">
-                <ToolReveal searchParam="tab" useUrlSync={true} defaultValue="dnt">
-                    <ToolRevealElement
-                        id="dnt"
-                        logo="/images/addons/logo/dnt.webp"
-                        image="/images/addons/hero/dnt.png"
-                        href="https://modrinth.com/datapack/dungeons-and-taverns"
-                        title="dnt:title"
-                        description="dnt:description">
-                        <Suspense fallback={<Loader />}>
-                            <EnchantDNTSection />
-                        </Suspense>
-                    </ToolRevealElement>
-                    <ToolRevealElement
-                        id="yggdrasil"
-                        logo="/images/addons/logo/yggdrasil.webp"
-                        image="/images/addons/hero/yggdrasil.png"
-                        href="https://modrinth.com/datapack/yggdrasil-structure"
-                        title="yggdrasil:title"
-                        description="yggdrasil:description">
-                        <Suspense fallback={<Loader />}>
-                            <EnchantYggdrasilSection />
-                        </Suspense>
-                    </ToolRevealElement>
-                </ToolReveal>
+            <ToolSection id="addons" title={t("enchantment:addons.description")}>
+                <div className="grid gap-4 grid-auto-72">
+                    <Link
+                        to="/$lang/studio/editor/enchantment/dnt"
+                        params={{ lang: params.lang }}
+                        className="group relative overflow-hidden rounded-2xl border border-zinc-800 transition-all hover:border-zinc-600">
+                        <div className="absolute inset-0 bg-linear-to-t from-black/80 to-transparent z-10" />
+                        <img
+                            src="/images/addons/hero/dnt.png"
+                            alt="DNT"
+                            className="h-48 w-full object-cover transition-transform group-hover:scale-105"
+                        />
+                        <div className="absolute bottom-0 left-0 right-0 p-4 z-20 flex items-end justify-between">
+                            <div>
+                                <h3 className="text-xl font-semibold uppercase tracking-wider">{t("dnt:title")}</h3>
+                                <p className="text-zinc-400 text-sm">{t("dnt:description")}</p>
+                            </div>
+                            <img src="/images/addons/logo/dnt.webp" alt="DNT Logo" className="w-12 h-12" />
+                        </div>
+                    </Link>
+                    <Link
+                        to="/$lang/studio/editor/enchantment/yggdrasil"
+                        params={{ lang: params.lang }}
+                        className="group relative overflow-hidden rounded-2xl border border-zinc-800 transition-all hover:border-zinc-600">
+                        <div className="absolute inset-0 bg-linear-to-t from-black/80 to-transparent z-10" />
+                        <img
+                            src="/images/addons/hero/yggdrasil.png"
+                            alt="Yggdrasil"
+                            className="h-48 w-full object-cover transition-transform group-hover:scale-105"
+                        />
+                        <div className="absolute bottom-0 left-0 right-0 p-4 z-20 flex items-end justify-between">
+                            <div>
+                                <h3 className="text-xl font-semibold uppercase tracking-wider">{t("yggdrasil:title")}</h3>
+                                <p className="text-zinc-400 text-sm">{t("yggdrasil:description")}</p>
+                            </div>
+                            <img src="/images/addons/logo/yggdrasil.webp" alt="Yggdrasil Logo" className="w-12 h-12" />
+                        </div>
+                    </Link>
+                </div>
             </ToolSection>
         </div>
     );

@@ -3,9 +3,9 @@ import { Datapack } from "@voxelio/breeze";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import { useExportStore } from "@/components/tools/sidebar/ExportStore";
 import { Button } from "@/components/ui/Button";
+import { TOAST, toast } from "@/components/ui/Toast";
 import { useTranslate } from "@/lib/i18n";
 import { hasSession, restoreSession } from "@/lib/utils/sessionPersistence";
-import { TOAST, toast } from "@/components/ui/Toast";
 
 export default function RestoreLastSession({ className }: { className?: string }) {
     const t = useTranslate();
@@ -17,7 +17,7 @@ export default function RestoreLastSession({ className }: { className?: string }
         try {
             const session = restoreSession();
             if (!session) {
-                toast("No session found", TOAST.ERROR);
+                toast(t("session.not_found"), TOAST.ERROR);
                 return;
             }
 
@@ -35,11 +35,11 @@ export default function RestoreLastSession({ className }: { className?: string }
 
             useExportStore.getState().setInitializing(session.isInitializing);
 
-            toast("Session restored successfully", TOAST.SUCCESS);
+            toast(t("session.restored"), TOAST.SUCCESS);
             navigate({ to: "/$lang/studio/editor/enchantment/overview", params: { lang } });
         } catch (e: unknown) {
-            const errorMessage = e instanceof Error ? e.message : "Failed to restore session";
-            toast("Error", TOAST.ERROR, errorMessage);
+            const errorMessage = e instanceof Error ? e.message : t("session.restore_failed");
+            toast(t("error"), TOAST.ERROR, errorMessage);
         }
     };
 

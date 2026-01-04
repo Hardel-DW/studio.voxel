@@ -1,9 +1,10 @@
+import { createFileRoute } from "@tanstack/react-router";
 import type { EnchantmentProps } from "@voxelio/breeze";
 import { CoreAction } from "@voxelio/breeze";
 import ToolCategory from "@/components/tools/elements/ToolCategory";
-import ToolGrid from "@/components/tools/elements/ToolGrid";
 import ToolInline from "@/components/tools/elements/ToolInline";
 import ToolSlot from "@/components/tools/elements/ToolSlot";
+import { useTranslate } from "@/lib/i18n";
 
 const alfheim = {
     random_chest: {
@@ -106,15 +107,21 @@ const yggdrasilEquipmentTags = [
     "#yggdrasil:equipment/item/boots"
 ];
 
-export default function EnchantYggdrasilSection() {
+export const Route = createFileRoute("/$lang/studio/editor/enchantment/yggdrasil")({
+    component: EnchantmentYggdrasilPage
+});
+
+function EnchantmentYggdrasilPage() {
+    const t = useTranslate();
+
     return (
-        <>
-            <ToolCategory title="yggdrasil:alfheim.title">
-                <ToolGrid size="400px">
+        <div className="p-8 h-full overflow-y-auto">
+            <ToolCategory title={t("yggdrasil:alfheim.title")}>
+                <div className="grid max-xl:grid-cols-1 gap-4 grid-auto-100">
                     <ToolSlot
                         image="/images/features/title/yg.webp"
-                        title="yggdrasil:yggdrasil_mob_equipment.title"
-                        description="yggdrasil:yggdrasil_mob_equipment.description"
+                        title={t("yggdrasil:yggdrasil_mob_equipment.title")}
+                        description={t("yggdrasil:yggdrasil_mob_equipment.description")}
                         action={CoreAction.toggleAllValuesInList("tags", yggdrasilEquipmentTags)}
                         renderer={(el: EnchantmentProps) => yggdrasilEquipmentTags.some((tag) => el.tags.includes(tag))}
                     />
@@ -122,60 +129,60 @@ export default function EnchantYggdrasilSection() {
                     {Object.entries(alfheim).map(([key, value]) => (
                         <ToolSlot
                             key={value.tag}
-                            title={`yggdrasil:${key}.title`}
-                            description={`yggdrasil:${key}.description`}
+                            title={t(`yggdrasil:${key}.title`)}
+                            description={t(`yggdrasil:${key}.description`)}
                             image={value.image}
                             action={CoreAction.toggleValue("tags", value.tag)}
                             renderer={(el: EnchantmentProps) => el.tags.includes(value.tag)}
                         />
                     ))}
-                </ToolGrid>
+                </div>
             </ToolCategory>
 
-            <ToolCategory title="yggdrasil:asflors.title">
-                <ToolGrid size="300px">
+            <ToolCategory title={t("yggdrasil:asflors.title")}>
+                <div className="grid max-xl:grid-cols-1 gap-4 grid-auto-76">
                     {Object.entries(asflors).map(([key, value]) => (
                         <ToolSlot
                             key={value.tag}
-                            title={`yggdrasil:${key}.title`}
-                            description={`yggdrasil:${key}.description`}
+                            title={t(`yggdrasil:${key}.title`)}
+                            description={t(`yggdrasil:${key}.description`)}
                             image={value.image}
                             action={CoreAction.toggleValue("tags", value.tag)}
                             renderer={(el: EnchantmentProps) => el.tags.includes(value.tag)}
                         />
                     ))}
-                </ToolGrid>
+                </div>
             </ToolCategory>
 
-            <ToolCategory title="yggdrasil:runic_fracture.title">
-                <ToolGrid size="400px">
+            <ToolCategory title={t("yggdrasil:runic_fracture.title")}>
+                <div className="grid max-xl:grid-cols-1 gap-4 grid-auto-100">
                     {Object.entries(runicFracture).map(([key, value]) => (
                         <ToolSlot
                             key={value.tag}
-                            title={`yggdrasil:${key}.title`}
-                            description={`yggdrasil:${key}.description`}
+                            title={t(`yggdrasil:${key}.title`)}
+                            description={t(`yggdrasil:${key}.description`)}
                             image={value.image}
                             action={CoreAction.toggleValue("tags", value.tag)}
                             renderer={(el: EnchantmentProps) => el.tags.includes(value.tag)}
                         />
                     ))}
-                </ToolGrid>
+                </div>
             </ToolCategory>
 
-            <ToolCategory title="yggdrasil:runic_laby.title">
-                <ToolGrid size="400px">
+            <ToolCategory title={t("yggdrasil:runic_laby.title")}>
+                <div className="grid max-xl:grid-cols-1 gap-4 grid-auto-100">
                     {Object.entries(runic).map(([key, value]) => (
                         <ToolInline
                             key={value.tag}
-                            title={`yggdrasil:runic_laby.${key}.title`}
-                            description={`yggdrasil:runic_laby.${key}.description`}
+                            title={t(`yggdrasil:runic_laby.${key}.title`)}
+                            description={t(`yggdrasil:runic_laby.${key}.description`)}
                             image={value.image}
                             action={CoreAction.toggleValue("tags", value.tag)}
                             renderer={(el: EnchantmentProps) => el.tags.includes(value.tag)}
                         />
                     ))}
-                </ToolGrid>
+                </div>
             </ToolCategory>
-        </>
+        </div>
     );
 }

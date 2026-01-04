@@ -1,3 +1,4 @@
+import { Identifier } from "@voxelio/breeze";
 import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer";
 import { BoxHovered, BoxHoveredContent, BoxHoveredTrigger } from "@/components/ui/BoxHovered";
 import { Button } from "@/components/ui/Button";
@@ -5,27 +6,11 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { useTranslate } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 import { getAllBlockIds, getBlockByRecipeType, getBlockConfig, isBlockId } from "./recipeConfig";
-import { Identifier } from "@voxelio/breeze";
 
-const CRAFTING_TYPES = {
-    crafting_shaped: { name: "Shaped", description: "Craft with a specific pattern" },
-    crafting_shapeless: { name: "Shapeless", description: "Craft in any order" },
-    crafting_transmute: { name: "Transmute", description: "Transfer data from one item to another" },
-    smithing_transform: { name: "Transform", description: "Give additional properties to an item" },
-    smithing_trim: { name: "Trim", description: "Add a trim to an item" },
-    crafting_special_repairitem: { name: "Repair Item", description: "Repair an item with another item" },
-    crafting_special_mapcloning: { name: "Map Cloning", description: "Clone a map" },
-    crafting_special_mapextending: { name: "Map Extending", description: "Extend a map" },
-    crafting_special_shielddecoration: { name: "Shield Decoration", description: "Decorate a shield with a banner" },
-    crafting_decorated_pot: { name: "Decorated Pot", description: "Craft a decorated pot with shard" },
-    crafting_special_firework_rocket: { name: "Firework Rocket", description: "Used for crafting fireworks" },
-    crafting_special_firework_star: { name: "Firework Star", description: "Used for crafting fireworks Star" },
-    crafting_special_firework_star_fade: { name: "Firework Star Fade", description: "Used for crafting fireworks Star Fade" },
-    crafting_special_tippedarrow: { name: "Tipped Arrow", description: "Craft a tipped arrow with a potion effect" },
-    crafting_special_armordye: { name: "Armor Dye", description: "Dye leather armor" },
-    crafting_special_bannerduplicate: { name: "Banner Duplicate", description: "Duplicate a banner pattern" },
-    crafting_special_bookcloning: { name: "Book Cloning", description: "Clone a written book" }
-};
+const CRAFTING_TYPE_KEYS = ["crafting_shaped", "crafting_shapeless", "crafting_transmute", "smithing_transform", "smithing_trim", "crafting_special_repairitem", "crafting_special_mapcloning", "crafting_special_mapextending", "crafting_special_shielddecoration", "crafting_decorated_pot", "crafting_special_firework_rocket", "crafting_special_firework_star", "crafting_special_firework_star_fade", "crafting_special_tippedarrow", "crafting_special_armordye", "crafting_special_bannerduplicate", "crafting_special_bookcloning"] as const;
+const CRAFTING_TYPES = Object.fromEntries(
+    CRAFTING_TYPE_KEYS.map((key) => [key, { name: `recipe:crafting.${key}.name`, description: `recipe:crafting.${key}.description` }])
+);
 
 export default function RecipeSelector(props: {
     value: string;
@@ -114,10 +99,10 @@ export default function RecipeSelector(props: {
                             <DropdownMenuContent>
                                 {Object.entries(CRAFTING_TYPES).map(([craftingType, value]) => (
                                     <DropdownMenuItem
-                                        key={value.name}
+                                        key={craftingType}
                                         onClick={() => props.onChange(`minecraft:${craftingType}`)}
-                                        description={value.description}>
-                                        {value.name}
+                                        description={t(value.description)}>
+                                        {t(value.name)}
                                     </DropdownMenuItem>
                                 ))}
                             </DropdownMenuContent>

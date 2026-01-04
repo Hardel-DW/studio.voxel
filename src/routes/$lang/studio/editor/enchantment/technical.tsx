@@ -30,13 +30,13 @@ function EnchantmentTechnicalPage() {
 
     return (
         <div className="p-8 h-full overflow-y-auto">
-            <ToolSection id="technical_behaviour" title="enchantment:section.technical.description">
+            <ToolSection id="technical_behaviour" title={t("enchantment:section.technical.description")}>
                 <div className="grid lg:grid-cols-2 grid-cols-1 gap-4">
                     {FIELDS.map((field) => (
                         <ToolSwitch
                             key={field}
-                            title={`enchantment:technical.${field}.title`}
-                            description={`enchantment:technical.${field}.description`}
+                            title={t(`enchantment:technical.${field}.title`)}
+                            description={t(`enchantment:technical.${field}.description`)}
                             action={CoreAction.toggleValueInList("tags", `#minecraft:${field}`)}
                             renderer={(el: EnchantmentProps) => el.tags.includes(`#minecraft:${field}`)}
                             lock={[isMinecraft]}
@@ -47,14 +47,14 @@ function EnchantmentTechnicalPage() {
 
             <ToolSection
                 id="costs"
-                title="enchantment:section.costs"
+                title={t("enchantment:section.costs")}
                 button={{ text: "documentation", url: "https://minecraft.wiki/w/Enchanting_mechanics" }}>
                 <div className="grid lg:grid-cols-2 grid-cols-1 gap-4">
                     {["minCostBase", "minCostPerLevelAboveFirst", "maxCostBase", "maxCostPerLevelAboveFirst"].map((field) => (
                         <div key={field}>
                             <ToolRange
                                 key={field}
-                                label={`enchantment:global.${field}.title`}
+                                label={t(`enchantment:global.${field}.title`)}
                                 min={0}
                                 max={100}
                                 step={1}
@@ -66,13 +66,13 @@ function EnchantmentTechnicalPage() {
                 </div>
             </ToolSection>
 
-            <ToolSection id="effects" title="enchantment:technical.effects.title">
+            <ToolSection id="effects" title={t("enchantment:technical.effects.title")}>
                 {effectKeys && effectKeys.length > 0 ? (
                     effectKeys.map((effect) => (
                         <ToolSwitch
                             key={effect}
                             title={Identifier.toDisplay(effect)}
-                            description={`effects:${effect}`}
+                            description={t(`effects:${effect}`)}
                             action={CoreAction.toggleValueInList("disabledEffects", effect)}
                             renderer={(el: EnchantmentProps) => !el.disabledEffects.includes(effect)}
                         />

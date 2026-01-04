@@ -54,6 +54,10 @@
     image-rendering: pixelated;
 }
 
+@utility grid-auto-* {
+    grid-template-columns: repeat(auto-fit, minmax(calc(var(--spacing) * --value(integer)), 1fr));
+}
+
 @utility discrete {
     transition-timing-function: cubic-bezier(0.735, 0.590, 0.660, 1.225);
     transition: translate 200ms ease-out, scale 200ms ease-out, opacity 200ms ease-out, overlay 200ms ease-out allow-discrete, display 200ms ease-out allow-discrete;

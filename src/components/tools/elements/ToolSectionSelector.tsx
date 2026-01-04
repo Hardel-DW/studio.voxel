@@ -2,7 +2,6 @@ import { useSearch } from "@tanstack/react-router";
 import type React from "react";
 import RenderGuard from "@/components/tools/elements/RenderGuard";
 import type { BaseComponent } from "@/lib/hook/useBreezeElement";
-import { useTranslate } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
 export type ToolSectionSelectorSection = BaseComponent & {
@@ -21,7 +20,6 @@ export type ToolSectionSelectorSection = BaseComponent & {
 };
 
 export default function ToolSectionSelector(props: ToolSectionSelectorSection) {
-    const t = useTranslate();
     const search = useSearch({ from: "/$lang/studio/editor" }) as Record<string, string | undefined>;
     const urlValue = props.searchParam && props.useUrlSync ? search[props.searchParam] : null;
     const currentValue = urlValue || props.value || props.defaultValue || props.elements?.[0]?.id || "";
@@ -36,7 +34,7 @@ export default function ToolSectionSelector(props: ToolSectionSelectorSection) {
                 <div className="flex flex-col ring-0 transition-all h-full">
                     <div className="py-2 px-2 gap-4 flex flex-wrap justify-between items-center cursor-pointer shrink-0">
                         <div className="relative">
-                            <h2 className="text-2xl font-semibold">{t(props.title)}</h2>
+                            <h2 className="text-2xl font-semibold">{props.title}</h2>
                             <hr className="m-0 absolute -bottom-2 left-0 right-0" />
                         </div>
                         {props.elements && (
@@ -50,7 +48,7 @@ export default function ToolSectionSelector(props: ToolSectionSelectorSection) {
                                         })}
                                         key={element.id}
                                         onClick={() => handleSetValue(element.id)}>
-                                        <p className="font-semibold line-clamp-1 text-xs md:text-sm">{t(element.title)}</p>
+                                        <p className="font-semibold line-clamp-1 text-xs md:text-sm">{element.title}</p>
                                     </button>
                                 ))}
 

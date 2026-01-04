@@ -28,7 +28,8 @@ export default function RecipeSection() {
     if (!currentElement || !isVoxel(currentElement, "recipe")) return null;
 
     const handleSelectionChange = (newSelection: string) => {
-        const newRecipeType = selection === "minecraft:barrier" ? getAllRecipeTypes()[0] : getBlockConfig(selection)?.recipeTypes[0] || selection;
+        const newRecipeType =
+            selection === "minecraft:barrier" ? getAllRecipeTypes()[0] : getBlockConfig(selection)?.recipeTypes[0] || selection;
         handleChange(RecipeAction.convertRecipeType(newRecipeType));
         setSelection(newSelection);
     };

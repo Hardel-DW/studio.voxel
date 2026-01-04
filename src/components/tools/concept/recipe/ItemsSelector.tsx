@@ -6,13 +6,18 @@ import useRegistry from "@/lib/hook/useRegistry";
 import { useTranslate } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
-export default function ToolInventory({ search }: { search: string }) {
+export default function ItemsSelector({ search }: { search: string }) {
     const t = useTranslate();
     const { data: allItems, isLoading, isError } = useRegistry<string[]>("registry", "item");
     const { handleDragStart, handleDragEnd, draggedItem } = useDragAndDrop();
     const filteredItems = allItems?.filter((item) => item !== "air" && item.toLowerCase().includes(search.toLowerCase())) ?? [];
     const { visibleItems, hasMore, ref } = useInfiniteScroll(filteredItems, 60);
     const selectedItem = useSelectedItemStore((state) => state.item);
+
+    const onDragStart = (e: React.DragEvent<HTMLButtonElement>, item: string) => {
+        const preview = e.currentTarget.querySelector(".texture-preview") as HTMLElement;
+        handleDragStart(e, item, preview);
+    };
 
     if (isLoading) {
         return (
@@ -33,13 +38,7 @@ export default function ToolInventory({ search }: { search: string }) {
 
     return (
         <div className="flex h-full flex-col overflow-y-auto pr-1">
-            <div
-                className="grid gap-2"
-                style={{
-                    gridTemplateColumns: "repeat(auto-fill, 56px)",
-                    gridAutoRows: "56px",
-                    justifyContent: "center"
-                }}>
+            <div className="grid gap-2 justify-center auto-rows-[56px] grid-cols-[repeat(auto-fill,56px)]">
                 {visibleItems.map((item) => {
                     const isDragging = draggedItem === item;
                     return (
@@ -53,10 +52,7 @@ export default function ToolInventory({ search }: { search: string }) {
                             )}
                             draggable={true}
                             onClick={() => useSelectedItemStore.setState({ item })}
-                            onDragStart={(e) => {
-                                const preview = e.currentTarget.querySelector(".texture-preview") as HTMLElement;
-                                handleDragStart(e, item, preview);
-                            }}
+                            onDragStart={(e) => onDragStart(e, item)}
                             onDragEnd={handleDragEnd}>
                             <div className="texture-preview w-8 h-8 flex items-center justify-center">
                                 <TextureRenderer id={item} />

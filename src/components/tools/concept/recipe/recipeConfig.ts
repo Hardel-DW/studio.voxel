@@ -65,8 +65,8 @@ export const RECIPE_BLOCKS: RecipeBlockConfig[] = [
     }
 ];
 
-
-export const canBlockHandleRecipeType = (id: string, type: string) => id === "minecraft:barrier" ? true : getBlockConfig(id)?.recipeTypes.some((e) => type.includes(e)) ?? false;
+export const canBlockHandleRecipeType = (id: string, type: string) =>
+    id === "minecraft:barrier" ? true : (getBlockConfig(id)?.recipeTypes.some((e) => type.includes(e)) ?? false);
 export const getBlockConfig = (id: string) => RECIPE_BLOCKS.find((block) => block.id === id);
 export const getBlockByRecipeType = (type: string) => RECIPE_BLOCKS.find((block) => block.recipeTypes.includes(type)) ?? RECIPE_BLOCKS[0];
 export const getAllBlockIds = (inc: boolean = true) => RECIPE_BLOCKS.filter((block) => inc || !block.isSpecial).map((block) => block.id);
