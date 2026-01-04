@@ -2,6 +2,7 @@ import RenderGuard from "@/components/tools/elements/RenderGuard";
 import type { BaseInteractiveComponent } from "@/lib/hook/useInteractiveLogic";
 import { useInteractiveLogic } from "@/lib/hook/useInteractiveLogic";
 import { cn } from "@/lib/utils";
+import { useTranslate } from "@/lib/i18n";
 
 export type ToolInlineType = BaseInteractiveComponent & {
     title: string;
@@ -10,6 +11,7 @@ export type ToolInlineType = BaseInteractiveComponent & {
 };
 
 export default function ToolInline(props: ToolInlineType) {
+    const t = useTranslate();
     const { value, lock, handleChange } = useInteractiveLogic<ToolInlineType, boolean>({ component: props });
     if (value === null) return null;
 
@@ -41,7 +43,7 @@ export default function ToolInline(props: ToolInlineType) {
                     </div>
 
                     <div className="flex gap-4 items-center">
-                        {lock.isLocked && <span className="text-xs text-zinc-400 font-light w-max flex items-center">{lock.text}</span>}
+                        {lock.isLocked && <span className="text-xs text-zinc-400 font-light w-max flex items-center">{t(lock.text)}</span>}
                         {value && !lock.isLocked && <img src="/icons/check.svg" alt="checkbox" className="w-6 h-6 invert" />}
                         {lock.isLocked && <img src="/icons/tools/lock.svg" alt="checkbox" className="w-6 h-6 invert" />}
                     </div>

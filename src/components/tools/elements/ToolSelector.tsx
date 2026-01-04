@@ -2,6 +2,7 @@ import RenderGuard from "@/components/tools/elements/RenderGuard";
 import { Tabs, TabsTrigger } from "@/components/ui/Tabs";
 import type { BaseInteractiveComponent } from "@/lib/hook/useInteractiveLogic";
 import { useInteractiveLogic } from "@/lib/hook/useInteractiveLogic";
+import { useTranslate } from "@/lib/i18n";
 
 export type ToolSelectorType = BaseInteractiveComponent & {
     title: string;
@@ -10,6 +11,7 @@ export type ToolSelectorType = BaseInteractiveComponent & {
 };
 
 export default function ToolSelector(props: ToolSelectorType & { index?: number }) {
+    const t = useTranslate();
     const { value, lock, handleChange } = useInteractiveLogic<ToolSelectorType, string>({ component: props });
     if (value === null) return null;
 
@@ -23,7 +25,7 @@ export default function ToolSelector(props: ToolSelectorType & { index?: number 
                                 <span className="text-white line-clamp-1">{props.title}</span>
                             </div>
                             {lock.isLocked ? (
-                                <span className="text-xs text-zinc-400 font-light line-clamp-2">{lock.text}</span>
+                                <span className="text-xs text-zinc-400 font-light line-clamp-2">{t(lock.text)}</span>
                             ) : (
                                 <span className="text-xs text-zinc-400 font-light line-clamp-2">{props.description}</span>
                             )}
