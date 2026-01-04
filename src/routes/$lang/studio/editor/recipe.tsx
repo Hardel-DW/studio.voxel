@@ -4,13 +4,13 @@ import { useEditorUiStore } from "@/components/tools/concept/EditorUiStore";
 import { EditorHeader } from "@/components/tools/concept/layout/EditorHeader";
 import { EditorSidebar } from "@/components/tools/concept/layout/EditorSidebar";
 import { buildRecipeTree } from "@/components/tools/concept/recipe/buildRecipeTree";
-import { RECIPE_BLOCKS } from "@/lib/data/recipeConfig";
-import { CONCEPTS } from "@/lib/data/elements";
 import { useDynamicIsland } from "@/components/tools/floatingbar/FloatingBarContext";
 import NotFoundStudio from "@/components/tools/NotFoundStudio";
 import { getCurrentElement, getModifiedElements, useConfiguratorStore } from "@/components/tools/Store";
 import { TreeProvider } from "@/components/ui/tree/TreeNavigationContext";
 import { TreeSidebar } from "@/components/ui/tree/TreeSidebar";
+import { CONCEPTS } from "@/lib/data/elements";
+import { RECIPE_BLOCKS } from "@/lib/data/recipeConfig";
 import { useElementsByType } from "@/lib/hook/useElementsByType";
 
 const concept = CONCEPTS.find((c) => c.registry === "recipe");

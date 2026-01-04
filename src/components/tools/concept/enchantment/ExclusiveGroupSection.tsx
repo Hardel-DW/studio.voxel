@@ -1,6 +1,7 @@
 import type { TagType } from "@voxelio/breeze";
 import { CoreAction, Identifier, Tags, TagsProcessor } from "@voxelio/breeze";
-import EnchantmentTags, { type ToolListOptionAction } from "@/components/tools/concept/enchantment/EnchantmentTags";
+import EnchantmentTags from "@/components/tools/concept/enchantment/EnchantmentTags";
+import type { TagsEnchantmentActionProps } from "@/components/tools/concept/enchantment/TagsEnchantmentAction";
 import ErrorPlaceholder from "@/components/tools/elements/error/ErrorPlaceholder";
 import ToolCategory from "@/components/tools/elements/ToolCategory";
 import { useConfiguratorStore } from "@/components/tools/Store";
@@ -27,7 +28,7 @@ export function ExclusiveGroupSection() {
         { id: "datapack", tags: tagsRegistry }
     ]);
 
-    const createActions = (value: string): ToolListOptionAction[] => [
+    const createActions = (value: string): TagsEnchantmentActionProps[] => [
         {
             title: "enchantment:exclusive.actions.target.title",
             subtitle: "enchantment:exclusive.actions.target.subtitle",
@@ -58,8 +59,8 @@ export function ExclusiveGroupSection() {
                         return (
                             <EnchantmentTags
                                 key={id}
-                                title={`enchantment:exclusive.set.${id}.title`}
-                                description={`enchantment:exclusive.set.${id}.description`}
+                                title={t(`enchantment:exclusive.set.${id}.title`)}
+                                description={t(`enchantment:exclusive.set.${id}.description`)}
                                 image={`/images/features/item/${image}.webp`}
                                 values={values}
                                 lock={[isMinecraft]}

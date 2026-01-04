@@ -1,5 +1,4 @@
 import { useDebugStore } from "@/components/tools/debug/DebugStore";
-import { CONCEPTS } from "@/lib/data/elements";
 import Internalization from "@/components/tools/Internalization";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import ExportButton from "@/components/tools/sidebar/ExportButton";
@@ -7,6 +6,7 @@ import GitButton from "@/components/tools/sidebar/GitButton";
 import SidebarCard from "@/components/tools/sidebar/SidebarCard";
 import { Button } from "@/components/ui/Button";
 import { Dialog, DialogBody, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/Dialog";
+import { CONCEPTS } from "@/lib/data/elements";
 import { useTranslate } from "@/lib/i18n";
 
 export default function StudioSidebar() {

@@ -12,6 +12,8 @@
     "generic.close": "Close",
     "generic.zoom_in": "Zoom in",
     "generic.zoom_out": "Zoom out",
+    "generic.see.more": "See more",
+    "generic.actions": "Actions",
     "generic.error_occurred": "An error occurred",
     "generic.something_went_wrong": "Something went wrong, please go back to the home page or contact the support if you think this is an error.",
     "generic.go_to_home": "Go to home",

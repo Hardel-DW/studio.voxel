@@ -12,6 +12,8 @@
     "generic.close": "Fermer",
     "generic.zoom_in": "Zoomer",
     "generic.zoom_out": "Dézoomer",
+    "generic.see.more": "Voir plus",
+    "generic.actions": "Actions",
     "generic.error_occurred": "Une erreur est survenue",
     "generic.something_went_wrong": "Une erreur est survenue, veuillez revenir à la page d'accueil ou contacter le support si vous pensez que c'est une erreur.",
     "generic.go_to_home": "Retour à l'accueil",

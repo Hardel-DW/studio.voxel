@@ -1,6 +1,6 @@
 import { Link, useLocation } from "@tanstack/react-router";
-import type { CONCEPT_KEY } from "@/lib/data/elements";
 import { useConfiguratorStore } from "@/components/tools/Store";
+import type { CONCEPT_KEY } from "@/lib/data/elements";
 import { cn } from "@/lib/utils";
 
 export default function SidebarCard(props: { image: { src: string; alt: string }; registry: CONCEPT_KEY; overview: string }) {

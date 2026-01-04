@@ -1,7 +1,7 @@
 import type { BaseInteractiveComponent } from "@/lib/hook/useInteractiveLogic";
 import { useInteractiveLogic } from "@/lib/hook/useInteractiveLogic";
-import { cn } from "@/lib/utils";
 import { useTranslate } from "@/lib/i18n";
+import { cn } from "@/lib/utils";
 export type ToolSlotType = BaseInteractiveComponent & {
     description?: string;
     title: string;

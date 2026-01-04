@@ -10,8 +10,8 @@ import type {
 } from "@voxelio/breeze";
 import { compileDatapack, Identifier, isVoxelElement, Logger, sortElementsByRegistry, updateData } from "@voxelio/breeze";
 import { create } from "zustand";
-import type { CONCEPT_KEY } from "@/lib/data/elements";
 import { useExportStore } from "@/components/tools/sidebar/ExportStore";
+import type { CONCEPT_KEY } from "@/lib/data/elements";
 import { encodeFilesRecord } from "@/lib/utils/encode";
 import { saveSession, updateSessionData, updateSessionLogger } from "@/lib/utils/sessionPersistence";
 
@@ -138,8 +138,8 @@ const createConfiguratorStore = <T extends keyof Analysers>() =>
                 index === activeTabIndex
                     ? Math.min(index, updatedTabs.length - 1)
                     : index < activeTabIndex
-                        ? activeTabIndex - 1
-                        : activeTabIndex;
+                      ? activeTabIndex - 1
+                      : activeTabIndex;
 
             const newCurrentElement = updatedTabs[newActiveIndex]?.elementId ?? null;
             set({ openTabs: updatedTabs, activeTabIndex: newActiveIndex, currentElementId: newCurrentElement });

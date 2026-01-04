@@ -1,9 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type { EnchantmentProps, SlotRegistryType } from "@voxelio/breeze";
 import { EnchantmentAction } from "@voxelio/breeze";
-import { SLOT_CONFIGS } from "@/lib/data/slots";
 import ToolSection from "@/components/tools/elements/ToolSection";
 import ToolSlot from "@/components/tools/elements/ToolSlot";
+import { SLOT_CONFIGS } from "@/lib/data/slots";
 import { useTranslate } from "@/lib/i18n";
 
 export const Route = createFileRoute("/$lang/studio/editor/enchantment/slots")({
@@ -22,9 +22,7 @@ function EnchantmentSlotsPage() {
         <div className="p-8 h-full overflow-y-auto">
             <ToolSection id="slots" title={t("enchantment:section.slots.description")}>
                 {groupedSlots.map((group) => (
-                    <div
-                        key={group.map((config) => config.id).join(",")}
-                        className="grid max-xl:grid-cols-1 gap-4 grid-auto-64">
+                    <div key={group.map((config) => config.id).join(",")} className="grid max-xl:grid-cols-1 gap-4 grid-auto-64">
                         {group.map((config) => (
                             <ToolSlot
                                 key={config.id}

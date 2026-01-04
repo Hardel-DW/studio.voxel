@@ -1,7 +1,7 @@
 import { Identifier } from "@voxelio/breeze";
+import { SLOT_CONFIGS } from "@/lib/data/slots";
 import { getEnchantableEntries } from "@/lib/data/tags";
 import type { TreeNodeType } from "@/lib/utils/tree";
-import { SLOT_CONFIGS } from "@/lib/data/slots";
 
 type EnchantmentElement = {
     identifier: { namespace: string; registry: string; resource: string };
@@ -15,7 +15,7 @@ type EnchantmentElement = {
 export function buildEnchantmentTree(elements: EnchantmentElement[], view: string, version: number): TreeNodeType {
     const root: TreeNodeType = { count: elements.length, children: new Map(), identifiers: [] };
     const builders: Record<string, () => void> = {
-        tree: () => { },
+        tree: () => {},
         slots: () => buildBySlots(root, elements),
         items: () => buildByItems(root, elements, version),
         exclusive: () => buildByExclusive(root, elements)

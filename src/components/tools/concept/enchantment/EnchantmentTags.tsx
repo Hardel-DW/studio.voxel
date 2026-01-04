@@ -3,24 +3,14 @@ import RenderGuard from "@/components/tools/elements/RenderGuard";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import { Button } from "@/components/ui/Button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/Popover";
-import { Switch } from "@/components/ui/Switch";
 import { useElementLocks } from "@/lib/hook/useBreezeElement";
-import type { ActionOrBuilder, BaseRender } from "@/lib/hook/useInteractiveLogic";
-import { useActionHandler, useRenderer } from "@/lib/hook/useInteractiveLogic";
+import { useRenderer } from "@/lib/hook/useInteractiveLogic";
 import { useTranslate } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 import type { Condition, Lock } from "@/lib/utils/lock";
+import { TagsEnchantmentAction, type TagsEnchantmentActionProps } from "./TagsEnchantmentAction";
 
-export type ToolListOptionAction = {
-    title: string;
-    subtitle?: string;
-    description: string;
-    action: ActionOrBuilder;
-    renderer?: BaseRender;
-    type?: "toggle" | "action";
-};
-
-export type ToolListOptionType = {
+export type EnchantmentTagsProps = {
     title: string;
     description: string;
     image?: string;
@@ -28,44 +18,11 @@ export type ToolListOptionType = {
     hide?: Condition;
     lock?: Lock[];
     elementId?: string;
-    actions?: ToolListOptionAction[];
+    actions?: TagsEnchantmentActionProps[];
 };
 
-function ActionItem(props: ToolListOptionAction & { elementId?: string; lock: { isLocked: boolean } }) {
-    const actionHandler = useActionHandler(props.action, { elementId: props.elementId });
-    const isChecked = useRenderer<boolean>(props.renderer, props.elementId);
-    const t = useTranslate();
-
-    const handleAction = (e: React.MouseEvent) => {
-        e.preventDefault();
-        e.stopPropagation();
-        if (props.lock.isLocked) return;
-        actionHandler.handleChange(!isChecked);
-    };
-
-    return (
-        <label
-            htmlFor="action-switch"
-            className="flex items-center justify-between gap-4 p-2 rounded-lg hover:bg-zinc-900/50 cursor-pointer transition-colors"
-            onClick={handleAction}>
-            <div className="flex flex-col flex-1">
-                <div className="text-sm text-zinc-200 flex items-center gap-2">
-                    <span className="text-sm text-zinc-200">{t(props.title)}</span>
-                    {props.subtitle && (
-                        <span className="text-[10px] text-zinc-500 bg-zinc-900/20 px-1 py-0.5 rounded-md border border-zinc-900">
-                            {t(props.subtitle)}
-                        </span>
-                    )}
-                </div>
-                <span className="text-xs text-zinc-500">{t(props.description)}</span>
-            </div>
-            <Switch id="action-switch" isChecked={isChecked ?? false} setIsChecked={() => {}} disabled={props.lock.isLocked} />
-        </label>
-    );
-}
-
 const maxDisplayValues = 3;
-export default function ToolListOption(props: ToolListOptionType) {
+export default function EnchantmentTags(props: EnchantmentTagsProps) {
     const t = useTranslate();
     const currentElementId = useConfiguratorStore((state) => props.elementId ?? state.currentElementId);
     const lock = useElementLocks(props.lock, currentElementId);
@@ -127,7 +84,7 @@ export default function ToolListOption(props: ToolListOptionType) {
                             <Popover>
                                 <PopoverTrigger>
                                     <span className="text-zinc-400 text-xs px-2 pt-2 hover:text-zinc-200 cursor-pointer transition-colors">
-                                        Voir plus ({displayValues.length - maxDisplayValues})
+                                        {t("generic.see.more")} ({displayValues.length - maxDisplayValues})
                                     </span>
                                 </PopoverTrigger>
                                 <PopoverContent className="max-w-xs">
@@ -157,18 +114,18 @@ export default function ToolListOption(props: ToolListOptionType) {
                                             e.preventDefault();
                                             e.stopPropagation();
                                         }}>
-                                        Actions
+                                        {t("generic.actions")}
                                     </Button>
                                 </PopoverTrigger>
                                 <PopoverContent className="max-w-80">
                                     <div className="space-y-2">
-                                        <ActionItem
+                                        <TagsEnchantmentAction
                                             {...props.actions[0]}
                                             elementId={props.elementId}
                                             lock={lock}
                                             key={`target-${targetValue}`}
                                         />
-                                        <ActionItem
+                                        <TagsEnchantmentAction
                                             {...props.actions[1]}
                                             elementId={props.elementId}
                                             lock={lock}

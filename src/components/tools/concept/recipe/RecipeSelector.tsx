@@ -3,11 +3,29 @@ import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer
 import { BoxHovered, BoxHoveredContent, BoxHoveredTrigger } from "@/components/ui/BoxHovered";
 import { Button } from "@/components/ui/Button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/Dropdown";
+import { getAllBlockIds, getBlockByRecipeType, getBlockConfig, isBlockId } from "@/lib/data/recipeConfig";
 import { useTranslate } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
-import { getAllBlockIds, getBlockByRecipeType, getBlockConfig, isBlockId } from "@/lib/data/recipeConfig";
 
-const CRAFTING_TYPE_KEYS = ["crafting_shaped", "crafting_shapeless", "crafting_transmute", "smithing_transform", "smithing_trim", "crafting_special_repairitem", "crafting_special_mapcloning", "crafting_special_mapextending", "crafting_special_shielddecoration", "crafting_decorated_pot", "crafting_special_firework_rocket", "crafting_special_firework_star", "crafting_special_firework_star_fade", "crafting_special_tippedarrow", "crafting_special_armordye", "crafting_special_bannerduplicate", "crafting_special_bookcloning"] as const;
+const CRAFTING_TYPE_KEYS = [
+    "crafting_shaped",
+    "crafting_shapeless",
+    "crafting_transmute",
+    "smithing_transform",
+    "smithing_trim",
+    "crafting_special_repairitem",
+    "crafting_special_mapcloning",
+    "crafting_special_mapextending",
+    "crafting_special_shielddecoration",
+    "crafting_decorated_pot",
+    "crafting_special_firework_rocket",
+    "crafting_special_firework_star",
+    "crafting_special_firework_star_fade",
+    "crafting_special_tippedarrow",
+    "crafting_special_armordye",
+    "crafting_special_bannerduplicate",
+    "crafting_special_bookcloning"
+] as const;
 const CRAFTING_TYPES = Object.fromEntries(
     CRAFTING_TYPE_KEYS.map((key) => [key, { name: `recipe:crafting.${key}.name`, description: `recipe:crafting.${key}.description` }])
 );
