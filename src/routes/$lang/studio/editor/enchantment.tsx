@@ -74,7 +74,11 @@ function EnchantmentLayout() {
                 <main ref={setContainerRef} className="flex-1 flex flex-col min-w-0 relative bg-zinc-950">
                     <EditorHeader
                         fallbackTitle="Enchantment"
-                        identifier={identifier ? { namespace: identifier.namespace, registry: identifier.registry, resource: identifier.resource } : undefined}
+                        identifier={
+                            identifier
+                                ? { namespace: identifier.namespace, registry: identifier.registry, resource: identifier.resource }
+                                : undefined
+                        }
                         filterPath={filterPath}
                         isOverview={isOverview}
                         onBack={() => navigate({ to: "/$lang/studio/editor/enchantment/overview", params: { lang } })}>

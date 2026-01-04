@@ -31,7 +31,10 @@ function LootTableLayout() {
     const location = useLocation();
     const navigate = useNavigate();
     const elements = useElementsByType("loot_table");
-    const tree = buildTree(elements.map((e) => e.identifier), true);
+    const tree = buildTree(
+        elements.map((e) => e.identifier),
+        true
+    );
     const modifiedCount = useConfiguratorStore((s) => getModifiedElements(s, "loot_table").length);
     const currentElement = useConfiguratorStore((s) => s.currentElementId);
     const identifier = currentElement ? Identifier.fromUniqueKey(currentElement) : undefined;
@@ -50,7 +53,11 @@ function LootTableLayout() {
                 <main ref={setContainerRef} className="flex-1 flex flex-col min-w-0 min-h-0 overflow-hidden relative bg-zinc-950">
                     <EditorHeader
                         fallbackTitle="Loot Table"
-                        identifier={identifier ? { namespace: identifier.namespace, registry: identifier.registry, resource: identifier.resource } : undefined}
+                        identifier={
+                            identifier
+                                ? { namespace: identifier.namespace, registry: identifier.registry, resource: identifier.resource }
+                                : undefined
+                        }
                         filterPath={filterPath}
                         isOverview={isOverview}
                         onBack={() => navigate({ to: "/$lang/studio/editor/loot_table/overview", params: { lang } })}>

@@ -55,7 +55,11 @@ function RecipeLayout() {
                 <main ref={setContainerRef} className="flex-1 flex flex-col min-w-0 min-h-0 overflow-hidden relative bg-zinc-950">
                     <EditorHeader
                         fallbackTitle="Recipe"
-                        identifier={identifier ? { namespace: identifier.namespace, registry: identifier.registry, resource: identifier.resource } : undefined}
+                        identifier={
+                            identifier
+                                ? { namespace: identifier.namespace, registry: identifier.registry, resource: identifier.resource }
+                                : undefined
+                        }
                         filterPath={filterPath}
                         isOverview={isOverview}
                         onBack={() => navigate({ to: "/$lang/studio/editor/recipe/overview", params: { lang } })}
