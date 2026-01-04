@@ -1,6 +1,6 @@
 import type { RecipeProps } from "@voxelio/breeze";
 import type { TreeNodeType } from "@/lib/utils/tree";
-import { RECIPE_BLOCKS } from "./recipeConfig";
+import { RECIPE_BLOCKS } from "@/lib/data/recipeConfig";
 
 export function buildRecipeTree(elements: RecipeProps[]): TreeNodeType {
     const root: TreeNodeType = { count: elements.length, children: new Map(), identifiers: [] };

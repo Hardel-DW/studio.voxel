@@ -2,7 +2,7 @@ import { CoreAction, isVoxel, RecipeAction, type RecipeProps } from "@voxelio/br
 import { useState } from "react";
 import RecipeRenderer from "@/components/tools/concept/recipe/RecipeRenderer";
 import RecipeSelector from "@/components/tools/concept/recipe/RecipeSelector";
-import { getAllRecipeTypes, getBlockByRecipeType, getBlockConfig, RECIPE_BLOCKS } from "@/components/tools/concept/recipe/recipeConfig";
+import { getAllRecipeTypes, getBlockByRecipeType, getBlockConfig, RECIPE_BLOCKS } from "@/lib/data/recipeConfig";
 import ToolCounter from "@/components/tools/elements/ToolCounter";
 import { getCurrentElement, useConfiguratorStore } from "@/components/tools/Store";
 import { Tabs, TabsTrigger } from "@/components/ui/Tabs";

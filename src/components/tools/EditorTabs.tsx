@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from "@tanstack/react-router";
 import { Identifier } from "@voxelio/breeze";
-import { CONCEPTS } from "@/components/tools/elements";
+import { CONCEPTS } from "@/lib/data/elements";
 import { type OpenTab, useConfiguratorStore } from "@/components/tools/Store";
 import { cn } from "@/lib/utils";
 
@@ -32,8 +32,8 @@ function TabItem({ tab, index, isActive }: { tab: OpenTab; index: number; isActi
             index === activeTabIndex
                 ? Math.min(index, updatedTabs.length - 1)
                 : index < activeTabIndex
-                  ? activeTabIndex - 1
-                  : activeTabIndex;
+                    ? activeTabIndex - 1
+                    : activeTabIndex;
 
         const nextTab = updatedTabs[newActiveIndex];
         if (nextTab) navigate({ to: nextTab.route });

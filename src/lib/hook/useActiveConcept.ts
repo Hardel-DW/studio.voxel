@@ -1,5 +1,5 @@
 import { useLocation, useParams } from "@tanstack/react-router";
-import { CONCEPTS } from "@/components/tools/elements";
+import { CONCEPTS } from "@/lib/data/elements";
 import { useConfiguratorStore } from "@/components/tools/Store";
 
 export function useActiveConcept() {

@@ -1,5 +1,5 @@
 import { useDebugStore } from "@/components/tools/debug/DebugStore";
-import { CONCEPTS } from "@/components/tools/elements";
+import { CONCEPTS } from "@/lib/data/elements";
 import Internalization from "@/components/tools/Internalization";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import ExportButton from "@/components/tools/sidebar/ExportButton";

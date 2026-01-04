@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import type { Tab } from "@/components/tools/elements";
+import type { Tab } from "@/lib/data/elements";
 import { useTranslate } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 

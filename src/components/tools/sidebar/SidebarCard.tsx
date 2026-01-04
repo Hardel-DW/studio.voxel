@@ -1,5 +1,5 @@
 import { Link, useLocation } from "@tanstack/react-router";
-import type { CONCEPT_KEY } from "@/components/tools/elements";
+import type { CONCEPT_KEY } from "@/lib/data/elements";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import { cn } from "@/lib/utils";
 
