@@ -6,12 +6,12 @@ import { EditorSidebar } from "@/components/tools/concept/layout/EditorSidebar";
 import { buildRecipeTree } from "@/components/tools/concept/recipe/buildRecipeTree";
 import { useDynamicIsland } from "@/components/tools/floatingbar/FloatingBarContext";
 import NotFoundStudio from "@/components/tools/NotFoundStudio";
-import { getModifiedElements, useConfiguratorStore } from "@/components/tools/Store";
+import { useConfiguratorStore } from "@/components/tools/Store";
 import { TreeProvider } from "@/components/ui/tree/TreeNavigationContext";
 import { TreeSidebar } from "@/components/ui/tree/TreeSidebar";
 import { CONCEPTS } from "@/lib/data/elements";
 import { RECIPE_BLOCKS } from "@/lib/data/recipeConfig";
-import { useElementsByType } from "@/lib/hook/useElementsByType";
+import { useElementsIdByType } from "@/lib/hook/useElementsByType";
 
 const concept = CONCEPTS.find((c) => c.registry === "recipe");
 if (!concept) throw new Error("Recipe concept not found");
@@ -37,16 +37,16 @@ function RecipeLayout() {
     const { lang } = Route.useParams();
     const location = useLocation();
     const navigate = useNavigate();
-    const elements = useElementsByType("recipe");
-    const tree = buildRecipeTree(elements);
-    const modifiedCount = useConfiguratorStore((s) => getModifiedElements(s, "recipe").length);
+    const elementIds = useElementsIdByType("recipe");
+    const tree = buildRecipeTree(elementIds);
     const currentElement = useConfiguratorStore((s) => s.currentElementId);
     const identifier = currentElement ? Identifier.fromUniqueKey(currentElement) : undefined;
     const isOverview = location.pathname.endsWith("/overview");
     const { setContainerRef } = useDynamicIsland();
+    const concept = "recipe";
 
     return (
-        <TreeProvider config={{ overviewRoute, detailRoute, changesRoute, tabRoutes, tree, modifiedCount, folderIcons }}>
+        <TreeProvider config={{ concept, overviewRoute, detailRoute, changesRoute, tabRoutes, tree, folderIcons }}>
             <div className="flex size-full overflow-hidden relative z-10 isolate">
                 <EditorSidebar title="recipe:overview.title" icon={RECIPE_ICON} linkTo="/$lang/studio/editor/recipe/overview">
                     <TreeSidebar />

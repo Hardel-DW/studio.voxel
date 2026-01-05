@@ -665,6 +665,7 @@
     "enchantment:slots.explanation.list.1": "Prenez l'Aura de feu par exemple - si vous le mettez sur votre arme en main principale ou secondaire, il enflammera les ennemis lorsque vous les frapperez.",
     "enchantment:slots.explanation.list.2": "Et si vous mettez l'Aura de feu sur n'importe quelle pièce d'armure (tête, torse, jambes ou pieds) et que vous l'équipez, il enflammera les ennemis à chaque fois que vous attaquerez.",
     "enchantment:addons.description": "Addons",
+    "enchantment:simulation": "Simulation",
     "enchantment:simulation.title": "Simulation de Table d'Enchantement",
     "enchantment:simulation.description": "Simuler les mécaniques d'enchantement et les résultats de probabilité",
     "enchantment:simulation.toolbar.back": "Retour à l'accueil",

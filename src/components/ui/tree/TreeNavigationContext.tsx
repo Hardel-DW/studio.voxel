@@ -9,9 +9,9 @@ interface TreeConfig {
     overviewRoute: string;
     detailRoute: string;
     changesRoute: string;
+    concept: string;
     tabRoutes?: string[];
     tree: TreeNodeType;
-    modifiedCount: number;
     elementIcon?: string;
     folderIcons?: Record<string, string>;
     disableAutoExpand?: boolean;
@@ -24,7 +24,7 @@ interface TreeContextValue {
     isAllActive: boolean;
     // Config
     tree: TreeNodeType;
-    modifiedCount: number;
+    concept: string;
     changesRoute: string;
     elementIcon?: string;
     folderIcons?: Record<string, string>;
@@ -73,7 +73,7 @@ export function TreeProvider({ config, children }: { config: TreeConfig; childre
         currentElementId: currentElementId ?? null,
         isAllActive: filterPath === "" && !currentElementId,
         tree: config.tree,
-        modifiedCount: config.modifiedCount,
+        concept: config.concept,
         changesRoute: config.changesRoute,
         elementIcon: config.elementIcon,
         folderIcons: config.folderIcons,

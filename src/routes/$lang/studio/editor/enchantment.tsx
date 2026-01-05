@@ -6,7 +6,7 @@ import { EditorHeader } from "@/components/tools/concept/layout/EditorHeader";
 import { EditorSidebar } from "@/components/tools/concept/layout/EditorSidebar";
 import { useDynamicIsland } from "@/components/tools/floatingbar/FloatingBarContext";
 import NotFoundStudio from "@/components/tools/NotFoundStudio";
-import { getModifiedElements, useConfiguratorStore } from "@/components/tools/Store";
+import { useConfiguratorStore } from "@/components/tools/Store";
 import { ToggleGroup, ToggleGroupOption } from "@/components/ui/ToggleGroup";
 import { TreeProvider } from "@/components/ui/tree/TreeNavigationContext";
 import { TreeSidebar } from "@/components/ui/tree/TreeSidebar";
@@ -40,27 +40,16 @@ function EnchantmentLayout() {
     const elementIds = useElementsIdByType("enchantment");
     const version = useConfiguratorStore((s) => s.version) ?? 61;
     const tree = buildEnchantmentTree(elementIds, sidebarView, version);
-    const modifiedCount = useConfiguratorStore((s) => getModifiedElements(s, "enchantment").length);
     const currentElement = useConfiguratorStore((s) => s.currentElementId);
     const identifier = currentElement ? Identifier.fromUniqueKey(currentElement) : undefined;
     const isOverview = location.pathname.endsWith("/overview");
     const itemFolderIcons = Object.fromEntries(getEnchantableKeys(version).map((k) => [k, `/images/features/item/${k}.webp`]));
     const folderIcons = sidebarView === "slots" ? SLOT_FOLDER_ICONS : sidebarView === "items" ? itemFolderIcons : undefined;
     const disableAutoExpand = sidebarView === "slots";
+    const concept = "enchantment";
 
     return (
-        <TreeProvider
-            config={{
-                overviewRoute,
-                detailRoute,
-                changesRoute,
-                tabRoutes,
-                tree,
-                modifiedCount,
-                elementIcon,
-                folderIcons,
-                disableAutoExpand
-            }}>
+        <TreeProvider config={{ concept, overviewRoute, detailRoute, changesRoute, tabRoutes, tree, elementIcon, folderIcons, disableAutoExpand }}>
             <div className="flex size-full overflow-hidden relative z-10 isolate">
                 <EditorSidebar title="enchantment:overview.title" icon={elementIcon} linkTo="/$lang/studio/editor/enchantment/overview">
                     <ToggleGroup value={sidebarView} onChange={setSidebarView} className="mt-4">
@@ -74,11 +63,7 @@ function EnchantmentLayout() {
                 <main ref={setContainerRef} className="flex-1 flex flex-col min-w-0 relative bg-zinc-950">
                     <EditorHeader
                         fallbackTitle="Enchantment"
-                        identifier={
-                            identifier
-                                ? { namespace: identifier.namespace, registry: identifier.registry, resource: identifier.resource }
-                                : undefined
-                        }
+                        identifier={identifier?.get()}
                         filterPath={filterPath}
                         isOverview={isOverview}
                         onBack={() => navigate({ to: "/$lang/studio/editor/enchantment/overview", params: { lang } })}>
@@ -86,7 +71,7 @@ function EnchantmentLayout() {
                             to="/$lang/studio/editor/enchantment/simulation"
                             params={{ lang }}
                             className="px-4 py-2 bg-zinc-900 border border-zinc-800 hover:bg-zinc-800 hover:text-zinc-200 text-zinc-400 rounded-lg text-sm transition-colors cursor-pointer">
-                            Simulation
+                            {t("enchantment:simulation")}
                         </Link>
                         <ToggleGroup value={viewMode} onChange={setViewMode}>
                             <ToggleGroupOption

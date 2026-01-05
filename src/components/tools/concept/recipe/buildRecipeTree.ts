@@ -1,8 +1,14 @@
 import type { RecipeProps } from "@voxelio/breeze";
+import { useConfiguratorStore } from "@/components/tools/Store";
 import { RECIPE_BLOCKS } from "@/lib/data/recipeConfig";
 import type { TreeNodeType } from "@/lib/utils/tree";
 
-export function buildRecipeTree(elements: RecipeProps[]): TreeNodeType {
+export function buildRecipeTree(elementIds: string[]): TreeNodeType {
+    const store = useConfiguratorStore.getState();
+    const elements = elementIds
+        .map((id) => store.elements.get(id) as RecipeProps | undefined)
+        .filter((el): el is RecipeProps => !!el);
+
     const root: TreeNodeType = { count: elements.length, children: new Map(), identifiers: [] };
 
     for (const block of RECIPE_BLOCKS) {

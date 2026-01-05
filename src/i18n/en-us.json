@@ -666,6 +666,7 @@
     "enchantment:slots.explanation.list.1": "Take Fire Aspect for example - if you put it on your main hand or offhand weapon, it'll set enemies on fire when you hit them.",
     "enchantment:slots.explanation.list.2": "And if you put Fire Aspect on any armor piece (head, chest, legs or feet) and you equip it, it'll light up enemies every time you attack.",
     "enchantment:addons.description": "Addons",
+    "enchantment:simulation": "Simulation",
     "enchantment:simulation.title": "Enchantment Table Simulation",
     "enchantment:simulation.description": "Simulate enchanting mechanics and probability outcomes",
     "enchantment:simulation.toolbar.back": "Back to home",

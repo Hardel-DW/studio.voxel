@@ -5,13 +5,13 @@ import { EditorHeader } from "@/components/tools/concept/layout/EditorHeader";
 import { EditorSidebar } from "@/components/tools/concept/layout/EditorSidebar";
 import { useDynamicIsland } from "@/components/tools/floatingbar/FloatingBarContext";
 import NotFoundStudio from "@/components/tools/NotFoundStudio";
-import { getModifiedElements, useConfiguratorStore } from "@/components/tools/Store";
+import { useConfiguratorStore } from "@/components/tools/Store";
 import { ToggleGroup, ToggleGroupOption } from "@/components/ui/ToggleGroup";
 import { TreeProvider } from "@/components/ui/tree/TreeNavigationContext";
 import { TreeSidebar } from "@/components/ui/tree/TreeSidebar";
 import { CONCEPTS } from "@/lib/data/elements";
-import { useElementsByType } from "@/lib/hook/useElementsByType";
-import { buildTree } from "@/lib/utils/tree";
+import { buildLootTableTree } from "@/components/tools/concept/loot/buildLootTableTree";
+import { useElementsIdByType } from "@/lib/hook/useElementsByType";
 
 const concept = CONCEPTS.find((c) => c.registry === "loot_table");
 if (!concept) throw new Error("Loot table concept not found");
@@ -30,18 +30,15 @@ function LootTableLayout() {
     const { setContainerRef } = useDynamicIsland();
     const location = useLocation();
     const navigate = useNavigate();
-    const elements = useElementsByType("loot_table");
-    const tree = buildTree(
-        elements.map((e) => e.identifier),
-        true
-    );
-    const modifiedCount = useConfiguratorStore((s) => getModifiedElements(s, "loot_table").length);
+    const elementIds = useElementsIdByType("loot_table");
+    const tree = buildLootTableTree(elementIds);
     const currentElement = useConfiguratorStore((s) => s.currentElementId);
     const identifier = currentElement ? Identifier.fromUniqueKey(currentElement) : undefined;
     const isOverview = location.pathname.endsWith("/overview");
+    const concept = "loot_table";
 
     return (
-        <TreeProvider config={{ overviewRoute, detailRoute, changesRoute, tabRoutes, tree, modifiedCount }}>
+        <TreeProvider config={{ concept, overviewRoute, detailRoute, changesRoute, tabRoutes, tree }}>
             <div className="flex size-full overflow-hidden relative isolate">
                 <EditorSidebar
                     title="loot:overview.title"
