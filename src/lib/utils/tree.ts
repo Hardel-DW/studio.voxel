@@ -6,6 +6,7 @@ export interface TreeNodeType {
     count: number;
     elementId?: string;
     isFolder?: boolean;
+    icon?: string;
 }
 
 export interface FileTreeNode {

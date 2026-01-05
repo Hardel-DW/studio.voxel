@@ -15,6 +15,7 @@ interface TreeConfig {
     elementIcon?: string;
     folderIcons?: Record<string, string>;
     disableAutoExpand?: boolean;
+    onSelectElement?: (elementId: string) => void;
 }
 
 interface TreeContextValue {
@@ -55,6 +56,10 @@ export function TreeProvider({ config, children }: { config: TreeConfig; childre
     };
 
     const selectElement = (elementId: string) => {
+        if (config.onSelectElement) {
+            config.onSelectElement(elementId);
+            return;
+        }
         const label = Identifier.fromUniqueKey(elementId).resource;
         openTab(elementId, config.detailRoute, label);
         if (!isOnTab) {
