@@ -13,13 +13,9 @@ export function parseFilePath(path: string): Identifier | null {
     const parts = path.split("/");
     if (parts.length < 4 || !path.endsWith(".json")) return null;
 
-    const [, namespace, ...rest] = parts;
-    const resourceWithExt = rest.pop();
-    if (!resourceWithExt || !namespace) return null;
+    const [, namespace, registry, ...resourceParts] = parts;
+    if (!namespace || !registry || resourceParts.length === 0) return null;
 
-    const resource = resourceWithExt.replace(/\.json$/, "");
-    const registry = rest.join("/");
-    if (!registry || !resource) return null;
-
+    const resource = resourceParts.join("/").replace(/\.json$/, "");
     return new Identifier({ namespace, registry, resource });
 }

@@ -3,7 +3,6 @@ import { createFileRoute, Outlet } from "@tanstack/react-router";
 import EditorLoading from "@/components/pages/studio/EditorLoading";
 import ConfigManager from "@/components/tools/ConfigManager";
 import StudioDialog from "@/components/tools/concept/StudioDialog";
-import DebugPanel from "@/components/tools/debug/DebugPanel";
 import AppLayout from "@/components/tools/EditorLayout";
 import ItemTooltip from "@/components/tools/elements/gui/ItemTooltip";
 import { FloatingBarProvider } from "@/components/tools/floatingbar/FloatingBarContext";
@@ -26,7 +25,6 @@ function EditorLayout() {
                     <FloatingBarProvider>
                         <ConfigManager>
                             <Outlet />
-                            <DebugPanel />
                             <ItemTooltip />
                             <StudioDialog />
                         </ConfigManager>

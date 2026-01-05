@@ -1,4 +1,3 @@
-import { useDebugStore } from "@/components/tools/debug/DebugStore";
 import Internalization from "@/components/tools/Internalization";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import ExportButton from "@/components/tools/sidebar/ExportButton";
@@ -13,12 +12,6 @@ export default function StudioSidebar() {
     const t = useTranslate();
     const hasElements = useConfiguratorStore((state) => Object.keys(state.files).length > 0);
     if (!hasElements) return null;
-
-    const handleDebugModalOpen = () => {
-        const { openDebugModal } = useDebugStore.getState();
-        const compiledDatapack = useConfiguratorStore.getState().compile();
-        openDebugModal(compiledDatapack);
-    };
 
     return (
         <div className="flex flex-col pb-4 size-full">
@@ -63,30 +56,6 @@ export default function StudioSidebar() {
                                         </div>
                                         <Internalization />
                                     </div>
-                                </div>
-
-                                <div>
-                                    <h4 className="text-xs font-semibold text-zinc-500 uppercase tracking-wider mb-3 ml-1">
-                                        {t("settings.advanced")}
-                                    </h4>
-                                    <Button
-                                        variant="ghost"
-                                        onClick={handleDebugModalOpen}
-                                        className="w-full justify-between h-auto py-3 px-4 font-normal text-zinc-400 hover:text-white bg-zinc-900/30 hover:bg-zinc-900/50 border border-zinc-800 hover:border-zinc-700 rounded-xl transition-all duration-200 group">
-                                        <span className="flex items-center gap-3">
-                                            <img
-                                                src="/icons/debug.svg"
-                                                alt="Code"
-                                                className="size-4 invert opacity-50 group-hover:opacity-100 transition-opacity"
-                                            />
-                                            <span className="font-medium text-sm">{t("settings.code_viewer")}</span>
-                                        </span>
-                                        <div className="flex items-center gap-2">
-                                            <span className="text-[10px] font-mono text-zinc-500 bg-zinc-950 px-1.5 py-0.5 rounded border border-zinc-800 group-hover:border-zinc-700 transition-colors">
-                                                JSON
-                                            </span>
-                                        </div>
-                                    </Button>
                                 </div>
                             </div>
                         </DialogBody>
