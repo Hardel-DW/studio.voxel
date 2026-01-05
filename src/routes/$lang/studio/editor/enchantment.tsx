@@ -21,7 +21,7 @@ if (!concept) throw new Error("Enchantment concept not found");
 const overviewRoute = concept.overview;
 const detailRoute = concept.tabs[0].url;
 const tabRoutes = concept.tabs.map((t) => t.url);
-const changesRoute = "/$lang/studio/editor/enchantment/changes";
+const changesRoute = "/$lang/studio/editor/changes/main";
 const elementIcon = "/images/features/item/enchanted_book.webp";
 const SLOT_FOLDER_ICONS = Object.fromEntries(SLOT_CONFIGS.map((c) => [c.id, c.image]));
 

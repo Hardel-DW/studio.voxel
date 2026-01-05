@@ -1,120 +1,112 @@
 import { useMutation } from "@tanstack/react-query";
-import { createFileRoute, Outlet, useRouterState } from "@tanstack/react-router";
-import { DatapackDownloader } from "@voxelio/breeze";
+import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import { useExportStore } from "@/components/tools/sidebar/ExportStore";
 import { Button } from "@/components/ui/Button";
-import { TextInput } from "@/components/ui/TextInput";
+import LineBackground from "@/components/ui/line/LineBackground";
 import { TOAST, toast } from "@/components/ui/Toast";
-import { GitFileTree } from "@/components/ui/tree/GitFileTree";
 import { GitHub } from "@/lib/github/GitHub";
+import { GithubRepoValidationError } from "@/lib/github/GitHubError";
 import { useTranslate } from "@/lib/i18n";
 import { encodeToBase64 } from "@/lib/utils/encode";
+import { sanitizeRepoName } from "@/lib/utils/text";
 
+const DESCRIPTION = "Minecraft datapack created with Voxel Studio";
 export const Route = createFileRoute("/$lang/studio/editor/github")({
-    component: GithubLayout
+    component: GithubInitPage
 });
 
-function GithubLayout() {
+function GithubInitPage() {
     const t = useTranslate();
-    const search = useRouterState({ select: (s) => s.location.search as { file?: string } });
-    const selectedFile = search.file;
-    const { isGitRepository, owner, repositoryName, branch, token } = useExportStore();
-    const files = useConfiguratorStore.getState().files;
-    const compiledFiles = useConfiguratorStore.getState().compile().getFiles();
-    const diff = isGitRepository ? new DatapackDownloader(compiledFiles).getDiff(files) : new Map();
-    const [message, setMessage] = useState("");
+    const { token, isInitializing } = useExportStore();
+    const name = useConfiguratorStore((state) => state.name);
+    const [repoName, setRepoName] = useState("");
 
-    const pushMutation = useMutation({
+    const initMutation = useMutation({
         mutationFn: () => {
-            const compiled = useConfiguratorStore.getState().compile().getFiles();
-            const filesToPush = Object.fromEntries(
-                Array.from(diff).map(([path, status]) => [path, status === "deleted" ? null : encodeToBase64(compiled[path])])
-            );
-            return new GitHub({ token }).send(owner, repositoryName, branch, "push", filesToPush);
+            const compiledFiles = useConfiguratorStore.getState().compile().getFiles();
+            const files = Object.fromEntries(Object.entries(compiledFiles).map(([path, content]) => [path, encodeToBase64(content)]));
+            useExportStore.getState().setInitializing(Object.keys(files).length);
+            return new GitHub({ token }).initializeRepository(repoName, DESCRIPTION, false, true, files);
         },
-        onSuccess: () => {
-            toast(t("github:push.success"), TOAST.SUCCESS);
-            setMessage("");
+        onSuccess: (data) => {
+            toast(t("github:init.success"), TOAST.SUCCESS);
+            const [newOwner, newRepoName] = data.fullName.split("/");
+            useExportStore.setState({ owner: newOwner, repositoryName: newRepoName, branch: data.defaultBranch, isGitRepository: true });
         },
         onError: (error: Error) => {
-            toast(t("github:push.error"), TOAST.ERROR, error.message);
-        }
+            if (error instanceof GithubRepoValidationError) {
+                return toast(t("github:init.error.validation"), TOAST.ERROR);
+            }
+            toast(t("github:init.error"), TOAST.ERROR, error.message);
+        },
+        onSettled: () => useExportStore.getState().setInitializing(null)
     });
 
     return (
-        <div className="flex size-full overflow-hidden relative isolate">
-            <aside className="w-72 shrink-0 border-r border-zinc-800/50 bg-zinc-950/75 flex flex-col">
-                <div className="px-6 pt-6">
-                    <div className="text-lg font-bold text-zinc-100 flex items-center gap-2 mb-1">
-                        <img src="/icons/company/github.svg" className="size-5 invert opacity-80" alt="Icon of a GitHub repository" />
-                        <span>{t("github:layout.title")}</span>
-                    </div>
-                    {isGitRepository && (
-                        <p className="text-xs text-zinc-500 pl-7 flex items-center gap-1.5">
-                            <span className="text-zinc-400 font-sm font-mono">
-                                {owner}/{repositoryName}
-                            </span>
-                            <span className="opacity-30">•</span>
-                            <span>{branch}</span>
-                        </p>
-                    )}
+        <div className="flex size-full overflow-hidden relative isolate bg-sidebar">
+            <div className="flex-1 flex flex-col h-full relative overflow-hidden">
+                <div className="absolute z-5 inset-0 pointer-events-none">
+                    <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-500/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+                </div>
+                <div className="absolute z-5 w-full h-full inset-0">
+                    <LineBackground frequency={2000} />
+                </div>
+                <div className="z-5 absolute inset-0 scale-110">
+                    <svg
+                        className="size-full stroke-white/10 [stroke-dasharray:5_6] [stroke-dashoffset:10] stroke-2"
+                        style={{ transform: "skewY(-12deg)" }}>
+                        <defs>
+                            <pattern id="grid-github" viewBox="0 0 64 64" width="32" height="32" patternUnits="userSpaceOnUse" x="0" y="0">
+                                <path d="M64 0H0V64" fill="none" />
+                            </pattern>
+                        </defs>
+                        <rect width="100%" height="100%" fill="url(#grid-github)" />
+                    </svg>
                 </div>
 
-                {isGitRepository && (
-                    <div className="px-3 mt-4 space-y-2">
-                        <TextInput
-                            className="rounded-lg"
-                            disableIcon
-                            value={message}
-                            onChange={(e) => setMessage(e.target.value)}
-                            placeholder={t("github:layout.commit.placeholder")}
-                        />
-                        <Button
-                            variant="default"
-                            className="w-full"
-                            onClick={() => pushMutation.mutate()}
-                            disabled={pushMutation.isPending || diff.size === 0 || !message.trim()}>
-                            {pushMutation.isPending ? t("github:layout.commit.button.pushing") : t("github:layout.commit.button.push")}
-                        </Button>
-                    </div>
-                )}
-
-                <div className="flex-1 overflow-y-auto px-3 mt-4">
-                    {isGitRepository ? (
-                        <GitFileTree diff={diff} selectedFile={selectedFile} />
-                    ) : (
-                        <div className="flex flex-col items-center justify-center py-12 text-zinc-600 gap-2">
-                            <img src="/icons/company/github.svg" className="size-8 opacity-20 invert" alt="Icon of a GitHub repository" />
-                            <span className="text-xs text-center">{t("github:layout.empty.init")}</span>
-                        </div>
-                    )}
-                </div>
-
-                <div className="p-4 border-t border-zinc-800/50 bg-zinc-950/90">
-                    <a
-                        href="https://discord.gg/8z3tkQhay7"
-                        className="bg-zinc-900/30 rounded-lg p-3 border border-zinc-800/50 flex items-center gap-3 group hover:border-zinc-700/50 transition-colors">
-                        <div className="flex-1">
-                            <div className="text-sm font-medium text-zinc-300 group-hover:text-white transition-colors">
-                                {t("common.help.discord")}
+                <div className="flex-1 flex flex-col items-center justify-center p-8 z-10">
+                    <div className="w-full max-w-md space-y-8">
+                        <div className="text-center space-y-2">
+                            <div className="size-16 rounded-2xl bg-zinc-900 border border-zinc-800 flex items-center justify-center mx-auto shadow-xl mb-6">
+                                <img src="/icons/company/github.svg" className="size-8 invert opacity-80" alt="GitHub" />
                             </div>
+                            <h1 className="text-3xl font-bold text-white tracking-tight">{t("github:init.title")}</h1>
+                            <p className="text-zinc-400">{t("github:init.description")}</p>
                         </div>
-                        <div className="size-8 rounded-full bg-zinc-800/50 flex items-center justify-center group-hover:bg-zinc-800 transition-colors">
-                            <img
-                                src="/icons/company/discord.svg"
-                                className="size-4 invert opacity-30 group-hover:opacity-50 transition-opacity"
-                                alt="Icon of a Discord server"
-                            />
+                        <div className="space-y-4 bg-sidebar p-6 rounded-2xl border border-zinc-800/50 relative">
+                            <div className="space-y-2">
+                                <label htmlFor="repoName" className="text-xs font-semibold text-zinc-500 uppercase tracking-wider ml-1">
+                                    {t("github:init.label")}
+                                </label>
+                                <input
+                                    type="text"
+                                    id="repoName"
+                                    value={repoName}
+                                    onChange={(e) => setRepoName(sanitizeRepoName(e.target.value))}
+                                    placeholder={name.toLowerCase().replace(/[^a-z0-9-_]/g, "-")}
+                                    className="w-full h-12 px-4 bg-zinc-950 border border-zinc-800 rounded-xl text-zinc-200 placeholder:text-zinc-600 focus:outline-hidden focus:border-zinc-400 focus:ring-1 focus:ring-zinc-400 transition-all font-mono text-sm"
+                                />
+                            </div>
+                            {isInitializing && (
+                                <div className="absolute inset-0 flex items-center flex-col justify-center bg-zinc-950/50 rounded-2xl z-10 backdrop-blur-sm">
+                                    <div className="size-8 border-4 border-zinc-900 border-t-zinc-400 rounded-full animate-spin" />
+                                    <span className="text-sm text-zinc-400 mt-4">
+                                        {t("github:init.progress.sidebar", { count: isInitializing })}
+                                    </span>
+                                </div>
+                            )}
+                            <Button
+                                onClick={() => initMutation.mutate()}
+                                disabled={initMutation.isPending || !repoName}
+                                className="w-full h-12 bg-white text-black font-bold hover:bg-zinc-200 rounded-xl transition-all shadow-lg shadow-white/5 disabled:opacity-50 disabled:cursor-not-allowed">
+                                {t("github:init.confirm")}
+                            </Button>
                         </div>
-                    </a>
+                    </div>
                 </div>
-            </aside>
-
-            <main className="flex-1 min-w-0 flex flex-col bg-zinc-950">
-                <Outlet />
-            </main>
+            </div>
         </div>
     );
 }

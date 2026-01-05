@@ -3,11 +3,28 @@ import { Button } from "@/components/ui/Button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/Dialog";
 import { useGitHubAuth } from "@/lib/hook/useGitHubAuth";
 import { useTranslate } from "@/lib/i18n";
+import { useExportStore } from "./ExportStore";
 
 export default function GitButton() {
     const t = useTranslate();
     const { lang } = useParams({ from: "/$lang" });
     const { isAuthenticated, login } = useGitHubAuth();
+    const { isGitRepository } = useExportStore();
+
+    if (isGitRepository) {
+        return (
+            <Button
+                type="button"
+                variant="transparent"
+                size="square"
+                className="border-0 select-none aspect-square shrink-0"
+                to="/$lang/studio/editor/changes/main"
+                params={{ lang }}>
+                <img src="/icons/company/github.svg" alt="Git" className="size-6 invert opacity-70" />
+            </Button>
+        );
+    }
+
 
     if (isAuthenticated) {
         return (
@@ -16,7 +33,7 @@ export default function GitButton() {
                 variant="transparent"
                 size="square"
                 className="border-0 select-none aspect-square shrink-0"
-                to="/$lang/studio/editor/github/main"
+                to="/$lang/studio/editor/github"
                 params={{ lang }}>
                 <img src="/icons/company/github.svg" alt="Git" className="size-6 invert opacity-70" />
             </Button>

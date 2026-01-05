@@ -18,7 +18,7 @@ if (!concept) throw new Error("Recipe concept not found");
 const overviewRoute = concept.overview;
 const detailRoute = concept.tabs[0].url;
 const tabRoutes = concept.tabs.map((t) => t.url);
-const changesRoute = "/$lang/studio/editor/recipe/changes";
+const changesRoute = "/$lang/studio/editor/changes/main";
 const RECIPE_ICON = "/images/features/block/crafting_table.webp";
 const folderIcons: Record<string, string> = Object.fromEntries(
     RECIPE_BLOCKS.filter((b) => !b.isSpecial).flatMap((b) => {

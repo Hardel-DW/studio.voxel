@@ -9,11 +9,6 @@ interface DiffLine {
     content: string;
 }
 
-interface CodeDiffProps {
-    original: string;
-    modified: string;
-}
-
 function computeLineDiff(original: string, modified: string): DiffLine[] {
     const originalLines = original.split("\n");
     const modifiedLines = modified.split("\n");
@@ -80,25 +75,34 @@ function DiffLineContent({ content, type }: { content: string; type: DiffLineTyp
     );
 }
 
-export default function CodeDiff({ original, modified }: CodeDiffProps) {
+export default function CodeDiff(props: {
+    original: string;
+    modified: string;
+    name: string;
+    path: string;
+}) {
     const t = useTranslate();
-    const diffLines = computeLineDiff(original, modified);
+    const diffLines = computeLineDiff(props.original, props.modified);
     const addedCount = diffLines.filter((l) => l.type === "added").length;
     const removedCount = diffLines.filter((l) => l.type === "removed").length;
 
     return (
         <div className="relative w-full h-full overflow-hidden flex flex-col">
-            <div className="flex items-center gap-2 px-4 py-3 border-b border-zinc-800/50">
-                <div className="flex items-center gap-2">
-                    <div className="size-3 rounded-full bg-red-500" />
-                    <div className="size-3 rounded-full bg-yellow-500" />
-                    <div className="size-3 rounded-full bg-green-500" />
+            <div className="flex items-center justify-between gap-2 px-4 py-3 border-b border-zinc-800/50">
+                <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-2">
+                        <div className="size-3 rounded-full bg-red-500" />
+                        <div className="size-3 rounded-full bg-yellow-500" />
+                        <div className="size-3 rounded-full bg-green-500" />
+                    </div>
+                    <span className="font-mono text-sm text-zinc-300">{props.name}</span>
+                    <div className="flex items-center gap-2 text-xs font-mono">
+                        {addedCount > 0 && <span className="text-green-400">+{addedCount}</span>}
+                        {removedCount > 0 && <span className="text-red-400">-{removedCount}</span>}
+                        {addedCount === 0 && removedCount === 0 && <span className="text-zinc-500">{t("code_diff.no_changes")}</span>}
+                    </div>
                 </div>
-                <div className="flex items-center gap-3 ml-4 text-xs font-mono">
-                    {addedCount > 0 && <span className="text-green-400">+{addedCount}</span>}
-                    {removedCount > 0 && <span className="text-red-400">-{removedCount}</span>}
-                    {addedCount === 0 && removedCount === 0 && <span className="text-zinc-500">{t("code_diff.no_changes")}</span>}
-                </div>
+                <span className="text-xs text-zinc-600 font-mono">{props.path}</span>
             </div>
 
             <div className="flex-1 overflow-auto ">

@@ -18,7 +18,7 @@ if (!concept) throw new Error("Loot table concept not found");
 const overviewRoute = concept.overview;
 const detailRoute = concept.tabs[0].url;
 const tabRoutes = concept.tabs.map((t) => t.url);
-const changesRoute = "/$lang/studio/editor/loot_table/changes";
+const changesRoute = "/$lang/studio/editor/changes/main";
 export const Route = createFileRoute("/$lang/studio/editor/loot_table")({
     component: LootTableLayout,
     notFoundComponent: NotFoundStudio
