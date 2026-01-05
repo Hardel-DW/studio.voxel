@@ -1,4 +1,5 @@
 import { Identifier } from "@voxelio/breeze";
+import { useConfiguratorStore } from "@/components/tools/Store";
 import { SLOT_CONFIGS } from "@/lib/data/slots";
 import { getEnchantableEntries } from "@/lib/data/tags";
 import type { TreeNodeType } from "@/lib/utils/tree";
@@ -12,7 +13,12 @@ type EnchantmentElement = {
     exclusiveSet?: string | string[];
 };
 
-export function buildEnchantmentTree(elements: EnchantmentElement[], view: string, version: number): TreeNodeType {
+export function buildEnchantmentTree(elementIds: string[], view: string, version: number): TreeNodeType {
+    const store = useConfiguratorStore.getState();
+    const elements = elementIds
+        .map((id) => store.elements.get(id) as EnchantmentElement | undefined)
+        .filter((el): el is EnchantmentElement => !!el);
+
     const root: TreeNodeType = { count: elements.length, children: new Map(), identifiers: [] };
     const builders: Record<string, () => void> = {
         tree: () => {},

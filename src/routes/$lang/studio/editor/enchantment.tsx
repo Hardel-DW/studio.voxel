@@ -13,7 +13,7 @@ import { TreeSidebar } from "@/components/ui/tree/TreeSidebar";
 import { CONCEPTS } from "@/lib/data/elements";
 import { SLOT_CONFIGS } from "@/lib/data/slots";
 import { getEnchantableKeys } from "@/lib/data/tags";
-import { useElementsByType } from "@/lib/hook/useElementsByType";
+import { useElementsIdByType } from "@/lib/hook/useElementsByType";
 import { useTranslate } from "@/lib/i18n";
 
 const concept = CONCEPTS.find((c) => c.registry === "enchantment");
@@ -37,9 +37,9 @@ function EnchantmentLayout() {
     const location = useLocation();
     const navigate = useNavigate();
     const { lang } = Route.useParams();
-    const elements = useElementsByType("enchantment");
+    const elementIds = useElementsIdByType("enchantment");
     const version = useConfiguratorStore((s) => s.version) ?? 61;
-    const tree = buildEnchantmentTree(elements, sidebarView, version);
+    const tree = buildEnchantmentTree(elementIds, sidebarView, version);
     const modifiedCount = useConfiguratorStore((s) => getModifiedElements(s, "enchantment").length);
     const currentElement = useConfiguratorStore((s) => s.currentElementId);
     const identifier = currentElement ? Identifier.fromUniqueKey(currentElement) : undefined;
