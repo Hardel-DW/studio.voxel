@@ -38,16 +38,24 @@ const sortedEntries = (children: Map<string, FileTreeNode>): [string, FileTreeNo
         return 0;
     });
 
-function ChangesTreeNode({ name, node, depth, selectedFile }: { name: string; node: FileTreeNode; depth: number; selectedFile?: string }) {
-    const [isOpen, setIsOpen] = useState(depth < 2);
+function shouldAutoExpand(node: FileTreeNode): boolean {
+    return node.children.size === 1;
+}
+
+function ChangesTreeNode({ name, node, depth, selectedFile, forceOpen = false }: { name: string; node: FileTreeNode; depth: number; selectedFile?: string; forceOpen?: boolean }) {
+    const [isOpen, setIsOpen] = useState(forceOpen);
     const { lang } = useParams({ from: "/$lang" });
     const isFile = !!node.filePath;
     const hasChildren = node.children.size > 0;
     const isSelected = isFile && node.filePath === selectedFile;
 
+    const handleToggle = () => {
+        setIsOpen((prev) => !prev);
+    };
+
     const handleChevronClick = (e: React.MouseEvent) => {
         e.stopPropagation();
-        setIsOpen((prev) => !prev);
+        handleToggle();
     };
 
     const statusColor = node.status === "added" ? "text-green-500" : node.status === "updated" ? "text-yellow-500" : "text-red-500";
@@ -110,7 +118,7 @@ function ChangesTreeNode({ name, node, depth, selectedFile }: { name: string; no
             {hasChildren && isOpen && (
                 <div className="flex flex-col border-zinc-800/50 my-0.5 pl-1 ml-3 border-l">
                     {sortedEntries(node.children).map(([childName, childNode]) => (
-                        <ChangesTreeNode key={childName} name={childName} node={childNode} depth={depth + 1} selectedFile={selectedFile} />
+                        <ChangesTreeNode key={childName} name={childName} node={childNode} depth={depth + 1} selectedFile={selectedFile} forceOpen={shouldAutoExpand(node)} />
                     ))}
                 </div>
             )}

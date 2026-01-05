@@ -15,6 +15,7 @@ interface TreeConfig {
     elementIcon?: string;
     folderIcons?: Record<string, string>;
     disableAutoExpand?: boolean;
+    selectedElementId?: string | null;
     onSelectElement?: (elementId: string) => void;
 }
 
@@ -73,10 +74,11 @@ export function TreeProvider({ config, children }: { config: TreeConfig; childre
         navigate({ to: config.overviewRoute, params: { lang } });
     };
 
+    const activeElementId = config.selectedElementId !== undefined ? config.selectedElementId : currentElementId;
     const value: TreeContextValue = {
         filterPath,
-        currentElementId: currentElementId ?? null,
-        isAllActive: filterPath === "" && !currentElementId,
+        currentElementId: activeElementId ?? null,
+        isAllActive: filterPath === "" && !activeElementId,
         tree: config.tree,
         concept: config.concept,
         changesRoute: config.changesRoute,

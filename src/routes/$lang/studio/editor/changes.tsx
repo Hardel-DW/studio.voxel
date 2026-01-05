@@ -59,7 +59,7 @@ function ChangesLayout() {
     });
 
     return (
-        <TreeProvider config={{ concept: "changes", overviewRoute, detailRoute, changesRoute, tree, folderIcons, onSelectElement }}>
+        <TreeProvider config={{ concept: "changes", overviewRoute, detailRoute, changesRoute, tree, folderIcons, selectedElementId: selectedFile, onSelectElement }}>
             <div className="flex size-full overflow-hidden relative isolate bg-sidebar">
                 <aside className="w-72 shrink-0 border-r border-zinc-800/50 bg-zinc-950/75 flex flex-col">
                     <div className="px-6 pt-6">

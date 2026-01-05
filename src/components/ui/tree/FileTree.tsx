@@ -13,6 +13,8 @@ const sortedEntries = (children: Map<string, TreeNodeType>): TreeEntry[] =>
         return 0;
     });
 
+const shouldAutoExpand = (node: TreeNodeType): boolean => node.children.size === 1;
+
 export function FileTree() {
     const { tree } = useTree();
 
@@ -25,9 +27,17 @@ export function FileTree() {
     );
 }
 
-function TreeNode({ name, path, node, depth }: { name: string; path: string; node: TreeNodeType; depth: number }) {
+interface TreeNodeProps {
+    name: string;
+    path: string;
+    node: TreeNodeType;
+    depth: number;
+    forceOpen?: boolean;
+}
+
+function TreeNode({ name, path, node, depth, forceOpen = false }: TreeNodeProps) {
     const { filterPath, currentElementId, elementIcon, folderIcons, disableAutoExpand, selectFolder, selectElement } = useTree();
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(forceOpen);
     const prevElementIdRef = useRef(currentElementId);
     const isElement = !!node.elementId;
     const hasChildren = node.children.size > 0;
@@ -116,7 +126,7 @@ function TreeNode({ name, path, node, depth }: { name: string; path: string; nod
             {hasChildren && isOpen && (
                 <div className="flex flex-col border-zinc-800/50 my-1 pl-1 ml-3 border-l">
                     {sortedEntries(node.children).map(([childName, childNode]) => (
-                        <TreeNode key={childName} name={childName} path={`${path}/${childName}`} node={childNode} depth={depth + 1} />
+                        <TreeNode key={childName} name={childName} path={`${path}/${childName}`} node={childNode} depth={depth + 1} forceOpen={shouldAutoExpand(node)} />
                     ))}
                 </div>
             )}
