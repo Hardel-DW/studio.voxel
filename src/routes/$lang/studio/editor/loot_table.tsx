@@ -3,6 +3,7 @@ import { Identifier } from "@voxelio/breeze";
 import { useEditorUiStore } from "@/components/tools/concept/EditorUiStore";
 import { EditorHeader } from "@/components/tools/concept/layout/EditorHeader";
 import { EditorSidebar } from "@/components/tools/concept/layout/EditorSidebar";
+import { buildLootTableTree } from "@/components/tools/concept/loot/buildLootTableTree";
 import { useDynamicIsland } from "@/components/tools/floatingbar/FloatingBarContext";
 import NotFoundStudio from "@/components/tools/NotFoundStudio";
 import { useConfiguratorStore } from "@/components/tools/Store";
@@ -10,7 +11,6 @@ import { ToggleGroup, ToggleGroupOption } from "@/components/ui/ToggleGroup";
 import { TreeProvider } from "@/components/ui/tree/TreeNavigationContext";
 import { TreeSidebar } from "@/components/ui/tree/TreeSidebar";
 import { CONCEPTS } from "@/lib/data/elements";
-import { buildLootTableTree } from "@/components/tools/concept/loot/buildLootTableTree";
 import { useElementsIdByType } from "@/lib/hook/useElementsByType";
 
 const concept = CONCEPTS.find((c) => c.registry === "loot_table");

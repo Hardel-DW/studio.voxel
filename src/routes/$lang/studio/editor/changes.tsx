@@ -10,8 +10,8 @@ import { TextInput } from "@/components/ui/TextInput";
 import { TOAST, toast } from "@/components/ui/Toast";
 import { ToggleGroup, ToggleGroupOption } from "@/components/ui/ToggleGroup";
 import { ChangesFileTree } from "@/components/ui/tree/ChangesFileTree";
-import { TreeProvider } from "@/components/ui/tree/TreeNavigationContext";
 import { FileTree } from "@/components/ui/tree/FileTree";
+import { TreeProvider } from "@/components/ui/tree/TreeNavigationContext";
 import { GitHub } from "@/lib/github/GitHub";
 import { useTranslate } from "@/lib/i18n";
 import { encodeToBase64 } from "@/lib/utils/encode";
@@ -76,16 +76,16 @@ function ChangesLayout() {
                             <img src="/icons/pencil.svg" className="size-5 invert opacity-80" alt="Changes icon" />
                             <span>{t("changes:layout.title")}</span>
                         </div>
-                        <p className="text-xs text-zinc-500 pl-7">
-                            {t("changes:layout.subtitle", { count: diff.size })}
-                        </p>
+                        <p className="text-xs text-zinc-500 pl-7">{t("changes:layout.subtitle", { count: diff.size })}</p>
                     </div>
 
                     {isGitRepository && (
                         <div className="px-3 mt-4 space-y-2">
                             <div className="flex items-center gap-2 px-2 py-1.5 text-xs text-zinc-500">
                                 <img src="/icons/company/github.svg" className="size-3.5 invert opacity-50" alt="GitHub" />
-                                <span className="font-mono truncate">{owner}/{repositoryName}</span>
+                                <span className="font-mono truncate">
+                                    {owner}/{repositoryName}
+                                </span>
                             </div>
                             <TextInput
                                 className="rounded-lg"
@@ -112,11 +112,7 @@ function ChangesLayout() {
                     </div>
 
                     <div className="flex-1 overflow-y-auto px-3 mt-2">
-                        {viewMode === "file" ? (
-                            <ChangesFileTree diff={diff} selectedFile={selectedFile} />
-                        ) : (
-                            <FileTree />
-                        )}
+                        {viewMode === "file" ? <ChangesFileTree diff={diff} selectedFile={selectedFile} /> : <FileTree />}
                     </div>
 
                     <div className="p-4 border-t border-zinc-800/50 bg-zinc-950/90">

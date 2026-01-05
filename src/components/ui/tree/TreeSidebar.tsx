@@ -1,7 +1,7 @@
 import { FileTree } from "@/components/ui/tree/FileTree";
+import { SidebarButton } from "@/components/ui/tree/SidebarButton";
 import { useTree } from "@/components/ui/tree/useTree";
 import { useTranslate } from "@/lib/i18n";
-import { SidebarButton } from "@/components/ui/tree/SidebarButton";
 import { TreeNodeUpdated } from "./TreeNodeUpdated";
 
 export function TreeSidebar() {

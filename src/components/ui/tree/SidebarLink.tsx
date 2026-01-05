@@ -1,7 +1,15 @@
 import { Link } from "@tanstack/react-router";
 import { cn } from "@/lib/utils";
 
-export function SidebarLink(props: { to: string; params: { lang: string }; icon: string; count: number; disabled?: boolean; onClick?: () => void; children: string }) {
+export function SidebarLink(props: {
+    to: string;
+    params: { lang: string };
+    icon: string;
+    count: number;
+    disabled?: boolean;
+    onClick?: () => void;
+    children: string;
+}) {
     const content = (
         <div
             className={cn(

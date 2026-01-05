@@ -5,9 +5,7 @@ import type { TreeNodeType } from "@/lib/utils/tree";
 
 export function buildRecipeTree(elementIds: string[]): TreeNodeType {
     const store = useConfiguratorStore.getState();
-    const elements = elementIds
-        .map((id) => store.elements.get(id) as RecipeProps | undefined)
-        .filter((el): el is RecipeProps => !!el);
+    const elements = elementIds.map((id) => store.elements.get(id) as RecipeProps | undefined).filter((el): el is RecipeProps => !!el);
 
     const root: TreeNodeType = { count: elements.length, children: new Map(), identifiers: [] };
 

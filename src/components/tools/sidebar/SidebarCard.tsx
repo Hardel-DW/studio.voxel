@@ -1,7 +1,7 @@
 import { Link, useLocation, useParams } from "@tanstack/react-router";
 import type { CONCEPT_KEY } from "@/lib/data/elements";
 import { cn } from "@/lib/utils";
-import { getConceptFromPathname } from "@/lib/utils/routing";
+import { getConceptFromPathname } from "@/lib/utils/concept";
 
 export default function SidebarCard(props: { image: { src: string; alt: string }; registry: CONCEPT_KEY; overview: string }) {
     const currentConcept = useLocation({ select: (loc) => getConceptFromPathname(loc.pathname) });

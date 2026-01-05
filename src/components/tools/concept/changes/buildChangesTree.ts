@@ -1,5 +1,6 @@
-import { Identifier, type FileStatus } from "@voxelio/breeze";
-import { CONCEPTS, type CONCEPT_KEY } from "@/lib/data/elements";
+import type { FileStatus, Identifier } from "@voxelio/breeze";
+import { type CONCEPT_KEY, CONCEPTS } from "@/lib/data/elements";
+import { parseFilePath } from "@/lib/utils/concept";
 import type { TreeNodeType } from "@/lib/utils/tree";
 
 type ParsedFile = {
@@ -7,21 +8,6 @@ type ParsedFile = {
     identifier: Identifier;
     status: FileStatus;
 };
-
-function parseFilePath(path: string): Identifier | null {
-    const parts = path.split("/");
-    if (parts.length < 4 || !path.endsWith(".json")) return null;
-
-    const [, namespace, ...rest] = parts;
-    const resourceWithExt = rest.pop();
-    if (!resourceWithExt || !namespace) return null;
-
-    const resource = resourceWithExt.replace(/\.json$/, "");
-    const registry = rest.join("/");
-    if (!registry || !resource) return null;
-
-    return new Identifier({ namespace, registry, resource });
-}
 
 export function buildChangesTree(diff: Map<string, FileStatus>): TreeNodeType {
     const root: TreeNodeType = { count: diff.size, children: new Map(), identifiers: [] };

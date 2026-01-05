@@ -1,28 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Identifier } from "@voxelio/breeze";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import CodeDiff from "@/components/ui/codeblock/CodeDiff";
 import { useTranslate } from "@/lib/i18n";
+import { parseFilePath } from "@/lib/utils/concept";
 
 export const Route = createFileRoute("/$lang/studio/editor/changes/diff")({
     component: ChangesDiffPage,
     validateSearch: (search) => ({ file: search.file as string })
 });
-
-function parseFilePath(path: string): Identifier | null {
-    const parts = path.split("/");
-    if (parts.length < 4 || !path.endsWith(".json")) return null;
-
-    const [, namespace, ...rest] = parts;
-    const resourceWithExt = rest.pop();
-    if (!resourceWithExt || !namespace) return null;
-
-    const resource = resourceWithExt.replace(/\.json$/, "");
-    const registry = rest.join("/");
-    if (!registry || !resource) return null;
-
-    return new Identifier({ namespace, registry, resource });
-}
 
 function ChangesDiffPage() {
     const t = useTranslate();

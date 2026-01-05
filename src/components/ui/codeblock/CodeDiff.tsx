@@ -75,12 +75,7 @@ function DiffLineContent({ content, type }: { content: string; type: DiffLineTyp
     );
 }
 
-export default function CodeDiff(props: {
-    original: string;
-    modified: string;
-    name: string;
-    path: string;
-}) {
+export default function CodeDiff(props: { original: string; modified: string; name: string; path: string }) {
     const t = useTranslate();
     const diffLines = computeLineDiff(props.original, props.modified);
     const addedCount = diffLines.filter((l) => l.type === "added").length;

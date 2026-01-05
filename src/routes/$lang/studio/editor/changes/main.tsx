@@ -31,11 +31,7 @@ function ChangesMainPage() {
                 </svg>
             </div>
 
-            <EmptyState
-                icon="/icons/pencil.svg"
-                title={t("changes:emptystate.title")}
-                description={t("changes:emptystate.description")}
-            />
+            <EmptyState icon="/icons/pencil.svg" title={t("changes:emptystate.title")} description={t("changes:emptystate.description")} />
         </div>
     );
 }

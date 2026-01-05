@@ -1,7 +1,7 @@
 import { useLocation, useParams } from "@tanstack/react-router";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import { CONCEPTS } from "@/lib/data/elements";
-import { getConceptFromPathname } from "@/lib/utils/routing";
+import { getConceptFromPathname } from "@/lib/utils/concept";
 
 export function useActiveConcept() {
     const pathname = useLocation({ select: (loc) => loc.pathname });

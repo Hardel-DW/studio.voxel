@@ -25,7 +25,6 @@ export default function GitButton() {
         );
     }
 
-
     if (isAuthenticated) {
         return (
             <Button
