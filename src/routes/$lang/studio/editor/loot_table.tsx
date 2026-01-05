@@ -13,11 +13,12 @@ import { TreeSidebar } from "@/components/ui/tree/TreeSidebar";
 import { CONCEPTS } from "@/lib/data/elements";
 import { useElementsIdByType } from "@/lib/hook/useElementsByType";
 
-const concept = CONCEPTS.find((c) => c.registry === "loot_table");
-if (!concept) throw new Error("Loot table concept not found");
-const overviewRoute = concept.overview;
-const detailRoute = concept.tabs[0].url;
-const tabRoutes = concept.tabs.map((t) => t.url);
+const concept = "loot_table";
+const conceptData = CONCEPTS.find((c) => c.registry === "loot_table");
+if (!conceptData) throw new Error("Loot table concept not found");
+const overviewRoute = conceptData.overview;
+const detailRoute = conceptData.tabs[0].url;
+const tabRoutes = conceptData.tabs.map((t) => t.url);
 const changesRoute = "/$lang/studio/editor/changes/main";
 export const Route = createFileRoute("/$lang/studio/editor/loot_table")({
     component: LootTableLayout,
@@ -34,7 +35,6 @@ function LootTableLayout() {
     const tree = buildLootTableTree(elementIds);
     const currentElement = useConfiguratorStore((s) => s.currentElementId);
     const identifier = currentElement ? Identifier.fromUniqueKey(currentElement) : undefined;
-    const concept = "loot_table";
 
     return (
         <TreeProvider config={{ concept, overviewRoute, detailRoute, changesRoute, tabRoutes, tree }}>
@@ -49,11 +49,7 @@ function LootTableLayout() {
                 <main ref={setContainerRef} className="flex-1 flex flex-col min-w-0 min-h-0 overflow-hidden relative bg-zinc-950">
                     <EditorHeader
                         fallbackTitle="Loot Table"
-                        identifier={
-                            identifier
-                                ? { namespace: identifier.namespace, registry: identifier.registry, resource: identifier.resource }
-                                : undefined
-                        }
+                        identifier={identifier?.get()}
                         filterPath={filterPath}
                         isOverview={isOverview}
                         onBack={() => navigate({ to: "/$lang/studio/editor/loot_table/overview", params: { lang } })}>

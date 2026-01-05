@@ -16,6 +16,9 @@ import { GitHub } from "@/lib/github/GitHub";
 import { useTranslate } from "@/lib/i18n";
 import { encodeToBase64 } from "@/lib/utils/encode";
 
+const overviewRoute = "/$lang/studio/editor/changes/main"
+const detailRoute = "/$lang/studio/editor/changes/diff"
+const changesRoute = "/$lang/studio/editor/changes/main"
 export const Route = createFileRoute("/$lang/studio/editor/changes")({
     component: ChangesLayout
 });
@@ -34,11 +37,8 @@ function ChangesLayout() {
     const [viewMode, setViewMode] = useState<"file" | "concept">("concept");
     const tree = buildChangesTree(diff);
     const folderIcons = getConceptFolderIcons();
-    const overviewRoute = "/$lang/studio/editor/changes/main"
-    const detailRoute = "/$lang/studio/editor/changes/diff"
-    const changesRoute = "/$lang/studio/editor/changes/main"
     const onSelectElement = (filePath: string) => {
-        navigate({ to: "/$lang/studio/editor/changes/diff", params: { lang }, search: { file: filePath } });
+        navigate({ to: detailRoute, params: { lang }, search: { file: filePath } });
     };
 
     const pushMutation = useMutation({

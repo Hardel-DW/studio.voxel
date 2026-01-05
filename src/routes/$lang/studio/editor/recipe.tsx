@@ -13,11 +13,12 @@ import { CONCEPTS } from "@/lib/data/elements";
 import { RECIPE_BLOCKS } from "@/lib/data/recipeConfig";
 import { useElementsIdByType } from "@/lib/hook/useElementsByType";
 
-const concept = CONCEPTS.find((c) => c.registry === "recipe");
-if (!concept) throw new Error("Recipe concept not found");
-const overviewRoute = concept.overview;
-const detailRoute = concept.tabs[0].url;
-const tabRoutes = concept.tabs.map((t) => t.url);
+const concept = "recipe";
+const conceptData = CONCEPTS.find((c) => c.registry === "recipe");
+if (!conceptData) throw new Error("Recipe concept not found");
+const overviewRoute = conceptData.overview;
+const detailRoute = conceptData.tabs[0].url;
+const tabRoutes = conceptData.tabs.map((t) => t.url);
 const changesRoute = "/$lang/studio/editor/changes/main";
 const RECIPE_ICON = "/images/features/block/crafting_table.webp";
 const folderIcons: Record<string, string> = Object.fromEntries(
@@ -42,7 +43,6 @@ function RecipeLayout() {
     const currentElement = useConfiguratorStore((s) => s.currentElementId);
     const identifier = currentElement ? Identifier.fromUniqueKey(currentElement) : undefined;
     const { setContainerRef } = useDynamicIsland();
-    const concept = "recipe";
 
     return (
         <TreeProvider config={{ concept, overviewRoute, detailRoute, changesRoute, tabRoutes, tree, folderIcons }}>
@@ -54,11 +54,7 @@ function RecipeLayout() {
                 <main ref={setContainerRef} className="flex-1 flex flex-col min-w-0 min-h-0 overflow-hidden relative bg-zinc-950">
                     <EditorHeader
                         fallbackTitle="Recipe"
-                        identifier={
-                            identifier
-                                ? { namespace: identifier.namespace, registry: identifier.registry, resource: identifier.resource }
-                                : undefined
-                        }
+                        identifier={identifier?.get()}
                         filterPath={filterPath}
                         isOverview={isOverview}
                         onBack={() => navigate({ to: "/$lang/studio/editor/recipe/overview", params: { lang } })}

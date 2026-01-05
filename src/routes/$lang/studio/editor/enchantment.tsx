@@ -16,11 +16,12 @@ import { getEnchantableKeys } from "@/lib/data/tags";
 import { useElementsIdByType } from "@/lib/hook/useElementsByType";
 import { useTranslate } from "@/lib/i18n";
 
-const concept = CONCEPTS.find((c) => c.registry === "enchantment");
-if (!concept) throw new Error("Enchantment concept not found");
-const overviewRoute = concept.overview;
-const detailRoute = concept.tabs[0].url;
-const tabRoutes = concept.tabs.map((t) => t.url);
+const concept = "enchantment";
+const conceptData = CONCEPTS.find((c) => c.registry === "enchantment");
+if (!conceptData) throw new Error("Enchantment concept not found");
+const overviewRoute = conceptData.overview;
+const detailRoute = conceptData.tabs[0].url;
+const tabRoutes = conceptData.tabs.map((t) => t.url);
 const changesRoute = "/$lang/studio/editor/changes/main";
 const elementIcon = "/images/features/item/enchanted_book.webp";
 const SLOT_FOLDER_ICONS = Object.fromEntries(SLOT_CONFIGS.map((c) => [c.id, c.image]));
@@ -45,7 +46,6 @@ function EnchantmentLayout() {
     const itemFolderIcons = Object.fromEntries(getEnchantableKeys(version).map((k) => [k, `/images/features/item/${k}.webp`]));
     const folderIcons = sidebarView === "slots" ? SLOT_FOLDER_ICONS : sidebarView === "items" ? itemFolderIcons : undefined;
     const disableAutoExpand = sidebarView === "slots";
-    const concept = "enchantment";
 
     return (
         <TreeProvider
