@@ -11,7 +11,6 @@ import type {
 import { compileDatapack, Identifier, isVoxelElement, Logger, sortElementsByRegistry, updateData } from "@voxelio/breeze";
 import { create } from "zustand";
 import { useExportStore } from "@/components/tools/sidebar/ExportStore";
-import type { CONCEPT_KEY } from "@/lib/data/elements";
 import { encodeFilesRecord } from "@/lib/utils/encode";
 import { saveSession, updateSessionData, updateSessionLogger } from "@/lib/utils/sessionPersistence";
 
@@ -62,7 +61,6 @@ export interface ConfiguratorState<T extends keyof Analysers> {
     setup: (updates: ParseDatapackResult<GetAnalyserVoxel<T>>, isModded: boolean, name: string) => void;
     compile: () => Datapack;
     getLengthByRegistry: (registry: string) => number;
-    getConcept: (pathname: string) => CONCEPT_KEY | null;
     getRegistry: <R extends DataDrivenElement>(registry: string, options?: RegistrySearchOptions) => DataDrivenRegistryElement<R>[];
 }
 
@@ -185,13 +183,6 @@ const createConfiguratorStore = <T extends keyof Analysers>() =>
                 additionnal: Object.fromEntries(get().custom)
             }),
         getLengthByRegistry: (registry) => get().getRegistry(registry).length,
-        getConcept: (pathname) => {
-            const pathParts = pathname.split("/").filter(Boolean);
-            if (pathParts.length >= 4 && pathParts[1] === "studio" && pathParts[2] === "editor") {
-                return pathParts[3] as CONCEPT_KEY;
-            }
-            return null;
-        },
         getRegistry: <R extends DataDrivenElement>(registry: string, options?: { path?: string; excludeNamespaces?: string[] }) => {
             const cacheKey = buildCacheKey(registry, options);
             const cached = get().registryCache.get(cacheKey) as DataDrivenRegistryElement<R>[] | undefined;

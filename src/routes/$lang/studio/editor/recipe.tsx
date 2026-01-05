@@ -35,13 +35,12 @@ export const Route = createFileRoute("/$lang/studio/editor/recipe")({
 function RecipeLayout() {
     const { filterPath } = useEditorUiStore();
     const { lang } = Route.useParams();
-    const location = useLocation();
+    const isOverview = useLocation({ select: (loc) => loc.pathname.endsWith("/overview") });
     const navigate = useNavigate();
     const elementIds = useElementsIdByType("recipe");
     const tree = buildRecipeTree(elementIds);
     const currentElement = useConfiguratorStore((s) => s.currentElementId);
     const identifier = currentElement ? Identifier.fromUniqueKey(currentElement) : undefined;
-    const isOverview = location.pathname.endsWith("/overview");
     const { setContainerRef } = useDynamicIsland();
     const concept = "recipe";
 

@@ -34,7 +34,7 @@ function EnchantmentLayout() {
     const t = useTranslate();
     const { sidebarView, setSidebarView, filterPath, viewMode, setViewMode } = useEditorUiStore();
     const { setContainerRef } = useDynamicIsland();
-    const location = useLocation();
+    const isOverview = useLocation({ select: (loc) => loc.pathname.endsWith("/overview") });
     const navigate = useNavigate();
     const { lang } = Route.useParams();
     const elementIds = useElementsIdByType("enchantment");
@@ -42,7 +42,6 @@ function EnchantmentLayout() {
     const tree = buildEnchantmentTree(elementIds, sidebarView, version);
     const currentElement = useConfiguratorStore((s) => s.currentElementId);
     const identifier = currentElement ? Identifier.fromUniqueKey(currentElement) : undefined;
-    const isOverview = location.pathname.endsWith("/overview");
     const itemFolderIcons = Object.fromEntries(getEnchantableKeys(version).map((k) => [k, `/images/features/item/${k}.webp`]));
     const folderIcons = sidebarView === "slots" ? SLOT_FOLDER_ICONS : sidebarView === "items" ? itemFolderIcons : undefined;
     const disableAutoExpand = sidebarView === "slots";

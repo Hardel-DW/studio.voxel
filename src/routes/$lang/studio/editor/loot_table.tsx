@@ -28,13 +28,12 @@ function LootTableLayout() {
     const { lang } = Route.useParams();
     const { filterPath, viewMode, setViewMode } = useEditorUiStore();
     const { setContainerRef } = useDynamicIsland();
-    const location = useLocation();
+    const isOverview = useLocation({ select: (loc) => loc.pathname.endsWith("/overview") });
     const navigate = useNavigate();
     const elementIds = useElementsIdByType("loot_table");
     const tree = buildLootTableTree(elementIds);
     const currentElement = useConfiguratorStore((s) => s.currentElementId);
     const identifier = currentElement ? Identifier.fromUniqueKey(currentElement) : undefined;
-    const isOverview = location.pathname.endsWith("/overview");
     const concept = "loot_table";
 
     return (
