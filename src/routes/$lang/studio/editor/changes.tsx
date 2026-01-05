@@ -31,12 +31,13 @@ function ChangesLayout() {
     const compiledFiles = useConfiguratorStore.getState().compile().getFiles();
     const diff = new DatapackDownloader(compiledFiles).getDiff(files);
     const [message, setMessage] = useState("");
-    const [viewMode, setViewMode] = useState<"file" | "concept">("file");
-
+    const [viewMode, setViewMode] = useState<"file" | "concept">("concept");
     const tree = buildChangesTree(diff);
     const folderIcons = getConceptFolderIcons();
-
-    const handleSelectElement = (filePath: string) => {
+    const overviewRoute = "/$lang/studio/editor/changes/main"
+    const detailRoute = "/$lang/studio/editor/changes/diff"
+    const changesRoute = "/$lang/studio/editor/changes/main"
+    const onSelectElement = (filePath: string) => {
         navigate({ to: "/$lang/studio/editor/changes/diff", params: { lang }, search: { file: filePath } });
     };
 
@@ -57,18 +58,8 @@ function ChangesLayout() {
         }
     });
 
-    const treeConfig = {
-        concept: "changes",
-        overviewRoute: "/$lang/studio/editor/changes/main",
-        detailRoute: "/$lang/studio/editor/changes/diff",
-        changesRoute: "/$lang/studio/editor/changes/main",
-        tree,
-        folderIcons,
-        onSelectElement: handleSelectElement
-    };
-
     return (
-        <TreeProvider config={treeConfig}>
+        <TreeProvider config={{ concept: "changes", overviewRoute, detailRoute, changesRoute, tree, folderIcons, onSelectElement }}>
             <div className="flex size-full overflow-hidden relative isolate bg-sidebar">
                 <aside className="w-72 shrink-0 border-r border-zinc-800/50 bg-zinc-950/75 flex flex-col">
                     <div className="px-6 pt-6">
@@ -106,8 +97,8 @@ function ChangesLayout() {
 
                     <div className="px-3 mt-4">
                         <ToggleGroup value={viewMode} onChange={(v) => setViewMode(v as "file" | "concept")}>
-                            <ToggleGroupOption value="file">{t("changes:view.file")}</ToggleGroupOption>
                             <ToggleGroupOption value="concept">{t("changes:view.concept")}</ToggleGroupOption>
+                            <ToggleGroupOption value="file">{t("changes:view.file")}</ToggleGroupOption>
                         </ToggleGroup>
                     </div>
 

@@ -4,7 +4,7 @@ import { useTranslate } from "@/lib/i18n";
 export default function NotFoundStudio() {
     const t = useTranslate();
     return (
-        <div className="h-full w-full flex items-center justify-center overflow-hidden relative">
+        <div className="h-full w-full flex items-center justify-center overflow-hidden relative bg-sidebar">
             <div className="z-10 absolute inset-0 scale-110">
                 <svg
                     className="size-full stroke-white/10 [stroke-dasharray:5_6] [stroke-dashoffset:10] stroke-2"
