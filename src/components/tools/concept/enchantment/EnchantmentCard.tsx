@@ -4,9 +4,10 @@ import { CoreAction, getItemFromMultipleOrOne, Identifier, TagsProcessor } from 
 import OverviewCase from "@/components/tools/concept/enchantment/EnchantmentOverviewCase";
 import SimpleSwitch from "@/components/tools/elements/SimpleSwitch";
 import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer";
-import { useConfiguratorStore } from "@/components/tools/Store";
 import useRegistry, { type FetchedRegistry } from "@/lib/hook/useRegistry";
 import { useTranslate } from "@/lib/i18n";
+import { useConfiguratorStore } from "@/lib/store/StudioStore";
+import { useTabsStore } from "@/lib/store/TabsStore";
 
 const findOptions = [
     {
@@ -61,7 +62,7 @@ export default function EnchantmentCard({ element }: { element: EnchantmentProps
     ]);
     const items = isTag && merge.length > 0 ? new TagsProcessor(merge).getRecursiveValues(tagId) : [id];
 
-    const handleConfigure = () => useConfiguratorStore.getState().openTab(elementId, "/$lang/studio/editor/enchantment/main", resourceName);
+    const handleConfigure = () => useTabsStore.getState().openTab(elementId, "/$lang/studio/editor/enchantment/main", resourceName);
 
     return (
         <div

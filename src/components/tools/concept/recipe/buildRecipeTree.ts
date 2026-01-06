@@ -1,6 +1,6 @@
 import type { RecipeProps } from "@voxelio/breeze";
-import { useConfiguratorStore } from "@/components/tools/Store";
 import { RECIPE_BLOCKS } from "@/lib/data/recipeConfig";
+import { useConfiguratorStore } from "@/lib/store/StudioStore";
 import type { TreeNodeType } from "@/lib/utils/tree";
 
 export function buildRecipeTree(elementIds: string[]): TreeNodeType {

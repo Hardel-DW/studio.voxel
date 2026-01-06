@@ -1,8 +1,8 @@
+import DiffLineContent from "@/components/ui/codeblock/DiffLineContent";
 import { cn } from "@/lib/utils";
 import { computeLineDiff } from "@/lib/utils/diff";
-import DiffLineContent from "@/components/ui/codeblock/DiffLineContent";
 
-export default function CodeDiff(props: { original: string; modified: string; }) {
+export default function CodeDiff(props: { original: string; modified: string }) {
     const diffLines = computeLineDiff(props.original, props.modified);
 
     return (

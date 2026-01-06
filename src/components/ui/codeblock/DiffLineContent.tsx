@@ -1,6 +1,6 @@
-import { getTokenColor, processTokensIntoLines, tokenizeJSON } from "@/lib/utils/json-tokenizer";
-import type { DiffLineType } from "@/lib/utils/diff";
 import { cn } from "@/lib/utils";
+import type { DiffLineType } from "@/lib/utils/diff";
+import { getTokenColor, processTokensIntoLines, tokenizeJSON } from "@/lib/utils/json-tokenizer";
 
 export default function DiffLineContent({ content, type }: { content: string; type: DiffLineType }) {
     const tokens = tokenizeJSON(content);

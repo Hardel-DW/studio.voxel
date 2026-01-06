@@ -3,8 +3,8 @@ import { CoreAction, type FlattenedLootItem, Identifier } from "@voxelio/breeze"
 import LootDetailsPopover from "@/components/tools/concept/loot/LootDetailsPopover";
 import SimpleSwitch from "@/components/tools/elements/SimpleSwitch";
 import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer";
-import { useConfiguratorStore } from "@/components/tools/Store";
 import { useTranslate } from "@/lib/i18n";
+import { useTabsStore } from "@/lib/store/TabsStore";
 
 interface LootOverviewListProps {
     elementId: string;
@@ -16,7 +16,7 @@ interface LootOverviewListProps {
 export default function LootOverviewList({ elementId, items, resourceName, color }: LootOverviewListProps) {
     const t = useTranslate();
     const { lang } = useParams({ from: "/$lang" });
-    const handleConfigure = () => useConfiguratorStore.getState().openTab(elementId, "/$lang/studio/editor/loot_table/main", resourceName);
+    const handleConfigure = () => useTabsStore.getState().openTab(elementId, "/$lang/studio/editor/loot_table/main", resourceName);
     const identifier = Identifier.fromUniqueKey(elementId);
     const pathParts = identifier.resource.split("/");
     const parentPath = pathParts.length > 1 ? pathParts.slice(0, -1).join("/") : "";

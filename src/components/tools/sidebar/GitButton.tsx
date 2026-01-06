@@ -3,13 +3,13 @@ import { Button } from "@/components/ui/Button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/Dialog";
 import { useGitHubAuth } from "@/lib/hook/useGitHubAuth";
 import { useTranslate } from "@/lib/i18n";
-import { useExportStore } from "./ExportStore";
+import { useGithubStore } from "../../../lib/store/GithubStore";
 
 export default function GitButton() {
     const t = useTranslate();
     const { lang } = useParams({ from: "/$lang" });
     const { isAuthenticated, login } = useGitHubAuth();
-    const { isGitRepository } = useExportStore();
+    const { isGitRepository } = useGithubStore();
 
     if (isGitRepository) {
         return (

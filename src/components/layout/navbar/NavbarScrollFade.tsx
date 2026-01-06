@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import type { MobileMenuState } from "@/components/layout/navbar/mobileMenuStore";
-import { useMobileMenuStore } from "@/components/layout/navbar/mobileMenuStore";
+import type { MobileMenuState } from "@/lib/store/MobileMenuStore";
+import { useMobileMenuStore } from "@/lib/store/MobileMenuStore";
 import { cn } from "@/lib/utils";
 
 export default function NavbarScrollFade({ children }: { children: React.ReactNode }) {

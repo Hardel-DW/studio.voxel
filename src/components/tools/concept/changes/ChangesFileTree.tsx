@@ -1,8 +1,8 @@
 import { Link, useParams } from "@tanstack/react-router";
 import type { FileStatus } from "@voxelio/breeze";
 import { useState } from "react";
-import { useChangesTreeStore, useIsSelected } from "@/components/tools/concept/changes/ChangesTreeStore";
 import { useTranslate } from "@/lib/i18n";
+import { useChangesTreeStore, useIsSelected } from "@/lib/store/ChangesTreeStore";
 import { cn } from "@/lib/utils";
 import { buildFileTree, type FileTreeNode } from "@/lib/utils/tree";
 
@@ -22,7 +22,8 @@ export function ChangesFileTree({ diff, allFiles, selectedFile }: ChangesFileTre
         setSelectedFile(selectedFile);
     }
 
-    const displayFiles = showAll && allFiles ? new Map(Object.keys(allFiles).map((path) => [path, diff.get(path) ?? ("unchanged" as FileStatus)])) : diff;
+    const displayFiles =
+        showAll && allFiles ? new Map(Object.keys(allFiles).map((path) => [path, diff.get(path) ?? ("unchanged" as FileStatus)])) : diff;
     const tree = buildFileTree(displayFiles);
     const isEmpty = diff.size === 0 && !showAll;
 
@@ -42,9 +43,7 @@ export function ChangesFileTree({ diff, allFiles, selectedFile }: ChangesFileTre
                     <span className="text-xs">{t("git.no_changes")}</span>
                 </div>
             ) : (
-                sortedEntries(tree.children).map(([name, node]) => (
-                    <TreeNode key={name} name={name} node={node} depth={0} lang={lang} />
-                ))
+                sortedEntries(tree.children).map(([name, node]) => <TreeNode key={name} name={name} node={node} depth={0} lang={lang} />)
             )}
         </div>
     );
@@ -108,13 +107,14 @@ function TreeNode({ name, node, depth, lang, forceOpen = false }: TreeNodeProps)
 
             <div className="flex items-center gap-2 flex-1 min-w-0 px-2 py-1.5">
                 {isFile ? (
-                    <span className={cn(
-                        "text-[10px] font-bold w-3 text-center shrink-0",
-                        node.status === "added" && "text-green-500",
-                        node.status === "updated" && "text-yellow-500",
-                        node.status === "deleted" && "text-red-500",
-                        !node.status && "text-zinc-600"
-                    )}>
+                    <span
+                        className={cn(
+                            "text-[10px] font-bold w-3 text-center shrink-0",
+                            node.status === "added" && "text-green-500",
+                            node.status === "updated" && "text-yellow-500",
+                            node.status === "deleted" && "text-red-500",
+                            !node.status && "text-zinc-600"
+                        )}>
                         {node.status === "added" ? "A" : node.status === "updated" ? "M" : node.status === "deleted" ? "D" : "·"}
                     </span>
                 ) : (

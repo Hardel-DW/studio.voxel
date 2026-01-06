@@ -1,7 +1,7 @@
 import type { PropsWithChildren } from "react";
-import { useConfiguratorStore } from "@/components/tools/Store";
 import { Button } from "@/components/ui/Button";
 import { useTranslate } from "@/lib/i18n";
+import { useConfiguratorStore } from "@/lib/store/StudioStore";
 import { Route } from "@/routes/$lang";
 import RestoreLastSession from "./RestoreLastSession";
 

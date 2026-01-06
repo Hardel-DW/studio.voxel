@@ -1,13 +1,14 @@
 import { Link, useParams } from "@tanstack/react-router";
 import type { EnchantmentProps, TagType } from "@voxelio/breeze";
 import { CoreAction, getItemFromMultipleOrOne, Identifier, SlotManager, TagsProcessor } from "@voxelio/breeze";
+import SlotGrid from "@/components/tools/concept/enchantment/SlotGrid";
 import SimpleSwitch from "@/components/tools/elements/SimpleSwitch";
 import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer";
-import { useConfiguratorStore } from "@/components/tools/Store";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/Popover";
 import useRegistry, { type FetchedRegistry } from "@/lib/hook/useRegistry";
 import { useTranslate } from "@/lib/i18n";
-import SlotGrid from "./SlotGrid";
+import { useNavigationStore } from "@/lib/store/NavigationStore";
+import { useConfiguratorStore } from "@/lib/store/StudioStore";
 
 const SLOT_IMAGES = {
     mainhand: "/images/features/slots/mainhand.webp",
@@ -49,7 +50,7 @@ export default function SlotsEnchantmentCard({ element }: SlotsEnchantmentCardPr
     const flattenedSlots = new SlotManager(element.slots).flatten();
 
     const handleConfigure = () => {
-        useConfiguratorStore.getState().setCurrentElementId(elementId);
+        useNavigationStore.getState().setCurrentElementId(elementId);
     };
 
     return (

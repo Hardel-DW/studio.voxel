@@ -1,7 +1,7 @@
 import type { Analysers, GetAnalyserVoxel } from "@voxelio/breeze";
 import { Identifier, isVoxel } from "@voxelio/breeze";
 import { useShallow } from "zustand/shallow";
-import { useConfiguratorStore } from "@/components/tools/Store";
+import { useConfiguratorStore } from "@/lib/store/StudioStore";
 
 export function useElementsByType<T extends keyof Analysers>(elementType: T) {
     return useConfiguratorStore(

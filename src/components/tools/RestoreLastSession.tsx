@@ -1,10 +1,10 @@
 import { useNavigate, useParams } from "@tanstack/react-router";
 import { Datapack } from "@voxelio/breeze";
-import { useConfiguratorStore } from "@/components/tools/Store";
-import { useExportStore } from "@/components/tools/sidebar/ExportStore";
 import { Button } from "@/components/ui/Button";
 import { TOAST, toast } from "@/components/ui/Toast";
 import { useTranslate } from "@/lib/i18n";
+import { useGithubStore } from "@/lib/store/GithubStore";
+import { useConfiguratorStore } from "@/lib/store/StudioStore";
 import { hasSession, restoreSession } from "@/lib/utils/sessionPersistence";
 
 export default function RestoreLastSession({ className }: { className?: string }) {
@@ -28,12 +28,12 @@ export default function RestoreLastSession({ className }: { className?: string }
                 .getState()
                 .setup({ ...result, logger: session.logger, elements: restoredElements }, session.isModded, session.name);
 
-            useExportStore.getState().clearGitRepository();
+            useGithubStore.getState().clearGitRepository();
             if (session.isGitRepository) {
-                useExportStore.getState().setGitRepository(session.owner, session.repositoryName, session.branch, "");
+                useGithubStore.getState().setGitRepository(session.owner, session.repositoryName, session.branch, "");
             }
 
-            useExportStore.getState().setInitializing(session.isInitializing);
+            useGithubStore.getState().setInitializing(session.isInitializing);
 
             toast(t("session.restored"), TOAST.SUCCESS);
             navigate({ to: "/$lang/studio/editor/enchantment/overview", params: { lang } });

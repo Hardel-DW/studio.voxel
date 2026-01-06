@@ -1,17 +1,17 @@
 import { createFileRoute, Outlet, useLocation, useNavigate } from "@tanstack/react-router";
 import { Identifier } from "@voxelio/breeze";
-import { useEditorUiStore } from "@/components/tools/concept/EditorUiStore";
 import { EditorHeader } from "@/components/tools/concept/layout/EditorHeader";
 import { EditorSidebar } from "@/components/tools/concept/layout/EditorSidebar";
 import { buildLootTableTree } from "@/components/tools/concept/loot/buildLootTableTree";
 import { useDynamicIsland } from "@/components/tools/floatingbar/FloatingBarContext";
 import NotFoundStudio from "@/components/tools/NotFoundStudio";
-import { useConfiguratorStore } from "@/components/tools/Store";
+import { TreeSidebar } from "@/components/tools/sidebar/TreeSidebar";
 import { ToggleGroup, ToggleGroupOption } from "@/components/ui/ToggleGroup";
 import { TreeProvider } from "@/components/ui/tree/TreeNavigationContext";
-import { TreeSidebar } from "@/components/tools/sidebar/TreeSidebar";
 import { CONCEPTS } from "@/lib/data/elements";
 import { useElementsIdByType } from "@/lib/hook/useElementsByType";
+import { useEditorUiStore } from "@/lib/store/EditorUiStore";
+import { useNavigationStore } from "@/lib/store/NavigationStore";
 
 const concept = "loot_table";
 const conceptData = CONCEPTS.find((c) => c.registry === "loot_table");
@@ -33,7 +33,7 @@ function LootTableLayout() {
     const navigate = useNavigate();
     const elementIds = useElementsIdByType("loot_table");
     const tree = buildLootTableTree(elementIds);
-    const currentElement = useConfiguratorStore((s) => s.currentElementId);
+    const currentElement = useNavigationStore((s) => s.currentElementId);
     const identifier = currentElement ? Identifier.fromUniqueKey(currentElement) : undefined;
 
     return (

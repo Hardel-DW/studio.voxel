@@ -1,14 +1,14 @@
 import { useMutation } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { useConfiguratorStore } from "@/components/tools/Store";
-import { useExportStore } from "@/components/tools/sidebar/ExportStore";
 import { Button } from "@/components/ui/Button";
 import LineBackground from "@/components/ui/line/LineBackground";
 import { TOAST, toast } from "@/components/ui/Toast";
 import { GitHub } from "@/lib/github/GitHub";
 import { GithubRepoValidationError } from "@/lib/github/GitHubError";
 import { useTranslate } from "@/lib/i18n";
+import { useGithubStore } from "@/lib/store/GithubStore";
+import { useConfiguratorStore } from "@/lib/store/StudioStore";
 import { encodeToBase64 } from "@/lib/utils/encode";
 import { sanitizeRepoName } from "@/lib/utils/text";
 
@@ -19,7 +19,7 @@ export const Route = createFileRoute("/$lang/studio/editor/github")({
 
 function GithubInitPage() {
     const t = useTranslate();
-    const { token, isInitializing } = useExportStore();
+    const { token, isInitializing } = useGithubStore();
     const name = useConfiguratorStore((state) => state.name);
     const [repoName, setRepoName] = useState("");
 
@@ -27,13 +27,13 @@ function GithubInitPage() {
         mutationFn: () => {
             const compiledFiles = useConfiguratorStore.getState().compile().getFiles();
             const files = Object.fromEntries(Object.entries(compiledFiles).map(([path, content]) => [path, encodeToBase64(content)]));
-            useExportStore.getState().setInitializing(Object.keys(files).length);
+            useGithubStore.getState().setInitializing(Object.keys(files).length);
             return new GitHub({ token }).initializeRepository(repoName, DESCRIPTION, false, true, files);
         },
         onSuccess: (data) => {
             toast(t("github:init.success"), TOAST.SUCCESS);
             const [newOwner, newRepoName] = data.fullName.split("/");
-            useExportStore.setState({ owner: newOwner, repositoryName: newRepoName, branch: data.defaultBranch, isGitRepository: true });
+            useGithubStore.setState({ owner: newOwner, repositoryName: newRepoName, branch: data.defaultBranch, isGitRepository: true });
         },
         onError: (error: Error) => {
             if (error instanceof GithubRepoValidationError) {
@@ -41,7 +41,7 @@ function GithubInitPage() {
             }
             toast(t("github:init.error"), TOAST.ERROR, error.message);
         },
-        onSettled: () => useExportStore.getState().setInitializing(null)
+        onSettled: () => useGithubStore.getState().setInitializing(null)
     });
 
     return (

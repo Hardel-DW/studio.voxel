@@ -10,52 +10,30 @@ import type {
 } from "@voxelio/breeze";
 import { compileDatapack, Identifier, isVoxelElement, Logger, sortElementsByRegistry, updateData } from "@voxelio/breeze";
 import { create } from "zustand";
-import { useExportStore } from "@/components/tools/sidebar/ExportStore";
+import { useGithubStore } from "@/lib/store/GithubStore";
+import { useNavigationStore } from "@/lib/store/NavigationStore";
+import { useTabsStore } from "@/lib/store/TabsStore";
 import { encodeFilesRecord } from "@/lib/utils/encode";
 import { saveSession, updateSessionData, updateSessionLogger } from "@/lib/utils/sessionPersistence";
-
-export interface OpenTab {
-    elementId: string;
-    route: string;
-    label: string;
-}
 
 export type RegistrySearchOptions = {
     path?: string;
     excludeNamespaces?: string[];
 };
 
-const MAX_HISTORY_SIZE = 20;
-const MAX_TABS = 10;
-
 export interface ConfiguratorState<T extends keyof Analysers> {
     name: string;
     logger?: Logger;
     files: Record<string, Uint8Array>;
     elements: Map<string, GetAnalyserVoxel<T>>;
-    currentElementId?: string | null;
     isModded: boolean;
     version: number | null;
     sortedIdentifiers: Map<string, string[]>;
     registryCache: Map<string, DataDrivenRegistryElement<any>[]>;
     custom: Map<string, Uint8Array>;
-    // Navigation
-    navigationHistory: string[];
-    navigationIndex: number;
-    goto: (id: string) => void;
-    back: () => void;
-    forward: () => void;
-    //tabs
-    openTabs: OpenTab[];
-    activeTabIndex: number;
-    openTab: (elementId: string, route: string, label: string) => void;
-    closeTab: (index: number) => void;
-    switchTab: (index: number) => void;
-    // Actions
     addFile: (key: string, value: Uint8Array) => void;
     getSortedIdentifiers: (registry: string) => string[];
     setName: (name: string) => void;
-    setCurrentElementId: (id: string | null) => void;
     setIsModded: (isModded: boolean) => void;
     handleChange: (action: Action, identifier?: string, value?: ActionValue) => void;
     setup: (updates: ParseDatapackResult<GetAnalyserVoxel<T>>, isModded: boolean, name: string) => void;
@@ -63,6 +41,13 @@ export interface ConfiguratorState<T extends keyof Analysers> {
     getLengthByRegistry: (registry: string) => number;
     getRegistry: <R extends DataDrivenElement>(registry: string, options?: RegistrySearchOptions) => DataDrivenRegistryElement<R>[];
 }
+
+const buildCacheKey = (registry: string, options?: RegistrySearchOptions) => {
+    if (!options) return registry;
+    const pathKey = options.path ?? "";
+    const excludeKey = options.excludeNamespaces?.length ? [...options.excludeNamespaces].sort().join(",") : "";
+    return `${registry}|${pathKey}|${excludeKey}`;
+};
 
 const createConfiguratorStore = <T extends keyof Analysers>() =>
     create<ConfiguratorState<T>>((set, get) => ({
@@ -73,30 +58,8 @@ const createConfiguratorStore = <T extends keyof Analysers>() =>
         elements: new Map(),
         isModded: false,
         version: null,
-        openTabs: [],
-        activeTabIndex: -1,
         sortedIdentifiers: new Map(),
         registryCache: new Map(),
-        navigationHistory: [],
-        navigationIndex: -1,
-        goto: (id) => {
-            const { navigationHistory, navigationIndex } = get();
-            const truncated = navigationHistory.slice(0, navigationIndex + 1);
-            const updated = [...truncated, id].slice(-MAX_HISTORY_SIZE);
-            set({ navigationHistory: updated, navigationIndex: updated.length - 1, currentElementId: id });
-        },
-        back: () => {
-            const { navigationHistory, navigationIndex } = get();
-            if (navigationIndex <= 0) return;
-            const newIndex = navigationIndex - 1;
-            set({ navigationIndex: newIndex, currentElementId: navigationHistory[newIndex] });
-        },
-        forward: () => {
-            const { navigationHistory, navigationIndex } = get();
-            if (navigationIndex >= navigationHistory.length - 1) return;
-            const newIndex = navigationIndex + 1;
-            set({ navigationIndex: newIndex, currentElementId: navigationHistory[newIndex] });
-        },
         addFile: (key, value) => {
             const custom = get().custom.set(key, value);
             set({ custom, registryCache: new Map() });
@@ -107,50 +70,14 @@ const createConfiguratorStore = <T extends keyof Analysers>() =>
             set({ name });
             updateSessionData({ name });
         },
-        setCurrentElementId: (currentElementId) => set({ currentElementId }),
         setIsModded: (isModded) => {
             set({ isModded });
             updateSessionData({ isModded });
         },
-        openTab: (elementId, route, label) => {
-            const { openTabs } = get();
-            const existingIndex = openTabs.findIndex((tab) => tab.elementId === elementId);
-            if (existingIndex !== -1) {
-                set({ activeTabIndex: existingIndex, currentElementId: elementId });
-                return;
-            }
-            const newTab: OpenTab = { elementId, route, label };
-            const updatedTabs = [...openTabs, newTab].slice(-MAX_TABS);
-            set({ openTabs: updatedTabs, activeTabIndex: updatedTabs.length - 1, currentElementId: elementId });
-        },
-        closeTab: (index) => {
-            const { openTabs, activeTabIndex } = get();
-            if (index < 0 || index >= openTabs.length) return;
-            const updatedTabs = openTabs.toSpliced(index, 1);
-            if (updatedTabs.length === 0) {
-                set({ openTabs: [], activeTabIndex: -1, currentElementId: null });
-                return;
-            }
-
-            const newActiveIndex =
-                index === activeTabIndex
-                    ? Math.min(index, updatedTabs.length - 1)
-                    : index < activeTabIndex
-                      ? activeTabIndex - 1
-                      : activeTabIndex;
-
-            const newCurrentElement = updatedTabs[newActiveIndex]?.elementId ?? null;
-            set({ openTabs: updatedTabs, activeTabIndex: newActiveIndex, currentElementId: newCurrentElement });
-        },
-        switchTab: (index) => {
-            const { openTabs } = get();
-            if (index < 0 || index >= openTabs.length) return;
-            const tab = openTabs[index];
-            set({ activeTabIndex: index, currentElementId: tab.elementId });
-        },
         handleChange: (action, identifier) => {
             const state = get();
-            const elementId = identifier ?? state.currentElementId;
+            const currentElementId = useNavigationStore.getState().currentElementId;
+            const elementId = identifier ?? currentElementId;
             if (!elementId) return;
 
             const element = state.elements.get(elementId);
@@ -169,11 +96,11 @@ const createConfiguratorStore = <T extends keyof Analysers>() =>
                 ...updates,
                 sortedIdentifiers: sortElementsByRegistry(updates.elements),
                 isModded,
-                name,
-                openTabs: [],
-                activeTabIndex: -1
+                name
             });
-            const exportState = useExportStore.getState();
+            useTabsStore.getState().resetTabs();
+            useNavigationStore.getState().resetNavigation();
+            const exportState = useGithubStore.getState();
             saveSession(get(), exportState);
         },
         compile: () =>
@@ -183,7 +110,7 @@ const createConfiguratorStore = <T extends keyof Analysers>() =>
                 additionnal: Object.fromEntries(get().custom)
             }),
         getLengthByRegistry: (registry) => get().getRegistry(registry).length,
-        getRegistry: <R extends DataDrivenElement>(registry: string, options?: { path?: string; excludeNamespaces?: string[] }) => {
+        getRegistry: <R extends DataDrivenElement>(registry: string, options?: RegistrySearchOptions) => {
             const cacheKey = buildCacheKey(registry, options);
             const cached = get().registryCache.get(cacheKey) as DataDrivenRegistryElement<R>[] | undefined;
             if (cached) return cached;
@@ -195,8 +122,11 @@ const createConfiguratorStore = <T extends keyof Analysers>() =>
     }));
 
 export const useConfiguratorStore = createConfiguratorStore();
-export const getCurrentElement = <T extends keyof Analysers>(state: ConfiguratorState<T>) =>
-    state.currentElementId ? state.elements.get(state.currentElementId) : undefined;
+
+export const getCurrentElement = <T extends keyof Analysers>(state: ConfiguratorState<T>) => {
+    const currentElementId = useNavigationStore.getState().currentElementId;
+    return currentElementId ? state.elements.get(currentElementId) : undefined;
+};
 
 export const getModifiedElements = <T extends keyof Analysers>(state: ConfiguratorState<T>, registry: string) => {
     const changeSets = state.logger?.getChangeSets() ?? [];
@@ -204,11 +134,4 @@ export const getModifiedElements = <T extends keyof Analysers>(state: Configurat
         .filter((c) => c.identifier.registry === registry)
         .map((c) => state.elements.get(new Identifier(c.identifier).toUniqueKey()))
         .filter((el): el is GetAnalyserVoxel<T> => !!el);
-};
-
-const buildCacheKey = (registry: string, options?: { path?: string; excludeNamespaces?: string[] }) => {
-    if (!options) return registry;
-    const pathKey = options.path ?? "";
-    const excludeKey = options.excludeNamespaces?.length ? [...options.excludeNamespaces].sort().join(",") : "";
-    return `${registry}|${pathKey}|${excludeKey}`;
 };

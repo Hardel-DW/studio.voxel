@@ -1,7 +1,7 @@
 import { Identifier } from "@voxelio/breeze";
-import { useConfiguratorStore } from "@/components/tools/Store";
 import { SLOT_CONFIGS } from "@/lib/data/slots";
 import { getEnchantableEntries } from "@/lib/data/tags";
+import { useConfiguratorStore } from "@/lib/store/StudioStore";
 import type { TreeNodeType } from "@/lib/utils/tree";
 
 type EnchantmentElement = {

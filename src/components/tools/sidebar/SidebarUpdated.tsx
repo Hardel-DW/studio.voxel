@@ -1,8 +1,8 @@
 import { useParams } from "@tanstack/react-router";
-import { getModifiedElements, useConfiguratorStore } from "@/components/tools/Store";
 import { SidebarLink } from "@/components/tools/sidebar/SidebarLink";
 import { useTree } from "@/components/ui/tree/useTree";
 import { useTranslate } from "@/lib/i18n";
+import { getModifiedElements, useConfiguratorStore } from "@/lib/store/StudioStore";
 
 export function SidebarUpdated() {
     const { changesRoute, clearSelection, concept } = useTree();
@@ -11,12 +11,7 @@ export function SidebarUpdated() {
     const t = useTranslate();
 
     return (
-        <SidebarLink
-            to={changesRoute}
-            params={{ lang }}
-            icon="/icons/pencil.svg"
-            count={modifiedCount}
-            onClick={clearSelection}>
+        <SidebarLink to={changesRoute} params={{ lang }} icon="/icons/pencil.svg" count={modifiedCount} onClick={clearSelection}>
             {t("tree.updated")}
         </SidebarLink>
     );

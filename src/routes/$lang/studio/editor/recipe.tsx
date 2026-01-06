@@ -1,17 +1,17 @@
 import { createFileRoute, Outlet, useLocation, useNavigate } from "@tanstack/react-router";
 import { Identifier } from "@voxelio/breeze";
-import { useEditorUiStore } from "@/components/tools/concept/EditorUiStore";
 import { EditorHeader } from "@/components/tools/concept/layout/EditorHeader";
 import { EditorSidebar } from "@/components/tools/concept/layout/EditorSidebar";
 import { buildRecipeTree } from "@/components/tools/concept/recipe/buildRecipeTree";
 import { useDynamicIsland } from "@/components/tools/floatingbar/FloatingBarContext";
 import NotFoundStudio from "@/components/tools/NotFoundStudio";
-import { useConfiguratorStore } from "@/components/tools/Store";
-import { TreeProvider } from "@/components/ui/tree/TreeNavigationContext";
 import { TreeSidebar } from "@/components/tools/sidebar/TreeSidebar";
+import { TreeProvider } from "@/components/ui/tree/TreeNavigationContext";
 import { CONCEPTS } from "@/lib/data/elements";
 import { RECIPE_BLOCKS } from "@/lib/data/recipeConfig";
 import { useElementsIdByType } from "@/lib/hook/useElementsByType";
+import { useEditorUiStore } from "@/lib/store/EditorUiStore";
+import { useNavigationStore } from "@/lib/store/NavigationStore";
 
 const concept = "recipe";
 const conceptData = CONCEPTS.find((c) => c.registry === "recipe");
@@ -40,7 +40,7 @@ function RecipeLayout() {
     const navigate = useNavigate();
     const elementIds = useElementsIdByType("recipe");
     const tree = buildRecipeTree(elementIds);
-    const currentElement = useConfiguratorStore((s) => s.currentElementId);
+    const currentElement = useNavigationStore((s) => s.currentElementId);
     const identifier = currentElement ? Identifier.fromUniqueKey(currentElement) : undefined;
     const { setContainerRef } = useDynamicIsland();
 

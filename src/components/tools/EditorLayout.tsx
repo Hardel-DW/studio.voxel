@@ -1,11 +1,11 @@
 import { Link, useParams } from "@tanstack/react-router";
 import EditorTabs from "@/components/tools/EditorTabs";
-import { useConfiguratorStore } from "@/components/tools/Store";
 import StudioSidebar from "@/components/tools/sidebar/Sidebar";
+import { useTabsStore } from "@/lib/store/TabsStore";
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
     const { lang } = useParams({ from: "/$lang" });
-    const hasTabs = useConfiguratorStore((state) => state.openTabs.length > 0);
+    const hasTabs = useTabsStore((state) => state.openTabs.length > 0);
 
     return (
         <div className="flex h-dvh w-full overflow-hidden bg-sidebar">

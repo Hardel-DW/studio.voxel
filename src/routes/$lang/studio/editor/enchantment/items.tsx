@@ -4,10 +4,10 @@ import { CoreAction } from "@voxelio/breeze";
 import { useState } from "react";
 import ToolSectionSelector from "@/components/tools/elements/ToolSectionSelector";
 import ToolSlot from "@/components/tools/elements/ToolSlot";
-import { useConfiguratorStore } from "@/components/tools/Store";
 import { getEnchantableEntries } from "@/lib/data/tags";
 import { VOXEL_TAGS } from "@/lib/data/voxel";
 import { useTranslate } from "@/lib/i18n";
+import { useConfiguratorStore } from "@/lib/store/StudioStore";
 
 export const Route = createFileRoute("/$lang/studio/editor/enchantment/items")({
     component: EnchantmentItemsPage

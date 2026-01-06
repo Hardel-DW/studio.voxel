@@ -5,8 +5,8 @@ import LootDetailsPopover from "@/components/tools/concept/loot/LootDetailsPopov
 import LootOverviewList from "@/components/tools/concept/loot/LootOverviewList";
 import SimpleSwitch from "@/components/tools/elements/SimpleSwitch";
 import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer";
-import { useConfiguratorStore } from "@/components/tools/Store";
 import { useTranslate } from "@/lib/i18n";
+import { useTabsStore } from "@/lib/store/TabsStore";
 import { hueToHsl, stringToColor } from "@/lib/utils/color";
 
 interface LootOverviewCardProps {
@@ -27,7 +27,7 @@ export default function LootOverviewCard({ elementId, items, mode }: LootOvervie
     const pathColor = hueToHsl(stringToColor(colorKey), 50, 50);
     const isVanilla = identifier.namespace === "minecraft";
 
-    const handleConfigure = () => useConfiguratorStore.getState().openTab(elementId, "/$lang/studio/editor/loot_table/main", resourceName);
+    const handleConfigure = () => useTabsStore.getState().openTab(elementId, "/$lang/studio/editor/loot_table/main", resourceName);
 
     if (mode === "list") {
         return <LootOverviewList elementId={elementId} items={items} resourceName={resourceName} color={pathColor} />;

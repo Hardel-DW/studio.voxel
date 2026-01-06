@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/Button";
-import { type MobileMenuState, useMobileMenuStore } from "./mobileMenuStore";
+import { type MobileMenuState, useMobileMenuStore } from "../../../lib/store/MobileMenuStore";
 
 export default function MobileMenuButton() {
     const toggleMobileMenu = useMobileMenuStore((state: MobileMenuState) => state.toggle);

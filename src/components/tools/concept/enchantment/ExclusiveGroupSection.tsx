@@ -4,17 +4,18 @@ import EnchantmentTags from "@/components/tools/concept/enchantment/EnchantmentT
 import type { TagsEnchantmentActionProps } from "@/components/tools/concept/enchantment/TagsEnchantmentAction";
 import ErrorPlaceholder from "@/components/tools/elements/error/ErrorPlaceholder";
 import ToolCategory from "@/components/tools/elements/ToolCategory";
-import { useConfiguratorStore } from "@/components/tools/Store";
 import Loader from "@/components/ui/Loader";
 import { exclusiveSetGroups } from "@/lib/data/exclusive";
 import useRegistry, { type FetchedRegistry } from "@/lib/hook/useRegistry";
 import { useTranslate } from "@/lib/i18n";
+import { useNavigationStore } from "@/lib/store/NavigationStore";
+import { useConfiguratorStore } from "@/lib/store/StudioStore";
 import { isMinecraft } from "@/lib/utils/lock";
 
 export function ExclusiveGroupSection() {
     const t = useTranslate();
     const { data, isLoading, isError } = useRegistry<FetchedRegistry<TagType>>("summary", "tags/enchantment");
-    const currentElementId = useConfiguratorStore((state) => state.currentElementId);
+    const currentElementId = useNavigationStore((state) => state.currentElementId);
     const getRegistry = useConfiguratorStore((state) => state.getRegistry);
     if (!currentElementId) return null;
 

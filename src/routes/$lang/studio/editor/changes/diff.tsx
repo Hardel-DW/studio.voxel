@@ -1,8 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useChangesStore } from "@/components/tools/concept/changes/ChangesStore";
 import { DiffEmptyState } from "@/components/tools/concept/changes/DiffEmptyState";
 import { DiffHeader } from "@/components/tools/concept/changes/DiffHeader";
 import CodeDiff from "@/components/ui/codeblock/CodeDiff";
+import { useChangesStore } from "@/lib/store/ChangesStore";
 import { parseFilePath } from "@/lib/utils/concept";
 
 export const Route = createFileRoute("/$lang/studio/editor/changes/diff")({

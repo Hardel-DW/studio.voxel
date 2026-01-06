@@ -1,20 +1,21 @@
 import { createFileRoute, Link, Outlet, useLocation, useNavigate } from "@tanstack/react-router";
 import { Identifier } from "@voxelio/breeze";
-import { useEditorUiStore } from "@/components/tools/concept/EditorUiStore";
 import { buildEnchantmentTree } from "@/components/tools/concept/enchantment/buildEnchantmentTree";
 import { EditorHeader } from "@/components/tools/concept/layout/EditorHeader";
 import { EditorSidebar } from "@/components/tools/concept/layout/EditorSidebar";
 import { useDynamicIsland } from "@/components/tools/floatingbar/FloatingBarContext";
 import NotFoundStudio from "@/components/tools/NotFoundStudio";
-import { useConfiguratorStore } from "@/components/tools/Store";
+import { TreeSidebar } from "@/components/tools/sidebar/TreeSidebar";
 import { ToggleGroup, ToggleGroupOption } from "@/components/ui/ToggleGroup";
 import { TreeProvider } from "@/components/ui/tree/TreeNavigationContext";
-import { TreeSidebar } from "@/components/tools/sidebar/TreeSidebar";
 import { CONCEPTS } from "@/lib/data/elements";
 import { SLOT_CONFIGS } from "@/lib/data/slots";
 import { getEnchantableKeys } from "@/lib/data/tags";
 import { useElementsIdByType } from "@/lib/hook/useElementsByType";
 import { useTranslate } from "@/lib/i18n";
+import { useEditorUiStore } from "@/lib/store/EditorUiStore";
+import { useNavigationStore } from "@/lib/store/NavigationStore";
+import { useConfiguratorStore } from "@/lib/store/StudioStore";
 
 const concept = "enchantment";
 const conceptData = CONCEPTS.find((c) => c.registry === "enchantment");
@@ -41,7 +42,7 @@ function EnchantmentLayout() {
     const elementIds = useElementsIdByType("enchantment");
     const version = useConfiguratorStore((s) => s.version) ?? 61;
     const tree = buildEnchantmentTree(elementIds, sidebarView, version);
-    const currentElement = useConfiguratorStore((s) => s.currentElementId);
+    const currentElement = useNavigationStore((s) => s.currentElementId);
     const identifier = currentElement ? Identifier.fromUniqueKey(currentElement) : undefined;
     const itemFolderIcons = Object.fromEntries(getEnchantableKeys(version).map((k) => [k, `/images/features/item/${k}.webp`]));
     const folderIcons = sidebarView === "slots" ? SLOT_FOLDER_ICONS : sidebarView === "items" ? itemFolderIcons : undefined;

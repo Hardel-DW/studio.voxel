@@ -2,17 +2,17 @@ import { useMutation } from "@tanstack/react-query";
 import { createFileRoute, Link, Outlet, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useState } from "react";
 import { buildChangesTree, getConceptFolderIcons } from "@/components/tools/concept/changes/buildChangesTree";
-import { useChangesStore } from "@/components/tools/concept/changes/ChangesStore";
-import { useExportStore } from "@/components/tools/sidebar/ExportStore";
+import { ChangesFileTree } from "@/components/tools/concept/changes/ChangesFileTree";
 import { Button } from "@/components/ui/Button";
 import { TextInput } from "@/components/ui/TextInput";
 import { TOAST, toast } from "@/components/ui/Toast";
 import { ToggleGroup, ToggleGroupOption } from "@/components/ui/ToggleGroup";
-import { ChangesFileTree } from "@/components/tools/concept/changes/ChangesFileTree";
 import { FileTree } from "@/components/ui/tree/FileTree";
 import { TreeProvider } from "@/components/ui/tree/TreeNavigationContext";
 import { GitHub } from "@/lib/github/GitHub";
 import { useTranslate } from "@/lib/i18n";
+import { useChangesStore } from "@/lib/store/ChangesStore";
+import { useGithubStore } from "@/lib/store/GithubStore";
 import { encodeToBase64 } from "@/lib/utils/encode";
 
 const overviewRoute = "/$lang/studio/editor/changes/main";
@@ -29,7 +29,7 @@ function ChangesLayout() {
     const { lang } = Route.useParams();
     const search = useRouterState({ select: (s) => s.location.search as { file?: string } });
     const selectedFile = search.file;
-    const { isGitRepository, owner, repositoryName, branch, token } = useExportStore();
+    const { isGitRepository, owner, repositoryName, branch, token } = useGithubStore();
     const { compiledFiles, diff } = useChangesStore();
     const [message, setMessage] = useState("");
     const [viewMode, setViewMode] = useState<"file" | "concept">("concept");
@@ -56,7 +56,17 @@ function ChangesLayout() {
     });
 
     return (
-        <TreeProvider config={{ concept: "changes", overviewRoute, detailRoute, changesRoute, tree, folderIcons, selectedElementId: selectedFile, onSelectElement }}>
+        <TreeProvider
+            config={{
+                concept: "changes",
+                overviewRoute,
+                detailRoute,
+                changesRoute,
+                tree,
+                folderIcons,
+                selectedElementId: selectedFile,
+                onSelectElement
+            }}>
             <div className="flex size-full overflow-hidden relative isolate bg-sidebar">
                 <aside className="w-72 shrink-0 border-r border-zinc-800/50 bg-zinc-950/75 flex flex-col">
                     <div className="px-6 pt-6">
@@ -100,7 +110,11 @@ function ChangesLayout() {
                     </div>
 
                     <div className="flex-1 overflow-y-auto px-3 mt-2">
-                        {viewMode === "file" ? <ChangesFileTree diff={diff} allFiles={compiledFiles} selectedFile={selectedFile} /> : <FileTree />}
+                        {viewMode === "file" ? (
+                            <ChangesFileTree diff={diff} allFiles={compiledFiles} selectedFile={selectedFile} />
+                        ) : (
+                            <FileTree />
+                        )}
                     </div>
 
                     <div className="p-4 border-t border-zinc-800/50 bg-zinc-950/90">

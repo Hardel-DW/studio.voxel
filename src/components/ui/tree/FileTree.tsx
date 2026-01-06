@@ -75,7 +75,8 @@ function TreeNode({
     const isHighlighted = isElement ? node.elementId === currentElementId : !currentElementId && filterPath === path;
     const isEmpty = node.count === 0 && !isElement;
     const hue = stringToColor(isElement && node.elementId ? node.elementId : path);
-    const icon = node.icon ?? (isElement ? (elementIcon ?? "/images/features/item/bundle_open.webp") : (folderIcons?.[name] ?? "/icons/folder.svg"));
+    const icon =
+        node.icon ?? (isElement ? (elementIcon ?? "/images/features/item/bundle_open.webp") : (folderIcons?.[name] ?? "/icons/folder.svg"));
     const isDefaultFolderIcon = !isElement && !folderIcons?.[name];
 
     // Auto-expand when selected element becomes a descendant

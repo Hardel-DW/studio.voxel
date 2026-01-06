@@ -1,8 +1,9 @@
 import { useMatches, useNavigate, useParams } from "@tanstack/react-router";
 import { Identifier } from "@voxelio/breeze";
 import { createContext } from "react";
-import { useEditorUiStore } from "@/components/tools/concept/EditorUiStore";
-import { useConfiguratorStore } from "@/components/tools/Store";
+import { useEditorUiStore } from "@/lib/store/EditorUiStore";
+import { useNavigationStore } from "@/lib/store/NavigationStore";
+import { useTabsStore } from "@/lib/store/TabsStore";
 import type { TreeNodeType } from "@/lib/utils/tree";
 
 interface TreeConfig {
@@ -44,9 +45,9 @@ export function TreeProvider({ config, children }: { config: TreeConfig; childre
     const navigate = useNavigate();
     const filterPath = useEditorUiStore((s) => s.filterPath);
     const setFilterPath = useEditorUiStore((s) => s.setFilterPath);
-    const currentElementId = useConfiguratorStore((s) => s.currentElementId);
-    const openTab = useConfiguratorStore((s) => s.openTab);
-    const clearSelection = () => useConfiguratorStore.getState().setCurrentElementId(null);
+    const currentElementId = useNavigationStore((s) => s.currentElementId);
+    const openTab = useTabsStore((s) => s.openTab);
+    const clearSelection = () => useNavigationStore.getState().setCurrentElementId(null);
     const isOnTab = config.tabRoutes?.some((route) => matches.map((m) => m.routeId as string).includes(route));
     const { lang } = useParams({ from: "/$lang" });
 

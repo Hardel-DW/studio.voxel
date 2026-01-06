@@ -1,11 +1,11 @@
 import { Identifier } from "@voxelio/breeze";
 import RenderGuard from "@/components/tools/elements/RenderGuard";
-import { useConfiguratorStore } from "@/components/tools/Store";
 import { Button } from "@/components/ui/Button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/Popover";
 import { useElementLocks } from "@/lib/hook/useBreezeElement";
 import { useRenderer } from "@/lib/hook/useInteractiveLogic";
 import { useTranslate } from "@/lib/i18n";
+import { useNavigationStore } from "@/lib/store/NavigationStore";
 import { cn } from "@/lib/utils";
 import type { Condition, Lock } from "@/lib/utils/lock";
 import { TagsEnchantmentAction, type TagsEnchantmentActionProps } from "./TagsEnchantmentAction";
@@ -24,7 +24,7 @@ export type EnchantmentTagsProps = {
 const maxDisplayValues = 3;
 export default function EnchantmentTags(props: EnchantmentTagsProps) {
     const t = useTranslate();
-    const currentElementId = useConfiguratorStore((state) => props.elementId ?? state.currentElementId);
+    const currentElementId = useNavigationStore((state) => props.elementId ?? state.currentElementId);
     const lock = useElementLocks(props.lock, currentElementId);
     const isInList = useRenderer<boolean>(props.actions?.[1]?.renderer, props.elementId);
     const targetValue = useRenderer<boolean>(props.actions?.[0]?.renderer, props.elementId);

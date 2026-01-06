@@ -1,10 +1,10 @@
-import { Identifier } from "@voxelio/breeze";
 import { createFileRoute } from "@tanstack/react-router";
+import { Identifier } from "@voxelio/breeze";
 import { DiffEmptyState } from "@/components/tools/concept/changes/DiffEmptyState";
 import { DiffHeader } from "@/components/tools/concept/changes/DiffHeader";
-import { useConfiguratorStore } from "@/components/tools/Store";
 import CodeBlock from "@/components/ui/codeblock/CodeBlock";
 import { useTranslate } from "@/lib/i18n";
+import { useConfiguratorStore } from "@/lib/store/StudioStore";
 import { parseFilePath } from "@/lib/utils/concept";
 
 export const Route = createFileRoute("/$lang/studio/editor/changes/patch")({

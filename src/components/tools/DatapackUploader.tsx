@@ -1,9 +1,9 @@
 import { useNavigate } from "@tanstack/react-router";
 import { Datapack } from "@voxelio/breeze";
-import { useConfiguratorStore } from "@/components/tools/Store";
 import Dropzone from "@/components/ui/Dropzone";
 import { TOAST, toast } from "@/components/ui/Toast";
 import { useTranslate } from "@/lib/i18n";
+import { useConfiguratorStore } from "@/lib/store/StudioStore";
 import { Route } from "@/routes/$lang";
 
 export default function DatapackUploader() {

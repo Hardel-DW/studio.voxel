@@ -1,6 +1,6 @@
 import { useTranslate } from "@/lib/i18n";
 
-export function DiffEmptyState({ file }: { file: string | undefined; }) {
+export function DiffEmptyState({ file }: { file: string | undefined }) {
     const t = useTranslate();
 
     if (!file) {
