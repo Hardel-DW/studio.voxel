@@ -1,9 +1,8 @@
 import { useMutation } from "@tanstack/react-query";
 import { createFileRoute, Link, Outlet, useNavigate, useRouterState } from "@tanstack/react-router";
-import { DatapackDownloader } from "@voxelio/breeze";
 import { useState } from "react";
 import { buildChangesTree, getConceptFolderIcons } from "@/components/tools/concept/changes/buildChangesTree";
-import { useConfiguratorStore } from "@/components/tools/Store";
+import { useChangesStore } from "@/components/tools/concept/changes/ChangesStore";
 import { useExportStore } from "@/components/tools/sidebar/ExportStore";
 import { Button } from "@/components/ui/Button";
 import { TextInput } from "@/components/ui/TextInput";
@@ -16,11 +15,12 @@ import { GitHub } from "@/lib/github/GitHub";
 import { useTranslate } from "@/lib/i18n";
 import { encodeToBase64 } from "@/lib/utils/encode";
 
-const overviewRoute = "/$lang/studio/editor/changes/main"
-const detailRoute = "/$lang/studio/editor/changes/diff"
-const changesRoute = "/$lang/studio/editor/changes/main"
+const overviewRoute = "/$lang/studio/editor/changes/main";
+const detailRoute = "/$lang/studio/editor/changes/diff";
+const changesRoute = "/$lang/studio/editor/changes/main";
 export const Route = createFileRoute("/$lang/studio/editor/changes")({
-    component: ChangesLayout
+    component: ChangesLayout,
+    beforeLoad: () => useChangesStore.getState().compile()
 });
 
 function ChangesLayout() {
@@ -30,9 +30,7 @@ function ChangesLayout() {
     const search = useRouterState({ select: (s) => s.location.search as { file?: string } });
     const selectedFile = search.file;
     const { isGitRepository, owner, repositoryName, branch, token } = useExportStore();
-    const files = useConfiguratorStore.getState().files;
-    const compiledFiles = useConfiguratorStore.getState().compile().getFiles();
-    const diff = new DatapackDownloader(compiledFiles).getDiff(files);
+    const { compiledFiles, diff } = useChangesStore();
     const [message, setMessage] = useState("");
     const [viewMode, setViewMode] = useState<"file" | "concept">("concept");
     const tree = buildChangesTree(diff);
@@ -43,9 +41,8 @@ function ChangesLayout() {
 
     const pushMutation = useMutation({
         mutationFn: () => {
-            const compiled = useConfiguratorStore.getState().compile().getFiles();
             const filesToPush = Object.fromEntries(
-                Array.from(diff).map(([path, status]) => [path, status === "deleted" ? null : encodeToBase64(compiled[path])])
+                Array.from(diff).map(([path, status]) => [path, status === "deleted" ? null : encodeToBase64(compiledFiles[path])])
             );
             return new GitHub({ token }).send(owner, repositoryName, branch, "push", filesToPush);
         },

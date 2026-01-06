@@ -38,6 +38,8 @@ import { Route as LangStudioEditorEnchantmentItemsRouteImport } from './routes/$
 import { Route as LangStudioEditorEnchantmentFindRouteImport } from './routes/$lang/studio/editor/enchantment/find'
 import { Route as LangStudioEditorEnchantmentExclusiveRouteImport } from './routes/$lang/studio/editor/enchantment/exclusive'
 import { Route as LangStudioEditorEnchantmentDntRouteImport } from './routes/$lang/studio/editor/enchantment/dnt'
+import { Route as LangStudioEditorChangesVoxelRouteImport } from './routes/$lang/studio/editor/changes/voxel'
+import { Route as LangStudioEditorChangesPatchRouteImport } from './routes/$lang/studio/editor/changes/patch'
 import { Route as LangStudioEditorChangesMainRouteImport } from './routes/$lang/studio/editor/changes/main'
 import { Route as LangStudioEditorChangesDiffRouteImport } from './routes/$lang/studio/editor/changes/diff'
 
@@ -203,6 +205,18 @@ const LangStudioEditorEnchantmentDntRoute =
     path: '/dnt',
     getParentRoute: () => LangStudioEditorEnchantmentRoute,
   } as any)
+const LangStudioEditorChangesVoxelRoute =
+  LangStudioEditorChangesVoxelRouteImport.update({
+    id: '/voxel',
+    path: '/voxel',
+    getParentRoute: () => LangStudioEditorChangesRoute,
+  } as any)
+const LangStudioEditorChangesPatchRoute =
+  LangStudioEditorChangesPatchRouteImport.update({
+    id: '/patch',
+    path: '/patch',
+    getParentRoute: () => LangStudioEditorChangesRoute,
+  } as any)
 const LangStudioEditorChangesMainRoute =
   LangStudioEditorChangesMainRouteImport.update({
     id: '/main',
@@ -233,6 +247,8 @@ export interface FileRoutesByFullPath {
   '/$lang/studio/editor/recipe': typeof LangStudioEditorRecipeRouteWithChildren
   '/$lang/studio/editor/changes/diff': typeof LangStudioEditorChangesDiffRoute
   '/$lang/studio/editor/changes/main': typeof LangStudioEditorChangesMainRoute
+  '/$lang/studio/editor/changes/patch': typeof LangStudioEditorChangesPatchRoute
+  '/$lang/studio/editor/changes/voxel': typeof LangStudioEditorChangesVoxelRoute
   '/$lang/studio/editor/enchantment/dnt': typeof LangStudioEditorEnchantmentDntRoute
   '/$lang/studio/editor/enchantment/exclusive': typeof LangStudioEditorEnchantmentExclusiveRoute
   '/$lang/studio/editor/enchantment/find': typeof LangStudioEditorEnchantmentFindRoute
@@ -265,6 +281,8 @@ export interface FileRoutesByTo {
   '/$lang/studio/editor/recipe': typeof LangStudioEditorRecipeRouteWithChildren
   '/$lang/studio/editor/changes/diff': typeof LangStudioEditorChangesDiffRoute
   '/$lang/studio/editor/changes/main': typeof LangStudioEditorChangesMainRoute
+  '/$lang/studio/editor/changes/patch': typeof LangStudioEditorChangesPatchRoute
+  '/$lang/studio/editor/changes/voxel': typeof LangStudioEditorChangesVoxelRoute
   '/$lang/studio/editor/enchantment/dnt': typeof LangStudioEditorEnchantmentDntRoute
   '/$lang/studio/editor/enchantment/exclusive': typeof LangStudioEditorEnchantmentExclusiveRoute
   '/$lang/studio/editor/enchantment/find': typeof LangStudioEditorEnchantmentFindRoute
@@ -299,6 +317,8 @@ export interface FileRoutesById {
   '/$lang/studio/editor/recipe': typeof LangStudioEditorRecipeRouteWithChildren
   '/$lang/studio/editor/changes/diff': typeof LangStudioEditorChangesDiffRoute
   '/$lang/studio/editor/changes/main': typeof LangStudioEditorChangesMainRoute
+  '/$lang/studio/editor/changes/patch': typeof LangStudioEditorChangesPatchRoute
+  '/$lang/studio/editor/changes/voxel': typeof LangStudioEditorChangesVoxelRoute
   '/$lang/studio/editor/enchantment/dnt': typeof LangStudioEditorEnchantmentDntRoute
   '/$lang/studio/editor/enchantment/exclusive': typeof LangStudioEditorEnchantmentExclusiveRoute
   '/$lang/studio/editor/enchantment/find': typeof LangStudioEditorEnchantmentFindRoute
@@ -334,6 +354,8 @@ export interface FileRouteTypes {
     | '/$lang/studio/editor/recipe'
     | '/$lang/studio/editor/changes/diff'
     | '/$lang/studio/editor/changes/main'
+    | '/$lang/studio/editor/changes/patch'
+    | '/$lang/studio/editor/changes/voxel'
     | '/$lang/studio/editor/enchantment/dnt'
     | '/$lang/studio/editor/enchantment/exclusive'
     | '/$lang/studio/editor/enchantment/find'
@@ -366,6 +388,8 @@ export interface FileRouteTypes {
     | '/$lang/studio/editor/recipe'
     | '/$lang/studio/editor/changes/diff'
     | '/$lang/studio/editor/changes/main'
+    | '/$lang/studio/editor/changes/patch'
+    | '/$lang/studio/editor/changes/voxel'
     | '/$lang/studio/editor/enchantment/dnt'
     | '/$lang/studio/editor/enchantment/exclusive'
     | '/$lang/studio/editor/enchantment/find'
@@ -399,6 +423,8 @@ export interface FileRouteTypes {
     | '/$lang/studio/editor/recipe'
     | '/$lang/studio/editor/changes/diff'
     | '/$lang/studio/editor/changes/main'
+    | '/$lang/studio/editor/changes/patch'
+    | '/$lang/studio/editor/changes/voxel'
     | '/$lang/studio/editor/enchantment/dnt'
     | '/$lang/studio/editor/enchantment/exclusive'
     | '/$lang/studio/editor/enchantment/find'
@@ -627,6 +653,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LangStudioEditorEnchantmentDntRouteImport
       parentRoute: typeof LangStudioEditorEnchantmentRoute
     }
+    '/$lang/studio/editor/changes/voxel': {
+      id: '/$lang/studio/editor/changes/voxel'
+      path: '/voxel'
+      fullPath: '/$lang/studio/editor/changes/voxel'
+      preLoaderRoute: typeof LangStudioEditorChangesVoxelRouteImport
+      parentRoute: typeof LangStudioEditorChangesRoute
+    }
+    '/$lang/studio/editor/changes/patch': {
+      id: '/$lang/studio/editor/changes/patch'
+      path: '/patch'
+      fullPath: '/$lang/studio/editor/changes/patch'
+      preLoaderRoute: typeof LangStudioEditorChangesPatchRouteImport
+      parentRoute: typeof LangStudioEditorChangesRoute
+    }
     '/$lang/studio/editor/changes/main': {
       id: '/$lang/studio/editor/changes/main'
       path: '/main'
@@ -647,12 +687,16 @@ declare module '@tanstack/react-router' {
 interface LangStudioEditorChangesRouteChildren {
   LangStudioEditorChangesDiffRoute: typeof LangStudioEditorChangesDiffRoute
   LangStudioEditorChangesMainRoute: typeof LangStudioEditorChangesMainRoute
+  LangStudioEditorChangesPatchRoute: typeof LangStudioEditorChangesPatchRoute
+  LangStudioEditorChangesVoxelRoute: typeof LangStudioEditorChangesVoxelRoute
 }
 
 const LangStudioEditorChangesRouteChildren: LangStudioEditorChangesRouteChildren =
   {
     LangStudioEditorChangesDiffRoute: LangStudioEditorChangesDiffRoute,
     LangStudioEditorChangesMainRoute: LangStudioEditorChangesMainRoute,
+    LangStudioEditorChangesPatchRoute: LangStudioEditorChangesPatchRoute,
+    LangStudioEditorChangesVoxelRoute: LangStudioEditorChangesVoxelRoute,
   }
 
 const LangStudioEditorChangesRouteWithChildren =
