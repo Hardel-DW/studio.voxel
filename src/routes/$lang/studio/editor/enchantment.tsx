@@ -9,7 +9,7 @@ import NotFoundStudio from "@/components/tools/NotFoundStudio";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import { ToggleGroup, ToggleGroupOption } from "@/components/ui/ToggleGroup";
 import { TreeProvider } from "@/components/ui/tree/TreeNavigationContext";
-import { TreeSidebar } from "@/components/ui/tree/TreeSidebar";
+import { TreeSidebar } from "@/components/tools/sidebar/TreeSidebar";
 import { CONCEPTS } from "@/lib/data/elements";
 import { SLOT_CONFIGS } from "@/lib/data/slots";
 import { getEnchantableKeys } from "@/lib/data/tags";

@@ -8,7 +8,7 @@ import { useDynamicIsland } from "@/components/tools/floatingbar/FloatingBarCont
 import NotFoundStudio from "@/components/tools/NotFoundStudio";
 import { useConfiguratorStore } from "@/components/tools/Store";
 import { TreeProvider } from "@/components/ui/tree/TreeNavigationContext";
-import { TreeSidebar } from "@/components/ui/tree/TreeSidebar";
+import { TreeSidebar } from "@/components/tools/sidebar/TreeSidebar";
 import { CONCEPTS } from "@/lib/data/elements";
 import { RECIPE_BLOCKS } from "@/lib/data/recipeConfig";
 import { useElementsIdByType } from "@/lib/hook/useElementsByType";

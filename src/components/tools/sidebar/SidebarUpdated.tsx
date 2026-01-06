@@ -1,10 +1,10 @@
 import { useParams } from "@tanstack/react-router";
 import { getModifiedElements, useConfiguratorStore } from "@/components/tools/Store";
-import { SidebarLink } from "@/components/ui/tree/SidebarLink";
+import { SidebarLink } from "@/components/tools/sidebar/SidebarLink";
 import { useTree } from "@/components/ui/tree/useTree";
 import { useTranslate } from "@/lib/i18n";
 
-export function TreeNodeUpdated() {
+export function SidebarUpdated() {
     const { changesRoute, clearSelection, concept } = useTree();
     const modifiedCount = useConfiguratorStore((s) => getModifiedElements(s, concept).length);
     const { lang } = useParams({ from: "/$lang" });

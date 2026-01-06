@@ -1,11 +1,13 @@
-import { useNavigate, useParams } from "@tanstack/react-router";
+import { useLocation, useNavigate, useParams } from "@tanstack/react-router";
 import { Identifier } from "@voxelio/breeze";
 import { type OpenTab, useConfiguratorStore } from "@/components/tools/Store";
 import { CONCEPTS } from "@/lib/data/elements";
 import { cn } from "@/lib/utils";
+import { getConceptFromPathname } from "@/lib/utils/concept";
 
 function TabItem({ tab, index, isActive }: { tab: OpenTab; index: number; isActive: boolean }) {
     const navigate = useNavigate();
+    const location = useLocation();
     const switchTab = useConfiguratorStore((state) => state.switchTab);
     const closeTab = useConfiguratorStore((state) => state.closeTab);
     const { lang } = useParams({ from: "/$lang" });
@@ -24,7 +26,11 @@ function TabItem({ tab, index, isActive }: { tab: OpenTab; index: number; isActi
 
         const updatedTabs = openTabs.toSpliced(index, 1);
         if (updatedTabs.length === 0) {
-            navigate({ to: "/$lang/studio/editor/enchantment/overview", params: { lang } });
+            const tabConcept = getConceptFromPathname(tab.route);
+            const currentConcept = getConceptFromPathname(location.pathname);
+            if (tabConcept && tabConcept === currentConcept) {
+                navigate({ to: "/$lang/studio/editor/enchantment/overview", params: { lang } });
+            }
             return;
         }
 
@@ -32,8 +38,8 @@ function TabItem({ tab, index, isActive }: { tab: OpenTab; index: number; isActi
             index === activeTabIndex
                 ? Math.min(index, updatedTabs.length - 1)
                 : index < activeTabIndex
-                  ? activeTabIndex - 1
-                  : activeTabIndex;
+                    ? activeTabIndex - 1
+                    : activeTabIndex;
 
         const nextTab = updatedTabs[newActiveIndex];
         if (nextTab) navigate({ to: nextTab.route });

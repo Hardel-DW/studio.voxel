@@ -1,8 +1,8 @@
 import { FileTree } from "@/components/ui/tree/FileTree";
-import { SidebarButton } from "@/components/ui/tree/SidebarButton";
+import { SidebarButton } from "@/components/tools/sidebar/SidebarButton";
 import { useTree } from "@/components/ui/tree/useTree";
 import { useTranslate } from "@/lib/i18n";
-import { TreeNodeUpdated } from "./TreeNodeUpdated";
+import { SidebarUpdated } from "@/components/tools/sidebar/SidebarUpdated";
 
 export function TreeSidebar() {
     const t = useTranslate();
@@ -10,7 +10,7 @@ export function TreeSidebar() {
 
     return (
         <div className="space-y-1 mt-4">
-            <TreeNodeUpdated />
+            <SidebarUpdated />
             <SidebarButton icon="/icons/search.svg" count={tree.count} isActive={isAllActive} onClick={selectAll}>
                 {t("tree.all")}
             </SidebarButton>
