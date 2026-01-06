@@ -23,9 +23,12 @@ export default function LootOverviewList({ elementId, items, resourceName, color
     const isVanilla = identifier.namespace === "minecraft";
 
     return (
-        <div
+        <Link
+            to="/$lang/studio/editor/loot_table/main"
+            params={{ lang }}
+            onClick={handleConfigure}
             data-element-id={elementId}
-            className="group flex items-center justify-between bg-zinc-950/30 hover:bg-zinc-900/60 border-b p-3 transition-colors first:border-t border-zinc-800/30 relative overflow-hidden">
+            className="group flex items-center justify-between bg-zinc-950/30 hover:bg-zinc-900/60 border-b p-3 transition-colors first:border-t border-zinc-800/30 relative overflow-hidden cursor-pointer">
             <span
                 className="absolute left-0 top-0 bottom-0 w-0.5 opacity-35"
                 style={{ background: `linear-gradient(180deg, transparent, ${color}, transparent)` }}
@@ -77,14 +80,10 @@ export default function LootOverviewList({ elementId, items, resourceName, color
 
                 <div className="h-4 w-px bg-zinc-800/50 mx-2" />
 
-                <Link
-                    to="/$lang/studio/editor/loot_table/main"
-                    params={{ lang }}
-                    onClick={handleConfigure}
-                    className="text-xs font-medium text-zinc-400 hover:text-white bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 rounded-lg px-3 py-1.5 transition-all text-center min-w-[80px]">
+                <span className="text-xs font-medium text-zinc-400 group-hover:text-white bg-zinc-900 group-hover:bg-zinc-800 border border-zinc-800 rounded-lg px-3 py-1.5 transition-all text-center min-w-[80px]">
                     {t("loot:card.configure")}
-                </Link>
+                </span>
             </div>
-        </div>
+        </Link>
     );
 }
