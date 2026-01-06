@@ -103,7 +103,7 @@ function ChangesLayout() {
                     </div>
 
                     <div className="flex-1 overflow-y-auto px-3 mt-2">
-                        {viewMode === "file" ? <ChangesFileTree diff={diff} selectedFile={selectedFile} /> : <FileTree />}
+                        {viewMode === "file" ? <ChangesFileTree diff={diff} allFiles={compiledFiles} selectedFile={selectedFile} /> : <FileTree />}
                     </div>
 
                     <div className="p-4 border-t border-zinc-800/50 bg-zinc-950/90">

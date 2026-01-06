@@ -7,27 +7,38 @@ import { buildFileTree, type FileTreeNode } from "@/lib/utils/tree";
 
 interface ChangesFileTreeProps {
     diff: Map<string, FileStatus>;
+    allFiles?: Record<string, Uint8Array>;
     selectedFile?: string;
 }
 
-export function ChangesFileTree({ diff, selectedFile }: ChangesFileTreeProps) {
+export function ChangesFileTree({ diff, allFiles, selectedFile }: ChangesFileTreeProps) {
     const t = useTranslate();
-    const tree = buildFileTree(diff);
+    const [showAll, setShowAll] = useState(false);
+    const displayFiles = showAll && allFiles
+        ? new Map(Object.keys(allFiles).map((path) => [path, diff.get(path) ?? ("unchanged" as FileStatus)]))
+        : diff;
 
-    if (diff.size === 0) {
-        return (
-            <div className="flex flex-col items-center justify-center py-12 text-zinc-600 gap-2">
-                <img src="/icons/check.svg" className="size-6 opacity-20 invert" alt="No changes detected" />
-                <span className="text-xs">{t("git.no_changes")}</span>
-            </div>
-        );
-    }
-
+    const tree = buildFileTree(displayFiles);
     return (
         <div className="flex flex-col">
-            {sortedEntries(tree.children).map(([name, node]) => (
-                <ChangesTreeNode key={name} name={name} node={node} depth={0} selectedFile={selectedFile} />
-            ))}
+            {allFiles && (
+                <button
+                    type="button"
+                    onClick={() => setShowAll((prev) => !prev)}
+                    className="flex cursor-pointer items-center gap-2 px-2 py-1.5 mb-2 text-[10px] text-zinc-500 hover:text-zinc-300 transition-colors">
+                    <span className={showAll ? "text-orange-400" : ""}>{showAll ? "Hide" : "Show"} unedited files</span>
+                </button>
+            )}
+            {diff.size === 0 && !showAll ? (
+                <div className="flex flex-col items-center justify-center py-12 text-zinc-600 gap-2">
+                    <img src="/icons/check.svg" className="size-6 opacity-20 invert" alt="No changes detected" />
+                    <span className="text-xs">{t("git.no_changes")}</span>
+                </div>
+            ) : (
+                sortedEntries(tree.children).map(([name, node]) => (
+                    <ChangesTreeNode key={name} name={name} node={node} depth={0} selectedFile={selectedFile} />
+                ))
+            )}
         </div>
     );
 }
@@ -58,8 +69,8 @@ function ChangesTreeNode({ name, node, depth, selectedFile, forceOpen = false }:
         handleToggle();
     };
 
-    const statusColor = node.status === "added" ? "text-green-500" : node.status === "updated" ? "text-yellow-500" : "text-red-500";
-    const statusLabel = node.status === "added" ? "A" : node.status === "updated" ? "M" : "D";
+    const statusColor = node.status === "added" ? "text-green-500" : node.status === "updated" ? "text-yellow-500" : node.status === "deleted" ? "text-red-500" : "text-zinc-600";
+    const statusLabel = node.status === "added" ? "A" : node.status === "updated" ? "M" : node.status === "deleted" ? "D" : "·";
 
     const content = (
         <div

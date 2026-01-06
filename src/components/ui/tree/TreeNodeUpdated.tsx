@@ -16,7 +16,6 @@ export function TreeNodeUpdated() {
             params={{ lang }}
             icon="/icons/pencil.svg"
             count={modifiedCount}
-            disabled={modifiedCount === 0}
             onClick={clearSelection}>
             {t("tree.updated")}
         </SidebarLink>
