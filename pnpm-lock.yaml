@@ -18,8 +18,8 @@ importers:
         specifier: ^1.144.0
         version: 1.144.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       '@voxelio/breeze':
-        specifier: ^1.10.32
-        version: 1.10.32
+        specifier: ^1.10.33
+        version: 1.10.33
       '@voxelio/converter':
         specifier: ^1.0.44
         version: 1.0.44
@@ -1214,6 +1214,9 @@ packages:
 
   '@voxelio/breeze@1.10.32':
     resolution: {integrity: sha512-pXC7Ocpf6rxhhMgtt+eRjjCDDSRD0RkhXgCxAEfRI1NLTa+g3VnVEdaUb5aDldnLA7gMa2kw3hD6k0ARoKo/XA==}
+
+  '@voxelio/breeze@1.10.33':
+    resolution: {integrity: sha512-KGMHhYKM0Gm77zfCt80bWi0Y40o4cDz/5P+Fbj4edY0tFUddbycLBQrYD9E7GVf1WQYQhYx9CBV2xZ8JDvM2wg==}
 
   '@voxelio/converter@1.0.44':
     resolution: {integrity: sha512-rxbOXuLkzVdLSPVuI4nNbzzcIVEYd6+vsih6TP0NcHZtLyE5pU135uxavLj8GXF7sPARPCu7WVjcfkiGmNYlwg==}
@@ -2658,6 +2661,11 @@ snapshots:
       - supports-color
 
   '@voxelio/breeze@1.10.32':
+    dependencies:
+      '@voxelio/diff': 1.0.8
+      '@voxelio/zip': 3.2.3
+
+  '@voxelio/breeze@1.10.33':
     dependencies:
       '@voxelio/diff': 1.0.8
       '@voxelio/zip': 3.2.3
