@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/Button";
 import { TextInput } from "@/components/ui/TextInput";
 import { TOAST, toast } from "@/components/ui/Toast";
 import { ToggleGroup, ToggleGroupOption } from "@/components/ui/ToggleGroup";
-import { ChangesFileTree } from "@/components/ui/tree/ChangesFileTree";
+import { ChangesFileTree } from "@/components/tools/concept/changes/ChangesFileTree";
 import { FileTree } from "@/components/ui/tree/FileTree";
 import { TreeProvider } from "@/components/ui/tree/TreeNavigationContext";
 import { GitHub } from "@/lib/github/GitHub";

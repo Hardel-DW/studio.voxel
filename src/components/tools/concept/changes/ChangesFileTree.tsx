@@ -1,6 +1,7 @@
 import { Link, useParams } from "@tanstack/react-router";
 import type { FileStatus } from "@voxelio/breeze";
 import { useState } from "react";
+import { useChangesTreeStore, useIsSelected } from "@/components/tools/concept/changes/ChangesTreeStore";
 import { useTranslate } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 import { buildFileTree, type FileTreeNode } from "@/lib/utils/tree";
@@ -13,14 +14,20 @@ interface ChangesFileTreeProps {
 
 export function ChangesFileTree({ diff, allFiles, selectedFile }: ChangesFileTreeProps) {
     const t = useTranslate();
+    const { lang } = useParams({ from: "/$lang" });
     const [showAll, setShowAll] = useState(false);
-    const displayFiles = showAll && allFiles
-        ? new Map(Object.keys(allFiles).map((path) => [path, diff.get(path) ?? ("unchanged" as FileStatus)]))
-        : diff;
+    const setSelectedFile = useChangesTreeStore((s) => s.setSelectedFile);
+    const storeSelectedFile = useChangesTreeStore((s) => s.selectedFile);
+    if (selectedFile !== storeSelectedFile) {
+        setSelectedFile(selectedFile);
+    }
 
+    const displayFiles = showAll && allFiles ? new Map(Object.keys(allFiles).map((path) => [path, diff.get(path) ?? ("unchanged" as FileStatus)])) : diff;
     const tree = buildFileTree(displayFiles);
+    const isEmpty = diff.size === 0 && !showAll;
+
     return (
-        <div className="flex flex-col">
+        <div className="flex flex-col select-none">
             {allFiles && (
                 <button
                     type="button"
@@ -29,14 +36,14 @@ export function ChangesFileTree({ diff, allFiles, selectedFile }: ChangesFileTre
                     <span className={showAll ? "text-orange-400" : ""}>{showAll ? "Hide" : "Show"} unedited files</span>
                 </button>
             )}
-            {diff.size === 0 && !showAll ? (
+            {isEmpty ? (
                 <div className="flex flex-col items-center justify-center py-12 text-zinc-600 gap-2">
                     <img src="/icons/check.svg" className="size-6 opacity-20 invert" alt="No changes detected" />
                     <span className="text-xs">{t("git.no_changes")}</span>
                 </div>
             ) : (
                 sortedEntries(tree.children).map(([name, node]) => (
-                    <ChangesTreeNode key={name} name={name} node={node} depth={0} selectedFile={selectedFile} />
+                    <TreeNode key={name} name={name} node={node} depth={0} lang={lang} />
                 ))
             )}
         </div>
@@ -49,33 +56,35 @@ const sortedEntries = (children: Map<string, FileTreeNode>): [string, FileTreeNo
         return 0;
     });
 
-function shouldAutoExpand(node: FileTreeNode): boolean {
-    return node.children.size === 1;
+interface TreeNodeProps {
+    name: string;
+    node: FileTreeNode;
+    depth: number;
+    lang: string;
+    forceOpen?: boolean;
 }
 
-function ChangesTreeNode({ name, node, depth, selectedFile, forceOpen = false }: { name: string; node: FileTreeNode; depth: number; selectedFile?: string; forceOpen?: boolean }) {
+function hasSingleFolderChild(node: FileTreeNode): boolean {
+    if (node.children.size !== 1) return false;
+    const child = node.children.values().next().value;
+    return child !== undefined && !child.filePath;
+}
+
+function TreeNode({ name, node, depth, lang, forceOpen = false }: TreeNodeProps) {
     const [isOpen, setIsOpen] = useState(forceOpen);
-    const { lang } = useParams({ from: "/$lang" });
+    const isSelected = useIsSelected(node.filePath);
     const isFile = !!node.filePath;
     const hasChildren = node.children.size > 0;
-    const isSelected = isFile && node.filePath === selectedFile;
 
-    const handleToggle = () => {
+    const onChevronClick = (e: React.MouseEvent) => {
+        e.stopPropagation();
         setIsOpen((prev) => !prev);
     };
 
-    const handleChevronClick = (e: React.MouseEvent) => {
-        e.stopPropagation();
-        handleToggle();
-    };
-
-    const statusColor = node.status === "added" ? "text-green-500" : node.status === "updated" ? "text-yellow-500" : node.status === "deleted" ? "text-red-500" : "text-zinc-600";
-    const statusLabel = node.status === "added" ? "A" : node.status === "updated" ? "M" : node.status === "deleted" ? "D" : "·";
-
-    const content = (
+    const rowContent = (
         <div
             className={cn(
-                "flex items-center gap-1.5 rounded-lg transition-colors relative group w-full",
+                "flex items-center gap-1.5 rounded-lg transition-colors relative group w-full select-none",
                 isSelected ? "bg-zinc-800/80 text-white" : "text-zinc-400 hover:bg-zinc-900/50 hover:text-zinc-200",
                 depth > 0 && "mt-0.5"
             )}
@@ -87,19 +96,27 @@ function ChangesTreeNode({ name, node, depth, selectedFile, forceOpen = false }:
             {!isFile && (
                 <button
                     type="button"
-                    onClick={handleChevronClick}
+                    onClick={onChevronClick}
                     className={cn("p-0.5 rounded-md transition-colors cursor-pointer", hasChildren && "hover:bg-zinc-700/50")}>
                     <img
                         src="/icons/chevron-down.svg"
                         className={cn("size-3 transition-transform invert", !isOpen && "-rotate-90", !hasChildren && "opacity-20")}
-                        alt="Chevron down"
+                        alt="Toggle"
                     />
                 </button>
             )}
 
             <div className="flex items-center gap-2 flex-1 min-w-0 px-2 py-1.5">
                 {isFile ? (
-                    <span className={cn("text-[10px] font-bold w-3 text-center shrink-0", statusColor)}>{statusLabel}</span>
+                    <span className={cn(
+                        "text-[10px] font-bold w-3 text-center shrink-0",
+                        node.status === "added" && "text-green-500",
+                        node.status === "updated" && "text-yellow-500",
+                        node.status === "deleted" && "text-red-500",
+                        !node.status && "text-zinc-600"
+                    )}>
+                        {node.status === "added" ? "A" : node.status === "updated" ? "M" : node.status === "deleted" ? "D" : "·"}
+                    </span>
                 ) : (
                     <img src="/icons/folder.svg" className="size-4 invert opacity-60 shrink-0" alt="Folder" />
                 )}
@@ -118,18 +135,25 @@ function ChangesTreeNode({ name, node, depth, selectedFile, forceOpen = false }:
         <div className="w-full select-none">
             {node.filePath ? (
                 <Link to="/$lang/studio/editor/changes/diff" params={{ lang }} search={{ file: node.filePath }}>
-                    {content}
+                    {rowContent}
                 </Link>
             ) : (
                 <button type="button" onClick={() => setIsOpen((prev) => !prev)} className="w-full text-left">
-                    {content}
+                    {rowContent}
                 </button>
             )}
 
             {hasChildren && isOpen && (
                 <div className="flex flex-col border-zinc-800/50 my-0.5 pl-1 ml-3 border-l">
                     {sortedEntries(node.children).map(([childName, childNode]) => (
-                        <ChangesTreeNode key={childName} name={childName} node={childNode} depth={depth + 1} selectedFile={selectedFile} forceOpen={shouldAutoExpand(node)} />
+                        <TreeNode
+                            key={childName}
+                            name={childName}
+                            node={childNode}
+                            depth={depth + 1}
+                            lang={lang}
+                            forceOpen={hasSingleFolderChild(node)}
+                        />
                     ))}
                 </div>
             )}

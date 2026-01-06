@@ -17,7 +17,7 @@ function ChangesVoxelPage() {
     const { lang } = Route.useParams();
     const { elements } = useConfiguratorStore.getState();
 
-    if (!!file && file.endsWith(".json")) return <DiffEmptyState file={file} />;
+    if (!file || !file.endsWith(".json")) return <DiffEmptyState file={file} />;
     const identifier = parseFilePath(file);
     const uniqueKey = identifier?.toUniqueKey();
     const name = identifier?.toFileName(true) ?? file.split("/").pop() ?? "";
