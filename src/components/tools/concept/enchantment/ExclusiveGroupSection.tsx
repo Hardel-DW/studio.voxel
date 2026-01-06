@@ -49,7 +49,7 @@ export function ExclusiveGroupSection() {
 
     return (
         <>
-            <ToolCategory title="enchantment:exclusive.vanilla.title">
+            <ToolCategory title={t("enchantment:exclusive.vanilla.title")}>
                 <div className="grid max-xl:grid-cols-1 gap-4 grid-auto-64">
                     {exclusiveSetGroups.map(({ id, image, value }) => {
                         const tagData = merge.find((tag) =>
@@ -72,7 +72,7 @@ export function ExclusiveGroupSection() {
                 </div>
             </ToolCategory>
 
-            <ToolCategory title="enchantment:exclusive.custom.title">
+            <ToolCategory title={t("enchantment:exclusive.custom.title")}>
                 {merge.filter((tag) => tag.identifier.namespace !== "minecraft").length === 0 && (
                     <p className="text-zinc-400 p-4">{t("enchantment:exclusive.custom.fallback")}</p>
                 )}

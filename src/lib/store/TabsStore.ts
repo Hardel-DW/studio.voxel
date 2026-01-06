@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { useNavigationStore } from "@/lib/store/NavigationStore";
 
 export interface OpenTab {
     elementId: string;
@@ -31,6 +32,7 @@ export const useTabsStore = create<TabsState>((set, get) => ({
         const newTab: OpenTab = { elementId, route, label };
         const updatedTabs = [...openTabs, newTab].slice(-MAX_TABS);
         set({ openTabs: updatedTabs, activeTabIndex: updatedTabs.length - 1 });
+        useNavigationStore.getState().setCurrentElementId(elementId);
     },
     closeTab: (index) => {
         const { openTabs, activeTabIndex } = get();
@@ -45,15 +47,17 @@ export const useTabsStore = create<TabsState>((set, get) => ({
             index === activeTabIndex
                 ? Math.min(index, updatedTabs.length - 1)
                 : index < activeTabIndex
-                  ? activeTabIndex - 1
-                  : activeTabIndex;
+                    ? activeTabIndex - 1
+                    : activeTabIndex;
 
         set({ openTabs: updatedTabs, activeTabIndex: newActiveIndex });
+        useNavigationStore.getState().setCurrentElementId(updatedTabs[newActiveIndex].elementId ?? null);
     },
     switchTab: (index) => {
         const { openTabs } = get();
         if (index < 0 || index >= openTabs.length) return;
         set({ activeTabIndex: index });
+        useNavigationStore.getState().setCurrentElementId(openTabs[index].elementId);
     },
     resetTabs: () => set({ openTabs: [], activeTabIndex: -1 }),
     getActiveTab: () => {
