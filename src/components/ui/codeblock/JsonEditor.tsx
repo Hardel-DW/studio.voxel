@@ -128,7 +128,6 @@ function LineNumbers({ count, errorLine }: { count: number; errorLine: number | 
 export default function JsonEditor({ initialValue, className }: JsonEditorProps) {
     const editorRef = useRef<HTMLDivElement | null>(null);
     const cleanupRef = useRef<() => void>(() => { });
-    const debounceRef = useRef<number>(0);
     const [error, setError] = useState<JsonError | null>(() => validateJson(initialValue));
     const [lineCount, setLineCount] = useState(() => initialValue.split("\n").length);
 
@@ -139,20 +138,16 @@ export default function JsonEditor({ initialValue, className }: JsonEditorProps)
     };
 
     const handleInput = () => {
-        window.clearTimeout(debounceRef.current);
-        debounceRef.current = window.setTimeout(() => {
-            if (!editorRef.current) return;
-            const content = editorRef.current.textContent ?? "";
-            setError(validateJson(content));
-            setLineCount(content.split("\n").length || 1);
-            updateHighlights();
-        }, 150);
+        if (!editorRef.current) return;
+        const content = editorRef.current.textContent ?? "";
+        setError(validateJson(content));
+        setLineCount(content.split("\n").length || 1);
+        updateHighlights();
     };
 
     const insertText = (text: string) => {
         const selection = window.getSelection();
         if (!selection || selection.rangeCount === 0) return;
-
         const range = selection.getRangeAt(0);
         range.deleteContents();
         const textNode = document.createTextNode(text);
@@ -187,7 +182,7 @@ export default function JsonEditor({ initialValue, className }: JsonEditorProps)
     return (
         <div className={cn("relative flex flex-col h-full overflow-hidden", className)}>
             {error && (
-                <div className="flex items-center gap-2 px-4 py-2 bg-red-500/10 border-b border-red-500/30 text-red-400 text-sm shrink-0">
+                <div className="absolute top-2 right-4 z-10 flex items-center gap-2 px-3 py-2 bg-red-500/20 backdrop-blur-sm border border-red-500/30 text-red-400 text-sm rounded-lg">
                     <svg className="size-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path
                             strokeLinecap="round"
