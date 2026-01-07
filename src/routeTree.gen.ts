@@ -41,6 +41,7 @@ import { Route as LangStudioEditorEnchantmentDntRouteImport } from './routes/$la
 import { Route as LangStudioEditorChangesVoxelRouteImport } from './routes/$lang/studio/editor/changes/voxel'
 import { Route as LangStudioEditorChangesPatchRouteImport } from './routes/$lang/studio/editor/changes/patch'
 import { Route as LangStudioEditorChangesMainRouteImport } from './routes/$lang/studio/editor/changes/main'
+import { Route as LangStudioEditorChangesEditRouteImport } from './routes/$lang/studio/editor/changes/edit'
 import { Route as LangStudioEditorChangesDiffRouteImport } from './routes/$lang/studio/editor/changes/diff'
 
 const AuthRoute = AuthRouteImport.update({
@@ -223,6 +224,12 @@ const LangStudioEditorChangesMainRoute =
     path: '/main',
     getParentRoute: () => LangStudioEditorChangesRoute,
   } as any)
+const LangStudioEditorChangesEditRoute =
+  LangStudioEditorChangesEditRouteImport.update({
+    id: '/edit',
+    path: '/edit',
+    getParentRoute: () => LangStudioEditorChangesRoute,
+  } as any)
 const LangStudioEditorChangesDiffRoute =
   LangStudioEditorChangesDiffRouteImport.update({
     id: '/diff',
@@ -246,6 +253,7 @@ export interface FileRoutesByFullPath {
   '/$lang/studio/editor/loot_table': typeof LangStudioEditorLoot_tableRouteWithChildren
   '/$lang/studio/editor/recipe': typeof LangStudioEditorRecipeRouteWithChildren
   '/$lang/studio/editor/changes/diff': typeof LangStudioEditorChangesDiffRoute
+  '/$lang/studio/editor/changes/edit': typeof LangStudioEditorChangesEditRoute
   '/$lang/studio/editor/changes/main': typeof LangStudioEditorChangesMainRoute
   '/$lang/studio/editor/changes/patch': typeof LangStudioEditorChangesPatchRoute
   '/$lang/studio/editor/changes/voxel': typeof LangStudioEditorChangesVoxelRoute
@@ -280,6 +288,7 @@ export interface FileRoutesByTo {
   '/$lang/studio/editor/loot_table': typeof LangStudioEditorLoot_tableRouteWithChildren
   '/$lang/studio/editor/recipe': typeof LangStudioEditorRecipeRouteWithChildren
   '/$lang/studio/editor/changes/diff': typeof LangStudioEditorChangesDiffRoute
+  '/$lang/studio/editor/changes/edit': typeof LangStudioEditorChangesEditRoute
   '/$lang/studio/editor/changes/main': typeof LangStudioEditorChangesMainRoute
   '/$lang/studio/editor/changes/patch': typeof LangStudioEditorChangesPatchRoute
   '/$lang/studio/editor/changes/voxel': typeof LangStudioEditorChangesVoxelRoute
@@ -316,6 +325,7 @@ export interface FileRoutesById {
   '/$lang/studio/editor/loot_table': typeof LangStudioEditorLoot_tableRouteWithChildren
   '/$lang/studio/editor/recipe': typeof LangStudioEditorRecipeRouteWithChildren
   '/$lang/studio/editor/changes/diff': typeof LangStudioEditorChangesDiffRoute
+  '/$lang/studio/editor/changes/edit': typeof LangStudioEditorChangesEditRoute
   '/$lang/studio/editor/changes/main': typeof LangStudioEditorChangesMainRoute
   '/$lang/studio/editor/changes/patch': typeof LangStudioEditorChangesPatchRoute
   '/$lang/studio/editor/changes/voxel': typeof LangStudioEditorChangesVoxelRoute
@@ -353,6 +363,7 @@ export interface FileRouteTypes {
     | '/$lang/studio/editor/loot_table'
     | '/$lang/studio/editor/recipe'
     | '/$lang/studio/editor/changes/diff'
+    | '/$lang/studio/editor/changes/edit'
     | '/$lang/studio/editor/changes/main'
     | '/$lang/studio/editor/changes/patch'
     | '/$lang/studio/editor/changes/voxel'
@@ -387,6 +398,7 @@ export interface FileRouteTypes {
     | '/$lang/studio/editor/loot_table'
     | '/$lang/studio/editor/recipe'
     | '/$lang/studio/editor/changes/diff'
+    | '/$lang/studio/editor/changes/edit'
     | '/$lang/studio/editor/changes/main'
     | '/$lang/studio/editor/changes/patch'
     | '/$lang/studio/editor/changes/voxel'
@@ -422,6 +434,7 @@ export interface FileRouteTypes {
     | '/$lang/studio/editor/loot_table'
     | '/$lang/studio/editor/recipe'
     | '/$lang/studio/editor/changes/diff'
+    | '/$lang/studio/editor/changes/edit'
     | '/$lang/studio/editor/changes/main'
     | '/$lang/studio/editor/changes/patch'
     | '/$lang/studio/editor/changes/voxel'
@@ -674,6 +687,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LangStudioEditorChangesMainRouteImport
       parentRoute: typeof LangStudioEditorChangesRoute
     }
+    '/$lang/studio/editor/changes/edit': {
+      id: '/$lang/studio/editor/changes/edit'
+      path: '/edit'
+      fullPath: '/$lang/studio/editor/changes/edit'
+      preLoaderRoute: typeof LangStudioEditorChangesEditRouteImport
+      parentRoute: typeof LangStudioEditorChangesRoute
+    }
     '/$lang/studio/editor/changes/diff': {
       id: '/$lang/studio/editor/changes/diff'
       path: '/diff'
@@ -686,6 +706,7 @@ declare module '@tanstack/react-router' {
 
 interface LangStudioEditorChangesRouteChildren {
   LangStudioEditorChangesDiffRoute: typeof LangStudioEditorChangesDiffRoute
+  LangStudioEditorChangesEditRoute: typeof LangStudioEditorChangesEditRoute
   LangStudioEditorChangesMainRoute: typeof LangStudioEditorChangesMainRoute
   LangStudioEditorChangesPatchRoute: typeof LangStudioEditorChangesPatchRoute
   LangStudioEditorChangesVoxelRoute: typeof LangStudioEditorChangesVoxelRoute
@@ -694,6 +715,7 @@ interface LangStudioEditorChangesRouteChildren {
 const LangStudioEditorChangesRouteChildren: LangStudioEditorChangesRouteChildren =
   {
     LangStudioEditorChangesDiffRoute: LangStudioEditorChangesDiffRoute,
+    LangStudioEditorChangesEditRoute: LangStudioEditorChangesEditRoute,
     LangStudioEditorChangesMainRoute: LangStudioEditorChangesMainRoute,
     LangStudioEditorChangesPatchRoute: LangStudioEditorChangesPatchRoute,
     LangStudioEditorChangesVoxelRoute: LangStudioEditorChangesVoxelRoute,

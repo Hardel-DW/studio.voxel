@@ -20,7 +20,8 @@ function ChangesPatchPage() {
 
     if (!file || !file.endsWith(".json")) return <DiffEmptyState file={file} />;
     const identifier = parseFilePath(file);
-    const name = identifier?.toFileName(true) ?? file.split("/").pop() ?? "";
+    const fileName = file?.split("/").pop();
+    const name = identifier?.toFileName(true) ?? fileName ?? "";
     const logsData =
         identifier && logger ? logger.getChangeSets().filter((change) => new Identifier(change.identifier).equals(identifier)) : [];
 

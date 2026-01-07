@@ -307,4 +307,12 @@ hr {
     border-image: linear-gradient(rgba(80, 0, 255, 0.31), rgba(40, 0, 127, 0.31)) 1;
     border: 0.1em solid #2d0a63;
 }
+
+/* CSS Custom Highlight API - JSON Editor */
+::highlight(json-string) { color: #98c379; }
+::highlight(json-number) { color: #d19a66; }
+::highlight(json-boolean) { color: #56b6c2; }
+::highlight(json-null) { color: #c678dd; }
+::highlight(json-property) { color: #61afef; }
+::highlight(json-punctuation) { color: #abb2bf; }
  

@@ -20,7 +20,8 @@ function ChangesVoxelPage() {
     if (!file || !file.endsWith(".json")) return <DiffEmptyState file={file} />;
     const identifier = parseFilePath(file);
     const uniqueKey = identifier?.toUniqueKey();
-    const name = identifier?.toFileName(true) ?? file.split("/").pop() ?? "";
+    const fileName = file?.split("/").pop();
+    const name = identifier?.toFileName(true) ?? fileName ?? "";
     const voxelData = uniqueKey ? elements.get(uniqueKey) : undefined;
 
     return (

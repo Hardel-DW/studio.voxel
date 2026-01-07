@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { cn } from "@/lib/utils";
 
-type ViewMode = "diff" | "voxel" | "patch";
+type ViewMode = "diff" | "voxel" | "patch" | "edit";
 
 interface DiffHeaderProps {
     name: string;
@@ -13,11 +13,12 @@ interface DiffHeaderProps {
 const viewRoutes = {
     diff: "/$lang/studio/editor/changes/diff",
     voxel: "/$lang/studio/editor/changes/voxel",
-    patch: "/$lang/studio/editor/changes/patch"
+    patch: "/$lang/studio/editor/changes/patch",
+    edit: "/$lang/studio/editor/changes/edit"
 } as const;
 
 export function DiffHeader({ name, file, lang, currentView }: DiffHeaderProps) {
-    const views: ViewMode[] = ["diff", "voxel", "patch"];
+    const views: ViewMode[] = ["diff", "voxel", "patch", "edit"];
 
     return (
         <div className="flex items-center justify-between gap-1 px-4 py-2 border-b border-zinc-800/50 bg-zinc-950/20">
