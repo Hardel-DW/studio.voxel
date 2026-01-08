@@ -1,6 +1,18 @@
 export default function StudioLoading() {
     return (
-        <main className="w-full">
+        <main className="w-full relative">
+            <div className="pointer-events-none absolute inset-x-0 top-0 h-screen -z-10 overflow-hidden">
+                <svg
+                    className="size-full stroke-white/10 [stroke-dasharray:5_6] [stroke-dashoffset:10] stroke-2 scale-110 origin-center"
+                    style={{ transform: "skewY(-12deg)" }}>
+                    <defs>
+                        <pattern id="grid" viewBox="0 0 64 64" width="32" height="32" patternUnits="userSpaceOnUse">
+                            <path d="M64 0H0V64" fill="none" />
+                        </pattern>
+                    </defs>
+                    <rect width="100%" height="100%" fill="url(#grid)" />
+                </svg>
+            </div>
             <nav className="sticky top-0 z-40 backdrop-blur-lg">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex items-center justify-between h-16">
@@ -12,7 +24,7 @@ export default function StudioLoading() {
                             <div className="h-5 w-16 rounded bg-zinc-700 animate-pulse" />
                             <div className="h-5 w-16 rounded bg-zinc-700 animate-pulse" />
                         </div>
-                        <div className="h-8 w-8 rounded-full bg-zinc-700 animate-pulse md:hidden" />{" "}
+                        <div className="h-8 w-8 rounded-full bg-zinc-700 animate-pulse md:hidden" />
                     </div>
                 </div>
             </nav>
@@ -20,10 +32,10 @@ export default function StudioLoading() {
             <section className="w-11/12 md:w-3/4 mx-auto flex flex-col justify-evenly xl:grid grid-cols-2 items-center relative gap-8 min-h-[calc(100vh-4rem)]">
                 <div className="h-full w-[95%] md:w-full relative py-10">
                     <div className="xl:invisible visible absolute flex justify-center items-center size-full -z-10">
-                        <div className="absolute inset-0 top-1/2 -translate-y-1/2 w-3/4 h-1/2 bg-pink-900/30 opacity-50 rounded-full blur-[5rem]" />
+                        <div className="absolute inset-0 top-1/2 -translate-y-1/2 w-3/4 h-1/2 bg-white opacity-50 rounded-full blur-[5rem]" />
                     </div>
                     <div className="size-full flex flex-col justify-center">
-                        <div className="h-4 w-1/4 rounded bg-pink-700/50 animate-pulse mb-2" />
+                        <div className="h-4 w-1/4 rounded bg-white/50 animate-pulse mb-2" />
                         <div className="h-10 w-3/4 rounded bg-zinc-700 animate-pulse mb-4" />
                         <div className="h-8 w-full rounded bg-zinc-700 animate-pulse mb-1" />
                         <div className="h-8 w-5/6 rounded bg-zinc-700 animate-pulse mb-1" />
@@ -36,7 +48,7 @@ export default function StudioLoading() {
                     </div>
                 </div>
                 <div className="relative w-full flex justify-center items-center h-64 md:h-80">
-                    <div className="w-full h-full max-w-md rounded-lg bg-zinc-800 animate-pulse flex items-center justify-center">
+                    <div className="w-full h-full max-w-md rounded-lg bg-zinc-900 border-4 border-zinc-700 animate-pulse flex items-center justify-center">
                         <div className="w-16 h-16 rounded-full border-4 border-zinc-600 border-t-transparent animate-spin" />
                     </div>
                 </div>

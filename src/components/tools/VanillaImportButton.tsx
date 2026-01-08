@@ -1,9 +1,9 @@
 import { useNavigate, useParams } from "@tanstack/react-router";
 import { Datapack, Logger } from "@voxelio/breeze";
-import { useConfiguratorStore } from "@/components/tools/Store";
 import { Button } from "@/components/ui/Button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/Dropdown";
 import { useTranslate } from "@/lib/i18n";
+import { useConfiguratorStore } from "@/lib/store/StudioStore";
 
 export default function VanillaImportButton() {
     const t = useTranslate();

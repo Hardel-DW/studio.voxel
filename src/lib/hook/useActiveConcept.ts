@@ -1,15 +1,15 @@
 import { useLocation, useParams } from "@tanstack/react-router";
-import { useConfiguratorStore } from "@/components/tools/Store";
 import { CONCEPTS } from "@/lib/data/elements";
+import { useNavigationStore } from "@/lib/store/NavigationStore";
+import { getConceptFromPathname } from "@/lib/utils/concept";
 
 export function useActiveConcept() {
-    const location = useLocation();
+    const pathname = useLocation({ select: (loc) => loc.pathname });
     const params = useParams({ from: "/$lang/studio/editor" });
-    const getConcept = useConfiguratorStore((state) => state.getConcept);
-    const selectedElement = useConfiguratorStore((state) => state.currentElementId);
-    const currentConcept = getConcept(location.pathname);
+    const selectedElement = useNavigationStore((state) => state.currentElementId);
+    const currentConcept = getConceptFromPathname(pathname);
     const concept = CONCEPTS.find((c) => c.registry === currentConcept);
-    const activeTab = concept?.tabs.find((tab) => location.pathname === tab.url.replace("$lang", params.lang));
+    const activeTab = concept?.tabs.find((tab) => pathname === tab.url.replace("$lang", params.lang));
 
     return {
         concept,

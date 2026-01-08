@@ -4,17 +4,18 @@ import EnchantmentTags from "@/components/tools/concept/enchantment/EnchantmentT
 import type { TagsEnchantmentActionProps } from "@/components/tools/concept/enchantment/TagsEnchantmentAction";
 import ErrorPlaceholder from "@/components/tools/elements/error/ErrorPlaceholder";
 import ToolCategory from "@/components/tools/elements/ToolCategory";
-import { useConfiguratorStore } from "@/components/tools/Store";
 import Loader from "@/components/ui/Loader";
 import { exclusiveSetGroups } from "@/lib/data/exclusive";
 import useRegistry, { type FetchedRegistry } from "@/lib/hook/useRegistry";
 import { useTranslate } from "@/lib/i18n";
+import { useNavigationStore } from "@/lib/store/NavigationStore";
+import { useConfiguratorStore } from "@/lib/store/StudioStore";
 import { isMinecraft } from "@/lib/utils/lock";
 
 export function ExclusiveGroupSection() {
     const t = useTranslate();
     const { data, isLoading, isError } = useRegistry<FetchedRegistry<TagType>>("summary", "tags/enchantment");
-    const currentElementId = useConfiguratorStore((state) => state.currentElementId);
+    const currentElementId = useNavigationStore((state) => state.currentElementId);
     const getRegistry = useConfiguratorStore((state) => state.getRegistry);
     if (!currentElementId) return null;
 
@@ -48,7 +49,7 @@ export function ExclusiveGroupSection() {
 
     return (
         <>
-            <ToolCategory title="enchantment:exclusive.vanilla.title">
+            <ToolCategory title={t("enchantment:exclusive.vanilla.title")}>
                 <div className="grid max-xl:grid-cols-1 gap-4 grid-auto-64">
                     {exclusiveSetGroups.map(({ id, image, value }) => {
                         const tagData = merge.find((tag) =>
@@ -71,7 +72,7 @@ export function ExclusiveGroupSection() {
                 </div>
             </ToolCategory>
 
-            <ToolCategory title="enchantment:exclusive.custom.title">
+            <ToolCategory title={t("enchantment:exclusive.custom.title")}>
                 {merge.filter((tag) => tag.identifier.namespace !== "minecraft").length === 0 && (
                     <p className="text-zinc-400 p-4">{t("enchantment:exclusive.custom.fallback")}</p>
                 )}

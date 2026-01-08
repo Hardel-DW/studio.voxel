@@ -3,10 +3,10 @@ import { useState } from "react";
 import RecipeRenderer from "@/components/tools/concept/recipe/RecipeRenderer";
 import RecipeSelector from "@/components/tools/concept/recipe/RecipeSelector";
 import ToolCounter from "@/components/tools/elements/ToolCounter";
-import { getCurrentElement, useConfiguratorStore } from "@/components/tools/Store";
 import { Tabs, TabsTrigger } from "@/components/ui/Tabs";
 import { getAllRecipeTypes, getBlockByRecipeType, getBlockConfig, RECIPE_BLOCKS } from "@/lib/data/recipeConfig";
 import { useTranslate } from "@/lib/i18n";
+import { getCurrentElement, useConfiguratorStore } from "@/lib/store/StudioStore";
 
 const TAB_CONFIGS = {
     "minecraft:crafting_table": [

@@ -1,20 +1,24 @@
 import { useMatches, useNavigate, useParams } from "@tanstack/react-router";
 import { Identifier } from "@voxelio/breeze";
 import { createContext } from "react";
-import { useEditorUiStore } from "@/components/tools/concept/EditorUiStore";
-import { useConfiguratorStore } from "@/components/tools/Store";
+import { useEditorUiStore } from "@/lib/store/EditorUiStore";
+import { useNavigationStore } from "@/lib/store/NavigationStore";
+import { useTabsStore } from "@/lib/store/TabsStore";
 import type { TreeNodeType } from "@/lib/utils/tree";
 
 interface TreeConfig {
     overviewRoute: string;
     detailRoute: string;
     changesRoute: string;
+    concept: string;
     tabRoutes?: string[];
     tree: TreeNodeType;
-    modifiedCount: number;
     elementIcon?: string;
     folderIcons?: Record<string, string>;
     disableAutoExpand?: boolean;
+    selectedElementId?: string | null;
+    onSelectElement?: (elementId: string) => void;
+    onSelectFolder?: (path: string) => void;
 }
 
 interface TreeContextValue {
@@ -24,7 +28,7 @@ interface TreeContextValue {
     isAllActive: boolean;
     // Config
     tree: TreeNodeType;
-    modifiedCount: number;
+    concept: string;
     changesRoute: string;
     elementIcon?: string;
     folderIcons?: Record<string, string>;
@@ -42,19 +46,34 @@ export function TreeProvider({ config, children }: { config: TreeConfig; childre
     const navigate = useNavigate();
     const filterPath = useEditorUiStore((s) => s.filterPath);
     const setFilterPath = useEditorUiStore((s) => s.setFilterPath);
-    const currentElementId = useConfiguratorStore((s) => s.currentElementId);
-    const openTab = useConfiguratorStore((s) => s.openTab);
-    const clearSelection = () => useConfiguratorStore.getState().setCurrentElementId(null);
+    const currentElementId = useNavigationStore((s) => s.currentElementId);
+    const openTab = useTabsStore((s) => s.openTab);
+    const clearSelection = () => useNavigationStore.getState().setCurrentElementId(null);
     const isOnTab = config.tabRoutes?.some((route) => matches.map((m) => m.routeId as string).includes(route));
     const { lang } = useParams({ from: "/$lang" });
 
+    if (isOnTab && !currentElementId) {
+        const activeTab = useTabsStore.getState().getActiveTab();
+        if (activeTab) {
+            useNavigationStore.getState().setCurrentElementId(activeTab.elementId);
+        }
+    }
+
     const selectFolder = (path: string) => {
+        if (config.onSelectFolder) {
+            config.onSelectFolder(path);
+            return;
+        }
         setFilterPath(path);
         clearSelection();
         navigate({ to: config.overviewRoute, params: { lang } });
     };
 
     const selectElement = (elementId: string) => {
+        if (config.onSelectElement) {
+            config.onSelectElement(elementId);
+            return;
+        }
         const label = Identifier.fromUniqueKey(elementId).resource;
         openTab(elementId, config.detailRoute, label);
         if (!isOnTab) {
@@ -68,12 +87,13 @@ export function TreeProvider({ config, children }: { config: TreeConfig; childre
         navigate({ to: config.overviewRoute, params: { lang } });
     };
 
+    const activeElementId = config.selectedElementId !== undefined ? config.selectedElementId : currentElementId;
     const value: TreeContextValue = {
         filterPath,
-        currentElementId: currentElementId ?? null,
-        isAllActive: filterPath === "" && !currentElementId,
+        currentElementId: activeElementId ?? null,
+        isAllActive: filterPath === "" && !activeElementId,
         tree: config.tree,
-        modifiedCount: config.modifiedCount,
+        concept: config.concept,
         changesRoute: config.changesRoute,
         elementIcon: config.elementIcon,
         folderIcons: config.folderIcons,

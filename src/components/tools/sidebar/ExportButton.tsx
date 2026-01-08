@@ -1,6 +1,5 @@
 import { DatapackDownloader } from "@voxelio/breeze";
 import { convertDatapack, extractMetadata, ModPlatforms } from "@voxelio/converter";
-import { useConfiguratorStore } from "@/components/tools/Store";
 import { Button } from "@/components/ui/Button";
 import {
     Dialog,
@@ -14,6 +13,7 @@ import {
 } from "@/components/ui/Dialog";
 import { ToggleGroup, ToggleGroupOption } from "@/components/ui/ToggleGroup";
 import { useTranslate } from "@/lib/i18n";
+import { useConfiguratorStore } from "@/lib/store/StudioStore";
 import { downloadFile } from "@/lib/utils/download";
 
 const MOD_MANIFEST_FILES = ["fabric.mod.json", "quilt.mod.json", "META-INF/mods.toml", "META-INF/neoforge.mods.toml"];

@@ -1,13 +1,15 @@
-import { useNavigate, useParams } from "@tanstack/react-router";
+import { useLocation, useNavigate, useParams } from "@tanstack/react-router";
 import { Identifier } from "@voxelio/breeze";
-import { type OpenTab, useConfiguratorStore } from "@/components/tools/Store";
 import { CONCEPTS } from "@/lib/data/elements";
+import { type OpenTab, useTabsStore } from "@/lib/store/TabsStore";
 import { cn } from "@/lib/utils";
+import { getConceptFromPathname } from "@/lib/utils/concept";
 
 function TabItem({ tab, index, isActive }: { tab: OpenTab; index: number; isActive: boolean }) {
     const navigate = useNavigate();
-    const switchTab = useConfiguratorStore((state) => state.switchTab);
-    const closeTab = useConfiguratorStore((state) => state.closeTab);
+    const location = useLocation();
+    const switchTab = useTabsStore((state) => state.switchTab);
+    const closeTab = useTabsStore((state) => state.closeTab);
     const { lang } = useParams({ from: "/$lang" });
     const icon = CONCEPTS.find((c) => tab.route.includes(`/editor/${c.registry}`))?.image.src;
 
@@ -18,13 +20,17 @@ function TabItem({ tab, index, isActive }: { tab: OpenTab; index: number; isActi
 
     const handleClose = (e: React.KeyboardEvent<HTMLButtonElement> | React.MouseEvent<HTMLButtonElement>) => {
         e.stopPropagation();
-        const openTabs = useConfiguratorStore.getState().openTabs;
-        const activeTabIndex = useConfiguratorStore.getState().activeTabIndex;
+        const openTabs = useTabsStore.getState().openTabs;
+        const activeTabIndex = useTabsStore.getState().activeTabIndex;
         closeTab(index);
 
         const updatedTabs = openTabs.toSpliced(index, 1);
         if (updatedTabs.length === 0) {
-            navigate({ to: "/$lang/studio/editor/enchantment/overview", params: { lang } });
+            const tabConcept = getConceptFromPathname(tab.route);
+            const currentConcept = getConceptFromPathname(location.pathname);
+            if (tabConcept && tabConcept === currentConcept) {
+                navigate({ to: "/$lang/studio/editor/enchantment/overview", params: { lang } });
+            }
             return;
         }
 
@@ -72,8 +78,8 @@ function TabItem({ tab, index, isActive }: { tab: OpenTab; index: number; isActi
 }
 
 export default function EditorTabs() {
-    const openTabs = useConfiguratorStore((state) => state.openTabs);
-    const activeTabIndex = useConfiguratorStore((state) => state.activeTabIndex);
+    const openTabs = useTabsStore((state) => state.openTabs);
+    const activeTabIndex = useTabsStore((state) => state.activeTabIndex);
     if (openTabs.length === 0) return null;
 
     return (

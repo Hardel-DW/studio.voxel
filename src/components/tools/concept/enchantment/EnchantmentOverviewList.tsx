@@ -3,9 +3,10 @@ import type { EnchantmentProps, TagType } from "@voxelio/breeze";
 import { CoreAction, getItemFromMultipleOrOne, Identifier, TagsProcessor } from "@voxelio/breeze";
 import SimpleSwitch from "@/components/tools/elements/SimpleSwitch";
 import TextureRenderer from "@/components/tools/elements/texture/TextureRenderer";
-import { useConfiguratorStore } from "@/components/tools/Store";
 import useRegistry, { type FetchedRegistry } from "@/lib/hook/useRegistry";
 import { useTranslate } from "@/lib/i18n";
+import { useConfiguratorStore } from "@/lib/store/StudioStore";
+import { useTabsStore } from "@/lib/store/TabsStore";
 
 interface EnchantmentOverviewListProps {
     element: EnchantmentProps;
@@ -33,12 +34,15 @@ export default function EnchantmentOverviewList({ element }: EnchantmentOverview
     ]);
     const items = isTag && merge.length > 0 ? new TagsProcessor(merge).getRecursiveValues(tagId) : [id];
 
-    const handleConfigure = () => useConfiguratorStore.getState().openTab(elementId, "/$lang/studio/editor/enchantment/main", resourceName);
+    const handleConfigure = () => useTabsStore.getState().openTab(elementId, "/$lang/studio/editor/enchantment/main", resourceName);
 
     return (
-        <div
+        <Link
+            to="/$lang/studio/editor/enchantment/main"
+            params={{ lang }}
+            onClick={handleConfigure}
             data-element-id={elementId}
-            className="group flex items-center justify-between bg-zinc-950/30 hover:bg-zinc-900/60 border-b p-3 transition-colors first:border-t border-zinc-800/30">
+            className="group flex items-center justify-between bg-zinc-950/30 hover:bg-zinc-900/60 border-b p-3 transition-colors first:border-t border-zinc-800/30 cursor-pointer">
             <div className="flex items-center gap-4 flex-1 min-w-0">
                 <div className="flex -space-x-2 relative shrink-0 items-center h-full">
                     {items.length > 0 ? (
@@ -75,14 +79,10 @@ export default function EnchantmentOverviewList({ element }: EnchantmentOverview
 
                 <div className="h-4 w-px bg-zinc-800/50 mx-2" />
 
-                <Link
-                    to="/$lang/studio/editor/enchantment/main"
-                    params={{ lang }}
-                    onClick={handleConfigure}
-                    className="text-xs font-medium text-zinc-400 hover:text-white bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 rounded-lg px-3 py-1.5 transition-all text-center min-w-[80px]">
+                <span className="text-xs font-medium text-zinc-400 group-hover:text-white bg-zinc-900 group-hover:bg-zinc-800 border border-zinc-800 rounded-lg px-3 py-1.5 transition-all text-center min-w-[80px]">
                     {t("configure")}
-                </Link>
+                </span>
             </div>
-        </div>
+        </Link>
     );
 }

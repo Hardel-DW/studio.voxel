@@ -1,9 +1,9 @@
 import { type Enchantment, Identifier } from "@voxelio/breeze";
 import { EnchantmentCategory } from "@/components/tools/concept/enchantment/EnchantmentCategory";
 import ErrorPlaceholder from "@/components/tools/elements/error/ErrorPlaceholder";
-import { useConfiguratorStore } from "@/components/tools/Store";
 import Loader from "@/components/ui/Loader";
 import useRegistry, { type FetchedRegistry } from "@/lib/hook/useRegistry";
+import { useConfiguratorStore } from "@/lib/store/StudioStore";
 
 export function ExclusiveSingleSection() {
     const enchantments = useConfiguratorStore((state) => state.getRegistry<Enchantment>("enchantment"));

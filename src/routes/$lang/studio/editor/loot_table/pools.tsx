@@ -8,10 +8,11 @@ import { useDynamicIsland } from "@/components/tools/floatingbar/FloatingBarCont
 import { Toolbar } from "@/components/tools/floatingbar/Toolbar";
 import { ToolbarNavigation } from "@/components/tools/floatingbar/ToolbarNavigation";
 import { ToolGrab } from "@/components/tools/floatingbar/ToolGrab";
-import { getCurrentElement, useConfiguratorStore } from "@/components/tools/Store";
 import { Button } from "@/components/ui/Button";
 import useRegistry from "@/lib/hook/useRegistry";
 import { useTranslate } from "@/lib/i18n";
+import { useNavigationStore } from "@/lib/store/NavigationStore";
+import { getCurrentElement, useConfiguratorStore } from "@/lib/store/StudioStore";
 
 export const Route = createFileRoute("/$lang/studio/editor/loot_table/pools")({
     component: PoolsPage
@@ -23,9 +24,9 @@ function PoolsPage() {
     const navigate = useNavigate();
     const currentElement = useConfiguratorStore((state) => getCurrentElement(state));
     const handleChange = useConfiguratorStore((state) => state.handleChange);
-    const currentElementId = useConfiguratorStore((state) => state.currentElementId);
+    const currentElementId = useNavigationStore((state) => state.currentElementId);
     const getRegistry = useConfiguratorStore((state) => state.getRegistry);
-    const goto = useConfiguratorStore((state) => state.goto);
+    const goto = useNavigationStore((state) => state.goto);
     const { expand, collapse } = useDynamicIsland();
     const { data } = useRegistry<string[]>("registry", "item");
     const lootTable = currentElement && isVoxel(currentElement, "loot_table") ? currentElement : undefined;

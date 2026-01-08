@@ -1,24 +1,25 @@
 import { createFileRoute, Outlet, useLocation, useNavigate } from "@tanstack/react-router";
 import { Identifier } from "@voxelio/breeze";
-import { useEditorUiStore } from "@/components/tools/concept/EditorUiStore";
 import { EditorHeader } from "@/components/tools/concept/layout/EditorHeader";
 import { EditorSidebar } from "@/components/tools/concept/layout/EditorSidebar";
+import { buildLootTableTree } from "@/components/tools/concept/loot/buildLootTableTree";
 import { useDynamicIsland } from "@/components/tools/floatingbar/FloatingBarContext";
 import NotFoundStudio from "@/components/tools/NotFoundStudio";
-import { getModifiedElements, useConfiguratorStore } from "@/components/tools/Store";
+import { TreeSidebar } from "@/components/tools/sidebar/TreeSidebar";
 import { ToggleGroup, ToggleGroupOption } from "@/components/ui/ToggleGroup";
 import { TreeProvider } from "@/components/ui/tree/TreeNavigationContext";
-import { TreeSidebar } from "@/components/ui/tree/TreeSidebar";
 import { CONCEPTS } from "@/lib/data/elements";
-import { useElementsByType } from "@/lib/hook/useElementsByType";
-import { buildTree } from "@/lib/utils/tree";
+import { useElementsIdByType } from "@/lib/hook/useElementsByType";
+import { useEditorUiStore } from "@/lib/store/EditorUiStore";
+import { useNavigationStore } from "@/lib/store/NavigationStore";
 
-const concept = CONCEPTS.find((c) => c.registry === "loot_table");
-if (!concept) throw new Error("Loot table concept not found");
-const overviewRoute = concept.overview;
-const detailRoute = concept.tabs[0].url;
-const tabRoutes = concept.tabs.map((t) => t.url);
-const changesRoute = "/$lang/studio/editor/loot_table/changes";
+const concept = "loot_table";
+const conceptData = CONCEPTS.find((c) => c.registry === "loot_table");
+if (!conceptData) throw new Error("Loot table concept not found");
+const overviewRoute = conceptData.overview;
+const detailRoute = conceptData.tabs[0].url;
+const tabRoutes = conceptData.tabs.map((t) => t.url);
+const changesRoute = "/$lang/studio/editor/changes/main";
 export const Route = createFileRoute("/$lang/studio/editor/loot_table")({
     component: LootTableLayout,
     notFoundComponent: NotFoundStudio
@@ -28,20 +29,15 @@ function LootTableLayout() {
     const { lang } = Route.useParams();
     const { filterPath, viewMode, setViewMode } = useEditorUiStore();
     const { setContainerRef } = useDynamicIsland();
-    const location = useLocation();
+    const isOverview = useLocation({ select: (loc) => loc.pathname.endsWith("/overview") });
     const navigate = useNavigate();
-    const elements = useElementsByType("loot_table");
-    const tree = buildTree(
-        elements.map((e) => e.identifier),
-        true
-    );
-    const modifiedCount = useConfiguratorStore((s) => getModifiedElements(s, "loot_table").length);
-    const currentElement = useConfiguratorStore((s) => s.currentElementId);
+    const elementIds = useElementsIdByType("loot_table");
+    const tree = buildLootTableTree(elementIds);
+    const currentElement = useNavigationStore((s) => s.currentElementId);
     const identifier = currentElement ? Identifier.fromUniqueKey(currentElement) : undefined;
-    const isOverview = location.pathname.endsWith("/overview");
 
     return (
-        <TreeProvider config={{ overviewRoute, detailRoute, changesRoute, tabRoutes, tree, modifiedCount }}>
+        <TreeProvider config={{ concept, overviewRoute, detailRoute, changesRoute, tabRoutes, tree }}>
             <div className="flex size-full overflow-hidden relative isolate">
                 <EditorSidebar
                     title="loot:overview.title"
@@ -53,11 +49,7 @@ function LootTableLayout() {
                 <main ref={setContainerRef} className="flex-1 flex flex-col min-w-0 min-h-0 overflow-hidden relative bg-zinc-950">
                     <EditorHeader
                         fallbackTitle="Loot Table"
-                        identifier={
-                            identifier
-                                ? { namespace: identifier.namespace, registry: identifier.registry, resource: identifier.resource }
-                                : undefined
-                        }
+                        identifier={identifier?.get()}
                         filterPath={filterPath}
                         isOverview={isOverview}
                         onBack={() => navigate({ to: "/$lang/studio/editor/loot_table/overview", params: { lang } })}>

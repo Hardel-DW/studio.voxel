@@ -73,7 +73,7 @@ function EnchantmentFindPage() {
     return (
         <div className="p-8 h-full overflow-y-auto">
             <ToolSection id="behaviour" title={t("enchantment:section.find")}>
-                <div className="grid max-xl:grid-cols-1 gap-4 grid-auto-88">
+                <div className="grid max-xl:grid-cols-1 gap-4 grid-auto-92">
                     {iterationValues.map((value) => (
                         <ToolSlot
                             align="left"

@@ -22,13 +22,12 @@ import { Route as LangStudioEditorRecipeRouteImport } from './routes/$lang/studi
 import { Route as LangStudioEditorLoot_tableRouteImport } from './routes/$lang/studio/editor/loot_table'
 import { Route as LangStudioEditorGithubRouteImport } from './routes/$lang/studio/editor/github'
 import { Route as LangStudioEditorEnchantmentRouteImport } from './routes/$lang/studio/editor/enchantment'
+import { Route as LangStudioEditorChangesRouteImport } from './routes/$lang/studio/editor/changes'
 import { Route as LangStudioEditorRecipeOverviewRouteImport } from './routes/$lang/studio/editor/recipe/overview'
 import { Route as LangStudioEditorRecipeMainRouteImport } from './routes/$lang/studio/editor/recipe/main'
 import { Route as LangStudioEditorLoot_tablePoolsRouteImport } from './routes/$lang/studio/editor/loot_table/pools'
 import { Route as LangStudioEditorLoot_tableOverviewRouteImport } from './routes/$lang/studio/editor/loot_table/overview'
 import { Route as LangStudioEditorLoot_tableMainRouteImport } from './routes/$lang/studio/editor/loot_table/main'
-import { Route as LangStudioEditorGithubMainRouteImport } from './routes/$lang/studio/editor/github/main'
-import { Route as LangStudioEditorGithubDiffRouteImport } from './routes/$lang/studio/editor/github/diff'
 import { Route as LangStudioEditorEnchantmentYggdrasilRouteImport } from './routes/$lang/studio/editor/enchantment/yggdrasil'
 import { Route as LangStudioEditorEnchantmentTechnicalRouteImport } from './routes/$lang/studio/editor/enchantment/technical'
 import { Route as LangStudioEditorEnchantmentSlotsRouteImport } from './routes/$lang/studio/editor/enchantment/slots'
@@ -39,6 +38,11 @@ import { Route as LangStudioEditorEnchantmentItemsRouteImport } from './routes/$
 import { Route as LangStudioEditorEnchantmentFindRouteImport } from './routes/$lang/studio/editor/enchantment/find'
 import { Route as LangStudioEditorEnchantmentExclusiveRouteImport } from './routes/$lang/studio/editor/enchantment/exclusive'
 import { Route as LangStudioEditorEnchantmentDntRouteImport } from './routes/$lang/studio/editor/enchantment/dnt'
+import { Route as LangStudioEditorChangesVoxelRouteImport } from './routes/$lang/studio/editor/changes/voxel'
+import { Route as LangStudioEditorChangesPatchRouteImport } from './routes/$lang/studio/editor/changes/patch'
+import { Route as LangStudioEditorChangesMainRouteImport } from './routes/$lang/studio/editor/changes/main'
+import { Route as LangStudioEditorChangesEditRouteImport } from './routes/$lang/studio/editor/changes/edit'
+import { Route as LangStudioEditorChangesDiffRouteImport } from './routes/$lang/studio/editor/changes/diff'
 
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
@@ -107,6 +111,11 @@ const LangStudioEditorEnchantmentRoute =
     path: '/enchantment',
     getParentRoute: () => LangStudioEditorRoute,
   } as any)
+const LangStudioEditorChangesRoute = LangStudioEditorChangesRouteImport.update({
+  id: '/changes',
+  path: '/changes',
+  getParentRoute: () => LangStudioEditorRoute,
+} as any)
 const LangStudioEditorRecipeOverviewRoute =
   LangStudioEditorRecipeOverviewRouteImport.update({
     id: '/overview',
@@ -136,18 +145,6 @@ const LangStudioEditorLoot_tableMainRoute =
     id: '/main',
     path: '/main',
     getParentRoute: () => LangStudioEditorLoot_tableRoute,
-  } as any)
-const LangStudioEditorGithubMainRoute =
-  LangStudioEditorGithubMainRouteImport.update({
-    id: '/main',
-    path: '/main',
-    getParentRoute: () => LangStudioEditorGithubRoute,
-  } as any)
-const LangStudioEditorGithubDiffRoute =
-  LangStudioEditorGithubDiffRouteImport.update({
-    id: '/diff',
-    path: '/diff',
-    getParentRoute: () => LangStudioEditorGithubRoute,
   } as any)
 const LangStudioEditorEnchantmentYggdrasilRoute =
   LangStudioEditorEnchantmentYggdrasilRouteImport.update({
@@ -209,6 +206,36 @@ const LangStudioEditorEnchantmentDntRoute =
     path: '/dnt',
     getParentRoute: () => LangStudioEditorEnchantmentRoute,
   } as any)
+const LangStudioEditorChangesVoxelRoute =
+  LangStudioEditorChangesVoxelRouteImport.update({
+    id: '/voxel',
+    path: '/voxel',
+    getParentRoute: () => LangStudioEditorChangesRoute,
+  } as any)
+const LangStudioEditorChangesPatchRoute =
+  LangStudioEditorChangesPatchRouteImport.update({
+    id: '/patch',
+    path: '/patch',
+    getParentRoute: () => LangStudioEditorChangesRoute,
+  } as any)
+const LangStudioEditorChangesMainRoute =
+  LangStudioEditorChangesMainRouteImport.update({
+    id: '/main',
+    path: '/main',
+    getParentRoute: () => LangStudioEditorChangesRoute,
+  } as any)
+const LangStudioEditorChangesEditRoute =
+  LangStudioEditorChangesEditRouteImport.update({
+    id: '/edit',
+    path: '/edit',
+    getParentRoute: () => LangStudioEditorChangesRoute,
+  } as any)
+const LangStudioEditorChangesDiffRoute =
+  LangStudioEditorChangesDiffRouteImport.update({
+    id: '/diff',
+    path: '/diff',
+    getParentRoute: () => LangStudioEditorChangesRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -220,10 +247,16 @@ export interface FileRoutesByFullPath {
   '/$lang/': typeof LangIndexRoute
   '/$lang/studio/editor': typeof LangStudioEditorRouteWithChildren
   '/$lang/studio': typeof LangStudioIndexRoute
+  '/$lang/studio/editor/changes': typeof LangStudioEditorChangesRouteWithChildren
   '/$lang/studio/editor/enchantment': typeof LangStudioEditorEnchantmentRouteWithChildren
-  '/$lang/studio/editor/github': typeof LangStudioEditorGithubRouteWithChildren
+  '/$lang/studio/editor/github': typeof LangStudioEditorGithubRoute
   '/$lang/studio/editor/loot_table': typeof LangStudioEditorLoot_tableRouteWithChildren
   '/$lang/studio/editor/recipe': typeof LangStudioEditorRecipeRouteWithChildren
+  '/$lang/studio/editor/changes/diff': typeof LangStudioEditorChangesDiffRoute
+  '/$lang/studio/editor/changes/edit': typeof LangStudioEditorChangesEditRoute
+  '/$lang/studio/editor/changes/main': typeof LangStudioEditorChangesMainRoute
+  '/$lang/studio/editor/changes/patch': typeof LangStudioEditorChangesPatchRoute
+  '/$lang/studio/editor/changes/voxel': typeof LangStudioEditorChangesVoxelRoute
   '/$lang/studio/editor/enchantment/dnt': typeof LangStudioEditorEnchantmentDntRoute
   '/$lang/studio/editor/enchantment/exclusive': typeof LangStudioEditorEnchantmentExclusiveRoute
   '/$lang/studio/editor/enchantment/find': typeof LangStudioEditorEnchantmentFindRoute
@@ -234,8 +267,6 @@ export interface FileRoutesByFullPath {
   '/$lang/studio/editor/enchantment/slots': typeof LangStudioEditorEnchantmentSlotsRoute
   '/$lang/studio/editor/enchantment/technical': typeof LangStudioEditorEnchantmentTechnicalRoute
   '/$lang/studio/editor/enchantment/yggdrasil': typeof LangStudioEditorEnchantmentYggdrasilRoute
-  '/$lang/studio/editor/github/diff': typeof LangStudioEditorGithubDiffRoute
-  '/$lang/studio/editor/github/main': typeof LangStudioEditorGithubMainRoute
   '/$lang/studio/editor/loot_table/main': typeof LangStudioEditorLoot_tableMainRoute
   '/$lang/studio/editor/loot_table/overview': typeof LangStudioEditorLoot_tableOverviewRoute
   '/$lang/studio/editor/loot_table/pools': typeof LangStudioEditorLoot_tablePoolsRoute
@@ -251,10 +282,16 @@ export interface FileRoutesByTo {
   '/$lang': typeof LangIndexRoute
   '/$lang/studio/editor': typeof LangStudioEditorRouteWithChildren
   '/$lang/studio': typeof LangStudioIndexRoute
+  '/$lang/studio/editor/changes': typeof LangStudioEditorChangesRouteWithChildren
   '/$lang/studio/editor/enchantment': typeof LangStudioEditorEnchantmentRouteWithChildren
-  '/$lang/studio/editor/github': typeof LangStudioEditorGithubRouteWithChildren
+  '/$lang/studio/editor/github': typeof LangStudioEditorGithubRoute
   '/$lang/studio/editor/loot_table': typeof LangStudioEditorLoot_tableRouteWithChildren
   '/$lang/studio/editor/recipe': typeof LangStudioEditorRecipeRouteWithChildren
+  '/$lang/studio/editor/changes/diff': typeof LangStudioEditorChangesDiffRoute
+  '/$lang/studio/editor/changes/edit': typeof LangStudioEditorChangesEditRoute
+  '/$lang/studio/editor/changes/main': typeof LangStudioEditorChangesMainRoute
+  '/$lang/studio/editor/changes/patch': typeof LangStudioEditorChangesPatchRoute
+  '/$lang/studio/editor/changes/voxel': typeof LangStudioEditorChangesVoxelRoute
   '/$lang/studio/editor/enchantment/dnt': typeof LangStudioEditorEnchantmentDntRoute
   '/$lang/studio/editor/enchantment/exclusive': typeof LangStudioEditorEnchantmentExclusiveRoute
   '/$lang/studio/editor/enchantment/find': typeof LangStudioEditorEnchantmentFindRoute
@@ -265,8 +302,6 @@ export interface FileRoutesByTo {
   '/$lang/studio/editor/enchantment/slots': typeof LangStudioEditorEnchantmentSlotsRoute
   '/$lang/studio/editor/enchantment/technical': typeof LangStudioEditorEnchantmentTechnicalRoute
   '/$lang/studio/editor/enchantment/yggdrasil': typeof LangStudioEditorEnchantmentYggdrasilRoute
-  '/$lang/studio/editor/github/diff': typeof LangStudioEditorGithubDiffRoute
-  '/$lang/studio/editor/github/main': typeof LangStudioEditorGithubMainRoute
   '/$lang/studio/editor/loot_table/main': typeof LangStudioEditorLoot_tableMainRoute
   '/$lang/studio/editor/loot_table/overview': typeof LangStudioEditorLoot_tableOverviewRoute
   '/$lang/studio/editor/loot_table/pools': typeof LangStudioEditorLoot_tablePoolsRoute
@@ -284,10 +319,16 @@ export interface FileRoutesById {
   '/$lang/': typeof LangIndexRoute
   '/$lang/studio/editor': typeof LangStudioEditorRouteWithChildren
   '/$lang/studio/': typeof LangStudioIndexRoute
+  '/$lang/studio/editor/changes': typeof LangStudioEditorChangesRouteWithChildren
   '/$lang/studio/editor/enchantment': typeof LangStudioEditorEnchantmentRouteWithChildren
-  '/$lang/studio/editor/github': typeof LangStudioEditorGithubRouteWithChildren
+  '/$lang/studio/editor/github': typeof LangStudioEditorGithubRoute
   '/$lang/studio/editor/loot_table': typeof LangStudioEditorLoot_tableRouteWithChildren
   '/$lang/studio/editor/recipe': typeof LangStudioEditorRecipeRouteWithChildren
+  '/$lang/studio/editor/changes/diff': typeof LangStudioEditorChangesDiffRoute
+  '/$lang/studio/editor/changes/edit': typeof LangStudioEditorChangesEditRoute
+  '/$lang/studio/editor/changes/main': typeof LangStudioEditorChangesMainRoute
+  '/$lang/studio/editor/changes/patch': typeof LangStudioEditorChangesPatchRoute
+  '/$lang/studio/editor/changes/voxel': typeof LangStudioEditorChangesVoxelRoute
   '/$lang/studio/editor/enchantment/dnt': typeof LangStudioEditorEnchantmentDntRoute
   '/$lang/studio/editor/enchantment/exclusive': typeof LangStudioEditorEnchantmentExclusiveRoute
   '/$lang/studio/editor/enchantment/find': typeof LangStudioEditorEnchantmentFindRoute
@@ -298,8 +339,6 @@ export interface FileRoutesById {
   '/$lang/studio/editor/enchantment/slots': typeof LangStudioEditorEnchantmentSlotsRoute
   '/$lang/studio/editor/enchantment/technical': typeof LangStudioEditorEnchantmentTechnicalRoute
   '/$lang/studio/editor/enchantment/yggdrasil': typeof LangStudioEditorEnchantmentYggdrasilRoute
-  '/$lang/studio/editor/github/diff': typeof LangStudioEditorGithubDiffRoute
-  '/$lang/studio/editor/github/main': typeof LangStudioEditorGithubMainRoute
   '/$lang/studio/editor/loot_table/main': typeof LangStudioEditorLoot_tableMainRoute
   '/$lang/studio/editor/loot_table/overview': typeof LangStudioEditorLoot_tableOverviewRoute
   '/$lang/studio/editor/loot_table/pools': typeof LangStudioEditorLoot_tablePoolsRoute
@@ -318,10 +357,16 @@ export interface FileRouteTypes {
     | '/$lang/'
     | '/$lang/studio/editor'
     | '/$lang/studio'
+    | '/$lang/studio/editor/changes'
     | '/$lang/studio/editor/enchantment'
     | '/$lang/studio/editor/github'
     | '/$lang/studio/editor/loot_table'
     | '/$lang/studio/editor/recipe'
+    | '/$lang/studio/editor/changes/diff'
+    | '/$lang/studio/editor/changes/edit'
+    | '/$lang/studio/editor/changes/main'
+    | '/$lang/studio/editor/changes/patch'
+    | '/$lang/studio/editor/changes/voxel'
     | '/$lang/studio/editor/enchantment/dnt'
     | '/$lang/studio/editor/enchantment/exclusive'
     | '/$lang/studio/editor/enchantment/find'
@@ -332,8 +377,6 @@ export interface FileRouteTypes {
     | '/$lang/studio/editor/enchantment/slots'
     | '/$lang/studio/editor/enchantment/technical'
     | '/$lang/studio/editor/enchantment/yggdrasil'
-    | '/$lang/studio/editor/github/diff'
-    | '/$lang/studio/editor/github/main'
     | '/$lang/studio/editor/loot_table/main'
     | '/$lang/studio/editor/loot_table/overview'
     | '/$lang/studio/editor/loot_table/pools'
@@ -349,10 +392,16 @@ export interface FileRouteTypes {
     | '/$lang'
     | '/$lang/studio/editor'
     | '/$lang/studio'
+    | '/$lang/studio/editor/changes'
     | '/$lang/studio/editor/enchantment'
     | '/$lang/studio/editor/github'
     | '/$lang/studio/editor/loot_table'
     | '/$lang/studio/editor/recipe'
+    | '/$lang/studio/editor/changes/diff'
+    | '/$lang/studio/editor/changes/edit'
+    | '/$lang/studio/editor/changes/main'
+    | '/$lang/studio/editor/changes/patch'
+    | '/$lang/studio/editor/changes/voxel'
     | '/$lang/studio/editor/enchantment/dnt'
     | '/$lang/studio/editor/enchantment/exclusive'
     | '/$lang/studio/editor/enchantment/find'
@@ -363,8 +412,6 @@ export interface FileRouteTypes {
     | '/$lang/studio/editor/enchantment/slots'
     | '/$lang/studio/editor/enchantment/technical'
     | '/$lang/studio/editor/enchantment/yggdrasil'
-    | '/$lang/studio/editor/github/diff'
-    | '/$lang/studio/editor/github/main'
     | '/$lang/studio/editor/loot_table/main'
     | '/$lang/studio/editor/loot_table/overview'
     | '/$lang/studio/editor/loot_table/pools'
@@ -381,10 +428,16 @@ export interface FileRouteTypes {
     | '/$lang/'
     | '/$lang/studio/editor'
     | '/$lang/studio/'
+    | '/$lang/studio/editor/changes'
     | '/$lang/studio/editor/enchantment'
     | '/$lang/studio/editor/github'
     | '/$lang/studio/editor/loot_table'
     | '/$lang/studio/editor/recipe'
+    | '/$lang/studio/editor/changes/diff'
+    | '/$lang/studio/editor/changes/edit'
+    | '/$lang/studio/editor/changes/main'
+    | '/$lang/studio/editor/changes/patch'
+    | '/$lang/studio/editor/changes/voxel'
     | '/$lang/studio/editor/enchantment/dnt'
     | '/$lang/studio/editor/enchantment/exclusive'
     | '/$lang/studio/editor/enchantment/find'
@@ -395,8 +448,6 @@ export interface FileRouteTypes {
     | '/$lang/studio/editor/enchantment/slots'
     | '/$lang/studio/editor/enchantment/technical'
     | '/$lang/studio/editor/enchantment/yggdrasil'
-    | '/$lang/studio/editor/github/diff'
-    | '/$lang/studio/editor/github/main'
     | '/$lang/studio/editor/loot_table/main'
     | '/$lang/studio/editor/loot_table/overview'
     | '/$lang/studio/editor/loot_table/pools'
@@ -503,6 +554,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LangStudioEditorEnchantmentRouteImport
       parentRoute: typeof LangStudioEditorRoute
     }
+    '/$lang/studio/editor/changes': {
+      id: '/$lang/studio/editor/changes'
+      path: '/changes'
+      fullPath: '/$lang/studio/editor/changes'
+      preLoaderRoute: typeof LangStudioEditorChangesRouteImport
+      parentRoute: typeof LangStudioEditorRoute
+    }
     '/$lang/studio/editor/recipe/overview': {
       id: '/$lang/studio/editor/recipe/overview'
       path: '/overview'
@@ -537,20 +595,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/$lang/studio/editor/loot_table/main'
       preLoaderRoute: typeof LangStudioEditorLoot_tableMainRouteImport
       parentRoute: typeof LangStudioEditorLoot_tableRoute
-    }
-    '/$lang/studio/editor/github/main': {
-      id: '/$lang/studio/editor/github/main'
-      path: '/main'
-      fullPath: '/$lang/studio/editor/github/main'
-      preLoaderRoute: typeof LangStudioEditorGithubMainRouteImport
-      parentRoute: typeof LangStudioEditorGithubRoute
-    }
-    '/$lang/studio/editor/github/diff': {
-      id: '/$lang/studio/editor/github/diff'
-      path: '/diff'
-      fullPath: '/$lang/studio/editor/github/diff'
-      preLoaderRoute: typeof LangStudioEditorGithubDiffRouteImport
-      parentRoute: typeof LangStudioEditorGithubRoute
     }
     '/$lang/studio/editor/enchantment/yggdrasil': {
       id: '/$lang/studio/editor/enchantment/yggdrasil'
@@ -622,8 +666,65 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LangStudioEditorEnchantmentDntRouteImport
       parentRoute: typeof LangStudioEditorEnchantmentRoute
     }
+    '/$lang/studio/editor/changes/voxel': {
+      id: '/$lang/studio/editor/changes/voxel'
+      path: '/voxel'
+      fullPath: '/$lang/studio/editor/changes/voxel'
+      preLoaderRoute: typeof LangStudioEditorChangesVoxelRouteImport
+      parentRoute: typeof LangStudioEditorChangesRoute
+    }
+    '/$lang/studio/editor/changes/patch': {
+      id: '/$lang/studio/editor/changes/patch'
+      path: '/patch'
+      fullPath: '/$lang/studio/editor/changes/patch'
+      preLoaderRoute: typeof LangStudioEditorChangesPatchRouteImport
+      parentRoute: typeof LangStudioEditorChangesRoute
+    }
+    '/$lang/studio/editor/changes/main': {
+      id: '/$lang/studio/editor/changes/main'
+      path: '/main'
+      fullPath: '/$lang/studio/editor/changes/main'
+      preLoaderRoute: typeof LangStudioEditorChangesMainRouteImport
+      parentRoute: typeof LangStudioEditorChangesRoute
+    }
+    '/$lang/studio/editor/changes/edit': {
+      id: '/$lang/studio/editor/changes/edit'
+      path: '/edit'
+      fullPath: '/$lang/studio/editor/changes/edit'
+      preLoaderRoute: typeof LangStudioEditorChangesEditRouteImport
+      parentRoute: typeof LangStudioEditorChangesRoute
+    }
+    '/$lang/studio/editor/changes/diff': {
+      id: '/$lang/studio/editor/changes/diff'
+      path: '/diff'
+      fullPath: '/$lang/studio/editor/changes/diff'
+      preLoaderRoute: typeof LangStudioEditorChangesDiffRouteImport
+      parentRoute: typeof LangStudioEditorChangesRoute
+    }
   }
 }
+
+interface LangStudioEditorChangesRouteChildren {
+  LangStudioEditorChangesDiffRoute: typeof LangStudioEditorChangesDiffRoute
+  LangStudioEditorChangesEditRoute: typeof LangStudioEditorChangesEditRoute
+  LangStudioEditorChangesMainRoute: typeof LangStudioEditorChangesMainRoute
+  LangStudioEditorChangesPatchRoute: typeof LangStudioEditorChangesPatchRoute
+  LangStudioEditorChangesVoxelRoute: typeof LangStudioEditorChangesVoxelRoute
+}
+
+const LangStudioEditorChangesRouteChildren: LangStudioEditorChangesRouteChildren =
+  {
+    LangStudioEditorChangesDiffRoute: LangStudioEditorChangesDiffRoute,
+    LangStudioEditorChangesEditRoute: LangStudioEditorChangesEditRoute,
+    LangStudioEditorChangesMainRoute: LangStudioEditorChangesMainRoute,
+    LangStudioEditorChangesPatchRoute: LangStudioEditorChangesPatchRoute,
+    LangStudioEditorChangesVoxelRoute: LangStudioEditorChangesVoxelRoute,
+  }
+
+const LangStudioEditorChangesRouteWithChildren =
+  LangStudioEditorChangesRoute._addFileChildren(
+    LangStudioEditorChangesRouteChildren,
+  )
 
 interface LangStudioEditorEnchantmentRouteChildren {
   LangStudioEditorEnchantmentDntRoute: typeof LangStudioEditorEnchantmentDntRoute
@@ -664,22 +765,6 @@ const LangStudioEditorEnchantmentRouteWithChildren =
     LangStudioEditorEnchantmentRouteChildren,
   )
 
-interface LangStudioEditorGithubRouteChildren {
-  LangStudioEditorGithubDiffRoute: typeof LangStudioEditorGithubDiffRoute
-  LangStudioEditorGithubMainRoute: typeof LangStudioEditorGithubMainRoute
-}
-
-const LangStudioEditorGithubRouteChildren: LangStudioEditorGithubRouteChildren =
-  {
-    LangStudioEditorGithubDiffRoute: LangStudioEditorGithubDiffRoute,
-    LangStudioEditorGithubMainRoute: LangStudioEditorGithubMainRoute,
-  }
-
-const LangStudioEditorGithubRouteWithChildren =
-  LangStudioEditorGithubRoute._addFileChildren(
-    LangStudioEditorGithubRouteChildren,
-  )
-
 interface LangStudioEditorLoot_tableRouteChildren {
   LangStudioEditorLoot_tableMainRoute: typeof LangStudioEditorLoot_tableMainRoute
   LangStudioEditorLoot_tableOverviewRoute: typeof LangStudioEditorLoot_tableOverviewRoute
@@ -716,16 +801,18 @@ const LangStudioEditorRecipeRouteWithChildren =
   )
 
 interface LangStudioEditorRouteChildren {
+  LangStudioEditorChangesRoute: typeof LangStudioEditorChangesRouteWithChildren
   LangStudioEditorEnchantmentRoute: typeof LangStudioEditorEnchantmentRouteWithChildren
-  LangStudioEditorGithubRoute: typeof LangStudioEditorGithubRouteWithChildren
+  LangStudioEditorGithubRoute: typeof LangStudioEditorGithubRoute
   LangStudioEditorLoot_tableRoute: typeof LangStudioEditorLoot_tableRouteWithChildren
   LangStudioEditorRecipeRoute: typeof LangStudioEditorRecipeRouteWithChildren
 }
 
 const LangStudioEditorRouteChildren: LangStudioEditorRouteChildren = {
+  LangStudioEditorChangesRoute: LangStudioEditorChangesRouteWithChildren,
   LangStudioEditorEnchantmentRoute:
     LangStudioEditorEnchantmentRouteWithChildren,
-  LangStudioEditorGithubRoute: LangStudioEditorGithubRouteWithChildren,
+  LangStudioEditorGithubRoute: LangStudioEditorGithubRoute,
   LangStudioEditorLoot_tableRoute: LangStudioEditorLoot_tableRouteWithChildren,
   LangStudioEditorRecipeRoute: LangStudioEditorRecipeRouteWithChildren,
 }
