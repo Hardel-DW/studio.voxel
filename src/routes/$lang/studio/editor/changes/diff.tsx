@@ -18,18 +18,23 @@ function decodeFile(data: Uint8Array | undefined): string {
 function ChangesDiffPage() {
     const { file } = Route.useSearch();
     const { lang } = Route.useParams();
-    const { originalFiles, compiledFiles } = useChangesStore();
+    const { originalFiles, compiledFiles, diff } = useChangesStore();
 
     if (!file || !file.endsWith(".json")) return <DiffEmptyState file={file} />;
+
     const identifier = parseFilePath(file);
     const name = identifier?.toFileName(true) ?? file.split("/").pop() ?? "";
+    const status = diff.get(file);
+
+    if (!status || status === "unchanged") return <DiffEmptyState file={file} />;
+
     const original = decodeFile(originalFiles[file]);
     const compiled = decodeFile(compiledFiles[file]);
 
     return (
         <div className="flex flex-col h-full">
             <DiffHeader name={name} file={file} lang={lang} currentView="diff" />
-            <CodeDiff original={original} modified={compiled} />
+            <CodeDiff original={original} compiled={compiled} status={status} />
         </div>
     );
 }

@@ -1,50 +1,89 @@
 export type DiffLineType = "unchanged" | "added" | "removed";
+
 export interface DiffLine {
+    id: string;
     type: DiffLineType;
     content: string;
+    lineNumber: number | null;
 }
 
-export function computeLineDiff(original: string, modified: string): DiffLine[] {
-    const originalLines = original.split("\n");
-    const modifiedLines = modified.split("\n");
-    const result: DiffLine[] = [];
+/**
+ * Compute LCS (Longest Common Subsequence) table
+ */
+function computeLCSTable(original: string[], modified: string[]): number[][] {
+    const m = original.length;
+    const n = modified.length;
+    const table: number[][] = Array.from({ length: m + 1 }, () => Array(n + 1).fill(0));
 
-    let i = 0;
-    let j = 0;
-
-    while (i < originalLines.length || j < modifiedLines.length) {
-        if (i >= originalLines.length) {
-            result.push({ type: "added", content: modifiedLines[j] });
-            j++;
-        } else if (j >= modifiedLines.length) {
-            result.push({ type: "removed", content: originalLines[i] });
-            i++;
-        } else if (originalLines[i] === modifiedLines[j]) {
-            result.push({ type: "unchanged", content: originalLines[i] });
-            i++;
-            j++;
-        } else {
-            const lookAheadOriginal = originalLines.slice(i, i + 5).indexOf(modifiedLines[j]);
-            const lookAheadModified = modifiedLines.slice(j, j + 5).indexOf(originalLines[i]);
-
-            if (lookAheadOriginal !== -1 && (lookAheadModified === -1 || lookAheadOriginal <= lookAheadModified)) {
-                for (let k = 0; k < lookAheadOriginal; k++) {
-                    result.push({ type: "removed", content: originalLines[i + k] });
-                }
-                i += lookAheadOriginal;
-            } else if (lookAheadModified !== -1) {
-                for (let k = 0; k < lookAheadModified; k++) {
-                    result.push({ type: "added", content: modifiedLines[j + k] });
-                }
-                j += lookAheadModified;
+    for (let i = m - 1; i >= 0; i--) {
+        for (let j = n - 1; j >= 0; j--) {
+            if (original[i] === modified[j]) {
+                table[i][j] = 1 + table[i + 1][j + 1];
             } else {
-                result.push({ type: "removed", content: originalLines[i] });
-                result.push({ type: "added", content: modifiedLines[j] });
-                i++;
-                j++;
+                table[i][j] = Math.max(table[i + 1][j], table[i][j + 1]);
             }
         }
     }
 
+    return table;
+}
+
+/**
+ * Compute unified diff using LCS algorithm
+ */
+export function computeUnifiedDiff(original: string, modified: string): DiffLine[] {
+    const originalLines = original.split("\n");
+    const modifiedLines = modified.split("\n");
+    const table = computeLCSTable(originalLines, modifiedLines);
+    const result: DiffLine[] = [];
+
+    let i = 0;
+    let j = 0;
+    let modifiedLineNum = 1;
+
+    while (i < originalLines.length || j < modifiedLines.length) {
+        if (i >= originalLines.length) {
+            result.push({ id: `a${j}`, type: "added", content: modifiedLines[j], lineNumber: modifiedLineNum++ });
+            j++;
+        } else if (j >= modifiedLines.length) {
+            result.push({ id: `r${i}`, type: "removed", content: originalLines[i], lineNumber: null });
+            i++;
+        } else if (originalLines[i] === modifiedLines[j]) {
+            result.push({ id: `u${i}-${j}`, type: "unchanged", content: modifiedLines[j], lineNumber: modifiedLineNum++ });
+            i++;
+            j++;
+        } else if (table[i + 1][j] >= table[i][j + 1]) {
+            result.push({ id: `r${i}`, type: "removed", content: originalLines[i], lineNumber: null });
+            i++;
+        } else {
+            result.push({ id: `a${j}`, type: "added", content: modifiedLines[j], lineNumber: modifiedLineNum++ });
+            j++;
+        }
+    }
+
     return result;
+}
+
+/**
+ * For files with status "added" - all lines are added
+ */
+export function computeAddedDiff(jsonString: string): DiffLine[] {
+    return jsonString.split("\n").map((content, index) => ({
+        id: `a${index}`,
+        type: "added" as const,
+        content,
+        lineNumber: index + 1
+    }));
+}
+
+/**
+ * For files with status "deleted" - all lines are removed
+ */
+export function computeRemovedDiff(jsonString: string): DiffLine[] {
+    return jsonString.split("\n").map((content, index) => ({
+        id: `r${index}`,
+        type: "removed" as const,
+        content,
+        lineNumber: null
+    }));
 }

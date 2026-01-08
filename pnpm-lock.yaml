@@ -23,6 +23,9 @@ importers:
       '@voxelio/converter':
         specifier: ^1.0.44
         version: 1.0.44
+      '@voxelio/diff':
+        specifier: ^1.0.8
+        version: 1.0.8
       '@voxelio/zip':
         specifier: ^3.2.3
         version: 3.2.3
