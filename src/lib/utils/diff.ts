@@ -64,26 +64,12 @@ export function computeUnifiedDiff(original: string, modified: string): DiffLine
     return result;
 }
 
-/**
- * For files with status "added" - all lines are added
- */
-export function computeAddedDiff(jsonString: string): DiffLine[] {
+export function computeFullDiff(jsonString: string, type: "added" | "removed"): DiffLine[] {
+    const prefix = type === "added" ? "a" : "r";
     return jsonString.split("\n").map((content, index) => ({
-        id: `a${index}`,
-        type: "added" as const,
+        id: `${prefix}${index}`,
+        type,
         content,
-        lineNumber: index + 1
-    }));
-}
-
-/**
- * For files with status "deleted" - all lines are removed
- */
-export function computeRemovedDiff(jsonString: string): DiffLine[] {
-    return jsonString.split("\n").map((content, index) => ({
-        id: `r${index}`,
-        type: "removed" as const,
-        content,
-        lineNumber: null
+        lineNumber: type === "added" ? index + 1 : null
     }));
 }

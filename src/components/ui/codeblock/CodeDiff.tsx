@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { cn } from "@/lib/utils";
-import { computeAddedDiff, computeRemovedDiff, computeUnifiedDiff, type DiffLine } from "@/lib/utils/diff";
+import { computeFullDiff, computeUnifiedDiff, type DiffLine } from "@/lib/utils/diff";
 import { applyJsonHighlights } from "@/lib/utils/json-tokenizer";
 
 interface CodeDiffProps {
@@ -12,9 +12,9 @@ interface CodeDiffProps {
 function computeDiffLines(original: string, compiled: string, status: CodeDiffProps["status"]): DiffLine[] {
     switch (status) {
         case "added":
-            return computeAddedDiff(compiled);
+            return computeFullDiff(compiled, "added");
         case "deleted":
-            return computeRemovedDiff(original);
+            return computeFullDiff(original, "removed");
         case "updated":
             return computeUnifiedDiff(original, compiled);
     }
