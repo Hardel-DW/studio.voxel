@@ -7,7 +7,7 @@ interface HighlightSectionProps {
 }
 
 export default function HighlightSection({ children, language }: HighlightSectionProps) {
-    const cleanupRef = useRef<() => void>(() => {});
+    const cleanupRef = useRef<() => void>(() => { });
     const lineCount = children.split("\n").length;
     if (language !== "json") return null;
 
@@ -22,7 +22,7 @@ export default function HighlightSection({ children, language }: HighlightSectio
 
     return (
         <div className="flex font-[Consolas] text-sm leading-6">
-            <div className="shrink-0 select-none text-right pr-4 border-r border-zinc-800/50 text-zinc-600">
+            <div className="shrink-0 select-none text-right px-4 border-r border-zinc-800/50 text-zinc-600">
                 {Array.from({ length: lineCount }, (_, i) => (
                     <div key={`line-${i + 1}`}>{i + 1}</div>
                 ))}

@@ -80,7 +80,7 @@ function restoreSelection(container: HTMLElement, startOffset: number, endOffset
 
 function LineNumbers({ count, errorLine }: { count: number; errorLine: number | null }) {
     return (
-        <div className="shrink-0 select-none text-right pr-4 border-r border-zinc-800/50 text-zinc-600 font-[Consolas] text-sm leading-6">
+        <div className="shrink-0 select-none text-right px-4 border-r border-zinc-800/50 text-zinc-600 font-[Consolas] text-sm leading-6">
             {Array.from({ length: count }, (_, i) => {
                 const lineNum = i + 1;
                 return (
@@ -95,13 +95,14 @@ function LineNumbers({ count, errorLine }: { count: number; errorLine: number | 
 
 export default function JsonEditor({ initialValue, className }: JsonEditorProps) {
     const editorRef = useRef<HTMLDivElement | null>(null);
-    const cleanupRef = useRef<() => void>(() => {});
+    const cleanupRef = useRef<() => void>(() => { });
     const [error, setError] = useState<JsonError | null>(() => validateJson(initialValue));
     const [lineCount, setLineCount] = useState(() => initialValue.split("\n").length);
 
     const updateHighlights = () => {
         if (!editorRef.current) return;
         cleanupRef.current();
+        editorRef.current.normalize();
         cleanupRef.current = applyJsonHighlights(editorRef.current);
     };
 
@@ -185,6 +186,7 @@ export default function JsonEditor({ initialValue, className }: JsonEditorProps)
         editorRef.current = el;
         if (el) {
             requestAnimationFrame(() => {
+                el.normalize();
                 cleanupRef.current = applyJsonHighlights(el);
             });
         }
@@ -192,41 +194,6 @@ export default function JsonEditor({ initialValue, className }: JsonEditorProps)
 
     return (
         <div className={cn("relative flex flex-col h-full overflow-hidden", className)}>
-            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 w-full max-w-4xl px-1">
-                <div className="relative group overflow-hidden rounded-2xl border border-white/10 bg-zinc-950/40 backdrop-blur-xl p-5 shadow-[0_8px_32px_0_rgba(0,0,0,0.8)] transition-all">
-                    <div className="absolute inset-0 bg-linear-to-br from-white/5 to-transparent pointer-events-none" />
-                    <div className="relative flex items-center gap-5">
-                        <div className="shrink-0 relative">
-                            <div className="absolute inset-0 bg-red-500/20 blur-xl rounded-full" />
-                            <div className="relative p-2.5 bg-zinc-900/50 border border-white/10 rounded-xl text-red-400">
-                                <svg className="size-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={1.5}
-                                        d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                                    />
-                                </svg>
-                            </div>
-                        </div>
-
-                        <div className="flex-1 space-y-3">
-                            <div className="flex items-center gap-2">
-                                <span className="text-[10px] font-bold uppercase tracking-widest text-red-400 bg-sky-500/10 mr-1 px-2 py-0.5 rounded-full border border-red-500/20">
-                                    Concept
-                                </span>
-                                <h3 className="text-sm font-semibold text-white/90 tracking-tight">PROTTYPE - NON FONCTIONNEL</h3>
-                            </div>
-                            <p className="text-[13px] leading-relaxed text-zinc-300/80 font-light">
-                                Cet éditeur est un <span className="text-white font-medium">prototype purement visuel</span>. Le moteur{" "}
-                                <span className="text-red-300 font-normal italic">Breeze de Voxel</span> n'est pas encore compatible pour
-                                gérer des sources externes. Les fonctions de sauvegarde seront activées dans une version ultérieure.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
             {error && (
                 <div className="absolute top-2 right-4 z-10 flex items-center gap-2 px-3 py-2 bg-red-500/20 backdrop-blur-sm border border-red-500/30 text-red-400 text-sm rounded-lg">
                     <svg className="size-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
