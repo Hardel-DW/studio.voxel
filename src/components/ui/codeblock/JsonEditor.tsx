@@ -95,7 +95,7 @@ function LineNumbers({ count, errorLine }: { count: number; errorLine: number | 
 
 export default function JsonEditor({ initialValue, className }: JsonEditorProps) {
     const editorRef = useRef<HTMLDivElement | null>(null);
-    const cleanupRef = useRef<() => void>(() => { });
+    const cleanupRef = useRef<() => void>(() => {});
     const [error, setError] = useState<JsonError | null>(() => validateJson(initialValue));
     const [lineCount, setLineCount] = useState(() => initialValue.split("\n").length);
 

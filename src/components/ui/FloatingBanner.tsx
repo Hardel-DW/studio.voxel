@@ -18,15 +18,16 @@ export function FloatingBanner({ icon, hue, className, children }: FloatingBanne
                 <div className="relative flex items-center gap-5">
                     <div className="shrink-0 relative">
                         <div className="absolute inset-0 blur-xl rounded-full" style={{ backgroundColor: glowColor }} />
-                        <div
-                            className="relative p-2.5 bg-zinc-900/50 border border-white/10 rounded-xl"
-                            style={{ color: accentColor }}>
-                            <img src={icon} alt="" className="size-6" style={{ filter: `sepia(1) saturate(5) hue-rotate(${hue - 50}deg)` }} />
+                        <div className="relative p-2.5 bg-zinc-900/50 border border-white/10 rounded-xl" style={{ color: accentColor }}>
+                            <img
+                                src={icon}
+                                alt=""
+                                className="size-6"
+                                style={{ filter: `sepia(1) saturate(5) hue-rotate(${hue - 50}deg)` }}
+                            />
                         </div>
                     </div>
-                    <div className="flex-1 space-y-3">
-                        {children}
-                    </div>
+                    <div className="flex-1 space-y-3">{children}</div>
                 </div>
             </div>
         </div>

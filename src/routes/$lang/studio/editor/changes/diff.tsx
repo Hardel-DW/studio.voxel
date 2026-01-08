@@ -44,7 +44,9 @@ function ChangesDiffPage() {
                 <p className="text-[13px] leading-relaxed text-zinc-300/80 font-light">{t("changes:banner.diff.description")}</p>
             </FloatingBanner>
             {!status || status === "unchanged" ? (
-                <CodeBlock key={file} language="json">{compiled}</CodeBlock>
+                <CodeBlock key={file} language="json">
+                    {compiled}
+                </CodeBlock>
             ) : (
                 <CodeDiff key={file} original={original} compiled={compiled} status={status} />
             )}

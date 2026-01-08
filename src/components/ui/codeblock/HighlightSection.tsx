@@ -7,7 +7,7 @@ interface HighlightSectionProps {
 }
 
 export default function HighlightSection({ children, language }: HighlightSectionProps) {
-    const cleanupRef = useRef<() => void>(() => { });
+    const cleanupRef = useRef<() => void>(() => {});
     const lineCount = children.split("\n").length;
     if (language !== "json") return null;
 

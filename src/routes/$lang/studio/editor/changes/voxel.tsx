@@ -1,12 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { DiffEmptyState } from "@/components/tools/concept/changes/DiffEmptyState";
 import { DiffHeader } from "@/components/tools/concept/changes/DiffHeader";
+import { Badge } from "@/components/ui/Badge";
 import CodeBlock from "@/components/ui/codeblock/CodeBlock";
+import { FloatingBanner } from "@/components/ui/FloatingBanner";
 import { useTranslate } from "@/lib/i18n";
 import { useConfiguratorStore } from "@/lib/store/StudioStore";
 import { parseFilePath } from "@/lib/utils/concept";
-import { Badge } from "@/components/ui/Badge";
-import { FloatingBanner } from "@/components/ui/FloatingBanner";
 
 export const Route = createFileRoute("/$lang/studio/editor/changes/voxel")({
     component: ChangesVoxelPage,
