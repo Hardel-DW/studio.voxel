@@ -18,6 +18,7 @@ interface TreeConfig {
     disableAutoExpand?: boolean;
     selectedElementId?: string | null;
     onSelectElement?: (elementId: string) => void;
+    onSelectFolder?: (path: string) => void;
 }
 
 interface TreeContextValue {
@@ -51,7 +52,18 @@ export function TreeProvider({ config, children }: { config: TreeConfig; childre
     const isOnTab = config.tabRoutes?.some((route) => matches.map((m) => m.routeId as string).includes(route));
     const { lang } = useParams({ from: "/$lang" });
 
+    if (isOnTab && !currentElementId) {
+        const activeTab = useTabsStore.getState().getActiveTab();
+        if (activeTab) {
+            useNavigationStore.getState().setCurrentElementId(activeTab.elementId);
+        }
+    }
+
     const selectFolder = (path: string) => {
+        if (config.onSelectFolder) {
+            config.onSelectFolder(path);
+            return;
+        }
         setFilterPath(path);
         clearSelection();
         navigate({ to: config.overviewRoute, params: { lang } });

@@ -38,6 +38,7 @@ function ChangesLayout() {
     const onSelectElement = (filePath: string) => {
         navigate({ to: detailRoute, params: { lang }, search: { file: filePath } });
     };
+    const onSelectFolder = () => {};
 
     const pushMutation = useMutation({
         mutationFn: () => {
@@ -65,7 +66,8 @@ function ChangesLayout() {
                 tree,
                 folderIcons,
                 selectedElementId: selectedFile,
-                onSelectElement
+                onSelectElement,
+                onSelectFolder
             }}>
             <div className="flex size-full overflow-hidden relative isolate bg-sidebar">
                 <aside className="w-72 shrink-0 border-r border-zinc-800/50 bg-zinc-950/75 flex flex-col">
