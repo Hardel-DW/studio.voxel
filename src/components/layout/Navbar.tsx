@@ -151,6 +151,9 @@ export default function Navbar() {
                                             <ListItem to="/$lang/migration" params={{ lang }} title={t("navbar.resources.migration.title")}>
                                                 {t("navbar.resources.migration.description")}
                                             </ListItem>
+                                            <ListItem to="/$lang/level" params={{ lang }} title={t("navbar.resources.level.title")}>
+                                                {t("navbar.resources.level.description")}
+                                            </ListItem>
                                         </ul>
                                     </div>
                                 </NavigationDropdown>

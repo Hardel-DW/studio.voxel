@@ -1,5 +1,5 @@
 /**
- * Télécharge n'importe quel contenu comme fichier
+ * Downloads any content as a file
  */
 export const downloadFile = async (content: Response | Blob | string, filename: string, mimeType = "text/plain") => {
     if (typeof window === "undefined") return;
@@ -16,10 +16,10 @@ export const downloadFile = async (content: Response | Blob | string, filename: 
 };
 
 /**
- * Télécharge une image à partir d'un canvas
- * @param canvas Le canvas contenant l'image
- * @param filename Le nom de fichier souhaité (optionnel)
- * @param format Le format de l'image ('png' par défaut)
+ * Downloads an image from a canvas
+ * @param canvas The canvas containing the image
+ * @param filename The desired filename (optional)
+ * @param format The image format ('png' by default)
  */
 export const downloadCanvas = (canvas: HTMLCanvasElement, filename = "image.png", format = "png") => {
     if (typeof window === "undefined" || !canvas) return;

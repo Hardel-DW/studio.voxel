@@ -2,8 +2,6 @@ import { createFileRoute } from "@tanstack/react-router";
 import CompoundLayout from "@/components/layout/CompoundLayout";
 import ConverterEditor from "@/components/pages/converter/ConverterEditor";
 import PageLoading from "@/components/pages/PageLoading";
-import { Button } from "@/components/ui/Button";
-import { DashedPattern } from "@/components/ui/DashedPattern";
 import ShiningStars from "@/components/ui/ShiningStars";
 import Star from "@/components/ui/Star";
 import Walkthrough from "@/components/ui/Walkthrough";
@@ -15,7 +13,6 @@ export const Route = createFileRoute("/$lang/converter")({
 });
 
 function ConverterPage() {
-    const { lang } = Route.useParams();
     const t = useTranslate();
 
     const walkthroughSteps = [
@@ -69,71 +66,6 @@ function ConverterPage() {
                     </div>
 
                     <ConverterEditor />
-                </div>
-            </section>
-
-            <section className="w-3/4 mx-auto relative grid md:grid-cols-2 items-center gap-x-16 gap-y-24 mt-16 mb-40">
-                <div className="absolute w-full inset-0 shadow-2xl bg-linear-to-r from-[#401727] to-[#311e7696] opacity-20 rounded-full blur-3xl" />
-                <DashedPattern className="mask-[radial-gradient(white,transparent_60%)]" />
-
-                <div className="relative w-full flex justify-center items-center">
-                    <img className="absolute opacity-10 select-none" src="/icons/circle.svg" alt="box" />
-                    <img
-                        loading="eager"
-                        width="1200"
-                        height="900"
-                        src="/images/background/tools/enchant-hero.webp"
-                        alt="Enchant Hero Background"
-                        className="aspect-auto select-none"
-                    />
-                </div>
-                <div className="h-full w-full mx-auto relative">
-                    <div className="size-full flex flex-col justify-center">
-                        <small className="text-pink-700 font-bold tracking-wide text-[16px]">{t("generic.section")}</small>
-                        <h1 className="text-white text-4xl md:text-6xl font-bold mt-4 text-balance">{t("suggestions.studio.title")}</h1>
-                        <p className="text-gray-300 mt-4">{t("suggestions.studio.description")}</p>
-
-                        <div className="mt-8 flex flex-col md:flex-row gap-4">
-                            <Button to="/$lang/studio" params={{ lang }} size="xl" variant="default" className="w-full md:w-auto">
-                                {t("generic.start")}
-                            </Button>
-                            <Button to="/$lang/studio" params={{ lang }} size="xl" variant="ghost" className="w-full md:w-auto">
-                                {t("generic.learn_more")}
-                            </Button>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section className="w-3/4 mx-auto relative flex flex-col-reverse md:grid md:grid-cols-2 items-center gap-x-16 gap-y-24 my-40">
-                <div className="absolute w-full inset-0 shadow-2xl bg-linear-to-r from-[#401727] to-[#311e7696] opacity-20 rounded-full blur-3xl" />
-                <DashedPattern className="mask-[radial-gradient(white,transparent_60%)]" />
-
-                <div className="h-full w-full mx-auto relative">
-                    <div className="size-full flex flex-col justify-center">
-                        <h1 className="text-white text-4xl md:text-6xl font-bold mt-4 text-balance">{t("suggestions.datapacks.title")}</h1>
-                        <p className="text-gray-300 mt-4">{t("suggestions.datapacks.description")}</p>
-
-                        <div className="mt-8 flex flex-col md:flex-row gap-4">
-                            <Button to="/$lang/studio" params={{ lang }} size="xl" variant="shimmer" className="w-full md:w-auto">
-                                {t("generic.take_a_look")}
-                            </Button>
-                            <Button to="/$lang/studio" params={{ lang }} size="xl" variant="ghost" className="w-full md:w-auto">
-                                {t("generic.learn_more")}
-                            </Button>
-                        </div>
-                    </div>
-                </div>
-                <div className="relative w-full flex justify-center items-center">
-                    <img className="absolute opacity-10 select-none" src="/icons/circle.svg" alt="box" />
-                    <img
-                        loading="eager"
-                        width="1200"
-                        height="900"
-                        src="/images/tools/modrinth.webp"
-                        alt="Modrinth"
-                        className="aspect-auto select-none"
-                    />
                 </div>
             </section>
 
