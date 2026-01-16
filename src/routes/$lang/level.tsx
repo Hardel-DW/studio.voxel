@@ -8,6 +8,9 @@ import DimensionList from "@/components/pages/level/DimensionList";
 import DatapackView from "@/components/pages/level/DatapackView";
 import DragonFightView from "@/components/pages/level/DragonFightView";
 import LineSetup from "@/components/ui/line/LineSetup";
+import LevelUploader from "@/components/pages/level/LevelUploader";
+import LevelActionBar from "@/components/pages/level/LevelActionBar";
+import { useLevelStore } from "@/lib/store/LevelStore";
 
 export const Route = createFileRoute("/$lang/level")({
     component: Page,
@@ -23,11 +26,11 @@ export const Route = createFileRoute("/$lang/level")({
 type Tab = "worldgen" | "datapacks" | "dragon";
 function Page() {
     const [activeTab, setActiveTab] = useState<Tab>("worldgen");
-    const levelName = "New World";
-    const tabs: { id: Tab; label: string; icon: string }[] = [
-        { id: "worldgen", label: "Dimensions & Generator", icon: "/icons/world.svg" },
-        { id: "datapacks", label: "Datapacks", icon: "/icons/box.svg" },
-        { id: "dragon", label: "Dragon Fight", icon: "/icons/dragon.svg" },
+    const hasFile = useLevelStore((s) => s.data !== null);
+    const tabs: { id: Tab; label: string }[] = [
+        { id: "worldgen", label: "Dimensions & Generator" },
+        { id: "datapacks", label: "Datapacks" },
+        { id: "dragon", label: "Dragon Fight" },
     ];
 
     return (
@@ -55,42 +58,53 @@ function Page() {
 
                 <main className="flex-1 overflow-y-auto overflow-x-hidden relative z-100">
                     <div className="max-w-5/6 mx-auto p-6 lg:p-10 space-y-8">
-                        <section className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                            <div className="lg:col-span-7 xl:col-span-8 h-full">
-                                <GeneralCard levelName={levelName} />
-                            </div>
-                            <div className="lg:col-span-5 xl:col-span-4 h-full">
-                                <TimeWeatherCard />
-                            </div>
-                        </section>
+                        {!hasFile ? (
+                            <section className="flex flex-col items-center justify-center min-h-[60vh]">
+                                <div className="w-full max-w-md">
+                                    <LevelUploader />
+                                </div>
+                            </section>
+                        ) : (
+                            <>
+                                <section className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                                    <div className="lg:col-span-7 xl:col-span-8 h-full">
+                                        <GeneralCard />
+                                    </div>
+                                    <div className="lg:col-span-5 xl:col-span-4 h-full">
+                                        <TimeWeatherCard />
+                                    </div>
+                                </section>
 
-                        <div className="sticky top-0 z-10 pt-4 pb-2 bg-zinc-950/95 backdrop-blur border-b border-zinc-800/50">
-                            <nav className="flex items-center gap-1">
-                                {tabs.map((tab) => (
-                                    <button
-                                        type="button"
-                                        key={tab.id}
-                                        onClick={() => setActiveTab(tab.id)}
-                                        className={cn(
-                                            "px-4 py-2.5 text-sm font-medium rounded-lg transition-all flex items-center gap-2",
-                                            activeTab === tab.id
-                                                ? "bg-zinc-100 text-zinc-950 shadow-sm"
-                                                : "text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900"
-                                        )}
-                                    >
-                                        {tab.label}
-                                    </button>
-                                ))}
-                            </nav>
-                        </div>
+                                <div className="sticky top-0 z-10 pt-4 pb-2 bg-zinc-950/95 backdrop-blur border-b border-zinc-800/50">
+                                    <nav className="flex items-center gap-1">
+                                        {tabs.map((tab) => (
+                                            <button
+                                                type="button"
+                                                key={tab.id}
+                                                onClick={() => setActiveTab(tab.id)}
+                                                className={cn(
+                                                    "px-4 py-2.5 text-sm font-medium rounded-lg transition-all flex items-center gap-2",
+                                                    activeTab === tab.id
+                                                        ? "bg-zinc-100 text-zinc-950 shadow-sm"
+                                                        : "text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900"
+                                                )}>
+                                                {tab.label}
+                                            </button>
+                                        ))}
+                                    </nav>
+                                </div>
 
-                        <section className="min-h-[500px] animate-in fade-in slide-in-from-bottom-2 duration-300">
-                            {activeTab === "worldgen" && <DimensionList />}
-                            {activeTab === "datapacks" && <DatapackView />}
-                            {activeTab === "dragon" && <DragonFightView />}
-                        </section>
+                                <section className="min-h-[500px] animate-in fade-in slide-in-from-bottom-2 duration-300 pb-24">
+                                    {activeTab === "worldgen" && <DimensionList />}
+                                    {activeTab === "datapacks" && <DatapackView />}
+                                    {activeTab === "dragon" && <DragonFightView />}
+                                </section>
+                            </>
+                        )}
                     </div>
                 </main>
+
+                <LevelActionBar />
             </div>
         </CompoundLayout>
     );
