@@ -14,6 +14,7 @@ import { Route as LangRouteImport } from './routes/$lang'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as LangIndexRouteImport } from './routes/$lang/index'
 import { Route as LangMigrationRouteImport } from './routes/$lang/migration'
+import { Route as LangLevelRouteImport } from './routes/$lang/level'
 import { Route as LangHarmonizationRouteImport } from './routes/$lang/harmonization'
 import { Route as LangConverterRouteImport } from './routes/$lang/converter'
 import { Route as LangStudioIndexRouteImport } from './routes/$lang/studio/index'
@@ -67,6 +68,11 @@ const LangIndexRoute = LangIndexRouteImport.update({
 const LangMigrationRoute = LangMigrationRouteImport.update({
   id: '/migration',
   path: '/migration',
+  getParentRoute: () => LangRoute,
+} as any)
+const LangLevelRoute = LangLevelRouteImport.update({
+  id: '/level',
+  path: '/level',
   getParentRoute: () => LangRoute,
 } as any)
 const LangHarmonizationRoute = LangHarmonizationRouteImport.update({
@@ -243,6 +249,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/$lang/converter': typeof LangConverterRoute
   '/$lang/harmonization': typeof LangHarmonizationRoute
+  '/$lang/level': typeof LangLevelRoute
   '/$lang/migration': typeof LangMigrationRoute
   '/$lang/': typeof LangIndexRoute
   '/$lang/studio/editor': typeof LangStudioEditorRouteWithChildren
@@ -278,6 +285,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/$lang/converter': typeof LangConverterRoute
   '/$lang/harmonization': typeof LangHarmonizationRoute
+  '/$lang/level': typeof LangLevelRoute
   '/$lang/migration': typeof LangMigrationRoute
   '/$lang': typeof LangIndexRoute
   '/$lang/studio/editor': typeof LangStudioEditorRouteWithChildren
@@ -315,6 +323,7 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/$lang/converter': typeof LangConverterRoute
   '/$lang/harmonization': typeof LangHarmonizationRoute
+  '/$lang/level': typeof LangLevelRoute
   '/$lang/migration': typeof LangMigrationRoute
   '/$lang/': typeof LangIndexRoute
   '/$lang/studio/editor': typeof LangStudioEditorRouteWithChildren
@@ -353,6 +362,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/$lang/converter'
     | '/$lang/harmonization'
+    | '/$lang/level'
     | '/$lang/migration'
     | '/$lang/'
     | '/$lang/studio/editor'
@@ -388,6 +398,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/$lang/converter'
     | '/$lang/harmonization'
+    | '/$lang/level'
     | '/$lang/migration'
     | '/$lang'
     | '/$lang/studio/editor'
@@ -424,6 +435,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/$lang/converter'
     | '/$lang/harmonization'
+    | '/$lang/level'
     | '/$lang/migration'
     | '/$lang/'
     | '/$lang/studio/editor'
@@ -496,6 +508,13 @@ declare module '@tanstack/react-router' {
       path: '/migration'
       fullPath: '/$lang/migration'
       preLoaderRoute: typeof LangMigrationRouteImport
+      parentRoute: typeof LangRoute
+    }
+    '/$lang/level': {
+      id: '/$lang/level'
+      path: '/level'
+      fullPath: '/$lang/level'
+      preLoaderRoute: typeof LangLevelRouteImport
       parentRoute: typeof LangRoute
     }
     '/$lang/harmonization': {
@@ -823,6 +842,7 @@ const LangStudioEditorRouteWithChildren =
 interface LangRouteChildren {
   LangConverterRoute: typeof LangConverterRoute
   LangHarmonizationRoute: typeof LangHarmonizationRoute
+  LangLevelRoute: typeof LangLevelRoute
   LangMigrationRoute: typeof LangMigrationRoute
   LangIndexRoute: typeof LangIndexRoute
   LangStudioEditorRoute: typeof LangStudioEditorRouteWithChildren
@@ -832,6 +852,7 @@ interface LangRouteChildren {
 const LangRouteChildren: LangRouteChildren = {
   LangConverterRoute: LangConverterRoute,
   LangHarmonizationRoute: LangHarmonizationRoute,
+  LangLevelRoute: LangLevelRoute,
   LangMigrationRoute: LangMigrationRoute,
   LangIndexRoute: LangIndexRoute,
   LangStudioEditorRoute: LangStudioEditorRouteWithChildren,
