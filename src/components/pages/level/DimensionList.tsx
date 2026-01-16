@@ -1,10 +1,12 @@
 import { useState } from "react";
+import { useTranslate } from "@/lib/i18n";
 import { type DimensionData, useLevelStore } from "@/lib/store/LevelStore";
 import { cn } from "@/lib/utils";
 
 const VANILLA_DIMENSIONS = new Set(["minecraft:overworld", "minecraft:the_nether", "minecraft:the_end"]);
 
 export default function DimensionList() {
+    const t = useTranslate();
     const [search, setSearch] = useState("");
     const dimensions = useLevelStore((s) => s.data?.dimensions ?? []);
     const set = useLevelStore((s) => s.set);
@@ -21,8 +23,8 @@ export default function DimensionList() {
     if (dimensions.length === 0) {
         return (
             <div className="flex flex-col items-center justify-center py-20 text-zinc-500">
-                <p className="text-lg">No dimensions found</p>
-                <p className="text-sm mt-1">This level.dat has no WorldGenSettings</p>
+                <p className="text-lg">{t("level.dimensions.empty")}</p>
+                <p className="text-sm mt-1">{t("level.dimensions.no_worldgen")}</p>
             </div>
         );
     }
@@ -31,15 +33,15 @@ export default function DimensionList() {
         <div className="flex flex-col gap-4">
             <div className="flex items-end justify-between px-1">
                 <div>
-                    <h2 className="text-lg font-medium text-white">World Generation</h2>
-                    <p className="text-sm text-zinc-500">Configured dimensions and generator settings.</p>
+                    <h2 className="text-lg font-medium text-white">{t("level.dimensions.title")}</h2>
+                    <p className="text-sm text-zinc-500">{t("level.dimensions.description")}</p>
                 </div>
                 <div className="flex gap-2">
                     <input
                         type="text"
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
-                        placeholder="Search dimensions..."
+                        placeholder={t("level.dimensions.search")}
                         className="bg-zinc-900 border border-zinc-800 rounded-lg px-3 py-1.5 text-sm text-white focus:outline-none focus:border-zinc-600 w-64 placeholder-zinc-600"
                     />
                 </div>
@@ -47,10 +49,10 @@ export default function DimensionList() {
 
             <div className="bg-zinc-900/40 backdrop-blur-xl border border-white/5 rounded-3xl overflow-hidden">
                 <div className="grid grid-cols-12 gap-4 px-6 py-3 border-b border-white/5 text-xs font-bold text-zinc-500 uppercase tracking-wider">
-                    <div className="col-span-4">Dimension ID</div>
-                    <div className="col-span-3">Type</div>
-                    <div className="col-span-3">Generator</div>
-                    <div className="col-span-2 text-right">Actions</div>
+                    <div className="col-span-4">{t("level.dimensions.column.id")}</div>
+                    <div className="col-span-3">{t("level.dimensions.column.type")}</div>
+                    <div className="col-span-3">{t("level.dimensions.column.generator")}</div>
+                    <div className="col-span-2 text-right">{t("level.dimensions.column.actions")}</div>
                 </div>
 
                 <div className="divide-y divide-white/5">
@@ -61,13 +63,14 @@ export default function DimensionList() {
             </div>
 
             <div className="px-1 text-xs text-zinc-500 text-center pt-4">
-                Showing {filtered.length} of {dimensions.length} dimensions.
+                {t("level.dimensions.showing", { filtered: filtered.length, total: dimensions.length })}
             </div>
         </div>
     );
 }
 
 function DimensionRow({ dim, onDelete }: { dim: DimensionData; onDelete: (id: string) => void }) {
+    const t = useTranslate();
     const isVanilla = VANILLA_DIMENSIONS.has(dim.id);
 
     return (
@@ -82,7 +85,7 @@ function DimensionRow({ dim, onDelete }: { dim: DimensionData; onDelete: (id: st
                 </div>
                 <div className="flex flex-col min-w-0">
                     <span className="text-sm font-medium text-zinc-200 truncate font-mono">{dim.id}</span>
-                    {!isVanilla && <span className="text-[10px] text-blue-400">Custom Dimension</span>}
+                    {!isVanilla && <span className="text-[10px] text-blue-400">{t("level.dimensions.custom")}</span>}
                 </div>
             </div>
 
@@ -97,7 +100,7 @@ function DimensionRow({ dim, onDelete }: { dim: DimensionData; onDelete: (id: st
                     type="button"
                     onClick={() => onDelete(dim.id)}
                     className="cursor-pointer group-hover:opacity-100 transition-opacity px-3 py-1.5 text-xs font-medium text-zinc-400 hover:text-red-400 hover:bg-red-950/30 rounded-lg border border-transparent hover:border-red-900/50">
-                    Delete
+                    {t("level.dimensions.delete")}
                 </button>
             </div>
         </div>

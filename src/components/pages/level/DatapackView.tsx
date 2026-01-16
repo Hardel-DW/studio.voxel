@@ -1,6 +1,8 @@
+import { useTranslate } from "@/lib/i18n";
 import { useLevelStore } from "@/lib/store/LevelStore";
 
 export default function DatapackView() {
+    const t = useTranslate();
     const enabled = useLevelStore((s) => s.data?.enabledPacks ?? []);
     const disabled = useLevelStore((s) => s.data?.disabledPacks ?? []);
     const set = useLevelStore((s) => s.set);
@@ -26,11 +28,11 @@ export default function DatapackView() {
             <div className="flex flex-col bg-zinc-900/40 backdrop-blur-xl border border-white/5 rounded-3xl overflow-hidden">
                 <div className="p-4 border-b border-white/5 flex justify-between items-center">
                     <div>
-                        <h3 className="text-sm font-bold text-white">Enabled Packs</h3>
-                        <p className="text-xs text-zinc-500">Loaded in order (top to bottom)</p>
+                        <h3 className="text-sm font-bold text-white">{t("level.datapacks.enabled.title")}</h3>
+                        <p className="text-xs text-zinc-500">{t("level.datapacks.enabled.description")}</p>
                     </div>
                     <span className="px-2 py-0.5 rounded text-xs font-medium bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">
-                        Active
+                        {t("level.datapacks.active")}
                     </span>
                 </div>
 
@@ -50,12 +52,12 @@ export default function DatapackView() {
                                 type="button"
                                 onClick={() => movePack(pack, false)}
                                 className="p-1.5 text-zinc-500 hover:text-white hover:bg-white/10 rounded-lg opacity-0 group-hover:opacity-100 transition-all">
-                                <span className="sr-only">Disable</span>→
+                                <span className="sr-only">{t("level.datapacks.disable")}</span>→
                             </button>
                         </div>
                     ))}
                     {enabled.length === 0 && (
-                        <div className="flex items-center justify-center h-32 text-zinc-600 text-sm">No enabled packs</div>
+                        <div className="flex items-center justify-center h-32 text-zinc-600 text-sm">{t("level.datapacks.no_enabled")}</div>
                     )}
                 </div>
             </div>
@@ -63,8 +65,8 @@ export default function DatapackView() {
             <div className="flex flex-col bg-zinc-900/30 backdrop-blur-xl border border-white/5 border-dashed rounded-3xl overflow-hidden">
                 <div className="p-4 border-b border-white/5 flex justify-between items-center">
                     <div>
-                        <h3 className="text-sm font-bold text-zinc-400">Available Packs</h3>
-                        <p className="text-xs text-zinc-600">Click arrow to enable</p>
+                        <h3 className="text-sm font-bold text-zinc-400">{t("level.datapacks.available.title")}</h3>
+                        <p className="text-xs text-zinc-600">{t("level.datapacks.available.description")}</p>
                     </div>
                 </div>
 
@@ -88,7 +90,7 @@ export default function DatapackView() {
                         </div>
                     ))}
                     {disabled.length === 0 && (
-                        <div className="flex items-center justify-center h-32 text-zinc-600 text-sm">No disabled packs</div>
+                        <div className="flex items-center justify-center h-32 text-zinc-600 text-sm">{t("level.datapacks.no_disabled")}</div>
                     )}
                 </div>
             </div>

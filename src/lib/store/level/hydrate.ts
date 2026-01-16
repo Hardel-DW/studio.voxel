@@ -1,5 +1,5 @@
 import type { NbtFile, NbtTag } from "@voxelio/snbt";
-import { isByte, isCompound, isInt, isList, isLong, isString } from "@voxelio/snbt";
+import { isByte, isCompound, isInt, isIntArray, isList, isLong, isString } from "@voxelio/snbt";
 import type { DimensionData, LevelData } from "../LevelStore";
 
 export const hydrateLevelData = (file: NbtFile): LevelData => {
@@ -113,11 +113,15 @@ const extractGateways = (data: { entries: Map<string, NbtTag> } | undefined): nu
     if (!dragonFight || !isCompound(dragonFight)) return [];
 
     const gateways = dragonFight.entries.get("Gateways") as NbtTag | undefined;
-    if (!gateways || !isList(gateways)) return [];
+    if (!gateways) return [];
 
-    const result: number[] = [];
-    for (const item of gateways.items) {
-        if (isInt(item)) result.push(item.value);
-    }
-    return result;
+    const allGateways = new Set(Array.from({ length: 20 }, (_, i) => i));
+
+    const notSpawned = isIntArray(gateways)
+        ? Array.from(gateways.value)
+        : isList(gateways)
+            ? gateways.items.filter(isInt).map((item) => item.value)
+            : [];
+
+    return Array.from(allGateways).filter((gateway) => !notSpawned.includes(gateway));
 };

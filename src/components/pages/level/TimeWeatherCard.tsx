@@ -1,3 +1,4 @@
+import { useTranslate } from "@/lib/i18n";
 import { useLevelStore } from "@/lib/store/LevelStore";
 import { cn } from "@/lib/utils";
 
@@ -10,6 +11,7 @@ const getWeather = (raining: boolean, thundering: boolean): Weather => {
 };
 
 export default function TimeWeatherCard() {
+    const t = useTranslate();
     const time = useLevelStore((s) => s.data?.time ?? 0);
     const raining = useLevelStore((s) => s.data?.raining ?? false);
     const thundering = useLevelStore((s) => s.data?.thundering ?? false);
@@ -41,9 +43,9 @@ export default function TimeWeatherCard() {
                 <div className="relative z-10 space-y-6">
                     <div className="flex items-center justify-between">
                         <label htmlFor="environment" className="text-xs font-bold text-zinc-500 uppercase tracking-widest">
-                            Environment
+                            {t("level.environment.title")}
                         </label>
-                        <span className="text-xs font-mono text-zinc-400">{time.toLocaleString()} TICKS</span>
+                        <span className="text-xs font-mono text-zinc-400">{time.toLocaleString()} {t("level.environment.ticks")}</span>
                     </div>
 
                     <div className="space-y-3">
@@ -55,10 +57,10 @@ export default function TimeWeatherCard() {
                             <div className="absolute inset-0 shadow-inner pointer-events-none" />
                         </div>
                         <div className="flex justify-between text-xs text-zinc-500 px-1">
-                            <span>Sunrise</span>
-                            <span>Noon</span>
-                            <span>Sunset</span>
-                            <span>Midnight</span>
+                            <span>{t("level.environment.sunrise")}</span>
+                            <span>{t("level.environment.noon")}</span>
+                            <span>{t("level.environment.sunset")}</span>
+                            <span>{t("level.environment.midnight")}</span>
                         </div>
                     </div>
 
@@ -74,7 +76,7 @@ export default function TimeWeatherCard() {
                                         ? "bg-blue-500/10 text-blue-200 border-blue-500/20"
                                         : "bg-zinc-800/30 text-zinc-400 border-transparent hover:bg-zinc-800/50"
                                 )}>
-                                {w === "clear" ? "Clear" : w === "rain" ? "Rain" : "Thunder"}
+                                {t(`level.environment.weather.${w}`)}
                             </button>
                         ))}
                     </div>
@@ -84,19 +86,24 @@ export default function TimeWeatherCard() {
             <div className="bg-zinc-900/60 backdrop-blur-xl border border-white/5 rounded-3xl p-6 flex flex-col justify-center">
                 <div className="flex items-center justify-between mb-4">
                     <label htmlFor="difficulty" className="text-xs font-bold text-zinc-500 uppercase tracking-widest">
-                        Difficulty
+                        {t("level.difficulty.title")}
                     </label>
                     <button
                         type="button"
                         onClick={handleLockToggle}
                         className={`p-1.5 rounded-lg transition-colors ${locked ? "bg-red-500/20 text-red-400" : "bg-zinc-800 text-zinc-500 hover:text-zinc-300"}`}
-                        title="Lock Difficulty">
+                        title={t("level.difficulty.lock")}>
                         <img src={locked ? "/icons/lock.svg" : "/icons/unlock.svg"} className="size-4 invert" alt="Lock" />
                     </button>
                 </div>
 
                 <div className="relative h-10 bg-zinc-950/50 rounded-lg p-1 flex">
-                    {["Peaceful", "Easy", "Normal", "Hard"].map((diff, index) => (
+                    {[
+                        t("level.difficulty.peaceful"),
+                        t("level.difficulty.easy"),
+                        t("level.difficulty.normal"),
+                        t("level.difficulty.hard")
+                    ].map((diff, index) => (
                         <button
                             key={diff}
                             type="button"

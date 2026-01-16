@@ -1,8 +1,10 @@
 import { TOAST, toast } from "@/components/ui/Toast";
+import { useTranslate } from "@/lib/i18n";
 import { useLevelStore } from "@/lib/store/LevelStore";
 import { downloadFile } from "@/lib/utils/download";
 
 export default function LevelActionBar() {
+    const t = useTranslate();
     const fileName = useLevelStore((s) => s.fileName);
     const exportFile = useLevelStore((s) => s.exportFile);
     const reset = useLevelStore((s) => s.reset);
@@ -12,17 +14,17 @@ export default function LevelActionBar() {
     const handleExport = async () => {
         const data = exportFile();
         if (!data) {
-            toast("Nothing to export", TOAST.ERROR);
+            toast(t("level.actionbar.nothing_to_export"), TOAST.ERROR);
             return;
         }
 
         await downloadFile(new Blob([new Uint8Array(data)], { type: "application/octet-stream" }), fileName);
-        toast(`Exported ${fileName}`, TOAST.SUCCESS);
+        toast(t("level.actionbar.exported", { file: fileName }), TOAST.SUCCESS);
     };
 
     const handleClose = () => {
         reset();
-        toast("File closed", TOAST.SUCCESS);
+        toast(t("level.actionbar.file_closed"), TOAST.SUCCESS);
     };
 
     return (
@@ -37,14 +39,14 @@ export default function LevelActionBar() {
                     type="button"
                     onClick={handleExport}
                     className="px-4 py-2 text-sm font-medium text-white bg-emerald-600 hover:bg-emerald-500 rounded-lg transition-colors">
-                    Export
+                    {t("level.actionbar.export")}
                 </button>
 
                 <button
                     type="button"
                     onClick={handleClose}
                     className="px-4 py-2 text-sm font-medium text-zinc-400 hover:text-white hover:bg-zinc-800 rounded-lg transition-colors">
-                    Close
+                    {t("level.actionbar.close")}
                 </button>
             </div>
         </div>
