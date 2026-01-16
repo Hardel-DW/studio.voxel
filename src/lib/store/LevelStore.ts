@@ -1,7 +1,7 @@
 import { NbtFile } from "@voxelio/snbt";
 import { create } from "zustand";
-import { hydrateLevelData } from "./level/hydrate";
 import { compileLevelData } from "./level/compile";
+import { hydrateLevelData } from "./level/hydrate";
 
 export interface DimensionData {
     id: string;

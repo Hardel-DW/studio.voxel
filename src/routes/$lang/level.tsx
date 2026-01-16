@@ -1,17 +1,17 @@
-import GeneralCard from "@/components/pages/level/GeneralCard";
-import TimeWeatherCard from "@/components/pages/level/TimeWeatherCard";
 import { createFileRoute } from "@tanstack/react-router";
-import CompoundLayout from "@/components/layout/CompoundLayout";
 import { useState } from "react";
-import { cn } from "@/lib/utils";
-import DimensionList from "@/components/pages/level/DimensionList";
+import CompoundLayout from "@/components/layout/CompoundLayout";
 import DatapackView from "@/components/pages/level/DatapackView";
+import DimensionList from "@/components/pages/level/DimensionList";
 import DragonFightView from "@/components/pages/level/DragonFightView";
-import LineSetup from "@/components/ui/line/LineSetup";
-import LevelUploader from "@/components/pages/level/LevelUploader";
+import GeneralCard from "@/components/pages/level/GeneralCard";
 import LevelActionBar from "@/components/pages/level/LevelActionBar";
-import { useLevelStore } from "@/lib/store/LevelStore";
+import LevelUploader from "@/components/pages/level/LevelUploader";
+import TimeWeatherCard from "@/components/pages/level/TimeWeatherCard";
+import LineSetup from "@/components/ui/line/LineSetup";
 import Star from "@/components/ui/Star";
+import { useLevelStore } from "@/lib/store/LevelStore";
+import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/$lang/level")({
     component: Page,
@@ -31,7 +31,7 @@ function Page() {
     const tabs: { id: Tab; label: string }[] = [
         { id: "worldgen", label: "Dimensions & Generator" },
         { id: "datapacks", label: "Datapacks" },
-        { id: "dragon", label: "Dragon Fight" },
+        { id: "dragon", label: "Dragon Fight" }
     ];
 
     return (
@@ -78,7 +78,6 @@ function Page() {
                                     <LevelUploader />
                                 </div>
                             </section>
-
                         ) : (
                             <>
                                 <section className="grid grid-cols-1 lg:grid-cols-12 gap-6">

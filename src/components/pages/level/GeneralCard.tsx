@@ -27,7 +27,9 @@ export default function GeneralCard() {
 
             <div className="space-y-6 relative z-10">
                 <div className="space-y-2">
-                    <label htmlFor="levelName" className="text-xs font-bold text-zinc-500 uppercase tracking-widest">Level Name</label>
+                    <label htmlFor="levelName" className="text-xs font-bold text-zinc-500 uppercase tracking-widest">
+                        Level Name
+                    </label>
                     <input
                         id="levelName"
                         type="text"
@@ -50,7 +52,9 @@ export default function GeneralCard() {
             </div>
 
             <div className="pt-8 relative z-10">
-                <label htmlFor="gameMode" className="text-xs font-bold text-zinc-500 uppercase tracking-widest mb-4 block">Game Mode</label>
+                <label htmlFor="gameMode" className="text-xs font-bold text-zinc-500 uppercase tracking-widest mb-4 block">
+                    Game Mode
+                </label>
                 <div className="grid grid-cols-4 gap-3">
                     {modes.map((mode, i) => (
                         <button

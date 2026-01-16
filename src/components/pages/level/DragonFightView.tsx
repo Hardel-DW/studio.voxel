@@ -1,5 +1,5 @@
-import { cn } from "@/lib/utils";
 import { useLevelStore } from "@/lib/store/LevelStore";
+import { cn } from "@/lib/utils";
 
 const getPosition = (index: number, total: number, radius: number) => {
     const angle = (index / total) * 2 * Math.PI - Math.PI / 2;
@@ -98,7 +98,8 @@ export default function DragonFightView() {
                         <span className="text-xs font-mono text-zinc-500">{gateways.length} / 20</span>
                     </div>
                     <p className="text-sm text-zinc-400 mb-6 max-w-2xl">
-                        Gateways form a ring around the main island. Click on a gateway to toggle it. Resetting allows regeneration when the dragon is killed again.
+                        Gateways form a ring around the main island. Click on a gateway to toggle it. Resetting allows regeneration when the
+                        dragon is killed again.
                     </p>
                     <div className="mt-auto flex gap-3">
                         <button

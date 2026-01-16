@@ -1,6 +1,6 @@
-import { cn } from "@/lib/utils";
-import { useLevelStore, type DimensionData } from "@/lib/store/LevelStore";
 import { useState } from "react";
+import { type DimensionData, useLevelStore } from "@/lib/store/LevelStore";
+import { cn } from "@/lib/utils";
 
 const VANILLA_DIMENSIONS = new Set(["minecraft:overworld", "minecraft:the_nether", "minecraft:the_end"]);
 
@@ -9,12 +9,13 @@ export default function DimensionList() {
     const dimensions = useLevelStore((s) => s.data?.dimensions ?? []);
     const set = useLevelStore((s) => s.set);
 
-    const filtered = search
-        ? dimensions.filter((d) => d.id.toLowerCase().includes(search.toLowerCase()))
-        : dimensions;
+    const filtered = search ? dimensions.filter((d) => d.id.toLowerCase().includes(search.toLowerCase())) : dimensions;
 
     const handleDelete = (dimensionId: string) => {
-        set("dimensions", dimensions.filter((d) => d.id !== dimensionId));
+        set(
+            "dimensions",
+            dimensions.filter((d) => d.id !== dimensionId)
+        );
     };
 
     if (dimensions.length === 0) {
@@ -72,10 +73,11 @@ function DimensionRow({ dim, onDelete }: { dim: DimensionData; onDelete: (id: st
     return (
         <div className="grid grid-cols-12 gap-4 px-6 py-4 items-center hover:bg-zinc-900/80 transition-colors group">
             <div className="col-span-4 flex items-center gap-3 overflow-hidden">
-                <div className={cn(
-                    "size-8 rounded flex items-center justify-center shrink-0 border border-white/5",
-                    isVanilla ? "bg-emerald-900/20 text-emerald-500" : "bg-blue-900/20 text-blue-500"
-                )}>
+                <div
+                    className={cn(
+                        "size-8 rounded flex items-center justify-center shrink-0 border border-white/5",
+                        isVanilla ? "bg-emerald-900/20 text-emerald-500" : "bg-blue-900/20 text-blue-500"
+                    )}>
                     <span className="text-xs font-bold uppercase">{dim.id.split(":")[1]?.charAt(0) ?? "?"}</span>
                 </div>
                 <div className="flex flex-col min-w-0">
@@ -84,14 +86,10 @@ function DimensionRow({ dim, onDelete }: { dim: DimensionData; onDelete: (id: st
                 </div>
             </div>
 
-            <div className="col-span-3 text-sm text-zinc-400 font-mono truncate">
-                {dim.type}
-            </div>
+            <div className="col-span-3 text-sm text-zinc-400 font-mono truncate">{dim.type}</div>
 
             <div className="col-span-3 text-sm font-mono text-zinc-500 truncate">
-                <span className="bg-zinc-950 px-2 py-1 rounded border border-white/5">
-                    {dim.generatorType}
-                </span>
+                <span className="bg-zinc-950 px-2 py-1 rounded border border-white/5">{dim.generatorType}</span>
             </div>
 
             <div className="col-span-2 flex justify-end">

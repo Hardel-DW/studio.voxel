@@ -40,7 +40,9 @@ export default function TimeWeatherCard() {
 
                 <div className="relative z-10 space-y-6">
                     <div className="flex items-center justify-between">
-                        <label htmlFor="environment" className="text-xs font-bold text-zinc-500 uppercase tracking-widest">Environment</label>
+                        <label htmlFor="environment" className="text-xs font-bold text-zinc-500 uppercase tracking-widest">
+                            Environment
+                        </label>
                         <span className="text-xs font-mono text-zinc-400">{time.toLocaleString()} TICKS</span>
                     </div>
 
@@ -81,7 +83,9 @@ export default function TimeWeatherCard() {
 
             <div className="bg-zinc-900/60 backdrop-blur-xl border border-white/5 rounded-3xl p-6 flex flex-col justify-center">
                 <div className="flex items-center justify-between mb-4">
-                    <label htmlFor="difficulty" className="text-xs font-bold text-zinc-500 uppercase tracking-widest">Difficulty</label>
+                    <label htmlFor="difficulty" className="text-xs font-bold text-zinc-500 uppercase tracking-widest">
+                        Difficulty
+                    </label>
                     <button
                         type="button"
                         onClick={handleLockToggle}
@@ -108,7 +112,7 @@ export default function TimeWeatherCard() {
                     <div
                         className="absolute top-1 bottom-1 bg-zinc-700/50 rounded-md transition-all duration-300 ease-out border border-white/10"
                         style={{
-                            left: `${(difficulty * 25) + 1}%`,
+                            left: `${difficulty * 25 + 1}%`,
                             width: "23%"
                         }}
                     />

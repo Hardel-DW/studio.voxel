@@ -1,4 +1,4 @@
-import { type NbtCompound, NbtFile, type NbtTag, isCompound, nbt, NbtType } from "@voxelio/snbt";
+import { isCompound, type NbtCompound, NbtFile, type NbtTag, NbtType, nbt } from "@voxelio/snbt";
 import type { LevelData } from "../LevelStore";
 
 export const compileLevelData = (original: NbtFile, data: LevelData): Uint8Array => {

@@ -20,7 +20,6 @@ export default function LevelUploader() {
         const buffer = await file.arrayBuffer();
         load(new Uint8Array(buffer), file.name);
         toast(`Loaded ${file.name}`, TOAST.SUCCESS);
-
     };
 
     return (
@@ -36,9 +35,7 @@ export default function LevelUploader() {
                 />
             </div>
             <div className="text-center space-y-2">
-                <p className="text-zinc-200 font-medium text-xl group-hover:text-white transition-colors">
-                    Upload level.dat
-                </p>
+                <p className="text-zinc-200 font-medium text-xl group-hover:text-white transition-colors">Upload level.dat</p>
                 <p className="text-sm text-zinc-500 group-hover:text-zinc-400 transition-colors">
                     Drag & drop your level.dat file or click to browse
                 </p>
