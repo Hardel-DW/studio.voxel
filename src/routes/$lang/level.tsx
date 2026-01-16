@@ -11,6 +11,7 @@ import LineSetup from "@/components/ui/line/LineSetup";
 import LevelUploader from "@/components/pages/level/LevelUploader";
 import LevelActionBar from "@/components/pages/level/LevelActionBar";
 import { useLevelStore } from "@/lib/store/LevelStore";
+import Star from "@/components/ui/Star";
 
 export const Route = createFileRoute("/$lang/level")({
     component: Page,
@@ -56,14 +57,28 @@ function Page() {
                     </svg>
                 </div>
 
-                <main className="flex-1 overflow-y-auto overflow-x-hidden relative z-100">
+                <main className="flex-1 overflow-y-auto overflow-x-hidden relative z-10">
                     <div className="max-w-5/6 mx-auto p-6 lg:p-10 space-y-8">
                         {!hasFile ? (
-                            <section className="flex flex-col items-center justify-center min-h-[60vh]">
-                                <div className="w-full max-w-md">
+                            <section className="pt-36 md:pt-60 relative flex flex-col items-center justify-center pb-72">
+                                <div className="w-3/4 mx-auto">
+                                    <div className="mb-16">
+                                        <h1 className="text-3xl md:text-5xl mb-4 font-semibold tracking-tight bg-clip-text text-transparent bg-linear-to-b from-white to-white/60">
+                                            Level Editor (Extreamly Experimental)
+                                        </h1>
+                                        <p className="text-sm text-zinc-400 md:w-3/4 w-full mb-4">Upload a level file to edit it.</p>
+                                        <ul className="list-disc list-inside text-sm text-zinc-400 w-3/4 mb-4">
+                                            <li>Upload a level file to edit it.</li>
+                                            <li>Edit the level file to your liking.</li>
+                                        </ul>
+                                        <p className="text-sm text-zinc-400 md:w-3/4 w-full mb-4">Click on the level file to edit it.</p>
+                                        <Star />
+                                    </div>
+
                                     <LevelUploader />
                                 </div>
                             </section>
+
                         ) : (
                             <>
                                 <section className="grid grid-cols-1 lg:grid-cols-12 gap-6">
