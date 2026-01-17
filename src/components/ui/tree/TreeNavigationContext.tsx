@@ -22,18 +22,15 @@ interface TreeConfig {
 }
 
 interface TreeContextValue {
-    // State
     filterPath: string;
     currentElementId: string | null;
     isAllActive: boolean;
-    // Config
     tree: TreeNodeType;
     concept: string;
     changesRoute: string;
     elementIcon?: string;
     folderIcons?: Record<string, string>;
     disableAutoExpand?: boolean;
-    // Actions
     selectFolder: (path: string) => void;
     selectElement: (elementId: string) => void;
     selectAll: () => void;

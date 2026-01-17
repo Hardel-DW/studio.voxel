@@ -35,11 +35,8 @@ const applyDataPacks = (root: NbtCompound, data: LevelData): void => {
 const applyDragonFight = (root: NbtCompound, data: LevelData): void => {
     const dragonFight = root.entries.get("DragonFight") as NbtTag | undefined;
     if (!dragonFight || !isCompound(dragonFight)) return;
-
     dragonFight.entries.set("DragonKilled", nbt.byte(data.dragonKilled ? 1 : 0));
     dragonFight.entries.set("PreviouslyKilled", nbt.byte(data.previouslyKilled ? 1 : 0));
-
-    // NBT stores gateways that HAVEN'T spawned, data.gateways contains spawned ones
     const spawnedSet = new Set(data.gateways);
     const notSpawned: number[] = [];
     for (let i = 0; i < 20; i++) {
