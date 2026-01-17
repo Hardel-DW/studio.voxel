@@ -87,7 +87,7 @@ export default function ConverterForm({ file, onFileChange, initialMetadata, ico
                     {iconUrl ? (
                         <img src={iconUrl} alt="Icon" className="w-full h-full object-contain pixelated" />
                     ) : (
-                        <img src="/icons/folder.svg" className="size-10 opacity-20 invert" alt="Default Icon" />
+                        <img src="/icons/folder.svg" className="size-10 opacity-20" alt="Default Icon" />
                     )}
                 </div>
 

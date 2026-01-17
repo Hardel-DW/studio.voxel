@@ -23,7 +23,7 @@ export default function ConverterUpload({ onFileUpload, multiple, compact }: Con
                     )}>
                     <img
                         src="/icons/upload.svg"
-                        className={cn("opacity-50 group-hover:opacity-100 transition-opacity invert", compact ? "size-6" : "size-10")}
+                        className={cn("opacity-50 group-hover:opacity-100 transition-opacity", compact ? "size-6" : "size-10")}
                         alt="Upload"
                     />
                 </div>

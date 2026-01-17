@@ -1,3 +1,5 @@
+import { Button } from "@/components/ui/Button";
+import { useTranslate } from "@/lib/i18n";
 import { useLevelStore } from "@/lib/store/LevelStore";
 import { cn } from "@/lib/utils";
 
@@ -10,20 +12,17 @@ const getPosition = (index: number, total: number, radius: number) => {
 };
 
 export default function DragonFightView() {
+    const t = useTranslate();
     const dragonKilled = useLevelStore((s) => s.data?.dragonKilled ?? false);
     const previouslyKilled = useLevelStore((s) => s.data?.previouslyKilled ?? false);
     const gateways = useLevelStore((s) => s.data?.gateways ?? []);
     const set = useLevelStore((s) => s.set);
-
     const handleToggleDragonKilled = () => set("dragonKilled", !dragonKilled);
     const handleTogglePreviouslyKilled = () => set("previouslyKilled", !previouslyKilled);
-
     const handleToggleGateway = (index: number) => {
         const exists = gateways.includes(index);
         set("gateways", exists ? gateways.filter((g) => g !== index) : [...gateways, index]);
     };
-
-    const handleResetGateways = () => set("gateways", []);
 
     const handleRespawnDragon = () => {
         set("previouslyKilled", dragonKilled);
@@ -56,7 +55,7 @@ export default function DragonFightView() {
                                         ? "bg-zinc-800 border-white/10 text-white"
                                         : "bg-zinc-950/50 border-white/5 text-zinc-600 hover:text-zinc-400 hover:border-white/10"
                                 )}
-                                title={`Gateway #${i} (${isActive ? "Generated" : "Not Generated"})`}
+                                title={`${t("level.dragon.gateway")} #${i} (${isActive ? t("level.dragon.generated") : t("level.dragon.not_generated")})`}
                                 type="button">
                                 {i}
                             </button>
@@ -67,15 +66,15 @@ export default function DragonFightView() {
 
             <div className="lg:col-span-2 flex flex-col gap-6">
                 <div className="bg-zinc-900/40 backdrop-blur-xl border border-white/5 rounded-3xl p-6">
-                    <h3 className="text-sm font-bold text-zinc-500 uppercase tracking-widest mb-4">Dragon State</h3>
+                    <h3 className="text-sm font-bold text-zinc-500 uppercase tracking-widest mb-4">{t("level.dragon.state")}</h3>
                     <div className="grid grid-cols-2 gap-4">
                         <button
                             type="button"
                             onClick={handleToggleDragonKilled}
                             className="p-4 rounded-xl bg-zinc-950/30 border border-white/5 flex items-center justify-between hover:bg-zinc-950/50 transition-colors">
                             <div className="flex flex-col text-left">
-                                <span className="text-sm font-medium text-zinc-300">Dragon Killed</span>
-                                <span className="text-xs text-zinc-500">Has the dragon been defeated once?</span>
+                                <span className="text-sm font-medium text-zinc-300">{t("level.dragon.killed.title")}</span>
+                                <span className="text-xs text-zinc-500">{t("level.dragon.killed.description")}</span>
                             </div>
                             <div className={cn("size-2.5 rounded-full", dragonKilled ? "bg-emerald-500" : "bg-zinc-700")} />
                         </button>
@@ -84,8 +83,8 @@ export default function DragonFightView() {
                             onClick={handleTogglePreviouslyKilled}
                             className="p-4 rounded-xl bg-zinc-950/30 border border-white/5 flex items-center justify-between hover:bg-zinc-950/50 transition-colors">
                             <div className="flex flex-col text-left">
-                                <span className="text-sm font-medium text-zinc-300">Previously Killed</span>
-                                <span className="text-xs text-zinc-500">Legacy state tracker</span>
+                                <span className="text-sm font-medium text-zinc-300">{t("level.dragon.previously_killed.title")}</span>
+                                <span className="text-xs text-zinc-500">{t("level.dragon.previously_killed.description")}</span>
                             </div>
                             <div className={cn("size-2.5 rounded-full", previouslyKilled ? "bg-emerald-500" : "bg-zinc-700")} />
                         </button>
@@ -93,27 +92,35 @@ export default function DragonFightView() {
                 </div>
 
                 <div className="flex-1 bg-zinc-900/40 backdrop-blur-xl border border-white/5 rounded-3xl p-6 flex flex-col">
-                    <div className="flex items-center justify-between mb-4">
-                        <h3 className="text-sm font-bold text-zinc-500 uppercase tracking-widest">Gateways</h3>
-                        <span className="text-xs font-mono text-zinc-500">{gateways.length} / 20</span>
+                    <div className="flex flex-col w-full">
+                        <div className="mb-2">
+                            <h3 className="text-sm font-bold text-zinc-500 uppercase tracking-widest">
+                                {t("level.dragon.gateways.title")}
+                            </h3>
+                        </div>
+                        <p className="text-sm text-zinc-400 max-w-3xl">{t("level.dragon.gateways.description")}</p>
                     </div>
-                    <p className="text-sm text-zinc-400 mb-6 max-w-2xl">
-                        Gateways form a ring around the main island. Click on a gateway to toggle it. Resetting allows regeneration when the
-                        dragon is killed again.
-                    </p>
-                    <div className="mt-auto flex gap-3">
-                        <button
-                            type="button"
-                            onClick={handleRespawnDragon}
-                            className="px-4 py-2 bg-zinc-100 text-zinc-950 text-sm font-medium rounded-xl hover:bg-white transition-colors">
-                            Respawn Dragon
-                        </button>
-                        <button
-                            type="button"
-                            onClick={handleResetGateways}
-                            className="px-4 py-2 bg-zinc-800/50 text-zinc-300 border border-white/5 text-sm font-medium rounded-xl hover:bg-zinc-800 transition-colors">
-                            Reset Gateways
-                        </button>
+                    <hr className="my-6 border-white/5" />
+
+                    <div className="flex flex-col">
+                        <div className="mb-2">
+                            <h3 className="text-sm font-bold text-zinc-500 uppercase tracking-widest">
+                                {t("level.dragon.reset_dragon.title")}
+                            </h3>
+                        </div>
+                        <p className="text-sm text-zinc-400 mb-6 max-w-3xl">{t("level.dragon.reset_dragon_description")}</p>
+                    </div>
+                    <div className="mt-auto flex items-end justify-between gap-6">
+                        <span className="text-6xl font-seven font-bold text-white tracking-tight px-4 opacity-50">
+                            {gateways.length}
+                            <span className="text-zinc-700">/20</span>
+                        </span>
+                        <div className="flex gap-3">
+                            <Button onClick={handleRespawnDragon} variant="ghost_border">
+                                {" "}
+                                {t("level.dragon.respawn")}
+                            </Button>
+                        </div>
                     </div>
                 </div>
             </div>

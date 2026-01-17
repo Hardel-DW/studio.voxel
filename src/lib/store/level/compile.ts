@@ -1,4 +1,4 @@
-import { isCompound, type NbtCompound, NbtFile, type NbtTag, NbtType, nbt } from "@voxelio/snbt";
+import { isCompound, type NbtCompound, NbtFile, type NbtTag, nbt } from "@voxelio/snbt";
 import type { LevelData } from "../LevelStore";
 
 export const compileLevelData = (original: NbtFile, data: LevelData): Uint8Array => {
@@ -38,7 +38,14 @@ const applyDragonFight = (root: NbtCompound, data: LevelData): void => {
 
     dragonFight.entries.set("DragonKilled", nbt.byte(data.dragonKilled ? 1 : 0));
     dragonFight.entries.set("PreviouslyKilled", nbt.byte(data.previouslyKilled ? 1 : 0));
-    dragonFight.entries.set("Gateways", { type: NbtType.List, listType: NbtType.Int, items: data.gateways.map(nbt.int) });
+
+    // NBT stores gateways that HAVEN'T spawned, data.gateways contains spawned ones
+    const spawnedSet = new Set(data.gateways);
+    const notSpawned: number[] = [];
+    for (let i = 0; i < 20; i++) {
+        if (!spawnedSet.has(i)) notSpawned.push(i);
+    }
+    dragonFight.entries.set("Gateways", nbt.intArray(notSpawned));
 };
 
 const applyDimensions = (root: NbtCompound, data: LevelData): void => {

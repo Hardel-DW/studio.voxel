@@ -1,25 +1,32 @@
+import { useTranslate } from "@/lib/i18n";
 import { useLevelStore } from "@/lib/store/LevelStore";
 import { cn } from "@/lib/utils";
 
-const formatLastPlayed = (timestamp: number): string => {
-    const date = new Date(timestamp);
-    const now = new Date();
-    const diffMs = now.getTime() - date.getTime();
-    const diffMins = Math.floor(diffMs / 60000);
-    if (diffMins < 1) return "Just now";
-    if (diffMins < 60) return `${diffMins} minutes ago`;
-    const diffHours = Math.floor(diffMins / 60);
-    if (diffHours < 24) return `${diffHours} hours ago`;
-    return date.toLocaleDateString();
-};
-
 export default function GeneralCard() {
-    const levelName = useLevelStore((s) => s.data?.levelName ?? "Unknown World");
-    const version = useLevelStore((s) => s.data?.version.name ?? "Unknown");
+    const t = useTranslate();
+    const levelName = useLevelStore((s) => s.data?.levelName ?? t("level.general.unknown_world"));
+    const version = useLevelStore((s) => s.data?.version.name ?? t("level.general.unknown"));
     const lastPlayed = useLevelStore((s) => s.data?.lastPlayed ?? 0);
     const gameType = useLevelStore((s) => s.data?.gameType ?? 0);
 
-    const modes = ["Survival", "Creative", "Adventure", "Spectator"];
+    const formatLastPlayed = (timestamp: number): string => {
+        const date = new Date(timestamp);
+        const now = new Date();
+        const diffMs = now.getTime() - date.getTime();
+        const diffMins = Math.floor(diffMs / 60000);
+        if (diffMins < 1) return t("level.general.just_now");
+        if (diffMins < 60) return t("level.general.minutes_ago", { count: diffMins });
+        const diffHours = Math.floor(diffMins / 60);
+        if (diffHours < 24) return t("level.general.hours_ago", { count: diffHours });
+        return date.toLocaleDateString();
+    };
+
+    const modes = [
+        t("level.general.modes.survival"),
+        t("level.general.modes.creative"),
+        t("level.general.modes.adventure"),
+        t("level.general.modes.spectator")
+    ];
 
     return (
         <div className="h-full bg-zinc-900/40 backdrop-blur-xl border border-white/5 rounded-3xl p-8 flex flex-col justify-between group overflow-hidden relative">
@@ -28,7 +35,7 @@ export default function GeneralCard() {
             <div className="space-y-6 relative z-10">
                 <div className="space-y-2">
                     <label htmlFor="levelName" className="text-xs font-bold text-zinc-500 uppercase tracking-widest">
-                        Level Name
+                        {t("level.general.level_name")}
                     </label>
                     <input
                         id="levelName"
@@ -45,15 +52,17 @@ export default function GeneralCard() {
                         <span>{version}</span>
                     </div>
                     <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-zinc-800/50 border border-white/5 text-sm text-zinc-300">
-                        <img src="/icons/clock.svg" className="size-3.5 opacity-60 invert" alt="Time" />
-                        <span>Last Played: {formatLastPlayed(lastPlayed)}</span>
+                        <img src="/images/vanilla.webp" className="size-3.5 opacity-60" alt="Time" />
+                        <span>
+                            {t("level.general.last_played")}: {formatLastPlayed(lastPlayed)}
+                        </span>
                     </div>
                 </div>
             </div>
 
             <div className="pt-8 relative z-10">
                 <label htmlFor="gameMode" className="text-xs font-bold text-zinc-500 uppercase tracking-widest mb-4 block">
-                    Game Mode
+                    {t("level.general.game_mode")}
                 </label>
                 <div className="grid grid-cols-4 gap-3">
                     {modes.map((mode, i) => (
@@ -62,7 +71,7 @@ export default function GeneralCard() {
                             key={mode}
                             type="button"
                             className={cn(
-                                "relative flex flex-col items-center justify-center gap-2 py-4 rounded-xl border transition-all duration-300",
+                                "relative flex flex-col items-center justify-center gap-2 py-4 rounded-xl border transition-all duration-300 cursor-pointer",
                                 i === gameType
                                     ? "bg-white text-black border-white shadow-lg shadow-white/10 scale-[1.02]"
                                     : "bg-zinc-900/50 text-zinc-400 border-white/5 hover:bg-zinc-800 hover:border-white/10"

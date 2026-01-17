@@ -118,7 +118,7 @@ function TreeNode({ name, node, depth, lang, forceOpen = false }: TreeNodeProps)
                         {node.status === "added" ? "A" : node.status === "updated" ? "M" : node.status === "deleted" ? "D" : "·"}
                     </span>
                 ) : (
-                    <img src="/icons/folder.svg" className="size-4 invert opacity-60 shrink-0" alt="Folder" />
+                    <img src="/icons/folder.svg" className="size-4 opacity-60 shrink-0" alt="Folder" />
                 )}
                 <span className="truncate text-xs font-mono">{name}</span>
             </div>

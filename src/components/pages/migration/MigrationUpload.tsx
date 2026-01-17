@@ -16,11 +16,7 @@ export default function MigrationUpload({ id, onFileUpload, title, description }
                 onFileUpload={onFileUpload}
                 className="gap-6 p-8">
                 <div className="size-16 rounded-2xl bg-zinc-800/50 flex items-center justify-center border border-zinc-700 shadow-inner group-hover:scale-110 transition-transform duration-300">
-                    <img
-                        src="/icons/upload.svg"
-                        className="size-8 opacity-50 group-hover:opacity-100 transition-opacity invert"
-                        alt="Upload"
-                    />
+                    <img src="/icons/upload.svg" className="size-8 opacity-50 group-hover:opacity-100 transition-opacity" alt="Upload" />
                 </div>
                 <div className="text-center space-y-2 flex flex-col items-center">
                     <p className="text-zinc-200 font-medium text-lg group-hover:text-white transition-colors">{title}</p>
