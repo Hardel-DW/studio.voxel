@@ -30,7 +30,7 @@ export default function useFileManager() {
             };
         });
 
-        return files.items.length; // Return the index of the first new file
+        return files.items.length;
     };
 
     const selectFile = (index: number) => {

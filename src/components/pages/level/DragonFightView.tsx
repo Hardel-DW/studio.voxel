@@ -100,16 +100,7 @@ export default function DragonFightView() {
                         </div>
                         <p className="text-sm text-zinc-400 max-w-3xl">{t("level.dragon.gateways.description")}</p>
                     </div>
-                    <hr className="my-6 border-white/5" />
 
-                    <div className="flex flex-col">
-                        <div className="mb-2">
-                            <h3 className="text-sm font-bold text-zinc-500 uppercase tracking-widest">
-                                {t("level.dragon.reset_dragon.title")}
-                            </h3>
-                        </div>
-                        <p className="text-sm text-zinc-400 mb-6 max-w-3xl">{t("level.dragon.reset_dragon_description")}</p>
-                    </div>
                     <div className="mt-auto flex items-end justify-between gap-6">
                         <span className="text-6xl font-seven font-bold text-white tracking-tight px-4 opacity-50">
                             {gateways.length}
