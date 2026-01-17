@@ -1171,5 +1171,18 @@
     "level.uploader.loaded": "Chargé {file}",
     "level.uploader.title": "Téléverser level.dat",
     "level.uploader.description": "Glissez-déposez votre fichier monde ici, ou cliquez pour parcourir.",
-    "level.uploader.max_size": "Taille max 50Mo"
+    "level.uploader.max_size": "Taille max 50Mo",
+    "level.timeline.step": "Étape",
+    "level.timeline.stop.title": "Arrêter le Serveur",
+    "level.timeline.stop.description": "Arrêtez votre monde/serveur. Faites une sauvegarde, au cas où !",
+    "level.timeline.remove.title": "Supprimer le Pack",
+    "level.timeline.remove.description": "Supprimez votre pack du dossier world/datapacks.",
+    "level.timeline.reset.title": "Réinitialiser la Dimension",
+    "level.timeline.reset.description": "Supprimez le dossier region situé dans votre dossier monde pour réinitialiser la dimension.",
+    "level.timeline.upload.title": "Téléverser le Level",
+    "level.timeline.upload.description": "Téléversez le level.dat situé dans votre dossier monde, et téléchargez la version mise à jour.",
+    "level.timeline.replace.title": "Remplacer les Fichiers",
+    "level.timeline.replace.description": "Dans le dossier monde, supprimez level.dat et level.dat_old. Placez le nouveau level.dat de l'étape précédente.",
+    "level.timeline.start.title": "Démarrer le Serveur",
+    "level.timeline.start.description": "Démarrez votre serveur et profitez ! Votre monde est maintenant réparé."
 }

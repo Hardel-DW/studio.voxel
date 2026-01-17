@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import CompoundLayout from "@/components/layout/CompoundLayout";
 import DatapackView from "@/components/pages/level/DatapackView";
 import DimensionList from "@/components/pages/level/DimensionList";
@@ -14,6 +14,15 @@ import { useTranslate } from "@/lib/i18n";
 import { useLevelStore } from "@/lib/store/LevelStore";
 import { cn } from "@/lib/utils";
 
+const TIMELINE_STEPS = [
+    { id: "stop", icon: "server" },
+    { id: "remove", icon: "folder" },
+    { id: "reset", icon: "trash" },
+    { id: "upload", icon: "upload", hasUploader: true },
+    { id: "replace", icon: "sync" },
+    { id: "start", icon: "checkmark" }
+] as const;
+
 export const Route = createFileRoute("/$lang/level")({
     component: Page,
     head: () => ({
@@ -26,6 +35,12 @@ export const Route = createFileRoute("/$lang/level")({
 });
 
 type Tab = "worldgen" | "datapacks" | "dragon";
+
+const STEPS = [
+    { id: "backup", step: "01", icon: "server", color: "blue" },
+    { id: "clean", step: "02", icon: "trash", color: "red" },
+    { id: "restore", step: "03", icon: "checkmark", color: "emerald" }
+] as const;
 
 function Page() {
     const t = useTranslate();
@@ -78,52 +93,47 @@ function Page() {
                             </div>
 
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-4 w-full mb-12 items-stretch">
-
-                                <Card className="lg:col-span-4 flex flex-col group relative overflow-hidden">
-                                    <div className="absolute -left-10 -top-10 w-32 h-32 bg-blue-500/5 blur-[50px] rounded-full pointer-events-none group-hover:bg-blue-500/10 transition-all" />
-                                    <div className="flex items-center justify-between mb-4 relative z-10">
-                                        <StepBadge step="01" label={t("level.steps.backup.label")} />
-                                        <ServerIcon className="text-zinc-600 group-hover:text-blue-400 transition-colors" />
-                                    </div>
-                                    <div className="mt-auto space-y-2 relative z-10">
-                                        <h3 className="text-lg font-medium text-zinc-200">{t("level.steps.backup.title")}</h3>
-                                        <p className="text-xs text-zinc-500 leading-relaxed">
-                                            {t("level.steps.backup.description")}
-                                        </p>
-                                    </div>
-                                </Card>
-
-                                <Card className="lg:col-span-4 flex flex-col group relative overflow-hidden">
-                                    <div className="absolute -right-10 -top-10 w-32 h-32 bg-red-500/5 blur-[50px] rounded-full pointer-events-none group-hover:bg-red-500/10 transition-all" />
-
-                                    <div className="flex items-center justify-between mb-4 relative z-10">
-                                        <StepBadge step="02" label={t("level.steps.clean.label")} />
-                                        <TrashIcon className="text-zinc-600 group-hover:text-red-400 transition-colors" />
-                                    </div>
-
-                                    <div className="mt-auto space-y-3 relative z-10">
-                                        <h3 className="text-lg font-medium text-zinc-200">{t("level.steps.clean.title")}</h3>
-                                        <div className="w-full bg-black/40 rounded border border-white/5 px-3 py-2 font-mono text-[10px] text-zinc-500 truncate">
-                                            /world/DIM_<span className="text-zinc-300">X</span>/<span className="text-red-900/80 bg-red-900/10 px-1 rounded">region</span>
+                                {STEPS.map(({ id, step, icon, color }) => (
+                                    <div key={id} className="lg:col-span-4 flex flex-col group relative overflow-hidden bg-zinc-900/40 backdrop-blur-md border border-white/5 p-5 rounded-xl transition-all duration-300 hover:border-white/10 hover:shadow-lg hover:shadow-black/20">
+                                        <div className={cn(
+                                            "absolute -right-10 -top-10 w-32 h-32 blur-[50px] rounded-full pointer-events-none transition-all",
+                                            color === "blue" && "bg-blue-500/5 group-hover:bg-blue-500/10",
+                                            color === "red" && "bg-red-500/5 group-hover:bg-red-500/10",
+                                            color === "emerald" && "bg-emerald-500/5 group-hover:bg-emerald-500/10"
+                                        )} />
+                                        <div className="flex items-center justify-between mb-4 relative z-10">
+                                            <div className="inline-flex items-center gap-2 px-2 py-1 rounded bg-white/5 border border-white/5 text-[10px] uppercase tracking-wider font-bold text-zinc-400">
+                                                <span className="text-zinc-600">{step}</span>
+                                                <span className="w-px h-2 bg-zinc-700" />
+                                                <span>{t(`level.steps.${id}.label`)}</span>
+                                            </div>
+                                            <img
+                                                src={`/icons/${icon}.svg`}
+                                                alt={id}
+                                                className={cn(
+                                                    "size-[18px] transition-all opacity-40 group-hover:opacity-100",
+                                                    color === "blue" && "group-hover:brightness-150 group-hover:sepia group-hover:hue-rotate-180",
+                                                    color === "red" && "group-hover:brightness-150 group-hover:sepia group-hover:hue-rotate-[-30deg]",
+                                                    color === "emerald" && "group-hover:brightness-150 group-hover:sepia group-hover:hue-rotate-80"
+                                                )}
+                                            />
+                                        </div>
+                                        <div className="mt-auto space-y-2 relative z-10">
+                                            <h3 className="text-lg font-medium text-zinc-200">{t(`level.steps.${id}.title`)}</h3>
+                                            {id === "clean" ? (
+                                                <div className="w-full bg-black/40 rounded border border-white/5 px-3 py-2 font-mono text-[10px] text-zinc-500 truncate">
+                                                    /world/DIM_<span className="text-zinc-300">X</span>/<span className="text-red-900/80 bg-red-900/10 px-1 rounded">region</span>
+                                                </div>
+                                            ) : (
+                                                <p className="text-xs text-zinc-500 leading-relaxed">
+                                                    {t(`level.steps.${id}.description`)}
+                                                </p>
+                                            )}
                                         </div>
                                     </div>
-                                </Card>
+                                ))}
 
-                                <Card className="lg:col-span-4 flex flex-col group relative overflow-hidden">
-                                    <div className="absolute -right-10 -bottom-10 w-32 h-32 bg-emerald-500/5 blur-[50px] rounded-full pointer-events-none group-hover:bg-emerald-500/10 transition-all" />
-                                    <div className="flex items-center justify-between mb-4 relative z-10">
-                                        <StepBadge step="03" label={t("level.steps.restore.label")} />
-                                        <CheckIcon className="text-zinc-600 group-hover:text-emerald-400 transition-colors" />
-                                    </div>
-                                    <div className="mt-auto space-y-2 relative z-10">
-                                        <h3 className="text-lg font-medium text-zinc-200">{t("level.steps.restore.title")}</h3>
-                                        <p className="text-xs text-zinc-500 leading-relaxed">
-                                            {t("level.steps.restore.description")}
-                                        </p>
-                                    </div>
-                                </Card>
-
-                                <Card className="lg:col-span-12 p-8 lg:p-12 flex flex-col items-center text-center relative overflow-hidden">
+                                <div className="lg:col-span-12 p-8 lg:p-12 flex flex-col items-center text-center relative overflow-hidden bg-zinc-900/40 backdrop-blur-md border border-white/5 rounded-xl transition-all duration-300 hover:border-white/10 hover:shadow-lg hover:shadow-black/20">
                                     <div className="absolute -left-20 top-1/2 -translate-y-1/2 w-60 h-40 bg-zinc-600/15 blur-[80px] rounded-full pointer-events-none" />
                                     <div className="absolute -right-20 top-1/2 -translate-y-1/2 w-60 h-40 bg-zinc-500/15 blur-[80px] rounded-full pointer-events-none" />
                                     <div className="absolute top-0 left-1/2 -translate-x-1/2 w-80 h-20 bg-zinc-700/15 blur-[60px] rounded-full pointer-events-none" />
@@ -138,9 +148,11 @@ function Page() {
                                     <div className="w-full relative z-10">
                                         <LevelUploader />
                                     </div>
-                                </Card>
+                                </div>
 
                             </div>
+
+                            <StepsTimeline />
                         </div>
                     ) : (
                         <div className="max-w-[1600px] mx-auto p-6 lg:p-8 space-y-6 animate-in fade-in duration-500 slide-in-from-bottom-4">
@@ -187,41 +199,132 @@ function Page() {
     );
 }
 
-function Card({ children, className }: { children: React.ReactNode; className?: string }) {
+function StepsTimeline() {
+    const t = useTranslate();
+    const [activeIndex, setActiveIndex] = useState(-1);
+    const observersRef = useRef<Map<number, IntersectionObserver>>(new Map());
+
+    const registerStep = (index: number, el: HTMLDivElement | null) => {
+        if (!el) return;
+        if (observersRef.current.has(index)) return;
+
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    setActiveIndex((prev) => Math.max(prev, index));
+                } else if (entry.boundingClientRect.top > 0) {
+                    setActiveIndex((prev) => (prev === index ? index - 1 : prev));
+                }
+            },
+            { threshold: 0.4, rootMargin: "-30% 0px -30% 0px" }
+        );
+
+        observer.observe(el);
+        observersRef.current.set(index, observer);
+    };
+
+    const progress = ((activeIndex + 1) / TIMELINE_STEPS.length) * 100;
+
     return (
-        <div className={cn(
-            "bg-zinc-900/40 backdrop-blur-md border border-white/5 p-5 rounded-xl transition-all duration-300 hover:border-white/10 hover:shadow-lg hover:shadow-black/20",
-            className
-        )}>
-            {children}
+        <div className="relative w-full max-w-4xl mx-auto py-24">
+            <div className="absolute left-8 md:left-1/2 md:-translate-x-px top-0 bottom-0 w-px bg-zinc-800" />
+            <div
+                className="absolute left-8 md:left-1/2 md:-translate-x-px top-0 w-px bg-gradient-to-b from-emerald-500 to-emerald-400 transition-[height] duration-700 ease-out"
+                style={{ height: `${progress}%` }}
+            />
+
+            <div className="relative space-y-24">
+                {TIMELINE_STEPS.map((step, index) => {
+                    const isLeft = index % 2 === 0;
+                    const isActive = index <= activeIndex;
+
+                    return (
+                        <div
+                            key={step.id}
+                            ref={(el) => registerStep(index, el)}
+                            className={cn(
+                                "relative flex items-start gap-8",
+                                isLeft ? "md:flex-row" : "md:flex-row-reverse",
+                                "flex-row"
+                            )}>
+                            <div className={cn("hidden md:block flex-1", isLeft ? "text-right pr-12" : "text-left pl-12")}>
+                                <div className={cn(
+                                    "inline-block p-6 rounded-2xl border transition-all duration-500",
+                                    isActive
+                                        ? "bg-zinc-900/60 border-white/10 shadow-lg shadow-black/20"
+                                        : "bg-zinc-900/30 border-white/5"
+                                )}>
+                                    <span className={cn(
+                                        "text-xs font-bold uppercase tracking-wider transition-colors duration-500",
+                                        isActive ? "text-emerald-400" : "text-zinc-600"
+                                    )}>
+                                        {t("level.timeline.step")} {index + 1}
+                                    </span>
+                                    <h3 className={cn(
+                                        "text-lg font-semibold mb-2 mt-2 transition-colors duration-500",
+                                        isActive ? "text-white" : "text-zinc-400"
+                                    )}>
+                                        {t(`level.timeline.${step.id}.title`)}
+                                    </h3>
+                                    <p className="text-sm text-zinc-500 leading-relaxed max-w-sm">
+                                        {t(`level.timeline.${step.id}.description`)}
+                                    </p>
+                                    {"hasUploader" in step && step.hasUploader && (
+                                        <div className="mt-4">
+                                            <LevelUploader variant="compact" className="max-w-xs" />
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+
+                            <div className="absolute left-8 md:left-1/2 -translate-x-1/2 flex items-center justify-center">
+                                <div className={cn(
+                                    "size-12 rounded-full border-2 flex items-center justify-center transition-all duration-500 z-10",
+                                    isActive
+                                        ? "bg-emerald-950 border-emerald-500 shadow-[0_0_20px_rgba(16,185,129,0.3)]"
+                                        : "bg-zinc-950 border-zinc-700"
+                                )}>
+                                    <img
+                                        src={`/icons/${step.icon}.svg`}
+                                        alt={step.id}
+                                        className={cn("size-5 transition-opacity duration-500", isActive ? "opacity-100" : "opacity-40")}
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="flex-1 md:hidden pl-16">
+                                <div className={cn(
+                                    "p-5 rounded-2xl border transition-all duration-500",
+                                    isActive ? "bg-zinc-900/60 border-white/10" : "bg-zinc-900/30 border-white/5"
+                                )}>
+                                    <span className={cn(
+                                        "text-xs font-bold uppercase tracking-wider transition-colors duration-500",
+                                        isActive ? "text-emerald-400" : "text-zinc-600"
+                                    )}>
+                                        {t("level.timeline.step")} {index + 1}
+                                    </span>
+                                    <h3 className={cn(
+                                        "text-lg font-semibold mb-2 mt-2 transition-colors duration-500",
+                                        isActive ? "text-white" : "text-zinc-400"
+                                    )}>
+                                        {t(`level.timeline.${step.id}.title`)}
+                                    </h3>
+                                    <p className="text-sm text-zinc-500 leading-relaxed">
+                                        {t(`level.timeline.${step.id}.description`)}
+                                    </p>
+                                    {"hasUploader" in step && step.hasUploader && (
+                                        <div className="mt-4">
+                                            <LevelUploader variant="compact" />
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+
+                            <div className="hidden md:block flex-1" />
+                        </div>
+                    );
+                })}
+            </div>
         </div>
     );
 }
-
-function StepBadge({ step, label }: { step: string; label: string }) {
-    return (
-        <div className="inline-flex items-center gap-2 px-2 py-1 rounded bg-white/5 border border-white/5 text-[10px] uppercase tracking-wider font-bold text-zinc-400">
-            <span className="text-zinc-600">{step}</span>
-            <span className="w-px h-2 bg-zinc-700" />
-            <span>{label}</span>
-        </div>
-    );
-}
-
-const ServerIcon = ({ className }: { className?: string }) => (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className={className} strokeLinecap="round" strokeLinejoin="round">
-        <rect width="20" height="8" x="2" y="2" rx="2" ry="2" /><rect width="20" height="8" x="2" y="14" rx="2" ry="2" /><line x1="6" x2="6.01" y1="6" y2="6" /><line x1="6" x2="6.01" y1="18" y2="18" />
-    </svg>
-)
-
-const TrashIcon = ({ className }: { className?: string }) => (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className={className} strokeLinecap="round" strokeLinejoin="round">
-        <path d="M3 6h18" /><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" /><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
-    </svg>
-)
-
-const CheckIcon = ({ className }: { className?: string }) => (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className={className} strokeLinecap="round" strokeLinejoin="round">
-        <path d="M20 6 9 17l-5-5" />
-    </svg>
-)

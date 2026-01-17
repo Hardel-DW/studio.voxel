@@ -1172,5 +1172,18 @@
     "level.uploader.loaded": "Loaded {file}",
     "level.uploader.title": "Upload level.dat",
     "level.uploader.description": "Drag and drop your world file here, or click to browse.",
-    "level.uploader.max_size": "Max size 50MB"
+    "level.uploader.max_size": "Max size 50MB",
+    "level.timeline.step": "Step",
+    "level.timeline.stop.title": "Stop Server",
+    "level.timeline.stop.description": "Stop your world/server. Take a backup, just in case!",
+    "level.timeline.remove.title": "Remove Pack",
+    "level.timeline.remove.description": "Remove your pack from your world/datapacks folder.",
+    "level.timeline.reset.title": "Reset Dimension",
+    "level.timeline.reset.description": "Delete the region folder found inside your world folder to reset the dimension.",
+    "level.timeline.upload.title": "Upload Level",
+    "level.timeline.upload.description": "Upload the level.dat found inside your world folder, and download the updated version.",
+    "level.timeline.replace.title": "Replace Files",
+    "level.timeline.replace.description": "Inside the world folder, delete the level.dat and level.dat_old. Place the new level.dat from the previous step.",
+    "level.timeline.start.title": "Start Server",
+    "level.timeline.start.description": "Start your server and enjoy! Your world is now fixed."
 }
