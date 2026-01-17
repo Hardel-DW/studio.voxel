@@ -9,16 +9,10 @@ export default function DatapackView() {
 
     const movePack = (pack: string, toEnabled: boolean) => {
         if (toEnabled) {
-            set(
-                "disabledPacks",
-                disabled.filter((p) => p !== pack)
-            );
+            set("disabledPacks", disabled.filter((p) => p !== pack));
             set("enabledPacks", [...enabled, pack]);
         } else {
-            set(
-                "enabledPacks",
-                enabled.filter((p) => p !== pack)
-            );
+            set("enabledPacks", enabled.filter((p) => p !== pack));
             set("disabledPacks", [...disabled, pack]);
         }
     };
@@ -38,23 +32,22 @@ export default function DatapackView() {
 
                 <div className="flex-1 overflow-y-auto p-2 space-y-1">
                     {enabled.map((pack, i) => (
-                        <div
+                        <button
+                            type="button"
                             key={pack}
-                            className="group flex items-center gap-3 p-2 rounded-xl hover:bg-white/5 border border-transparent hover:border-white/10 transition-colors">
+                            onClick={() => movePack(pack, false)}
+                            className="group w-full flex items-center gap-3 p-2 rounded-xl hover:bg-white/5 border border-transparent hover:border-white/10 transition-colors cursor-pointer">
                             <span className="text-xs font-mono text-zinc-600 w-4 text-center">{i + 1}</span>
                             <div className="size-8 bg-zinc-950/50 rounded-lg border border-white/5 flex items-center justify-center">
-                                <img src="/icons/box.svg" className="size-4 invert opacity-20" alt="Box" />
+                                <img src="/images/vanilla.webp" className="size-4" alt="Box" />
                             </div>
-                            <div className="flex-1">
+                            <div className="flex-1 text-left">
                                 <div className="text-sm text-zinc-200 font-medium">{pack}</div>
                             </div>
-                            <button
-                                type="button"
-                                onClick={() => movePack(pack, false)}
-                                className="p-1.5 text-zinc-500 hover:text-white hover:bg-white/10 rounded-lg opacity-0 group-hover:opacity-100 transition-all">
-                                <span className="sr-only">{t("level.datapacks.disable")}</span>→
-                            </button>
-                        </div>
+                            <span className="text-xs text-zinc-500 group-hover:text-zinc-400 opacity-0 group-hover:opacity-100 transition-all">
+                                {t("level.datapacks.disable")}
+                            </span>
+                        </button>
                     ))}
                     {enabled.length === 0 && (
                         <div className="flex items-center justify-center h-32 text-zinc-600 text-sm">{t("level.datapacks.no_enabled")}</div>
@@ -72,22 +65,21 @@ export default function DatapackView() {
 
                 <div className="flex-1 overflow-y-auto p-2 space-y-1">
                     {disabled.map((pack) => (
-                        <div
+                        <button
+                            type="button"
                             key={pack}
-                            className="group flex items-center gap-3 p-2 rounded-xl hover:bg-white/5 border border-transparent hover:border-white/10 transition-colors opacity-75 hover:opacity-100">
-                            <button
-                                type="button"
-                                onClick={() => movePack(pack, true)}
-                                className="p-1.5 text-zinc-500 hover:text-white hover:bg-white/10 rounded-lg opacity-0 group-hover:opacity-100 transition-all">
-                                ←
-                            </button>
+                            onClick={() => movePack(pack, true)}
+                            className="group w-full flex items-center gap-3 p-2 rounded-xl hover:bg-white/5 border border-transparent hover:border-white/10 transition-colors opacity-75 hover:opacity-100 cursor-pointer">
                             <div className="size-8 bg-zinc-950/50 rounded-lg border border-white/5 flex items-center justify-center">
-                                <div className="size-2 rounded-full bg-zinc-800" />
+                                <img src="/images/vanilla.webp" className="size-4" alt="Box" />
                             </div>
-                            <div className="flex-1">
+                            <div className="flex-1 text-left">
                                 <div className="text-sm text-zinc-400 font-medium">{pack}</div>
                             </div>
-                        </div>
+                            <span className="text-xs text-zinc-500 group-hover:text-zinc-400 opacity-0 group-hover:opacity-100 transition-all">
+                                {t("level.datapacks.enable")}
+                            </span>
+                        </button>
                     ))}
                     {disabled.length === 0 && (
                         <div className="flex items-center justify-center h-32 text-zinc-600 text-sm">{t("level.datapacks.no_disabled")}</div>

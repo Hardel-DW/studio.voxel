@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/Button";
 import { useTranslate } from "@/lib/i18n";
 import { useLevelStore } from "@/lib/store/LevelStore";
 import { cn } from "@/lib/utils";
@@ -16,16 +17,12 @@ export default function DragonFightView() {
     const previouslyKilled = useLevelStore((s) => s.data?.previouslyKilled ?? false);
     const gateways = useLevelStore((s) => s.data?.gateways ?? []);
     const set = useLevelStore((s) => s.set);
-
     const handleToggleDragonKilled = () => set("dragonKilled", !dragonKilled);
     const handleTogglePreviouslyKilled = () => set("previouslyKilled", !previouslyKilled);
-
     const handleToggleGateway = (index: number) => {
         const exists = gateways.includes(index);
         set("gateways", exists ? gateways.filter((g) => g !== index) : [...gateways, index]);
     };
-
-    const handleResetGateways = () => set("gateways", []);
 
     const handleRespawnDragon = () => {
         set("previouslyKilled", dragonKilled);
@@ -95,26 +92,29 @@ export default function DragonFightView() {
                 </div>
 
                 <div className="flex-1 bg-zinc-900/40 backdrop-blur-xl border border-white/5 rounded-3xl p-6 flex flex-col">
-                    <div className="flex items-center justify-between mb-4">
-                        <h3 className="text-sm font-bold text-zinc-500 uppercase tracking-widest">{t("level.dragon.gateways.title")}</h3>
-                        <span className="text-xs font-mono text-zinc-500">{gateways.length} / 20</span>
+                    <div className="flex flex-col w-full">
+                        <div className="mb-2">
+                            <h3 className="text-sm font-bold text-zinc-500 uppercase tracking-widest">{t("level.dragon.gateways.title")}</h3>
+                        </div>
+                        <p className="text-sm text-zinc-400 max-w-3xl">
+                            {t("level.dragon.gateways.description")}
+                        </p>
                     </div>
-                    <p className="text-sm text-zinc-400 mb-6 max-w-2xl">
-                        {t("level.dragon.gateways.description")}
-                    </p>
-                    <div className="mt-auto flex gap-3">
-                        <button
-                            type="button"
-                            onClick={handleRespawnDragon}
-                            className="px-4 py-2 bg-zinc-100 text-zinc-950 text-sm font-medium rounded-xl hover:bg-white transition-colors">
-                            {t("level.dragon.respawn")}
-                        </button>
-                        <button
-                            type="button"
-                            onClick={handleResetGateways}
-                            className="px-4 py-2 bg-zinc-800/50 text-zinc-300 border border-white/5 text-sm font-medium rounded-xl hover:bg-zinc-800 transition-colors">
-                            {t("level.dragon.reset_gateways")}
-                        </button>
+                    <hr className="my-6 border-white/5" />
+
+                    <div className="flex flex-col">
+                        <div className="mb-2">
+                            <h3 className="text-sm font-bold text-zinc-500 uppercase tracking-widest">{t("level.dragon.reset_dragon.title")}</h3>
+                        </div>
+                        <p className="text-sm text-zinc-400 mb-6 max-w-3xl">
+                            {t("level.dragon.reset_dragon_description")}
+                        </p>
+                    </div>
+                    <div className="mt-auto flex items-end justify-between gap-6">
+                        <span className="text-6xl font-seven font-bold text-white tracking-tight px-4 opacity-50">{gateways.length}<span className="text-zinc-700">/20</span></span>
+                        <div className="flex gap-3">
+                            <Button onClick={handleRespawnDragon} variant="ghost_border"> {t("level.dragon.respawn")}</Button>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -68,7 +68,7 @@ function Page() {
                 <ShiningStars />
             </div>
 
-            <div className="relative min-h-screen flex items-center text-zinc-200 selection:bg-white/20">
+            <div className="relative min-h-screen pt-16 flex flex-col text-zinc-200 selection:bg-white/20">
                 <main className="flex-1 overflow-y-auto overflow-x-hidden pt-16">
                     {!hasFile ? (
                         <div className="w-full max-w-6xl mx-auto px-6 py-12 lg:py-24 flex flex-col items-center">
