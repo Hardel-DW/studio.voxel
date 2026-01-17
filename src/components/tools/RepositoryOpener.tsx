@@ -100,7 +100,7 @@ export default function RepositoryOpener() {
                         <img
                             src="/icons/sync.svg"
                             alt="refresh"
-                            className={cn("w-full h-full invert", isFetching && "animate-spin invert-50")}
+                            className={cn("w-full h-full", isFetching && "animate-spin invert-50")}
                         />
                     </Button>
 

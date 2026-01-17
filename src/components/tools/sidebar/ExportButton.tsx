@@ -63,7 +63,7 @@ export default function ExportButton() {
                 <DialogHeader className="px-6 pt-6 pb-2">
                     <DialogTitle className="mb-3">
                         <div className="size-10 rounded-full bg-zinc-900 flex items-center justify-center border border-zinc-800 shadow-inner">
-                            <img src="/icons/upload.svg" alt="Export" className="size-5 invert opacity-75" />
+                            <img src="/icons/upload.svg" alt="Export" className="size-5 opacity-75" />
                         </div>
                         <span className="text-zinc-100 font-semibold tracking-tight">{t("export")}</span>
                     </DialogTitle>
@@ -78,7 +78,7 @@ export default function ExportButton() {
                         <ToggleGroup value={isModded ? "jar" : "zip"} onChange={(v) => setIsModded(v === "jar")}>
                             <ToggleGroupOption value="zip" className="flex flex-col items-center gap-4">
                                 <div className="size-8 rounded-full border border-zinc-700 flex items-center justify-center">
-                                    <img src="/icons/folder.svg" className="size-4 invert opacity-50" alt="Datapack" />
+                                    <img src="/icons/folder.svg" className="size-4 opacity-50" alt="Datapack" />
                                 </div>
                                 <div className="flex flex-col items-center">
                                     <span className="text-zinc-300 font-medium">{t("export.format.datapack")}</span>

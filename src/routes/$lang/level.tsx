@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import CompoundLayout from "@/components/layout/CompoundLayout";
 import DatapackView from "@/components/pages/level/DatapackView";
 import DimensionList from "@/components/pages/level/DimensionList";
@@ -12,16 +12,8 @@ import { Badge } from "@/components/ui/Badge";
 import ShiningStars from "@/components/ui/ShiningStars";
 import { useTranslate } from "@/lib/i18n";
 import { useLevelStore } from "@/lib/store/LevelStore";
+import StepsTimeline from "@/components/pages/level/StepsTimeline";
 import { cn } from "@/lib/utils";
-
-const TIMELINE_STEPS = [
-    { id: "stop", icon: "server" },
-    { id: "remove", icon: "folder" },
-    { id: "reset", icon: "trash" },
-    { id: "upload", icon: "upload", hasUploader: true },
-    { id: "replace", icon: "sync" },
-    { id: "start", icon: "checkmark" }
-] as const;
 
 export const Route = createFileRoute("/$lang/level")({
     component: Page,
@@ -77,7 +69,7 @@ function Page() {
             </div>
 
             <div className="relative min-h-screen flex items-center text-zinc-200 selection:bg-white/20">
-                <main className="flex-1 overflow-y-auto overflow-x-hidden pt-16 w-full h-full">
+                <main className="flex-1 overflow-y-auto overflow-x-hidden pt-16">
                     {!hasFile ? (
                         <div className="w-full max-w-6xl mx-auto px-6 py-12 lg:py-24 flex flex-col items-center">
                             <div className="w-full px-4 pt-8">
@@ -155,7 +147,7 @@ function Page() {
                             <StepsTimeline />
                         </div>
                     ) : (
-                        <div className="max-w-[1600px] mx-auto p-6 lg:p-8 space-y-6 animate-in fade-in duration-500 slide-in-from-bottom-4">
+                        <div className="max-w-3/4 mx-auto p-6 lg:p-8 space-y-6 animate-in fade-in duration-500 slide-in-from-bottom-4">
                             <section className="grid grid-cols-1 lg:grid-cols-12 gap-6">
                                 <div className="lg:col-span-7 xl:col-span-8 h-full">
                                     <GeneralCard />
@@ -165,7 +157,7 @@ function Page() {
                                 </div>
                             </section>
 
-                            <div className="sticky top-0 z-20 pt-4 pb-2 bg-zinc-950/80 backdrop-blur-xl border-b border-white/5">
+                            <div className="pt-4 pb-2 mt-16 border-b border-white/5">
                                 <nav className="flex items-center gap-1">
                                     {tabs.map((tab) => (
                                         <button
@@ -173,7 +165,7 @@ function Page() {
                                             key={tab.id}
                                             onClick={() => setActiveTab(tab.id)}
                                             className={cn(
-                                                "px-4 py-2 text-sm font-medium rounded-md transition-all flex items-center gap-2 border border-transparent",
+                                                "px-4 py-2 text-sm font-medium rounded-md transition-all flex items-center gap-2 border border-transparent cursor-pointer",
                                                 activeTab === tab.id
                                                     ? "bg-white/10 text-white border-white/10 shadow-[0_0_15px_-5px_rgba(255,255,255,0.2)]"
                                                     : "text-zinc-500 hover:text-zinc-300 hover:bg-white/5"
@@ -184,7 +176,7 @@ function Page() {
                                 </nav>
                             </div>
 
-                            <section className="min-h-[500px] pb-24">
+                            <section className="pb-24">
                                 {activeTab === "worldgen" && <DimensionList />}
                                 {activeTab === "datapacks" && <DatapackView />}
                                 {activeTab === "dragon" && <DragonFightView />}
@@ -196,135 +188,5 @@ function Page() {
                 <LevelActionBar />
             </div>
         </CompoundLayout>
-    );
-}
-
-function StepsTimeline() {
-    const t = useTranslate();
-    const [activeIndex, setActiveIndex] = useState(-1);
-    const observersRef = useRef<Map<number, IntersectionObserver>>(new Map());
-
-    const registerStep = (index: number, el: HTMLDivElement | null) => {
-        if (!el) return;
-        if (observersRef.current.has(index)) return;
-
-        const observer = new IntersectionObserver(
-            ([entry]) => {
-                if (entry.isIntersecting) {
-                    setActiveIndex((prev) => Math.max(prev, index));
-                } else if (entry.boundingClientRect.top > 0) {
-                    setActiveIndex((prev) => (prev === index ? index - 1 : prev));
-                }
-            },
-            { threshold: 0.4, rootMargin: "-30% 0px -30% 0px" }
-        );
-
-        observer.observe(el);
-        observersRef.current.set(index, observer);
-    };
-
-    const progress = ((activeIndex + 1) / TIMELINE_STEPS.length) * 100;
-
-    return (
-        <div className="relative w-full max-w-4xl mx-auto py-24">
-            <div className="absolute left-8 md:left-1/2 md:-translate-x-px top-0 bottom-0 w-px bg-zinc-800" />
-            <div
-                className="absolute left-8 md:left-1/2 md:-translate-x-px top-0 w-px bg-gradient-to-b from-emerald-500 to-emerald-400 transition-[height] duration-700 ease-out"
-                style={{ height: `${progress}%` }}
-            />
-
-            <div className="relative space-y-24">
-                {TIMELINE_STEPS.map((step, index) => {
-                    const isLeft = index % 2 === 0;
-                    const isActive = index <= activeIndex;
-
-                    return (
-                        <div
-                            key={step.id}
-                            ref={(el) => registerStep(index, el)}
-                            className={cn(
-                                "relative flex items-start gap-8",
-                                isLeft ? "md:flex-row" : "md:flex-row-reverse",
-                                "flex-row"
-                            )}>
-                            <div className={cn("hidden md:block flex-1", isLeft ? "text-right pr-12" : "text-left pl-12")}>
-                                <div className={cn(
-                                    "inline-block p-6 rounded-2xl border transition-all duration-500",
-                                    isActive
-                                        ? "bg-zinc-900/60 border-white/10 shadow-lg shadow-black/20"
-                                        : "bg-zinc-900/30 border-white/5"
-                                )}>
-                                    <span className={cn(
-                                        "text-xs font-bold uppercase tracking-wider transition-colors duration-500",
-                                        isActive ? "text-emerald-400" : "text-zinc-600"
-                                    )}>
-                                        {t("level.timeline.step")} {index + 1}
-                                    </span>
-                                    <h3 className={cn(
-                                        "text-lg font-semibold mb-2 mt-2 transition-colors duration-500",
-                                        isActive ? "text-white" : "text-zinc-400"
-                                    )}>
-                                        {t(`level.timeline.${step.id}.title`)}
-                                    </h3>
-                                    <p className="text-sm text-zinc-500 leading-relaxed max-w-sm">
-                                        {t(`level.timeline.${step.id}.description`)}
-                                    </p>
-                                    {"hasUploader" in step && step.hasUploader && (
-                                        <div className="mt-4">
-                                            <LevelUploader variant="compact" className="max-w-xs" />
-                                        </div>
-                                    )}
-                                </div>
-                            </div>
-
-                            <div className="absolute left-8 md:left-1/2 -translate-x-1/2 flex items-center justify-center">
-                                <div className={cn(
-                                    "size-12 rounded-full border-2 flex items-center justify-center transition-all duration-500 z-10",
-                                    isActive
-                                        ? "bg-emerald-950 border-emerald-500 shadow-[0_0_20px_rgba(16,185,129,0.3)]"
-                                        : "bg-zinc-950 border-zinc-700"
-                                )}>
-                                    <img
-                                        src={`/icons/${step.icon}.svg`}
-                                        alt={step.id}
-                                        className={cn("size-5 transition-opacity duration-500", isActive ? "opacity-100" : "opacity-40")}
-                                    />
-                                </div>
-                            </div>
-
-                            <div className="flex-1 md:hidden pl-16">
-                                <div className={cn(
-                                    "p-5 rounded-2xl border transition-all duration-500",
-                                    isActive ? "bg-zinc-900/60 border-white/10" : "bg-zinc-900/30 border-white/5"
-                                )}>
-                                    <span className={cn(
-                                        "text-xs font-bold uppercase tracking-wider transition-colors duration-500",
-                                        isActive ? "text-emerald-400" : "text-zinc-600"
-                                    )}>
-                                        {t("level.timeline.step")} {index + 1}
-                                    </span>
-                                    <h3 className={cn(
-                                        "text-lg font-semibold mb-2 mt-2 transition-colors duration-500",
-                                        isActive ? "text-white" : "text-zinc-400"
-                                    )}>
-                                        {t(`level.timeline.${step.id}.title`)}
-                                    </h3>
-                                    <p className="text-sm text-zinc-500 leading-relaxed">
-                                        {t(`level.timeline.${step.id}.description`)}
-                                    </p>
-                                    {"hasUploader" in step && step.hasUploader && (
-                                        <div className="mt-4">
-                                            <LevelUploader variant="compact" />
-                                        </div>
-                                    )}
-                                </div>
-                            </div>
-
-                            <div className="hidden md:block flex-1" />
-                        </div>
-                    );
-                })}
-            </div>
-        </div>
     );
 }

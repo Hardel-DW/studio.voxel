@@ -78,8 +78,6 @@ function TreeNode({
     const icon =
         node.icon ?? (isElement ? (elementIcon ?? "/images/features/item/bundle_open.webp") : (folderIcons?.[name] ?? "/icons/folder.svg"));
     const isDefaultFolderIcon = !isElement && !folderIcons?.[name];
-
-    // Auto-expand when selected element becomes a descendant
     if (hasActiveChild && !isOpen) {
         setIsOpen(true);
     }
@@ -136,7 +134,7 @@ function TreeNode({
                         src={icon}
                         className={cn(
                             "size-5 object-contain",
-                            isDefaultFolderIcon && "invert opacity-60",
+                            isDefaultFolderIcon && "opacity-60",
                             isDefaultFolderIcon && isHighlighted && "opacity-100"
                         )}
                         alt="Redirect to an element"

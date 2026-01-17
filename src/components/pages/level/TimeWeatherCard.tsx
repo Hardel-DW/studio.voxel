@@ -71,7 +71,7 @@ export default function TimeWeatherCard() {
                                 type="button"
                                 onClick={() => handleWeatherChange(w)}
                                 className={cn(
-                                    "py-2 rounded-lg text-xs font-medium border transition-all capitalize",
+                                    "py-2 rounded-lg text-xs font-medium border transition-all capitalize cursor-pointer",
                                     weather === w
                                         ? "bg-blue-500/10 text-blue-200 border-blue-500/20"
                                         : "bg-zinc-800/30 text-zinc-400 border-transparent hover:bg-zinc-800/50"
@@ -91,9 +91,12 @@ export default function TimeWeatherCard() {
                     <button
                         type="button"
                         onClick={handleLockToggle}
-                        className={`p-1.5 rounded-lg transition-colors ${locked ? "bg-red-500/20 text-red-400" : "bg-zinc-800 text-zinc-500 hover:text-zinc-300"}`}
+                        className={cn(
+                            "p-1.5 rounded-lg transition-colors cursor-pointer",
+                            locked ? "bg-red-500/20 text-red-400" : "bg-zinc-800 text-zinc-500 hover:text-zinc-300"
+                        )}
                         title={t("level.difficulty.lock")}>
-                        <img src={locked ? "/icons/lock.svg" : "/icons/unlock.svg"} className="size-4 invert" alt="Lock" />
+                        <img src="/icons/lock.svg" className="size-4" alt="Lock" />
                     </button>
                 </div>
 

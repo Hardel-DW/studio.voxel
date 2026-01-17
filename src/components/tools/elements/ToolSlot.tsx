@@ -42,7 +42,7 @@ export default function ToolSlot(props: ToolSlotType & { index?: number }) {
 
             {lock.isLocked && (
                 <div className="absolute p-4 top-0 right-0">
-                    <img src="/icons/tools/lock.svg" alt="checkbox" className="w-6 h-6 invert" />
+                    <img src="/icons/tools/lock.svg" alt="checkbox" className="w-6 h-6" />
                 </div>
             )}
 

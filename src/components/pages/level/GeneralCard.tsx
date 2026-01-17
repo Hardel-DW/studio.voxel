@@ -52,7 +52,7 @@ export default function GeneralCard() {
                         <span>{version}</span>
                     </div>
                     <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-zinc-800/50 border border-white/5 text-sm text-zinc-300">
-                        <img src="/icons/clock.svg" className="size-3.5 opacity-60 invert" alt="Time" />
+                        <img src="/icons/clock.svg" className="size-3.5 opacity-60" alt="Time" />
                         <span>{t("level.general.last_played")}: {formatLastPlayed(lastPlayed)}</span>
                     </div>
                 </div>
@@ -69,7 +69,7 @@ export default function GeneralCard() {
                             key={mode}
                             type="button"
                             className={cn(
-                                "relative flex flex-col items-center justify-center gap-2 py-4 rounded-xl border transition-all duration-300",
+                                "relative flex flex-col items-center justify-center gap-2 py-4 rounded-xl border transition-all duration-300 cursor-pointer",
                                 i === gameType
                                     ? "bg-white text-black border-white shadow-lg shadow-white/10 scale-[1.02]"
                                     : "bg-zinc-900/50 text-zinc-400 border-white/5 hover:bg-zinc-800 hover:border-white/10"

@@ -38,7 +38,7 @@ export default function DatapackUploader() {
             <div className="size-20 rounded-2xl bg-zinc-800/50 flex items-center justify-center border border-zinc-700 shadow-inner group-hover:scale-110 transition-transform duration-300">
                 <img
                     src="/icons/upload.svg"
-                    className="size-10 opacity-50 group-hover:opacity-100 transition-opacity invert"
+                    className="size-10 opacity-50 group-hover:opacity-100 transition-opacity"
                     alt="Upload"
                 />
             </div>

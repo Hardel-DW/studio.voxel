@@ -45,7 +45,7 @@ export default function ToolInline(props: ToolInlineType) {
                     <div className="flex gap-4 items-center">
                         {lock.isLocked && <span className="text-xs text-zinc-400 font-light w-max flex items-center">{t(lock.text)}</span>}
                         {value && !lock.isLocked && <img src="/icons/check.svg" alt="checkbox" className="w-6 h-6 invert" />}
-                        {lock.isLocked && <img src="/icons/tools/lock.svg" alt="checkbox" className="w-6 h-6 invert" />}
+                        {lock.isLocked && <img src="/icons/tools/lock.svg" alt="checkbox" className="w-6 h-6" />}
                     </div>
                 </div>
                 <div className="absolute inset-0 -z-10 brightness-15 top-0">

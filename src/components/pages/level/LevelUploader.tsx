@@ -49,7 +49,7 @@ export default function LevelUploader({ className, variant = "hero" }: LevelUplo
                 <img
                     src="/icons/upload.svg"
                     className={cn(
-                        "opacity-50 group-hover:opacity-100 transition-opacity invert",
+                        "opacity-50 group-hover:opacity-100 transition-opacity",
                         variant === "hero" ? "size-10" : "size-6"
                     )}
                     alt="Upload"

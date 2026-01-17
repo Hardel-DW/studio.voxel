@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useTranslate } from "@/lib/i18n";
 import { type DimensionData, useLevelStore } from "@/lib/store/LevelStore";
 import { cn } from "@/lib/utils";
+import { TextInput } from "@/components/ui/TextInput";
 
 const VANILLA_DIMENSIONS = new Set(["minecraft:overworld", "minecraft:the_nether", "minecraft:the_end"]);
 
@@ -10,9 +11,7 @@ export default function DimensionList() {
     const [search, setSearch] = useState("");
     const dimensions = useLevelStore((s) => s.data?.dimensions ?? []);
     const set = useLevelStore((s) => s.set);
-
     const filtered = search ? dimensions.filter((d) => d.id.toLowerCase().includes(search.toLowerCase())) : dimensions;
-
     const handleDelete = (dimensionId: string) => {
         set(
             "dimensions",
@@ -37,12 +36,11 @@ export default function DimensionList() {
                     <p className="text-sm text-zinc-500">{t("level.dimensions.description")}</p>
                 </div>
                 <div className="flex gap-2">
-                    <input
-                        type="text"
+                    <TextInput
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
                         placeholder={t("level.dimensions.search")}
-                        className="bg-zinc-900 border border-zinc-800 rounded-lg px-3 py-1.5 text-sm text-white focus:outline-none focus:border-zinc-600 w-64 placeholder-zinc-600"
+                        className="w-64"
                     />
                 </div>
             </div>
@@ -76,16 +74,17 @@ function DimensionRow({ dim, onDelete }: { dim: DimensionData; onDelete: (id: st
     return (
         <div className="grid grid-cols-12 gap-4 px-6 py-4 items-center hover:bg-zinc-900/80 transition-colors group">
             <div className="col-span-4 flex items-center gap-3 overflow-hidden">
-                <div
+                <img
+                    src={isVanilla ? "/images/vanilla.webp" : "/icon.svg"}
                     className={cn(
-                        "size-8 rounded flex items-center justify-center shrink-0 border border-white/5",
-                        isVanilla ? "bg-emerald-900/20 text-emerald-500" : "bg-blue-900/20 text-blue-500"
-                    )}>
-                    <span className="text-xs font-bold uppercase">{dim.id.split(":")[1]?.charAt(0) ?? "?"}</span>
-                </div>
+                        "size-8 rounded flex items-center justify-center shrink-0 border border-white/5 p-1.5",
+                        isVanilla ? "bg-emerald-900/20" : "bg-zinc-900/20"
+                    )}
+                    alt={isVanilla ? "Vanilla dimension" : "Custom dimension"}
+                />
                 <div className="flex flex-col min-w-0">
                     <span className="text-sm font-medium text-zinc-200 truncate font-mono">{dim.id}</span>
-                    {!isVanilla && <span className="text-[10px] text-blue-400">{t("level.dimensions.custom")}</span>}
+                    {!isVanilla && <span className="text-[10px] text-zinc-400">{t("level.dimensions.custom")}</span>}
                 </div>
             </div>
 
