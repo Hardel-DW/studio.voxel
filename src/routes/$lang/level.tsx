@@ -7,12 +7,12 @@ import DragonFightView from "@/components/pages/level/DragonFightView";
 import GeneralCard from "@/components/pages/level/GeneralCard";
 import LevelActionBar from "@/components/pages/level/LevelActionBar";
 import LevelUploader from "@/components/pages/level/LevelUploader";
+import StepsTimeline from "@/components/pages/level/StepsTimeline";
 import TimeWeatherCard from "@/components/pages/level/TimeWeatherCard";
 import { Badge } from "@/components/ui/Badge";
 import ShiningStars from "@/components/ui/ShiningStars";
 import { useTranslate } from "@/lib/i18n";
 import { useLevelStore } from "@/lib/store/LevelStore";
-import StepsTimeline from "@/components/pages/level/StepsTimeline";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/$lang/level")({
@@ -74,25 +74,29 @@ function Page() {
                         <div className="w-full max-w-6xl mx-auto px-6 py-12 lg:py-24 flex flex-col items-center">
                             <div className="w-full px-4 pt-8">
                                 <div className="mb-16 w-3/4">
-                                    <Badge className="px-4 py-1" hue={120}>{t("level.badge")}</Badge>
+                                    <Badge className="px-4 py-1" hue={120}>
+                                        {t("level.badge")}
+                                    </Badge>
                                     <h1 className="text-3xl mt-8 md:text-5xl mb-4 font-semibold tracking-tight bg-clip-text text-transparent bg-linear-to-b from-white to-white/60">
                                         {t("level.title")}
                                     </h1>
-                                    <p className="text-zinc-400 text-base tracking-normal">
-                                        {t("level.description")}
-                                    </p>
+                                    <p className="text-zinc-400 text-base tracking-normal">{t("level.description")}</p>
                                 </div>
                             </div>
 
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-4 w-full mb-12 items-stretch">
                                 {STEPS.map(({ id, step, icon, color }) => (
-                                    <div key={id} className="lg:col-span-4 flex flex-col group relative overflow-hidden bg-zinc-900/40 backdrop-blur-md border border-white/5 p-5 rounded-xl transition-all duration-300 hover:border-white/10 hover:shadow-lg hover:shadow-black/20">
-                                        <div className={cn(
-                                            "absolute -right-10 -top-10 w-32 h-32 blur-[50px] rounded-full pointer-events-none transition-all",
-                                            color === "blue" && "bg-blue-500/5 group-hover:bg-blue-500/10",
-                                            color === "red" && "bg-red-500/5 group-hover:bg-red-500/10",
-                                            color === "emerald" && "bg-emerald-500/5 group-hover:bg-emerald-500/10"
-                                        )} />
+                                    <div
+                                        key={id}
+                                        className="lg:col-span-4 flex flex-col group relative overflow-hidden bg-zinc-900/40 backdrop-blur-md border border-white/5 p-5 rounded-xl transition-all duration-300 hover:border-white/10 hover:shadow-lg hover:shadow-black/20">
+                                        <div
+                                            className={cn(
+                                                "absolute -right-10 -top-10 w-32 h-32 blur-[50px] rounded-full pointer-events-none transition-all",
+                                                color === "blue" && "bg-blue-500/5 group-hover:bg-blue-500/10",
+                                                color === "red" && "bg-red-500/5 group-hover:bg-red-500/10",
+                                                color === "emerald" && "bg-emerald-500/5 group-hover:bg-emerald-500/10"
+                                            )}
+                                        />
                                         <div className="flex items-center justify-between mb-4 relative z-10">
                                             <div className="inline-flex items-center gap-2 px-2 py-1 rounded bg-white/5 border border-white/5 text-[10px] uppercase tracking-wider font-bold text-zinc-400">
                                                 <span className="text-zinc-600">{step}</span>
@@ -104,9 +108,12 @@ function Page() {
                                                 alt={id}
                                                 className={cn(
                                                     "size-[18px] transition-all opacity-40 group-hover:opacity-100",
-                                                    color === "blue" && "group-hover:brightness-150 group-hover:sepia group-hover:hue-rotate-180",
-                                                    color === "red" && "group-hover:brightness-150 group-hover:sepia group-hover:hue-rotate-[-30deg]",
-                                                    color === "emerald" && "group-hover:brightness-150 group-hover:sepia group-hover:hue-rotate-80"
+                                                    color === "blue" &&
+                                                        "group-hover:brightness-150 group-hover:sepia group-hover:hue-rotate-180",
+                                                    color === "red" &&
+                                                        "group-hover:brightness-150 group-hover:sepia group-hover:hue-rotate-[-30deg]",
+                                                    color === "emerald" &&
+                                                        "group-hover:brightness-150 group-hover:sepia group-hover:hue-rotate-80"
                                                 )}
                                             />
                                         </div>
@@ -114,7 +121,8 @@ function Page() {
                                             <h3 className="text-lg font-medium text-zinc-200">{t(`level.steps.${id}.title`)}</h3>
                                             {id === "clean" ? (
                                                 <div className="w-full bg-black/40 rounded border border-white/5 px-3 py-2 font-mono text-[10px] text-zinc-500 truncate">
-                                                    /world/DIM_<span className="text-zinc-300">X</span>/<span className="text-red-900/80 bg-red-900/10 px-1 rounded">region</span>
+                                                    /world/DIM_<span className="text-zinc-300">X</span>/
+                                                    <span className="text-red-900/80 bg-red-900/10 px-1 rounded">region</span>
                                                 </div>
                                             ) : (
                                                 <p className="text-xs text-zinc-500 leading-relaxed">
@@ -132,16 +140,13 @@ function Page() {
 
                                     <div className="mb-6 space-y-2 relative z-10">
                                         <h3 className="text-2xl font-semibold text-white tracking-tight">{t("level.upload.title")}</h3>
-                                        <p className="text-zinc-400 text-sm">
-                                            {t("level.upload.description")}
-                                        </p>
+                                        <p className="text-zinc-400 text-sm">{t("level.upload.description")}</p>
                                     </div>
 
                                     <div className="w-full relative z-10">
                                         <LevelUploader />
                                     </div>
                                 </div>
-
                             </div>
 
                             <StepsTimeline />

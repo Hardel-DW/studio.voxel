@@ -1,7 +1,7 @@
-import { useTranslate } from "@/lib/i18n";
 import { useRef, useState } from "react";
-import { cn } from "@/lib/utils";
 import LevelUploader from "@/components/pages/level/LevelUploader";
+import { useTranslate } from "@/lib/i18n";
+import { cn } from "@/lib/utils";
 
 const TIMELINE_STEPS = [
     { id: "stop", icon: "server" },
@@ -11,7 +11,6 @@ const TIMELINE_STEPS = [
     { id: "replace", icon: "sync" },
     { id: "start", icon: "checkmark" }
 ] as const;
-
 
 export default function StepsTimeline() {
     const t = useTranslate();
@@ -56,28 +55,27 @@ export default function StepsTimeline() {
                         <div
                             key={step.id}
                             ref={(el) => registerStep(index, el)}
-                            className={cn(
-                                "relative flex items-start gap-8",
-                                isLeft ? "md:flex-row" : "md:flex-row-reverse",
-                                "flex-row"
-                            )}>
+                            className={cn("relative flex items-start gap-8", isLeft ? "md:flex-row" : "md:flex-row-reverse", "flex-row")}>
                             <div className={cn("hidden md:block flex-1", isLeft ? "text-right pr-12" : "text-left pl-12")}>
-                                <div className={cn(
-                                    "inline-block p-6 rounded-2xl border transition-all duration-500",
-                                    isActive
-                                        ? "bg-zinc-900/60 border-white/10 shadow-lg shadow-black/20"
-                                        : "bg-zinc-900/30 border-white/5"
-                                )}>
-                                    <span className={cn(
-                                        "text-xs font-bold uppercase tracking-wider transition-colors duration-500",
-                                        isActive ? "text-emerald-400" : "text-zinc-600"
+                                <div
+                                    className={cn(
+                                        "inline-block p-6 rounded-2xl border transition-all duration-500",
+                                        isActive
+                                            ? "bg-zinc-900/60 border-white/10 shadow-lg shadow-black/20"
+                                            : "bg-zinc-900/30 border-white/5"
                                     )}>
+                                    <span
+                                        className={cn(
+                                            "text-xs font-bold uppercase tracking-wider transition-colors duration-500",
+                                            isActive ? "text-emerald-400" : "text-zinc-600"
+                                        )}>
                                         {t("level.timeline.step")} {index + 1}
                                     </span>
-                                    <h3 className={cn(
-                                        "text-lg font-semibold mb-2 mt-2 transition-colors duration-500",
-                                        isActive ? "text-white" : "text-zinc-400"
-                                    )}>
+                                    <h3
+                                        className={cn(
+                                            "text-lg font-semibold mb-2 mt-2 transition-colors duration-500",
+                                            isActive ? "text-white" : "text-zinc-400"
+                                        )}>
                                         {t(`level.timeline.${step.id}.title`)}
                                     </h3>
                                     <p className="text-sm text-zinc-500 leading-relaxed max-w-sm">
@@ -92,12 +90,13 @@ export default function StepsTimeline() {
                             </div>
 
                             <div className="absolute left-8 md:left-1/2 -translate-x-1/2 flex items-center justify-center">
-                                <div className={cn(
-                                    "size-12 rounded-full border-2 flex items-center justify-center transition-all duration-500 z-10",
-                                    isActive
-                                        ? "bg-emerald-950 border-emerald-500 shadow-[0_0_20px_rgba(16,185,129,0.3)]"
-                                        : "bg-zinc-950 border-zinc-700"
-                                )}>
+                                <div
+                                    className={cn(
+                                        "size-12 rounded-full border-2 flex items-center justify-center transition-all duration-500 z-10",
+                                        isActive
+                                            ? "bg-emerald-950 border-emerald-500 shadow-[0_0_20px_rgba(16,185,129,0.3)]"
+                                            : "bg-zinc-950 border-zinc-700"
+                                    )}>
                                     <img
                                         src={`/icons/${step.icon}.svg`}
                                         alt={step.id}
@@ -107,25 +106,26 @@ export default function StepsTimeline() {
                             </div>
 
                             <div className="flex-1 md:hidden pl-16">
-                                <div className={cn(
-                                    "p-5 rounded-2xl border transition-all duration-500",
-                                    isActive ? "bg-zinc-900/60 border-white/10" : "bg-zinc-900/30 border-white/5"
-                                )}>
-                                    <span className={cn(
-                                        "text-xs font-bold uppercase tracking-wider transition-colors duration-500",
-                                        isActive ? "text-emerald-400" : "text-zinc-600"
+                                <div
+                                    className={cn(
+                                        "p-5 rounded-2xl border transition-all duration-500",
+                                        isActive ? "bg-zinc-900/60 border-white/10" : "bg-zinc-900/30 border-white/5"
                                     )}>
+                                    <span
+                                        className={cn(
+                                            "text-xs font-bold uppercase tracking-wider transition-colors duration-500",
+                                            isActive ? "text-emerald-400" : "text-zinc-600"
+                                        )}>
                                         {t("level.timeline.step")} {index + 1}
                                     </span>
-                                    <h3 className={cn(
-                                        "text-lg font-semibold mb-2 mt-2 transition-colors duration-500",
-                                        isActive ? "text-white" : "text-zinc-400"
-                                    )}>
+                                    <h3
+                                        className={cn(
+                                            "text-lg font-semibold mb-2 mt-2 transition-colors duration-500",
+                                            isActive ? "text-white" : "text-zinc-400"
+                                        )}>
                                         {t(`level.timeline.${step.id}.title`)}
                                     </h3>
-                                    <p className="text-sm text-zinc-500 leading-relaxed">
-                                        {t(`level.timeline.${step.id}.description`)}
-                                    </p>
+                                    <p className="text-sm text-zinc-500 leading-relaxed">{t(`level.timeline.${step.id}.description`)}</p>
                                     {"hasUploader" in step && step.hasUploader && (
                                         <div className="mt-4">
                                             <LevelUploader variant="compact" />

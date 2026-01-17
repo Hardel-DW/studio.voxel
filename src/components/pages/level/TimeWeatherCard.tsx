@@ -45,7 +45,9 @@ export default function TimeWeatherCard() {
                         <label htmlFor="environment" className="text-xs font-bold text-zinc-500 uppercase tracking-widest">
                             {t("level.environment.title")}
                         </label>
-                        <span className="text-xs font-mono text-zinc-400">{time.toLocaleString()} {t("level.environment.ticks")}</span>
+                        <span className="text-xs font-mono text-zinc-400">
+                            {time.toLocaleString()} {t("level.environment.ticks")}
+                        </span>
                     </div>
 
                     <div className="space-y-3">

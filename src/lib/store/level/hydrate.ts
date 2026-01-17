@@ -120,8 +120,8 @@ const extractGateways = (data: { entries: Map<string, NbtTag> } | undefined): nu
     const notSpawned = isIntArray(gateways)
         ? Array.from(gateways.value)
         : isList(gateways)
-            ? gateways.items.filter(isInt).map((item) => item.value)
-            : [];
+          ? gateways.items.filter(isInt).map((item) => item.value)
+          : [];
 
     return Array.from(allGateways).filter((gateway) => !notSpawned.includes(gateway));
 };

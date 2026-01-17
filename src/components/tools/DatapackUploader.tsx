@@ -36,11 +36,7 @@ export default function DatapackUploader() {
             dropzone={{ accept: ".zip,.jar", maxSize: 100000000, multiple: false }}
             className="gap-6 p-12 min-h-[300px]">
             <div className="size-20 rounded-2xl bg-zinc-800/50 flex items-center justify-center border border-zinc-700 shadow-inner group-hover:scale-110 transition-transform duration-300">
-                <img
-                    src="/icons/upload.svg"
-                    className="size-10 opacity-50 group-hover:opacity-100 transition-opacity"
-                    alt="Upload"
-                />
+                <img src="/icons/upload.svg" className="size-10 opacity-50 group-hover:opacity-100 transition-opacity" alt="Upload" />
             </div>
             <div className="text-center space-y-2">
                 <p className="text-zinc-200 font-medium text-xl group-hover:text-white transition-colors">{t("studio.upload.start")}</p>

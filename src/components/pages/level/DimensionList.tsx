@@ -1,8 +1,8 @@
 import { useState } from "react";
+import { TextInput } from "@/components/ui/TextInput";
 import { useTranslate } from "@/lib/i18n";
 import { type DimensionData, useLevelStore } from "@/lib/store/LevelStore";
 import { cn } from "@/lib/utils";
-import { TextInput } from "@/components/ui/TextInput";
 
 const VANILLA_DIMENSIONS = new Set(["minecraft:overworld", "minecraft:the_nether", "minecraft:the_end"]);
 

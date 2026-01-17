@@ -40,31 +40,30 @@ export default function LevelUploader({ className, variant = "hero" }: LevelUplo
                     ? "gap-8 p-12 min-h-[320px] bg-zinc-950 border-2 border-dashed border-zinc-800 rounded-2xl"
                     : "gap-4 p-6 min-h-[200px] border border-dashed border-zinc-700/50 rounded-xl",
                 className
-            )}
-        >
-            <div className={cn(
-                "flex items-center justify-center rounded-2xl bg-zinc-900 border border-zinc-800 shadow-2xl group-hover:scale-110 group-hover:shadow-white/5 transition-all duration-500",
-                variant === "hero" ? "size-24" : "size-16"
             )}>
+            <div
+                className={cn(
+                    "flex items-center justify-center rounded-2xl bg-zinc-900 border border-zinc-800 shadow-2xl group-hover:scale-110 group-hover:shadow-white/5 transition-all duration-500",
+                    variant === "hero" ? "size-24" : "size-16"
+                )}>
                 <img
                     src="/icons/upload.svg"
-                    className={cn(
-                        "opacity-50 group-hover:opacity-100 transition-opacity",
-                        variant === "hero" ? "size-10" : "size-6"
-                    )}
+                    className={cn("opacity-50 group-hover:opacity-100 transition-opacity", variant === "hero" ? "size-10" : "size-6")}
                     alt="Upload"
                 />
             </div>
 
             <div className="text-center space-y-2 max-w-md">
-                <p className={cn(
-                    "font-bold text-zinc-100 tracking-tight group-hover:text-white transition-colors",
-                    variant === "hero" ? "text-2xl" : "text-lg"
-                )}>
+                <p
+                    className={cn(
+                        "font-bold text-zinc-100 tracking-tight group-hover:text-white transition-colors",
+                        variant === "hero" ? "text-2xl" : "text-lg"
+                    )}>
                     {t("level.uploader.title")}
                 </p>
                 <p className="text-zinc-500 text-sm leading-relaxed group-hover:text-zinc-400 transition-colors">
-                    {t("level.uploader.description")}<br />
+                    {t("level.uploader.description")}
+                    <br />
                     <span className="opacity-50">{t("level.uploader.max_size")}</span>
                 </p>
             </div>

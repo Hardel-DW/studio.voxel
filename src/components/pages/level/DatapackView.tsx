@@ -9,10 +9,16 @@ export default function DatapackView() {
 
     const movePack = (pack: string, toEnabled: boolean) => {
         if (toEnabled) {
-            set("disabledPacks", disabled.filter((p) => p !== pack));
+            set(
+                "disabledPacks",
+                disabled.filter((p) => p !== pack)
+            );
             set("enabledPacks", [...enabled, pack]);
         } else {
-            set("enabledPacks", enabled.filter((p) => p !== pack));
+            set(
+                "enabledPacks",
+                enabled.filter((p) => p !== pack)
+            );
             set("disabledPacks", [...disabled, pack]);
         }
     };
@@ -82,7 +88,9 @@ export default function DatapackView() {
                         </button>
                     ))}
                     {disabled.length === 0 && (
-                        <div className="flex items-center justify-center h-32 text-zinc-600 text-sm">{t("level.datapacks.no_disabled")}</div>
+                        <div className="flex items-center justify-center h-32 text-zinc-600 text-sm">
+                            {t("level.datapacks.no_disabled")}
+                        </div>
                     )}
                 </div>
             </div>
