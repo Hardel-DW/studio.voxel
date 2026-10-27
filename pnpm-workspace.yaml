@@ -1,6 +1,12 @@
 packages:
   - '.'
 
+minimumReleaseAgeExclude:
+  - '@voxelio/breeze@1.10.35'
+  - '@voxelio/converter@1.0.47'
+  - '@voxelio/zip@3.2.4'
+  - '@voxelio/snbt@1.1.0'
+
 onlyBuiltDependencies:
   - '@swc/core'
   - '@tailwindcss/oxide'
