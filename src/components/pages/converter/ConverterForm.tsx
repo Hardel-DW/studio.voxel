@@ -1,5 +1,5 @@
 import type { ModMetadata } from "@voxelio/converter";
-import { convertDatapack, ModPlatforms } from "@voxelio/converter";
+import { convertDatapack, ModPlatforms, toModId } from "@voxelio/converter";
 import { useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { useTranslate } from "@/lib/i18n";
@@ -134,7 +134,11 @@ export default function ConverterForm({ file, onFileChange, initialMetadata, ico
 
                 <div className="grid grid-cols-2 gap-6">
                     <InputGroup label={t("converter.form.id")}>
-                        <StyledInput value={metadata.id} onChange={(e) => setMetadata((prev) => ({ ...prev, id: e.target.value }))} />
+                        <StyledInput
+                            value={metadata.id}
+                            onChange={(e) => setMetadata((prev) => ({ ...prev, id: e.target.value }))}
+                            onBlur={() => setMetadata((prev) => ({ ...prev, id: toModId(prev.id) }))}
+                        />
                     </InputGroup>
 
                     <div className="flex items-end">
